@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- ============================================================
+       森林法杖（武器形态）
+         · 远程武器：魔力弹，25 伤害（对齐原版狙击枪），1 秒一发
+         · 杖内储能 500，每发消耗 50（= 满杖 10 发）
+         · 魔力不足时就近向魔力池/中继塔借；借不到就打不出
+         · 另有「绽花」「就地转化」两个按钮（CompWand），同样吃杖内魔力
+       ============================================================ -->
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>Botania_WandOfTheForest</defName>
+    <label>wand of the forest</label>
+    <description>A livingwood rod bound with a manasteel ring, its tip holding a bead of glowing sap. It stores a reserve of mana and spends it to throw searing bolts of light, and its bearer can also coax plants into growing or teach wood and stone to live. When the reserve runs dry the wand can drink from a nearby mana pool.</description>
+    <graphicData>
+      <texPath>Things/Item/Equipment/WeaponRanged/Botania/WandOfTheForest</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.3,1.3)</drawSize>
+    </graphicData>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <techLevel>Medieval</techLevel>
+    <!-- 放在地上（比如魔力池旁的仓库）时需要 tick 才能缓慢吸纳魔力 -->
+    <tickerType>Normal</tickerType>
+    <weaponClasses>
+      <li>LongShots</li>
+    </weaponClasses>
+    <statBases>
+      <WorkToMake>6000</WorkToMake>
+      <MaxHitPoints>120</MaxHitPoints>
+      <Mass>2.5</Mass>
+      <MarketValue>400</MarketValue>
+      <AccuracyTouch>0.45</AccuracyTouch>
+      <AccuracyShort>0.65</AccuracyShort>
+      <AccuracyMedium>0.80</AccuracyMedium>
+      <AccuracyLong>0.85</AccuracyLong>
+      <RangedWeapon_Cooldown>1.0</RangedWeapon_Cooldown>
+    </statBases>
+    <costList>
+      <Botania_ManasteelIngot>6</Botania_ManasteelIngot>
+      <Botania_Livingwood>8</Botania_Livingwood>
+    </costList>
+    <recipeMaker>
+      <researchPrerequisite>Botania_BasicMana</researchPrerequisite>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <soundWorking>Recipe_Machining</soundWorking>
+      <recipeUsers>
+        <li>CraftingSpot</li>
+        <li>FueledSmithy</li>
+        <li>ElectricSmithy</li>
+      </recipeUsers>
+      <displayPriority>340</displayPriority>
+      <skillRequirements>
+        <Crafting>4</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <thingCategories>
+      <li>WeaponsRanged</li>
+    </thingCategories>
+    <verbs>
+      <li>
+        <verbClass>Botania.Verb_ManaBolt</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Botania_ManaBolt</defaultProjectile>
+        <warmupTime>0.6</warmupTime>
+        <range>26</range>
+        <soundCast>Shot_ChargeRifle</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>3</muzzleFlashScale>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>shaft</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>7</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+    </tools>
+    <weaponTags Inherit="False" />
+    <comps>
+      <li Class="Botania.CompProperties_ManaWeapon">
+        <maxMana>500</maxMana>
+        <manaPerShot>50</manaPerShot>
+        <sourceRadius>6</sourceRadius>
+        <rechargePerSecond>25</rechargePerSecond>
+      </li>
+      <li Class="Botania.CompProperties_Wand">
+        <bloomRadius>4</bloomRadius>
+        <bloomGrowth>0.25</bloomGrowth>
+        <manaPerPlant>20</manaPerPlant>
+        <convertRadius>1.5</convertRadius>
+        <manaPerConvert>20</manaPerConvert>
+        <maxConvertsPerUse>9</maxConvertsPerUse>
+        <sourceRadius>8</sourceRadius>
+        <rules>
+          <li>
+            <fromDef>WoodLog</fromDef>
+            <toDef>Botania_Livingwood</toDef>
+            <count>1</count>
+          </li>
+          <li>
+            <fromCategory>StoneBlocks</fromCategory>
+            <toDef>Botania_Livingrock</toDef>
+            <count>1</count>
+          </li>
+        </rules>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- 魔力弹：伤害对齐原版狙击枪子弹（25 点 / 穿透 1.5），速度略慢，看起来更像魔法 -->
+  <ThingDef ParentName="BaseBullet">
+    <defName>Botania_ManaBolt</defName>
+    <label>mana bolt</label>
+    <graphicData>
+      <texPath>Things/Projectile/Botania/ManaBolt</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+    </statBases>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>25</damageAmountBase>
+      <stoppingPower>1.5</stoppingPower>
+      <speed>75</speed>
+    </projectile>
+  </ThingDef>
+
+</Defs>

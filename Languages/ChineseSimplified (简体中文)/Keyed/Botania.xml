@@ -23,5 +23,11 @@
   <Botania.WandNoMana>附近魔力不足：需要 {0}，可用 {1}</Botania.WandNoMana>
   <Botania.WandBloomed>绽花：{0} 株植物被催长</Botania.WandBloomed>
   <Botania.WandConverted>就地转化：{0} 堆材料变成活性材料</Botania.WandConverted>
+  <Botania.WandMana>杖内魔力：{0} / {1}</Botania.WandMana>
+  <Botania.WandChargeLabel>从魔力池充能</Botania.WandChargeLabel>
+  <Botania.WandChargeDesc>把附近魔力池或中继塔里的魔力装进杖内，最多 {0} 点。</Botania.WandChargeDesc>
+  <Botania.WandCharged>充能完成：{0} / {1}</Botania.WandCharged>
+  <Botania.WandNoSource>附近没有可用的魔力池或中继塔</Botania.WandNoSource>
+  <Botania.WandOutOfMana>魔力不足，打不出这一发：需要 {0}，杖内只有 {1}</Botania.WandOutOfMana>
 
 </LanguageData>

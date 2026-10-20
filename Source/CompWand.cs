@@ -67,16 +67,9 @@ namespace Botania
     {
         public CompProperties_Wand Props => (CompProperties_Wand)props;
 
-        private Pawn Wearer
-        {
-            get
-            {
-                Pawn_ApparelTracker tracker = parent.ParentHolder as Pawn_ApparelTracker;
-                return tracker?.pawn;
-            }
-        }
+        private Pawn Wearer => EquipUtil.GetHolder(parent);
 
-        /// <summary>法杖要么被穿着（跟着小人走），要么躺在地上被选中。</summary>
+        /// <summary>法杖要么被拿着（武器），要么被穿着（衣服），要么躺在地上被选中。</summary>
         private bool HasAnchor
         {
             get
@@ -91,23 +84,9 @@ namespace Botania
             }
         }
 
-        private IntVec3 AnchorPos
-        {
-            get
-            {
-                Pawn wearer = Wearer;
-                return wearer != null ? wearer.Position : parent.Position;
-            }
-        }
+        private IntVec3 AnchorPos => EquipUtil.GetPosition(parent);
 
-        private Map AnchorMap
-        {
-            get
-            {
-                Pawn wearer = Wearer;
-                return wearer != null ? wearer.Map : parent.Map;
-            }
-        }
+        private Map AnchorMap => EquipUtil.GetMap(parent);
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
@@ -270,6 +249,20 @@ namespace Botania
             {
                 return true;
             }
+
+            // 法杖有一套内置储能（500），优先从杖内扣；不够时它会自己去附近魔力网借
+            CompManaWeapon storage = parent.GetComp<CompManaWeapon>();
+            if (storage != null)
+            {
+                if (storage.TrySpend(cost))
+                {
+                    return true;
+                }
+                Messages.Message("Botania.WandNoMana".Translate(cost.ToString("F0"),
+                    storage.Mana.ToString("F0")), MessageTypeDefOf.RejectInput, false);
+                return false;
+            }
+
             IManaSource source = ManaSourceUtil.FindNearest(center, map, Props.sourceRadius, cost);
             if (source == null)
             {

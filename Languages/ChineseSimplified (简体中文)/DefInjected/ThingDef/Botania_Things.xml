@@ -82,7 +82,10 @@
   <Botania_PureDaisy.description>一朵白雏菊，花瓣外绕着淡淡一圈光。把它放在木头或石块堆旁边，它会慢慢教会这些材料“活着”：原木变成活木，石块变成活石。每次转化都要消耗一点魔力。</Botania_PureDaisy.description>
 
   <Botania_WandOfTheForest.label>森林法杖</Botania_WandOfTheForest.label>
-  <Botania_WandOfTheForest.description>一根细长的活木法杖，顶端嵌着魔力钢环，环里悬着一滴发光的树汁。它自己不带魔力，而是向最近的魔力池借取；握着它的人能催长植物，也能教会木头与石头“活着”。佩戴在腰带上。</Botania_WandOfTheForest.description>
+  <Botania_WandOfTheForest.description>一根活木杖身、嵌着魔力钢环的法杖，环里悬着一滴发光的树汁。杖内自带 500 点魔力储备，可以消耗魔力射出燃烧的光弹；握着它的人也能催长植物，或教会木头与石头“活着”。储备耗尽时，它可以向附近的魔力池汲取魔力。</Botania_WandOfTheForest.description>
+
+  <Botania_ManaBolt.label>魔力弹</Botania_ManaBolt.label>
+  <Botania_ManaBolt.description>森林法杖射出的一束凝聚魔力。</Botania_ManaBolt.description>
 
   <Botania_MysticFlower_White.label>神秘花（白）</Botania_MysticFlower_White.label>
   <Botania_MysticFlower_White.description>一朵白色的小花，花瓣里还留着一丝魔力。采集可得花瓣，只要不伤根，植株会重新生长。</Botania_MysticFlower_White.description>

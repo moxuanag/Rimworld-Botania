@@ -23,5 +23,11 @@
   <Botania.WandNoMana>Not enough mana nearby: need {0}, have {1}</Botania.WandNoMana>
   <Botania.WandBloomed>Bloomed {0} plants</Botania.WandBloomed>
   <Botania.WandConverted>Transmuted {0} stacks of material</Botania.WandConverted>
+  <Botania.WandMana>Wand mana: {0} / {1}</Botania.WandMana>
+  <Botania.WandChargeLabel>Charge from mana pool</Botania.WandChargeLabel>
+  <Botania.WandChargeDesc>Draws mana from a nearby mana pool or relay into the wand, up to {0}.</Botania.WandChargeDesc>
+  <Botania.WandCharged>Charged: {0} / {1}</Botania.WandCharged>
+  <Botania.WandNoSource>No mana pool or relay in range</Botania.WandNoSource>
+  <Botania.WandOutOfMana>Not enough mana to fire: need {0}, wand holds {1}</Botania.WandOutOfMana>
 
 </LanguageData>
