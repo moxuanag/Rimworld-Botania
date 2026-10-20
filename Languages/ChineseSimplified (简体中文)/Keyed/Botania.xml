@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <Botania.ManaStored>魔力：{0} / {1}</Botania.ManaStored>
+  <Botania.FlowerWorking>正在产出魔力</Botania.FlowerWorking>
+  <Botania.FlowerWorkingNoPool>正在燃烧燃料（魔力无处存放）</Botania.FlowerWorkingNoPool>
+  <Botania.FlowerNoFuel>缺少燃料</Botania.FlowerNoFuel>
+  <Botania.FlowerNoPool>范围内没有可用的魔力池</Botania.FlowerNoPool>
+  <Botania.FluxfieldWorking>正在取用附近的魔力</Botania.FluxfieldWorking>
+  <Botania.FluxfieldNoMana>附近没有可用的魔力</Botania.FluxfieldNoMana>
+  <Botania.RelayStored>中继缓冲：{0} / {1}（每跳损耗 {2}%）</Botania.RelayStored>
+  <Botania.RelayEmpty>中继缓冲为空</Botania.RelayEmpty>
+
+</LanguageData>

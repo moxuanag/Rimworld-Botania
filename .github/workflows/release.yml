@@ -1,0 +1,67 @@
+name: release
+
+# 打 tag（v0.1.0 这种）就自动校验并打包，把 zip 挂到 Release 上。
+# 也可以手动触发，只产出构建产物、不建 Release。
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 解析版本号
+        id: ver
+        run: |
+          if [[ "${GITHUB_REF_TYPE}" == "tag" ]]; then
+            VERSION="${GITHUB_REF_NAME#v}"
+          else
+            VERSION="$(grep -oP '(?<=<modVersion>)[^<]+' About/About.xml)"
+          fi
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "本次版本：${VERSION}"
+
+      - name: 版本与程序集检查
+        run: python3 scripts/check_version.py "${{ steps.ver.outputs.version }}"
+
+      - name: XML 语法检查
+        run: python3 scripts/validate_xml.py
+
+      - name: 组装发布目录
+        run: |
+          set -euo pipefail
+          mkdir -p dist stage/Botania
+          for d in About Assemblies Defs Languages Textures Patches; do
+            if [ -d "$d" ]; then
+              cp -r "$d" stage/Botania/
+            fi
+          done
+          # 源码不进游戏包，但保留在仓库里
+          cd stage
+          zip -r "../dist/Botania-RimWorld-${{ steps.ver.outputs.version }}.zip" Botania
+          cd ..
+          ls -lh dist
+
+      - name: 上传构建产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: Botania-RimWorld-${{ steps.ver.outputs.version }}
+          path: dist/*.zip
+          if-no-files-found: error
+
+      - name: 发布 Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          name: v${{ steps.ver.outputs.version }}
+          files: dist/*.zip
+          generate_release_notes: true
+          body_path: "" # 用自动生成的 release notes

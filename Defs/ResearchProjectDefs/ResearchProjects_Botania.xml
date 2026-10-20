@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- ============================================================
+       研究：植物魔法基础（解锁花瓣加工、魔力钢、活木、魔力池与火红莲）
+       ============================================================ -->
+
+  <ResearchProjectDef>
+    <defName>Botania_BasicMana</defName>
+    <label>botania: mana</label>
+    <description>Study how certain flowers hold energy in their petals. Grinding them releases mana powder, which can be folded into steel or bound into wood, and stored in a pool of liquid light.</description>
+    <baseCost>900</baseCost>
+    <techLevel>Medieval</techLevel>
+    <!-- 位置：PsychoidBrewing(2.00, 0.70) 正下方，同时是 Pemmican(1.00, 1.40) 正右方 -->
+    <researchViewX>2.00</researchViewX>
+    <researchViewY>1.40</researchViewY>
+    <tags>
+      <li>ClassicStart</li>
+    </tags>
+  </ResearchProjectDef>
+
+</Defs>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>植物魔法 Botania</name>
+  <author>GZ</author>
+  <packageId>gz.botania</packageId>
+  <modVersion>0.1.0</modVersion>
+  <url>https://github.com/moxuanag/Botania-RimWorld</url>
+  <supportedVersions>
+    <li>1.7</li>
+  </supportedVersions>
+  <description>将《我的世界》的植物魔法（Botania）移植到环世界。
+
+首版内容：
+· 魔力（Mana）资源系统：自成一体的能量，不接入原版电力网。
+· 神秘花：白/橙/品红/淡蓝/黄/黄绿/粉/灰/淡灰/青/紫/蓝/棕/绿/红/黑共 16 色，野生生长于温带、寒带、热带、沼泽、荒漠与苔原，研究后可播种；采集得到同色花瓣，只要不伤根就会重新生长。
+· 花瓣与魔力材料：16 色花瓣研磨成魔力尘，再与钢铁、木材合成魔力钢锭与活木（两者都可作建材）。
+· 魔力池：储存魔力，可与相邻魔力池均分，并由功能花注入。
+· 火红莲：消耗木头、活木或化合燃料，把燃料缓慢转化为魔力送入附近的魔力池；附近没有池子时不空烧燃料。
+· 魔力通量场：把附近魔力池中的魔力转化为普通电力，抽不到魔力时停转。
+· 魔力中继塔：从魔力池或上游中继塔抽魔力存入自身小缓冲，把供给范围向外延伸；每经过一跳损耗约一成魔力。
+
+玩法闭环：采花 → 研磨魔力尘 → 锻造魔力钢 → 建造魔力池与火红莲 → 用中继塔把魔力送向远处 → 用魔力通量场把魔力变回电力。
+
+全部为新增 Def 与自定义 Comp。仅以补丁方式向生物群系追加野生植物，不改动任何原版 Def 的既有数值。</description>
+  <loadAfter>
+    <li>Ludeon.RimWorld</li>
+  </loadAfter>
+</ModMetaData>

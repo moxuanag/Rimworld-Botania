@@ -1,0 +1,19 @@
+# ---- Visual Studio / .NET 构建产物 ----
+Source/bin/
+Source/obj/
+Source/.vs/
+*.user
+*.suo
+.vs/
+
+# ---- 本地临时文件 ----
+dist/
+stage/
+*.zip
+*.log
+Thumbs.db
+desktop.ini
+
+# ---- 游戏/工具生成，不入库 ----
+# 若本地把开发脚本临时拷进模组目录，也一并忽略
+_dev/

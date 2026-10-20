@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <Botania_MakeManaPowder.label>研磨魔力尘</Botania_MakeManaPowder.label>
+  <Botania_MakeManaPowder.description>把花瓣研磨成魔力尘。这是一切植物魔法制作的基础材料。</Botania_MakeManaPowder.description>
+  <Botania_MakeManaPowder.jobString>正在研磨魔力尘。</Botania_MakeManaPowder.jobString>
+
+  <Botania_MakeLivingwood.label>培育活木</Botania_MakeLivingwood.label>
+  <Botania_MakeLivingwood.description>把魔力尘与普通木材结合，让木材重新记起自己曾是一棵树。活木是植物魔法建筑的主要结构材料。</Botania_MakeLivingwood.description>
+  <Botania_MakeLivingwood.jobString>正在培育活木。</Botania_MakeLivingwood.jobString>
+
+  <Botania_MakeManasteel.label>锻造魔力钢</Botania_MakeManasteel.label>
+  <Botania_MakeManasteel.description>把魔力尘熔入钢水。成品比钢更轻，并带着永不消退的附魔。</Botania_MakeManasteel.description>
+  <Botania_MakeManasteel.jobString>正在锻造魔力钢。</Botania_MakeManasteel.jobString>
+
+</LanguageData>

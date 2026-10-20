@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <Botania.ManaStored>Mana: {0} / {1}</Botania.ManaStored>
+  <Botania.FlowerWorking>Producing mana</Botania.FlowerWorking>
+  <Botania.FlowerWorkingNoPool>Burning fuel (mana is lost)</Botania.FlowerWorkingNoPool>
+  <Botania.FlowerNoFuel>Out of fuel</Botania.FlowerNoFuel>
+  <Botania.FlowerNoPool>No mana pool in range</Botania.FlowerNoPool>
+  <Botania.FluxfieldWorking>Drawing mana nearby</Botania.FluxfieldWorking>
+  <Botania.FluxfieldNoMana>No mana available nearby</Botania.FluxfieldNoMana>
+  <Botania.RelayStored>Relay buffer: {0} / {1} (loss per hop: {2}%)</Botania.RelayStored>
+  <Botania.RelayEmpty>Relay buffer is empty</Botania.RelayEmpty>
+
+</LanguageData>

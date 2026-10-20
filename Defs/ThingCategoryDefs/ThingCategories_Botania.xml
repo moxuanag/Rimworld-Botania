@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingCategoryDef>
+    <defName>BotaniaItems</defName>
+    <label>botania materials</label>
+    <parent>ResourcesRaw</parent>
+  </ThingCategoryDef>
+
+  <ThingCategoryDef>
+    <defName>BotaniaPetals</defName>
+    <label>botania petals</label>
+    <parent>BotaniaItems</parent>
+  </ThingCategoryDef>
+
+  <ThingCategoryDef>
+    <defName>BotaniaBuildings</defName>
+    <label>botania structures</label>
+    <parent>Buildings</parent>
+  </ThingCategoryDef>
+
+</Defs>

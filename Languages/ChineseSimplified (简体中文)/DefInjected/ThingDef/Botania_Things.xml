@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <Botania_Petal_White.label>白色花瓣</Botania_Petal_White.label>
+  <Botania_Petal_White.description>一片仍残留着微弱魔力的白色花瓣。植物魔法的工匠会把它研磨成魔力尘。</Botania_Petal_White.description>
+
+  <Botania_Petal_Orange.label>橙色花瓣</Botania_Petal_Orange.label>
+  <Botania_Petal_Orange.description>一片仍残留着微弱魔力的橙色花瓣。植物魔法的工匠会把它研磨成魔力尘。</Botania_Petal_Orange.description>
+
+  <Botania_Petal_Magenta.label>品红色花瓣</Botania_Petal_Magenta.label>
+  <Botania_Petal_Magenta.description>一片仍残留着微弱魔力的品红色花瓣。植物魔法的工匠会把它研磨成魔力尘。</Botania_Petal_Magenta.description>
+
+  <Botania_Petal_LightBlue.label>淡蓝色花瓣</Botania_Petal_LightBlue.label>
+  <Botania_Petal_LightBlue.description>一片仍残留着微弱魔力的淡蓝色花瓣。植物魔法的工匠会把它研磨成魔力尘。</Botania_Petal_LightBlue.description>
+
+  <Botania_Petal_Yellow.label>黄色花瓣</Botania_Petal_Yellow.label>
+  <Botania_Petal_Yellow.description>一片仍残留着微弱魔力的黄色花瓣。植物魔法的工匠会把它研磨成魔力尘。</Botania_Petal_Yellow.description>
+
+  <Botania_Petal_Lime.label>黄绿色花瓣</Botania_Petal_Lime.label>
+  <Botania_Petal_Lime.description>一片仍残留着微弱魔力的黄绿色花瓣。植物魔法的工匠会把它研磨成魔力尘。</Botania_Petal_Lime.description>
+
+  <Botania_Petal_Pink.label>粉红色花瓣</Botania_Petal_Pink.label>
+  <Botania_Petal_Pink.description>一片仍残留着微弱魔力的粉红色花瓣。植物魔法的工匠会把它研磨成魔力尘。</Botania_Petal_Pink.description>
+
+  <Botania_Petal_Gray.label>灰色花瓣</Botania_Petal_Gray.label>
+  <Botania_Petal_Gray.description>一片仍残留着微弱魔力的灰色花瓣。植物魔法的工匠会把它研磨成魔力尘。</Botania_Petal_Gray.description>
+
+  <Botania_Petal_LightGray.label>淡灰色花瓣</Botania_Petal_LightGray.label>
+  <Botania_Petal_LightGray.description>一片仍残留着微弱魔力的淡灰色花瓣。植物魔法的工匠会把它研磨成魔力尘。</Botania_Petal_LightGray.description>
+
+  <Botania_Petal_Cyan.label>青色花瓣</Botania_Petal_Cyan.label>
+  <Botania_Petal_Cyan.description>一片仍残留着微弱魔力的青色花瓣。植物魔法的工匠会把它研磨成魔力尘。</Botania_Petal_Cyan.description>
+
+  <Botania_Petal_Purple.label>紫色花瓣</Botania_Petal_Purple.label>
+  <Botania_Petal_Purple.description>一片仍残留着微弱魔力的紫色花瓣。植物魔法的工匠会把它研磨成魔力尘。</Botania_Petal_Purple.description>
+
+  <Botania_Petal_Blue.label>蓝色花瓣</Botania_Petal_Blue.label>
+  <Botania_Petal_Blue.description>一片仍残留着微弱魔力的蓝色花瓣。植物魔法的工匠会把它研磨成魔力尘。</Botania_Petal_Blue.description>
+
+  <Botania_Petal_Brown.label>棕色花瓣</Botania_Petal_Brown.label>
+  <Botania_Petal_Brown.description>一片仍残留着微弱魔力的棕色花瓣。植物魔法的工匠会把它研磨成魔力尘。</Botania_Petal_Brown.description>
+
+  <Botania_Petal_Green.label>绿色花瓣</Botania_Petal_Green.label>
+  <Botania_Petal_Green.description>一片仍残留着微弱魔力的绿色花瓣。植物魔法的工匠会把它研磨成魔力尘。</Botania_Petal_Green.description>
+
+  <Botania_Petal_Red.label>红色花瓣</Botania_Petal_Red.label>
+  <Botania_Petal_Red.description>一片仍残留着微弱魔力的红色花瓣。植物魔法的工匠会把它研磨成魔力尘。</Botania_Petal_Red.description>
+
+  <Botania_Petal_Black.label>黑色花瓣</Botania_Petal_Black.label>
+  <Botania_Petal_Black.description>一片仍残留着微弱魔力的黑色花瓣。植物魔法的工匠会把它研磨成魔力尘。</Botania_Petal_Black.description>
+
+  <Botania_ManaPowder.label>魔力尘</Botania_ManaPowder.label>
+  <Botania_ManaPowder.description>花瓣研磨而成的细粉，微微发着光。它以稳定的形态储存魔力，既能注入金属，也能缚入木材。</Botania_ManaPowder.description>
+
+  <Botania_ManasteelIngot.label>魔力钢锭</Botania_ManasteelIngot.label>
+  <Botania_ManasteelIngot.description>掺入魔力尘的钢材，比普通钢更轻更坚韧，触摸时会轻微嗡鸣。可用作建材。</Botania_ManasteelIngot.description>
+
+  <Botania_Livingwood.label>活木</Botania_Livingwood.label>
+  <Botania_Livingwood.description>仍记得自己曾是树木的木材。触手温热，不易燃烧，会自己长成想要的形状。可用作建材或燃料。</Botania_Livingwood.description>
+
+  <Botania_ManaPool.label>魔力池</Botania_ManaPool.label>
+  <Botania_ManaPool.description>池沿是活木，池箍是魔力钢，池中盛满流动的光。它储存附近功能花产出的魔力，并与相邻的魔力池均分魔力。</Botania_ManaPool.description>
+
+  <Botania_Endoflame.label>火红莲</Botania_Endoflame.label>
+  <Botania_Endoflame.description>一朵以火为食的花。投喂木头、活木或化合燃料后，它会缓慢地把燃料转化为魔力，送进附近的魔力池。若附近没有能接收魔力的池子，它不会白白烧掉燃料。</Botania_Endoflame.description>
+
+  <!-- 建材形容词：原版「材质 + 建筑名」的拼接靠这个字段，不翻就会出现 livingwood 墙 -->
+  <Botania_Livingwood.stuffProps.stuffAdjective>活木</Botania_Livingwood.stuffProps.stuffAdjective>
+  <Botania_ManasteelIngot.stuffProps.stuffAdjective>魔力钢</Botania_ManasteelIngot.stuffProps.stuffAdjective>
+
+  <Botania_ManaFluxfield.label>魔力通量场</Botania_ManaFluxfield.label>
+  <Botania_ManaFluxfield.description>缠绕着魔力钢线圈的一团封存之光。它从附近的魔力池或魔力中继塔中抽取魔力，转化为普通电力。抽不到魔力时它会完全停转。</Botania_ManaFluxfield.description>
+
+  <Botania_ManaRelay.label>魔力中继塔</Botania_ManaRelay.label>
+  <Botania_ManaRelay.description>一根活木塔身、缠着魔力钢箍的细塔，顶端悬着一团流动的光。它从魔力池或上游的中继塔抽取魔力，存进自己的小缓冲，让更远处的设备也能取用。每经过一座塔，损耗约一成魔力。</Botania_ManaRelay.description>
+
+  <Botania_MysticFlower_White.label>神秘花（白）</Botania_MysticFlower_White.label>
+  <Botania_MysticFlower_White.description>一朵白色的小花，花瓣里还留着一丝魔力。采集可得花瓣，只要不伤根，植株会重新生长。</Botania_MysticFlower_White.description>
+
+  <Botania_MysticFlower_Orange.label>神秘花（橙）</Botania_MysticFlower_Orange.label>
+  <Botania_MysticFlower_Orange.description>一朵橙色的小花，花瓣里还留着一丝魔力。采集可得花瓣，只要不伤根，植株会重新生长。</Botania_MysticFlower_Orange.description>
+
+  <Botania_MysticFlower_Magenta.label>神秘花（品红）</Botania_MysticFlower_Magenta.label>
+  <Botania_MysticFlower_Magenta.description>一朵品红色的小花，花瓣里还留着一丝魔力。采集可得花瓣，只要不伤根，植株会重新生长。</Botania_MysticFlower_Magenta.description>
+
+  <Botania_MysticFlower_LightBlue.label>神秘花（淡蓝）</Botania_MysticFlower_LightBlue.label>
+  <Botania_MysticFlower_LightBlue.description>一朵淡蓝色的小花，花瓣里还留着一丝魔力。采集可得花瓣，只要不伤根，植株会重新生长。</Botania_MysticFlower_LightBlue.description>
+
+  <Botania_MysticFlower_Yellow.label>神秘花（黄）</Botania_MysticFlower_Yellow.label>
+  <Botania_MysticFlower_Yellow.description>一朵黄色的小花，花瓣里还留着一丝魔力。采集可得花瓣，只要不伤根，植株会重新生长。</Botania_MysticFlower_Yellow.description>
+
+  <Botania_MysticFlower_Lime.label>神秘花（黄绿）</Botania_MysticFlower_Lime.label>
+  <Botania_MysticFlower_Lime.description>一朵黄绿色的小花，花瓣里还留着一丝魔力。采集可得花瓣，只要不伤根，植株会重新生长。</Botania_MysticFlower_Lime.description>
+
+  <Botania_MysticFlower_Pink.label>神秘花（粉）</Botania_MysticFlower_Pink.label>
+  <Botania_MysticFlower_Pink.description>一朵粉红色的小花，花瓣里还留着一丝魔力。采集可得花瓣，只要不伤根，植株会重新生长。</Botania_MysticFlower_Pink.description>
+
+  <Botania_MysticFlower_Gray.label>神秘花（灰）</Botania_MysticFlower_Gray.label>
+  <Botania_MysticFlower_Gray.description>一朵灰色的小花，花瓣里还留着一丝魔力。采集可得花瓣，只要不伤根，植株会重新生长。</Botania_MysticFlower_Gray.description>
+
+  <Botania_MysticFlower_LightGray.label>神秘花（淡灰）</Botania_MysticFlower_LightGray.label>
+  <Botania_MysticFlower_LightGray.description>一朵淡灰色的小花，花瓣里还留着一丝魔力。采集可得花瓣，只要不伤根，植株会重新生长。</Botania_MysticFlower_LightGray.description>
+
+  <Botania_MysticFlower_Cyan.label>神秘花（青）</Botania_MysticFlower_Cyan.label>
+  <Botania_MysticFlower_Cyan.description>一朵青色的小花，花瓣里还留着一丝魔力。采集可得花瓣，只要不伤根，植株会重新生长。</Botania_MysticFlower_Cyan.description>
+
+  <Botania_MysticFlower_Purple.label>神秘花（紫）</Botania_MysticFlower_Purple.label>
+  <Botania_MysticFlower_Purple.description>一朵紫色的小花，花瓣里还留着一丝魔力。采集可得花瓣，只要不伤根，植株会重新生长。</Botania_MysticFlower_Purple.description>
+
+  <Botania_MysticFlower_Blue.label>神秘花（蓝）</Botania_MysticFlower_Blue.label>
+  <Botania_MysticFlower_Blue.description>一朵蓝色的小花，花瓣里还留着一丝魔力。采集可得花瓣，只要不伤根，植株会重新生长。</Botania_MysticFlower_Blue.description>
+
+  <Botania_MysticFlower_Brown.label>神秘花（棕）</Botania_MysticFlower_Brown.label>
+  <Botania_MysticFlower_Brown.description>一朵棕色的小花，花瓣里还留着一丝魔力。采集可得花瓣，只要不伤根，植株会重新生长。</Botania_MysticFlower_Brown.description>
+
+  <Botania_MysticFlower_Green.label>神秘花（绿）</Botania_MysticFlower_Green.label>
+  <Botania_MysticFlower_Green.description>一朵绿色的小花，花瓣里还留着一丝魔力。采集可得花瓣，只要不伤根，植株会重新生长。</Botania_MysticFlower_Green.description>
+
+  <Botania_MysticFlower_Red.label>神秘花（红）</Botania_MysticFlower_Red.label>
+  <Botania_MysticFlower_Red.description>一朵红色的小花，花瓣里还留着一丝魔力。采集可得花瓣，只要不伤根，植株会重新生长。</Botania_MysticFlower_Red.description>
+
+  <Botania_MysticFlower_Black.label>神秘花（黑）</Botania_MysticFlower_Black.label>
+  <Botania_MysticFlower_Black.description>一朵黑色的小花，花瓣里还留着一丝魔力。采集可得花瓣，只要不伤根，植株会重新生长。</Botania_MysticFlower_Black.description>
+
+</LanguageData>
