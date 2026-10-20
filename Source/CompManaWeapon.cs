@@ -181,5 +181,66 @@ namespace Botania
             base.PostExposeData();
             Scribe_Values.Look(ref mana, "mana", 0f);
         }
+
+        // ── 装备/卸下时维护小人身上的「魔力储备」hediff ──
+
+        private static HediffDef WandManaHediffDef => DefDatabase<HediffDef>.GetNamedSilentFail("Botania_WandMana");
+
+        public override void Notify_Equipped(Pawn pawn)
+        {
+            base.Notify_Equipped(pawn);
+            SyncHediff(pawn);
+        }
+
+        public override void Notify_Unequipped(Pawn pawn)
+        {
+            base.Notify_Unequipped(pawn);
+            if (pawn == null || pawn.health == null)
+            {
+                return;
+            }
+            HediffDef hediffDef = WandManaHediffDef;
+            if (hediffDef == null)
+            {
+                return;
+            }
+            Hediff existing = pawn.health.hediffSet.GetFirstHediffOfDef(hediffDef);
+            // 只有这一把法杖还在身上时才移除，换成另一把法杖就不动
+            if (existing != null && FindWeaponOn(pawn) == null)
+            {
+                pawn.health.RemoveHediff(existing);
+            }
+        }
+
+        private static CompManaWeapon FindWeaponOn(Pawn pawn)
+        {
+            if (pawn == null || pawn.equipment == null || pawn.equipment.Primary == null)
+            {
+                return null;
+            }
+            return pawn.equipment.Primary.GetComp<CompManaWeapon>();
+        }
+
+        private static void SyncHediff(Pawn pawn)
+        {
+            if (pawn == null || pawn.health == null)
+            {
+                return;
+            }
+            HediffDef hediffDef = WandManaHediffDef;
+            if (hediffDef == null)
+            {
+                return;
+            }
+            Hediff existing = pawn.health.hediffSet.GetFirstHediffOfDef(hediffDef);
+            if (existing == null)
+            {
+                Hediff added = pawn.health.AddHediff(hediffDef);
+                if (added != null)
+                {
+                    added.Severity = 0.01f;
+                }
+            }
+        }
     }
 }

@@ -17,7 +17,7 @@
   <Botania.WandBloomLabel>绽花</Botania.WandBloomLabel>
   <Botania.WandBloomDesc>让半径 {0} 格内的植物立刻长高一截，每株消耗 {1} 魔力。</Botania.WandBloomDesc>
   <Botania.WandConvertLabel>就地转化</Botania.WandConvertLabel>
-  <Botania.WandConvertDesc>把脚边的原木变成活木、石块变成活石，每个消耗 {0} 魔力。</Botania.WandConvertDesc>
+  <Botania.WandConvertDesc>把 {1} 格内的原木变成活木、石块变成活石，每个消耗 {0} 魔力。</Botania.WandConvertDesc>
   <Botania.WandNoPlants>附近没有需要催长的植物</Botania.WandNoPlants>
   <Botania.WandNoInput>脚边没有可转化的木头或石块</Botania.WandNoInput>
   <Botania.WandNoMana>附近魔力不足：需要 {0}，可用 {1}</Botania.WandNoMana>
@@ -29,5 +29,7 @@
   <Botania.WandCharged>充能完成：{0} / {1}</Botania.WandCharged>
   <Botania.WandNoSource>附近没有可用的魔力池或中继塔</Botania.WandNoSource>
   <Botania.WandOutOfMana>魔力不足，打不出这一发：需要 {0}，杖内只有 {1}</Botania.WandOutOfMana>
+  <Botania.WandManaHediff>魔力储备 {0} / {1}</Botania.WandManaHediff>
+  <Botania.WandManaHediffTip>手里森林法杖剩余的魔力。每发魔力弹消耗 50，绽花/就地转化按株数和堆数扣。</Botania.WandManaHediffTip>
 
 </LanguageData>

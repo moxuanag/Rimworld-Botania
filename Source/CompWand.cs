@@ -29,6 +29,9 @@ namespace Botania
         /// <summary>向魔力网抽取的半径。</summary>
         public float sourceRadius = 8f;
 
+        /// <summary>施法距离（与两个技能的 verb range 保持一致，用于画范围环）。</summary>
+        public float castRange = 6f;
+
         /// <summary>与白雏菊共用的转化规则表。</summary>
         public List<ManaConversionRule> rules = new List<ManaConversionRule>();
 
@@ -59,9 +62,10 @@ namespace Botania
     }
 
     /// <summary>
-    /// 森林法杖：装备在腰带层，给穿戴者两个按钮。
-    /// 它不是武器，而是"把魔力网的手伸到远处"——消耗附近魔力池/中继塔的魔力，
-    /// 在玩家指定的位置做两件原本只能由建筑完成的事：催长植物、转化材料。
+    /// 森林法杖的两个法术：绽花、就地转化。
+    /// 真正的按钮由装备上的两个 verb 提供（Verb_WandBloom / Verb_WandConvert），
+    /// 因为这一版引擎不会把装备 Comp 的 gizmo 显示到小人身上；
+    /// 本 Comp 只保留逻辑，另外在法杖躺在**地上**被选中时也提供一组带图标的按钮。
     /// </summary>
     public class CompWand : ThingComp
     {
@@ -90,42 +94,39 @@ namespace Botania
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
-            foreach (Gizmo gizmo in base.CompGetGizmosExtra())
-            {
-                yield return gizmo;
-            }
-            if (!HasAnchor)
+            // 装备在身上时由 verb 提供按钮，这里只负责"法杖丢在地上被选中"的情况，
+            // 免得同一个技能出现两遍
+            if (!parent.Spawned || parent.Map == null)
             {
                 yield break;
             }
-            Texture2D icon = parent.def.uiIcon;
 
             yield return new Command_Action
             {
                 defaultLabel = "Botania.WandBloomLabel".Translate(),
                 defaultDesc = "Botania.WandBloomDesc".Translate(Props.bloomRadius.ToString("F0"),
                     Props.manaPerPlant.ToString("F0")),
-                icon = icon,
-                action = Bloom
+                icon = ContentFinder<Texture2D>.Get("UI/Icons/Botania/Bloom"),
+                action = () => TryBloomAt(AnchorPos, AnchorMap)
             };
 
             yield return new Command_Action
             {
                 defaultLabel = "Botania.WandConvertLabel".Translate(),
-                defaultDesc = "Botania.WandConvertDesc".Translate(Props.manaPerConvert.ToString("F0")),
-                icon = icon,
-                action = Convert
+                defaultDesc = "Botania.WandConvertDesc".Translate(Props.manaPerConvert.ToString("F0"),
+                    Props.convertRadius.ToString("F0")),
+                icon = ContentFinder<Texture2D>.Get("UI/Icons/Botania/Transfer"),
+                action = () => TryConvertAt(AnchorPos, AnchorMap)
             };
         }
 
-        private void Bloom()
+        /// <summary>在 center 周围催长植物。返回是否真的做成了一次。</summary>
+        public bool TryBloomAt(IntVec3 center, Map map)
         {
-            Map map = AnchorMap;
             if (map == null)
             {
-                return;
+                return false;
             }
-            IntVec3 center = AnchorPos;
 
             List<Plant> targets = new List<Plant>();
             foreach (Thing thing in GenRadial.RadialDistinctThingsAround(center, map, Props.bloomRadius, true))
@@ -145,12 +146,12 @@ namespace Botania
             if (targets.Count == 0)
             {
                 Messages.Message("Botania.WandNoPlants".Translate(), MessageTypeDefOf.RejectInput, false);
-                return;
+                return false;
             }
 
             if (!TryPayMana(center, map, targets.Count * Props.manaPerPlant))
             {
-                return;
+                return false;
             }
 
             for (int i = 0; i < targets.Count; i++)
@@ -163,16 +164,16 @@ namespace Botania
                 plant.Growth = Mathf.Min(1f, plant.Growth + Props.bloomGrowth);
             }
             Messages.Message("Botania.WandBloomed".Translate(targets.Count.ToString()), MessageTypeDefOf.PositiveEvent, false);
+            return true;
         }
 
-        private void Convert()
+        /// <summary>把 center 周围的木料/石砖转化掉。返回是否真的做成了一次。</summary>
+        public bool TryConvertAt(IntVec3 center, Map map)
         {
-            Map map = AnchorMap;
             if (map == null)
             {
-                return;
+                return false;
             }
-            IntVec3 center = AnchorPos;
 
             List<Thing> targets = new List<Thing>();
             foreach (IntVec3 cell in GenRadial.RadialCellsAround(center, Props.convertRadius, true))
@@ -217,12 +218,12 @@ namespace Botania
             if (targets.Count == 0)
             {
                 Messages.Message("Botania.WandNoInput".Translate(), MessageTypeDefOf.RejectInput, false);
-                return;
+                return false;
             }
 
             if (!TryPayMana(center, map, targets.Count * Props.manaPerConvert))
             {
-                return;
+                return false;
             }
 
             int done = 0;
@@ -240,6 +241,7 @@ namespace Botania
                 }
             }
             Messages.Message("Botania.WandConverted".Translate(done.ToString()), MessageTypeDefOf.PositiveEvent, false);
+            return done > 0;
         }
 
         /// <summary>先确认凑得齐，再一次性扣；扣不满就退款，不做半吊子。</summary>

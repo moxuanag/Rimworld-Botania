@@ -145,7 +145,7 @@
   <ThingDef ParentName="Botania_MaterialBase">
     <defName>Botania_Livingrock</defName>
     <label>livingrock</label>
-    <description>Stone that grew a thin skin of life over itself. It is warmer than granite and repairs its own cracks when left alone. Can be used as a building material.</description>
+    <description>Stone that grew a thin skin of life over itself. It is warmer than granite to the touch. Can be used as a building material.</description>
     <graphicData>
       <texPath>Things/Item/Resource/Botania/Livingrock</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>

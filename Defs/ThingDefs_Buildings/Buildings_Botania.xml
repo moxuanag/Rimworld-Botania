@@ -52,6 +52,10 @@
         <acceptsMana>true</acceptsMana>
         <balanceWithAdjacentPools>true</balanceWithAdjacentPools>
       </li>
+      <!-- 选中时也显示半径 6 的供给范围 -->
+      <li Class="Botania.CompProperties_RadiusRing">
+        <radius>6</radius>
+      </li>
     </comps>
     <!-- 放置蓝图时画出半径 6 的连接范围环（范围内的花/通量场能找到这个池子） -->
     <placeWorkers>
@@ -128,6 +132,9 @@
         <radius>6</radius>
         <burnFuelWithoutPool>false</burnFuelWithoutPool>
       </li>
+      <li Class="Botania.CompProperties_RadiusRing">
+        <radius>6</radius>
+      </li>
     </comps>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <designationCategory>Misc</designationCategory>
@@ -187,6 +194,9 @@
         <transmitsPower>true</transmitsPower>
         <manaPerSecond>1.5</manaPerSecond>
         <searchRadius>6</searchRadius>
+      </li>
+      <li Class="Botania.CompProperties_RadiusRing">
+        <radius>6</radius>
       </li>
     </comps>
     <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
@@ -252,6 +262,9 @@
         <manaPerSecond>10</manaPerSecond>
         <lossPercent>0.1</lossPercent>
       </li>
+      <li Class="Botania.CompProperties_RadiusRing">
+        <radius>6</radius>
+      </li>
     </comps>
     <!-- 放置时显示半径 6 的供给范围环 -->
     <placeWorkers>
@@ -276,7 +289,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>Botania_PureDaisy</defName>
     <label>pure daisy</label>
-    <description>A white daisy with a faint ring of light around its petals. Lying quietly next to a pile of wood or stone, it slowly teaches the material to be alive: logs become livingwood, stone blocks become livingrock. Each transformation costs a little mana.</description>
+    <description>A white daisy with a faint ring of light around its petals.\n\nPlace it next to a pile of logs or a pile of stone blocks - the cut stone bricks such as granite blocks or limestone blocks, not raw chunks - and it slowly teaches the material to be alive: logs become livingwood, stone blocks become livingrock.\n\nEach transformation costs a little mana from a mana pool within 6 tiles.</description>
     <thingClass>Building</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <graphicData>
@@ -325,6 +338,9 @@
             <count>1</count>
           </li>
         </rules>
+      </li>
+      <li Class="Botania.CompProperties_RadiusRing">
+        <radius>6</radius>
       </li>
     </comps>
     <!-- 放置时显示半径 6 的魔力供给范围 -->

@@ -17,7 +17,7 @@
   <Botania.WandBloomLabel>Bloom</Botania.WandBloomLabel>
   <Botania.WandBloomDesc>Instantly advances the growth of all plants within {0} tiles by a step. Costs {1} mana per plant.</Botania.WandBloomDesc>
   <Botania.WandConvertLabel>Transmute</Botania.WandConvertLabel>
-  <Botania.WandConvertDesc>Turns logs at your feet into livingwood and stone blocks into livingrock. Costs {0} mana per stack.</Botania.WandConvertDesc>
+  <Botania.WandConvertDesc>Turns logs within {1} tiles into livingwood and stone blocks into livingrock. Costs {0} mana per stack.</Botania.WandConvertDesc>
   <Botania.WandNoPlants>No plants nearby need growth</Botania.WandNoPlants>
   <Botania.WandNoInput>No wood or stone at your feet to transmute</Botania.WandNoInput>
   <Botania.WandNoMana>Not enough mana nearby: need {0}, have {1}</Botania.WandNoMana>
@@ -29,5 +29,7 @@
   <Botania.WandCharged>Charged: {0} / {1}</Botania.WandCharged>
   <Botania.WandNoSource>No mana pool or relay in range</Botania.WandNoSource>
   <Botania.WandOutOfMana>Not enough mana to fire: need {0}, wand holds {1}</Botania.WandOutOfMana>
+  <Botania.WandManaHediff>Wand mana {0} / {1}</Botania.WandManaHediff>
+  <Botania.WandManaHediffTip>The mana left in the wand of the forest in this person's hands. Each mana bolt costs 50; blooming and transmuting cost per plant or per stack.</Botania.WandManaHediffTip>
 
 </LanguageData>
