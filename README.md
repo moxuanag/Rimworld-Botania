@@ -234,11 +234,15 @@ Patches/         生物群系追加野生花
 Source/          C# 源码
 Textures/        全部程序化生成的 PNG
 scripts/         CI 用的校验脚本
+CHANGELOG.md     版本历史
+VERSIONING.md    版本号规则（协作硬约定）
 ```
 
-- 采用**语义化版本**，当前 `0.4.1`；
+- 版本号规则见 **[VERSIONING.md](VERSIONING.md)**（这也是给协作者的硬约定）；
+- 摘要：**默认走 PATCH（`0.0.X`）**，只有新增物品/机制或破坏存档兼容才走 MINOR（`0.X.0`），`1.0.0` 留给核心闭环定稿；
+- 判据只有一条：**旧存档能不能直接读**——能读就是 PATCH，读不了才是 MINOR；
 - `About/About.xml` 的 `<modVersion>` 是唯一版本来源，**必须与 git tag 一致**（CI 会校验，不一致直接失败）；
-- tag 形如 `v0.4.1`，推 tag 即触发自动打包并发布 Release。
+- 未发布过的号不补发、不留空号；tag 形如 `v0.4.1`，推 tag 即触发自动打包并发布 Release。
 
 > ⚠️ 语言目录名必须是 `ChineseSimplified (简体中文)`（与引擎语言身份一致）。
 > 写成裸 `ChineseSimplified` 会导致**整包翻译不加载**，游戏里全是英文。
