@@ -10,5 +10,9 @@
   <Botania.FluxfieldNoMana>No mana available nearby</Botania.FluxfieldNoMana>
   <Botania.RelayStored>Relay buffer: {0} / {1} (loss per hop: {2}%)</Botania.RelayStored>
   <Botania.RelayEmpty>Relay buffer is empty</Botania.RelayEmpty>
+  <Botania.TransmuterWorking>Transforming nearby material</Botania.TransmuterWorking>
+  <Botania.TransmuterNoMana>Material ready, but not enough mana</Botania.TransmuterNoMana>
+  <Botania.TransmuterNoInput>No wood or stone nearby to transform</Botania.TransmuterNoInput>
+  <Botania.TransmuterDisabled>Transformation disabled</Botania.TransmuterDisabled>
 
 </LanguageData>

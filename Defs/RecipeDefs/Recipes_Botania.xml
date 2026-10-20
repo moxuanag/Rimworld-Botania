@@ -83,9 +83,54 @@
     </recipeUsers>
   </RecipeDef>
 
+  <!-- 活石：白雏菊也能自动转化，这个配方是不方便建花时的替代手段 -->
   <RecipeDef>
-    <defName>Botania_MakeManasteel</defName>
-    <label>forge manasteel</label>
+    <defName>Botania_MakeLivingrock</defName>
+    <label>shape livingrock</label>
+    <description>Press mana powder into cut stone until the stone remembers what it was before it was cut. Livingrock is the main structural material of Botania buildings.</description>
+    <jobString>Shaping livingrock.</jobString>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <workAmount>1000</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>StoneBlocks</li>
+          </categories>
+        </filter>
+        <count>4</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Botania_ManaPowder</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <categories>
+        <li>StoneBlocks</li>
+      </categories>
+      <thingDefs>
+        <li>Botania_ManaPowder</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <Botania_Livingrock>4</Botania_Livingrock>
+    </products>
+    <workSkill>Crafting</workSkill>
+    <researchPrerequisite>Botania_BasicMana</researchPrerequisite>
+    <recipeUsers>
+      <li>CraftingSpot</li>
+      <li>FueledSmithy</li>
+    </recipeUsers>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>Botania_MakeManasteel</defName>    <label>forge manasteel</label>
     <description>Fold mana powder into molten steel. The result is lighter than steel and holds an enchantment that never fades.</description>
     <jobString>Forging manasteel.</jobString>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>

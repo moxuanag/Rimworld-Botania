@@ -10,5 +10,9 @@
   <Botania.FluxfieldNoMana>附近没有可用的魔力</Botania.FluxfieldNoMana>
   <Botania.RelayStored>中继缓冲：{0} / {1}（每跳损耗 {2}%）</Botania.RelayStored>
   <Botania.RelayEmpty>中继缓冲为空</Botania.RelayEmpty>
+  <Botania.TransmuterWorking>正在转化相邻的材料</Botania.TransmuterWorking>
+  <Botania.TransmuterNoMana>材料已就位，但魔力不足</Botania.TransmuterNoMana>
+  <Botania.TransmuterNoInput>相邻没有可转化的木头或石块</Botania.TransmuterNoInput>
+  <Botania.TransmuterDisabled>转化已关闭</Botania.TransmuterDisabled>
 
 </LanguageData>

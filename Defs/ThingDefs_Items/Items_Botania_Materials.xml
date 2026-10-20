@@ -141,4 +141,49 @@
     </stuffProps>
   </ThingDef>
 
+  <!-- 活石：石类建材，白雏菊把石块转化而来，也可用配方合成 -->
+  <ThingDef ParentName="Botania_MaterialBase">
+    <defName>Botania_Livingrock</defName>
+    <label>livingrock</label>
+    <description>Stone that grew a thin skin of life over itself. It is warmer than granite and repairs its own cracks when left alone. Can be used as a building material.</description>
+    <graphicData>
+      <texPath>Things/Item/Resource/Botania/Livingrock</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <statBases>
+      <MarketValue>2.6</MarketValue>
+      <MaxHitPoints>180</MaxHitPoints>
+      <Mass>0.5</Mass>
+      <Flammability>0.0</Flammability>
+      <DeteriorationRate>0.0</DeteriorationRate>
+      <StuffPower_Armor_Sharp>0.95</StuffPower_Armor_Sharp>
+      <StuffPower_Armor_Blunt>0.90</StuffPower_Armor_Blunt>
+      <StuffPower_Armor_Heat>0.55</StuffPower_Armor_Heat>
+      <StuffPower_Insulation_Cold>6</StuffPower_Insulation_Cold>
+      <StuffPower_Insulation_Heat>2</StuffPower_Insulation_Heat>
+      <SharpDamageMultiplier>0.85</SharpDamageMultiplier>
+      <BluntDamageMultiplier>1.05</BluntDamageMultiplier>
+    </statBases>
+    <stuffProps>
+      <stuffAdjective>livingrock</stuffAdjective>
+      <categories>
+        <li>Stony</li>
+      </categories>
+      <appearance>Bricks</appearance>
+      <commonality>0.00</commonality>
+      <color>(126,132,140)</color>
+      <soundImpactBullet>BulletImpact_Ground</soundImpactBullet>
+      <soundMeleeHitSharp>MeleeHit_Stone</soundMeleeHitSharp>
+      <soundMeleeHitBlunt>MeleeHit_Stone</soundMeleeHitBlunt>
+      <statFactors>
+        <MaxHitPoints>1.9</MaxHitPoints>
+        <Beauty>1</Beauty>
+        <WorkToBuild>1.2</WorkToBuild>
+        <WorkToMake>1.2</WorkToMake>
+        <Flammability>0</Flammability>
+      </statFactors>
+      <canSuggestUseDefaultStuff>true</canSuggestUseDefaultStuff>
+    </stuffProps>
+  </ThingDef>
+
 </Defs>

@@ -67,12 +67,19 @@
   <!-- 建材形容词：原版「材质 + 建筑名」的拼接靠这个字段，不翻就会出现 livingwood 墙 -->
   <Botania_Livingwood.stuffProps.stuffAdjective>活木</Botania_Livingwood.stuffProps.stuffAdjective>
   <Botania_ManasteelIngot.stuffProps.stuffAdjective>魔力钢</Botania_ManasteelIngot.stuffProps.stuffAdjective>
+  <Botania_Livingrock.stuffProps.stuffAdjective>活石</Botania_Livingrock.stuffProps.stuffAdjective>
+
+  <Botania_Livingrock.label>活石</Botania_Livingrock.label>
+  <Botania_Livingrock.description>长了薄薄一层生命的石头。它比花岗岩温暖，裂了自己会慢慢长好，可以当作建材使用。</Botania_Livingrock.description>
 
   <Botania_ManaFluxfield.label>魔力通量场</Botania_ManaFluxfield.label>
   <Botania_ManaFluxfield.description>缠绕着魔力钢线圈的一团封存之光。它从附近的魔力池或魔力中继塔中抽取魔力，转化为普通电力。抽不到魔力时它会完全停转。</Botania_ManaFluxfield.description>
 
   <Botania_ManaRelay.label>魔力中继塔</Botania_ManaRelay.label>
   <Botania_ManaRelay.description>一根活木塔身、缠着魔力钢箍的细塔，顶端悬着一团流动的光。它从魔力池或上游的中继塔抽取魔力，存进自己的小缓冲，让更远处的设备也能取用。每经过一座塔，损耗约一成魔力。</Botania_ManaRelay.description>
+
+  <Botania_PureDaisy.label>白雏菊</Botania_PureDaisy.label>
+  <Botania_PureDaisy.description>一朵白雏菊，花瓣外绕着淡淡一圈光。把它放在木头或石块堆旁边，它会慢慢教会这些材料“活着”：原木变成活木，石块变成活石。每次转化都要消耗一点魔力。</Botania_PureDaisy.description>
 
   <Botania_MysticFlower_White.label>神秘花（白）</Botania_MysticFlower_White.label>
   <Botania_MysticFlower_White.description>一朵白色的小花，花瓣里还留着一丝魔力。采集可得花瓣，只要不伤根，植株会重新生长。</Botania_MysticFlower_White.description>

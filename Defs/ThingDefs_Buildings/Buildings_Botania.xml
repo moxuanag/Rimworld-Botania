@@ -269,4 +269,78 @@
     <uiOrder>3103</uiOrder>
   </ThingDef>
 
+  <!-- ============================================================
+       白雏菊：把相邻格的木头转成活木、石块转成活石，每次消耗魔力。
+       不需要小人操作，是本模组的自动化材料入口。
+       ============================================================ -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>Botania_PureDaisy</defName>
+    <label>pure daisy</label>
+    <description>A white daisy with a faint ring of light around its petals. Lying quietly next to a pile of wood or stone, it slowly teaches the material to be alive: logs become livingwood, stone blocks become livingrock. Each transformation costs a little mana.</description>
+    <thingClass>Building</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Things/Building/Botania/PureDaisy</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <shadowData>
+        <volume>(0.6,0.3,0.6)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>30</pathCost>
+    <fillPercent>0.15</fillPercent>
+    <rotatable>false</rotatable>
+    <blockWind>false</blockWind>
+    <castEdgeShadows>false</castEdgeShadows>
+    <tickerType>Normal</tickerType>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <size>(1,1)</size>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <WorkToBuild>600</WorkToBuild>
+      <Mass>3</Mass>
+      <Flammability>1.0</Flammability>
+      <Beauty>4</Beauty>
+    </statBases>
+    <costList>
+      <Botania_Petal_White>4</Botania_Petal_White>
+      <Botania_Livingwood>2</Botania_Livingwood>
+    </costList>
+    <comps>
+      <li Class="Botania.CompProperties_ManaTransmuter">
+        <ticksPerConvert>300</ticksPerConvert>
+        <manaPerConvert>20</manaPerConvert>
+        <manaSearchRadius>6</manaSearchRadius>
+        <rules>
+          <li>
+            <fromDef>WoodLog</fromDef>
+            <toDef>Botania_Livingwood</toDef>
+            <count>1</count>
+          </li>
+          <li>
+            <fromCategory>StoneBlocks</fromCategory>
+            <toDef>Botania_Livingrock</toDef>
+            <count>1</count>
+          </li>
+        </rules>
+      </li>
+    </comps>
+    <!-- 放置时显示半径 6 的魔力供给范围 -->
+    <placeWorkers>
+      <li>Botania.PlaceWorker_ManaRadius</li>
+    </placeWorkers>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>Misc</designationCategory>
+    <thingCategories>
+      <li>BotaniaBuildings</li>
+    </thingCategories>
+    <researchPrerequisites>
+      <li>Botania_BasicMana</li>
+    </researchPrerequisites>
+    <constructEffect>ConstructWood</constructEffect>
+    <uiOrder>3104</uiOrder>
+  </ThingDef>
+
 </Defs>
