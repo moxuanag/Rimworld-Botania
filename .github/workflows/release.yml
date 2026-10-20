@@ -46,14 +46,14 @@ jobs:
           done
           # 源码不进游戏包，但保留在仓库里
           cd stage
-          zip -r "../dist/Botania-RimWorld-${{ steps.ver.outputs.version }}.zip" Botania
+          zip -r "../dist/Rimworld-Botania-${{ steps.ver.outputs.version }}.zip" Botania
           cd ..
           ls -lh dist
 
       - name: 上传构建产物
         uses: actions/upload-artifact@v4
         with:
-          name: Botania-RimWorld-${{ steps.ver.outputs.version }}
+          name: Rimworld-Botania-${{ steps.ver.outputs.version }}
           path: dist/*.zip
           if-no-files-found: error
 

@@ -1,13 +1,13 @@
 # 植物魔法 Botania · RimWorld 1.7 移植
 
-[![release](https://img.shields.io/github/v/release/moxuanag/Botania-RimWorld?label=release)](https://github.com/moxuanag/Botania-RimWorld/releases)
+[![release](https://img.shields.io/github/v/release/moxuanag/Rimworld-Botania?label=release)](https://github.com/moxuanag/Rimworld-Botania/releases)
 [![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 把《我的世界》的 **Botania（植物魔法）** 移植到环世界 1.7 的非官方模组。
 魔力自成一体的能量体系，不接入原版电力网，但可以经**魔力通量场**换回普通电力。
 
 > 本仓库只存放**模组源文件**。成品由 GitHub Actions 在打 tag 时自动打包，
-> 到 [Releases](https://github.com/moxuanag/Botania-RimWorld/releases) 下载 `Botania-RimWorld-x.y.z.zip` 即可。
+> 到 [Releases](https://github.com/moxuanag/Rimworld-Botania/releases) 下载 `Rimworld-Botania-x.y.z.zip` 即可。
 
 ## 内容一览
 
@@ -24,14 +24,14 @@
 
 ## 安装
 
-1. 到 [Releases](https://github.com/moxuanag/Botania-RimWorld/releases) 下载最新 zip；
+1. 到 [Releases](https://github.com/moxuanag/Rimworld-Botania/releases) 下载最新 zip；
 2. 解压出 `Botania` 文件夹，放进 `RimWorld/Mods/`；
 3. 在模组列表启用「植物魔法 Botania」，排序放在 Core 之后即可（模组只依赖 Core）。
 
 手动安装（开发用）：
 
 ```powershell
-git clone https://github.com/moxuanag/Botania-RimWorld.git "RimWorld/Mods/[GZ]Botania"
+git clone https://github.com/moxuanag/Rimworld-Botania.git "RimWorld/Mods/[GZ]Botania"
 ```
 
 ## 关键数值
