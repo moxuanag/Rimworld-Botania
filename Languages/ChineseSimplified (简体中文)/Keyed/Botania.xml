@@ -31,5 +31,7 @@
   <Botania.WandOutOfMana>魔力不足，打不出这一发：需要 {0}，杖内只有 {1}</Botania.WandOutOfMana>
   <Botania.WandManaHediff>魔力储备 {0} / {1}</Botania.WandManaHediff>
   <Botania.WandManaHediffTip>手里森林法杖剩余的魔力。每发魔力弹消耗 50，绽花/就地转化按株数和堆数扣。</Botania.WandManaHediffTip>
+  <Botania.PassiveDormant>休眠中：还没到它的时辰</Botania.PassiveDormant>
+  <Botania.PassiveLifespan>将在 {0} 天后枯萎</Botania.PassiveLifespan>
 
 </LanguageData>

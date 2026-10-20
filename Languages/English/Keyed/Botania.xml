@@ -31,5 +31,7 @@
   <Botania.WandOutOfMana>Not enough mana to fire: need {0}, wand holds {1}</Botania.WandOutOfMana>
   <Botania.WandManaHediff>Wand mana {0} / {1}</Botania.WandManaHediff>
   <Botania.WandManaHediffTip>The mana left in the wand of the forest in this person's hands. Each mana bolt costs 50; blooming and transmuting cost per plant or per stack.</Botania.WandManaHediffTip>
+  <Botania.PassiveDormant>Dormant — wrong time of day</Botania.PassiveDormant>
+  <Botania.PassiveLifespan>Withers in {0} days</Botania.PassiveLifespan>
 
 </LanguageData>

@@ -135,4 +135,10 @@
   <Botania_MysticFlower_Black.label>神秘花（黑）</Botania_MysticFlower_Black.label>
   <Botania_MysticFlower_Black.description>一朵黑色的小花，花瓣里还留着一丝魔力。采集可得花瓣，只要不伤根，植株会重新生长。</Botania_MysticFlower_Black.description>
 
+  <Botania_Daybloom.label>太阳花</Botania_Daybloom.label>
+  <Botania_Daybloom.description>一朵向阳的小花，白天缓慢地从日光里抽取魔力，送进附近的魔力池。它不需要燃料，但只能活一季，到点就会枯萎。</Botania_Daybloom.description>
+
+  <Botania_Nightshade.label>夜颠茄</Botania_Nightshade.label>
+  <Botania_Nightshade.description>一朵嗜暗的花，只在夜里工作，产量约是太阳花的一半——但它正好在殖民地睡着的时候产魔。同样会在一季后枯萎。</Botania_Nightshade.description>
+
 </LanguageData>

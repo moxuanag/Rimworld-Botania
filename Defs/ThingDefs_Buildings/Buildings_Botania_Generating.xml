@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- ============================================================
+       被动产能花：太阳花（白天）与夜颠茄（夜间）。
+       零输入，靠时辰产魔；有枯萎周期（15 天），到期自己消失。
+       组件：Botania.CompProperties_ManaPassiveFlower
+       ============================================================ -->
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>Botania_Daybloom</defName>
+    <label>daybloom</label>
+    <description>A sun-loving flower that slowly draws mana out of daylight and sends it into a nearby pool. It needs no fuel, but it only lasts a season before withering.</description>
+    <thingClass>Building</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Things/Building/Botania/Daybloom</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <shadowData>
+        <volume>(0.6,0.3,0.6)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.15</fillPercent>
+    <rotatable>false</rotatable>
+    <blockWind>false</blockWind>
+    <castEdgeShadows>false</castEdgeShadows>
+    <tickerType>Normal</tickerType>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <size>(1,1)</size>
+    <statBases>
+      <MaxHitPoints>60</MaxHitPoints>
+      <WorkToBuild>300</WorkToBuild>
+      <Mass>2</Mass>
+      <Flammability>1.0</Flammability>
+      <Beauty>4</Beauty>
+    </statBases>
+    <building>
+      <destroySound>BuildingDestroyed_Soft_Small</destroySound>
+    </building>
+    <costList>
+      <Botania_Petal_Yellow>4</Botania_Petal_Yellow>
+      <Botania_ManaPowder>2</Botania_ManaPowder>
+    </costList>
+    <comps>
+      <li Class="Botania.CompProperties_ManaPassiveFlower">
+        <manaPerSecond>8</manaPerSecond>
+        <radius>6</radius>
+        <dayOnly>true</dayOnly>
+        <nightOnly>false</nightOnly>
+        <witherDays>15</witherDays>
+      </li>
+    </comps>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>Misc</designationCategory>
+    <thingCategories>
+      <li>BotaniaBuildings</li>
+    </thingCategories>
+    <researchPrerequisites>
+      <li>Botania_GeneratingI</li>
+    </researchPrerequisites>
+    <uiOrder>3210</uiOrder>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>Botania_Nightshade</defName>
+    <label>nightshade</label>
+    <description>A flower that drinks the dark. It produces half as much mana as a daybloom, and only at night, but it keeps working while the colony sleeps. It also withers after a season.</description>
+    <thingClass>Building</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Things/Building/Botania/Nightshade</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <shadowData>
+        <volume>(0.6,0.3,0.6)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.15</fillPercent>
+    <rotatable>false</rotatable>
+    <blockWind>false</blockWind>
+    <castEdgeShadows>false</castEdgeShadows>
+    <tickerType>Normal</tickerType>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <size>(1,1)</size>
+    <statBases>
+      <MaxHitPoints>60</MaxHitPoints>
+      <WorkToBuild>300</WorkToBuild>
+      <Mass>2</Mass>
+      <Flammability>1.0</Flammability>
+      <Beauty>4</Beauty>
+    </statBases>
+    <building>
+      <destroySound>BuildingDestroyed_Soft_Small</destroySound>
+    </building>
+    <costList>
+      <Botania_Petal_Black>4</Botania_Petal_Black>
+      <Botania_ManaPowder>2</Botania_ManaPowder>
+    </costList>
+    <comps>
+      <li Class="Botania.CompProperties_ManaPassiveFlower">
+        <manaPerSecond>4</manaPerSecond>
+        <radius>6</radius>
+        <dayOnly>false</dayOnly>
+        <nightOnly>true</nightOnly>
+        <witherDays>15</witherDays>
+      </li>
+    </comps>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>Misc</designationCategory>
+    <thingCategories>
+      <li>BotaniaBuildings</li>
+    </thingCategories>
+    <researchPrerequisites>
+      <li>Botania_GeneratingI</li>
+    </researchPrerequisites>
+    <uiOrder>3220</uiOrder>
+  </ThingDef>
+
+</Defs>
