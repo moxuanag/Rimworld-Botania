@@ -14,5 +14,14 @@
   <Botania.TransmuterNoMana>Material ready, but not enough mana</Botania.TransmuterNoMana>
   <Botania.TransmuterNoInput>No wood or stone nearby to transform</Botania.TransmuterNoInput>
   <Botania.TransmuterDisabled>Transformation disabled</Botania.TransmuterDisabled>
+  <Botania.WandBloomLabel>Bloom</Botania.WandBloomLabel>
+  <Botania.WandBloomDesc>Instantly advances the growth of all plants within {0} tiles by a step. Costs {1} mana per plant.</Botania.WandBloomDesc>
+  <Botania.WandConvertLabel>Transmute</Botania.WandConvertLabel>
+  <Botania.WandConvertDesc>Turns logs at your feet into livingwood and stone blocks into livingrock. Costs {0} mana per stack.</Botania.WandConvertDesc>
+  <Botania.WandNoPlants>No plants nearby need growth</Botania.WandNoPlants>
+  <Botania.WandNoInput>No wood or stone at your feet to transmute</Botania.WandNoInput>
+  <Botania.WandNoMana>Not enough mana nearby: need {0}, have {1}</Botania.WandNoMana>
+  <Botania.WandBloomed>Bloomed {0} plants</Botania.WandBloomed>
+  <Botania.WandConverted>Transmuted {0} stacks of material</Botania.WandConverted>
 
 </LanguageData>

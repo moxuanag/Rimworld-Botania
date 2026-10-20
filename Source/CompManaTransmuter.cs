@@ -152,13 +152,7 @@ namespace Botania
             }
             hasMana = true;
 
-            IntVec3 cell = input.PositionHeld;
-            int count = Math.Min(rule.count, input.stackCount);
-            input.SplitOff(count).Destroy(DestroyMode.Vanish);
-
-            Thing output = ThingMaker.MakeThing(rule.toDef, null);
-            output.stackCount = count;
-            GenPlace.TryPlaceThing(output, cell, map, ThingPlaceMode.Near);
+            ManaTransmutation.TryConvert(input, rule);
         }
 
         private Thing FindInput(Map map, out ManaConversionRule matchedRule)
@@ -188,38 +182,13 @@ namespace Botania
                     {
                         continue;
                     }
-                    ManaConversionRule rule = FindRule(thing.def);
+                    ManaConversionRule rule = ManaTransmutation.FindRule(Props.rules, thing.def);
                     if (rule == null || thing.stackCount < rule.count)
                     {
                         continue;
                     }
                     matchedRule = rule;
                     return thing;
-                }
-            }
-            return null;
-        }
-
-        private ManaConversionRule FindRule(ThingDef def)
-        {
-            if (Props.rules == null)
-            {
-                return null;
-            }
-            for (int i = 0; i < Props.rules.Count; i++)
-            {
-                ManaConversionRule rule = Props.rules[i];
-                if (rule == null)
-                {
-                    continue;
-                }
-                if (rule.fromDef != null && def == rule.fromDef)
-                {
-                    return rule;
-                }
-                if (rule.fromDef == null && rule.fromCategory != null && def.IsWithinCategory(rule.fromCategory))
-                {
-                    return rule;
                 }
             }
             return null;
