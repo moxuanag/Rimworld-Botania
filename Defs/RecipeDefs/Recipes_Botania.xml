@@ -167,7 +167,7 @@
       <Crafting>4</Crafting>
     </skillRequirements>
     <workSkill>Crafting</workSkill>
-    <researchPrerequisite>Botania_BasicMana</researchPrerequisite>
+    <researchPrerequisite>Botania_Manasteel</researchPrerequisite>
     <recipeUsers>
       <li>FueledSmithy</li>
       <li>ElectricSmithy</li>

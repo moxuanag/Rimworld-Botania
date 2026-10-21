@@ -20,8 +20,8 @@
     <baseCost>300</baseCost>
     <techLevel>Neolithic</techLevel>
     <tab>Botania</tab>
-    <researchViewX>0.0</researchViewX>
-    <researchViewY>0.0</researchViewY>
+    <researchViewX>0.00</researchViewX>
+    <researchViewY>0.00</researchViewY>
   </ResearchProjectDef>
 
   <ResearchProjectDef>
@@ -34,8 +34,8 @@
     <prerequisites>
       <li>Botania_Flowers</li>
     </prerequisites>
-    <researchViewX>1.0</researchViewX>
-    <researchViewY>0.0</researchViewY>
+    <researchViewX>1.00</researchViewX>
+    <researchViewY>0.00</researchViewY>
   </ResearchProjectDef>
 
   <ResearchProjectDef>
@@ -48,8 +48,8 @@
     <prerequisites>
       <li>Botania_BasicMana</li>
     </prerequisites>
-    <researchViewX>2.0</researchViewX>
-    <researchViewY>0.0</researchViewY>
+    <researchViewX>2.00</researchViewX>
+    <researchViewY>0.00</researchViewY>
   </ResearchProjectDef>
 
   <!-- ===== E1 花圃 ===== -->
@@ -64,8 +64,8 @@
     <prerequisites>
       <li>Botania_BasicMana</li>
     </prerequisites>
-    <researchViewX>2.0</researchViewX>
-    <researchViewY>1.0</researchViewY>
+    <researchViewX>2.00</researchViewX>
+    <researchViewY>1.00</researchViewY>
   </ResearchProjectDef>
 
   <ResearchProjectDef>
@@ -78,8 +78,8 @@
     <prerequisites>
       <li>Botania_Garden</li>
     </prerequisites>
-    <researchViewX>3.0</researchViewX>
-    <researchViewY>1.0</researchViewY>
+    <researchViewX>3.00</researchViewX>
+    <researchViewY>1.00</researchViewY>
   </ResearchProjectDef>
 
   <!-- ===== E2 魔导 ===== -->
@@ -87,15 +87,15 @@
   <ResearchProjectDef>
     <defName>Botania_Manasteel</defName>
     <label>botania: manasteel</label>
-    <description>Placeholder: manasteel ingots and the first real gear. Content arrives in a later version.</description>
+    <description>Alloy mana powder into steel to make manasteel, then shape it into the colony's first real mana structures: the pool that stores mana, the relay that carries it further, and the fluxfield that turns it back into ordinary power.</description>
     <baseCost>1500</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>
     <prerequisites>
       <li>Botania_BasicMana</li>
     </prerequisites>
-    <researchViewX>2.0</researchViewX>
-    <researchViewY>2.0</researchViewY>
+    <researchViewX>2.00</researchViewX>
+    <researchViewY>2.00</researchViewY>
   </ResearchProjectDef>
 
   <ResearchProjectDef>
@@ -108,8 +108,8 @@
     <prerequisites>
       <li>Botania_Manasteel</li>
     </prerequisites>
-    <researchViewX>3.0</researchViewX>
-    <researchViewY>2.0</researchViewY>
+    <researchViewX>3.00</researchViewX>
+    <researchViewY>2.00</researchViewY>
   </ResearchProjectDef>
 
   <ResearchProjectDef>
@@ -122,8 +122,8 @@
     <prerequisites>
       <li>Botania_Manasteel</li>
     </prerequisites>
-    <researchViewX>4.0</researchViewX>
-    <researchViewY>2.0</researchViewY>
+    <researchViewX>4.00</researchViewX>
+    <researchViewY>2.00</researchViewY>
   </ResearchProjectDef>
 
   <ResearchProjectDef>
@@ -136,8 +136,8 @@
     <prerequisites>
       <li>Botania_Manasteel</li>
     </prerequisites>
-    <researchViewX>3.0</researchViewX>
-    <researchViewY>3.0</researchViewY>
+    <researchViewX>3.00</researchViewX>
+    <researchViewY>3.00</researchViewY>
   </ResearchProjectDef>
 
   <ResearchProjectDef>
@@ -150,8 +150,8 @@
     <prerequisites>
       <li>Botania_ManaGrid</li>
     </prerequisites>
-    <researchViewX>4.0</researchViewX>
-    <researchViewY>3.0</researchViewY>
+    <researchViewX>4.00</researchViewX>
+    <researchViewY>3.00</researchViewY>
   </ResearchProjectDef>
 
   <!-- ===== E3 精灵 ===== -->
@@ -166,8 +166,8 @@
     <prerequisites>
       <li>Botania_Infusion</li>
     </prerequisites>
-    <researchViewX>5.0</researchViewX>
-    <researchViewY>2.0</researchViewY>
+    <researchViewX>5.00</researchViewX>
+    <researchViewY>2.00</researchViewY>
   </ResearchProjectDef>
 
   <ResearchProjectDef>
@@ -180,8 +180,8 @@
     <prerequisites>
       <li>Botania_Alfheim</li>
     </prerequisites>
-    <researchViewX>6.0</researchViewX>
-    <researchViewY>2.0</researchViewY>
+    <researchViewX>6.00</researchViewX>
+    <researchViewY>2.00</researchViewY>
   </ResearchProjectDef>
 
   <ResearchProjectDef>
@@ -194,8 +194,8 @@
     <prerequisites>
       <li>Botania_Alfheim</li>
     </prerequisites>
-    <researchViewX>6.0</researchViewX>
-    <researchViewY>3.0</researchViewY>
+    <researchViewX>6.00</researchViewX>
+    <researchViewY>3.00</researchViewY>
   </ResearchProjectDef>
 
   <!-- ===== E4 盖亚 ===== -->
@@ -210,8 +210,8 @@
     <prerequisites>
       <li>Botania_Terrasteel</li>
     </prerequisites>
-    <researchViewX>7.0</researchViewX>
-    <researchViewY>3.0</researchViewY>
+    <researchViewX>7.00</researchViewX>
+    <researchViewY>3.00</researchViewY>
     <!-- 科技蓝图等盖亚 Boss（v0.8）落地时再加 techprintCount。
          1.7 的校验规则：一旦写了 techprintCount，就必须同时给 heldByFactionCategoryTags，
          否则会报 "Config error: requires techprints but has no heldByFactionCategoryTags"。 -->
