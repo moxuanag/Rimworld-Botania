@@ -85,19 +85,29 @@
       </li>
     </tools>
     <weaponTags Inherit="False" />
-    <!-- Inherit="False"：父模板 BaseHumanMakeableGun 已经带了 CompEquippable，
-         这里整段替换，保证武器身上只有一个装备组件（多一个会干扰开火）。
-         装备 Gizmo 的引擎出口就是 CompEquippable.CompGetEquippedGizmosExtra()，
-         所以魔力条由我们的子类提供，位置就在征召按钮旁边。 -->
-    <!-- 继承父模板的组件（Forbiddable / CompEquippable / Styleable / CompArt / CompQuality 都在里面）。
-         以前写成 Inherit="False" 全量替换，结果把 Styleable 弄丢，报
-         "IdeoRelic ... missing CompStyleable"，还把 CompArt 和 CompQuality 一起丢了。
-         现在只追加自己需要的「装备专属」组件；CompProperties_Equippable_Wand
-         本身继承 CompProperties，所以写不写 Class 都会去读 compClass。 -->
-    <comps>
-      <li>
-        <compClass>Botania.CompEquippable_Wand</compClass>
+    <!-- 装备组件必须整段接管（Inherit="False"），原因有两个：
+         1) 父模板 BaseWeapon 自带 CompEquippable，如果只是追加我们的子类，
+            武器身上会存在两个装备组件 —— 引擎只用一个，我们的
+            CompGetEquippedGizmosExtra() 就永不调用，魔力条直接消失；
+            两套 verb 还会互相抢 id（日志里的 "Id already used" 就是这个）。
+         2) 所以这里把父模板链上的组件一个不漏地手写全：
+            BaseWeapon(Forbiddable/CompEquippable/Styleable) +
+            BaseGun(CompArt) + BaseGunWithQuality(CompQuality) +
+            BaseHumanMakeableGun(Biocodable)。
+            漏任何一个都会出配置错误（漏 Styleable 会报 IdeoRelic missing CompStyleable）。 -->
+    <comps Inherit="False">
+      <li Class="Botania.CompProperties_Equippable_Wand" />
+      <li Class="CompProperties_Forbiddable" />
+      <li Class="CompProperties_Styleable" />
+      <li Class="CompProperties_Art">
+        <nameMaker>NamerArtWeaponGun</nameMaker>
+        <descriptionMaker>ArtDescription_WeaponGun</descriptionMaker>
+        <minQualityForArtistic>Excellent</minQualityForArtistic>
       </li>
+      <li>
+        <compClass>CompQuality</compClass>
+      </li>
+      <li Class="CompProperties_Biocodable" />
       <li Class="Botania.CompProperties_ManaWeapon">
         <maxMana>500</maxMana>
         <manaPerShot>50</manaPerShot>
