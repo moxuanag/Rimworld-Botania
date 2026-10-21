@@ -20,7 +20,14 @@ namespace Botania
         /// <summary>「就地转化」的搜索半径。</summary>
         public float convertRadius = 1.5f;
 
-        /// <summary>每转化一个物品消耗的魔力。</summary>
+        /// <summary>
+        /// 每一堆输入一次转化多少个（受堆叠数限制）。
+        /// 单独放在这里而不是共用 rule.count，是因为白雏菊一次只转 1 个，
+        /// 两者不应该互相牵制。
+        /// </summary>
+        public int convertBatchSize = 10;
+
+        /// <summary>每转化出一个物品消耗的魔力。</summary>
         public float manaPerConvert = 20f;
 
         /// <summary>一次最多转化几堆。</summary>
@@ -114,7 +121,8 @@ namespace Botania
             {
                 defaultLabel = "Botania.WandConvertLabel".Translate(),
                 defaultDesc = "Botania.WandConvertDesc".Translate(Props.manaPerConvert.ToString("F0"),
-                    Props.convertRadius.ToString("F0")),
+                    Props.convertRadius.ToString("F0"),
+                    Props.convertBatchSize.ToString()),
                 icon = ContentFinder<Texture2D>.Get("UI/Icons/Botania/Transfer"),
                 action = () => TryConvertAt(AnchorPos, AnchorMap)
             };
@@ -162,9 +170,29 @@ namespace Botania
                     continue;
                 }
                 plant.Growth = Mathf.Min(1f, plant.Growth + Props.bloomGrowth);
+                RefreshPlantGraphic(plant, map);
             }
             Messages.Message("Botania.WandBloomed".Translate(targets.Count.ToString()), MessageTypeDefOf.PositiveEvent, false);
             return true;
+        }
+
+        /// <summary>
+        /// 植物贴图按成长阶段取自不同的 Graphic（幼苗期用 immatureGraphic）。
+        /// 这一版引擎里改 Growth 不会自动重刷地图网格，于是出现
+        /// 「成熟度已经 100% 了，画面还是刚种下去的样子」。这里手动标脏该格，
+        /// 并顺手清掉 Graphic 缓存，让重画时按新成熟度取到正确贴图。
+        /// </summary>
+        private static void RefreshPlantGraphic(Plant plant, Map map)
+        {
+            if (plant == null || plant.Destroyed || map == null)
+            {
+                return;
+            }
+            plant.DirtyMapMesh(map);
+            if (plant.Spawned)
+            {
+                map.mapDrawer.MapMeshDirty(plant.Position, MapMeshFlagDefOf.Things);
+            }
         }
 
         /// <summary>把 center 周围的木料/石砖转化掉。返回是否真的做成了一次。</summary>
@@ -175,7 +203,12 @@ namespace Botania
                 return false;
             }
 
+            // 第一遍：只挑目标并算出每一堆实际要转几个，先攒出总产量。
+            // 这样魔力能按"真正产出多少"来扣，不会出现扣了钱却少给货。
             List<Thing> targets = new List<Thing>();
+            List<int> amounts = new List<int>();
+            int totalOut = 0;
+
             foreach (IntVec3 cell in GenRadial.RadialCellsAround(center, Props.convertRadius, true))
             {
                 if (!cell.InBounds(map))
@@ -199,11 +232,18 @@ namespace Botania
                         continue;
                     }
                     ManaConversionRule rule = ManaTransmutation.FindRule(Props.rules, thing.def);
-                    if (rule == null || thing.stackCount < rule.count)
+                    if (rule == null || thing.stackCount < 1)
+                    {
+                        continue;
+                    }
+                    int take = Mathf.Min(Props.convertBatchSize, thing.stackCount);
+                    if (take <= 0)
                     {
                         continue;
                     }
                     targets.Add(thing);
+                    amounts.Add(take);
+                    totalOut += take;
                     if (targets.Count >= Props.maxConvertsPerUse)
                     {
                         break;
@@ -215,18 +255,19 @@ namespace Botania
                 }
             }
 
-            if (targets.Count == 0)
+            if (targets.Count == 0 || totalOut <= 0)
             {
                 Messages.Message("Botania.WandNoInput".Translate(), MessageTypeDefOf.RejectInput, false);
                 return false;
             }
 
-            if (!TryPayMana(center, map, targets.Count * Props.manaPerConvert))
+            // 魔力按产量结算：一个活木/活石 = manaPerConvert 点魔力
+            if (!TryPayMana(center, map, totalOut * Props.manaPerConvert))
             {
                 return false;
             }
 
-            int done = 0;
+            int produced = 0;
             for (int i = 0; i < targets.Count; i++)
             {
                 Thing thing = targets[i];
@@ -235,16 +276,20 @@ namespace Botania
                     continue;
                 }
                 ManaConversionRule rule = ManaTransmutation.FindRule(Props.rules, thing.def);
-                if (ManaTransmutation.TryConvert(thing, rule))
+                if (ManaTransmutation.TryConvert(thing, rule, amounts[i]))
                 {
-                    done++;
+                    produced += amounts[i];
                 }
             }
-            Messages.Message("Botania.WandConverted".Translate(done.ToString()), MessageTypeDefOf.PositiveEvent, false);
-            return done > 0;
+            Messages.Message("Botania.WandConverted".Translate(produced.ToString()), MessageTypeDefOf.PositiveEvent, false);
+            return produced > 0;
         }
 
-        /// <summary>先确认凑得齐，再一次性扣；扣不满就退款，不做半吊子。</summary>
+        /// <summary>
+        /// 先确认凑得齐，再一次性扣；扣不满就退款，不做半吊子。
+        /// 法杖必定带 CompManaWeapon，而它的 TrySpend 内部已经会去附近魔力池借，
+        /// 所以这里只要问它一句就够，不需要另写一套抽源逻辑。
+        /// </summary>
         private bool TryPayMana(IntVec3 center, Map map, float cost)
         {
             if (cost <= 0f)
@@ -252,35 +297,18 @@ namespace Botania
                 return true;
             }
 
-            // 法杖有一套内置储能（500），优先从杖内扣；不够时它会自己去附近魔力网借
             CompManaWeapon storage = parent.GetComp<CompManaWeapon>();
-            if (storage != null)
+            if (storage == null)
             {
-                if (storage.TrySpend(cost))
-                {
-                    return true;
-                }
-                Messages.Message("Botania.WandNoMana".Translate(cost.ToString("F0"),
-                    storage.Mana.ToString("F0")), MessageTypeDefOf.RejectInput, false);
                 return false;
             }
-
-            IManaSource source = ManaSourceUtil.FindNearest(center, map, Props.sourceRadius, cost);
-            if (source == null)
+            if (storage.TrySpend(cost))
             {
-                Messages.Message("Botania.WandNoMana".Translate(cost.ToString("F0"), "0"),
-                    MessageTypeDefOf.RejectInput, false);
-                return false;
+                return true;
             }
-            float drained = source.DrainMana(cost);
-            if (drained < cost - 0.01f)
-            {
-                source.AddMana(drained);
-                Messages.Message("Botania.WandNoMana".Translate(cost.ToString("F0"),
-                    (drained).ToString("F0")), MessageTypeDefOf.RejectInput, false);
-                return false;
-            }
-            return true;
+            Messages.Message("Botania.WandNoMana".Translate(cost.ToString("F0"),
+                storage.Mana.ToString("F0")), MessageTypeDefOf.RejectInput, false);
+            return false;
         }
     }
 }

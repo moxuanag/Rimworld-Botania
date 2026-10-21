@@ -12,26 +12,53 @@
   <Botania.RelayEmpty>中继缓冲为空</Botania.RelayEmpty>
   <Botania.TransmuterWorking>正在转化相邻的材料</Botania.TransmuterWorking>
   <Botania.TransmuterNoMana>材料已就位，但魔力不足</Botania.TransmuterNoMana>
-  <Botania.TransmuterNoInput>相邻没有可转化的木头或石块</Botania.TransmuterNoInput>
+  <Botania.TransmuterNoInput>相邻没有可转化的木头或石砖</Botania.TransmuterNoInput>
   <Botania.TransmuterDisabled>转化已关闭</Botania.TransmuterDisabled>
   <Botania.WandBloomLabel>绽花</Botania.WandBloomLabel>
   <Botania.WandBloomDesc>让半径 {0} 格内的植物立刻长高一截，每株消耗 {1} 魔力。</Botania.WandBloomDesc>
   <Botania.WandConvertLabel>就地转化</Botania.WandConvertLabel>
-  <Botania.WandConvertDesc>把 {1} 格内的原木变成活木、石块变成活石，每个消耗 {0} 魔力。</Botania.WandConvertDesc>
+  <Botania.WandConvertDesc>把 {1} 格内的原木变成活木、石砖变成活石。每堆一次转化 {2} 个，每个消耗 {0} 点魔力。</Botania.WandConvertDesc>
   <Botania.WandNoPlants>附近没有需要催长的植物</Botania.WandNoPlants>
-  <Botania.WandNoInput>脚边没有可转化的木头或石块</Botania.WandNoInput>
+  <Botania.WandNoInput>脚边没有可转化的木头或石砖</Botania.WandNoInput>
   <Botania.WandNoMana>附近魔力不足：需要 {0}，可用 {1}</Botania.WandNoMana>
   <Botania.WandBloomed>绽花：{0} 株植物被催长</Botania.WandBloomed>
-  <Botania.WandConverted>就地转化：{0} 堆材料变成活性材料</Botania.WandConverted>
+  <Botania.WandConverted>就地转化：得到 {0} 个活性材料</Botania.WandConverted>
   <Botania.WandMana>杖内魔力：{0} / {1}</Botania.WandMana>
   <Botania.WandChargeLabel>从魔力池充能</Botania.WandChargeLabel>
-  <Botania.WandChargeDesc>把附近魔力池或中继塔里的魔力装进杖内，最多 {0} 点。</Botania.WandChargeDesc>
+  <Botania.WandChargeDesc>把 6 格内最近一座魔力池或中继塔里的魔力装进杖内，最多 {0} 点。拿着一把空杖站在池边点这个就能装满。</Botania.WandChargeDesc>
   <Botania.WandCharged>充能完成：{0} / {1}</Botania.WandCharged>
   <Botania.WandNoSource>附近没有可用的魔力池或中继塔</Botania.WandNoSource>
   <Botania.WandOutOfMana>魔力不足，打不出这一发：需要 {0}，杖内只有 {1}</Botania.WandOutOfMana>
-  <Botania.WandManaHediff>魔力储备 {0} / {1}</Botania.WandManaHediff>
-  <Botania.WandManaHediffTip>手里森林法杖剩余的魔力。每发魔力弹消耗 50，绽花/就地转化按株数和堆数扣。</Botania.WandManaHediffTip>
-  <Botania.PassiveDormant>休眠中：还没到它的时辰</Botania.PassiveDormant>
-  <Botania.PassiveLifespan>将在 {0} 天后枯萎</Botania.PassiveLifespan>
 
+
+  <Botania.ManaReadoutLabel>魔力储备</Botania.ManaReadoutLabel>
+  <Botania.ManaReadoutTip>杖内魔力，约还能打 {0} 发魔力弹。法术按株数/堆数另算。</Botania.ManaReadoutTip>
+  <Botania.SpellOutOfRange>目标超出施法范围（{0} 格）</Botania.SpellOutOfRange>
+
+  <Botania.RepairerWorking>正在修复半径 {0} 格内的目标：每周期最多 {1} 个，每个 +{2} 耐久，{3} 魔力/点耐久</Botania.RepairerWorking>
+  <Botania.RepairerLast>上一周期：修了 {0} 点耐久（{1} 个目标，耗魔 {2}）</Botania.RepairerLast>
+  <Botania.RepairerLimitUnlimited>不限</Botania.RepairerLimitUnlimited>
+  <Botania.RepairerOff>修复已关闭</Botania.RepairerOff>
+  <Botania.RepairerToggle>修复开关</Botania.RepairerToggle>
+  <Botania.RepairerToggleDesc>关掉之后不再消耗魔力，也不再修复任何东西。</Botania.RepairerToggleDesc>
+  <Botania.SettingsLimitTargetsDesc>开启后，每座修复器每秒只照顾一定数量的目标；关掉则范围内所有破损的东西一起修，耗魔按数量成比例增加。</Botania.SettingsLimitTargetsDesc>
+  <Botania.SettingsUnlimited>当前：不限数量（范围内全部修复）</Botania.SettingsUnlimited>
+  <Botania.SettingsRepairCost>修复耗魔 = 魔力价 × 每点耐久 × 目标数量，例如 10 面墙 × 5 点 × 5 魔力 = 250。</Botania.SettingsRepairCost>
+
+  <Botania.SettingsStructureHeader>【建筑恢复器】</Botania.SettingsStructureHeader>
+  <Botania.SettingsItemHeader>【装备修复器】</Botania.SettingsItemHeader>
+  <Botania.SettingsLimitItemTargets>限制每次修复的装备数量</Botania.SettingsLimitItemTargets>
+  <Botania.SettingsMaxItemTargets>每次修复的装备上限：{0}</Botania.SettingsMaxItemTargets>
+
+  <Botania.SettingsLimitStructureTargets>限制每次修复的建筑数量</Botania.SettingsLimitStructureTargets>
+  <Botania.SettingsMaxStructureTargets>每次修复的建筑上限：{0}</Botania.SettingsMaxStructureTargets>
+  <Botania.BoltOutOfRange>超出射程（{0} 格），打不到那里。</Botania.BoltOutOfRange>
+  <Botania.WandAlreadyFull>法杖已经是满的。</Botania.WandAlreadyFull>
+
+  <Botania.FlowerWithered>{0} 枯萎了</Botania.FlowerWithered>
+  <Botania.PassiveFlowerNoPool>附近没有魔力池</Botania.PassiveFlowerNoPool>
+  <Botania.PassiveFlowerWaitingDay>等到白天开始产魔</Botania.PassiveFlowerWaitingDay>
+  <Botania.PassiveFlowerWaitingNight>等到夜里开始产魔</Botania.PassiveFlowerWaitingNight>
+  <Botania.PassiveFlowerWorking>正在产魔</Botania.PassiveFlowerWorking>
+  <Botania.PassiveFlowerWithers>还剩 {0} 天枯萎</Botania.PassiveFlowerWithers>
 </LanguageData>

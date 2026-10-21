@@ -56,14 +56,44 @@ namespace Botania
 
         private int ticksAccum;
 
+        /// <summary>是否已经给过初始魔力。老存档里的法杖魔力是 0，读档时补满一次。</summary>
+        private bool initialized;
+
         public CompProperties_ManaWeapon Props => (CompProperties_ManaWeapon)props;
 
-        public float Mana => mana;
+        public float Mana
+        {
+            get
+            {
+                EnsureInitialized();
+                return mana;
+            }
+        }
 
         public float MaxMana => Props.maxMana;
 
+        /// <summary>
+        /// 刚造出来就是满的，不然小人拿到手里就是一根空杖（被拿着不会自充）。
+        /// ThingComp 没有 PostMake 可重写，所以用「读到时懒初始化」：
+        /// 新建的杖 initialized 为 false、mana 为 0，第一次读取就补满。
+        /// 读旧档也一样走这条路，老存档里那些 0 魔力的杖会自动补满一次。
+        /// </summary>
+        private void EnsureInitialized()
+        {
+            if (initialized)
+            {
+                return;
+            }
+            initialized = true;
+            if (mana <= 0.01f)
+            {
+                mana = Props.maxMana;
+            }
+        }
+
         public override void CompTick()
         {
+            EnsureInitialized();
             // 只有当法杖躺在魔力池旁边（而不是被拿着）时才慢慢吸魔
             if (!parent.Spawned)
             {
@@ -152,9 +182,18 @@ namespace Botania
             {
                 yield return gizmo;
             }
-            yield return new Command_Action
+            // 法杖躺在地上被选中时的「充能」按钮（拿在小人手里时由 CompEquippable_Wand 提供）
+            yield return MakeChargeGizmo();
+        }
+
+        /// <summary>
+        /// 「从魔力池充能」按钮。放在这里是为了让「地上的法杖」和
+        /// 「小人手里的法杖」共用同一个按钮与同一套提示。
+        /// </summary>
+        public Gizmo MakeChargeGizmo()
+        {
+            return new Command_Action
             {
-                // 按钮上直接带存量，被拿着的时候也能一眼看到还剩几发
                 defaultLabel = "Botania.WandChargeLabel".Translate()
                     + " (" + mana.ToString("F0") + "/" + Props.maxMana.ToString("F0") + ")",
                 defaultDesc = "Botania.WandChargeDesc".Translate(Props.maxMana.ToString("F0")),
@@ -163,8 +202,15 @@ namespace Botania
             };
         }
 
-        private void Charge()
+        /// <summary>从半径内最近的魔力池/中继塔抽满，返回实际抽到的量。</summary>
+        public void Charge()
         {
+            if (mana >= Props.maxMana - 0.01f)
+            {
+                Messages.Message("Botania.WandAlreadyFull".Translate(),
+                    MessageTypeDefOf.RejectInput, false);
+                return;
+            }
             float got = PullFromSource(Props.maxMana - mana);
             if (got <= 0.01f)
             {
@@ -180,66 +226,10 @@ namespace Botania
         {
             base.PostExposeData();
             Scribe_Values.Look(ref mana, "mana", 0f);
-        }
-
-        // ── 装备/卸下时维护小人身上的「魔力储备」hediff ──
-
-        private static HediffDef WandManaHediffDef => DefDatabase<HediffDef>.GetNamedSilentFail("Botania_WandMana");
-
-        public override void Notify_Equipped(Pawn pawn)
-        {
-            base.Notify_Equipped(pawn);
-            SyncHediff(pawn);
-        }
-
-        public override void Notify_Unequipped(Pawn pawn)
-        {
-            base.Notify_Unequipped(pawn);
-            if (pawn == null || pawn.health == null)
+            Scribe_Values.Look(ref initialized, "manaInitialized", false);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
-                return;
-            }
-            HediffDef hediffDef = WandManaHediffDef;
-            if (hediffDef == null)
-            {
-                return;
-            }
-            Hediff existing = pawn.health.hediffSet.GetFirstHediffOfDef(hediffDef);
-            // 只有这一把法杖还在身上时才移除，换成另一把法杖就不动
-            if (existing != null && FindWeaponOn(pawn) == null)
-            {
-                pawn.health.RemoveHediff(existing);
-            }
-        }
-
-        private static CompManaWeapon FindWeaponOn(Pawn pawn)
-        {
-            if (pawn == null || pawn.equipment == null || pawn.equipment.Primary == null)
-            {
-                return null;
-            }
-            return pawn.equipment.Primary.GetComp<CompManaWeapon>();
-        }
-
-        private static void SyncHediff(Pawn pawn)
-        {
-            if (pawn == null || pawn.health == null)
-            {
-                return;
-            }
-            HediffDef hediffDef = WandManaHediffDef;
-            if (hediffDef == null)
-            {
-                return;
-            }
-            Hediff existing = pawn.health.hediffSet.GetFirstHediffOfDef(hediffDef);
-            if (existing == null)
-            {
-                Hediff added = pawn.health.AddHediff(hediffDef);
-                if (added != null)
-                {
-                    added.Severity = 0.01f;
-                }
+                EnsureInitialized();
             }
         }
     }

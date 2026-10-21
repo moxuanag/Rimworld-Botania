@@ -1,46 +1,46 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
 
-  <Botania_Flowers.label>植物魔法：神秘花卉</Botania_Flowers.label>
+  <Botania_Flowers.label>神秘花卉</Botania_Flowers.label>
   <Botania_Flowers.description>边缘世界的荒野里生长着神秘花。学会分辨哪些花带着魔力、以及如何把它们种回来，是每一座植物魔法殖民地的起点。</Botania_Flowers.description>
 
-  <Botania_BasicMana.label>植物魔法：魔力</Botania_BasicMana.label>
+  <Botania_BasicMana.label>魔力</Botania_BasicMana.label>
   <Botania_BasicMana.description>研究某些花朵如何把能量储存在花瓣之中。研磨花瓣可以提炼出魔力尘：它能熔进钢铁、缚入木材，也能储存在一池流动的光里。</Botania_BasicMana.description>
 
-  <Botania_GeneratingI.label>植物魔法：产能花</Botania_GeneratingI.label>
+  <Botania_GeneratingI.label>产能花</Botania_GeneratingI.label>
   <Botania_GeneratingI.description>会自己产魔的花。火红莲烧燃料；太阳花与夜颠茄只是喝着日光与黑暗，季节一到就会枯萎。</Botania_GeneratingI.description>
 
-  <Botania_Garden.label>植物魔法：花圃工艺</Botania_Garden.label>
+  <Botania_Garden.label>花圃工艺</Botania_Garden.label>
   <Botania_Garden.description>占位：批量制花的花瓣祭坛。内容将在后续版本接入。</Botania_Garden.description>
 
-  <Botania_FunctionalI.label>植物魔法：功能花</Botania_FunctionalI.label>
+  <Botania_FunctionalI.label>功能花</Botania_FunctionalI.label>
   <Botania_FunctionalI.description>占位：替殖民地干活的花——催熟、拾取与荆棘。内容将在后续版本接入。</Botania_FunctionalI.description>
 
-  <Botania_Manasteel.label>植物魔法：魔力钢</Botania_Manasteel.label>
-  <Botania_Manasteel.description>占位：魔力钢锭与第一批真正的装备。内容将在后续版本接入。</Botania_Manasteel.description>
+  <Botania_Manasteel.label>魔力钢</Botania_Manasteel.label>
+  <Botania_Manasteel.description>把魔力尘熔进钢铁得到魔力钢，再用它造出殖民地第一批真正的魔力结构：储存魔力的池子、把魔力送往远处的通量场中继，以及把魔力换回普通电力的通量场。</Botania_Manasteel.description>
 
-  <Botania_Mending.label>植物魔法：魔力修补</Botania_Mending.label>
+  <Botania_Mending.label>魔力修补</Botania_Mending.label>
   <Botania_Mending.description>占位：用魔力修装备的修补台，以及缓慢修补墙体与家具的修补塔。内容将在后续版本接入。</Botania_Mending.description>
 
-  <Botania_Infusion.label>植物魔法：魔力灌注</Botania_Infusion.label>
+  <Botania_Infusion.label>魔力灌注</Botania_Infusion.label>
   <Botania_Infusion.description>占位：用魔力替代电力制造高阶物品的灌注台。内容将在后续版本接入。</Botania_Infusion.description>
 
-  <Botania_ManaGrid.label>植物魔法：魔力网络</Botania_ManaGrid.label>
+  <Botania_ManaGrid.label>魔力网络</Botania_ManaGrid.label>
   <Botania_ManaGrid.description>占位：更远的中继、更大的池子、更高效的通量场。内容将在后续版本接入。</Botania_ManaGrid.description>
 
-  <Botania_WandForms.label>植物魔法：法杖改型</Botania_WandForms.label>
+  <Botania_WandForms.label>法杖改型</Botania_WandForms.label>
   <Botania_WandForms.description>占位：穿透型与散射型两种法杖，以及更低的单发耗魔。内容将在后续版本接入。</Botania_WandForms.description>
 
-  <Botania_Alfheim.label>植物魔法：精灵之门</Botania_Alfheim.label>
+  <Botania_Alfheim.label>精灵之门</Botania_Alfheim.label>
   <Botania_Alfheim.description>占位：用魔力换取精灵材料的传送门。内容将在后续版本接入。</Botania_Alfheim.description>
 
-  <Botania_Elementium.label>植物魔法：元素装备</Botania_Elementium.label>
+  <Botania_Elementium.label>元素装备</Botania_Elementium.label>
   <Botania_Elementium.description>占位：元素武器与护甲。内容将在后续版本接入。</Botania_Elementium.description>
 
-  <Botania_Terrasteel.label>植物魔法：泰拉钢</Botania_Terrasteel.label>
+  <Botania_Terrasteel.label>泰拉钢</Botania_Terrasteel.label>
   <Botania_Terrasteel.description>占位：泰拉凝聚台、泰拉钢与盖亚仪式。内容将在后续版本接入。</Botania_Terrasteel.description>
 
-  <Botania_Gaia.label>植物魔法：盖亚</Botania_Gaia.label>
+  <Botania_Gaia.label>盖亚</Botania_Gaia.label>
   <Botania_Gaia.description>占位：只能靠盖亚之魂的科技蓝图解锁，光堆研究点不行。内容将在后续版本接入。</Botania_Gaia.description>
 
 </LanguageData>

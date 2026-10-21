@@ -70,39 +70,9 @@
           <canTargetLocations>true</canTargetLocations>
         </targetParams>
       </li>
-      <!-- 两个法术：做成 verb 才能作为按钮出现在小人身上（装备 Comp 的按钮这一版不显示） -->
-      <li>
-        <verbClass>Botania.Verb_WandBloom</verbClass>
-        <label>绽花</label>
-        <hasStandardCommand>true</hasStandardCommand>
-        <onlyManualCast>true</onlyManualCast>
-        <violent>false</violent>
-        <warmupTime>0.5</warmupTime>
-        <range>6</range>
-        <requireLineOfSight>false</requireLineOfSight>
-        <soundCast>Growing</soundCast>
-        <targetParams>
-          <canTargetLocations>true</canTargetLocations>
-          <canTargetPawns>false</canTargetPawns>
-          <canTargetBuildings>false</canTargetBuildings>
-        </targetParams>
-      </li>
-      <li>
-        <verbClass>Botania.Verb_WandConvert</verbClass>
-        <label>就地转化</label>
-        <hasStandardCommand>true</hasStandardCommand>
-        <onlyManualCast>true</onlyManualCast>
-        <violent>false</violent>
-        <warmupTime>0.5</warmupTime>
-        <range>6</range>
-        <requireLineOfSight>false</requireLineOfSight>
-        <soundCast>Growing</soundCast>
-        <targetParams>
-          <canTargetLocations>true</canTargetLocations>
-          <canTargetPawns>false</canTargetPawns>
-          <canTargetBuildings>false</canTargetBuildings>
-        </targetParams>
-      </li>
+      <!-- 两个法术不再做成 verb：改走原版灵能技能（AbilityDef），
+           装备上的 verb 按钮在这一版引擎里不会显示到小人身上。
+           见 Defs/AbilityDefs/Abilities_Botania.xml。 -->
     </verbs>
     <tools>
       <li>
@@ -115,7 +85,29 @@
       </li>
     </tools>
     <weaponTags Inherit="False" />
-    <comps>
+    <!-- 装备组件必须整段接管（Inherit="False"），原因有两个：
+         1) 父模板 BaseWeapon 自带 CompEquippable，如果只是追加我们的子类，
+            武器身上会存在两个装备组件 —— 引擎只用一个，我们的
+            CompGetEquippedGizmosExtra() 就永不调用，魔力条直接消失；
+            两套 verb 还会互相抢 id（日志里的 "Id already used" 就是这个）。
+         2) 所以这里把父模板链上的组件一个不漏地手写全：
+            BaseWeapon(Forbiddable/CompEquippable/Styleable) +
+            BaseGun(CompArt) + BaseGunWithQuality(CompQuality) +
+            BaseHumanMakeableGun(Biocodable)。
+            漏任何一个都会出配置错误（漏 Styleable 会报 IdeoRelic missing CompStyleable）。 -->
+    <comps Inherit="False">
+      <li Class="Botania.CompProperties_Equippable_Wand" />
+      <li Class="CompProperties_Forbiddable" />
+      <li Class="CompProperties_Styleable" />
+      <li Class="CompProperties_Art">
+        <nameMaker>NamerArtWeaponGun</nameMaker>
+        <descriptionMaker>ArtDescription_WeaponGun</descriptionMaker>
+        <minQualityForArtistic>Excellent</minQualityForArtistic>
+      </li>
+      <li>
+        <compClass>CompQuality</compClass>
+      </li>
+      <li Class="CompProperties_Biocodable" />
       <li Class="Botania.CompProperties_ManaWeapon">
         <maxMana>500</maxMana>
         <manaPerShot>50</manaPerShot>
@@ -128,6 +120,7 @@
         <bloomGrowth>0.25</bloomGrowth>
         <manaPerPlant>20</manaPerPlant>
         <convertRadius>1.5</convertRadius>
+        <convertBatchSize>10</convertBatchSize>
         <manaPerConvert>20</manaPerConvert>
         <maxConvertsPerUse>9</maxConvertsPerUse>
         <sourceRadius>8</sourceRadius>
@@ -151,6 +144,7 @@
   <ThingDef ParentName="BaseBullet">
     <defName>Botania_ManaBolt</defName>
     <label>mana bolt</label>
+    <description>A strand of condensed mana, fired from the wand of the forest.</description>
     <graphicData>
       <texPath>Things/Projectile/Botania/ManaBolt</texPath>
       <graphicClass>Graphic_Single</graphicClass>

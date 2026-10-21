@@ -41,11 +41,23 @@ namespace Botania
         /// </summary>
         public static bool TryConvert(Thing input, ManaConversionRule rule)
         {
+            if (rule == null)
+            {
+                return false;
+            }
+            return TryConvert(input, rule, rule.count);
+        }
+
+        /// <summary>
+        /// 按指定数量转化（不超过堆叠数）。返回是否真的转化了。
+        /// </summary>
+        public static bool TryConvert(Thing input, ManaConversionRule rule, int wanted)
+        {
             if (input == null || rule == null || rule.toDef == null || input.Map == null)
             {
                 return false;
             }
-            int count = Math.Min(rule.count, input.stackCount);
+            int count = Math.Min(wanted, input.stackCount);
             if (count <= 0)
             {
                 return false;

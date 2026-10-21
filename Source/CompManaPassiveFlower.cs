@@ -5,12 +5,18 @@ using Verse;
 namespace Botania
 {
     /// <summary>
-    /// 被动产能花（太阳花 / 夜颠茄）：不需要燃料，只在白天或夜间缓慢产出魔力。
-    /// 与火红莲的区别是「零输入」——代价是有枯萎周期，到点自己消失。
+    /// 被动产能花：太阳花（白天）与夜颠茄（夜间）。
+    ///
+    /// 与火红莲的区别：不烧任何燃料，纯粹按时间产魔；代价是有寿命，
+    /// 到期自己枯萎消失（设定上"只能撑一季"）。
+    ///
+    /// 判定白天用的是地图当前天空光强 map.skyManager.CurSkyGlow
+    /// （0 = 全黑，1 = 正午），比算小时更贴合实际照明，
+    /// 日食、火山灰这类异常天气也会自动跟着变暗。
     /// </summary>
     public class CompProperties_ManaPassiveFlower : CompProperties
     {
-        /// <summary>每秒产出的魔力量（一个 RimWorld 秒 = 60 tick）。</summary>
+        /// <summary>每秒产出的魔力。</summary>
         public float manaPerSecond = 8f;
 
         /// <summary>搜索魔力池的半径（格）。</summary>
@@ -20,9 +26,9 @@ namespace Botania
         public bool dayOnly = true;
 
         /// <summary>只在夜间工作。</summary>
-        public bool nightOnly;
+        public bool nightOnly = false;
 
-        /// <summary>枯萎周期（天）。0 表示永不枯萎。</summary>
+        /// <summary>存活天数，到点枯萎；小于等于 0 表示不枯萎。</summary>
         public float witherDays = 15f;
 
         public CompProperties_ManaPassiveFlower()
@@ -36,10 +42,6 @@ namespace Botania
             {
                 yield return error;
             }
-            if (dayOnly && nightOnly)
-            {
-                yield return "dayOnly and nightOnly cannot both be true.";
-            }
             if (manaPerSecond <= 0f)
             {
                 yield return "manaPerSecond must be greater than 0.";
@@ -48,9 +50,13 @@ namespace Botania
             {
                 yield return "radius must not be negative.";
             }
-            if (witherDays < 0f)
+            if (dayOnly && nightOnly)
             {
-                yield return "witherDays must not be negative.";
+                yield return "dayOnly and nightOnly cannot both be true.";
+            }
+            if (parentDef != null && !typeof(ThingWithComps).IsAssignableFrom(parentDef.thingClass))
+            {
+                yield return "parentDef.thingClass must derive from ThingWithComps.";
             }
         }
     }
@@ -60,33 +66,35 @@ namespace Botania
         /// <summary>每满这么多 tick 结算一次（60 tick = 1 秒）。</summary>
         private const int TicksPerSettle = 60;
 
+        /// <summary>一个游戏日的 tick 数。</summary>
+        private const int TicksPerDay = 60000;
+
+        /// <summary>天空光强高于这个值算白天。</summary>
+        private const float DayGlowThreshold = 0.5f;
+
         private int ticksAccum;
 
-        /// <summary>已经存活的 tick 数，用于枯萎判定与存档。</summary>
-        private long ageTicks;
+        /// <summary>已经活了多久；随存档保存。</summary>
+        private int ageTicks;
 
         public CompProperties_ManaPassiveFlower Props => (CompProperties_ManaPassiveFlower)props;
 
-        /// <summary>当前时辰是否属于它的工作时段。日出 25%、日落 75%。</summary>
-        private bool IsActiveNow
+        /// <summary>距离枯萎还剩多少天；不枯萎时返回 -1。</summary>
+        public float DaysLeft
         {
             get
             {
-                if (parent.Map == null)
+                if (Props.witherDays <= 0f)
                 {
-                    return false;
+                    return -1f;
                 }
-                float dayPercent = GenLocalDate.DayPercent(parent.Map);
-                bool isDay = dayPercent > 0.25f && dayPercent < 0.75f;
-                if (Props.dayOnly)
+                int total = (int)(Props.witherDays * TicksPerDay);
+                int left = total - ageTicks;
+                if (left <= 0)
                 {
-                    return isDay;
+                    return 0f;
                 }
-                if (Props.nightOnly)
-                {
-                    return !isDay;
-                }
-                return true;
+                return left / (float)TicksPerDay;
             }
         }
 
@@ -99,9 +107,9 @@ namespace Botania
             }
 
             ageTicks++;
-            if (Props.witherDays > 0f && ageTicks >= (long)(Props.witherDays * GenDate.TicksPerDay))
+            if (Props.witherDays > 0f && ageTicks >= Props.witherDays * TicksPerDay)
             {
-                parent.Destroy(DestroyMode.Vanish);
+                Wither();
                 return;
             }
 
@@ -111,8 +119,25 @@ namespace Botania
                 return;
             }
             ticksAccum = 0;
+            Settle(TicksPerSettle);
+        }
 
-            if (!IsActiveNow)
+        /// <summary>结算这一次的魔力产出。</summary>
+        private void Settle(int ticks)
+        {
+            Map map = parent.Map;
+            if (map == null)
+            {
+                return;
+            }
+            if (!IsActiveTime(map))
+            {
+                return;
+            }
+
+            float seconds = ticks / (float)GenTicks.TicksPerRealSecond;
+            float mana = Props.manaPerSecond * seconds;
+            if (mana <= 0f)
             {
                 return;
             }
@@ -120,12 +145,29 @@ namespace Botania
             CompManaStorage pool = FindPool();
             if (pool == null)
             {
+                // 附近没有池子就什么都不会发生：不烧燃料的花没有损耗，
+                // 只是空转而已，玩家把池子放过来就会自动开始工作。
                 return;
             }
-            pool.AddMana(Props.manaPerSecond);
+            pool.AddMana(mana);
         }
 
-        /// <summary>找出半径内最近且还有容量的魔力池。</summary>
+        /// <summary>当前时段是否该工作。</summary>
+        private bool IsActiveTime(Map map)
+        {
+            if (!Props.dayOnly && !Props.nightOnly)
+            {
+                return true;
+            }
+            bool isDay = map.skyManager != null && map.skyManager.CurSkyGlow > DayGlowThreshold;
+            if (Props.dayOnly)
+            {
+                return isDay;
+            }
+            return !isDay;
+        }
+
+        /// <summary>找出半径内最近且有剩余容量的魔力池。</summary>
         private CompManaStorage FindPool()
         {
             Map map = parent.Map;
@@ -144,6 +186,21 @@ namespace Botania
             return null;
         }
 
+        /// <summary>枯萎：静默消失，并在附近留一条提示（只对玩家可见的地方）。</summary>
+        private void Wither()
+        {
+            if (parent.Destroyed)
+            {
+                return;
+            }
+            if (parent.Faction == Faction.OfPlayerSilentFail)
+            {
+                Messages.Message("Botania.FlowerWithered".Translate(parent.def.label),
+                    parent, MessageTypeDefOf.SilentInput, false);
+            }
+            parent.Destroy(DestroyMode.Vanish);
+        }
+
         public override string CompInspectStringExtra()
         {
             if (parent.Map == null)
@@ -152,27 +209,25 @@ namespace Botania
             }
 
             string state;
-            if (!IsActiveNow)
+            if (FindPool() == null)
             {
-                state = "Botania.PassiveDormant".Translate();
+                state = "Botania.PassiveFlowerNoPool".Translate();
             }
-            else if (FindPool() == null)
+            else if (!IsActiveTime(parent.Map))
             {
-                state = "Botania.FlowerNoPool".Translate();
+                state = Props.dayOnly
+                    ? "Botania.PassiveFlowerWaitingDay".Translate()
+                    : "Botania.PassiveFlowerWaitingNight".Translate();
             }
             else
             {
-                state = "Botania.FlowerWorking".Translate();
+                state = "Botania.PassiveFlowerWorking".Translate();
             }
 
-            if (Props.witherDays > 0f)
+            float daysLeft = DaysLeft;
+            if (daysLeft >= 0f)
             {
-                float daysLeft = Props.witherDays - ageTicks / (float)GenDate.TicksPerDay;
-                if (daysLeft < 0f)
-                {
-                    daysLeft = 0f;
-                }
-                state = state + "\n" + "Botania.PassiveLifespan".Translate(daysLeft.ToString("0.0"));
+                state += "\n" + "Botania.PassiveFlowerWithers".Translate(daysLeft.ToString("F1"));
             }
             return state;
         }
@@ -180,7 +235,8 @@ namespace Botania
         public override void PostExposeData()
         {
             base.PostExposeData();
-            Scribe_Values.Look(ref ageTicks, "ageTicks", 0L);
+            Scribe_Values.Look(ref ageTicks, "ageTicks", 0);
+            Scribe_Values.Look(ref ticksAccum, "ticksAccum", 0);
         }
     }
 }

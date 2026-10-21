@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- 森林法杖的两个法术。结构与原版灵能技能一致
+       （参考 Data/Core/Defs/AbilityDefs/AbilityDefs.xml 的 PsycastBase，
+        以及 Data/Royalty 的 AgonyPulse）：
+       - abilityClass 指向自定义 Ability 子类（原版 Psycast 也是这么做的）；
+       - verbProperties 用原版 Verb_CastAbility，**不自定义 Verb**
+         （自定义 Verb 拿不到 ability 引用，会让 OnGUI 每帧 NRE、UI 全丢）；
+       - 作用半径写在 statBases 的 Ability_EffectRadius，引擎据此在鼠标所在格画圈；
+       - 魔力不在这里扣，费用由法杖的 CompWand 结算。
+       注意：abilityClass 里的类名不能改，存档按类名保存 Ability 实例。 -->
+  <AbilityDef>
+    <defName>Botania_SpellBloom</defName>
+    <label>bloom</label>
+    <description>Pour mana into the plants around the chosen spot and force them to grow. Costs 20 mana per plant.</description>
+    <iconPath>UI/Icons/Botania/Bloom</iconPath>
+    <abilityClass>Botania.Ability_WandBloom</abilityClass>
+    <hotKey>Misc11</hotKey>
+    <cooldownTicksRange>60</cooldownTicksRange>
+    <displayGizmoWhileUndrafted>false</displayGizmoWhileUndrafted>
+    <showOnCharacterCard>false</showOnCharacterCard>
+    <statBases>
+      <!-- 作用半径，与 CompProperties_Wand 的 bloomRadius 保持一致 -->
+      <Ability_EffectRadius>4</Ability_EffectRadius>
+    </statBases>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <range>6</range>
+      <warmupTime>0.5</warmupTime>
+      <requireLineOfSight>false</requireLineOfSight>
+      <soundCast>PsycastPsychicEffect</soundCast>
+      <targetParams>
+        <canTargetLocations>true</canTargetLocations>
+        <canTargetPawns>false</canTargetPawns>
+        <canTargetAnimals>false</canTargetAnimals>
+        <canTargetBuildings>false</canTargetBuildings>
+        <canTargetSelf>false</canTargetSelf>
+      </targetParams>
+    </verbProperties>
+  </AbilityDef>
+
+  <AbilityDef>
+    <defName>Botania_SpellConvert</defName>
+    <label>transmute in place</label>
+    <description>Teach the wood and stone around the chosen spot to live. Costs 20 mana per stack.</description>
+    <iconPath>UI/Icons/Botania/Transfer</iconPath>
+    <abilityClass>Botania.Ability_WandConvert</abilityClass>
+    <hotKey>Misc12</hotKey>
+    <cooldownTicksRange>60</cooldownTicksRange>
+    <displayGizmoWhileUndrafted>false</displayGizmoWhileUndrafted>
+    <showOnCharacterCard>false</showOnCharacterCard>
+    <statBases>
+      <!-- 作用半径，与 CompProperties_Wand 的 convertRadius 保持一致 -->
+      <Ability_EffectRadius>1.5</Ability_EffectRadius>
+    </statBases>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <range>6</range>
+      <warmupTime>0.5</warmupTime>
+      <requireLineOfSight>false</requireLineOfSight>
+      <soundCast>PsycastPsychicEffect</soundCast>
+      <targetParams>
+        <canTargetLocations>true</canTargetLocations>
+        <canTargetAnimals>false</canTargetAnimals>
+        <canTargetPawns>false</canTargetPawns>
+        <canTargetBuildings>false</canTargetBuildings>
+        <canTargetSelf>false</canTargetSelf>
+      </targetParams>
+    </verbProperties>
+  </AbilityDef>
+
+</Defs>

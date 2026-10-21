@@ -12,26 +12,53 @@
   <Botania.RelayEmpty>Relay buffer is empty</Botania.RelayEmpty>
   <Botania.TransmuterWorking>Transforming nearby material</Botania.TransmuterWorking>
   <Botania.TransmuterNoMana>Material ready, but not enough mana</Botania.TransmuterNoMana>
-  <Botania.TransmuterNoInput>No wood or stone nearby to transform</Botania.TransmuterNoInput>
+  <Botania.TransmuterNoInput>No logs or stone blocks nearby to transform</Botania.TransmuterNoInput>
   <Botania.TransmuterDisabled>Transformation disabled</Botania.TransmuterDisabled>
   <Botania.WandBloomLabel>Bloom</Botania.WandBloomLabel>
   <Botania.WandBloomDesc>Instantly advances the growth of all plants within {0} tiles by a step. Costs {1} mana per plant.</Botania.WandBloomDesc>
   <Botania.WandConvertLabel>Transmute</Botania.WandConvertLabel>
-  <Botania.WandConvertDesc>Turns logs within {1} tiles into livingwood and stone blocks into livingrock. Costs {0} mana per stack.</Botania.WandConvertDesc>
+  <Botania.WandConvertDesc>Turns logs within {1} tiles into livingwood and stone blocks into livingrock. Up to {2} per stack, {0} mana each.</Botania.WandConvertDesc>
   <Botania.WandNoPlants>No plants nearby need growth</Botania.WandNoPlants>
-  <Botania.WandNoInput>No wood or stone at your feet to transmute</Botania.WandNoInput>
+  <Botania.WandNoInput>No logs or stone blocks at your feet to transmute</Botania.WandNoInput>
   <Botania.WandNoMana>Not enough mana nearby: need {0}, have {1}</Botania.WandNoMana>
   <Botania.WandBloomed>Bloomed {0} plants</Botania.WandBloomed>
-  <Botania.WandConverted>Transmuted {0} stacks of material</Botania.WandConverted>
+  <Botania.WandConverted>Transmuted into {0} living material</Botania.WandConverted>
   <Botania.WandMana>Wand mana: {0} / {1}</Botania.WandMana>
   <Botania.WandChargeLabel>Charge from mana pool</Botania.WandChargeLabel>
-  <Botania.WandChargeDesc>Draws mana from a nearby mana pool or relay into the wand, up to {0}.</Botania.WandChargeDesc>
+  <Botania.WandChargeDesc>Draws mana from the nearest mana pool or relay within 6 tiles into the wand, up to {0}. Stand by a pool with an empty wand and press this to fill it.</Botania.WandChargeDesc>
   <Botania.WandCharged>Charged: {0} / {1}</Botania.WandCharged>
   <Botania.WandNoSource>No mana pool or relay in range</Botania.WandNoSource>
   <Botania.WandOutOfMana>Not enough mana to fire: need {0}, wand holds {1}</Botania.WandOutOfMana>
-  <Botania.WandManaHediff>Wand mana {0} / {1}</Botania.WandManaHediff>
-  <Botania.WandManaHediffTip>The mana left in the wand of the forest in this person's hands. Each mana bolt costs 50; blooming and transmuting cost per plant or per stack.</Botania.WandManaHediffTip>
-  <Botania.PassiveDormant>Dormant — wrong time of day</Botania.PassiveDormant>
-  <Botania.PassiveLifespan>Withers in {0} days</Botania.PassiveLifespan>
 
+
+  <Botania.ManaReadoutLabel>Wand mana</Botania.ManaReadoutLabel>
+  <Botania.ManaReadoutTip>Mana left in the wand: about {0} more mana bolts. Spells are charged per plant or per stack.</Botania.ManaReadoutTip>
+  <Botania.SpellOutOfRange>Target is beyond casting range ({0} tiles)</Botania.SpellOutOfRange>
+
+  <Botania.RepairerWorking>Mending within {0} tiles: up to {1} targets per cycle, +{2} HP each, {3} mana per HP</Botania.RepairerWorking>
+  <Botania.RepairerLast>Last cycle: mended {0} HP ({1} targets, {2} mana)</Botania.RepairerLast>
+  <Botania.RepairerLimitUnlimited>unlimited</Botania.RepairerLimitUnlimited>
+  <Botania.RepairerOff>Mending is off</Botania.RepairerOff>
+  <Botania.RepairerToggle>Mending toggle</Botania.RepairerToggle>
+  <Botania.RepairerToggleDesc>When off, this building stops drawing mana and stops mending anything.</Botania.RepairerToggleDesc>
+  <Botania.SettingsLimitTargetsDesc>When on, each repairer only tends a limited number of targets per second. When off it mends everything damaged in range, paying mana in proportion to the count.</Botania.SettingsLimitTargetsDesc>
+  <Botania.SettingsUnlimited>Currently: unlimited (mend everything in range)</Botania.SettingsUnlimited>
+  <Botania.SettingsRepairCost>Mana cost = price per HP x HP per target x number of targets. E.g. 10 walls x 5 HP x 5 mana = 250.</Botania.SettingsRepairCost>
+
+  <Botania.SettingsStructureHeader>[Structure repairer]</Botania.SettingsStructureHeader>
+  <Botania.SettingsItemHeader>[Item repairer]</Botania.SettingsItemHeader>
+  <Botania.SettingsLimitItemTargets>Limit items mended per cycle</Botania.SettingsLimitItemTargets>
+  <Botania.SettingsMaxItemTargets>Items per cycle: {0}</Botania.SettingsMaxItemTargets>
+
+  <Botania.SettingsLimitStructureTargets>Limit buildings mended per cycle</Botania.SettingsLimitStructureTargets>
+  <Botania.SettingsMaxStructureTargets>Buildings per cycle: {0}</Botania.SettingsMaxStructureTargets>
+  <Botania.BoltOutOfRange>Out of range ({0} tiles), nothing to hit there.</Botania.BoltOutOfRange>
+  <Botania.WandAlreadyFull>The wand is already full.</Botania.WandAlreadyFull>
+
+  <Botania.FlowerWithered>{0} withered away</Botania.FlowerWithered>
+  <Botania.PassiveFlowerNoPool>No mana pool nearby</Botania.PassiveFlowerNoPool>
+  <Botania.PassiveFlowerWaitingDay>Waiting for daylight</Botania.PassiveFlowerWaitingDay>
+  <Botania.PassiveFlowerWaitingNight>Waiting for nightfall</Botania.PassiveFlowerWaitingNight>
+  <Botania.PassiveFlowerWorking>Producing mana</Botania.PassiveFlowerWorking>
+  <Botania.PassiveFlowerWithers>Withers in {0} days</Botania.PassiveFlowerWithers>
 </LanguageData>

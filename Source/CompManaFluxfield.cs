@@ -54,8 +54,6 @@ namespace Botania
 
         public CompProperties_ManaFluxfield ManaProps => (CompProperties_ManaFluxfield)props;
 
-        public bool HasMana => hasMana;
-
         public override void CompTick()
         {
             base.CompTick();
