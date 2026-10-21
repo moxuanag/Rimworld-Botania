@@ -83,8 +83,6 @@ namespace Botania
             bool hasWand = weapon != null;
 
             SyncAbilities(pawn, hasWand);
-            // 魔力改由装备 Gizmo 的魔力条显示，健康面板里不再挂 hediff
-            CompManaWeapon.RemoveOldHediff(pawn);
         }
 
         private void SyncAbilities(Pawn pawn, bool hasWand)

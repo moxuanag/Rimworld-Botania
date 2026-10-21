@@ -232,41 +232,5 @@ namespace Botania
                 EnsureInitialized();
             }
         }
-
-        // ── 魔力只显示在「征召按钮那一块」的魔力条上，不再往健康面板挂 hediff ──
-
-        public override void Notify_Equipped(Pawn pawn)
-        {
-            base.Notify_Equipped(pawn);
-            RemoveOldHediff(pawn);
-        }
-
-        public override void Notify_Unequipped(Pawn pawn)
-        {
-            base.Notify_Unequipped(pawn);
-            RemoveOldHediff(pawn);
-        }
-
-        /// <summary>
-        /// 0.5.0 早期版本用 hediff 在健康面板里显示魔力，现在改成装备 Gizmo 的魔力条，
-        /// 所以把存档里可能残留的那个 hediff 清掉（只删不加）。
-        /// </summary>
-        public static void RemoveOldHediff(Pawn pawn)
-        {
-            if (pawn == null || pawn.health == null)
-            {
-                return;
-            }
-            HediffDef hediffDef = DefDatabase<HediffDef>.GetNamedSilentFail("Botania_WandMana");
-            if (hediffDef == null)
-            {
-                return;
-            }
-            Hediff existing = pawn.health.hediffSet.GetFirstHediffOfDef(hediffDef);
-            if (existing != null)
-            {
-                pawn.health.RemoveHediff(existing);
-            }
-        }
     }
 }

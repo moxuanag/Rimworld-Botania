@@ -285,7 +285,11 @@ namespace Botania
             return produced > 0;
         }
 
-        /// <summary>先确认凑得齐，再一次性扣；扣不满就退款，不做半吊子。</summary>
+        /// <summary>
+        /// 先确认凑得齐，再一次性扣；扣不满就退款，不做半吊子。
+        /// 法杖必定带 CompManaWeapon，而它的 TrySpend 内部已经会去附近魔力池借，
+        /// 所以这里只要问它一句就够，不需要另写一套抽源逻辑。
+        /// </summary>
         private bool TryPayMana(IntVec3 center, Map map, float cost)
         {
             if (cost <= 0f)
@@ -293,35 +297,18 @@ namespace Botania
                 return true;
             }
 
-            // 法杖有一套内置储能（500），优先从杖内扣；不够时它会自己去附近魔力网借
             CompManaWeapon storage = parent.GetComp<CompManaWeapon>();
-            if (storage != null)
+            if (storage == null)
             {
-                if (storage.TrySpend(cost))
-                {
-                    return true;
-                }
-                Messages.Message("Botania.WandNoMana".Translate(cost.ToString("F0"),
-                    storage.Mana.ToString("F0")), MessageTypeDefOf.RejectInput, false);
                 return false;
             }
-
-            IManaSource source = ManaSourceUtil.FindNearest(center, map, Props.sourceRadius, cost);
-            if (source == null)
+            if (storage.TrySpend(cost))
             {
-                Messages.Message("Botania.WandNoMana".Translate(cost.ToString("F0"), "0"),
-                    MessageTypeDefOf.RejectInput, false);
-                return false;
+                return true;
             }
-            float drained = source.DrainMana(cost);
-            if (drained < cost - 0.01f)
-            {
-                source.AddMana(drained);
-                Messages.Message("Botania.WandNoMana".Translate(cost.ToString("F0"),
-                    (drained).ToString("F0")), MessageTypeDefOf.RejectInput, false);
-                return false;
-            }
-            return true;
+            Messages.Message("Botania.WandNoMana".Translate(cost.ToString("F0"),
+                storage.Mana.ToString("F0")), MessageTypeDefOf.RejectInput, false);
+            return false;
         }
     }
 }
