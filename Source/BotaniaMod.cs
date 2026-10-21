@@ -50,11 +50,11 @@ namespace Botania
             list.Begin(inRect);
 
             list.Label("Botania.SettingsStructureHeader".Translate());
-            list.CheckboxLabeled("Botania.SettingsLimitTargets".Translate(), ref s.limitStructureTargets,
+            list.CheckboxLabeled("Botania.SettingsLimitStructureTargets".Translate(), ref s.limitStructureTargets,
                 "Botania.SettingsLimitTargetsDesc".Translate());
             if (s.limitStructureTargets)
             {
-                list.Label("Botania.SettingsMaxTargets".Translate(s.maxStructureTargets));
+                list.Label("Botania.SettingsMaxStructureTargets".Translate(s.maxStructureTargets));
                 s.maxStructureTargets = Mathf.RoundToInt(list.Slider(s.maxStructureTargets, 1f, 50f));
             }
             else
@@ -66,8 +66,7 @@ namespace Botania
 
             list.Label("Botania.SettingsItemHeader".Translate());
             list.CheckboxLabeled("Botania.SettingsLimitItemTargets".Translate(), ref s.limitItemTargets,
-                "Botania.SettingsLimitTargetsDesc".Translate());
-            if (s.limitItemTargets)
+                "Botania.SettingsLimitTargetsDesc".Translate());            if (s.limitItemTargets)
             {
                 list.Label("Botania.SettingsMaxItemTargets".Translate(s.maxItemTargets));
                 s.maxItemTargets = Mathf.RoundToInt(list.Slider(s.maxItemTargets, 1f, 50f));

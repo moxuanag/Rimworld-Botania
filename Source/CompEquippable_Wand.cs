@@ -7,9 +7,18 @@ namespace Botania
 {
     /// <summary>
     /// 武器侧 Gizmo：原版「精神力」那种条，显示在征召按钮旁边。
-    /// 引擎的装备 Gizmo 出口是 CompEquippable.CompGetEquippedGizmosExtra()，
-    /// 所以不是挂在 CompManaWeapon 上，而是用一个 CompEquippable 子类接管。
+    /// 引擎给已装备物品的 Gizmo 出口是 CompEquippable.CompGetEquippedGizmosExtra()，
+    /// 所以用 CompEquippable 的子类接管，XML 里用 Inherit="False" 整段替换，
+    /// 保证武器身上只有一个装备组件。
     /// </summary>
+    public class CompProperties_Equippable_Wand : CompProperties
+    {
+        public CompProperties_Equippable_Wand()
+        {
+            compClass = typeof(CompEquippable_Wand);
+        }
+    }
+
     public class CompEquippable_Wand : CompEquippable
     {
         public override IEnumerable<Gizmo> CompGetEquippedGizmosExtra()

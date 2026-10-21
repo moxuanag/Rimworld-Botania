@@ -43,10 +43,7 @@
   <Botania.RepairerOff>修复已关闭</Botania.RepairerOff>
   <Botania.RepairerToggle>修复开关</Botania.RepairerToggle>
   <Botania.RepairerToggleDesc>关掉之后不再消耗魔力，也不再修复任何东西。</Botania.RepairerToggleDesc>
-
-  <Botania.SettingsLimitTargets>限制每次修复的目标数量</Botania.SettingsLimitTargets>
   <Botania.SettingsLimitTargetsDesc>开启后，每座修复器每秒只照顾一定数量的目标；关掉则范围内所有破损的东西一起修，耗魔按数量成比例增加。</Botania.SettingsLimitTargetsDesc>
-  <Botania.SettingsMaxTargets>每次修复的目标上限：{0}</Botania.SettingsMaxTargets>
   <Botania.SettingsUnlimited>当前：不限数量（范围内全部修复）</Botania.SettingsUnlimited>
   <Botania.SettingsRepairCost>修复耗魔 = 魔力价 × 每点耐久 × 目标数量，例如 10 面墙 × 5 点 × 5 魔力 = 250。</Botania.SettingsRepairCost>
 
@@ -54,5 +51,8 @@
   <Botania.SettingsItemHeader>【装备修复器】</Botania.SettingsItemHeader>
   <Botania.SettingsLimitItemTargets>限制每次修复的装备数量</Botania.SettingsLimitItemTargets>
   <Botania.SettingsMaxItemTargets>每次修复的装备上限：{0}</Botania.SettingsMaxItemTargets>
+
+  <Botania.SettingsLimitStructureTargets>限制每次修复的建筑数量</Botania.SettingsLimitStructureTargets>
+  <Botania.SettingsMaxStructureTargets>每次修复的建筑上限：{0}</Botania.SettingsMaxStructureTargets>
 
 </LanguageData>

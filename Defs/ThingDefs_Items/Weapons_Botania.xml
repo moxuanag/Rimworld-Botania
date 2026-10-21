@@ -85,10 +85,13 @@
       </li>
     </tools>
     <weaponTags Inherit="False" />
-    <comps>
-      <!-- 装备 Gizmo 的引擎出口是 CompEquippable.CompGetEquippedGizmosExtra()，
-           所以魔力条由这个子类提供，位置就在征召按钮旁边 -->
-      <li Class="Botania.CompEquippable_Wand" />
+    <!-- Inherit="False"：父模板 BaseHumanMakeableGun 已经带了 CompEquippable，
+         这里整段替换，保证武器身上只有一个装备组件（多一个会干扰开火）。
+         装备 Gizmo 的引擎出口就是 CompEquippable.CompGetEquippedGizmosExtra()，
+         所以魔力条由我们的子类提供，位置就在征召按钮旁边。 -->
+    <comps Inherit="False">
+      <li Class="Botania.CompProperties_Equippable_Wand" />
+      <li Class="CompProperties_Forbiddable" />
       <li Class="Botania.CompProperties_ManaWeapon">
         <maxMana>500</maxMana>
         <manaPerShot>50</manaPerShot>

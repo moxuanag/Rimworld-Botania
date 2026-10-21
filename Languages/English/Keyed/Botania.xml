@@ -43,10 +43,7 @@
   <Botania.RepairerOff>Mending is off</Botania.RepairerOff>
   <Botania.RepairerToggle>Mending toggle</Botania.RepairerToggle>
   <Botania.RepairerToggleDesc>When off, this building stops drawing mana and stops mending anything.</Botania.RepairerToggleDesc>
-
-  <Botania.SettingsLimitTargets>Limit targets mended per cycle</Botania.SettingsLimitTargets>
   <Botania.SettingsLimitTargetsDesc>When on, each repairer only tends a limited number of targets per second. When off it mends everything damaged in range, paying mana in proportion to the count.</Botania.SettingsLimitTargetsDesc>
-  <Botania.SettingsMaxTargets>Targets per cycle: {0}</Botania.SettingsMaxTargets>
   <Botania.SettingsUnlimited>Currently: unlimited (mend everything in range)</Botania.SettingsUnlimited>
   <Botania.SettingsRepairCost>Mana cost = price per HP x HP per target x number of targets. E.g. 10 walls x 5 HP x 5 mana = 250.</Botania.SettingsRepairCost>
 
@@ -54,5 +51,8 @@
   <Botania.SettingsItemHeader>[Item repairer]</Botania.SettingsItemHeader>
   <Botania.SettingsLimitItemTargets>Limit items mended per cycle</Botania.SettingsLimitItemTargets>
   <Botania.SettingsMaxItemTargets>Items per cycle: {0}</Botania.SettingsMaxItemTargets>
+
+  <Botania.SettingsLimitStructureTargets>Limit buildings mended per cycle</Botania.SettingsLimitStructureTargets>
+  <Botania.SettingsMaxStructureTargets>Buildings per cycle: {0}</Botania.SettingsMaxStructureTargets>
 
 </LanguageData>
