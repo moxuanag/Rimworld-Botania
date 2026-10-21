@@ -56,14 +56,44 @@ namespace Botania
 
         private int ticksAccum;
 
+        /// <summary>是否已经给过初始魔力。老存档里的法杖魔力是 0，读档时补满一次。</summary>
+        private bool initialized;
+
         public CompProperties_ManaWeapon Props => (CompProperties_ManaWeapon)props;
 
-        public float Mana => mana;
+        public float Mana
+        {
+            get
+            {
+                EnsureInitialized();
+                return mana;
+            }
+        }
 
         public float MaxMana => Props.maxMana;
 
+        /// <summary>
+        /// 刚造出来就是满的，不然小人拿到手里就是一根空杖（被拿着不会自充）。
+        /// ThingComp 没有 PostMake 可重写，所以用「读到时懒初始化」：
+        /// 新建的杖 initialized 为 false、mana 为 0，第一次读取就补满。
+        /// 读旧档也一样走这条路，老存档里那些 0 魔力的杖会自动补满一次。
+        /// </summary>
+        private void EnsureInitialized()
+        {
+            if (initialized)
+            {
+                return;
+            }
+            initialized = true;
+            if (mana <= 0.01f)
+            {
+                mana = Props.maxMana;
+            }
+        }
+
         public override void CompTick()
         {
+            EnsureInitialized();
             // 只有当法杖躺在魔力池旁边（而不是被拿着）时才慢慢吸魔
             if (!parent.Spawned)
             {
@@ -180,66 +210,46 @@ namespace Botania
         {
             base.PostExposeData();
             Scribe_Values.Look(ref mana, "mana", 0f);
+            Scribe_Values.Look(ref initialized, "manaInitialized", false);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                EnsureInitialized();
+            }
         }
 
-        // ── 装备/卸下时维护小人身上的「魔力储备」hediff ──
-
-        private static HediffDef WandManaHediffDef => DefDatabase<HediffDef>.GetNamedSilentFail("Botania_WandMana");
+        // ── 魔力只显示在「征召按钮那一块」的魔力条上，不再往健康面板挂 hediff ──
 
         public override void Notify_Equipped(Pawn pawn)
         {
             base.Notify_Equipped(pawn);
-            SyncHediff(pawn);
+            RemoveOldHediff(pawn);
         }
 
         public override void Notify_Unequipped(Pawn pawn)
         {
             base.Notify_Unequipped(pawn);
+            RemoveOldHediff(pawn);
+        }
+
+        /// <summary>
+        /// 0.5.0 早期版本用 hediff 在健康面板里显示魔力，现在改成装备 Gizmo 的魔力条，
+        /// 所以把存档里可能残留的那个 hediff 清掉（只删不加）。
+        /// </summary>
+        public static void RemoveOldHediff(Pawn pawn)
+        {
             if (pawn == null || pawn.health == null)
             {
                 return;
             }
-            HediffDef hediffDef = WandManaHediffDef;
+            HediffDef hediffDef = DefDatabase<HediffDef>.GetNamedSilentFail("Botania_WandMana");
             if (hediffDef == null)
             {
                 return;
             }
             Hediff existing = pawn.health.hediffSet.GetFirstHediffOfDef(hediffDef);
-            // 只有这一把法杖还在身上时才移除，换成另一把法杖就不动
-            if (existing != null && FindWeaponOn(pawn) == null)
+            if (existing != null)
             {
                 pawn.health.RemoveHediff(existing);
-            }
-        }
-
-        private static CompManaWeapon FindWeaponOn(Pawn pawn)
-        {
-            if (pawn == null || pawn.equipment == null || pawn.equipment.Primary == null)
-            {
-                return null;
-            }
-            return pawn.equipment.Primary.GetComp<CompManaWeapon>();
-        }
-
-        private static void SyncHediff(Pawn pawn)
-        {
-            if (pawn == null || pawn.health == null)
-            {
-                return;
-            }
-            HediffDef hediffDef = WandManaHediffDef;
-            if (hediffDef == null)
-            {
-                return;
-            }
-            Hediff existing = pawn.health.hediffSet.GetFirstHediffOfDef(hediffDef);
-            if (existing == null)
-            {
-                Hediff added = pawn.health.AddHediff(hediffDef);
-                if (added != null)
-                {
-                    added.Severity = 0.01f;
-                }
             }
         }
     }

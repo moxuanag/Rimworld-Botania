@@ -13,6 +13,32 @@ namespace Botania
 
         private int lastWarnTick = -99999;
 
+        /// <summary>
+        /// 点得太远时原版是静默丢弃，玩家只会觉得"没反应"。
+        /// 这里给一条明确提示，和技能那边的"超出施法范围"保持一致。
+        /// </summary>
+        public override void OrderForceTarget(LocalTargetInfo target)
+        {
+            Pawn caster = CasterPawn;
+            if (caster == null || !target.IsValid)
+            {
+                base.OrderForceTarget(target);
+                return;
+            }
+            if (!CanHitTargetFrom(caster.Position, target))
+            {
+                if (Find.TickManager != null && Find.TickManager.TicksGame - lastWarnTick > WarnIntervalTicks)
+                {
+                    lastWarnTick = Find.TickManager.TicksGame;
+                    Messages.Message(
+                        "Botania.BoltOutOfRange".Translate(EffectiveRange.ToString("F0")),
+                        MessageTypeDefOf.RejectInput, false);
+                }
+                return;
+            }
+            base.OrderForceTarget(target);
+        }
+
         protected override bool TryCastShot()
         {
             CompManaWeapon weapon = FindWeapon();

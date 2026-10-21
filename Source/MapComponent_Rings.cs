@@ -34,17 +34,30 @@ namespace Botania
     /// <summary>法杖技能的按钮：外观与原版灵能一致，只多一个悬停显示范围。</summary>
     public class Command_AbilityWand : Command_Ability
     {
+        /// <summary>本按钮上一帧的屏幕矩形，用来判断鼠标到底在不在按钮上。</summary>
+        private Rect lastRect = Rect.zero;
+
         public Command_AbilityWand(Ability ability, Pawn pawn) : base(ability, pawn)
         {
+        }
+
+        public override GizmoResult GizmoOnGUI(Vector2 topLeft, float maxWidth, GizmoRenderParms parms)
+        {
+            lastRect = new Rect(topLeft.x, topLeft.y, GetWidth(maxWidth), 75f);
+            return base.GizmoOnGUI(topLeft, maxWidth, parms);
         }
 
         public override void GizmoUpdateOnMouseover()
         {
             base.GizmoUpdateOnMouseover();
-            if (ability is Ability_WandSpell spell)
+            // 这一版引擎对整排按钮都会调这个回调，所以必须自己判断鼠标是否真的在按钮上，
+            // 否则圈会一直挂在地图上。
+            if (!(ability is Ability_WandSpell spell) || !Mouse.IsOver(lastRect))
             {
-                WandRangePreview.Show(spell.CastRange, spell.EffectRadius);
+                WandRangePreview.Clear();
+                return;
             }
+            WandRangePreview.Show(spell.CastRange, spell.EffectRadius);
         }
     }
 
@@ -83,18 +96,33 @@ namespace Botania
                 {
                     continue;
                 }
-                CompRadiusRing ring = thing.TryGetComp<CompRadiusRing>();
-                if (ring == null)
-                {
-                    continue;
-                }
                 IntVec3 pos = thing.Position;
                 if (!pos.IsValid)
                 {
                     continue;
                 }
+
+                // 中继塔：选中时画整张网络，而不是只有自己这一环
+                if (thing.TryGetComp<CompManaRelay>() != null)
+                {
+                    ManaNetworkPreview.Draw(map, pos, RelayRadius(thing));
+                    continue;
+                }
+
+                CompRadiusRing ring = thing.TryGetComp<CompRadiusRing>();
+                if (ring == null)
+                {
+                    continue;
+                }
                 GenDraw.DrawRadiusRing(pos, ring.Props.radius, BuildingRing);
             }
+        }
+
+        private static float RelayRadius(Thing thing)
+        {
+            CompManaRelay relay = thing.TryGetComp<CompManaRelay>();
+            float radius = relay?.Props?.radius ?? 6f;
+            return radius;
         }
 
         private void DrawWandPreview()

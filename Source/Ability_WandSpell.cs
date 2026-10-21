@@ -47,15 +47,24 @@ namespace Botania
             }
 
             IntVec3 center = target.IsValid ? target.Cell : caster.Position;
+
+            // 设置里可以选择"直接在脚下释放"，省掉走过去这一步
+            if (BotaniaModSettings.Instance?.castAtFeet == true)
+            {
+                center = caster.Position;
+            }
+
             if (!center.InBounds(caster.Map))
             {
                 return false;
             }
             if (center.DistanceTo(caster.Position) > CastRange)
             {
-                // 超出射程：让小人走过去，到了再放（原版灵能技能也是这样）
-                if (TryStartWalkToCast(center))
+                // 超出射程：让小人走过去，到了再放
+                if (StartWalkTo(center))
                 {
+                    Messages.Message("Botania.SpellWalking".Translate(),
+                        MessageTypeDefOf.NeutralEvent, false);
                     return true;
                 }
                 Messages.Message("Botania.SpellOutOfRange".Translate(CastRange.ToString("F0")),
@@ -63,18 +72,29 @@ namespace Botania
                 return false;
             }
 
+            return ResolvePendingCast(center);
+        }
+
+        /// <summary>真放一次（范围内的走这条），并进冷却。</summary>
+        public bool ResolvePendingCast(IntVec3 center)
+        {
+            CompWand wand = FindWand();
+            Pawn caster = pawn;
+            if (wand == null || caster?.Map == null || !center.InBounds(caster.Map))
+            {
+                return false;
+            }
             if (!Apply(wand, center, caster.Map))
             {
                 return false;
             }
-
             // 只有真正生效才进冷却，失败等于没放
-            base.Activate(target, dest);
+            base.Activate(center, center);
             return true;
         }
 
-        /// <summary>下达「走过去再施法」的 Job，下不成返回 false。</summary>
-        private bool TryStartWalkToCast(IntVec3 center)
+        /// <summary>下一条「走到目标格」的原版 Goto 任务，同时登记待办。</summary>
+        public bool StartWalkTo(IntVec3 center)
         {
             Pawn caster = pawn;
             if (caster == null || caster.Map == null || !caster.Spawned)
@@ -85,15 +105,12 @@ namespace Botania
             {
                 return false;
             }
-            JobDef jobDef = DefDatabase<JobDef>.GetNamedSilentFail("Botania_CastWandSpell");
-            if (jobDef == null)
+            Job job = JobMaker.MakeJob(JobDefOf.Goto, center);
+            if (!caster.jobs.TryTakeOrderedJob(job, JobTag.Misc))
             {
                 return false;
             }
-            Job job = JobMaker.MakeJob(jobDef, center);
-            job.ability = this;
-            job.verbToUse = verb;
-            caster.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+            MapComponent_WandCasts.Request(caster.Map, caster, center, def.defName);
             return true;
         }
 

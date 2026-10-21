@@ -40,8 +40,11 @@ namespace Botania
 
     /// <summary>
     /// 参照原版精神力条的只读魔力条：宽度紧凑、蓝色、不可点，
-    /// 数值随开火实时变化，悬停给出剩余发数。
+    /// 数值随开火实时变化，悬停给出每发消耗与剩余发数。
+    /// 数值全部来自手里那根杖的 CompProperties_ManaWeapon，
+    /// 所以以后不同的魔杖自然会有不同的总量与消耗。
     /// </summary>
+    [StaticConstructorOnStartup]
     public class Gizmo_ManaBar : Gizmo
     {
         private static readonly Color BarColor = new Color(0.36f, 0.62f, 0.95f);
@@ -85,7 +88,8 @@ namespace Botania
                 int shots = weapon.Props.manaPerShot > 0f
                     ? Mathf.FloorToInt(weapon.Mana / weapon.Props.manaPerShot)
                     : 0;
-                TooltipHandler.TipRegion(rect, "Botania.ManaReadoutTip".Translate(shots));
+                TooltipHandler.TipRegion(rect, "Botania.ManaReadoutTip".Translate(
+                    weapon.Props.manaPerShot.ToString("F0"), shots));
             }
             return new GizmoResult(GizmoState.Clear);
         }

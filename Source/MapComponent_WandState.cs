@@ -83,7 +83,8 @@ namespace Botania
             bool hasWand = weapon != null;
 
             SyncAbilities(pawn, hasWand);
-            SyncHediff(pawn, weapon);
+            // 魔力改由装备 Gizmo 的魔力条显示，健康面板里不再挂 hediff
+            CompManaWeapon.RemoveOldHediff(pawn);
         }
 
         private void SyncAbilities(Pawn pawn, bool hasWand)
@@ -109,31 +110,5 @@ namespace Botania
             }
         }
 
-        private void SyncHediff(Pawn pawn, CompManaWeapon weapon)
-        {
-            HediffDef def = DefDatabase<HediffDef>.GetNamedSilentFail("Botania_WandMana");
-            if (def == null)
-            {
-                return;
-            }
-            Hediff existing = pawn.health?.hediffSet?.GetFirstHediffOfDef(def);
-            if (weapon == null)
-            {
-                if (existing != null)
-                {
-                    pawn.health.RemoveHediff(existing);
-                }
-                return;
-            }
-            if (existing == null)
-            {
-                pawn.health.AddHediff(def);
-                existing = pawn.health.hediffSet.GetFirstHediffOfDef(def);
-            }
-            if (existing != null)
-            {
-                existing.Severity = weapon.Mana;
-            }
-        }
     }
 }

@@ -55,4 +55,9 @@
   <Botania.SettingsLimitStructureTargets>Limit buildings mended per cycle</Botania.SettingsLimitStructureTargets>
   <Botania.SettingsMaxStructureTargets>Buildings per cycle: {0}</Botania.SettingsMaxStructureTargets>
 
+<Botania.SpellWalking>Walking over to cast...</Botania.SpellWalking>
+  <Botania.SpellWalkFailed>Cannot reach that spot, the spell was not cast.</Botania.SpellWalkFailed>
+  <Botania.BoltOutOfRange>Out of range ({0} tiles), nothing to hit there.</Botania.BoltOutOfRange>
+  <Botania.SettingsCastAtFeet>Cast at the caster's feet</Botania.SettingsCastAtFeet>
+  <Botania.SettingsCastAtFeetDesc>When on, Bloom and Convert apply at the caster's own tile instead of walking to the target. Useful if walk-to-cast misbehaves.</Botania.SettingsCastAtFeetDesc>
 </LanguageData>

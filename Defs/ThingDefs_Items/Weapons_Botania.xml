@@ -92,6 +92,9 @@
     <comps Inherit="False">
       <li Class="Botania.CompProperties_Equippable_Wand" />
       <li Class="CompProperties_Forbiddable" />
+      <!-- IdeoRelic（传奇圣物）要求武器带这个组件，否则会报
+           "missing CompStyleable thing comp"，父模板里本来有，被 Inherit="False" 掉了 -->
+      <li Class="CompProperties_Styleable" />
       <li Class="Botania.CompProperties_ManaWeapon">
         <maxMana>500</maxMana>
         <manaPerShot>50</manaPerShot>
