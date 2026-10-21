@@ -55,6 +55,10 @@
 - **`IdeoRelic ... missing CompStyleable`**：上一版为消除重复装备组件用了 `Inherit="False"`，
   连带丢了父模板的 `CompProperties_Styleable`，已补回（同时保留 `Forbiddable`）。
 
+- **「从魔力池充能」按钮找不到**：这个按钮原本只挂在法杖自己身上（等于只有法杖**躺在地上
+  被选中**时才有）。现在拿在小人手里也会出现，就在魔力条旁边；同时补了「已经是满的」提示，
+  说明文字也写明需要站在 6 格内。
+
 ### 变更（走过去施法）
 
 - 自定义 `JobDef` 在实机没有生效，改为**原版 `JobDefOf.Goto` + 每 15 tick 轮询**

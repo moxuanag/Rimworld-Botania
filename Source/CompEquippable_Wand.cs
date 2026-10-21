@@ -34,6 +34,8 @@ namespace Botania
                 yield break;
             }
 
+            // 拿在手里时也能补魔：站在魔力池 6 格内点一下就装满
+            yield return weapon.MakeChargeGizmo();
             yield return new Gizmo_ManaBar(weapon);
         }
     }

@@ -25,7 +25,7 @@
   <Botania.WandConverted>Transmuted {0} stacks of material</Botania.WandConverted>
   <Botania.WandMana>Wand mana: {0} / {1}</Botania.WandMana>
   <Botania.WandChargeLabel>Charge from mana pool</Botania.WandChargeLabel>
-  <Botania.WandChargeDesc>Draws mana from a nearby mana pool or relay into the wand, up to {0}.</Botania.WandChargeDesc>
+  <Botania.WandChargeDesc>Draws mana from the nearest mana pool or relay within 6 tiles into the wand, up to {0}. Stand by a pool with an empty wand and press this to fill it.</Botania.WandChargeDesc>
   <Botania.WandCharged>Charged: {0} / {1}</Botania.WandCharged>
   <Botania.WandNoSource>No mana pool or relay in range</Botania.WandNoSource>
   <Botania.WandOutOfMana>Not enough mana to fire: need {0}, wand holds {1}</Botania.WandOutOfMana>
@@ -60,4 +60,6 @@
   <Botania.BoltOutOfRange>Out of range ({0} tiles), nothing to hit there.</Botania.BoltOutOfRange>
   <Botania.SettingsCastAtFeet>Cast at the caster's feet</Botania.SettingsCastAtFeet>
   <Botania.SettingsCastAtFeetDesc>When on, Bloom and Convert apply at the caster's own tile instead of walking to the target. Useful if walk-to-cast misbehaves.</Botania.SettingsCastAtFeetDesc>
+  <Botania.WandAlreadyFull>The wand is already full.</Botania.WandAlreadyFull>
+
 </LanguageData>

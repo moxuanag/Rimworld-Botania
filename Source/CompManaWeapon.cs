@@ -182,9 +182,18 @@ namespace Botania
             {
                 yield return gizmo;
             }
-            yield return new Command_Action
+            // 法杖躺在地上被选中时的「充能」按钮（拿在小人手里时由 CompEquippable_Wand 提供）
+            yield return MakeChargeGizmo();
+        }
+
+        /// <summary>
+        /// 「从魔力池充能」按钮。放在这里是为了让「地上的法杖」和
+        /// 「小人手里的法杖」共用同一个按钮与同一套提示。
+        /// </summary>
+        public Gizmo MakeChargeGizmo()
+        {
+            return new Command_Action
             {
-                // 按钮上直接带存量，被拿着的时候也能一眼看到还剩几发
                 defaultLabel = "Botania.WandChargeLabel".Translate()
                     + " (" + mana.ToString("F0") + "/" + Props.maxMana.ToString("F0") + ")",
                 defaultDesc = "Botania.WandChargeDesc".Translate(Props.maxMana.ToString("F0")),
@@ -193,8 +202,15 @@ namespace Botania
             };
         }
 
-        private void Charge()
+        /// <summary>从半径内最近的魔力池/中继塔抽满，返回实际抽到的量。</summary>
+        public void Charge()
         {
+            if (mana >= Props.maxMana - 0.01f)
+            {
+                Messages.Message("Botania.WandAlreadyFull".Translate(),
+                    MessageTypeDefOf.RejectInput, false);
+                return;
+            }
             float got = PullFromSource(Props.maxMana - mana);
             if (got <= 0.01f)
             {

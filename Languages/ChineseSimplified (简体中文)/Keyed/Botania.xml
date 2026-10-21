@@ -25,7 +25,7 @@
   <Botania.WandConverted>就地转化：{0} 堆材料变成活性材料</Botania.WandConverted>
   <Botania.WandMana>杖内魔力：{0} / {1}</Botania.WandMana>
   <Botania.WandChargeLabel>从魔力池充能</Botania.WandChargeLabel>
-  <Botania.WandChargeDesc>把附近魔力池或中继塔里的魔力装进杖内，最多 {0} 点。</Botania.WandChargeDesc>
+  <Botania.WandChargeDesc>把 6 格内最近一座魔力池或中继塔里的魔力装进杖内，最多 {0} 点。拿着一把空杖站在池边点这个就能装满。</Botania.WandChargeDesc>
   <Botania.WandCharged>充能完成：{0} / {1}</Botania.WandCharged>
   <Botania.WandNoSource>附近没有可用的魔力池或中继塔</Botania.WandNoSource>
   <Botania.WandOutOfMana>魔力不足，打不出这一发：需要 {0}，杖内只有 {1}</Botania.WandOutOfMana>
@@ -60,4 +60,6 @@
   <Botania.BoltOutOfRange>超出射程（{0} 格），打不到那里。</Botania.BoltOutOfRange>
   <Botania.SettingsCastAtFeet>施法时直接在脚下释放</Botania.SettingsCastAtFeet>
   <Botania.SettingsCastAtFeetDesc>开启后，绽花与就地转化不再走到目标格，直接在施法者脚下生效。走路施法出问题时可以打开这个。</Botania.SettingsCastAtFeetDesc>
+  <Botania.WandAlreadyFull>法杖已经是满的。</Botania.WandAlreadyFull>
+
 </LanguageData>
