@@ -416,7 +416,7 @@
     <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
     <designationCategory>Misc</designationCategory>
     <researchPrerequisites>
-      <li>Botania_BasicMana</li>
+      <li>Botania_Mending</li>
     </researchPrerequisites>
     <constructEffect>ConstructWood</constructEffect>
     <uiOrder>3105</uiOrder>
@@ -478,7 +478,7 @@
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <designationCategory>Misc</designationCategory>
     <researchPrerequisites>
-      <li>Botania_BasicMana</li>
+      <li>Botania_Mending</li>
     </researchPrerequisites>
     <constructEffect>ConstructWood</constructEffect>
     <uiOrder>3106</uiOrder>
