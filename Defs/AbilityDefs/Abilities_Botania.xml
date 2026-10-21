@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
-  <!-- 森林法杖的两个法术。
-       走原版灵能技能同一条路（AbilityDef + Ability + Command_Ability），
-       所以按钮样式、热键、悬停提示都与灵能一致。
-       费用不在这里声明——魔力存在法杖里，由 CompWand 结算。
-       范围圈也不在这里画：施法选点时由 Botania.Verb_WandCast
-       在鼠标所在格画出这次法术的影响半径。 -->
+  <!-- 森林法杖的两个法术。完全照原版灵能技能的结构写（参考 Data/Royalty 的 AgonyPulse）：
+       - 不写 abilityClass，用引擎默认的 Ability；
+       - verbProperties 用原版 Verb_CastAbility，不自定义 Verb；
+       - 作用半径写在 statBases 的 Ability_EffectRadius 里，引擎据此在鼠标所在格画出范围；
+       - 实际效果由 comps 里的 CompProperties_AbilityXxx 提供（CompAbilityEffect.Apply）。
+       魔力不在这里扣：费用由法杖的 CompWand 结算。 -->
   <AbilityDef>
     <defName>Botania_SpellBloom</defName>
     <label>bloom</label>
     <description>Pour mana into the plants around the chosen spot and force them to grow. Costs 20 mana per plant.</description>
     <iconPath>UI/Icons/Botania/Bloom</iconPath>
-    <abilityClass>Botania.Ability_WandBloom</abilityClass>
     <hotKey>Misc11</hotKey>
     <cooldownTicksRange>60</cooldownTicksRange>
     <displayGizmoWhileUndrafted>false</displayGizmoWhileUndrafted>
     <showOnCharacterCard>false</showOnCharacterCard>
+    <statBases>
+      <!-- 与 CompProperties_AbilityWandBloom 的 effectRadius 保持一致 -->
+      <Ability_EffectRadius>4</Ability_EffectRadius>
+    </statBases>
     <verbProperties>
-      <verbClass>Botania.Verb_WandCast</verbClass>
+      <verbClass>Verb_CastAbility</verbClass>
       <range>6</range>
       <warmupTime>0.5</warmupTime>
       <requireLineOfSight>false</requireLineOfSight>
@@ -31,6 +34,13 @@
         <canTargetSelf>false</canTargetSelf>
       </targetParams>
     </verbProperties>
+    <comps>
+      <li Class="Botania.CompProperties_AbilityWandBloom">
+        <effectRadius>4</effectRadius>
+        <manaPerPlant>20</manaPerPlant>
+        <bloomGrowth>0.25</bloomGrowth>
+      </li>
+    </comps>
   </AbilityDef>
 
   <AbilityDef>
@@ -38,13 +48,16 @@
     <label>transmute in place</label>
     <description>Teach the wood and stone around the chosen spot to live. Costs 20 mana per stack.</description>
     <iconPath>UI/Icons/Botania/Transfer</iconPath>
-    <abilityClass>Botania.Ability_WandConvert</abilityClass>
     <hotKey>Misc12</hotKey>
     <cooldownTicksRange>60</cooldownTicksRange>
     <displayGizmoWhileUndrafted>false</displayGizmoWhileUndrafted>
     <showOnCharacterCard>false</showOnCharacterCard>
+    <statBases>
+      <!-- 与 CompProperties_AbilityWandConvert 的 effectRadius 保持一致 -->
+      <Ability_EffectRadius>1.5</Ability_EffectRadius>
+    </statBases>
     <verbProperties>
-      <verbClass>Botania.Verb_WandCast</verbClass>
+      <verbClass>Verb_CastAbility</verbClass>
       <range>6</range>
       <warmupTime>0.5</warmupTime>
       <requireLineOfSight>false</requireLineOfSight>
@@ -57,6 +70,12 @@
         <canTargetSelf>false</canTargetSelf>
       </targetParams>
     </verbProperties>
+    <comps>
+      <li Class="Botania.CompProperties_AbilityWandConvert">
+        <effectRadius>1.5</effectRadius>
+        <manaPerPlant>20</manaPerPlant>
+      </li>
+    </comps>
   </AbilityDef>
 
 </Defs>
