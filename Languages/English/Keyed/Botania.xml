@@ -17,12 +17,12 @@
   <Botania.WandBloomLabel>Bloom</Botania.WandBloomLabel>
   <Botania.WandBloomDesc>Instantly advances the growth of all plants within {0} tiles by a step. Costs {1} mana per plant.</Botania.WandBloomDesc>
   <Botania.WandConvertLabel>Transmute</Botania.WandConvertLabel>
-  <Botania.WandConvertDesc>Turns logs within {1} tiles into livingwood and stone blocks into livingrock. Costs {0} mana per stack.</Botania.WandConvertDesc>
+  <Botania.WandConvertDesc>Turns logs within {1} tiles into livingwood and stone blocks into livingrock. Up to {2} per stack, {0} mana each.</Botania.WandConvertDesc>
   <Botania.WandNoPlants>No plants nearby need growth</Botania.WandNoPlants>
   <Botania.WandNoInput>No logs or stone blocks at your feet to transmute</Botania.WandNoInput>
   <Botania.WandNoMana>Not enough mana nearby: need {0}, have {1}</Botania.WandNoMana>
   <Botania.WandBloomed>Bloomed {0} plants</Botania.WandBloomed>
-  <Botania.WandConverted>Transmuted {0} stacks of material</Botania.WandConverted>
+  <Botania.WandConverted>Transmuted into {0} living material</Botania.WandConverted>
   <Botania.WandMana>Wand mana: {0} / {1}</Botania.WandMana>
   <Botania.WandChargeLabel>Charge from mana pool</Botania.WandChargeLabel>
   <Botania.WandChargeDesc>Draws mana from the nearest mana pool or relay within 6 tiles into the wand, up to {0}. Stand by a pool with an empty wand and press this to fill it.</Botania.WandChargeDesc>

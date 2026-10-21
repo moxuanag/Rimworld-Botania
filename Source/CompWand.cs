@@ -20,7 +20,14 @@ namespace Botania
         /// <summary>「就地转化」的搜索半径。</summary>
         public float convertRadius = 1.5f;
 
-        /// <summary>每转化一个物品消耗的魔力。</summary>
+        /// <summary>
+        /// 每一堆输入一次转化多少个（受堆叠数限制）。
+        /// 单独放在这里而不是共用 rule.count，是因为白雏菊一次只转 1 个，
+        /// 两者不应该互相牵制。
+        /// </summary>
+        public int convertBatchSize = 10;
+
+        /// <summary>每转化出一个物品消耗的魔力。</summary>
         public float manaPerConvert = 20f;
 
         /// <summary>一次最多转化几堆。</summary>
@@ -114,7 +121,8 @@ namespace Botania
             {
                 defaultLabel = "Botania.WandConvertLabel".Translate(),
                 defaultDesc = "Botania.WandConvertDesc".Translate(Props.manaPerConvert.ToString("F0"),
-                    Props.convertRadius.ToString("F0")),
+                    Props.convertRadius.ToString("F0"),
+                    Props.convertBatchSize.ToString()),
                 icon = ContentFinder<Texture2D>.Get("UI/Icons/Botania/Transfer"),
                 action = () => TryConvertAt(AnchorPos, AnchorMap)
             };
@@ -195,7 +203,12 @@ namespace Botania
                 return false;
             }
 
+            // 第一遍：只挑目标并算出每一堆实际要转几个，先攒出总产量。
+            // 这样魔力能按"真正产出多少"来扣，不会出现扣了钱却少给货。
             List<Thing> targets = new List<Thing>();
+            List<int> amounts = new List<int>();
+            int totalOut = 0;
+
             foreach (IntVec3 cell in GenRadial.RadialCellsAround(center, Props.convertRadius, true))
             {
                 if (!cell.InBounds(map))
@@ -219,11 +232,18 @@ namespace Botania
                         continue;
                     }
                     ManaConversionRule rule = ManaTransmutation.FindRule(Props.rules, thing.def);
-                    if (rule == null || thing.stackCount < rule.count)
+                    if (rule == null || thing.stackCount < 1)
+                    {
+                        continue;
+                    }
+                    int take = Mathf.Min(Props.convertBatchSize, thing.stackCount);
+                    if (take <= 0)
                     {
                         continue;
                     }
                     targets.Add(thing);
+                    amounts.Add(take);
+                    totalOut += take;
                     if (targets.Count >= Props.maxConvertsPerUse)
                     {
                         break;
@@ -235,18 +255,19 @@ namespace Botania
                 }
             }
 
-            if (targets.Count == 0)
+            if (targets.Count == 0 || totalOut <= 0)
             {
                 Messages.Message("Botania.WandNoInput".Translate(), MessageTypeDefOf.RejectInput, false);
                 return false;
             }
 
-            if (!TryPayMana(center, map, targets.Count * Props.manaPerConvert))
+            // 魔力按产量结算：一个活木/活石 = manaPerConvert 点魔力
+            if (!TryPayMana(center, map, totalOut * Props.manaPerConvert))
             {
                 return false;
             }
 
-            int done = 0;
+            int produced = 0;
             for (int i = 0; i < targets.Count; i++)
             {
                 Thing thing = targets[i];
@@ -255,13 +276,13 @@ namespace Botania
                     continue;
                 }
                 ManaConversionRule rule = ManaTransmutation.FindRule(Props.rules, thing.def);
-                if (ManaTransmutation.TryConvert(thing, rule))
+                if (ManaTransmutation.TryConvert(thing, rule, amounts[i]))
                 {
-                    done++;
+                    produced += amounts[i];
                 }
             }
-            Messages.Message("Botania.WandConverted".Translate(done.ToString()), MessageTypeDefOf.PositiveEvent, false);
-            return done > 0;
+            Messages.Message("Botania.WandConverted".Translate(produced.ToString()), MessageTypeDefOf.PositiveEvent, false);
+            return produced > 0;
         }
 
         /// <summary>先确认凑得齐，再一次性扣；扣不满就退款，不做半吊子。</summary>

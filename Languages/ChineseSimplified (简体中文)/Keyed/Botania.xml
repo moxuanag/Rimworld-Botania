@@ -17,12 +17,12 @@
   <Botania.WandBloomLabel>绽花</Botania.WandBloomLabel>
   <Botania.WandBloomDesc>让半径 {0} 格内的植物立刻长高一截，每株消耗 {1} 魔力。</Botania.WandBloomDesc>
   <Botania.WandConvertLabel>就地转化</Botania.WandConvertLabel>
-  <Botania.WandConvertDesc>把 {1} 格内的原木变成活木、石砖变成活石，每个消耗 {0} 魔力。</Botania.WandConvertDesc>
+  <Botania.WandConvertDesc>把 {1} 格内的原木变成活木、石砖变成活石。每堆一次转化 {2} 个，每个消耗 {0} 点魔力。</Botania.WandConvertDesc>
   <Botania.WandNoPlants>附近没有需要催长的植物</Botania.WandNoPlants>
   <Botania.WandNoInput>脚边没有可转化的木头或石砖</Botania.WandNoInput>
   <Botania.WandNoMana>附近魔力不足：需要 {0}，可用 {1}</Botania.WandNoMana>
   <Botania.WandBloomed>绽花：{0} 株植物被催长</Botania.WandBloomed>
-  <Botania.WandConverted>就地转化：{0} 堆材料变成活性材料</Botania.WandConverted>
+  <Botania.WandConverted>就地转化：得到 {0} 个活性材料</Botania.WandConverted>
   <Botania.WandMana>杖内魔力：{0} / {1}</Botania.WandMana>
   <Botania.WandChargeLabel>从魔力池充能</Botania.WandChargeLabel>
   <Botania.WandChargeDesc>把 6 格内最近一座魔力池或中继塔里的魔力装进杖内，最多 {0} 点。拿着一把空杖站在池边点这个就能装满。</Botania.WandChargeDesc>

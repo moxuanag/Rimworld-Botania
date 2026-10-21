@@ -120,6 +120,7 @@
         <bloomGrowth>0.25</bloomGrowth>
         <manaPerPlant>20</manaPerPlant>
         <convertRadius>1.5</convertRadius>
+        <convertBatchSize>10</convertBatchSize>
         <manaPerConvert>20</manaPerConvert>
         <maxConvertsPerUse>9</maxConvertsPerUse>
         <sourceRadius>8</sourceRadius>
