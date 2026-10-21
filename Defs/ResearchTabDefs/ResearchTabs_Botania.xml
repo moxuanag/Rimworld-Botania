@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- ============================================================
+       植物魔法研究页：所有 Botania 研究项目都挂在这个标签下。
+       新增项目时记得写 <tab>Botania</tab> 与 researchViewX/Y（标签内坐标）。
+       ============================================================ -->
+
+  <ResearchTabDef>
+    <defName>Botania</defName>
+    <label>botania</label>
+    <generalTitle>Botania research projects</generalTitle>
+    <generalDescription>Study the flowers of Botania and the mana they hold.\n\nThis line advances from gathering wild flowers to the elven trade and, at the very end, the Gaia guardian.</generalDescription>
+  </ResearchTabDef>
+
+</Defs>

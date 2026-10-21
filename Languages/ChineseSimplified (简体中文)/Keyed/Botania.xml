@@ -57,4 +57,10 @@
   <Botania.BoltOutOfRange>超出射程（{0} 格），打不到那里。</Botania.BoltOutOfRange>
   <Botania.WandAlreadyFull>法杖已经是满的。</Botania.WandAlreadyFull>
 
+  <Botania.FlowerWithered>{0} 枯萎了</Botania.FlowerWithered>
+  <Botania.PassiveFlowerNoPool>附近没有魔力池</Botania.PassiveFlowerNoPool>
+  <Botania.PassiveFlowerWaitingDay>等到白天开始产魔</Botania.PassiveFlowerWaitingDay>
+  <Botania.PassiveFlowerWaitingNight>等到夜里开始产魔</Botania.PassiveFlowerWaitingNight>
+  <Botania.PassiveFlowerWorking>正在产魔</Botania.PassiveFlowerWorking>
+  <Botania.PassiveFlowerWithers>还剩 {0} 天枯萎</Botania.PassiveFlowerWithers>
 </LanguageData>

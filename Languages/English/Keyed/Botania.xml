@@ -57,4 +57,10 @@
   <Botania.BoltOutOfRange>Out of range ({0} tiles), nothing to hit there.</Botania.BoltOutOfRange>
   <Botania.WandAlreadyFull>The wand is already full.</Botania.WandAlreadyFull>
 
+  <Botania.FlowerWithered>{0} withered away</Botania.FlowerWithered>
+  <Botania.PassiveFlowerNoPool>No mana pool nearby</Botania.PassiveFlowerNoPool>
+  <Botania.PassiveFlowerWaitingDay>Waiting for daylight</Botania.PassiveFlowerWaitingDay>
+  <Botania.PassiveFlowerWaitingNight>Waiting for nightfall</Botania.PassiveFlowerWaitingNight>
+  <Botania.PassiveFlowerWorking>Producing mana</Botania.PassiveFlowerWorking>
+  <Botania.PassiveFlowerWithers>Withers in {0} days</Botania.PassiveFlowerWithers>
 </LanguageData>

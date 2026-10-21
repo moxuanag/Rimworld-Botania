@@ -2,8 +2,27 @@
 <Defs>
 
   <!-- ============================================================
-       研究：植物魔法基础（解锁花瓣加工、魔力钢、活木、魔力池与火红莲）
+       植物魔法的研究线（v0.5 骨架版）。
+
+       本版只把「树」搭起来：每个项目都有正确的时代、点数、前置与坐标，
+       但绝大多数还没有接入内容（见 description 里的 placeholder 标注）。
+       已有内容仍挂在 Botania_BasicMana 下，所以它的 defName 不能改。
+
+       坐标约定：X = 时代推进（0 = 采集，7 = 终局），Y = 分支（0 产能 / 1 花圃 / 2 装备 / 3 结构 / 4 终局）。
        ============================================================ -->
+
+  <!-- ===== E0 萌芽 ===== -->
+
+  <ResearchProjectDef>
+    <defName>Botania_Flowers</defName>
+    <label>botania: mystic botany</label>
+    <description>Wild mystic flowers grow across the rim. Learning which ones hold mana, and how to plant them again, is where every Botania colony starts.</description>
+    <baseCost>300</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <tab>Botania</tab>
+    <researchViewX>0.0</researchViewX>
+    <researchViewY>0.0</researchViewY>
+  </ResearchProjectDef>
 
   <ResearchProjectDef>
     <defName>Botania_BasicMana</defName>
@@ -11,12 +30,191 @@
     <description>Study how certain flowers hold energy in their petals. Grinding them releases mana powder, which can be folded into steel or bound into wood, and stored in a pool of liquid light.</description>
     <baseCost>900</baseCost>
     <techLevel>Medieval</techLevel>
-    <!-- 位置：PsychoidBrewing(2.00, 0.70) 正下方，同时是 Pemmican(1.00, 1.40) 正右方 -->
-    <researchViewX>2.00</researchViewX>
-    <researchViewY>1.40</researchViewY>
-    <tags>
-      <li>ClassicStart</li>
-    </tags>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_Flowers</li>
+    </prerequisites>
+    <researchViewX>1.0</researchViewX>
+    <researchViewY>0.0</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>Botania_GeneratingI</defName>
+    <label>botania: generating flowers</label>
+    <description>Flowers that produce mana on their own. The endoflame burns fuel; the daybloom and nightshade simply drink the sun and the dark, then wither once their season is over.</description>
+    <baseCost>600</baseCost>
+    <techLevel>Medieval</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_BasicMana</li>
+    </prerequisites>
+    <researchViewX>2.0</researchViewX>
+    <researchViewY>0.0</researchViewY>
+  </ResearchProjectDef>
+
+  <!-- ===== E1 花圃 ===== -->
+
+  <ResearchProjectDef>
+    <defName>Botania_Garden</defName>
+    <label>botania: garden craft</label>
+    <description>Placeholder: a petal altar for crafting flowers in batches. Content arrives in a later version.</description>
+    <baseCost>900</baseCost>
+    <techLevel>Medieval</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_BasicMana</li>
+    </prerequisites>
+    <researchViewX>2.0</researchViewX>
+    <researchViewY>1.0</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>Botania_FunctionalI</defName>
+    <label>botania: functional flowers</label>
+    <description>Placeholder: flowers that work for the colony — growth, hauling and thorns. Content arrives in a later version.</description>
+    <baseCost>1200</baseCost>
+    <techLevel>Medieval</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_Garden</li>
+    </prerequisites>
+    <researchViewX>3.0</researchViewX>
+    <researchViewY>1.0</researchViewY>
+  </ResearchProjectDef>
+
+  <!-- ===== E2 魔导 ===== -->
+
+  <ResearchProjectDef>
+    <defName>Botania_Manasteel</defName>
+    <label>botania: manasteel</label>
+    <description>Placeholder: manasteel ingots and the first real gear. Content arrives in a later version.</description>
+    <baseCost>1500</baseCost>
+    <techLevel>Industrial</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_BasicMana</li>
+    </prerequisites>
+    <researchViewX>2.0</researchViewX>
+    <researchViewY>2.0</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>Botania_Mending</defName>
+    <label>botania: mana mending</label>
+    <description>Placeholder: a bench that repairs gear with mana, and a tower that slowly mends walls and furniture. Content arrives in a later version.</description>
+    <baseCost>1200</baseCost>
+    <techLevel>Industrial</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_Manasteel</li>
+    </prerequisites>
+    <researchViewX>3.0</researchViewX>
+    <researchViewY>2.0</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>Botania_Infusion</defName>
+    <label>botania: mana infusion</label>
+    <description>Placeholder: an infusion table that lets a colony craft high-tier goods out of mana instead of electricity. Content arrives in a later version.</description>
+    <baseCost>2400</baseCost>
+    <techLevel>Industrial</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_Manasteel</li>
+    </prerequisites>
+    <researchViewX>4.0</researchViewX>
+    <researchViewY>2.0</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>Botania_ManaGrid</defName>
+    <label>botania: mana grid</label>
+    <description>Placeholder: relays with longer reach, bigger pools and a more efficient fluxfield. Content arrives in a later version.</description>
+    <baseCost>1800</baseCost>
+    <techLevel>Industrial</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_Manasteel</li>
+    </prerequisites>
+    <researchViewX>3.0</researchViewX>
+    <researchViewY>3.0</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>Botania_WandForms</defName>
+    <label>botania: wand forms</label>
+    <description>Placeholder: two wand variants (piercing and scattering) plus a cheaper mana cost per shot. Content arrives in a later version.</description>
+    <baseCost>2000</baseCost>
+    <techLevel>Industrial</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_ManaGrid</li>
+    </prerequisites>
+    <researchViewX>4.0</researchViewX>
+    <researchViewY>3.0</researchViewY>
+  </ResearchProjectDef>
+
+  <!-- ===== E3 精灵 ===== -->
+
+  <ResearchProjectDef>
+    <defName>Botania_Alfheim</defName>
+    <label>botania: alfheim gate</label>
+    <description>Placeholder: a gate that trades mana for elven materials. Content arrives in a later version.</description>
+    <baseCost>3500</baseCost>
+    <techLevel>Spacer</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_Infusion</li>
+    </prerequisites>
+    <researchViewX>5.0</researchViewX>
+    <researchViewY>2.0</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>Botania_Elementium</defName>
+    <label>botania: elementium</label>
+    <description>Placeholder: elementium weapons and armour. Content arrives in a later version.</description>
+    <baseCost>3000</baseCost>
+    <techLevel>Spacer</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_Alfheim</li>
+    </prerequisites>
+    <researchViewX>6.0</researchViewX>
+    <researchViewY>2.0</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>Botania_Terrasteel</defName>
+    <label>botania: terrasteel</label>
+    <description>Placeholder: the terrestrial agglomeration platform, terrasteel and the Gaia ritual. Content arrives in a later version.</description>
+    <baseCost>4000</baseCost>
+    <techLevel>Spacer</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_Alfheim</li>
+    </prerequisites>
+    <researchViewX>6.0</researchViewX>
+    <researchViewY>3.0</researchViewY>
+  </ResearchProjectDef>
+
+  <!-- ===== E4 盖亚 ===== -->
+
+  <ResearchProjectDef>
+    <defName>Botania_Gaia</defName>
+    <label>botania: gaia</label>
+    <description>Placeholder: unlocked by a gaia spirit techprint, not by points alone. Content arrives in a later version.</description>
+    <baseCost>5000</baseCost>
+    <techLevel>Ultra</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_Terrasteel</li>
+    </prerequisites>
+    <researchViewX>7.0</researchViewX>
+    <researchViewY>3.0</researchViewY>
+    <!-- 科技蓝图等盖亚 Boss（v0.8）落地时再加 techprintCount。
+         1.7 的校验规则：一旦写了 techprintCount，就必须同时给 heldByFactionCategoryTags，
+         否则会报 "Config error: requires techprints but has no heldByFactionCategoryTags"。 -->
   </ResearchProjectDef>
 
 </Defs>

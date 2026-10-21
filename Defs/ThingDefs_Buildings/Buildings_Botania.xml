@@ -142,7 +142,7 @@
       <li>BotaniaBuildings</li>
     </thingCategories>
     <researchPrerequisites>
-      <li>Botania_BasicMana</li>
+      <li>Botania_GeneratingI</li>
     </researchPrerequisites>
     <constructEffect>ConstructWood</constructEffect>
     <uiOrder>3101</uiOrder>
