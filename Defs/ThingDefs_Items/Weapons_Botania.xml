@@ -70,39 +70,9 @@
           <canTargetLocations>true</canTargetLocations>
         </targetParams>
       </li>
-      <!-- 两个法术：做成 verb 才能作为按钮出现在小人身上（装备 Comp 的按钮这一版不显示） -->
-      <li>
-        <verbClass>Botania.Verb_WandBloom</verbClass>
-        <label>绽花</label>
-        <hasStandardCommand>true</hasStandardCommand>
-        <onlyManualCast>true</onlyManualCast>
-        <violent>false</violent>
-        <warmupTime>0.5</warmupTime>
-        <range>6</range>
-        <requireLineOfSight>false</requireLineOfSight>
-        <soundCast>Growing</soundCast>
-        <targetParams>
-          <canTargetLocations>true</canTargetLocations>
-          <canTargetPawns>false</canTargetPawns>
-          <canTargetBuildings>false</canTargetBuildings>
-        </targetParams>
-      </li>
-      <li>
-        <verbClass>Botania.Verb_WandConvert</verbClass>
-        <label>就地转化</label>
-        <hasStandardCommand>true</hasStandardCommand>
-        <onlyManualCast>true</onlyManualCast>
-        <violent>false</violent>
-        <warmupTime>0.5</warmupTime>
-        <range>6</range>
-        <requireLineOfSight>false</requireLineOfSight>
-        <soundCast>Growing</soundCast>
-        <targetParams>
-          <canTargetLocations>true</canTargetLocations>
-          <canTargetPawns>false</canTargetPawns>
-          <canTargetBuildings>false</canTargetBuildings>
-        </targetParams>
-      </li>
+      <!-- 两个法术不再做成 verb：改走原版灵能技能（AbilityDef），
+           装备上的 verb 按钮在这一版引擎里不会显示到小人身上。
+           见 Defs/AbilityDefs/Abilities_Botania.xml。 -->
     </verbs>
     <tools>
       <li>

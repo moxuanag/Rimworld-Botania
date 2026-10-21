@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- 森林法杖的两个法术：与原版灵能技能同一条实现路径（AbilityDef + Ability + Command_Ability），
+       因此按钮样式、热键、悬停提示与灵能一致。
+       费用不在这里声明——魔力存在法杖里，由 CompWand 结算。 -->
+  <AbilityDef>
+    <defName>Botania_SpellBloom</defName>
+    <label>bloom</label>
+    <description>Pour mana into the plants around the chosen spot and force them to grow. Costs 20 mana per plant.</description>
+    <iconPath>UI/Icons/Botania/Bloom</iconPath>
+    <abilityClass>Botania.Ability_WandBloom</abilityClass>
+    <hotKey>Misc11</hotKey>
+    <gizmoClass>Botania.Command_AbilityWand</gizmoClass>
+    <cooldownTicksRange>60</cooldownTicksRange>
+    <displayGizmoWhileUndrafted>false</displayGizmoWhileUndrafted>
+    <showOnCharacterCard>false</showOnCharacterCard>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <range>6</range>
+      <warmupTime>0.5</warmupTime>
+      <requireLineOfSight>false</requireLineOfSight>
+      <soundCast>PsycastPsychicEffect</soundCast>
+      <targetParams>
+        <canTargetLocations>true</canTargetLocations>
+        <canTargetPawns>false</canTargetPawns>
+        <canTargetAnimals>false</canTargetAnimals>
+        <canTargetBuildings>false</canTargetBuildings>
+        <canTargetSelf>false</canTargetSelf>
+      </targetParams>
+    </verbProperties>
+  </AbilityDef>
+
+  <AbilityDef>
+    <defName>Botania_SpellConvert</defName>
+    <label>transmute in place</label>
+    <description>Teach the wood and stone around the chosen spot to live. Costs 20 mana per stack.</description>
+    <iconPath>UI/Icons/Botania/Transfer</iconPath>
+    <abilityClass>Botania.Ability_WandConvert</abilityClass>
+    <hotKey>Misc12</hotKey>
+    <gizmoClass>Botania.Command_AbilityWand</gizmoClass>
+    <cooldownTicksRange>60</cooldownTicksRange>
+    <displayGizmoWhileUndrafted>false</displayGizmoWhileUndrafted>
+    <showOnCharacterCard>false</showOnCharacterCard>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <range>6</range>
+      <warmupTime>0.5</warmupTime>
+      <requireLineOfSight>false</requireLineOfSight>
+      <soundCast>PsycastPsychicEffect</soundCast>
+      <targetParams>
+        <canTargetLocations>true</canTargetLocations>
+        <canTargetPawns>false</canTargetPawns>
+        <canTargetAnimals>false</canTargetAnimals>
+        <canTargetBuildings>false</canTargetBuildings>
+        <canTargetSelf>false</canTargetSelf>
+      </targetParams>
+    </verbProperties>
+  </AbilityDef>
+
+</Defs>

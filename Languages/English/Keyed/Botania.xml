@@ -32,10 +32,22 @@
   <Botania.WandManaHediff>Wand mana {0} / {1}</Botania.WandManaHediff>
   <Botania.WandManaHediffTip>The mana left in the wand of the forest in this person's hands. Each mana bolt costs 50; blooming and transmuting cost per plant or per stack.</Botania.WandManaHediffTip>
 
-  <Botania.RepairerWorking>Mending targets within {0} tiles: up to {1} HP per cycle, {2} mana per HP</Botania.RepairerWorking>
-  <Botania.RepairerLast>Mended {0} HP last cycle</Botania.RepairerLast>
+
+  <Botania.ManaReadoutLabel>Wand mana</Botania.ManaReadoutLabel>
+  <Botania.ManaReadoutTip>Mana left in the wand: about {0} more mana bolts. Spells are charged per plant or per stack.</Botania.ManaReadoutTip>
+  <Botania.SpellOutOfRange>Target is beyond casting range ({0} tiles)</Botania.SpellOutOfRange>
+
+  <Botania.RepairerWorking>Mending within {0} tiles: up to {1} targets per cycle, +{2} HP each, {3} mana per HP</Botania.RepairerWorking>
+  <Botania.RepairerLast>Last cycle: mended {0} HP ({1} targets, {2} mana)</Botania.RepairerLast>
+  <Botania.RepairerLimitUnlimited>unlimited</Botania.RepairerLimitUnlimited>
   <Botania.RepairerOff>Mending is off</Botania.RepairerOff>
   <Botania.RepairerToggle>Mending toggle</Botania.RepairerToggle>
   <Botania.RepairerToggleDesc>When off, this building stops drawing mana and stops mending anything.</Botania.RepairerToggleDesc>
+
+  <Botania.SettingsLimitTargets>Limit targets mended per cycle</Botania.SettingsLimitTargets>
+  <Botania.SettingsLimitTargetsDesc>When on, each repairer only tends a limited number of targets per second. When off it mends everything damaged in range, paying mana in proportion to the count.</Botania.SettingsLimitTargetsDesc>
+  <Botania.SettingsMaxTargets>Targets per cycle: {0}</Botania.SettingsMaxTargets>
+  <Botania.SettingsUnlimited>Currently: unlimited (mend everything in range)</Botania.SettingsUnlimited>
+  <Botania.SettingsRepairCost>Mana cost = price per HP x HP per target x number of targets. E.g. 10 walls x 5 HP x 5 mana = 250.</Botania.SettingsRepairCost>
 
 </LanguageData>

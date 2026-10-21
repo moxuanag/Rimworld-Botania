@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <Botania_SpellBloom.label>绽花</Botania_SpellBloom.label>
+  <Botania_SpellBloom.description>把魔力灌进选定位置周围的植物，催它们立刻长一截。每株消耗 20 点魔力。</Botania_SpellBloom.description>
+
+  <Botania_SpellConvert.label>就地转化</Botania_SpellConvert.label>
+  <Botania_SpellConvert.description>教会选定位置附近的木头与石砖“活着”：原木变活木，石砖变活石。每堆消耗 20 点魔力。</Botania_SpellConvert.description>
+
+</LanguageData>

@@ -21,9 +21,9 @@ namespace Botania
         public float hpPerCycle = 5f;
 
         /// <summary>每修复 1 点耐久消耗的魔力。</summary>
-        public float manaPerHp = 2f;
+        public float manaPerHp = 5f;
 
-        /// <summary>一个周期最多同时照顾几个目标（最破的优先）。</summary>
+        /// <summary>默认上限（玩家可在模组设置里改，或直接关掉上限）。</summary>
         public int maxTargets = 4;
 
         /// <summary>修建筑吗。</summary>
@@ -31,6 +31,9 @@ namespace Botania
 
         /// <summary>修地上的物品（武器/服装/工具）吗。</summary>
         public bool repairItems;
+
+        /// <summary>开关按钮的图标。</summary>
+        public string toggleIcon = "UI/Icons/Botania/Repair";
 
         public CompProperties_ManaRepairer()
         {
@@ -72,9 +75,13 @@ namespace Botania
 
     /// <summary>
     /// 用魔力修复范围内的耐久。
-    /// 同一套逻辑挂两个建筑上：建筑恢复器（repairBuildings）与装备修复器（repairItems）。
-    /// 每个周期按「最破的优先」挑目标，按实际抽到的魔力决定修多少——
-    /// 魔力不够就修一点，不硬撑；完全没有魔力就不动，也不空转扣费。
+    /// 建筑恢复器（repairBuildings）与装备修复器（repairItems）共用这套逻辑。
+    ///
+    /// 一个周期的账：
+    ///   目标数 = min(范围内待修的东西, 上限)      ← 上限可在模组设置里关掉
+    ///   每目标修补 hpPerCycle 点
+    ///   总耗魔 = 目标数 × hpPerCycle × manaPerHp   ← 多修一个目标就多一份钱
+    /// 魔力不够就按比例少修，抽不到则完全不动。
     /// </summary>
     public class CompManaRepairer : ThingComp
     {
@@ -82,8 +89,12 @@ namespace Botania
 
         private bool enabled = true;
 
-        /// <summary>上一周期实际修复的总耐久（只用于检视显示）。</summary>
+        /// <summary>上一周期实际修复的总耐久（仅用于检视显示）。</summary>
         private float lastRepaired;
+
+        private int lastTargets;
+
+        private float lastManaSpent;
 
         public CompProperties_ManaRepairer Props => (CompProperties_ManaRepairer)props;
 
@@ -91,12 +102,24 @@ namespace Botania
 
         private Map Map => parent.Map;
 
-        private bool CanRun => enabled && parent.Spawned && Map != null;
+        /// <summary>生效的上限：设置里关掉上限就是"多少都修"。</summary>
+        private int EffectiveLimit
+        {
+            get
+            {
+                BotaniaModSettings settings = BotaniaModSettings.Instance;
+                if (settings != null && !settings.limitRepairTargets)
+                {
+                    return int.MaxValue;
+                }
+                int fromSettings = settings?.maxRepairTargets ?? Props.maxTargets;
+                return Mathf.Max(1, fromSettings);
+            }
+        }
 
         public override void CompTick()
         {
-            // 关掉时也要走 tick，否则玩家点了开关没反应
-            if (!CanRun)
+            if (!enabled || !parent.Spawned || Map == null)
             {
                 return;
             }
@@ -112,6 +135,8 @@ namespace Botania
         private void RunCycle()
         {
             lastRepaired = 0f;
+            lastTargets = 0;
+            lastManaSpent = 0f;
 
             List<Thing> candidates = FindCandidates();
             if (candidates.Count == 0)
@@ -119,12 +144,11 @@ namespace Botania
                 return;
             }
 
-            // 目标越破越优先，免得火力分散在满血的墙上
+            // 越破越优先，免得火力分散在满血的墙上
             candidates.Sort((a, b) => Frac(a).CompareTo(Frac(b)));
 
-            int count = Mathf.Min(candidates.Count, Props.maxTargets);
+            int count = Mathf.Min(candidates.Count, EffectiveLimit);
 
-            // 先算出「想修多少」，再按实际能抽到的魔力打折
             float wantedHp = 0f;
             for (int i = 0; i < count; i++)
             {
@@ -137,15 +161,17 @@ namespace Botania
 
             float wantedMana = wantedHp * Props.manaPerHp;
             float available = TakeMana(wantedMana);
-            if (available <= 0.01f)
+
+            // 一分钱一分货：抽到多少就修多少
+            float hpBudget = Props.manaPerHp > 0f ? available / Props.manaPerHp : wantedHp;
+            hpBudget = Mathf.Min(hpBudget, wantedHp);
+            if (hpBudget <= 0.01f)
             {
                 return;
             }
 
-            float hpBudget = Props.manaPerHp > 0f ? available / Props.manaPerHp : wantedHp;
-            hpBudget = Mathf.Min(hpBudget, wantedHp);
+            lastManaSpent = available;
 
-            // 把预算按目标平均分，最后一点零头给第一个
             float perTarget = hpBudget / count;
             for (int i = 0; i < count; i++)
             {
@@ -162,6 +188,7 @@ namespace Botania
                 }
                 thing.HitPoints += heal;
                 lastRepaired += heal;
+                lastTargets++;
             }
         }
 
@@ -202,6 +229,11 @@ namespace Botania
                 {
                     continue;
                 }
+                // 尸体防着点：它也是 Item，但修尸体毫无意义
+                if (thing is Corpse || thing.def.IsCorpse)
+                {
+                    continue;
+                }
                 if (thing.def.category == ThingCategory.Building)
                 {
                     if (!Props.repairBuildings)
@@ -223,7 +255,7 @@ namespace Botania
                 }
                 else
                 {
-                    // 人、尸体、植物等一律不碰
+                    // 人、植物等一律不碰
                     continue;
                 }
                 result.Add(thing);
@@ -255,14 +287,22 @@ namespace Botania
                 return "Botania.RepairerOff".Translate();
             }
             StringBuilder sb = new StringBuilder();
+            int limit = EffectiveLimit;
+            string limitText = limit == int.MaxValue
+                ? "Botania.RepairerLimitUnlimited".Translate()
+                : limit.ToString();
             sb.Append("Botania.RepairerWorking".Translate(
                 Props.radius.ToString("F0"),
-                (Props.hpPerCycle * Props.maxTargets).ToString("F0"),
+                limitText,
+                Props.hpPerCycle.ToString("F0"),
                 Props.manaPerHp.ToString("F1")));
             if (lastRepaired > 0.01f)
             {
                 sb.Append("\n");
-                sb.Append("Botania.RepairerLast".Translate(lastRepaired.ToString("F0")));
+                sb.Append("Botania.RepairerLast".Translate(
+                    lastRepaired.ToString("F0"),
+                    lastTargets.ToString(),
+                    lastManaSpent.ToString("F0")));
             }
             return sb.ToString();
         }
@@ -277,12 +317,15 @@ namespace Botania
             {
                 defaultLabel = "Botania.RepairerToggle".Translate(),
                 defaultDesc = "Botania.RepairerToggleDesc".Translate(),
+                icon = ContentFinder<Texture2D>.Get(Props.toggleIcon, false) ?? BaseContent.BadTex,
                 isActive = () => enabled,
                 toggleAction = () =>
                 {
                     enabled = !enabled;
                     ticksAccum = 0;
                     lastRepaired = 0f;
+                    lastTargets = 0;
+                    lastManaSpent = 0f;
                 }
             };
         }

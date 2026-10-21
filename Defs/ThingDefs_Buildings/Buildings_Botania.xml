@@ -257,9 +257,9 @@
     </costList>
     <comps>
       <li Class="Botania.CompProperties_ManaRelay">
-        <capacity>3000</capacity>
+        <capacity>6000</capacity>
         <radius>6</radius>
-        <manaPerSecond>10</manaPerSecond>
+        <manaPerSecond>40</manaPerSecond>
         <lossPercent>0.1</lossPercent>
       </li>
       <li Class="Botania.CompProperties_RadiusRing">
@@ -370,6 +370,10 @@
     <label>structure repairer</label>
     <description>A livingrock frame wrapped around a wall of mana-veined stone. Held near a mana pool, it seeps mana into cracked walls and slowly knits the masonry back together. It only mends what is already built - it will not finish construction, and it will not touch another faction's walls.</description>
     <thingClass>Building</thingClass>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>BotaniaBuildings</li>
+    </thingCategories>
     <tickerType>Normal</tickerType>
     <graphicData>
       <texPath>Things/Building/Botania/StructureRepairer</texPath>
@@ -397,7 +401,7 @@
         <manaSearchRadius>6</manaSearchRadius>
         <ticksPerCycle>60</ticksPerCycle>
         <hpPerCycle>5</hpPerCycle>
-        <manaPerHp>2</manaPerHp>
+        <manaPerHp>5</manaPerHp>
         <maxTargets>4</maxTargets>
         <repairBuildings>true</repairBuildings>
         <repairItems>false</repairItems>
@@ -406,11 +410,11 @@
         <radius>8</radius>
       </li>
     </comps>
+    <placeWorkers>
+      <li>Botania.PlaceWorker_ManaRepairRadius</li>
+    </placeWorkers>
     <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
     <designationCategory>Misc</designationCategory>
-    <thingCategories>
-      <li>BotaniaBuildings</li>
-    </thingCategories>
     <researchPrerequisites>
       <li>Botania_BasicMana</li>
     </researchPrerequisites>
@@ -428,6 +432,10 @@
     <label>item repairer</label>
     <description>A livingwood bench with a manasteel anvil and a clamp of woven mana. Any worn weapon, tool or piece of apparel left on it is soaked in mana until the cracks close. It mends what is already made - it cannot repair something that has been destroyed outright.</description>
     <thingClass>Building</thingClass>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>BotaniaBuildings</li>
+    </thingCategories>
     <tickerType>Normal</tickerType>
     <graphicData>
       <texPath>Things/Building/Botania/ItemRepairer</texPath>
@@ -455,7 +463,7 @@
         <manaSearchRadius>6</manaSearchRadius>
         <ticksPerCycle>60</ticksPerCycle>
         <hpPerCycle>6</hpPerCycle>
-        <manaPerHp>1.5</manaPerHp>
+        <manaPerHp>5</manaPerHp>
         <maxTargets>4</maxTargets>
         <repairBuildings>false</repairBuildings>
         <repairItems>true</repairItems>
@@ -464,11 +472,11 @@
         <radius>6</radius>
       </li>
     </comps>
+    <placeWorkers>
+      <li>Botania.PlaceWorker_ManaRepairRadius</li>
+    </placeWorkers>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <designationCategory>Misc</designationCategory>
-    <thingCategories>
-      <li>BotaniaBuildings</li>
-    </thingCategories>
     <researchPrerequisites>
       <li>Botania_BasicMana</li>
     </researchPrerequisites>
