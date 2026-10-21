@@ -6,16 +6,15 @@ using Verse;
 namespace Botania
 {
     /// <summary>
-    /// 施法选点时的绘制。
-    /// 1. 鼠标所在格画「这次法术的影响半径」（绽花 4 格 / 转化 1.5 格）；
-    /// 2. 小人身上画「6 格可施法范围」。
+    /// 施法选点时的绘制：
+    /// 1. 6 格可施法范围画在小人身上（蓝）；
+    /// 2. 这次法术的影响半径画在鼠标所在格（绿）。
     ///
     /// 放在 Verb 上而不是 Ability 上：这一版引擎的 Ability.DrawHighlight 不可重写，
     /// Verb.DrawHighlight 可以。
     ///
-    /// 注意：这里**不能**调 base.DrawHighlight —— 父类实现会碰 ability 相关状态，
-    /// 一抛异常就会把整个 GUI 打断（表现为点技能后 UI 消失）。所以全部自己画，
-    /// 并且整体 try/catch，任何意外只记一次日志、不往外抛。
+    /// 两道保险：ability 为空时什么都不画（父类方法会因为空 ability 抛 NRE 打挂 GUI，
+    /// 所以这里也不调 base）；整体 try/catch，异常只记一次日志。
     /// </summary>
     public class Verb_WandCast : Verb_CastAbility
     {
