@@ -162,6 +162,12 @@ namespace Botania
                     continue;
                 }
                 plant.Growth = Mathf.Min(1f, plant.Growth + Props.bloomGrowth);
+                // 这一版引擎里改 Growth 不会自动重刷贴图，成熟度涨了但画面还是幼苗，
+                // 所以手动把所在格的网格标脏，让它按新成熟度重画。
+                if (plant.Spawned)
+                {
+                    map.mapDrawer.MapMeshDirty(plant.Position, MapMeshFlagDefOf.Things);
+                }
             }
             Messages.Message("Botania.WandBloomed".Translate(targets.Count.ToString()), MessageTypeDefOf.PositiveEvent, false);
             return true;

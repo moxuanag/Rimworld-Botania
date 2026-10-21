@@ -258,12 +258,12 @@
     <comps>
       <li Class="Botania.CompProperties_ManaRelay">
         <capacity>6000</capacity>
-        <radius>6</radius>
+        <radius>8</radius>
         <manaPerSecond>40</manaPerSecond>
         <lossPercent>0.1</lossPercent>
       </li>
       <li Class="Botania.CompProperties_RadiusRing">
-        <radius>6</radius>
+        <radius>8</radius>
       </li>
     </comps>
     <!-- 放置时显示半径 6 的供给范围环 -->

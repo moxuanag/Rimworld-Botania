@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
-  <!-- 森林法杖的两个法术：与原版灵能技能同一条实现路径（AbilityDef + Ability + Command_Ability），
-       因此按钮样式、热键、悬停提示与灵能一致。
-       费用不在这里声明——魔力存在法杖里，由 CompWand 结算。 -->
+  <!-- 森林法杖的两个法术。
+       走原版灵能技能同一条路（AbilityDef + Ability + Command_Ability），
+       所以按钮样式、热键、悬停提示都与灵能一致。
+       费用不在这里声明——魔力存在法杖里，由 CompWand 结算。
+       范围圈也不在这里画：施法选点时由 Botania.Verb_WandCast
+       在鼠标所在格画出这次法术的影响半径。 -->
   <AbilityDef>
     <defName>Botania_SpellBloom</defName>
     <label>bloom</label>
@@ -11,12 +14,11 @@
     <iconPath>UI/Icons/Botania/Bloom</iconPath>
     <abilityClass>Botania.Ability_WandBloom</abilityClass>
     <hotKey>Misc11</hotKey>
-    <gizmoClass>Botania.Command_AbilityWand</gizmoClass>
     <cooldownTicksRange>60</cooldownTicksRange>
     <displayGizmoWhileUndrafted>false</displayGizmoWhileUndrafted>
     <showOnCharacterCard>false</showOnCharacterCard>
     <verbProperties>
-      <verbClass>Verb_CastAbility</verbClass>
+      <verbClass>Botania.Verb_WandCast</verbClass>
       <range>6</range>
       <warmupTime>0.5</warmupTime>
       <requireLineOfSight>false</requireLineOfSight>
@@ -38,12 +40,11 @@
     <iconPath>UI/Icons/Botania/Transfer</iconPath>
     <abilityClass>Botania.Ability_WandConvert</abilityClass>
     <hotKey>Misc12</hotKey>
-    <gizmoClass>Botania.Command_AbilityWand</gizmoClass>
     <cooldownTicksRange>60</cooldownTicksRange>
     <displayGizmoWhileUndrafted>false</displayGizmoWhileUndrafted>
     <showOnCharacterCard>false</showOnCharacterCard>
     <verbProperties>
-      <verbClass>Verb_CastAbility</verbClass>
+      <verbClass>Botania.Verb_WandCast</verbClass>
       <range>6</range>
       <warmupTime>0.5</warmupTime>
       <requireLineOfSight>false</requireLineOfSight>

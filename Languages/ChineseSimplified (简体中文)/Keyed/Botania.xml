@@ -54,12 +54,7 @@
 
   <Botania.SettingsLimitStructureTargets>限制每次修复的建筑数量</Botania.SettingsLimitStructureTargets>
   <Botania.SettingsMaxStructureTargets>每次修复的建筑上限：{0}</Botania.SettingsMaxStructureTargets>
-
-<Botania.SpellWalking>正在走过去施法……</Botania.SpellWalking>
-  <Botania.SpellWalkFailed>走不过去，这个位置施放不了。</Botania.SpellWalkFailed>
   <Botania.BoltOutOfRange>超出射程（{0} 格），打不到那里。</Botania.BoltOutOfRange>
-  <Botania.SettingsCastAtFeet>施法时直接在脚下释放</Botania.SettingsCastAtFeet>
-  <Botania.SettingsCastAtFeetDesc>开启后，绽花与就地转化不再走到目标格，直接在施法者脚下生效。走路施法出问题时可以打开这个。</Botania.SettingsCastAtFeetDesc>
   <Botania.WandAlreadyFull>法杖已经是满的。</Botania.WandAlreadyFull>
 
 </LanguageData>

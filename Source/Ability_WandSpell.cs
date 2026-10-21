@@ -1,6 +1,5 @@
 using RimWorld;
 using Verse;
-using Verse.AI;
 
 namespace Botania
 {
@@ -9,6 +8,9 @@ namespace Botania
     /// 走原版灵能技能同一条路：AbilityDef + Pawn_AbilityTracker + Command_Ability，
     /// 所以按钮样式、热键、悬停提示都与灵能一致。
     /// 魔力不在小人身上，而是存在手里那根法杖里，费用由 CompWand 结算。
+    ///
+    /// 交互：点按钮 → 鼠标带着影响范围走 → 左键选格 → 在那一格结算。
+    /// 超出 6 格就只提示、不放（不做自动走过去）。
     /// </summary>
     public abstract class Ability_WandSpell : Ability
     {
@@ -34,7 +36,7 @@ namespace Botania
         /// <summary>施法距离。</summary>
         public float CastRange => def?.verbProperties?.range ?? 6f;
 
-        /// <summary>悬停时第二个圈（法术影响半径），由子类给。</summary>
+        /// <summary>这次法术的影响半径，供施法选点时画圈用。</summary>
         public abstract float EffectRadius { get; }
 
         public override bool Activate(LocalTargetInfo target, LocalTargetInfo dest)
@@ -47,70 +49,24 @@ namespace Botania
             }
 
             IntVec3 center = target.IsValid ? target.Cell : caster.Position;
-
-            // 设置里可以选择"直接在脚下释放"，省掉走过去这一步
-            if (BotaniaModSettings.Instance?.castAtFeet == true)
-            {
-                center = caster.Position;
-            }
-
             if (!center.InBounds(caster.Map))
             {
                 return false;
             }
             if (center.DistanceTo(caster.Position) > CastRange)
             {
-                // 超出射程：让小人走过去，到了再放
-                if (StartWalkTo(center))
-                {
-                    Messages.Message("Botania.SpellWalking".Translate(),
-                        MessageTypeDefOf.NeutralEvent, false);
-                    return true;
-                }
                 Messages.Message("Botania.SpellOutOfRange".Translate(CastRange.ToString("F0")),
                     MessageTypeDefOf.RejectInput, false);
                 return false;
             }
 
-            return ResolvePendingCast(center);
-        }
-
-        /// <summary>真放一次（范围内的走这条），并进冷却。</summary>
-        public bool ResolvePendingCast(IntVec3 center)
-        {
-            CompWand wand = FindWand();
-            Pawn caster = pawn;
-            if (wand == null || caster?.Map == null || !center.InBounds(caster.Map))
-            {
-                return false;
-            }
             if (!Apply(wand, center, caster.Map))
             {
                 return false;
             }
-            // 只有真正生效才进冷却，失败等于没放
-            base.Activate(center, center);
-            return true;
-        }
 
-        /// <summary>下一条「走到目标格」的原版 Goto 任务，同时登记待办。</summary>
-        public bool StartWalkTo(IntVec3 center)
-        {
-            Pawn caster = pawn;
-            if (caster == null || caster.Map == null || !caster.Spawned)
-            {
-                return false;
-            }
-            if (!caster.CanReach(center, PathEndMode.Touch, Danger.Deadly, false, false))
-            {
-                return false;
-            }
-            Job job = JobMaker.MakeJob(JobDefOf.Goto, center);
-            if (!caster.jobs.TryTakeOrderedJob(job, JobTag.Misc))
-            {
-                return false;
-            }
-            MapComponent_WandCasts.Request(caster.Map, caster, center, def.defName);
+            // 只有真正生效才进冷却，失败等于没放
+            base.Activate(target, dest);
             return true;
         }
 

@@ -16,9 +16,6 @@ namespace Botania
         public bool limitItemTargets = true;
         public int maxItemTargets = 5;
 
-        /// <summary>施法时忽略点选的位置，直接在脚下释放（走不过去时的保底方案）。</summary>
-        public bool castAtFeet;
-
         public static BotaniaModSettings Instance
         {
             get
@@ -35,7 +32,6 @@ namespace Botania
             Scribe_Values.Look(ref maxStructureTargets, "maxStructureTargets", 5);
             Scribe_Values.Look(ref limitItemTargets, "limitItemTargets", true);
             Scribe_Values.Look(ref maxItemTargets, "maxItemTargets", 5);
-            Scribe_Values.Look(ref castAtFeet, "castAtFeet", false);
         }
     }
 
@@ -70,7 +66,8 @@ namespace Botania
 
             list.Label("Botania.SettingsItemHeader".Translate());
             list.CheckboxLabeled("Botania.SettingsLimitItemTargets".Translate(), ref s.limitItemTargets,
-                "Botania.SettingsLimitTargetsDesc".Translate());            if (s.limitItemTargets)
+                "Botania.SettingsLimitTargetsDesc".Translate());
+            if (s.limitItemTargets)
             {
                 list.Label("Botania.SettingsMaxItemTargets".Translate(s.maxItemTargets));
                 s.maxItemTargets = Mathf.RoundToInt(list.Slider(s.maxItemTargets, 1f, 50f));
@@ -81,10 +78,6 @@ namespace Botania
             }
 
             list.GapLine();
-            list.CheckboxLabeled("Botania.SettingsCastAtFeet".Translate(), ref s.castAtFeet,
-                "Botania.SettingsCastAtFeetDesc".Translate());
-            list.GapLine();
-
             list.Label("Botania.SettingsRepairCost".Translate());
             list.End();
         }
