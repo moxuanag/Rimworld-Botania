@@ -50,4 +50,9 @@
   <Botania.SettingsUnlimited>Currently: unlimited (mend everything in range)</Botania.SettingsUnlimited>
   <Botania.SettingsRepairCost>Mana cost = price per HP x HP per target x number of targets. E.g. 10 walls x 5 HP x 5 mana = 250.</Botania.SettingsRepairCost>
 
+  <Botania.SettingsStructureHeader>[Structure repairer]</Botania.SettingsStructureHeader>
+  <Botania.SettingsItemHeader>[Item repairer]</Botania.SettingsItemHeader>
+  <Botania.SettingsLimitItemTargets>Limit items mended per cycle</Botania.SettingsLimitItemTargets>
+  <Botania.SettingsMaxItemTargets>Items per cycle: {0}</Botania.SettingsMaxItemTargets>
+
 </LanguageData>

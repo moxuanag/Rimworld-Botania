@@ -5,16 +5,16 @@ using Verse;
 namespace Botania
 {
     /// <summary>
-    /// 本模组的全局设置（游戏内「选项 → 模组设置」里可改）。
-    /// 目前只有修复器的目标上限开关。
+    /// 本模组的全局设置（选项 → 模组设置）。
+    /// 建筑修复与装备修复各自独立开关与上限，默认都开启限制、每次 5 个。
     /// </summary>
     public class BotaniaModSettings : ModSettings
     {
-        /// <summary>是否限制每周期修复的目标数量。关掉 = 范围内所有破的东西一起修。</summary>
-        public bool limitRepairTargets;
+        public bool limitStructureTargets = true;
+        public int maxStructureTargets = 5;
 
-        /// <summary>上限数量（limitRepairTargets 为 true 时生效）。</summary>
-        public int maxRepairTargets = 4;
+        public bool limitItemTargets = true;
+        public int maxItemTargets = 5;
 
         public static BotaniaModSettings Instance
         {
@@ -28,8 +28,10 @@ namespace Botania
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look(ref limitRepairTargets, "limitRepairTargets", false);
-            Scribe_Values.Look(ref maxRepairTargets, "maxRepairTargets", 4);
+            Scribe_Values.Look(ref limitStructureTargets, "limitStructureTargets", true);
+            Scribe_Values.Look(ref maxStructureTargets, "maxStructureTargets", 5);
+            Scribe_Values.Look(ref limitItemTargets, "limitItemTargets", true);
+            Scribe_Values.Look(ref maxItemTargets, "maxItemTargets", 5);
         }
     }
 
@@ -43,28 +45,41 @@ namespace Botania
 
         public override void DoSettingsWindowContents(Rect inRect)
         {
-            BotaniaModSettings settings = GetSettings<BotaniaModSettings>();
+            BotaniaModSettings s = GetSettings<BotaniaModSettings>();
+            Listing_Standard list = new Listing_Standard();
+            list.Begin(inRect);
 
-            Listing_Standard listing = new Listing_Standard();
-            listing.Begin(inRect);
-
-            listing.CheckboxLabeled("Botania.SettingsLimitTargets".Translate(), ref settings.limitRepairTargets,
+            list.Label("Botania.SettingsStructureHeader".Translate());
+            list.CheckboxLabeled("Botania.SettingsLimitTargets".Translate(), ref s.limitStructureTargets,
                 "Botania.SettingsLimitTargetsDesc".Translate());
-
-            if (settings.limitRepairTargets)
+            if (s.limitStructureTargets)
             {
-                listing.Label("Botania.SettingsMaxTargets".Translate(settings.maxRepairTargets));
-                float value = listing.Slider(settings.maxRepairTargets, 1f, 50f);
-                settings.maxRepairTargets = Mathf.RoundToInt(value);
+                list.Label("Botania.SettingsMaxTargets".Translate(s.maxStructureTargets));
+                s.maxStructureTargets = Mathf.RoundToInt(list.Slider(s.maxStructureTargets, 1f, 50f));
             }
             else
             {
-                listing.Label("Botania.SettingsUnlimited".Translate());
+                list.Label("Botania.SettingsUnlimited".Translate());
             }
 
-            listing.GapLine();
-            listing.Label("Botania.SettingsRepairCost".Translate());
-            listing.End();
+            list.GapLine();
+
+            list.Label("Botania.SettingsItemHeader".Translate());
+            list.CheckboxLabeled("Botania.SettingsLimitItemTargets".Translate(), ref s.limitItemTargets,
+                "Botania.SettingsLimitTargetsDesc".Translate());
+            if (s.limitItemTargets)
+            {
+                list.Label("Botania.SettingsMaxItemTargets".Translate(s.maxItemTargets));
+                s.maxItemTargets = Mathf.RoundToInt(list.Slider(s.maxItemTargets, 1f, 50f));
+            }
+            else
+            {
+                list.Label("Botania.SettingsUnlimited".Translate());
+            }
+
+            list.GapLine();
+            list.Label("Botania.SettingsRepairCost".Translate());
+            list.End();
         }
     }
 }

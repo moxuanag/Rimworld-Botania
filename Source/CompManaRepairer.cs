@@ -102,18 +102,28 @@ namespace Botania
 
         private Map Map => parent.Map;
 
-        /// <summary>生效的上限：设置里关掉上限就是"多少都修"。</summary>
+        /// <summary>
+        /// 生效的上限。建筑修复与装备修复各有一套设置，互不影响；
+        /// 关掉上限就是「范围内多少都修」。
+        /// </summary>
         private int EffectiveLimit
         {
             get
             {
                 BotaniaModSettings settings = BotaniaModSettings.Instance;
-                if (settings != null && !settings.limitRepairTargets)
+                if (settings == null)
                 {
-                    return int.MaxValue;
+                    return Mathf.Max(1, Props.maxTargets);
                 }
-                int fromSettings = settings?.maxRepairTargets ?? Props.maxTargets;
-                return Mathf.Max(1, fromSettings);
+                if (Props.repairItems)
+                {
+                    return settings.limitItemTargets
+                        ? Mathf.Max(1, settings.maxItemTargets)
+                        : int.MaxValue;
+                }
+                return settings.limitStructureTargets
+                    ? Mathf.Max(1, settings.maxStructureTargets)
+                    : int.MaxValue;
             }
         }
 

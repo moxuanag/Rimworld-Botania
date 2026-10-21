@@ -12,10 +12,6 @@
     <isBad>false</isBad>
     <initialSeverity>0.01</initialSeverity>
     <maxSeverity>500</maxSeverity>
-    <comps>
-      <!-- 持杖时在技能栏里显示一根只读魔力条（参照 CE 的弹药显示） -->
-      <li Class="Botania.HediffComp_ManaReadout" />
-    </comps>
   </HediffDef>
 
 </Defs>

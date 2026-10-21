@@ -86,6 +86,9 @@
     </tools>
     <weaponTags Inherit="False" />
     <comps>
+      <!-- 装备 Gizmo 的引擎出口是 CompEquippable.CompGetEquippedGizmosExtra()，
+           所以魔力条由这个子类提供，位置就在征召按钮旁边 -->
+      <li Class="Botania.CompEquippable_Wand" />
       <li Class="Botania.CompProperties_ManaWeapon">
         <maxMana>500</maxMana>
         <manaPerShot>50</manaPerShot>
@@ -121,6 +124,7 @@
   <ThingDef ParentName="BaseBullet">
     <defName>Botania_ManaBolt</defName>
     <label>mana bolt</label>
+    <description>A strand of condensed mana, fired from the wand of the forest.</description>
     <graphicData>
       <texPath>Things/Projectile/Botania/ManaBolt</texPath>
       <graphicClass>Graphic_Single</graphicClass>

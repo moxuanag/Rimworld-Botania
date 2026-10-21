@@ -85,7 +85,6 @@
   <Botania_WandOfTheForest.description>一根活木杖身、嵌着魔力钢环的法杖，环里悬着一滴发光的树汁。杖内自带 500 点魔力储备，可以消耗魔力射出燃烧的光弹；握着它的人也能催长植物，或教会木头与石头“活着”。储备耗尽时，它可以向附近的魔力池汲取魔力。</Botania_WandOfTheForest.description>
 
   <Botania_ManaBolt.label>魔力弹</Botania_ManaBolt.label>
-  <Botania_ManaBolt.description>森林法杖射出的一束凝聚魔力。</Botania_ManaBolt.description>
 
   <Botania_StructureRepairer.label>建筑恢复器</Botania_StructureRepairer.label>
   <Botania_StructureRepairer.description>活石框住的一面魔力纹石壁。接着魔力池时，它会把魔力渗进开裂的墙里，让砖石慢慢自己合拢。\n\n它只修补已经建成的东西：不会替你盖完未完成的蓝图，也不会去修其他阵营的墙。选中时能看到半径 8 格的工作范围。</Botania_StructureRepairer.description>

@@ -268,7 +268,7 @@
     </comps>
     <!-- 放置时显示半径 6 的供给范围环 -->
     <placeWorkers>
-      <li>Botania.PlaceWorker_ManaRadius</li>
+      <li>Botania.PlaceWorker_ManaRelayNetwork</li>
     </placeWorkers>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <designationCategory>Misc</designationCategory>

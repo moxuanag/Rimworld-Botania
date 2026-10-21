@@ -1,5 +1,6 @@
 using RimWorld;
 using Verse;
+using Verse.AI;
 
 namespace Botania
 {
@@ -52,6 +53,11 @@ namespace Botania
             }
             if (center.DistanceTo(caster.Position) > CastRange)
             {
+                // 超出射程：让小人走过去，到了再放（原版灵能技能也是这样）
+                if (TryStartWalkToCast(center))
+                {
+                    return true;
+                }
                 Messages.Message("Botania.SpellOutOfRange".Translate(CastRange.ToString("F0")),
                     MessageTypeDefOf.RejectInput, false);
                 return false;
@@ -64,6 +70,30 @@ namespace Botania
 
             // 只有真正生效才进冷却，失败等于没放
             base.Activate(target, dest);
+            return true;
+        }
+
+        /// <summary>下达「走过去再施法」的 Job，下不成返回 false。</summary>
+        private bool TryStartWalkToCast(IntVec3 center)
+        {
+            Pawn caster = pawn;
+            if (caster == null || caster.Map == null || !caster.Spawned)
+            {
+                return false;
+            }
+            if (!caster.CanReach(center, PathEndMode.Touch, Danger.Deadly, false, false))
+            {
+                return false;
+            }
+            JobDef jobDef = DefDatabase<JobDef>.GetNamedSilentFail("Botania_CastWandSpell");
+            if (jobDef == null)
+            {
+                return false;
+            }
+            Job job = JobMaker.MakeJob(jobDef, center);
+            job.ability = this;
+            job.verbToUse = verb;
+            caster.jobs.TryTakeOrderedJob(job, JobTag.Misc);
             return true;
         }
 

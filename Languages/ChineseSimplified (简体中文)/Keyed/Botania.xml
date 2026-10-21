@@ -50,4 +50,9 @@
   <Botania.SettingsUnlimited>当前：不限数量（范围内全部修复）</Botania.SettingsUnlimited>
   <Botania.SettingsRepairCost>修复耗魔 = 魔力价 × 每点耐久 × 目标数量，例如 10 面墙 × 5 点 × 5 魔力 = 250。</Botania.SettingsRepairCost>
 
+  <Botania.SettingsStructureHeader>【建筑恢复器】</Botania.SettingsStructureHeader>
+  <Botania.SettingsItemHeader>【装备修复器】</Botania.SettingsItemHeader>
+  <Botania.SettingsLimitItemTargets>限制每次修复的装备数量</Botania.SettingsLimitItemTargets>
+  <Botania.SettingsMaxItemTargets>每次修复的装备上限：{0}</Botania.SettingsMaxItemTargets>
+
 </LanguageData>
