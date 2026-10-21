@@ -1,6 +1,6 @@
 ---
-name: GZ-RimworldModDevSkill
-description: 给 RimWorld 1.7（Waylith/Brutal 自定义引擎、net10、无 Harmony）写模组时的提速与避坑手册。当需要新增/修改 RimWorld 模组的 C# Comp、Ability、Gizmo、Verb、Def XML、贴图、本地化，或排查「写了但游戏里没反应/UI 消失/组件丢失」这类问题时使用。
+name: gz-rimworld-mod-dev-skill
+description: 给 RimWorld 1.7（Waylith/Brutal 自定义引擎、net10、无 Harmony）写模组时的提速与避坑手册（GZ-RimworldModDevSkill）。当需要新增/修改 RimWorld 模组的 C# Comp、Ability、Gizmo、Verb、Def XML、贴图、本地化，或排查「写了但游戏里没反应/UI 消失/组件丢失」这类问题时使用。
 whenToUse: 在 RimWorld 模组仓库里开发新功能、改 Def、加 C# 类、修游戏内行为不符预期的问题之前。
 ---
 
