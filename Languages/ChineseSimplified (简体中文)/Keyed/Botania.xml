@@ -32,4 +32,10 @@
   <Botania.WandManaHediff>魔力储备 {0} / {1}</Botania.WandManaHediff>
   <Botania.WandManaHediffTip>手里森林法杖剩余的魔力。每发魔力弹消耗 50，绽花/就地转化按株数和堆数扣。</Botania.WandManaHediffTip>
 
+  <Botania.RepairerWorking>正在修复半径 {0} 格内的目标：每周期最多 {1} 点耐久，每点耐久 {2} 魔力</Botania.RepairerWorking>
+  <Botania.RepairerLast>上一周期修复了 {0} 点耐久</Botania.RepairerLast>
+  <Botania.RepairerOff>修复已关闭</Botania.RepairerOff>
+  <Botania.RepairerToggle>修复开关</Botania.RepairerToggle>
+  <Botania.RepairerToggleDesc>关掉之后不再消耗魔力，也不再修复任何东西。</Botania.RepairerToggleDesc>
+
 </LanguageData>

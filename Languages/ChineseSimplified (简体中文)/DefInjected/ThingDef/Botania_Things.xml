@@ -87,6 +87,12 @@
   <Botania_ManaBolt.label>魔力弹</Botania_ManaBolt.label>
   <Botania_ManaBolt.description>森林法杖射出的一束凝聚魔力。</Botania_ManaBolt.description>
 
+  <Botania_StructureRepairer.label>建筑恢复器</Botania_StructureRepairer.label>
+  <Botania_StructureRepairer.description>活石框住的一面魔力纹石壁。接着魔力池时，它会把魔力渗进开裂的墙里，让砖石慢慢自己合拢。\n\n它只修补已经建成的东西：不会替你盖完未完成的蓝图，也不会去修其他阵营的墙。选中时能看到半径 8 格的工作范围。</Botania_StructureRepairer.description>
+
+  <Botania_ItemRepairer.label>装备修复器</Botania_ItemRepairer.label>
+  <Botania_ItemRepairer.description>一张活木工作台，配魔力钢铁砧和编织魔力做的夹具。把磨损的武器、工具或服装丢在附近，它会用魔力把裂纹一点点泡合。\n\n修的是还没坏掉的东西；已经彻底毁掉的救不回来。选中时能看到半径 6 格的工作范围。</Botania_ItemRepairer.description>
+
   <Botania_MysticFlower_White.label>神秘花（白）</Botania_MysticFlower_White.label>
   <Botania_MysticFlower_White.description>一朵白色的小花，花瓣里还留着一丝魔力。采集可得花瓣，只要不伤根，植株会重新生长。</Botania_MysticFlower_White.description>
 

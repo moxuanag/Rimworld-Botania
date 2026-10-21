@@ -359,4 +359,121 @@
     <uiOrder>3104</uiOrder>
   </ThingDef>
 
+  <!-- ============================================================
+       建筑恢复器：用魔力修半径 8 内自己阵营建筑的耐久。
+       · 每 1 秒一个周期，最多照顾 4 个目标，越破的越优先
+       · 每个目标最多 +5 耐久/周期，每点耐久 2 魔力（上限 20 耐久 = 40 魔力/秒）
+       · 魔力不够就按实际抽到的量打折修复，抽不到就停手
+       ============================================================ -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>Botania_StructureRepairer</defName>
+    <label>structure repairer</label>
+    <description>A livingrock frame wrapped around a wall of mana-veined stone. Held near a mana pool, it seeps mana into cracked walls and slowly knits the masonry back together. It only mends what is already built - it will not finish construction, and it will not touch another faction's walls.</description>
+    <thingClass>Building</thingClass>
+    <tickerType>Normal</tickerType>
+    <graphicData>
+      <texPath>Things/Building/Botania/StructureRepairer</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <shadowData>
+        <volume>(0.7,0.35,0.7)</volume>
+      </shadowData>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>180</MaxHitPoints>
+      <WorkToBuild>1400</WorkToBuild>
+      <Mass>14</Mass>
+      <Flammability>0</Flammability>
+      <Beauty>-1</Beauty>
+    </statBases>
+    <costList>
+      <Botania_ManasteelIngot>10</Botania_ManasteelIngot>
+      <Botania_Livingrock>15</Botania_Livingrock>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
+    <comps>
+      <li Class="Botania.CompProperties_ManaRepairer">
+        <radius>8</radius>
+        <manaSearchRadius>6</manaSearchRadius>
+        <ticksPerCycle>60</ticksPerCycle>
+        <hpPerCycle>5</hpPerCycle>
+        <manaPerHp>2</manaPerHp>
+        <maxTargets>4</maxTargets>
+        <repairBuildings>true</repairBuildings>
+        <repairItems>false</repairItems>
+      </li>
+      <li Class="Botania.CompProperties_RadiusRing">
+        <radius>8</radius>
+      </li>
+    </comps>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <designationCategory>Misc</designationCategory>
+    <thingCategories>
+      <li>BotaniaBuildings</li>
+    </thingCategories>
+    <researchPrerequisites>
+      <li>Botania_BasicMana</li>
+    </researchPrerequisites>
+    <constructEffect>ConstructWood</constructEffect>
+    <uiOrder>3105</uiOrder>
+  </ThingDef>
+
+  <!-- ============================================================
+       装备修复器：用魔力修半径 6 内地上装备/武器/服装的耐久。
+       · 每 1 秒一个周期，最多 4 个目标，越破的越优先
+       · 每个目标最多 +6 耐久/周期，每点耐久 1.5 魔力
+       ============================================================ -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>Botania_ItemRepairer</defName>
+    <label>item repairer</label>
+    <description>A livingwood bench with a manasteel anvil and a clamp of woven mana. Any worn weapon, tool or piece of apparel left on it is soaked in mana until the cracks close. It mends what is already made - it cannot repair something that has been destroyed outright.</description>
+    <thingClass>Building</thingClass>
+    <tickerType>Normal</tickerType>
+    <graphicData>
+      <texPath>Things/Building/Botania/ItemRepairer</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <shadowData>
+        <volume>(0.7,0.35,0.7)</volume>
+      </shadowData>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>150</MaxHitPoints>
+      <WorkToBuild>1200</WorkToBuild>
+      <Mass>12</Mass>
+      <Flammability>0.4</Flammability>
+      <Beauty>1</Beauty>
+    </statBases>
+    <costList>
+      <Botania_ManasteelIngot>10</Botania_ManasteelIngot>
+      <Botania_Livingwood>12</Botania_Livingwood>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
+    <comps>
+      <li Class="Botania.CompProperties_ManaRepairer">
+        <radius>6</radius>
+        <manaSearchRadius>6</manaSearchRadius>
+        <ticksPerCycle>60</ticksPerCycle>
+        <hpPerCycle>6</hpPerCycle>
+        <manaPerHp>1.5</manaPerHp>
+        <maxTargets>4</maxTargets>
+        <repairBuildings>false</repairBuildings>
+        <repairItems>true</repairItems>
+      </li>
+      <li Class="Botania.CompProperties_RadiusRing">
+        <radius>6</radius>
+      </li>
+    </comps>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>Misc</designationCategory>
+    <thingCategories>
+      <li>BotaniaBuildings</li>
+    </thingCategories>
+    <researchPrerequisites>
+      <li>Botania_BasicMana</li>
+    </researchPrerequisites>
+    <constructEffect>ConstructWood</constructEffect>
+    <uiOrder>3106</uiOrder>
+  </ThingDef>
+
 </Defs>

@@ -32,4 +32,10 @@
   <Botania.WandManaHediff>Wand mana {0} / {1}</Botania.WandManaHediff>
   <Botania.WandManaHediffTip>The mana left in the wand of the forest in this person's hands. Each mana bolt costs 50; blooming and transmuting cost per plant or per stack.</Botania.WandManaHediffTip>
 
+  <Botania.RepairerWorking>Mending targets within {0} tiles: up to {1} HP per cycle, {2} mana per HP</Botania.RepairerWorking>
+  <Botania.RepairerLast>Mended {0} HP last cycle</Botania.RepairerLast>
+  <Botania.RepairerOff>Mending is off</Botania.RepairerOff>
+  <Botania.RepairerToggle>Mending toggle</Botania.RepairerToggle>
+  <Botania.RepairerToggleDesc>When off, this building stops drawing mana and stops mending anything.</Botania.RepairerToggleDesc>
+
 </LanguageData>
