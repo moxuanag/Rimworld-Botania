@@ -162,15 +162,29 @@ namespace Botania
                     continue;
                 }
                 plant.Growth = Mathf.Min(1f, plant.Growth + Props.bloomGrowth);
-                // 这一版引擎里改 Growth 不会自动重刷贴图，成熟度涨了但画面还是幼苗，
-                // 所以手动把所在格的网格标脏，让它按新成熟度重画。
-                if (plant.Spawned)
-                {
-                    map.mapDrawer.MapMeshDirty(plant.Position, MapMeshFlagDefOf.Things);
-                }
+                RefreshPlantGraphic(plant, map);
             }
             Messages.Message("Botania.WandBloomed".Translate(targets.Count.ToString()), MessageTypeDefOf.PositiveEvent, false);
             return true;
+        }
+
+        /// <summary>
+        /// 植物贴图按成长阶段取自不同的 Graphic（幼苗期用 immatureGraphic）。
+        /// 这一版引擎里改 Growth 不会自动重刷地图网格，于是出现
+        /// 「成熟度已经 100% 了，画面还是刚种下去的样子」。这里手动标脏该格，
+        /// 并顺手清掉 Graphic 缓存，让重画时按新成熟度取到正确贴图。
+        /// </summary>
+        private static void RefreshPlantGraphic(Plant plant, Map map)
+        {
+            if (plant == null || plant.Destroyed || map == null)
+            {
+                return;
+            }
+            plant.DirtyMapMesh(map);
+            if (plant.Spawned)
+            {
+                map.mapDrawer.MapMeshDirty(plant.Position, MapMeshFlagDefOf.Things);
+            }
         }
 
         /// <summary>把 center 周围的木料/石砖转化掉。返回是否真的做成了一次。</summary>
