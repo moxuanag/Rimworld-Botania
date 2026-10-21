@@ -10,7 +10,7 @@
   <Botania_MakeLivingwood.jobString>正在培育活木。</Botania_MakeLivingwood.jobString>
 
   <Botania_MakeLivingrock.label>塑成活石</Botania_MakeLivingrock.label>
-  <Botania_MakeLivingrock.description>把魔力尘压进切好的石砖里（花岗岩砖、石灰岩砖这类，不是石块堆），直到石头记起自己被切开之前的样子。活石是植物魔法建筑的主要结构材料。</Botania_MakeLivingrock.description>
+  <Botania_MakeLivingrock.description>把魔力尘压进切好的石砖里（花岗岩砖、石灰岩砖这类，不是没切开的石块），直到石头记起自己被切开之前的样子。活石是植物魔法建筑的主要结构材料。</Botania_MakeLivingrock.description>
   <Botania_MakeLivingrock.jobString>正在塑成活石。</Botania_MakeLivingrock.jobString>
 
   <Botania_MakeManasteel.label>锻造魔力钢</Botania_MakeManasteel.label>

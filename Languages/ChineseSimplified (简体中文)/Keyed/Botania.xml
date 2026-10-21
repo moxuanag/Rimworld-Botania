@@ -12,14 +12,14 @@
   <Botania.RelayEmpty>中继缓冲为空</Botania.RelayEmpty>
   <Botania.TransmuterWorking>正在转化相邻的材料</Botania.TransmuterWorking>
   <Botania.TransmuterNoMana>材料已就位，但魔力不足</Botania.TransmuterNoMana>
-  <Botania.TransmuterNoInput>相邻没有可转化的木头或石块</Botania.TransmuterNoInput>
+  <Botania.TransmuterNoInput>相邻没有可转化的木头或石砖</Botania.TransmuterNoInput>
   <Botania.TransmuterDisabled>转化已关闭</Botania.TransmuterDisabled>
   <Botania.WandBloomLabel>绽花</Botania.WandBloomLabel>
   <Botania.WandBloomDesc>让半径 {0} 格内的植物立刻长高一截，每株消耗 {1} 魔力。</Botania.WandBloomDesc>
   <Botania.WandConvertLabel>就地转化</Botania.WandConvertLabel>
-  <Botania.WandConvertDesc>把 {1} 格内的原木变成活木、石块变成活石，每个消耗 {0} 魔力。</Botania.WandConvertDesc>
+  <Botania.WandConvertDesc>把 {1} 格内的原木变成活木、石砖变成活石，每个消耗 {0} 魔力。</Botania.WandConvertDesc>
   <Botania.WandNoPlants>附近没有需要催长的植物</Botania.WandNoPlants>
-  <Botania.WandNoInput>脚边没有可转化的木头或石块</Botania.WandNoInput>
+  <Botania.WandNoInput>脚边没有可转化的木头或石砖</Botania.WandNoInput>
   <Botania.WandNoMana>附近魔力不足：需要 {0}，可用 {1}</Botania.WandNoMana>
   <Botania.WandBloomed>绽花：{0} 株植物被催长</Botania.WandBloomed>
   <Botania.WandConverted>就地转化：{0} 堆材料变成活性材料</Botania.WandConverted>
