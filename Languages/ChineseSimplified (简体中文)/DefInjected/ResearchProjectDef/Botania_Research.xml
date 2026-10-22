@@ -8,16 +8,19 @@
   <Botania_BasicMana.description>研究某些花朵如何把能量储存在花瓣之中。研磨花瓣可以提炼出魔力尘：它能熔进钢铁、缚入木材，也能储存在一池流动的光里。</Botania_BasicMana.description>
 
   <Botania_GeneratingI.label>产能花</Botania_GeneratingI.label>
-  <Botania_GeneratingI.description>会自己产魔的花。火红莲烧燃料；太阳花与夜颠茄只是喝着日光与黑暗，季节一到就会枯萎。</Botania_GeneratingI.description>
+  <Botania_GeneratingI.description>会自己产魔的花。火红莲把木头、活木或化合燃料烧成魔力，喂得越勤产得越多。</Botania_GeneratingI.description>
+
+  <Botania_PassiveGenerating.label>被动产能花</Botania_PassiveGenerating.label>
+  <Botania_PassiveGenerating.description>不用燃料、只靠时间产魔的花。太阳花喝日光、夜颠茄喝夜色，两者造价低廉、随手就能摆，代价是每朵只能撑一季，到点会自行枯萎。</Botania_PassiveGenerating.description>
 
   <Botania_Garden.label>花圃工艺</Botania_Garden.label>
-  <Botania_Garden.description>占位：批量制花的花瓣祭坛。内容将在后续版本接入。</Botania_Garden.description>
+  <Botania_Garden.description>把活木与活石拼成一支能引导魔力的手杖。森林法杖由此建成；批量制花的花瓣祭坛留待后续版本。</Botania_Garden.description>
 
   <Botania_FunctionalI.label>功能花</Botania_FunctionalI.label>
   <Botania_FunctionalI.description>占位：替殖民地干活的花——催熟、拾取与荆棘。内容将在后续版本接入。</Botania_FunctionalI.description>
 
   <Botania_Manasteel.label>魔力钢</Botania_Manasteel.label>
-  <Botania_Manasteel.description>把魔力尘熔进钢铁得到魔力钢，再用它造出殖民地第一批真正的魔力结构：储存魔力的池子、把魔力送往远处的通量场中继，以及把魔力换回普通电力的通量场。</Botania_Manasteel.description>
+  <Botania_Manasteel.description>把魔力尘熔进钢铁，得到既轻又韧的魔力钢。它是所有高级魔力结构的骨架——池子、中继塔、通量场与修复器都要用它。</Botania_Manasteel.description>
 
   <Botania_Mending.label>魔力修补</Botania_Mending.label>
   <Botania_Mending.description>占位：用魔力修装备的修补台，以及缓慢修补墙体与家具的修补塔。内容将在后续版本接入。</Botania_Mending.description>

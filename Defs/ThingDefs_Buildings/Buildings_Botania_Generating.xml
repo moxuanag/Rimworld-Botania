@@ -60,7 +60,7 @@
       <li>BotaniaBuildings</li>
     </thingCategories>
     <researchPrerequisites>
-      <li>Botania_GeneratingI</li>
+      <li>Botania_PassiveGenerating</li>
     </researchPrerequisites>
     <uiOrder>3210</uiOrder>
   </ThingDef>
@@ -118,7 +118,7 @@
       <li>BotaniaBuildings</li>
     </thingCategories>
     <researchPrerequisites>
-      <li>Botania_GeneratingI</li>
+      <li>Botania_PassiveGenerating</li>
     </researchPrerequisites>
     <uiOrder>3220</uiOrder>
   </ThingDef>

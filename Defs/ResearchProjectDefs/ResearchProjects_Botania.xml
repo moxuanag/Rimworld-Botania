@@ -55,9 +55,23 @@
   <!-- ===== E1 花圃 ===== -->
 
   <ResearchProjectDef>
+    <defName>Botania_PassiveGenerating</defName>
+    <label>botania: passive generating flowers</label>
+    <description>Flowers that pull mana out of daylight or moonlight without burning anything. Cheap and easy to place, but each one only lasts a season before withering away.</description>
+    <baseCost>400</baseCost>
+    <techLevel>Medieval</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_GeneratingI</li>
+    </prerequisites>
+    <researchViewX>3.00</researchViewX>
+    <researchViewY>0.00</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
     <defName>Botania_Garden</defName>
     <label>botania: garden craft</label>
-    <description>Placeholder: a petal altar for crafting flowers in batches. Content arrives in a later version.</description>
+    <description>Bind livingwood and livingrock into a staff that can channel mana. This is where the wand of the forest is built; the petal apothecary comes later.</description>
     <baseCost>900</baseCost>
     <techLevel>Medieval</techLevel>
     <tab>Botania</tab>
@@ -87,7 +101,7 @@
   <ResearchProjectDef>
     <defName>Botania_Manasteel</defName>
     <label>botania: manasteel</label>
-    <description>Alloy mana powder into steel to make manasteel, then shape it into the colony's first real mana structures: the pool that stores mana, the relay that carries it further, and the fluxfield that turns it back into ordinary power.</description>
+    <description>Fold mana powder into steel to make manasteel: light, tough, and the skeleton of every advanced mana structure, from pools and relays to fluxfields and repairers.</description>
     <baseCost>1500</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>

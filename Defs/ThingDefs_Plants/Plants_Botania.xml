@@ -4,7 +4,7 @@
   <!-- ============================================================
        神秘花（Mystic Flower）：花瓣的唯一来源。
        野生生成在各生物群系（见 Patches\Botania_WildPlants.xml），
-       也可在研究「植物魔法：魔力」后播种。
+       也可在研究「神秘花卉」后播种。
        收获后植株保留并重新生长（harvestAfterGrowth），是可持续的花田作物。
        ============================================================ -->
 
@@ -34,7 +34,7 @@
       <sowWork>170</sowWork>
       <sowMinSkill>2</sowMinSkill>
       <sowResearchPrerequisites>
-        <li>Botania_BasicMana</li>
+        <li>Botania_Flowers</li>
       </sowResearchPrerequisites>
       <sowTags>
         <li>Ground</li>
@@ -74,33 +74,7 @@
     </plant>
   </ThingDef>
 
-  <ThingDef ParentName="Botania_MysticFlowerBase">
-    <defName>Botania_MysticFlower_Magenta</defName>
-    <label>mystic flower (magenta)</label>
-    <description>A small flower whose magenta petals still hold a faint trace of mana. Harvest it for petals; the plant regrows if you leave the roots alone.</description>
-    <graphicData>
-      <texPath>Things/Plant/Botania/MysticFlower_Magenta</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>CutoutPlant</shaderType>
-    </graphicData>
-    <plant>
-      <harvestedThingDef>Botania_Petal_Magenta</harvestedThingDef>
-    </plant>
-  </ThingDef>
 
-  <ThingDef ParentName="Botania_MysticFlowerBase">
-    <defName>Botania_MysticFlower_LightBlue</defName>
-    <label>mystic flower (light blue)</label>
-    <description>A small flower whose light blue petals still hold a faint trace of mana. Harvest it for petals; the plant regrows if you leave the roots alone.</description>
-    <graphicData>
-      <texPath>Things/Plant/Botania/MysticFlower_LightBlue</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>CutoutPlant</shaderType>
-    </graphicData>
-    <plant>
-      <harvestedThingDef>Botania_Petal_LightBlue</harvestedThingDef>
-    </plant>
-  </ThingDef>
 
   <ThingDef ParentName="Botania_MysticFlowerBase">
     <defName>Botania_MysticFlower_Yellow</defName>
@@ -116,61 +90,9 @@
     </plant>
   </ThingDef>
 
-  <ThingDef ParentName="Botania_MysticFlowerBase">
-    <defName>Botania_MysticFlower_Lime</defName>
-    <label>mystic flower (lime)</label>
-    <description>A small flower whose lime petals still hold a faint trace of mana. Harvest it for petals; the plant regrows if you leave the roots alone.</description>
-    <graphicData>
-      <texPath>Things/Plant/Botania/MysticFlower_Lime</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>CutoutPlant</shaderType>
-    </graphicData>
-    <plant>
-      <harvestedThingDef>Botania_Petal_Lime</harvestedThingDef>
-    </plant>
-  </ThingDef>
 
-  <ThingDef ParentName="Botania_MysticFlowerBase">
-    <defName>Botania_MysticFlower_Pink</defName>
-    <label>mystic flower (pink)</label>
-    <description>A small flower whose pink petals still hold a faint trace of mana. Harvest it for petals; the plant regrows if you leave the roots alone.</description>
-    <graphicData>
-      <texPath>Things/Plant/Botania/MysticFlower_Pink</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>CutoutPlant</shaderType>
-    </graphicData>
-    <plant>
-      <harvestedThingDef>Botania_Petal_Pink</harvestedThingDef>
-    </plant>
-  </ThingDef>
 
-  <ThingDef ParentName="Botania_MysticFlowerBase">
-    <defName>Botania_MysticFlower_Gray</defName>
-    <label>mystic flower (gray)</label>
-    <description>A small flower whose gray petals still hold a faint trace of mana. Harvest it for petals; the plant regrows if you leave the roots alone.</description>
-    <graphicData>
-      <texPath>Things/Plant/Botania/MysticFlower_Gray</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>CutoutPlant</shaderType>
-    </graphicData>
-    <plant>
-      <harvestedThingDef>Botania_Petal_Gray</harvestedThingDef>
-    </plant>
-  </ThingDef>
 
-  <ThingDef ParentName="Botania_MysticFlowerBase">
-    <defName>Botania_MysticFlower_LightGray</defName>
-    <label>mystic flower (light gray)</label>
-    <description>A small flower whose light gray petals still hold a faint trace of mana. Harvest it for petals; the plant regrows if you leave the roots alone.</description>
-    <graphicData>
-      <texPath>Things/Plant/Botania/MysticFlower_LightGray</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>CutoutPlant</shaderType>
-    </graphicData>
-    <plant>
-      <harvestedThingDef>Botania_Petal_LightGray</harvestedThingDef>
-    </plant>
-  </ThingDef>
 
   <ThingDef ParentName="Botania_MysticFlowerBase">
     <defName>Botania_MysticFlower_Cyan</defName>
@@ -200,33 +122,7 @@
     </plant>
   </ThingDef>
 
-  <ThingDef ParentName="Botania_MysticFlowerBase">
-    <defName>Botania_MysticFlower_Blue</defName>
-    <label>mystic flower (blue)</label>
-    <description>A small flower whose blue petals still hold a faint trace of mana. Harvest it for petals; the plant regrows if you leave the roots alone.</description>
-    <graphicData>
-      <texPath>Things/Plant/Botania/MysticFlower_Blue</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>CutoutPlant</shaderType>
-    </graphicData>
-    <plant>
-      <harvestedThingDef>Botania_Petal_Blue</harvestedThingDef>
-    </plant>
-  </ThingDef>
 
-  <ThingDef ParentName="Botania_MysticFlowerBase">
-    <defName>Botania_MysticFlower_Brown</defName>
-    <label>mystic flower (brown)</label>
-    <description>A small flower whose brown petals still hold a faint trace of mana. Harvest it for petals; the plant regrows if you leave the roots alone.</description>
-    <graphicData>
-      <texPath>Things/Plant/Botania/MysticFlower_Brown</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>CutoutPlant</shaderType>
-    </graphicData>
-    <plant>
-      <harvestedThingDef>Botania_Petal_Brown</harvestedThingDef>
-    </plant>
-  </ThingDef>
 
   <ThingDef ParentName="Botania_MysticFlowerBase">
     <defName>Botania_MysticFlower_Green</defName>

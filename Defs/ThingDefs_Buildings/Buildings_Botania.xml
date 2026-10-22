@@ -67,7 +67,7 @@
       <li>BotaniaBuildings</li>
     </thingCategories>
     <researchPrerequisites>
-      <li>Botania_Manasteel</li>
+      <li>Botania_BasicMana</li>
     </researchPrerequisites>
     <constructEffect>ConstructMetal</constructEffect>
     <uiOrder>3100</uiOrder>
@@ -205,7 +205,7 @@
       <li>BotaniaBuildings</li>
     </thingCategories>
     <researchPrerequisites>
-      <li>Botania_Manasteel</li>
+      <li>Botania_Infusion</li>
     </researchPrerequisites>
     <constructEffect>ConstructMetal</constructEffect>
     <uiOrder>3102</uiOrder>
@@ -276,7 +276,7 @@
       <li>BotaniaBuildings</li>
     </thingCategories>
     <researchPrerequisites>
-      <li>Botania_Manasteel</li>
+      <li>Botania_ManaGrid</li>
     </researchPrerequisites>
     <constructEffect>ConstructWood</constructEffect>
     <uiOrder>3103</uiOrder>

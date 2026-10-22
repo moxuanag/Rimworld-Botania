@@ -2,7 +2,7 @@
 <Defs>
 
   <!-- ============================================================
-       花瓣（Petal）：植物魔法最基础的材料，16 种颜色。
+       花瓣（Petal）：植物魔法最基础的材料，8 种颜色。
        全部继承同一抽象基类，只有贴图与文字不同。
        ============================================================ -->
 
@@ -54,25 +54,7 @@
     </graphicData>
   </ThingDef>
 
-  <ThingDef ParentName="Botania_PetalBase">
-    <defName>Botania_Petal_Magenta</defName>
-    <label>magenta petal</label>
-    <description>A single magenta petal, still holding a trace of magical energy. Botania crafters grind these into mana powder.</description>
-    <graphicData>
-      <texPath>Things/Item/Resource/Botania/Petal_Magenta</texPath>
-      <graphicClass>Graphic_StackCount</graphicClass>
-    </graphicData>
-  </ThingDef>
 
-  <ThingDef ParentName="Botania_PetalBase">
-    <defName>Botania_Petal_LightBlue</defName>
-    <label>light blue petal</label>
-    <description>A single light blue petal, still holding a trace of magical energy. Botania crafters grind these into mana powder.</description>
-    <graphicData>
-      <texPath>Things/Item/Resource/Botania/Petal_LightBlue</texPath>
-      <graphicClass>Graphic_StackCount</graphicClass>
-    </graphicData>
-  </ThingDef>
 
   <ThingDef ParentName="Botania_PetalBase">
     <defName>Botania_Petal_Yellow</defName>
@@ -84,45 +66,9 @@
     </graphicData>
   </ThingDef>
 
-  <ThingDef ParentName="Botania_PetalBase">
-    <defName>Botania_Petal_Lime</defName>
-    <label>lime petal</label>
-    <description>A single lime petal, still holding a trace of magical energy. Botania crafters grind these into mana powder.</description>
-    <graphicData>
-      <texPath>Things/Item/Resource/Botania/Petal_Lime</texPath>
-      <graphicClass>Graphic_StackCount</graphicClass>
-    </graphicData>
-  </ThingDef>
 
-  <ThingDef ParentName="Botania_PetalBase">
-    <defName>Botania_Petal_Pink</defName>
-    <label>pink petal</label>
-    <description>A single pink petal, still holding a trace of magical energy. Botania crafters grind these into mana powder.</description>
-    <graphicData>
-      <texPath>Things/Item/Resource/Botania/Petal_Pink</texPath>
-      <graphicClass>Graphic_StackCount</graphicClass>
-    </graphicData>
-  </ThingDef>
 
-  <ThingDef ParentName="Botania_PetalBase">
-    <defName>Botania_Petal_Gray</defName>
-    <label>gray petal</label>
-    <description>A single gray petal, still holding a trace of magical energy. Botania crafters grind these into mana powder.</description>
-    <graphicData>
-      <texPath>Things/Item/Resource/Botania/Petal_Gray</texPath>
-      <graphicClass>Graphic_StackCount</graphicClass>
-    </graphicData>
-  </ThingDef>
 
-  <ThingDef ParentName="Botania_PetalBase">
-    <defName>Botania_Petal_LightGray</defName>
-    <label>light gray petal</label>
-    <description>A single light gray petal, still holding a trace of magical energy. Botania crafters grind these into mana powder.</description>
-    <graphicData>
-      <texPath>Things/Item/Resource/Botania/Petal_LightGray</texPath>
-      <graphicClass>Graphic_StackCount</graphicClass>
-    </graphicData>
-  </ThingDef>
 
   <ThingDef ParentName="Botania_PetalBase">
     <defName>Botania_Petal_Cyan</defName>
@@ -144,25 +90,7 @@
     </graphicData>
   </ThingDef>
 
-  <ThingDef ParentName="Botania_PetalBase">
-    <defName>Botania_Petal_Blue</defName>
-    <label>blue petal</label>
-    <description>A single blue petal, still holding a trace of magical energy. Botania crafters grind these into mana powder.</description>
-    <graphicData>
-      <texPath>Things/Item/Resource/Botania/Petal_Blue</texPath>
-      <graphicClass>Graphic_StackCount</graphicClass>
-    </graphicData>
-  </ThingDef>
 
-  <ThingDef ParentName="Botania_PetalBase">
-    <defName>Botania_Petal_Brown</defName>
-    <label>brown petal</label>
-    <description>A single brown petal, still holding a trace of magical energy. Botania crafters grind these into mana powder.</description>
-    <graphicData>
-      <texPath>Things/Item/Resource/Botania/Petal_Brown</texPath>
-      <graphicClass>Graphic_StackCount</graphicClass>
-    </graphicData>
-  </ThingDef>
 
   <ThingDef ParentName="Botania_PetalBase">
     <defName>Botania_Petal_Green</defName>

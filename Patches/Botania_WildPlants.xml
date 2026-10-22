@@ -2,31 +2,23 @@
 <Patch>
 
   <!-- ============================================================
-       让 16 种神秘花在野外自然生长。
+       让 8 种神秘花在野外自然生长。
        只挂在能长花的生物群系上：温带/寒带/热带森林、沼泽、灌木荒原、
        沙漠、冷沼、苔原。冰盖、极端沙漠、地下、海洋不长。
-       每种颜色权重 0.04，合计 0.64，约等于原版一种普通野花的密度。
+       每种颜色权重 0.08，合计 0.64，约等于原版一种普通野花的密度。
        ============================================================ -->
 
   <Operation Class="PatchOperationAdd">
     <xpath>Defs/BiomeDef[defName="TemperateForest" or defName="BorealForest" or defName="TropicalRainforest" or defName="TemperateSwamp" or defName="TropicalSwamp" or defName="AridShrubland" or defName="Desert" or defName="ColdBog" or defName="Tundra"]/wildPlants</xpath>
     <value>
-      <Botania_MysticFlower_White>0.04</Botania_MysticFlower_White>
-      <Botania_MysticFlower_Orange>0.04</Botania_MysticFlower_Orange>
-      <Botania_MysticFlower_Magenta>0.04</Botania_MysticFlower_Magenta>
-      <Botania_MysticFlower_LightBlue>0.04</Botania_MysticFlower_LightBlue>
-      <Botania_MysticFlower_Yellow>0.04</Botania_MysticFlower_Yellow>
-      <Botania_MysticFlower_Lime>0.04</Botania_MysticFlower_Lime>
-      <Botania_MysticFlower_Pink>0.04</Botania_MysticFlower_Pink>
-      <Botania_MysticFlower_Gray>0.04</Botania_MysticFlower_Gray>
-      <Botania_MysticFlower_LightGray>0.04</Botania_MysticFlower_LightGray>
-      <Botania_MysticFlower_Cyan>0.04</Botania_MysticFlower_Cyan>
-      <Botania_MysticFlower_Purple>0.04</Botania_MysticFlower_Purple>
-      <Botania_MysticFlower_Blue>0.04</Botania_MysticFlower_Blue>
-      <Botania_MysticFlower_Brown>0.04</Botania_MysticFlower_Brown>
-      <Botania_MysticFlower_Green>0.04</Botania_MysticFlower_Green>
-      <Botania_MysticFlower_Red>0.04</Botania_MysticFlower_Red>
-      <Botania_MysticFlower_Black>0.04</Botania_MysticFlower_Black>
+      <Botania_MysticFlower_White>0.08</Botania_MysticFlower_White>
+      <Botania_MysticFlower_Orange>0.08</Botania_MysticFlower_Orange>
+      <Botania_MysticFlower_Yellow>0.08</Botania_MysticFlower_Yellow>
+      <Botania_MysticFlower_Cyan>0.08</Botania_MysticFlower_Cyan>
+      <Botania_MysticFlower_Purple>0.08</Botania_MysticFlower_Purple>
+      <Botania_MysticFlower_Green>0.08</Botania_MysticFlower_Green>
+      <Botania_MysticFlower_Red>0.08</Botania_MysticFlower_Red>
+      <Botania_MysticFlower_Black>0.08</Botania_MysticFlower_Black>
     </value>
   </Operation>
 
