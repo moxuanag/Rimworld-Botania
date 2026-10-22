@@ -174,6 +174,7 @@
         <radius>8</radius>
         <manaPerPawnSecond>6</manaPerPawnSecond>
         <hediffDef>Botania_ThoughtSiphoned</hediffDef>
+        <thoughtDef>Botania_ThoughtSiphoned</thoughtDef>
         <poolRadius>6</poolRadius>
       </li>
       <!-- 选中时显示影响范围 -->

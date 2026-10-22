@@ -3,7 +3,9 @@
 
   <!-- ============================================================
        灵思被引：阿卡纳蔷薇抽取学习潜力时挂上的状态。
-       学得更慢（GlobalLearningFactor ×0.5），心情 −2，离开范围自动消失。
+       学得更慢（GlobalLearningFactor ×0.5）；心情 −2 由配套的 ThoughtDef 提供
+       （Mood 是 Need 不是 Stat，写进 statOffsets 会让 hediff 提示框空引用）。
+       离开范围自动消失。
        ============================================================ -->
 
   <HediffDef>
@@ -17,9 +19,6 @@
     <stages>
       <li>
         <label>thought siphoned</label>
-        <statOffsets>
-          <Mood>-2</Mood>
-        </statOffsets>
         <statFactors>
           <GlobalLearningFactor>0.5</GlobalLearningFactor>
         </statFactors>

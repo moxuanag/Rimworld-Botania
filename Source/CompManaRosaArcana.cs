@@ -20,6 +20,12 @@ namespace Botania
         /// <summary>抽取时给小人挂的 hediff。</summary>
         public HediffDef hediffDef;
 
+        /// <summary>
+        /// 心情惩罚用的记忆念头。Mood 是 Need 不是 Stat，
+        /// 写进 hediff 的 statOffsets 会让提示框空引用，所以心情必须走 Thought。
+        /// </summary>
+        public ThoughtDef thoughtDef;
+
         /// <summary>向魔力池输送的半径。</summary>
         public float poolRadius = 6f;
 
@@ -133,15 +139,32 @@ namespace Botania
 
         private void EnsureHediff(Pawn pawn)
         {
-            if (Props.hediffDef == null)
+            if (Props.hediffDef != null)
             {
-                return;
+                Hediff existing = pawn.health.hediffSet.GetFirstHediffOfDef(Props.hediffDef);
+                if (existing == null)
+                {
+                    pawn.health.AddHediff(Props.hediffDef);
+                }
             }
-            Hediff existing = pawn.health.hediffSet.GetFirstHediffOfDef(Props.hediffDef);
-            if (existing == null)
+
+            if (Props.thoughtDef != null && pawn.needs != null && pawn.needs.mood != null)
             {
-                pawn.health.AddHediff(Props.hediffDef);
+                bool already = false;
+                foreach (Thought_Memory memory in pawn.needs.mood.thoughts.memories.Memories)
+                {
+                    if (memory.def == Props.thoughtDef)
+                    {
+                        already = true;
+                        break;
+                    }
+                }
+                if (!already)
+                {
+                    pawn.needs.mood.thoughts.memories.TryGainMemory(Props.thoughtDef);
+                }
             }
+
             if (!siphoning.Contains(pawn))
             {
                 siphoning.Add(pawn);
