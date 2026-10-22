@@ -52,9 +52,9 @@
         <dayOnly>true</dayOnly>
         <nightOnly>false</nightOnly>
         <witherDays>15</witherDays>
+      </li>
       <li Class="Botania.CompProperties_RadiusRing">
         <radius>6</radius>
-      </li>
       </li>
     </comps>
     <placeWorkers>
@@ -116,9 +116,9 @@
         <dayOnly>false</dayOnly>
         <nightOnly>true</nightOnly>
         <witherDays>15</witherDays>
+      </li>
       <li Class="Botania.CompProperties_RadiusRing">
         <radius>6</radius>
-      </li>
       </li>
     </comps>
     <placeWorkers>
