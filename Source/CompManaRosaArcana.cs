@@ -60,6 +60,9 @@ namespace Botania
         /// <summary>正在被抽取的小人，离开范围时要摘掉 hediff。</summary>
         private List<Pawn> siphoning = new List<Pawn>();
 
+        /// <summary>上一次采样时各小人的累计经验，用来判断「这一秒他到底有没有在学」。</summary>
+        private Dictionary<Pawn, float> lastXp = new Dictionary<Pawn, float>();
+
         public CompProperties_ManaRosaArcana Props => (CompProperties_ManaRosaArcana)props;
 
         public override void CompTick()
@@ -103,6 +106,17 @@ namespace Botania
                 {
                     continue;
                 }
+
+                // 只有这一秒里真的长了经验，才算「在学习」——睡觉、发呆、闲逛都不产魔。
+                float totalXp = TotalSkillXp(pawn);
+                float previousXp;
+                bool wasTracked = lastXp.TryGetValue(pawn, out previousXp);
+                lastXp[pawn] = totalXp;
+                if (!wasTracked || totalXp <= previousXp)
+                {
+                    continue;
+                }
+
                 mana += Props.manaPerPawnSecond;
                 EnsureHediff(pawn);
             }
@@ -117,6 +131,23 @@ namespace Botania
             }
 
             CleanupHediffs(inRange);
+            PruneXpSnapshots(inRange);
+        }
+
+        /// <summary>所有技能累计经验之和，用来做「有没有在学习」的差分。</summary>
+        private static float TotalSkillXp(Pawn pawn)
+        {
+            float total = 0f;
+            foreach (SkillDef skillDef in DefDatabase<SkillDef>.AllDefs)
+            {
+                SkillRecord record = pawn.skills.GetSkill(skillDef);
+                if (record == null)
+                {
+                    continue;
+                }
+                total += record.XpTotalEarned;
+            }
+            return total;
         }
 
         /// <summary>全技能满级（或全禁用）的小人抽不出魔力。</summary>
@@ -196,6 +227,34 @@ namespace Botania
                     pawn.health.RemoveHediff(hediff);
                 }
                 siphoning.RemoveAt(i);
+            }
+        }
+
+        /// <summary>清掉已经离开范围的小人的经验快照，避免字典越攒越大。</summary>
+        private void PruneXpSnapshots(List<Pawn> stillInRange)
+        {
+            if (lastXp.Count == 0)
+            {
+                return;
+            }
+            List<Pawn> stale = null;
+            foreach (Pawn pawn in lastXp.Keys)
+            {
+                if (pawn == null || !stillInRange.Contains(pawn))
+                {
+                    if (stale == null)
+                    {
+                        stale = new List<Pawn>();
+                    }
+                    stale.Add(pawn);
+                }
+            }
+            if (stale != null)
+            {
+                foreach (Pawn pawn in stale)
+                {
+                    lastXp.Remove(pawn);
+                }
             }
         }
 

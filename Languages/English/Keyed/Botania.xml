@@ -39,6 +39,6 @@
   <Botania.FurnaceTooSmall>Room too small: each flower needs more than {0} cells</Botania.FurnaceTooSmall>
   <Botania.FurnaceTooCold>Room is below {0}°C</Botania.FurnaceTooCold>
   <Botania.StormBloomStored>Storm buffer {0} / {1} · absorbs within {2} tiles</Botania.StormBloomStored>
-  <Botania.RosaArcanaSiphoning>Siphoning {0} mind(s)</Botania.RosaArcanaSiphoning>
+  <Botania.RosaArcanaSiphoning>Siphoning {0} mind(s) — only while they are actually learning</Botania.RosaArcanaSiphoning>
 
 </LanguageData>
