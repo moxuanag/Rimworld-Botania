@@ -14,7 +14,6 @@ namespace Botania
             try
             {
                 new HarmonyLib.Harmony("gz.botania").PatchAll();
-                Log.Message("[Botania] Harmony patches applied (short circuit hook).");
             }
             catch (Exception ex)
             {
@@ -39,7 +38,7 @@ namespace Botania
         private static int lastTick = -999;
 
         /// <summary>把一次短路的能量分给附近的电暴花，返回实际分出去的瓦日数。</summary>
-        public static float Distribute(Building culprit, float wattDays, string source)
+        public static float Distribute(Building culprit, float wattDays)
         {
             if (culprit == null || culprit.Map == null || wattDays <= 0f)
             {
@@ -55,7 +54,6 @@ namespace Botania
             lastTick = tick;
 
             float remaining = wattDays;
-            int bloomCount = 0;
             foreach (Thing thing in GenRadial.RadialDistinctThingsAround(culprit.Position, culprit.Map, AbsorbRadius, true))
             {
                 CompManaStormBloom bloom = thing.TryGetComp<CompManaStormBloom>();
@@ -63,20 +61,12 @@ namespace Botania
                 {
                     continue;
                 }
-                bloomCount++;
                 float used = bloom.AbsorbEnergy(remaining);
                 remaining -= used;
                 if (remaining <= 0f)
                 {
                     break;
                 }
-            }
-
-            if (Prefs.DevMode)
-            {
-                Log.Message(string.Format(
-                    "[Botania] short circuit ({0}) at {1}: {2:0.#} Wd available, {3} storm bloom(s) nearby, {4:0.#} Wd absorbed.",
-                    source, culprit.Position, wattDays, bloomCount, wattDays - remaining));
             }
             return wattDays - remaining;
         }
@@ -108,7 +98,7 @@ namespace Botania
             try
             {
                 Building culprit = __args != null && __args.Length > 1 ? __args[1] as Building : null;
-                ShortCircuitAbsorb.Distribute(culprit, __state, "drain");
+                ShortCircuitAbsorb.Distribute(culprit, __state);
             }
             catch (Exception ex)
             {
@@ -146,7 +136,7 @@ namespace Botania
         {
             try
             {
-                ShortCircuitAbsorb.Distribute(culprit, __state, "event");
+                ShortCircuitAbsorb.Distribute(culprit, __state);
             }
             catch (Exception ex)
             {
