@@ -50,8 +50,9 @@
     <comps>
       <li Class="Botania.CompProperties_ManaFurnaceOrchid">
         <manaScale>0.12</manaScale>
-        <minAreaPerFlower>12</minAreaPerFlower>
+        <minAreaPerFlower>11</minAreaPerFlower>
         <maxRoomArea>150</maxRoomArea>
+        <maxManaPerSecond>90</maxManaPerSecond>
         <baseTemperature>20</baseTemperature>
         <poolRadius>6</poolRadius>
         <overheatThreshold>150</overheatThreshold>

@@ -14,11 +14,14 @@ namespace Botania
         /// <summary>产量系数 k：每秒魔力 = k × (T − 20) × √A。</summary>
         public float manaScale = 0.12f;
 
-        /// <summary>每朵花至少要分到这么多格有效面积才开始工作。</summary>
-        public float minAreaPerFlower = 12f;
+        /// <summary>每朵花至少要分到这么多格有效面积才开始工作（花占的那格不计入）。</summary>
+        public float minAreaPerFlower = 11f;
 
         /// <summary>房间面积软上限：超过部分不计入 A。</summary>
         public float maxRoomArea = 150f;
+
+        /// <summary>产量硬上限：温度再高也不超过这个值（基准 = 3 座火红莲）。</summary>
+        public float maxManaPerSecond = 90f;
 
         /// <summary>产魔的起始温度（°C），低于它不产魔。</summary>
         public float baseTemperature = 20f;
@@ -60,6 +63,10 @@ namespace Botania
             if (maxRoomArea < minAreaPerFlower)
             {
                 yield return "maxRoomArea must not be smaller than minAreaPerFlower.";
+            }
+            if (maxManaPerSecond <= 0f)
+            {
+                yield return "maxManaPerSecond must be greater than 0.";
             }
         }
     }
@@ -138,6 +145,10 @@ namespace Botania
             }
 
             float mana = Props.manaScale * delta * (float)Math.Sqrt(share);
+            if (mana > Props.maxManaPerSecond)
+            {
+                mana = Props.maxManaPerSecond;
+            }
             CurrentOutput = mana;
 
             CompManaStorage pool = FindPool();
