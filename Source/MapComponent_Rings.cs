@@ -7,8 +7,10 @@ namespace Botania
 {
     /// <summary>
     /// 建筑的范围显示，统一在这里画。
-    /// 1. 选中带 CompProperties_RadiusRing 的建筑 → 画它的作用半径；
-    /// 2. 选中魔力中继塔 → 画它所在的**整张网络**（和自己的蓝图预览一致）。
+    /// 1. 选中带 CompProperties_RadiusRing 的建筑 → 画它的作用半径（外圈，黄）；
+    /// 2. 选中带 CompProperties_SecondaryRing 的建筑 → 再画一圈贴身的小范围（内圈，绿）；
+    ///    白雏菊就是这种：外圈 6 格吸魔，内圈 1.5 格是它实际转化的那 8 格；
+    /// 3. 选中魔力中继塔 → 画它所在的**整张网络**（和自己的蓝图预览一致）。
     ///
     /// 法杖技能的范围不在这里画：那个由 Botania.Verb_WandCast 在施法选点时
     /// 跟着鼠标走，平时（没在选点）小人身上不该有任何圈。
@@ -18,6 +20,7 @@ namespace Botania
     public class MapComponent_Rings : MapComponent
     {
         private static readonly Color BuildingRing = new Color(0.92f, 0.88f, 0.55f, 0.75f);
+        private static readonly Color InnerRing = new Color(0.55f, 0.92f, 0.62f, 0.85f);
 
         public MapComponent_Rings(Map map) : base(map)
         {
@@ -54,12 +57,19 @@ namespace Botania
                     continue;
                 }
 
+                // 外圈：作用范围（吸魔、修复、攻击……）
                 CompRadiusRing ring = thing.TryGetComp<CompRadiusRing>();
-                if (ring == null)
+                if (ring != null && ring.Props.radius > 0f)
                 {
-                    continue;
+                    GenDraw.DrawRadiusRing(pos, ring.Props.radius, BuildingRing);
                 }
-                GenDraw.DrawRadiusRing(pos, ring.Props.radius, BuildingRing);
+
+                // 内圈：贴身小范围（白雏菊的转化格）
+                CompSecondaryRing inner = thing.TryGetComp<CompSecondaryRing>();
+                if (inner != null && inner.Props.radius > 0f)
+                {
+                    GenDraw.DrawRadiusRing(pos, inner.Props.radius, InnerRing);
+                }
             }
         }
 
