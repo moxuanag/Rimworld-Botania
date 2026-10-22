@@ -11,8 +11,8 @@ namespace Botania
     /// </summary>
     public class CompProperties_ManaFurnaceOrchid : CompProperties
     {
-        /// <summary>产量系数 k：每秒魔力 = k × (T − 20) × √A。</summary>
-        public float manaScale = 0.12f;
+        /// <summary>产量系数 k：每秒魔力 = k × (T − 20) × √A。0.20 时 12 格房在 150°C 正好摸到上限。</summary>
+        public float manaScale = 0.2f;
 
         /// <summary>每朵花至少要分到这么多格有效面积才开始工作（花占的那格不计入）。</summary>
         public float minAreaPerFlower = 11f;

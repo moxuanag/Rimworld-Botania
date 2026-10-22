@@ -49,7 +49,7 @@
     </costList>
     <comps>
       <li Class="Botania.CompProperties_ManaFurnaceOrchid">
-        <manaScale>0.12</manaScale>
+        <manaScale>0.2</manaScale>
         <minAreaPerFlower>11</minAreaPerFlower>
         <maxRoomArea>150</maxRoomArea>
         <maxManaPerSecond>90</maxManaPerSecond>
