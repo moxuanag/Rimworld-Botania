@@ -60,7 +60,14 @@
         <slowDuration>90</slowDuration>
         <thornMote>Botania_Mote_Thorn</thornMote>
       </li>
+      <!-- 作用范围环：选中时常驻显示，放置时预览（半径与上面一致） -->
+      <li Class="Botania.CompProperties_RadiusRing">
+        <radius>10</radius>
+      </li>
     </comps>
+    <placeWorkers>
+      <li>Botania.PlaceWorker_RadiusFromComp</li>
+    </placeWorkers>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <designationCategory>Misc</designationCategory>
     <thingCategories>

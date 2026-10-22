@@ -52,8 +52,14 @@
         <dayOnly>true</dayOnly>
         <nightOnly>false</nightOnly>
         <witherDays>15</witherDays>
+      <li Class="Botania.CompProperties_RadiusRing">
+        <radius>6</radius>
+      </li>
       </li>
     </comps>
+    <placeWorkers>
+      <li>Botania.PlaceWorker_RadiusFromComp</li>
+    </placeWorkers>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <designationCategory>Misc</designationCategory>
     <thingCategories>
@@ -110,8 +116,14 @@
         <dayOnly>false</dayOnly>
         <nightOnly>true</nightOnly>
         <witherDays>15</witherDays>
+      <li Class="Botania.CompProperties_RadiusRing">
+        <radius>6</radius>
+      </li>
       </li>
     </comps>
+    <placeWorkers>
+      <li>Botania.PlaceWorker_RadiusFromComp</li>
+    </placeWorkers>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <designationCategory>Misc</designationCategory>
     <thingCategories>
