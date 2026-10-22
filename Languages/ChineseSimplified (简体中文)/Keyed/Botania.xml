@@ -38,7 +38,7 @@
   <Botania.FurnaceTooClose>和另一朵炉心蕙贴太近——中间要留一格</Botania.FurnaceTooClose>
   <Botania.FurnaceTooSmall>房间太小：每朵花要分到超过 {0} 格</Botania.FurnaceTooSmall>
   <Botania.FurnaceTooCold>室温低于 {0}°C</Botania.FurnaceTooCold>
-  <Botania.StormBloomStored>电暴缓存 {0} / {1}</Botania.StormBloomStored>
+  <Botania.StormBloomStored>电暴缓存 {0} / {1} · 吸收半径 {2} 格</Botania.StormBloomStored>
   <Botania.RosaArcanaSiphoning>正在抽取 {0} 人的灵思</Botania.RosaArcanaSiphoning>
 
 </LanguageData>

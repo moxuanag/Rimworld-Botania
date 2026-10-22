@@ -14,6 +14,7 @@ namespace Botania
             try
             {
                 new HarmonyLib.Harmony("gz.botania").PatchAll();
+                Log.Message("[Botania] Harmony patches applied (short circuit hook).");
             }
             catch (Exception ex)
             {
@@ -23,13 +24,103 @@ namespace Botania
     }
 
     /// <summary>
-    /// 电暴花的数据来源：电网短路（Zzztt）时会 drain 掉电池里的能量并炸一下。
-    /// 我们在短路发生前后各看一眼：前面记下电网上存了多少瓦日，后面按比例分给附近的花。
+    /// 电暴花的取能点：把短路事件放电的瓦日数分给附近的电暴花。
+    ///
+    /// 挂两处，避免事件入口换实现时漏掉：
+    ///   1) <c>ShortCircuitUtility.DrainBatteriesAndCauseExplosion</c> —— 真正把电池抽干的地方，参数里直接有 PowerNet；
+    ///   2) <c>ShortCircuitUtility.DoShortCircuit</c> —— 事件入口，作为兜底。
+    /// 同一次事件两处都会命中，用一个「同 culprit + 同 tick」的去重挡住重复吸取。
     /// </summary>
-    [HarmonyPatch(typeof(ShortCircuitUtility), nameof(ShortCircuitUtility.DoShortCircuit))]
-    public static class Patch_ShortCircuit
+    public static class ShortCircuitAbsorb
     {
-        /// <summary>短路前的电网储能（瓦日）。</summary>
+        private const float AbsorbRadius = CompManaStormBloom.AbsorbRadius;
+
+        private static Building lastCulprit;
+        private static int lastTick = -999;
+
+        /// <summary>把一次短路的能量分给附近的电暴花，返回实际分出去的瓦日数。</summary>
+        public static float Distribute(Building culprit, float wattDays, string source)
+        {
+            if (culprit == null || culprit.Map == null || wattDays <= 0f)
+            {
+                return 0f;
+            }
+
+            int tick = Find.TickManager.TicksGame;
+            if (culprit == lastCulprit && tick - lastTick <= 5)
+            {
+                return 0f;
+            }
+            lastCulprit = culprit;
+            lastTick = tick;
+
+            float remaining = wattDays;
+            int bloomCount = 0;
+            foreach (Thing thing in GenRadial.RadialDistinctThingsAround(culprit.Position, culprit.Map, AbsorbRadius, true))
+            {
+                CompManaStormBloom bloom = thing.TryGetComp<CompManaStormBloom>();
+                if (bloom == null)
+                {
+                    continue;
+                }
+                bloomCount++;
+                float used = bloom.AbsorbEnergy(remaining);
+                remaining -= used;
+                if (remaining <= 0f)
+                {
+                    break;
+                }
+            }
+
+            if (Prefs.DevMode)
+            {
+                Log.Message(string.Format(
+                    "[Botania] short circuit ({0}) at {1}: {2:0.#} Wd available, {3} storm bloom(s) nearby, {4:0.#} Wd absorbed.",
+                    source, culprit.Position, wattDays, bloomCount, wattDays - remaining));
+            }
+            return wattDays - remaining;
+        }
+    }
+
+    /// <summary>真正抽干电池的地方：参数里直接带 PowerNet，最可靠。</summary>
+    [HarmonyPatch(typeof(ShortCircuitUtility), "DrainBatteriesAndCauseExplosion")]
+    public static class Patch_DrainBatteriesAndCauseExplosion
+    {
+        public static void Prefix(object[] __args, out float __state)
+        {
+            __state = 0f;
+            try
+            {
+                PowerNet net = __args != null && __args.Length > 0 ? __args[0] as PowerNet : null;
+                if (net != null)
+                {
+                    __state = net.CurrentStoredEnergy();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Warning("[Botania] short circuit prefix failed: " + ex.Message);
+            }
+        }
+
+        public static void Postfix(object[] __args, float __state)
+        {
+            try
+            {
+                Building culprit = __args != null && __args.Length > 1 ? __args[1] as Building : null;
+                ShortCircuitAbsorb.Distribute(culprit, __state, "drain");
+            }
+            catch (Exception ex)
+            {
+                Log.Warning("[Botania] short circuit postfix failed: " + ex.Message);
+            }
+        }
+    }
+
+    /// <summary>事件入口兜底：有些路径可能直接走这里。</summary>
+    [HarmonyPatch(typeof(ShortCircuitUtility), nameof(ShortCircuitUtility.DoShortCircuit))]
+    public static class Patch_DoShortCircuit
+    {
         public static void Prefix(Building culprit, out float __state)
         {
             __state = 0f;
@@ -40,48 +131,26 @@ namespace Botania
                     return;
                 }
                 CompPower power = culprit.GetComp<CompPower>();
-                if (power == null || power.PowerNet == null)
+                if (power != null && power.PowerNet != null)
                 {
-                    return;
+                    __state = power.PowerNet.CurrentStoredEnergy();
                 }
-                __state = power.PowerNet.CurrentStoredEnergy();
             }
             catch (Exception ex)
             {
-                Log.Warning("[Botania] short circuit prefix failed: " + ex.Message);
-                __state = 0f;
+                Log.Warning("[Botania] DoShortCircuit prefix failed: " + ex.Message);
             }
         }
 
-        /// <summary>短路后把能量分给半径内的电暴花，花自己的缓存是上限。</summary>
         public static void Postfix(Building culprit, float __state)
         {
             try
             {
-                if (culprit == null || culprit.Map == null || __state <= 0f)
-                {
-                    return;
-                }
-
-                float remainingWattDays = __state;
-                foreach (Thing thing in GenRadial.RadialDistinctThingsAround(culprit.Position, culprit.Map, 15f, true))
-                {
-                    CompManaStormBloom bloom = thing.TryGetComp<CompManaStormBloom>();
-                    if (bloom == null)
-                    {
-                        continue;
-                    }
-                    float used = bloom.AbsorbEnergy(remainingWattDays);
-                    remainingWattDays -= used;
-                    if (remainingWattDays <= 0f)
-                    {
-                        break;
-                    }
-                }
+                ShortCircuitAbsorb.Distribute(culprit, __state, "event");
             }
             catch (Exception ex)
             {
-                Log.Warning("[Botania] short circuit postfix failed: " + ex.Message);
+                Log.Warning("[Botania] DoShortCircuit postfix failed: " + ex.Message);
             }
         }
     }

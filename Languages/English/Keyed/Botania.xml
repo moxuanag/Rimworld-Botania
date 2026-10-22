@@ -38,7 +38,7 @@
   <Botania.FurnaceTooClose>Too close to another furnace orchid — leave one cell between them</Botania.FurnaceTooClose>
   <Botania.FurnaceTooSmall>Room too small: each flower needs more than {0} cells</Botania.FurnaceTooSmall>
   <Botania.FurnaceTooCold>Room is below {0}°C</Botania.FurnaceTooCold>
-  <Botania.StormBloomStored>Storm buffer {0} / {1}</Botania.StormBloomStored>
+  <Botania.StormBloomStored>Storm buffer {0} / {1} · absorbs within {2} tiles</Botania.StormBloomStored>
   <Botania.RosaArcanaSiphoning>Siphoning {0} mind(s)</Botania.RosaArcanaSiphoning>
 
 </LanguageData>

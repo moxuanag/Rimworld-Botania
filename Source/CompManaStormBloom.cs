@@ -43,6 +43,9 @@ namespace Botania
 
     public class CompManaStormBloom : ThingComp
     {
+        /// <summary>短路发生时，这个半径内的花才会分到能量。</summary>
+        public const float AbsorbRadius = 15f;
+
         private const int TicksPerFlush = 60;
 
         private float buffer;
@@ -130,7 +133,7 @@ namespace Botania
             {
                 return null;
             }
-            return "Botania.StormBloomStored".Translate(buffer.ToString("0"), Props.bufferCapacity.ToString("0"));
+            return "Botania.StormBloomStored".Translate(buffer.ToString("0"), Props.bufferCapacity.ToString("0"), AbsorbRadius.ToString("0"));
         }
 
         public override void PostExposeData()
