@@ -17,16 +17,16 @@
   <Botania_Garden.description>把活木与活石拼成一支能引导魔力的手杖。森林法杖由此建成；批量制花的花瓣祭坛留待后续版本。</Botania_Garden.description>
 
   <Botania_FunctionalI.label>功能花</Botania_FunctionalI.label>
-  <Botania_FunctionalI.description>占位：替殖民地干活的花——催熟、拾取与荆棘。内容将在后续版本接入。</Botania_FunctionalI.description>
+  <Botania_FunctionalI.description>替殖民地干活、而不是产魔力的花。第一种是荆棘花：闯进十格内的敌人会被拖慢，然后被魔力刺伤。</Botania_FunctionalI.description>
 
   <Botania_Manasteel.label>魔力钢</Botania_Manasteel.label>
   <Botania_Manasteel.description>把魔力尘熔进钢铁，得到既轻又韧的魔力钢。它是所有高级魔力结构的骨架——池子、中继塔、通量场与修复器都要用它。</Botania_Manasteel.description>
 
   <Botania_Mending.label>魔力修补</Botania_Mending.label>
-  <Botania_Mending.description>占位：用魔力修装备的修补台，以及缓慢修补墙体与家具的修补塔。内容将在后续版本接入。</Botania_Mending.description>
+  <Botania_Mending.description>用魔力修装备的修补台，以及缓慢修补墙体与家具的修补塔。它们按实际修复的耐久量扣魔力。</Botania_Mending.description>
 
   <Botania_Infusion.label>魔力灌注</Botania_Infusion.label>
-  <Botania_Infusion.description>占位：用魔力替代电力制造高阶物品的灌注台。内容将在后续版本接入。</Botania_Infusion.description>
+  <Botania_Infusion.description>用魔力替代电力制造高阶物品的灌注台。</Botania_Infusion.description>
 
   <Botania_ManaGrid.label>魔力网络</Botania_ManaGrid.label>
   <Botania_ManaGrid.description>占位：更远的中继、更大的池子、更高效的通量场。内容将在后续版本接入。</Botania_ManaGrid.description>
@@ -45,5 +45,11 @@
 
   <Botania_Gaia.label>盖亚</Botania_Gaia.label>
   <Botania_Gaia.description>占位：只能靠盖亚之魂的科技蓝图解锁，光堆研究点不行。内容将在后续版本接入。</Botania_Gaia.description>
+
+
+  <!-- ===== 魔力存储 ===== -->
+  <Botania_ManaStorage.label>魔力存储</Botania_ManaStorage.label>
+  <Botania_ManaStorage.description>魔力钢比活石能装下多得多的魔力。一座正经的魔力钢池可以把整座殖民地的储备集中在一处，而不是散落在十几个小碗里。
+</Botania_ManaStorage.description>
 
 </LanguageData>

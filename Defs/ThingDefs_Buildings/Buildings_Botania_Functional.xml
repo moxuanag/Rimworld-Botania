@@ -50,7 +50,7 @@
       <li Class="Botania.CompProperties_ThornFlower">
         <radius>10</radius>
         <sourceRadius>10</sourceRadius>
-        <pulseTicks>30</pulseTicks>
+        <pulseTicks>60</pulseTicks>
         <damagePerPulse>3</damagePerPulse>
         <manaPerTarget>2</manaPerTarget>
         <maxTargets>12</maxTargets>

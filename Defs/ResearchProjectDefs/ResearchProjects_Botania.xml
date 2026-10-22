@@ -85,7 +85,7 @@
   <ResearchProjectDef>
     <defName>Botania_FunctionalI</defName>
     <label>botania: functional flowers</label>
-    <description>Placeholder: flowers that work for the colony — growth, hauling and thorns. Content arrives in a later version.</description>
+    <description>Flowers that work for the colony instead of producing mana. The first of them is the thorn flower: a defensive bulb that slows anything hostile inside ten tiles, then bleeds it with mana.</description>
     <baseCost>1200</baseCost>
     <techLevel>Medieval</techLevel>
     <tab>Botania</tab>
@@ -113,10 +113,10 @@
   </ResearchProjectDef>
 
   <ResearchProjectDef>
-    <defName>Botania_Mending</defName>
-    <label>botania: mana mending</label>
-    <description>Placeholder: a bench that repairs gear with mana, and a tower that slowly mends walls and furniture. Content arrives in a later version.</description>
-    <baseCost>1200</baseCost>
+    <defName>Botania_ManaStorage</defName>
+    <label>botania: mana storage</label>
+    <description>Manasteel can hold far more mana than livingrock. A proper manasteel-lined pool keeps a colony's whole reserve in one place instead of spilling it across a dozen small bowls.</description>
+    <baseCost>1500</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>
     <prerequisites>
@@ -127,14 +127,28 @@
   </ResearchProjectDef>
 
   <ResearchProjectDef>
-    <defName>Botania_Infusion</defName>
-    <label>botania: mana infusion</label>
-    <description>Placeholder: an infusion table that lets a colony craft high-tier goods out of mana instead of electricity. Content arrives in a later version.</description>
-    <baseCost>2400</baseCost>
+    <defName>Botania_Mending</defName>
+    <label>botania: mana mending</label>
+    <description>A bench that repairs gear with mana, and a tower that slowly mends walls and furniture. Both drain mana in proportion to the damage they undo.</description>
+    <baseCost>1200</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>
     <prerequisites>
       <li>Botania_Manasteel</li>
+    </prerequisites>
+    <researchViewX>3.00</researchViewX>
+    <researchViewY>4.00</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>Botania_Infusion</defName>
+    <label>botania: mana infusion</label>
+    <description>An infusion table that lets a colony craft high-tier goods out of mana instead of electricity.</description>
+    <baseCost>2400</baseCost>
+    <techLevel>Industrial</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_ManaStorage</li>
     </prerequisites>
     <researchViewX>4.00</researchViewX>
     <researchViewY>2.00</researchViewY>

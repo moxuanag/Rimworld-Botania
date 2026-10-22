@@ -23,7 +23,7 @@ namespace Botania
 
     public class CompProperties_ManaTransmuter : CompProperties
     {
-        /// <summary>两次转化之间的间隔（tick）。</summary>
+        /// <summary>两次转化之间的间隔（tick），有魔力网络时生效。</summary>
         public int ticksPerConvert = 300;
 
         /// <summary>每次转化消耗的魔力。</summary>
@@ -31,6 +31,12 @@ namespace Botania
 
         /// <summary>搜索魔力源的半径。</summary>
         public float manaSearchRadius = 6f;
+
+        /// <summary>
+        /// 附近没有可用魔力网络（没有池子/中继塔，或它们都空了）时，
+        /// 转化间隔乘以这个倍数，并且不消耗魔力。
+        /// </summary>
+        public int noManaSlowdown = 5;
 
         /// <summary>转化规则表。</summary>
         public List<ManaConversionRule> rules = new List<ManaConversionRule>();
@@ -53,6 +59,10 @@ namespace Botania
             if (manaPerConvert < 0f)
             {
                 yield return "manaPerConvert must not be negative.";
+            }
+            if (noManaSlowdown < 1)
+            {
+                yield return "noManaSlowdown must be at least 1.";
             }
             if (rules == null || rules.Count == 0)
             {
@@ -84,10 +94,12 @@ namespace Botania
     }
 
     /// <summary>
-    /// 白雏菊的转化逻辑：把相邻格的木头变成活木、石块变成活石，每次消耗一点魔力。
+    /// 白雏菊的转化逻辑：把相邻格的木头变成活木、石块变成活石。
     ///
-    /// 与"配方"不同，它不需要小人，玩家把材料堆在花旁边就会自动持续工作；
-    /// 代价是必须挨着魔力源，且速度有限。这就是本模组的自动化入口。
+    /// 两种运行状态：
+    ///   · 附近有可用的魔力网络 → 按 ticksPerConvert 全速转化，每次扣 manaPerConvert 魔力；
+    ///   · 附近没有可用网络（没池子，或池子全空）→ 仍然转化，但间隔 × noManaSlowdown，
+    ///     且不消耗魔力。这保证开局没有魔力池时也能起量，只是慢得多。
     /// </summary>
     public class CompManaTransmuter : ThingComp
     {
@@ -98,9 +110,21 @@ namespace Botania
         private bool hasInput;
         private bool hasMana;
 
+        /// <summary>当前生效的转化间隔，由上一次转化结果决定。</summary>
+        private int currentInterval;
+
         public CompProperties_ManaTransmuter Props => (CompProperties_ManaTransmuter)props;
 
         public bool Enabled => enabled;
+
+        private int SlowInterval
+        {
+            get
+            {
+                int factor = Props.noManaSlowdown < 1 ? 1 : Props.noManaSlowdown;
+                return Props.ticksPerConvert * factor;
+            }
+        }
 
         public override void CompTick()
         {
@@ -109,8 +133,14 @@ namespace Botania
             {
                 return;
             }
+
+            if (currentInterval <= 0)
+            {
+                currentInterval = Props.ticksPerConvert;
+            }
+
             ticksAccum++;
-            if (ticksAccum < Props.ticksPerConvert)
+            if (ticksAccum < currentInterval)
             {
                 return;
             }
@@ -129,7 +159,8 @@ namespace Botania
             hasInput = false;
             hasMana = false;
 
-            Thing input = FindInput(map, out ManaConversionRule rule);
+            ManaConversionRule rule;
+            Thing input = FindInput(map, out rule);
             if (input == null)
             {
                 return;
@@ -138,8 +169,12 @@ namespace Botania
 
             IManaSource source = ManaSourceUtil.FindNearest(
                 parent.Position, map, Props.manaSearchRadius, Props.manaPerConvert);
+
+            // ── 情况一：没有可用魔力网络 → 慢速转化，不消耗魔力 ──
             if (source == null)
             {
+                currentInterval = SlowInterval;
+                ManaTransmutation.TryConvert(input, rule);
                 return;
             }
 
@@ -148,10 +183,15 @@ namespace Botania
             if (drained < Props.manaPerConvert - 0.01f)
             {
                 source.AddMana(drained);
+                // 池子空了等同于「没有可用网络」：同样降速，但不消耗
+                currentInterval = SlowInterval;
+                ManaTransmutation.TryConvert(input, rule);
                 return;
             }
-            hasMana = true;
 
+            // ── 情况二：正常全速转化 ──
+            hasMana = true;
+            currentInterval = Props.ticksPerConvert;
             ManaTransmutation.TryConvert(input, rule);
         }
 
@@ -210,7 +250,7 @@ namespace Botania
             }
             if (!hasMana)
             {
-                return "Botania.TransmuterNoMana".Translate();
+                return "Botania.TransmuterSlow".Translate(Props.noManaSlowdown);
             }
             return "Botania.TransmuterWorking".Translate();
         }
@@ -235,6 +275,7 @@ namespace Botania
             base.PostExposeData();
             Scribe_Values.Look(ref enabled, "enabled", true);
             Scribe_Values.Look(ref ticksAccum, "ticksAccum", 0);
+            Scribe_Values.Look(ref currentInterval, "currentInterval", 0);
         }
     }
 }

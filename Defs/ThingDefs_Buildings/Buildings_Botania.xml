@@ -67,10 +67,75 @@
       <li>BotaniaBuildings</li>
     </thingCategories>
     <researchPrerequisites>
-      <li>Botania_BasicMana</li>
+      <li>Botania_ManaStorage</li>
     </researchPrerequisites>
     <constructEffect>ConstructMetal</constructEffect>
     <uiOrder>3100</uiOrder>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>Botania_ManaPoolSimple</defName>
+    <label>simple mana pool</label>
+    <description>A small bowl of livingrock and livingwood holding a shallow pool of mana. It stores far less than a proper manasteel pool, but it is the first vessel most gardeners ever build.</description>
+    <thingClass>Building</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Things/Building/Botania/ManaPoolSimple</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <shadowData>
+        <volume>(0.85,0.3,0.85)</volume>
+        <offset>(0,0,-0.02)</offset>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.30</fillPercent>
+    <rotatable>false</rotatable>
+    <blockWind>false</blockWind>
+    <castEdgeShadows>false</castEdgeShadows>
+    <tickerType>Normal</tickerType>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <size>(1,1)</size>
+    <statBases>
+      <MaxHitPoints>120</MaxHitPoints>
+      <WorkToBuild>800</WorkToBuild>
+      <Mass>12</Mass>
+      <Flammability>0.25</Flammability>
+      <Beauty>2</Beauty>
+    </statBases>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <costList>
+      <Botania_Livingrock>15</Botania_Livingrock>
+      <Botania_Livingwood>15</Botania_Livingwood>
+    </costList>
+    <comps>
+      <li Class="Botania.CompProperties_ManaStorage">
+        <maxMana>2000</maxMana>
+        <initialMana>0</initialMana>
+        <acceptsMana>true</acceptsMana>
+        <balanceWithAdjacentPools>true</balanceWithAdjacentPools>
+      </li>
+      <li Class="Botania.CompProperties_RadiusRing">
+        <radius>6</radius>
+      </li>
+    </comps>
+    <placeWorkers>
+      <li>Botania.PlaceWorker_RadiusFromComp</li>
+    </placeWorkers>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>Misc</designationCategory>
+    <thingCategories>
+      <li>BotaniaBuildings</li>
+    </thingCategories>
+    <researchPrerequisites>
+      <li>Botania_BasicMana</li>
+    </researchPrerequisites>
+    <constructEffect>ConstructWood</constructEffect>
+    <uiOrder>3101</uiOrder>
   </ThingDef>
 
   <ThingDef ParentName="BuildingBase">
@@ -295,7 +360,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>Botania_PureDaisy</defName>
     <label>pure daisy</label>
-    <description>A white daisy with a faint ring of light around its petals.\n\nPlace it next to a pile of logs or a pile of stone blocks - the cut stone bricks such as granite blocks or limestone blocks, not raw chunks - and it slowly teaches the material to be alive: logs become livingwood, stone blocks become livingrock.\n\nEach transformation costs a little mana from a mana pool within 6 tiles.</description>
+    <description>A white daisy with a faint ring of light around its petals.\n\nPlace it next to a pile of logs or a pile of stone blocks - the cut stone bricks such as granite blocks or limestone blocks, not raw chunks - and it slowly teaches the material to be alive: logs become livingwood, stone blocks become livingrock.\n\nEach transformation costs a little mana from a mana pool or relay within 6 tiles. Without one it still works, but takes five times as long and costs nothing.</description>
     <thingClass>Building</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <graphicData>
@@ -325,13 +390,15 @@
     </statBases>
     <costList>
       <Botania_Petal_White>4</Botania_Petal_White>
-      <Botania_Livingwood>2</Botania_Livingwood>
+      <WoodLog>4</WoodLog>
     </costList>
     <comps>
       <li Class="Botania.CompProperties_ManaTransmuter">
         <ticksPerConvert>300</ticksPerConvert>
         <manaPerConvert>20</manaPerConvert>
         <manaSearchRadius>6</manaSearchRadius>
+        <!-- 附近没有魔力池/中继塔时，转化间隔乘以这个倍数（且不消耗魔力） -->
+        <noManaSlowdown>5</noManaSlowdown>
         <rules>
           <li>
             <fromDef>WoodLog</fromDef>

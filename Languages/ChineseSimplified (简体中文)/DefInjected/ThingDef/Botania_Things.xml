@@ -55,7 +55,7 @@
   <Botania_ManaRelay.description>一根活木塔身、缠着魔力钢箍的细塔，顶端悬着一团流动的光。它从魔力池或上游的中继塔抽取魔力，存进自己的小缓冲，让更远处的设备也能取用。每经过一座塔，损耗约一成魔力。</Botania_ManaRelay.description>
 
   <Botania_PureDaisy.label>白雏菊</Botania_PureDaisy.label>
-  <Botania_PureDaisy.description>一朵白雏菊，花瓣外绕着淡淡一圈光。\n\n把它放在原木堆或石砖堆旁边——注意是切好的石砖（花岗岩砖、石灰岩砖这类），不是没切开的石块——它会慢慢教会这些材料“活着”：原木变成活木，石砖变成活石。\n\n每次转化都要消耗 6 格内魔力池里的一点魔力。</Botania_PureDaisy.description>
+  <Botania_PureDaisy.description>一朵白雏菊，花瓣外绕着淡淡一圈光。\n\n把它放在原木堆或石砖堆旁边——注意是切好的石砖（花岗岩砖、石灰岩砖这类），不是没切开的石块——它会慢慢教会这些材料“活着”：原木变成活木，石砖变成活石。\n\n每次转化消耗 6 格内魔力池或中继塔的一点魔力；附近没有可用的魔力网络时它照样工作，但耗时变成五倍，且不消耗魔力。</Botania_PureDaisy.description>
 
   <Botania_WandOfTheForest.label>森林法杖</Botania_WandOfTheForest.label>
   <Botania_WandOfTheForest.description>一根活木杖身、嵌着魔力钢环的法杖，环里悬着一滴发光的树汁。杖内自带 500 点魔力储备，可以消耗魔力射出燃烧的光弹；握着它的人也能催长植物，或教会木头与石头“活着”。储备耗尽时，它可以向附近的魔力池汲取魔力。</Botania_WandOfTheForest.description>
@@ -106,5 +106,11 @@
 
   <!-- 特效（不显示在界面上，仅为满足本地化覆盖检查） -->
   <Botania_Mote_Thorn.label>荆棘尖刺</Botania_Mote_Thorn.label>
+
+
+  <!-- ===== 简易魔力池 ===== -->
+  <Botania_ManaPoolSimple.label>简易魔力池</Botania_ManaPoolSimple.label>
+  <Botania_ManaPoolSimple.description>用活石与活木拼成的小碗，浅浅盛着一汪魔力。储量远不如正经的魔力钢池，但它是大多数园丁造出的第一个容器。
+</Botania_ManaPoolSimple.description>
 
 </LanguageData>
