@@ -3,7 +3,7 @@
   <name>植物魔法 Botania</name>
   <author>GZ</author>
   <packageId>gz.botania</packageId>
-  <modVersion>0.4.2</modVersion>
+  <modVersion>0.5.0</modVersion>
   <url>https://github.com/moxuanag/Rimworld-Botania</url>
   <supportedVersions>
     <li>1.7</li>

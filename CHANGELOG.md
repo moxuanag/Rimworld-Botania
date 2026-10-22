@@ -3,7 +3,7 @@
 本文件的格式参考 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)，具体判定见 [VERSIONING.md](VERSIONING.md)。
 
-## [0.5.0] - 未发布
+## [0.5.0] - 2026-10-22
 
 科技线重排、花色精简，以及魔力经济的重新分层。
 
@@ -50,6 +50,17 @@
 - **「魔力修补」位置**：从 (3,2) 下移到 (3,4)，垂直位于「魔力网络」正下方，不挡主路径。
 - **「魔力灌注」前置**：由「魔力钢」改为「魔力存储」，因此从魔力钢到大池子到灌注台是一条直线。
 - 研究页由 15 项增至 **16 项**。
+
+### 修复
+
+- **白雏菊现在画两圈范围**：外圈（黄，6 格）是**吸魔**范围，内圈（绿，1 格）是它**实际能转化**
+  的那 8 格。以前只有外圈，看不出它到底吃哪些格子。为此新增 `CompProperties_SecondaryRing`，
+  与 `CompProperties_RadiusRing` 分成两个类型——`TryGetComp` 对同一类型只返回第一个，
+  同类型挂两圈会取不到第二圈。放置蓝图时两圈一起预览。
+- 修正新增的 `Botania_ManaStorage` / `Botania_ManaPoolSimple` 描述末尾带换行，
+  导致启动时报 `Config error: description has trailing whitespace`
+  （蓝图 `Frame_*` 继承同一段文本，所以同一条错误会算两遍）。
+- README 新增「零、总览」，把数据流、科技线、物品清单、机制总表集中在一处。
 
 ### 兼容性
 
