@@ -405,7 +405,11 @@
     </projectile>
   </ThingDef>
 
-  <!-- 爆破型的弹丸：本体 40，命中后由 Projectile_WandBlast 再炸一个十字 -->
+  <!-- 爆破型的弹丸：本体 40，命中后由 Projectile_WandBlast 再炸一个十字。
+       本体伤害类型用 Bullet 而不是 Bomb：
+       Bomb 对不可通行建筑有 4 倍倍率（buildingDamageFactorImpassable），
+       拿它当直击伤害会让「40 点子弹」打墙时变成 160，跟面板对不上。
+       原版子弹也一律用 Bullet。十字爆炸本身仍然是 Bomb，那是原版爆炸行为。 -->
   <ThingDef ParentName="BaseBullet">
     <defName>Botania_ManaBlast</defName>
     <label>mana blast</label>
@@ -419,7 +423,7 @@
       <MaxHitPoints>50</MaxHitPoints>
     </statBases>
     <projectile>
-      <damageDef>Bomb</damageDef>
+      <damageDef>Bullet</damageDef>
       <damageAmountBase>40</damageAmountBase>
       <armorPenetrationBase>0.5</armorPenetrationBase>
       <stoppingPower>0.5</stoppingPower>
