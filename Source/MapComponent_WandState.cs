@@ -5,9 +5,13 @@ using Verse;
 namespace Botania
 {
     /// <summary>
-    /// 每 60 tick 扫一遍地图上的玩家小人，做两件事：
-    /// 1. 手里有森林法杖 → 授予「绽花」「就地转化」两个技能；没有 → 收回；
-    /// 2. 手里有森林法杖 → 挂上「魔力储备」状态并同步数值；没有 → 移除。
+    /// 每 60 tick 扫一遍地图上的玩家小人，做一件事：
+    /// 手里有**基础森林法杖** → 授予「绽花」「就地转化」两个技能；没有 → 收回。
+    ///
+    /// 判定用的是 CompWand（只有基础森林法杖挂了它），不是 CompManaWeapon。
+    /// 法杖改型出来的狙击型 / 爆破型同样带 CompManaWeapon（它们要蓄能、要开火），
+    /// 但**不该有这两个法术**，所以不能按 CompManaWeapon 判断。
+    ///
     /// 之所以用轮询而不是装备事件：这一版引擎不会给装备的 Comp 派发装备/卸下通知。
     /// </summary>
     public class MapComponent_WandState : MapComponent
@@ -79,8 +83,8 @@ namespace Botania
             {
                 return;
             }
-            CompManaWeapon weapon = pawn.equipment.Primary?.GetComp<CompManaWeapon>();
-            bool hasWand = weapon != null;
+            // 只认 CompWand：法杖改型的两个变体没有它，因此拿不到这两个法术
+            bool hasWand = pawn.equipment.Primary?.GetComp<CompWand>() != null;
 
             SyncAbilities(pawn, hasWand);
         }

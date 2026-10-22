@@ -171,7 +171,7 @@
   <ResearchProjectDef>
     <defName>Botania_WandForms</defName>
     <label>botania: wand forms</label>
-    <description>Placeholder: two wand variants (piercing and scattering) plus a cheaper mana cost per shot. Content arrives in a later version.</description>
+    <description>Reforge the wand of the forest into two specialised forms. The sniper form trades rate of fire for one dense lance that punches through armour. The blast form throws slow, unstable bolts that burst into a cross of fire wherever they land, friend or foe. Neither form keeps the wand's plant-magic.</description>
     <baseCost>2000</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>

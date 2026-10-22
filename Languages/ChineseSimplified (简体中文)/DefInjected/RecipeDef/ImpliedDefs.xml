@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <!-- recipeMaker + costList 会在加载时自动生成 RecipeDef，
+       defName 规则是 "Make_" + ThingDef.defName，没有 XML 节点可翻。
+       所以必须在这里单独给译文，否则中文界面里账单名会是英文的
+       "make wand of the forest"。原版同样把这类翻译放在 ImpliedDefs.xml 里。 -->
+
+  <Make_Botania_WandOfTheForest.label>制作森林法杖</Make_Botania_WandOfTheForest.label>
+  <Make_Botania_WandOfTheForest.description>用 12 活木 + 12 活石造一根森林法杖。</Make_Botania_WandOfTheForest.description>
+  <Make_Botania_WandOfTheForest.jobString>正在制作森林法杖。</Make_Botania_WandOfTheForest.jobString>
+
+  <Make_Botania_WandSniper.label>改造成森林法杖·狙击型</Make_Botania_WandSniper.label>
+  <Make_Botania_WandSniper.description>消耗掉手里这根森林法杖，把杖头重铸成紫罗兰核心并拉出长晶尖。改造不可逆，改型后不再带有绽花与就地转化。</Make_Botania_WandSniper.description>
+  <Make_Botania_WandSniper.jobString>正在把法杖改造成狙击型。</Make_Botania_WandSniper.jobString>
+
+  <Make_Botania_WandBlast.label>改造成森林法杖·爆破型</Make_Botania_WandBlast.label>
+  <Make_Botania_WandBlast.description>消耗掉手里这根森林法杖，把杖头换成龟裂余烬核心，外圈镶满碎晶。改造不可逆，改型后不再带有绽花与就地转化。</Make_Botania_WandBlast.description>
+  <Make_Botania_WandBlast.jobString>正在把法杖改造成爆破型。</Make_Botania_WandBlast.jobString>
+
+</LanguageData>

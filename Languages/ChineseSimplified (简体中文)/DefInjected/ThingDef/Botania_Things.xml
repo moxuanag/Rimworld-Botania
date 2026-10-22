@@ -112,4 +112,16 @@
   <Botania_ManaPoolSimple.label>简易魔力池</Botania_ManaPoolSimple.label>
   <Botania_ManaPoolSimple.description>用活石与活木拼成的小碗，浅浅盛着一汪魔力。储量远不如正经的魔力钢池，但它是大多数园丁造出的第一个容器。</Botania_ManaPoolSimple.description>
 
+  <Botania_WandSniper.label>森林法杖·狙击型</Botania_WandSniper.label>
+  <Botania_WandSniper.description>把紫罗兰核心重新镶进杖头后重铸的活木法杖。原本散乱的魔力被压成一束致密的长枪，杖头也生出一根细长的晶尖来收束它。瞄准慢、射程远、穿透强，但已经不会再听从草木的调遣。</Botania_WandSniper.description>
+
+  <Botania_WandBlast.label>森林法杖·爆破型</Botania_WandBlast.label>
+  <Botania_WandBlast.description>杖头换成龟裂余烬核心、外圈镶满碎晶的活木法杖。每一发都在落点炸开一个十字，连地面一起犁开。爆炸不挑敌我。</Botania_WandBlast.description>
+
+  <Botania_ManaLance.label>魔力长枪</Botania_ManaLance.label>
+  <Botania_ManaLance.description>被压缩成一根针的魔力，从狙击型法杖射出。</Botania_ManaLance.description>
+
+  <Botania_ManaBlast.label>魔力爆弹</Botania_ManaBlast.label>
+  <Botania_ManaBlast.description>一团不稳定的魔力，落地后炸成十字的火。</Botania_ManaBlast.description>
+
 </LanguageData>

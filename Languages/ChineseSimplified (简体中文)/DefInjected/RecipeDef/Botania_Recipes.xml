@@ -5,10 +5,10 @@
   <Botania_MakeManaPowder.description>把花瓣研磨成魔力尘。这是一切植物魔法制作的基础材料。</Botania_MakeManaPowder.description>
   <Botania_MakeManaPowder.jobString>正在研磨魔力尘。</Botania_MakeManaPowder.jobString>
 
-
-
   <Botania_MakeManasteel.label>锻造魔力钢</Botania_MakeManasteel.label>
   <Botania_MakeManasteel.description>把魔力尘熔入钢水。成品比钢更轻，并带着永不消退的附魔。</Botania_MakeManasteel.description>
   <Botania_MakeManasteel.jobString>正在锻造魔力钢。</Botania_MakeManasteel.jobString>
 
+      
+      
 </LanguageData>

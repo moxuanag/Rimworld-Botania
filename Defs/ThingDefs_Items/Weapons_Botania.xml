@@ -4,9 +4,11 @@
   <!-- ============================================================
        森林法杖（武器形态）
          · 远程武器：魔力弹，25 伤害（对齐原版狙击枪），1 秒一发
-         · 杖内储能 500，每发消耗 50（= 满杖 10 发）
+         · 命中率四档统一 80%，但每发耗魔 100（= 满杖 5 发）
          · 魔力不足时就近向魔力池/中继塔借；借不到就打不出
          · 另有「绽花」「就地转化」两个按钮（CompWand），同样吃杖内魔力
+         · 法杖改型（Botania_WandForms）后可改造成狙击型 / 爆破型，
+           见本文件后半段；那两个变体没有 CompWand，因此不带法术
        ============================================================ -->
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>Botania_WandOfTheForest</defName>
@@ -29,10 +31,10 @@
       <MaxHitPoints>120</MaxHitPoints>
       <Mass>2.5</Mass>
       <MarketValue>400</MarketValue>
-      <AccuracyTouch>0.45</AccuracyTouch>
-      <AccuracyShort>0.65</AccuracyShort>
+      <AccuracyTouch>0.80</AccuracyTouch>
+      <AccuracyShort>0.80</AccuracyShort>
       <AccuracyMedium>0.80</AccuracyMedium>
-      <AccuracyLong>0.85</AccuracyLong>
+      <AccuracyLong>0.80</AccuracyLong>
       <RangedWeapon_Cooldown>1.0</RangedWeapon_Cooldown>
     </statBases>
     <costList>
@@ -110,7 +112,7 @@
       <li Class="CompProperties_Biocodable" />
       <li Class="Botania.CompProperties_ManaWeapon">
         <maxMana>500</maxMana>
-        <manaPerShot>50</manaPerShot>
+        <manaPerShot>100</manaPerShot>
         <sourceRadius>6</sourceRadius>
         <rechargePerSecond>25</rechargePerSecond>
       </li>
@@ -157,6 +159,271 @@
       <damageAmountBase>25</damageAmountBase>
       <stoppingPower>1.5</stoppingPower>
       <speed>75</speed>
+    </projectile>
+  </ThingDef>
+
+  <!-- ============================================================
+       法杖改型（Botania_WandForms）后由基础法杖改造而来
+         · 两个变体都**不带** CompProperties_Wand，所以没有绽花/就地转化。
+           C# 侧的授予判定也因此改成按 CompWand（见 MapComponent_WandState.cs）
+         · 都保留 CompManaWeapon，所以有魔力条、能就地充能
+         · **comps 必须和基础杖那一段逐项对齐**（除 CompWand 外的每一项都要有），
+           原因同基础杖：Inherit="False" 整段接管，漏 Styleable 会报
+           "IdeoRelic missing CompStyleable"，漏 Equippable_Wand 则魔力条消失
+         · 改造配方由 recipeMaker + costList 生成：costList 里放着基础法杖，
+           所以账单就是「消耗一根基础法杖 + 材料」，不是从零造
+       ============================================================ -->
+
+  <!-- 狙击型：50 伤害 / 穿透 2.4 / 射程 30 / 1.5 秒冷却，命中率四档统一 80 -->
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>Botania_WandSniper</defName>
+    <label>wand of the forest, sniper form</label>
+    <description>A livingwood rod reforged around a violet core. The same mana that once threw simple bolts is now squeezed into a single dense lance, and the whole wand has grown a long crystalline tip to focus it. Slow to aim, ruinous at range, and it no longer answers to the plants it used to command.</description>
+    <graphicData>
+      <texPath>Things/Item/Equipment/WeaponRanged/Botania/WandSniper</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.3,1.3)</drawSize>
+    </graphicData>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <techLevel>Industrial</techLevel>
+    <tickerType>Normal</tickerType>
+    <weaponClasses>
+      <li>LongShots</li>
+    </weaponClasses>
+    <statBases>
+      <WorkToMake>6000</WorkToMake>
+      <MaxHitPoints>140</MaxHitPoints>
+      <Mass>3</Mass>
+      <MarketValue>900</MarketValue>
+      <AccuracyTouch>0.80</AccuracyTouch>
+      <AccuracyShort>0.80</AccuracyShort>
+      <AccuracyMedium>0.80</AccuracyMedium>
+      <AccuracyLong>0.80</AccuracyLong>
+      <RangedWeapon_Cooldown>1.5</RangedWeapon_Cooldown>
+    </statBases>
+    <!-- 改造配方由 recipeMaker + costList 生成（原版武器都是这条路）。
+         costList 里放基础法杖 = 改造时消耗掉那根杖，等价于「方案 C」。
+         不能只写 recipeMaker 不给 costList：recipeMaker 是从 BaseHumanMakeableGun
+         继承来的，引擎会给 "has a recipeMaker but no costList or costStuffCount"。
+         显式写 smeltProducts，否则熔炼会按 costList 把基础法杖吐回来。 -->
+    <costList>
+      <Botania_WandOfTheForest>1</Botania_WandOfTheForest>
+      <Botania_Livingwood>25</Botania_Livingwood>
+      <Botania_Livingrock>15</Botania_Livingrock>
+      <Botania_ManasteelIngot>20</Botania_ManasteelIngot>
+      <ComponentIndustrial>2</ComponentIndustrial>
+    </costList>
+    <smeltProducts>
+      <Botania_ManasteelIngot>5</Botania_ManasteelIngot>
+    </smeltProducts>
+    <recipeMaker>
+      <researchPrerequisite>Botania_WandForms</researchPrerequisite>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <soundWorking>Recipe_Machining</soundWorking>
+      <recipeUsers>
+        <li>CraftingSpot</li>
+        <li>FueledSmithy</li>
+        <li>ElectricSmithy</li>
+      </recipeUsers>
+      <displayPriority>340</displayPriority>
+      <skillRequirements>
+        <Crafting>6</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <verbs>
+      <li>
+        <verbClass>Botania.Verb_ManaBolt</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Botania_ManaLance</defaultProjectile>
+        <warmupTime>1.0</warmupTime>
+        <range>30</range>
+        <soundCast>Shot_ChargeRifle</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>3</muzzleFlashScale>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>shaft</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>7</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+    </tools>
+    <weaponTags Inherit="False" />
+    <comps Inherit="False">
+      <li Class="Botania.CompProperties_Equippable_Wand" />
+      <li Class="CompProperties_Forbiddable" />
+      <li Class="CompProperties_Styleable" />
+      <li Class="CompProperties_Art">
+        <nameMaker>NamerArtWeaponGun</nameMaker>
+        <descriptionMaker>ArtDescription_WeaponGun</descriptionMaker>
+        <minQualityForArtistic>Excellent</minQualityForArtistic>
+      </li>
+      <li>
+        <compClass>CompQuality</compClass>
+      </li>
+      <li Class="CompProperties_Biocodable" />
+      <li Class="Botania.CompProperties_ManaWeapon">
+        <maxMana>800</maxMana>
+        <manaPerShot>60</manaPerShot>
+        <sourceRadius>6</sourceRadius>
+        <rechargePerSecond>25</rechargePerSecond>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- 爆破型：子弹 40 + 落点十字爆炸 10 / 射程 16 / 3 秒冷却 -->
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>Botania_WandBlast</defName>
+    <label>wand of the forest, blast form</label>
+    <description>A livingwood rod rebuilt with a cracked ember core and a crown of loose shards. Every bolt it throws bursts where it lands, scouring the ground and everything standing on it in a rough cross. The blast does not care whose side you are on.</description>
+    <graphicData>
+      <texPath>Things/Item/Equipment/WeaponRanged/Botania/WandBlast</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.3,1.3)</drawSize>
+    </graphicData>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <techLevel>Industrial</techLevel>
+    <tickerType>Normal</tickerType>
+    <weaponClasses>
+      <li>ShortShots</li>
+    </weaponClasses>
+    <statBases>
+      <WorkToMake>6000</WorkToMake>
+      <MaxHitPoints>140</MaxHitPoints>
+      <Mass>3.5</Mass>
+      <MarketValue>850</MarketValue>
+      <AccuracyTouch>0.75</AccuracyTouch>
+      <AccuracyShort>0.70</AccuracyShort>
+      <AccuracyMedium>0.65</AccuracyMedium>
+      <AccuracyLong>0.60</AccuracyLong>
+      <RangedWeapon_Cooldown>3.0</RangedWeapon_Cooldown>
+    </statBases>
+    <!-- 改造配方由 recipeMaker + costList 生成（原版武器都是这条路）。
+         costList 里放基础法杖 = 改造时消耗掉那根杖，等价于「方案 C」。
+         不能只写 recipeMaker 不给 costList：recipeMaker 是从 BaseHumanMakeableGun
+         继承来的，引擎会给 "has a recipeMaker but no costList or costStuffCount"。
+         显式写 smeltProducts，否则熔炼会按 costList 把基础法杖吐回来。 -->
+    <costList>
+      <Botania_WandOfTheForest>1</Botania_WandOfTheForest>
+      <Botania_Livingwood>15</Botania_Livingwood>
+      <Botania_Livingrock>25</Botania_Livingrock>
+      <Botania_ManasteelIngot>20</Botania_ManasteelIngot>
+      <ComponentIndustrial>4</ComponentIndustrial>
+    </costList>
+    <smeltProducts>
+      <Botania_ManasteelIngot>5</Botania_ManasteelIngot>
+    </smeltProducts>
+    <recipeMaker>
+      <researchPrerequisite>Botania_WandForms</researchPrerequisite>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <soundWorking>Recipe_Machining</soundWorking>
+      <recipeUsers>
+        <li>CraftingSpot</li>
+        <li>FueledSmithy</li>
+        <li>ElectricSmithy</li>
+      </recipeUsers>
+      <displayPriority>340</displayPriority>
+      <skillRequirements>
+        <Crafting>6</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <verbs>
+      <li>
+        <verbClass>Botania.Verb_ManaBolt</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Botania_ManaBlast</defaultProjectile>
+        <warmupTime>1.2</warmupTime>
+        <range>16</range>
+        <soundCast>Shot_ChargeRifle</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>3</muzzleFlashScale>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>shaft</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>7</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+    </tools>
+    <weaponTags Inherit="False" />
+    <comps Inherit="False">
+      <li Class="Botania.CompProperties_Equippable_Wand" />
+      <li Class="CompProperties_Forbiddable" />
+      <li Class="CompProperties_Styleable" />
+      <li Class="CompProperties_Art">
+        <nameMaker>NamerArtWeaponGun</nameMaker>
+        <descriptionMaker>ArtDescription_WeaponGun</descriptionMaker>
+        <minQualityForArtistic>Excellent</minQualityForArtistic>
+      </li>
+      <li>
+        <compClass>CompQuality</compClass>
+      </li>
+      <li Class="CompProperties_Biocodable" />
+      <li Class="Botania.CompProperties_ManaWeapon">
+        <maxMana>700</maxMana>
+        <manaPerShot>60</manaPerShot>
+        <sourceRadius>6</sourceRadius>
+        <rechargePerSecond>25</rechargePerSecond>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- 狙击型的弹丸：单发高穿 -->
+  <ThingDef ParentName="BaseBullet">
+    <defName>Botania_ManaLance</defName>
+    <label>mana lance</label>
+    <description>A needle of compressed mana, fired from a sniper-form wand.</description>
+    <graphicData>
+      <texPath>Things/Projectile/Botania/ManaLance</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+    </statBases>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>50</damageAmountBase>
+      <armorPenetrationBase>2.4</armorPenetrationBase>
+      <stoppingPower>2.0</stoppingPower>
+      <speed>95</speed>
+    </projectile>
+  </ThingDef>
+
+  <!-- 爆破型的弹丸：本体 40，命中后由 Projectile_WandBlast 再炸一个十字 -->
+  <ThingDef ParentName="BaseBullet">
+    <defName>Botania_ManaBlast</defName>
+    <label>mana blast</label>
+    <description>A lump of unstable mana that bursts into a cross of fire where it lands.</description>
+    <thingClass>Botania.Projectile_WandBlast</thingClass>
+    <graphicData>
+      <texPath>Things/Projectile/Botania/ManaBlast</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+    </statBases>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>40</damageAmountBase>
+      <armorPenetrationBase>0.5</armorPenetrationBase>
+      <stoppingPower>0.5</stoppingPower>
+      <speed>60</speed>
     </projectile>
   </ThingDef>
 
