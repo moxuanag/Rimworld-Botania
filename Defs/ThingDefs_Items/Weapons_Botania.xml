@@ -174,7 +174,7 @@
            所以账单就是「消耗一根基础法杖 + 材料」，不是从零造
        ============================================================ -->
 
-  <!-- 狙击型：50 伤害 / 穿透 2.4 / 射程 30 / 1.5 秒冷却，命中率四档统一 80 -->
+  <!-- 狙击型：50 伤害 / 穿透 2.4 / 射程 40 / 1.5 秒冷却，命中率四档统一 85 -->
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>Botania_WandSniper</defName>
     <label>wand of the forest, sniper form</label>
@@ -195,10 +195,10 @@
       <MaxHitPoints>140</MaxHitPoints>
       <Mass>3</Mass>
       <MarketValue>900</MarketValue>
-      <AccuracyTouch>0.80</AccuracyTouch>
-      <AccuracyShort>0.80</AccuracyShort>
-      <AccuracyMedium>0.80</AccuracyMedium>
-      <AccuracyLong>0.80</AccuracyLong>
+      <AccuracyTouch>0.85</AccuracyTouch>
+      <AccuracyShort>0.85</AccuracyShort>
+      <AccuracyMedium>0.85</AccuracyMedium>
+      <AccuracyLong>0.85</AccuracyLong>
       <RangedWeapon_Cooldown>1.5</RangedWeapon_Cooldown>
     </statBases>
     <!-- 改造配方由 recipeMaker + costList 生成（原版武器都是这条路）。
@@ -237,7 +237,7 @@
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Botania_ManaLance</defaultProjectile>
         <warmupTime>1.0</warmupTime>
-        <range>30</range>
+        <range>40</range>
         <soundCast>Shot_ChargeRifle</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
         <muzzleFlashScale>3</muzzleFlashScale>
