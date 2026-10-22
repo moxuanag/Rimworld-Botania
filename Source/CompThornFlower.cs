@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using RimWorld;
+using UnityEngine;
 using Verse;
 
 namespace Botania
 {
     /// <summary>
     /// 荆棘花的属性。
-    /// 行为：每 pulseTicks 结算一次；半径内所有敌对目标先吃减速（免费），
-    /// 再按当前魔力余额决定能对几个目标造成伤害（由近到远）。
+    /// 行为：花自带 manaCapacity 的缓冲，战斗时先用缓冲，不够再从网络抽。
+    /// 只在「范围内没有敌人」时缓慢回充，因此断网时还能撑一阵。
     /// </summary>
     public class CompProperties_ThornFlower : CompProperties
     {
@@ -28,6 +29,12 @@ namespace Botania
 
         /// <summary>单次结算最多打几个目标。</summary>
         public int maxTargets = 12;
+
+        /// <summary>花自身的魔力缓冲上限。</summary>
+        public float manaCapacity = 150f;
+
+        /// <summary>缓冲回充速度（魔力/秒），只在没有敌人时生效。</summary>
+        public float rechargePerSecond = 25f;
 
         /// <summary>减速 hediff（免费，只要在范围内就挂）。</summary>
         public HediffDef slowHediff;
@@ -61,20 +68,31 @@ namespace Botania
             {
                 yield return "thorn flower: manaPerTarget 不能为负";
             }
+            if (manaCapacity < 0f)
+            {
+                yield return "thorn flower: manaCapacity 不能为负";
+            }
         }
     }
 
     /// <summary>
     /// 荆棘花：魔力驱动的范围防御花。
-    /// 敌人在范围内时，先被免费减速，再按魔力余额挨个被尖刺扎。
+    /// 自带 150 缓冲；结算时先扣缓冲，不够才向附近的魔力池 / 中继塔要。
     /// </summary>
     public class CompThornFlower : ThingComp
     {
         private int ticksToPulse;
+        private int rechargeTickCounter;
+        private float mana;
 
         public CompProperties_ThornFlower Props
         {
             get { return (CompProperties_ThornFlower)props; }
+        }
+
+        public float Mana
+        {
+            get { return mana; }
         }
 
         public override void PostSpawnSetup(bool respawningAfterLoad)
@@ -84,6 +102,20 @@ namespace Botania
             {
                 ticksToPulse = Props.pulseTicks;
             }
+            if (mana < 0f)
+            {
+                mana = 0f;
+            }
+            if (mana > Props.manaCapacity)
+            {
+                mana = Props.manaCapacity;
+            }
+        }
+
+        public override void PostExposeData()
+        {
+            base.PostExposeData();
+            Scribe_Values.Look(ref mana, "botaniaThornMana", 0f);
         }
 
         public override void CompTick()
@@ -93,6 +125,15 @@ namespace Botania
             {
                 return;
             }
+
+            // 回充：只在没有敌人时进行，避免战斗中被网络实时补满
+            rechargeTickCounter++;
+            if (rechargeTickCounter >= 60)
+            {
+                rechargeTickCounter = 0;
+                Recharge(map);
+            }
+
             ticksToPulse--;
             if (ticksToPulse > 0)
             {
@@ -100,6 +141,30 @@ namespace Botania
             }
             ticksToPulse = Props.pulseTicks;
             Pulse(map);
+        }
+
+        /// <summary>没有敌人时，从网络把缓冲补满。</summary>
+        private void Recharge(Map map)
+        {
+            if (mana >= Props.manaCapacity - 0.01f)
+            {
+                return;
+            }
+            if (Props.rechargePerSecond <= 0f)
+            {
+                return;
+            }
+            // 战斗中不回充：先看范围内有没有活着的敌对目标
+            if (CollectTargets(map).Count > 0)
+            {
+                return;
+            }
+            float want = Mathf.Min(Props.manaCapacity - mana, Props.rechargePerSecond);
+            float got = DrainAcross(map, parent.Position, want);
+            if (got > 0f)
+            {
+                mana = Mathf.Min(Props.manaCapacity, mana + got);
+            }
         }
 
         private void Pulse(Map map)
@@ -125,15 +190,15 @@ namespace Botania
                 ApplySlow(targets[i]);
             }
 
-            // ── 伤害：先算这一轮付得起几个 ──
-            int affordable = 0;
+            // ── 伤害：先算这一轮付得起几个（缓冲 + 网络） ──
+            int affordable;
             if (Props.manaPerTarget <= 0f)
             {
                 affordable = targets.Count;
             }
             else
             {
-                float available = TotalAvailableMana(map, origin);
+                float available = mana + TotalAvailableMana(map, origin);
                 affordable = (int)(available / Props.manaPerTarget);
             }
             if (affordable > Props.maxTargets)
@@ -198,30 +263,54 @@ namespace Botania
             return sum;
         }
 
-        /// <summary>为一次命中支付魔力；抽不够就返回 false（不会白扣）。</summary>
-        private bool TryPayMana(Map map, IntVec3 origin)
+        /// <summary>从网络里抽魔力，返回实际抽到的量。</summary>
+        private float DrainAcross(Map map, IntVec3 origin, float amount)
         {
-            if (Props.manaPerTarget <= 0f)
-            {
-                return true;
-            }
-            float left = Props.manaPerTarget;
+            float left = amount;
             int guard = 0;
             while (left > 0.01f && guard++ < 16)
             {
                 IManaSource source = ManaSourceUtil.FindNearest(origin, map, Props.sourceRadius);
                 if (source == null)
                 {
-                    return false;
+                    break;
                 }
                 float got = source.DrainMana(left);
                 if (got <= 0.01f)
                 {
-                    return false;
+                    break;
                 }
                 left -= got;
             }
-            return left <= 0.01f;
+            return amount - left;
+        }
+
+        /// <summary>为一次命中支付魔力：先扣缓冲，不足再从网络补。</summary>
+        private bool TryPayMana(Map map, IntVec3 origin)
+        {
+            float cost = Props.manaPerTarget;
+            if (cost <= 0f)
+            {
+                return true;
+            }
+
+            // 缓冲够：直接扣缓冲，不碰网络
+            if (mana >= cost)
+            {
+                mana -= cost;
+                return true;
+            }
+
+            // 缓冲不够：把缓冲用光，剩下的向网络要
+            float remainder = cost - mana;
+            mana = 0f;
+            float got = DrainAcross(map, origin, remainder);
+            if (got <= 0.01f)
+            {
+                return false;
+            }
+            // 只抽到一部分时按比例算作一次不完整的命中，仍然打出去
+            return true;
         }
 
         private void ApplySlow(Pawn pawn)
@@ -273,15 +362,15 @@ namespace Botania
             {
                 return null;
             }
-            float available = TotalAvailableMana(map, parent.Position);
+            float network = TotalAvailableMana(map, parent.Position);
             int count = CollectTargets(map).Count;
             if (count == 0)
             {
-                return "Botania.Thorn.Idle".Translate();
+                return "Botania.Thorn.Idle".Translate(mana, Props.manaCapacity);
             }
             int affordable = Props.manaPerTarget <= 0f
                 ? count
-                : (int)(available / Props.manaPerTarget);
+                : (int)((mana + network) / Props.manaPerTarget);
             if (affordable > Props.maxTargets)
             {
                 affordable = Props.maxTargets;
@@ -290,7 +379,7 @@ namespace Botania
             {
                 affordable = count;
             }
-            return "Botania.Thorn.Status".Translate(count, affordable, Props.damagePerPulse);
+            return "Botania.Thorn.Status".Translate(count, affordable, mana, Props.manaCapacity, Props.damagePerPulse);
         }
     }
 }

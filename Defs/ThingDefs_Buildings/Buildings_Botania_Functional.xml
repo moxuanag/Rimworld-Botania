@@ -54,6 +54,8 @@
         <damagePerPulse>3</damagePerPulse>
         <manaPerTarget>2</manaPerTarget>
         <maxTargets>12</maxTargets>
+        <manaCapacity>150</manaCapacity>
+        <rechargePerSecond>25</rechargePerSecond>
         <slowHediff>Botania_ThornsSlow</slowHediff>
         <slowDuration>90</slowDuration>
         <thornMote>Botania_Mote_Thorn</thornMote>
