@@ -61,4 +61,6 @@
   <Botania.PassiveFlowerWaitingNight>等到夜里开始产魔</Botania.PassiveFlowerWaitingNight>
   <Botania.PassiveFlowerWorking>正在产魔</Botania.PassiveFlowerWorking>
   <Botania.PassiveFlowerWithers>还剩 {0} 天枯萎</Botania.PassiveFlowerWithers>
+  <Botania.Thorn.Idle>范围内没有敌人</Botania.Thorn.Idle>
+  <Botania.Thorn.Status>范围内 {0} 个敌人，魔力够打 {1} 个（每次 {2} 点伤害）</Botania.Thorn.Status>
 </LanguageData>

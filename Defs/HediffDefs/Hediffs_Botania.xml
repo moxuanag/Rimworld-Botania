@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- ============================================================
+       荆棘花的减速状态。
+       由 CompThornFlower 每次结算时刷新剩余时间（免费，不耗魔力）。
+       移动速度 ×0.7；离开范围后约 1.5 秒恢复。
+       ============================================================ -->
+
+  <HediffDef>
+    <defName>Botania_ThornsSlow</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>entangled in thorns</label>
+    <description>Briars are wrapped around this creature's legs, slowing every step. It clears up soon after leaving the thorn flower's reach.</description>
+    <isBad>true</isBad>
+    <initialSeverity>1</initialSeverity>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>90</disappearsAfterTicks>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statFactors>
+          <MoveSpeed>0.7</MoveSpeed>
+        </statFactors>
+      </li>
+    </stages>
+  </HediffDef>
+
+</Defs>

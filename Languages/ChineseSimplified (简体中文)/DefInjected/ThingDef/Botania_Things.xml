@@ -100,4 +100,11 @@
   <Botania_Nightshade.label>夜颠茄</Botania_Nightshade.label>
   <Botania_Nightshade.description>一朵嗜暗的花，只在夜里工作，产量约是太阳花的一半——但它正好在殖民地睡着的时候产魔。同样会在一季后枯萎。</Botania_Nightshade.description>
 
+  <!-- 功能花（荆棘花）：防御建筑，攻击逻辑见 CHANGELOG 与设计稿 -->
+  <Botania_ThornFlower.label>荆棘花</Botania_ThornFlower.label>
+  <Botania_ThornFlower.description>一整片带刺的藤蔓，中央开着一朵暗紫色的花。没人管的时候它只会扯破衣服；一旦喂上魔力，任何闯进范围的敌人脚下都会窜出新的尖刺——敌人越多，它从池子里抽走魔力的速度就越快。</Botania_ThornFlower.description>
+
+  <!-- 特效（不显示在界面上，仅为满足本地化覆盖检查） -->
+  <Botania_Mote_Thorn.label>荆棘尖刺</Botania_Mote_Thorn.label>
+
 </LanguageData>

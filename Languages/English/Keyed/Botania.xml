@@ -61,4 +61,6 @@
   <Botania.PassiveFlowerWaitingNight>Waiting for nightfall</Botania.PassiveFlowerWaitingNight>
   <Botania.PassiveFlowerWorking>Producing mana</Botania.PassiveFlowerWorking>
   <Botania.PassiveFlowerWithers>Withers in {0} days</Botania.PassiveFlowerWithers>
+  <Botania.Thorn.Idle>No enemies in range</Botania.Thorn.Idle>
+  <Botania.Thorn.Status>{0} enemies in range, mana for {1} of them ({2} damage each)</Botania.Thorn.Status>
 </LanguageData>

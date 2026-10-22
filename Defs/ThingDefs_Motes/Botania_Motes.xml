@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- ============================================================
+       荆棘花命中时在敌人脚下闪出的尖刺。
+       纯视觉，不碰撞、不进存档、不参与寻路。
+       ============================================================ -->
+
+  <ThingDef ParentName="MoteBase">
+    <defName>Botania_Mote_Thorn</defName>
+    <label>thorn spikes</label>
+    <category>Mote</category>
+    <useHitPoints>false</useHitPoints>
+    <graphicData>
+      <texPath>Things/Mote/Botania/Thorn</texPath>
+    </graphicData>
+    <mote>
+      <fadeInTime>0.05</fadeInTime>
+      <solidTime>0.3</solidTime>
+      <fadeOutTime>0.25</fadeOutTime>
+    </mote>
+  </ThingDef>
+
+</Defs>
