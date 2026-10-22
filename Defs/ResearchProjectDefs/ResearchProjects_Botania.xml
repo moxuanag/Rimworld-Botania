@@ -52,6 +52,20 @@
     <researchViewY>0.0</researchViewY>
   </ResearchProjectDef>
 
+  <ResearchProjectDef>
+    <defName>Botania_GeneratingII</defName>
+    <label>botania: advanced flowers</label>
+    <description>Three flowers that ask for more than fuel: the furnace orchid feeds on a hot sealed room, the storm bloom salvages short-circuit bursts, and the rosa arcana takes what a mind has not finished learning.</description>
+    <baseCost>1500</baseCost>
+    <techLevel>Industrial</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_GeneratingI</li>
+    </prerequisites>
+    <researchViewX>3.0</researchViewX>
+    <researchViewY>0.0</researchViewY>
+  </ResearchProjectDef>
+
   <!-- ===== E1 花圃 ===== -->
 
   <ResearchProjectDef>

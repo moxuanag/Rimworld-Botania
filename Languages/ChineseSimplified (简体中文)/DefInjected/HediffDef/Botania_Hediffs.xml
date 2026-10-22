@@ -4,4 +4,7 @@
   <Botania_WandMana.label>魔力储备</Botania_WandMana.label>
   <Botania_WandMana.description>小人手里那把森林法杖还剩下的魔力。左下角这条就是存量，打空了要回魔力池旁边补。</Botania_WandMana.description>
 
+  <Botania_ThoughtSiphoned.label>灵思被引</Botania_ThoughtSiphoned.label>
+  <Botania_ThoughtSiphoned.description>附近有什么东西正在把这个人脑子里的念头抽走。学得更慢，而且莫名烦躁。</Botania_ThoughtSiphoned.description>
+
 </LanguageData>

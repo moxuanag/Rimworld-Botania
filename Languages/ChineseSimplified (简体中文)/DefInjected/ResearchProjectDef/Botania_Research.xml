@@ -10,6 +10,9 @@
   <Botania_GeneratingI.label>植物魔法：产能花</Botania_GeneratingI.label>
   <Botania_GeneratingI.description>会自己产魔的花。火红莲烧燃料；太阳花与夜颠茄只是喝着日光与黑暗，季节一到就会枯萎。</Botania_GeneratingI.description>
 
+  <Botania_GeneratingII.label>植物魔法：进阶产能花</Botania_GeneratingII.label>
+  <Botania_GeneratingII.description>三朵要求更高的花：炉心蕙吃一间烧热的密闭房间，电暴花捡电网短路的漏，阿卡纳蔷薇则抽走一颗脑子还没学完的那部分。</Botania_GeneratingII.description>
+
   <Botania_Garden.label>植物魔法：花圃工艺</Botania_Garden.label>
   <Botania_Garden.description>占位：批量制花的花瓣祭坛。内容将在后续版本接入。</Botania_Garden.description>
 

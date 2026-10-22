@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- ============================================================
+       灵思被引：阿卡纳蔷薇抽取学习潜力时挂上的状态。
+       学得更慢（GlobalLearningFactor ×0.5），心情 −2，离开范围自动消失。
+       ============================================================ -->
+
+  <HediffDef>
+    <defName>Botania_ThoughtSiphoned</defName>
+    <label>thought siphoned</label>
+    <description>Something nearby is drinking the ideas out of this person's head. Learning is slower, and it is quietly infuriating.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <isBad>true</isBad>
+    <everCurableByItem>false</everCurableByItem>
+    <initialSeverity>1</initialSeverity>
+    <stages>
+      <li>
+        <label>thought siphoned</label>
+        <statOffsets>
+          <Mood>-2</Mood>
+        </statOffsets>
+        <statFactors>
+          <GlobalLearningFactor>0.5</GlobalLearningFactor>
+        </statFactors>
+      </li>
+    </stages>
+  </HediffDef>
+
+</Defs>

@@ -25,6 +25,13 @@
       <HintPath>..\..\..\UnityStubs.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <!-- Harmony 由 brrainz.harmony 提供，运行时不随包分发（Private=false）。
+         路径按「模组放在 <游戏>\Mods\<模组>，Harmony 在 Steam 创意工坊」推算；
+         本地布局不同时，把 HintPath 指到任意一份 0Harmony.dll 即可（2.x / 3.x 的公开 API 一致）。 -->
+    <Reference Include="0Harmony">
+      <HintPath>..\..\..\..\..\workshop\content\294100\2009463077\1.7\Assemblies\0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
   </ItemGroup>
 
 </Project>
