@@ -29,10 +29,6 @@
   <Botania.WandCharged>充能完成：{0} / {1}</Botania.WandCharged>
   <Botania.WandNoSource>附近没有可用的魔力池或中继塔</Botania.WandNoSource>
   <Botania.WandOutOfMana>魔力不足，打不出这一发：需要 {0}，杖内只有 {1}</Botania.WandOutOfMana>
-  <Botania.WandManaHediff>魔力储备 {0} / {1}</Botania.WandManaHediff>
-  <Botania.WandManaHediffTip>手里森林法杖剩余的魔力。每发魔力弹消耗 100，绽花/就地转化按株数和堆数扣。</Botania.WandManaHediffTip>
-  <Botania.PassiveDormant>休眠中：还没到它的时辰</Botania.PassiveDormant>
-  <Botania.PassiveLifespan>将在 {0} 天后枯萎</Botania.PassiveLifespan>
   <Botania.FurnaceStatus>室温 {0}°C · 每朵 {1} 格 · {2} 魔力/秒</Botania.FurnaceStatus>
   <Botania.FurnaceOpenAir>需要封闭且有屋顶的房间</Botania.FurnaceOpenAir>
   <Botania.FurnaceTooClose>和另一朵炉心蕙贴太近——中间要留一格</Botania.FurnaceTooClose>

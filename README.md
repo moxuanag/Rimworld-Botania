@@ -43,7 +43,7 @@
 
 闭环一句话：**种花得花瓣 → 磨成魔力尘 → 造白雏菊把原木石砖变成活木活石 → 建池子接住花产的魔力 → 用魔力养防御、维护和法杖，多余的电送进电网。**
 
-### 2. 科技线（16 项）
+### 2. 科技线（17 项）
 
 ```
 神秘花卉 300 ── 魔力 900
@@ -581,7 +581,27 @@
 
 1. 到 [Releases](https://github.com/moxuanag/Rimworld-Botania/releases) 下载最新 zip；
 2. 解压出 `Botania` 文件夹，放进 `RimWorld/Mods/`；
-3. 在模组列表启用「植物魔法 Botania」，排序放在 Core **与 Harmony（brrainz.harmony）** 之后即可。
+3. 在模组列表启用「植物魔法 Botania」，排序放在 Core 之后、**Harmony（brrainz.harmony）之后**。
+
+> **0.6.0 起 Harmony 是硬依赖。**
+>
+> 电暴花需要在原版的电网短路发生时拿到那一刻的储能，而引擎没有开放事件回调，
+> 所以只能挂一个 Harmony 补丁，同时挂在两个地方：
+>
+> - `RimWorld.ShortCircuitUtility.DrainBatteriesAndCauseExplosion(PowerNet, Building, ref float, ref float)`
+>   —— 真正把电池抽干的地方，`__args[0]` 就是电网，前缀取储能、后缀按比例分发；
+> - `RimWorld.ShortCircuitUtility.DoShortCircuit(Building)` —— 事件入口，作为兜底；
+>
+> 两处会命中同一次事件，所以 `ShortCircuitAbsorb` 用「同一个 culprit + 同一 tick」去重，
+> 不会重复吸取。补丁全程 try/catch，出错只记警告，不影响原版短路本身。
+>
+> 缺 Harmony 的后果：`BotaniaHarmony` 的静态构造会抛异常并记一条错误，
+> 电暴花永远收不到能量（其余 69 个 Def、其余机制照常工作）。
+> `About.xml` 已用 `modDependencies` 声明，模组列表会直接标出缺依赖。
+>
+> 两个补丁类 `Patch_DoShortCircuit` / `Patch_DrainBatteriesAndCauseExplosion`
+> **在代码里没有任何引用**——它们由 `Harmony.PatchAll()` 反射扫出来。
+> 改名字或删掉会让补丁静默失效，别当成死代码清理。
 
 手动安装（开发用）：
 

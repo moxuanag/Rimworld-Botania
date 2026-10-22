@@ -57,6 +57,11 @@
   异常只记警告，不影响原版短路逻辑
 - `About.xml` 把 `brrainz.harmony` 加进 `loadAfter`；`Botania.csproj` 增加 0Harmony 编译期引用
   （`Private=false`，运行时不随包分发）
+- `About.xml` 增加 `modDependencies`，缺 Harmony 时模组列表会直接提示；
+  两个补丁类由 `PatchAll()` 反射调用，代码里没有引用，**不要当死代码删除**
+- 清理 4 个旧实现遗留、代码已不再引用的 Keyed 键：
+  `Botania.PassiveDormant`、`Botania.PassiveLifespan`、`Botania.WandManaHediff`、`Botania.WandManaHediffTip`
+- 全量自检：321 处 Def 引用、贴图路径、Keyed 键与 C# 字符串引用全部可解析
 
 ### 修复
 - **爆破型伤害远超面板**：爆炸改为自行逐格结算，伤害不再交给 `GenExplosion`。
