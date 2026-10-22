@@ -12,6 +12,8 @@
 
   <Botania_PassiveGenerating.label>被动产能花</Botania_PassiveGenerating.label>
   <Botania_PassiveGenerating.description>不用燃料、只靠时间产魔的花。太阳花喝日光、夜颠茄喝夜色，两者造价低廉、随手就能摆，代价是每朵只能撑一季，到点会自行枯萎。</Botania_PassiveGenerating.description>
+  <Botania_GeneratingII.label>进阶产能花</Botania_GeneratingII.label>
+  <Botania_GeneratingII.description>三朵要求更高的花：炉心蕙吃一间烧热的密闭房间，电暴花捡电网短路的漏，阿卡纳蔷薇则抽走一颗脑子还没学完的那部分。</Botania_GeneratingII.description>
 
   <Botania_Garden.label>花圃工艺</Botania_Garden.label>
   <Botania_Garden.description>把活木与活石拼成一支能引导魔力的手杖。森林法杖由此建成；批量制花的花瓣祭坛留待后续版本。</Botania_Garden.description>

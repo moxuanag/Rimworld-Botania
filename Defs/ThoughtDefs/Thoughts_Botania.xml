@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- ============================================================
+       灵思被引（心情）：由阿卡纳蔷薇在范围内持续补挂，离开后自然淡出。
+       Mood 是 Need 而非 Stat，所以心情必须走 Thought，不能写在 hediff 的 statOffsets 里。
+       ============================================================ -->
+
+  <ThoughtDef>
+    <defName>Botania_ThoughtSiphoned</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>0.1</durationDays>
+    <stackLimit>1</stackLimit>
+    <stages>
+      <li>
+        <defName>siphoned</defName>
+        <label>thought siphoned</label>
+        <description>Something nearby keeps drinking the ideas out of my head. I can't concentrate.</description>
+        <baseMoodEffect>-2</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+</Defs>

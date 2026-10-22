@@ -3,7 +3,7 @@
   <name>植物魔法 Botania</name>
   <author>GZ</author>
   <packageId>gz.botania</packageId>
-  <modVersion>0.5.0</modVersion>
+  <modVersion>0.6.0</modVersion>
   <url>https://github.com/moxuanag/Rimworld-Botania</url>
   <supportedVersions>
     <li>1.7</li>
@@ -33,5 +33,6 @@
 全部为新增 Def 与自定义 Comp。仅以补丁方式向生物群系追加野生植物，不改动任何原版 Def 的既有数值。</description>
   <loadAfter>
     <li>Ludeon.RimWorld</li>
+    <li>brrainz.harmony</li>
   </loadAfter>
 </ModMetaData>

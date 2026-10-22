@@ -124,4 +124,13 @@
   <Botania_ManaBlast.label>魔力爆弹</Botania_ManaBlast.label>
   <Botania_ManaBlast.description>一团不稳定的魔力，落地后炸成十字的火。</Botania_ManaBlast.description>
 
+  <Botania_FurnaceOrchid.label>炉心蕙</Botania_FurnaceOrchid.label>
+  <Botania_FurnaceOrchid.description>吃热量的花。只在封闭、有屋顶的房间里工作，而且房间得先烧热：产量随温度上升，随它分到的面积的平方根上升。把房间盖成方的、烧到合适的温度、花与花之间留出一格——贴在一起它们就不干活，而且一把火能烧掉一整排。</Botania_FurnaceOrchid.description>
+
+  <Botania_StormBloom.label>电暴花</Botania_StormBloom.label>
+  <Botania_StormBloom.description>一朵蓄着小水囊的花。电网短路（Zzztt）时，电池会把整条线路的储能一股脑放出来，这朵花就喝下自己装得下的那一口，送进附近的魔力池。它是捡漏，不是电源。</Botania_StormBloom.description>
+
+  <Botania_RosaArcana.label>阿卡纳蔷薇</Botania_RosaArcana.label>
+  <Botania_RosaArcana.description>一朵很执拗的蔷薇。在它旁边干活的人会发现思绪总是飘走：学得更慢，而且心里烦躁。作为交换，蔷薇收走他们「没能学进去」的那部分。什么都没得学的人，喂不了它。</Botania_RosaArcana.description>
+
 </LanguageData>

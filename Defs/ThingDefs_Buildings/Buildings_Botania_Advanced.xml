@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- ============================================================
+       进阶产能花（原创）：
+         炉心蕙   —— 封闭高温房间里的产出，产量随室温与√面积增长
+         电暴花   —— 电网短路（Zzztt）时捡漏，把爆炸能量转成魔力
+         阿卡纳蔷薇 —— 抽取附近小人的学习潜力，小人学得更慢、心情更差
+       三朵都需要研究 Botania_GeneratingII。
+       ============================================================ -->
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>Botania_FurnaceOrchid</defName>
+    <label>furnace orchid</label>
+    <description>A flower that feeds on heat. It only works inside an enclosed, roofed room, and only once the room is properly warm: output grows with temperature and with the square root of the floor space it commands. Build a square room, keep it hot, and leave a gap between orchids — packed together they stop working, and one fire takes the whole row.</description>
+    <thingClass>Building</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Things/Building/Botania/FurnaceOrchid</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <shadowData>
+        <volume>(0.6,0.3,0.6)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.15</fillPercent>
+    <rotatable>false</rotatable>
+    <blockWind>false</blockWind>
+    <castEdgeShadows>false</castEdgeShadows>
+    <tickerType>Normal</tickerType>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <size>(1,1)</size>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <WorkToBuild>900</WorkToBuild>
+      <Mass>4</Mass>
+      <Flammability>1.0</Flammability>
+      <Beauty>2</Beauty>
+    </statBases>
+    <building>
+      <destroySound>BuildingDestroyed_Soft_Small</destroySound>
+    </building>
+    <costList>
+      <Botania_ManasteelIngot>6</Botania_ManasteelIngot>
+      <Botania_Livingrock>10</Botania_Livingrock>
+    </costList>
+    <comps>
+      <li Class="Botania.CompProperties_ManaFurnaceOrchid">
+        <manaScale>0.2</manaScale>
+        <minAreaPerFlower>11</minAreaPerFlower>
+        <maxRoomArea>150</maxRoomArea>
+        <maxManaPerSecond>90</maxManaPerSecond>
+        <baseTemperature>20</baseTemperature>
+        <poolRadius>6</poolRadius>
+        <overheatThreshold>150</overheatThreshold>
+        <damagePerDegree>0.04</damagePerDegree>
+        <ignitionThreshold>195</ignitionThreshold>
+        <igniteChancePerSecond>0.01</igniteChancePerSecond>
+      </li>
+    </comps>
+    <placeWorkers>
+      <li>Botania.PlaceWorker_FurnaceSpacing</li>
+    </placeWorkers>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <designationCategory>Misc</designationCategory>
+    <thingCategories>
+      <li>BotaniaBuildings</li>
+    </thingCategories>
+    <researchPrerequisites>
+      <li>Botania_GeneratingII</li>
+    </researchPrerequisites>
+    <uiOrder>3230</uiOrder>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>Botania_StormBloom</defName>
+    <label>storm bloom</label>
+    <description>A small flower with a deliberately tiny reservoir. When a power conduit short-circuits and a battery dumps its charge, this bloom drinks whatever it can hold of that burst and feeds it into a nearby pool. It is salvage, not a power source.</description>
+    <thingClass>Building</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Things/Building/Botania/StormBloom</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <shadowData>
+        <volume>(0.6,0.3,0.6)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.15</fillPercent>
+    <rotatable>false</rotatable>
+    <blockWind>false</blockWind>
+    <castEdgeShadows>false</castEdgeShadows>
+    <tickerType>Normal</tickerType>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <size>(1,1)</size>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <WorkToBuild>400</WorkToBuild>
+      <Mass>3</Mass>
+      <Flammability>1.0</Flammability>
+      <Beauty>3</Beauty>
+    </statBases>
+    <building>
+      <destroySound>BuildingDestroyed_Soft_Small</destroySound>
+    </building>
+    <costList>
+      <Botania_Petal_Cyan>4</Botania_Petal_Cyan>
+      <Botania_ManasteelIngot>4</Botania_ManasteelIngot>
+    </costList>
+    <comps>
+      <li Class="Botania.CompProperties_ManaStormBloom">
+        <bufferCapacity>2400</bufferCapacity>
+        <manaPerWattDay>200</manaPerWattDay>
+        <poolRadius>6</poolRadius>
+      </li>
+    </comps>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>Misc</designationCategory>
+    <thingCategories>
+      <li>BotaniaBuildings</li>
+    </thingCategories>
+    <researchPrerequisites>
+      <li>Botania_GeneratingII</li>
+    </researchPrerequisites>
+    <uiOrder>3240</uiOrder>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>Botania_RosaArcana</defName>
+    <label>rosa arcana</label>
+    <description>An insistent rose. Anyone working near it finds their thoughts drifting: they learn more slowly, and they resent it. In exchange the rose harvests what they are not quite managing to learn. Pawns who have nothing left to learn give it nothing.</description>
+    <thingClass>Building</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Things/Building/Botania/RosaArcana</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <shadowData>
+        <volume>(0.6,0.3,0.6)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.15</fillPercent>
+    <rotatable>false</rotatable>
+    <blockWind>false</blockWind>
+    <castEdgeShadows>false</castEdgeShadows>
+    <tickerType>Normal</tickerType>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <size>(1,1)</size>
+    <statBases>
+      <MaxHitPoints>70</MaxHitPoints>
+      <WorkToBuild>500</WorkToBuild>
+      <Mass>2</Mass>
+      <Flammability>1.0</Flammability>
+      <Beauty>4</Beauty>
+    </statBases>
+    <building>
+      <destroySound>BuildingDestroyed_Soft_Small</destroySound>
+    </building>
+    <costList>
+      <Botania_Petal_Purple>6</Botania_Petal_Purple>
+      <Botania_ManaPowder>4</Botania_ManaPowder>
+    </costList>
+    <comps>
+      <li Class="Botania.CompProperties_ManaRosaArcana">
+        <radius>8</radius>
+        <manaPerPawnSecond>6</manaPerPawnSecond>
+        <hediffDef>Botania_MindSiphoned</hediffDef>
+        <thoughtDef>Botania_ThoughtSiphoned</thoughtDef>
+        <poolRadius>6</poolRadius>
+      </li>
+      <!-- 选中时显示影响范围 -->
+      <li Class="Botania.CompProperties_RadiusRing">
+        <radius>8</radius>
+      </li>
+    </comps>
+    <placeWorkers>
+      <li>Botania.PlaceWorker_ManaRadius</li>
+    </placeWorkers>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>Misc</designationCategory>
+    <thingCategories>
+      <li>BotaniaBuildings</li>
+    </thingCategories>
+    <researchPrerequisites>
+      <li>Botania_GeneratingII</li>
+    </researchPrerequisites>
+    <uiOrder>3250</uiOrder>
+  </ThingDef>
+
+</Defs>
