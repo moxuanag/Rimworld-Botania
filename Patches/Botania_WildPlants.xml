@@ -5,20 +5,24 @@
        让 8 种神秘花在野外自然生长。
        只挂在能长花的生物群系上：温带/寒带/热带森林、沼泽、灌木荒原、
        沙漠、冷沼、苔原。冰盖、极端沙漠、地下、海洋不长。
-       每种颜色权重 0.08，合计 0.64，约等于原版一种普通野花的密度。
+       每种颜色权重 0.04，合计 0.32。
+
+       密度沿革（同群系原版参照：蒲公英 0.5、野浆果 0.05、草 5.0）：
+         0.5.0：8 色 × 0.08 = 0.64，约 1.3 个蒲公英；
+         0.6.0：减半 → 8 色 × 0.04 = 0.32，约 0.64 个蒲公英。
        ============================================================ -->
 
   <Operation Class="PatchOperationAdd">
     <xpath>Defs/BiomeDef[defName="TemperateForest" or defName="BorealForest" or defName="TropicalRainforest" or defName="TemperateSwamp" or defName="TropicalSwamp" or defName="AridShrubland" or defName="Desert" or defName="ColdBog" or defName="Tundra"]/wildPlants</xpath>
     <value>
-      <Botania_MysticFlower_White>0.08</Botania_MysticFlower_White>
-      <Botania_MysticFlower_Orange>0.08</Botania_MysticFlower_Orange>
-      <Botania_MysticFlower_Yellow>0.08</Botania_MysticFlower_Yellow>
-      <Botania_MysticFlower_Cyan>0.08</Botania_MysticFlower_Cyan>
-      <Botania_MysticFlower_Purple>0.08</Botania_MysticFlower_Purple>
-      <Botania_MysticFlower_Green>0.08</Botania_MysticFlower_Green>
-      <Botania_MysticFlower_Red>0.08</Botania_MysticFlower_Red>
-      <Botania_MysticFlower_Black>0.08</Botania_MysticFlower_Black>
+      <Botania_MysticFlower_White>0.04</Botania_MysticFlower_White>
+      <Botania_MysticFlower_Orange>0.04</Botania_MysticFlower_Orange>
+      <Botania_MysticFlower_Yellow>0.04</Botania_MysticFlower_Yellow>
+      <Botania_MysticFlower_Cyan>0.04</Botania_MysticFlower_Cyan>
+      <Botania_MysticFlower_Purple>0.04</Botania_MysticFlower_Purple>
+      <Botania_MysticFlower_Green>0.04</Botania_MysticFlower_Green>
+      <Botania_MysticFlower_Red>0.04</Botania_MysticFlower_Red>
+      <Botania_MysticFlower_Black>0.04</Botania_MysticFlower_Black>
     </value>
   </Operation>
 
