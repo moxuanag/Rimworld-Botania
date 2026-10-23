@@ -119,7 +119,14 @@
         <manaPerWattDay>200</manaPerWattDay>
         <poolRadius>6</poolRadius>
       </li>
+      <!-- 短路吸收半径 15 格：和 CompManaStormBloom.AbsorbRadius 必须一致 -->
+      <li Class="Botania.CompProperties_RadiusRing">
+        <radius>15</radius>
+      </li>
     </comps>
+    <placeWorkers>
+      <li>Botania.PlaceWorker_RadiusFromComp</li>
+    </placeWorkers>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <designationCategory>Misc</designationCategory>
     <thingCategories>
