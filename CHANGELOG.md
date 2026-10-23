@@ -90,6 +90,13 @@
   3. 子弹本体伤害类型从 `Bomb` 改为 `Bullet`。
      `Bomb` 对不可通行建筑有 4 倍倍率，拿它当直击伤害会让「40 点子弹」打墙变成 160。
      原版子弹一律用 `Bullet`。
+- **炉心蕙与蔷薇补完显示与判定**：
+  - 炉心蕙挂 `CompProperties_RadiusRing(6)` + `PlaceWorker_RadiusFromComp`，选中与放置时都能看到
+    「魔力送得到哪」；信息栏在 >150°C 时显示每秒掉多少 HP，≥195°C 时提示已达自燃温度；
+  - 蔷薇的放置预览原本画的是 6 格供魔范围（`PlaceWorker_ManaRadius`），与选中时的 8 格抽取环不符，
+    统一改成 `PlaceWorker_RadiusFromComp`；
+  - 蔷薇的「在学习」判定加入「当前 job 是 Research」：技能有每日经验上限，跑满之后人还在研究、
+    经验却不涨，原先只看增量会让整朵花突然停产。
 - **法杖伤害会吃品质加成**（原本就有，只是之前没意识到）：
   `RangedWeapon_DamageMultiplier` 带 `StatPart_Quality`，大师 ×1.25、传奇 ×1.5。
   所以传奇品质的爆破型子弹是 60 而不是面板上的 40。这是原版规则，未做改动。

@@ -249,10 +249,23 @@ namespace Botania
             {
                 return BlockReason;
             }
-            return "Botania.FurnaceStatus".Translate(
+
+            string text = "Botania.FurnaceStatus".Translate(
                 RoomTemperature.ToString("0"),
                 EffectiveArea.ToString("0.0"),
                 CurrentOutput.ToString("0.0"));
+
+            // 过热与自燃要让玩家看得见，否则花只会莫名其妙掉血
+            if (RoomTemperature > Props.overheatThreshold)
+            {
+                float damage = (RoomTemperature - Props.overheatThreshold) * Props.damagePerDegree;
+                text += "\n" + "Botania.FurnaceOverheating".Translate(damage.ToString("0.0"));
+            }
+            if (RoomTemperature >= Props.ignitionThreshold)
+            {
+                text += "\n" + "Botania.FurnaceIgnitionRisk".Translate();
+            }
+            return text;
         }
     }
 

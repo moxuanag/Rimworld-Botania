@@ -34,6 +34,8 @@
   <Botania.FurnaceTooClose>和另一朵炉心蕙贴太近——中间要留一格</Botania.FurnaceTooClose>
   <Botania.FurnaceTooSmall>房间太小：每朵花要分到超过 {0} 格</Botania.FurnaceTooSmall>
   <Botania.FurnaceTooCold>室温低于 {0}°C</Botania.FurnaceTooCold>
+  <Botania.FurnaceOverheating>过热：每秒 −{0} HP</Botania.FurnaceOverheating>
+  <Botania.FurnaceIgnitionRisk>已达自燃温度</Botania.FurnaceIgnitionRisk>
   <Botania.StormBloomStored>电暴缓存 {0} / {1} · 吸收半径 {2} 格</Botania.StormBloomStored>
   <Botania.RosaArcanaSiphoning>正在抽取 {0} / 范围内 {1} 人 · 每人 +{2} 魔力/秒（仅学习或研究时）</Botania.RosaArcanaSiphoning>
 
