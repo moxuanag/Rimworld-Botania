@@ -60,9 +60,14 @@
         <ignitionThreshold>195</ignitionThreshold>
         <igniteChancePerSecond>0.01</igniteChancePerSecond>
       </li>
+      <!-- 产出的魔力要送到 6 格内的魔力池；选中/放置时画出这圈 -->
+      <li Class="Botania.CompProperties_RadiusRing">
+        <radius>6</radius>
+      </li>
     </comps>
     <placeWorkers>
       <li>Botania.PlaceWorker_FurnaceSpacing</li>
+      <li>Botania.PlaceWorker_RadiusFromComp</li>
     </placeWorkers>
     <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
     <designationCategory>Misc</designationCategory>
@@ -119,7 +124,14 @@
         <manaPerWattDay>200</manaPerWattDay>
         <poolRadius>6</poolRadius>
       </li>
+      <!-- 短路吸收半径 15 格：和 CompManaStormBloom.AbsorbRadius 必须一致 -->
+      <li Class="Botania.CompProperties_RadiusRing">
+        <radius>15</radius>
+      </li>
     </comps>
+    <placeWorkers>
+      <li>Botania.PlaceWorker_RadiusFromComp</li>
+    </placeWorkers>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <designationCategory>Misc</designationCategory>
     <thingCategories>
@@ -183,7 +195,7 @@
       </li>
     </comps>
     <placeWorkers>
-      <li>Botania.PlaceWorker_ManaRadius</li>
+      <li>Botania.PlaceWorker_RadiusFromComp</li>
     </placeWorkers>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <designationCategory>Misc</designationCategory>

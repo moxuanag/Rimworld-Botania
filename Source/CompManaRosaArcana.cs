@@ -100,6 +100,7 @@ namespace Botania
             }
 
             float mana = 0f;
+            int learningCount = 0;
             foreach (Pawn pawn in inRange)
             {
                 if (!HasSomethingLeftToLearn(pawn))
@@ -107,19 +108,26 @@ namespace Botania
                     continue;
                 }
 
-                // 只有这一秒里真的长了经验，才算「在学习」——睡觉、发呆、闲逛都不产魔。
+                // 「在学习」= 这一秒真的长了经验，或者正在做研究。
+                // 加研究这一条是因为技能有每日经验上限：跑了一整天的小人即使还在研究，
+                // 也已经涨不动经验了，只看增量会让他突然不产魔。
                 float totalXp = TotalSkillXp(pawn);
                 float previousXp;
                 bool wasTracked = lastXp.TryGetValue(pawn, out previousXp);
                 lastXp[pawn] = totalXp;
-                if (!wasTracked || totalXp <= previousXp)
+                bool xpGrew = wasTracked && totalXp > previousXp;
+                if (!xpGrew && !IsResearching(pawn))
                 {
                     continue;
                 }
 
+                learningCount++;
                 mana += Props.manaPerPawnSecond;
                 EnsureHediff(pawn);
             }
+
+            LastInRangeCount = inRange.Count;
+            LastLearningCount = learningCount;
 
             if (mana > 0f)
             {
@@ -132,6 +140,18 @@ namespace Botania
 
             CleanupHediffs(inRange);
             PruneXpSnapshots(inRange);
+        }
+
+        /// <summary>上一次结算时范围内的总人数 / 正在被抽取的人数，供信息栏显示。</summary>
+        public int LastInRangeCount { get; private set; }
+
+        public int LastLearningCount { get; private set; }
+
+        /// <summary>正在做研究的人算「在学习」——技能每日上限满了也不至于突然停产。</summary>
+        private static bool IsResearching(Pawn pawn)
+        {
+            JobDef job = pawn.CurJobDef;
+            return job != null && job.defName == "Research";
         }
 
         /// <summary>所有技能累计经验之和，用来做「有没有在学习」的差分。</summary>
@@ -282,7 +302,10 @@ namespace Botania
             {
                 return null;
             }
-            return "Botania.RosaArcanaSiphoning".Translate(siphoning.Count);
+            return "Botania.RosaArcanaSiphoning".Translate(
+                LastLearningCount,
+                LastInRangeCount,
+                Props.manaPerPawnSecond.ToString("0"));
         }
 
         public override void PostExposeData()
