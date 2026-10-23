@@ -6,13 +6,12 @@ using Verse;
 namespace Botania
 {
     /// <summary>
-    /// 苦丽花：半径内的小人每完成一件工作，就被抽走一点精力——
-    /// 挂上「劳累」hediff（移动速度下降）与同名的记忆念头（心情下降），
-    /// 花则把这份劳累换成魔力。
+    /// 苦丽花：把半径内小人的「劳动」换成魔力。
     ///
-    /// 产量按「这次工作实际涨了多少经验」折算：盖屋顶那种零成本小活只涨几点经验，
-    /// 收益自然趋近于零；缝一件衣服涨几十点，才有像样的产出。
-    /// 极小的活还额外吃一条冷却，堵死「反复拆建屋顶」这类刷法。
+    /// 取信号的方式是<b>直接监听技能经验</b>（<c>Pawn_SkillTracker.Learn</c>）：
+    /// 任何真正算得上劳动的行为都会涨经验，盖屋顶这种零成本小活只涨几点、
+    /// 缝一件衣服涨几十点，于是收益天然按「干了多少活」分层，不需要给工作类型列白名单，
+    /// 也不依赖 job / 账单在哪一刻结束。
     /// </summary>
     public class CompProperties_ManaBitterBloom : CompProperties
     {
@@ -22,7 +21,7 @@ namespace Botania
         /// <summary>每 1 点经验折多少魔力。</summary>
         public float manaPerXp = 10f;
 
-        /// <summary>一次工作最多产多少魔力（给高经验工作封顶）。</summary>
+        /// <summary>一次结算最多产多少魔力。</summary>
         public float maxManaPerWork = 400f;
 
         /// <summary>低于这个经验值就算「零碎小活」，要吃冷却。</summary>
@@ -31,7 +30,7 @@ namespace Botania
         /// <summary>零碎小活的冷却（3600 tick = 60 秒）。</summary>
         public int trivialCooldownTicks = 3600;
 
-        /// <summary>每次工作给小人加多少 hediff 严重度。</summary>
+        /// <summary>每次结算给小人加多少 hediff 严重度。</summary>
         public float fatigueSeverity = 0.25f;
 
         /// <summary>劳累 hediff。</summary>
@@ -75,16 +74,19 @@ namespace Botania
 
     public class CompManaBitterBloom : ThingComp
     {
-        /// <summary>场上所有的苦丽花，工作完成时由 Harmony 补丁直接查这张表。</summary>
+        /// <summary>场上所有的苦丽花，经验钩子直接查这张表。</summary>
         public static readonly List<CompManaBitterBloom> All = new List<CompManaBitterBloom>();
 
-        /// <summary>各小人上一次被抽时的累计经验，用来算「这次工作涨了多少」。</summary>
-        private static readonly Dictionary<Pawn, float> LastXp = new Dictionary<Pawn, float>();
+        private const int TicksPerSettle = 60;
 
-        /// <summary>零碎小活的上一次结算 tick，用来做冷却。</summary>
-        private static readonly Dictionary<Pawn, int> LastTrivialTick = new Dictionary<Pawn, int>();
+        /// <summary>这朵花攒下的、还没结算的经验。</summary>
+        private readonly Dictionary<Pawn, float> pending = new Dictionary<Pawn, float>();
 
-        /// <summary>累计喂了多少次工作，供信息栏显示。</summary>
+        private readonly Dictionary<Pawn, int> lastTrivialTick = new Dictionary<Pawn, int>();
+
+        private int ticksAccum;
+
+        /// <summary>累计结算了多少次，供信息栏显示。</summary>
         public int FedCount;
 
         /// <summary>上一次结算产出多少魔力，供信息栏显示。</summary>
@@ -107,22 +109,13 @@ namespace Botania
             All.Remove(this);
         }
 
-        /// <summary>小人完成一件工作：范围内每朵苦丽花各收一份魔力。</summary>
-        public static void OnWorkCompleted(Pawn pawn)
+        /// <summary>有人涨了经验：把这份经验记到覆盖他的每朵花头上。</summary>
+        public static void RecordXp(Pawn pawn, float xp)
         {
-            if (pawn == null || pawn.Map == null || All.Count == 0)
+            if (pawn == null || pawn.Map == null || xp <= 0f || All.Count == 0)
             {
                 return;
             }
-
-            float xp = ConsumeXp(pawn);
-            if (xp <= 0f)
-            {
-                // 一点经验都没涨（例如原地等待），不算干过活
-                return;
-            }
-
-            List<CompManaBitterBloom> inRange = new List<CompManaBitterBloom>();
             for (int i = 0; i < All.Count; i++)
             {
                 CompManaBitterBloom bloom = All[i];
@@ -134,62 +127,77 @@ namespace Botania
                 {
                     continue;
                 }
-                inRange.Add(bloom);
+                float current;
+                bloom.pending.TryGetValue(pawn, out current);
+                bloom.pending[pawn] = current + xp;
             }
-            if (inRange.Count == 0)
+        }
+
+        public override void CompTick()
+        {
+            base.CompTick();
+            if (!parent.Spawned)
+            {
+                return;
+            }
+            ticksAccum++;
+            if (ticksAccum < TicksPerSettle)
+            {
+                return;
+            }
+            ticksAccum = 0;
+            Settle();
+        }
+
+        private void Settle()
+        {
+            if (pending.Count == 0)
             {
                 return;
             }
 
-            CompProperties_ManaBitterBloom first = inRange[0].Props;
+            List<Pawn> pawns = new List<Pawn>(pending.Keys);
             int now = Find.TickManager.TicksGame;
-            if (xp < first.trivialXpThreshold)
+            for (int i = 0; i < pawns.Count; i++)
             {
-                int last;
-                if (LastTrivialTick.TryGetValue(pawn, out last) && now - last < first.trivialCooldownTicks)
-                {
-                    // 零碎小活还在冷却里：不产魔，也不挂劳累，免得刷子靠它养心情惩罚之外的收益
-                    return;
-                }
-                LastTrivialTick[pawn] = now;
-            }
-
-            for (int i = 0; i < inRange.Count; i++)
-            {
-                CompManaBitterBloom bloom = inRange[i];
-                float amount = Math.Min(bloom.Props.maxManaPerWork, xp * bloom.Props.manaPerXp);
-                bloom.Pay(amount);
-            }
-            ApplyFatigue(pawn, first);
-        }
-
-        /// <summary>取「这次工作涨的经验」并刷新快照。</summary>
-        private static float ConsumeXp(Pawn pawn)
-        {
-            float total = TotalSkillXp(pawn);
-            float previous;
-            bool tracked = LastXp.TryGetValue(pawn, out previous);
-            LastXp[pawn] = total;
-            if (!tracked)
-            {
-                return 0f;
-            }
-            return Math.Max(0f, total - previous);
-        }
-
-        private static float TotalSkillXp(Pawn pawn)
-        {
-            float total = 0f;
-            foreach (SkillDef skillDef in DefDatabase<SkillDef>.AllDefs)
-            {
-                SkillRecord record = pawn.skills.GetSkill(skillDef);
-                if (record == null)
+                Pawn pawn = pawns[i];
+                float xp;
+                if (!pending.TryGetValue(pawn, out xp))
                 {
                     continue;
                 }
-                total += record.XpTotalEarned;
+                pending.Remove(pawn);
+
+                if (pawn == null || pawn.Dead || !pawn.Spawned || pawn.Map != parent.Map)
+                {
+                    continue;
+                }
+                if (xp <= 0f)
+                {
+                    continue;
+                }
+
+                if (xp < Props.trivialXpThreshold)
+                {
+                    int last;
+                    if (lastTrivialTick.TryGetValue(pawn, out last) && now - last < Props.trivialCooldownTicks)
+                    {
+                        // 零碎小活还在冷却：这轮经验作废，也不挂劳累
+                        continue;
+                    }
+                    lastTrivialTick[pawn] = now;
+                }
+
+                float amount = Math.Min(Props.maxManaPerWork, xp * Props.manaPerXp);
+                if (Prefs.DevMode)
+                {
+                    Log.Message(string.Format(
+                        "[Botania] bitter bloom fed by {0}: xp={1:0.##} -> +{2:0} mana",
+                        pawn.LabelShortCap, xp, amount));
+                }
+                Pay(amount);
+                ApplyFatigue(pawn);
             }
-            return total;
         }
 
         private void Pay(float amount)
@@ -207,29 +215,28 @@ namespace Botania
             }
         }
 
-        /// <summary>给小人挂劳累 hediff 与心情念头。</summary>
-        private static void ApplyFatigue(Pawn pawn, CompProperties_ManaBitterBloom props)
+        private void ApplyFatigue(Pawn pawn)
         {
-            if (props.hediffDef != null)
+            if (Props.hediffDef != null)
             {
-                Hediff hediff = pawn.health.hediffSet.GetFirstHediffOfDef(props.hediffDef);
+                Hediff hediff = pawn.health.hediffSet.GetFirstHediffOfDef(Props.hediffDef);
                 if (hediff == null)
                 {
-                    hediff = pawn.health.AddHediff(props.hediffDef);
+                    hediff = pawn.health.AddHediff(Props.hediffDef);
                 }
                 if (hediff != null)
                 {
-                    float max = props.hediffDef.maxSeverity > 0f ? props.hediffDef.maxSeverity : 1f;
-                    hediff.Severity = Math.Min(max, hediff.Severity + props.fatigueSeverity);
+                    float max = Props.hediffDef.maxSeverity > 0f ? Props.hediffDef.maxSeverity : 1f;
+                    hediff.Severity = Math.Min(max, hediff.Severity + Props.fatigueSeverity);
                 }
             }
 
-            if (props.thoughtDef != null && pawn.needs != null && pawn.needs.mood != null)
+            if (Props.thoughtDef != null && pawn.needs != null && pawn.needs.mood != null)
             {
                 bool already = false;
                 foreach (Thought_Memory memory in pawn.needs.mood.thoughts.memories.Memories)
                 {
-                    if (memory.def == props.thoughtDef)
+                    if (memory.def == Props.thoughtDef)
                     {
                         already = true;
                         break;
@@ -237,7 +244,7 @@ namespace Botania
                 }
                 if (!already)
                 {
-                    pawn.needs.mood.thoughts.memories.TryGainMemory(props.thoughtDef);
+                    pawn.needs.mood.thoughts.memories.TryGainMemory(Props.thoughtDef);
                 }
             }
         }

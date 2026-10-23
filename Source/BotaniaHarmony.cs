@@ -147,64 +147,39 @@ namespace Botania
     }
 
     /// <summary>
-    /// 苦丽花的取食点：小人每完成一件「真正的工作」（有 workGiverDef 的作业，
-    /// 走路、等待这类不算），范围内的苦丽花各收一份魔力。
+    /// 苦丽花的取食点：直接监听技能经验（<c>Pawn_SkillTracker.Learn</c>）。
+    /// 任何算得上劳动的行为都会涨经验，因此不需要按 job / 账单去猜「哪一刻算完成」——
+    /// 之前挂 EndCurrentJob 漏掉账单活、挂 MakeRecipeProducts 又依赖产出路径，
+    /// 都不如经验本身稳。
     /// </summary>
-    [HarmonyPatch(typeof(Pawn_JobTracker), nameof(Pawn_JobTracker.EndCurrentJob))]
-    public static class Patch_JobCompleted
+    [HarmonyPatch(typeof(Pawn_SkillTracker), nameof(Pawn_SkillTracker.Learn))]
+    public static class Patch_SkillLearned
     {
-        public static void Prefix(Pawn_JobTracker __instance, out Job __state)
-        {
-            __state = __instance != null ? __instance.curJob : null;
-        }
-
-        public static void Postfix(Pawn_JobTracker __instance, Job __state, JobCondition condition)
+        public static void Prefix(Pawn_SkillTracker __instance, object[] __args)
         {
             try
             {
-                if (condition != JobCondition.Succeeded || __state == null)
+                if (__instance == null || __args == null || __args.Length < 2)
                 {
                     return;
                 }
-                // 只认 WorkGiver 派下来的活（建造、采矿、搬运、种植…）。
-                // 账单类活（缝制、屠宰、做饭）不走这里 —— 它们是「一张账单连续做很多件」，
-                // 完成一件并不会结束 job，所以由下面的 MakeRecipeProducts 补丁负责。
-                if (__state.workGiverDef == null)
+                SkillDef skillDef = __args[0] as SkillDef;
+                float xp = Convert.ToSingle(__args[1]);
+                if (skillDef == null || xp <= 0f)
                 {
                     return;
                 }
-                // pawn 字段是私有的，用 Traverse 取，别去改访问修饰符
-                Pawn pawn = Traverse.Create(__instance).Field<Pawn>("pawn").Value;
-                CompManaBitterBloom.OnWorkCompleted(pawn);
-            }
-            catch (Exception ex)
-            {
-                Log.Warning("[Botania] job completed hook failed: " + ex.Message);
-            }
-        }
-    }
-
-    /// <summary>
-    /// 账单类工作的完成点：每做出一件成品，引擎都会调一次 <c>GenRecipe.MakeRecipeProducts</c>，
-    /// 参数里直接有干活的 Pawn。缝制、屠宰、做饭、锻造全走这里——
-    /// 它们的 job 是「一张账单连续做很多件」，完成一件并不会结束 job，所以只能挂这儿。
-    /// </summary>
-    [HarmonyPatch(typeof(GenRecipe), nameof(GenRecipe.MakeRecipeProducts))]
-    public static class Patch_RecipeProducts
-    {
-        public static void Postfix(object[] __args)
-        {
-            try
-            {
-                Pawn worker = __args != null && __args.Length > 1 ? __args[1] as Pawn : null;
-                if (worker != null)
+                SkillRecord record = __instance.GetSkill(skillDef);
+                Pawn pawn = record != null ? record.Pawn : null;
+                if (pawn == null)
                 {
-                    CompManaBitterBloom.OnWorkCompleted(worker);
+                    return;
                 }
+                CompManaBitterBloom.RecordXp(pawn, xp);
             }
             catch (Exception ex)
             {
-                Log.Warning("[Botania] recipe products hook failed: " + ex.Message);
+                Log.Warning("[Botania] skill learn hook failed: " + ex.Message);
             }
         }
     }
