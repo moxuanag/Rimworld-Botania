@@ -3,6 +3,51 @@
 本文件的格式参考 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)，具体判定见 [VERSIONING.md](VERSIONING.md)。
 
+## [0.7.0] - 未发布
+
+精灵材料的获取链。这一版把「魔力能换到什么」往前推了一格：
+新增四种只能由精灵之门造出来的材料，以及一道用三件套拼起来、门洞能走人的门。
+
+### 新增
+- **精灵之门**（`Botania_Alfheim`，3500 点，前置「魔力灌注」）实装：
+  - 结构是**三件套**：上梁 3×1 + 左柱 1×3 + 右柱 1×3，中间 3×2 真空地、小人能穿过去
+  - **投料自动转化**：把材料丢进门洞，它从 8 格内的魔力池/中继塔抽魔力，转够时间吐出成品，
+    **不需要派人干活**，也不用打开制造清单
+  - **硬性要求魔力**：池子空就停在原地等、进度保留，绝不会「免魔慢速转化」——
+    这一点和白雏菊刻意相反（白雏菊没魔力时降速免魔，是为了开局能起量）
+  - **门框不完整不工作**：少一根柱子时完全不转，检视栏直接写「门框不完整」
+  - 魔力在**完成那一刻**一次性扣，抽不满就还回去；中途搬走材料则进度作废
+  - 建造：魔力钢 ×16 + 活木 ×20 + 活石 ×10 + 部件 ×2
+    （**不含门自己产出的材料**，否则会「先有门才能建门」）
+- **四种精灵材料**（Def + 贴图 + 中英文本地化）：
+
+  | 产物 | 投入 | 魔力 | 耗时 |
+  |---|---|---|---|
+  | 梦木 ×1 | 活木 ×4 | 200 | 10 秒 |
+  | 精灵石英 ×1 | 活石 ×4 | 200 | 10 秒 |
+  | 精灵之尘 ×1 | 任意花瓣 ×2 | 100 | 5 秒 |
+  | 元素锭 ×1 | 魔力钢 ×2 + 精灵之尘 ×1 | 300 | 30 秒 |
+
+- **盖亚之魂**：蓝图物品，`stackLimit 1`、不可交易，带「解读蓝图」浮动菜单。
+  它**不依赖皇权 DLC**：读出蓝图直接 `Find.ResearchManager.AddTechprints` 并给 500 智识经验；
+  装了皇权就让位给原版科技蓝图流程（`CompTechprint`）
+- 建材形容词本地化：`梦木` / `元素`（新建材都能砌墙，前缀不能是英文）
+
+### 修复
+- **建材前缀中英混排**：`Thing.LabelNoCount` 拼的是 `<stuff.LabelAsStuff> + def.label`，
+  而 `LabelAsStuff` 直接返回 `stuffProps.stuffAdjective` 的**原文、不走翻译**，
+  所以每个 stuffAdjective 都必须有自己的 DefInjected 键；校验器已加自动检查
+- **不可通行且可建造的建筑 `fillPercent` 必须是 1**：门框最初沿用现有建筑的 0.5，
+  实机报 `Config error in Botania_AlfheimGateLintel: impassable, player-buildable building
+  that can be shot/seen over`；校验器已加 `check_impassable_fill()`
+- **绕过皇权 DLC 的三处门**：`CompTechprint` 的浮动菜单、`ResearchManager.ApplyTechprint`、
+  以及 `JobDriver_ApplyTechprint` 收尾播放的 `SoundDefOf.TechprintApplied`（该 SoundDef 只在皇权里定义，
+  没有 DLC 时是 null，直接 NRE）
+
+### 变更
+- 精灵石英的输入最终定为 **活石 ×4**（原计划「玻璃 ×4」，但环世界根本没有玻璃这个物品）
+- 元素锭比其它三种慢三倍（30 秒），因为它是元素装备的唯一主料
+
 ## [0.6.0] - 未发布
 
 法杖改型与三朵进阶产能花。这一版第一次引入 Harmony 补丁。
