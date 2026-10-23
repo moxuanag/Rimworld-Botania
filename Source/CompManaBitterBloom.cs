@@ -189,12 +189,6 @@ namespace Botania
                 }
 
                 float amount = Math.Min(Props.maxManaPerWork, xp * Props.manaPerXp);
-                if (Prefs.DevMode)
-                {
-                    Log.Message(string.Format(
-                        "[Botania] bitter bloom fed by {0}: xp={1:0.##} -> +{2:0} mana",
-                        pawn.LabelShortCap, xp, amount));
-                }
                 Pay(amount);
                 ApplyFatigue(pawn);
             }

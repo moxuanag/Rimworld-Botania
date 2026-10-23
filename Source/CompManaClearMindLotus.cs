@@ -63,14 +63,6 @@ namespace Botania
 
         private static int droneCacheTick = -999;
 
-        /// <summary>诊断用：心灵干扰补丁一共被调用多少次（含判定为 inactive 的）。</summary>
-        public static int PatchHits;
-
-        /// <summary>诊断用：某一朵花的受影响名单（只读）。</summary>
-        public int AffectedCount
-        {
-            get { return affected.Count; }
-        }
 
         private int ticksAccum;
 
@@ -167,7 +159,6 @@ namespace Botania
         /// <summary>心灵干扰正在影响这个小人：记到覆盖他的每朵花头上，作为计费依据。</summary>
         public static void NotifyAffected(Pawn pawn)
         {
-            PatchHits++;
             if (pawn == null || pawn.Map == null || All.Count == 0)
             {
                 return;
