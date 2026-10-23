@@ -20,4 +20,20 @@
     </stages>
   </ThoughtDef>
 
+  <!-- 劳累（心情）：苦丽花抽走精力时补挂，0.5 天自然淡出，最多叠 3 层。
+       defName 刻意与 HediffDef 不同名，避免翻译键撞车。 -->
+  <ThoughtDef>
+    <defName>Botania_WorkFatigueThought</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>0.5</durationDays>
+    <stackLimit>3</stackLimit>
+    <stages>
+      <li>
+        <label>work fatigue</label>
+        <description>I finished the job, but something drained the satisfaction right out of it.</description>
+        <baseMoodEffect>-2</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
 </Defs>

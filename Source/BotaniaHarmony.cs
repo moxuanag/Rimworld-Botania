@@ -2,6 +2,7 @@ using System;
 using HarmonyLib;
 using RimWorld;
 using Verse;
+using Verse.AI;
 
 namespace Botania
 {
@@ -141,6 +142,107 @@ namespace Botania
             catch (Exception ex)
             {
                 Log.Warning("[Botania] DoShortCircuit postfix failed: " + ex.Message);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 苦丽花的取食点：直接监听技能经验（<c>Pawn_SkillTracker.Learn</c>）。
+    /// 任何算得上劳动的行为都会涨经验，因此不需要按 job / 账单去猜「哪一刻算完成」——
+    /// 之前挂 EndCurrentJob 漏掉账单活、挂 MakeRecipeProducts 又依赖产出路径，
+    /// 都不如经验本身稳。
+    /// </summary>
+    [HarmonyPatch(typeof(Pawn_SkillTracker), nameof(Pawn_SkillTracker.Learn))]
+    public static class Patch_SkillLearned
+    {
+        public static void Prefix(Pawn_SkillTracker __instance, object[] __args)
+        {
+            try
+            {
+                if (__instance == null || __args == null || __args.Length < 2)
+                {
+                    return;
+                }
+                SkillDef skillDef = __args[0] as SkillDef;
+                float xp = Convert.ToSingle(__args[1]);
+                if (skillDef == null || xp <= 0f)
+                {
+                    return;
+                }
+                SkillRecord record = __instance.GetSkill(skillDef);
+                Pawn pawn = record != null ? record.Pawn : null;
+                if (pawn == null)
+                {
+                    return;
+                }
+                CompManaBitterBloom.RecordXp(pawn, xp);
+            }
+            catch (Exception ex)
+            {
+                Log.Warning("[Botania] skill learn hook failed: " + ex.Message);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 事件来源的心灵干扰（没有实体，纯剧情事件）不做「全免」，而是把心情惩罚减半——
+    /// 否则玩家会以为这朵花没生效、是个 bug。
+    /// 心灵干扰的念头是 situational 类型，没有重写 MoodOffset，所以补丁挂在基类上，
+    /// 再按 defName 过滤，不会波及其他念头。
+    /// </summary>
+    [HarmonyPatch(typeof(Thought), nameof(Thought.MoodOffset))]
+    public static class Patch_PsychicDroneMood
+    {
+        public static void Postfix(Thought __instance, ref float __result)
+        {
+            try
+            {
+                if (__result >= 0f || __instance == null || __instance.def == null)
+                {
+                    return;
+                }
+                if (__instance.def.defName != "PsychicDrone")
+                {
+                    return;
+                }
+                if (CompManaClearMindLotus.PartialShield(__instance.pawn))
+                {
+                    __result *= 0.5f;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Warning("[Botania] psychic drone mood hook failed: " + ex.Message);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 明心莲的挡罩：心灵干扰是一条 situational thought，
+    /// 每帧都会重算，所以只能从源头把结果改掉——只压这一条，不碰别的情绪。
+    /// </summary>
+    [HarmonyPatch(typeof(ThoughtWorker_PsychicDrone), "CurrentStateInternal")]
+    public static class Patch_PsychicDrone
+    {
+        public static void Postfix(Pawn p, ref ThoughtState __result)
+        {
+            try
+            {
+                if (!__result.Active)
+                {
+                    return;
+                }
+                // 先记录「这个小人确实被干扰影响到了」——计费只按这群人算，
+                // 性别不符、心灵迟钝（0 敏感）的人不花钱。必须在我们改写结果之前记。
+                CompManaClearMindLotus.NotifyAffected(p);
+                if (CompManaClearMindLotus.IsShielded(p))
+                {
+                    __result = ThoughtState.Inactive;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Warning("[Botania] psychic drone hook failed: " + ex.Message);
             }
         }
     }

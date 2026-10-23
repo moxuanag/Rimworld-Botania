@@ -84,4 +84,10 @@
   <Botania.GateWorking>正在转化 {0}：{1}%</Botania.GateWorking>
   <Botania.GateToggle>精灵门开关</Botania.GateToggle>
   <Botania.GateToggleDesc>关闭后精灵门会停下，不再消耗魔力与材料。</Botania.GateToggleDesc>
+  <Botania.BlightEaterIdle>半径 {0} 格内没有枯萎作物</Botania.BlightEaterIdle>
+  <Botania.BlightEaterWorking>半径内 {0} 株枯萎作物 · 已吃 {1} 株</Botania.BlightEaterWorking>
+  <Botania.BitterBloomStatus>半径 {0} 格 · 已喂 {1} 次 · 上次 +{2} 魔力</Botania.BitterBloomStatus>
+  <Botania.ClearMindLotusActive>正在压制心灵干扰（每人 {0} 魔力/秒）</Botania.ClearMindLotusActive>
+  <Botania.ClearMindLotusWeaken>正在削弱心灵干扰（心情惩罚减半，每人 {0} 魔力/秒）</Botania.ClearMindLotusWeaken>
+  <Botania.ClearMindLotusIdle>待机：没有心灵干扰，或魔力不足</Botania.ClearMindLotusIdle>
 </LanguageData>

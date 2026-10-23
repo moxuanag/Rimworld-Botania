@@ -84,4 +84,10 @@
   <Botania.GateWorking>Converting {0}: {1}%</Botania.GateWorking>
   <Botania.GateToggle>Gate on/off</Botania.GateToggle>
   <Botania.GateToggleDesc>When off, the gate stops and consumes neither mana nor materials.</Botania.GateToggleDesc>
+  <Botania.BlightEaterIdle>No blighted plants within {0} tiles</Botania.BlightEaterIdle>
+  <Botania.BlightEaterWorking>{0} blighted plant(s) in range · {1} eaten so far</Botania.BlightEaterWorking>
+  <Botania.BitterBloomStatus>{0}-tile radius · fed {1} time(s) · last +{2} mana</Botania.BitterBloomStatus>
+  <Botania.ClearMindLotusActive>Blocking psychic drone ({0} mana/s per pawn)</Botania.ClearMindLotusActive>
+  <Botania.ClearMindLotusWeaken>Weakening an event psychic drone (mood penalty halved, {0} mana/s per pawn)</Botania.ClearMindLotusWeaken>
+  <Botania.ClearMindLotusIdle>Idle — no psychic drone, or no mana</Botania.ClearMindLotusIdle>
 </LanguageData>

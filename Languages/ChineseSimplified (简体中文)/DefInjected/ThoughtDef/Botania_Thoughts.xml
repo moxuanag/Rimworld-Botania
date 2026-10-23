@@ -4,4 +4,7 @@
   <Botania_ThoughtSiphoned.stages.thought_siphoned.label>灵思被引</Botania_ThoughtSiphoned.stages.thought_siphoned.label>
   <Botania_ThoughtSiphoned.stages.thought_siphoned.description>附近有什么东西一直在把脑子里的念头抽走，根本静不下心。</Botania_ThoughtSiphoned.stages.thought_siphoned.description>
 
+  <Botania_WorkFatigueThought.stages.work_fatigue.label>劳累</Botania_WorkFatigueThought.stages.work_fatigue.label>
+  <Botania_WorkFatigueThought.stages.work_fatigue.description>活干完了，可那点成就感像是被什么东西抽走了。</Botania_WorkFatigueThought.stages.work_fatigue.description>
+
 </LanguageData>
