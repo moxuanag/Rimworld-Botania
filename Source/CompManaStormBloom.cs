@@ -43,7 +43,10 @@ namespace Botania
 
     public class CompManaStormBloom : ThingComp
     {
-        /// <summary>短路发生时，这个半径内的花才会分到能量。</summary>
+        /// <summary>
+        /// 短路发生时，这个半径内的花才会分到能量。
+        /// 改这里必须同步改 Def 上的 <c>CompProperties_RadiusRing</c>（放置预览与选中环靠它画）。
+        /// </summary>
         public const float AbsorbRadius = 15f;
 
         private const int TicksPerFlush = 60;
