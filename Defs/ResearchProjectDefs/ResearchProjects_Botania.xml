@@ -62,8 +62,11 @@
     <prerequisites>
       <li>Botania_GeneratingI</li>
     </prerequisites>
-    <researchViewX>3.0</researchViewX>
-    <researchViewY>0.0</researchViewY>
+    <!-- 坐标 (4, 0)：和「被动产能花」同为产能分支、同以产能花为前置，
+         但一格只能放一个项目。这里顺到同一行的下一格，不能写 (3, 0)——
+         那个格子是 Botania_PassiveGenerating，写重了会叠在一起。 -->
+    <researchViewX>4.00</researchViewX>
+    <researchViewY>0.00</researchViewY>
   </ResearchProjectDef>
 
   <!-- ===== E1 花圃 ===== -->
