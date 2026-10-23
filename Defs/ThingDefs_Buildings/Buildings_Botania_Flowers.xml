@@ -112,7 +112,10 @@
     <comps>
       <li Class="Botania.CompProperties_ManaBitterBloom">
         <radius>8</radius>
-        <manaPerWork>400</manaPerWork>
+        <manaPerXp>10</manaPerXp>
+        <maxManaPerWork>400</maxManaPerWork>
+        <trivialXpThreshold>5</trivialXpThreshold>
+        <trivialCooldownTicks>3600</trivialCooldownTicks>
         <fatigueSeverity>0.25</fatigueSeverity>
         <hediffDef>Botania_WorkFatigue</hediffDef>
         <thoughtDef>Botania_WorkFatigueThought</thoughtDef>
