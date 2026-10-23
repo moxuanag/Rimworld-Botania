@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
 
-  <Botania_ThoughtSiphoned.stages.siphoned.label>灵思被引</Botania_ThoughtSiphoned.stages.siphoned.label>
-  <Botania_ThoughtSiphoned.stages.siphoned.description>附近有什么东西一直在把脑子里的念头抽走，根本静不下心。</Botania_ThoughtSiphoned.stages.siphoned.description>
+  <Botania_ThoughtSiphoned.stages.thought_siphoned.label>灵思被引</Botania_ThoughtSiphoned.stages.thought_siphoned.label>
+  <Botania_ThoughtSiphoned.stages.thought_siphoned.description>附近有什么东西一直在把脑子里的念头抽走，根本静不下心。</Botania_ThoughtSiphoned.stages.thought_siphoned.description>
 
 </LanguageData>

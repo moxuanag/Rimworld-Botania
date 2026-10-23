@@ -13,7 +13,6 @@
     <stackLimit>1</stackLimit>
     <stages>
       <li>
-        <defName>siphoned</defName>
         <label>thought siphoned</label>
         <description>Something nearby keeps drinking the ideas out of my head. I can't concentrate.</description>
         <baseMoodEffect>-2</baseMoodEffect>

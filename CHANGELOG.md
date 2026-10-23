@@ -64,6 +64,16 @@
 - 全量自检：321 处 Def 引用、贴图路径、Keyed 键与 C# 字符串引用全部可解析
 
 ### 修复
+- **阿卡纳蔷薇的心情 Thought 整个解析失败**：我在阶段里加了 `<defName>`，但这版引擎的
+  `ThoughtStage` 没有这个字段（只有 `label` / `labelSocial` / `labelAbstract` / `description` /
+  `baseMoodEffect` / `baseOpinionOffset` / `visible`），引擎直接报
+  `XML error: <defName>... doesn't correspond to any field in type ThoughtStage`，
+  ThoughtDef 整个没建成，跟着的 2 条中文翻译也注入失败。
+  顺带搞清了翻译键的规则：列表元素那一段不是 `defName`，而是引擎给打了 `[TranslationHandle]`
+  的字段的归一化文本 —— `ThoughtStage` 上是 `untranslatedLabel`（= label 的小写、空格转下划线），
+  所以正确写法是 `Botania_ThoughtSiphoned.stages.thought_siphoned.label`
+- 校验器补了两项：`ThoughtDef` 阶段字段白名单检查、以及按 `[TranslationHandle]` 规则解析
+  `stages.<句柄>.<字段>` 这种键（以前只认 `li/defName`）
 - **爆破型伤害远超面板**：爆炸改为自行逐格结算，伤害不再交给 `GenExplosion`。
   1. 引擎的 `DamageWorker.ExplosionCellsToHit` 除了按半径取格，还会做视线过滤，
      并对每个「空地」补一圈相邻墙体（`openCells.Concat(adjWallCells)`），
