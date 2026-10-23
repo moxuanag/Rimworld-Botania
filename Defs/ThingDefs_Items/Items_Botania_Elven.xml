@@ -180,7 +180,14 @@
     </statBases>
     <comps>
       <li Class="CompProperties_Forbiddable"/>
+      <!-- 数据层：ResearchProjectDef.Techprint 靠它反查蓝图物品，必须有 -->
       <li Class="CompProperties_Techprint">
+        <project>Botania_Gaia</project>
+      </li>
+      <!-- 交互层：原版 CompTechprint 的右键菜单被 ModLister.CheckRoyalty 挡住，
+           没装皇权 DLC 时这个组件接手，提供一条即时解读的路。
+           有皇权时它自动沉默，菜单仍由原版提供。 -->
+      <li Class="Botania.CompProperties_BotaniaBlueprint">
         <project>Botania_Gaia</project>
       </li>
     </comps>

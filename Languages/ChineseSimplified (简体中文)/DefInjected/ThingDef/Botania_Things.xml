@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
 
   <Botania_Petal_White.label>白色花瓣</Botania_Petal_White.label>
@@ -147,5 +147,11 @@
 
   <Botania_GaiaSpirit.label>盖亚之魂蓝图</Botania_GaiaSpirit.label>
   <Botania_GaiaSpirit.description>一张羊皮纸，上面的图样不像活人的手画出来的：一圈四芒，还有一半没画完。拿到研究台研究，能弄明白旧日林地那些守护者究竟是用什么做的。</Botania_GaiaSpirit.description>
+
+  <!-- 建材前缀：凡是 stuffProps.stuffAdjective 都要在这里给中文，
+       否则用这种材料盖出来的东西会显示成「dreamwood 墙」这种中英混排。
+       对照物：活木/魔力钢/活石 早就有，梦木和元素锭当初漏了。 -->
+  <Botania_Dreamwood.stuffProps.stuffAdjective>梦木</Botania_Dreamwood.stuffProps.stuffAdjective>
+  <Botania_ElementiumIngot.stuffProps.stuffAdjective>元素</Botania_ElementiumIngot.stuffProps.stuffAdjective>
 
 </LanguageData>

@@ -70,4 +70,8 @@
   <Botania.PassiveFlowerWithers>Withers in {0} days</Botania.PassiveFlowerWithers>
   <Botania.Thorn.Idle>Stored {0}/{1}, no enemies in range</Botania.Thorn.Idle>
   <Botania.Thorn.Status>{0} enemies in range, mana for {1} of them (stored {2}/{3}, {4} damage each)</Botania.Thorn.Status>
+  <Botania.BlueprintStudy>Study blueprint ({0})</Botania.BlueprintStudy>
+  <Botania.BlueprintAlreadyApplied>already studied</Botania.BlueprintAlreadyApplied>
+  <Botania.BlueprintCantStudy>cannot do intellectual work</Botania.BlueprintCantStudy>
+  <Botania.BlueprintApplied>{0} studied the {1} and memorised the diagram.</Botania.BlueprintApplied>
 </LanguageData>

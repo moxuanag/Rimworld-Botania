@@ -70,4 +70,8 @@
   <Botania.PassiveFlowerWithers>还剩 {0} 天枯萎</Botania.PassiveFlowerWithers>
   <Botania.Thorn.Idle>储能 {0}/{1}，范围内没有敌人</Botania.Thorn.Idle>
   <Botania.Thorn.Status>范围内 {0} 个敌人，魔力够打 {1} 个（储能 {2}/{3}，每次 {4} 点伤害）</Botania.Thorn.Status>
+  <Botania.BlueprintStudy>解读蓝图（{0}）</Botania.BlueprintStudy>
+  <Botania.BlueprintAlreadyApplied>已经解读过</Botania.BlueprintAlreadyApplied>
+  <Botania.BlueprintCantStudy>无法进行智力工作</Botania.BlueprintCantStudy>
+  <Botania.BlueprintApplied>{0} 解读了 {1}，图样已经记下来了。</Botania.BlueprintApplied>
 </LanguageData>
