@@ -59,6 +59,19 @@ namespace Botania
         /// <summary>超过这么久没再观测到，就认为已经不影响了。</summary>
         private const int AffectedMemoryTicks = 600;
 
+        private static readonly Dictionary<Map, bool> droneCache = new Dictionary<Map, bool>();
+
+        private static int droneCacheTick = -999;
+
+        /// <summary>诊断用：心灵干扰补丁一共被调用多少次（含判定为 inactive 的）。</summary>
+        public static int PatchHits;
+
+        /// <summary>诊断用：某一朵花的受影响名单（只读）。</summary>
+        public int AffectedCount
+        {
+            get { return affected.Count; }
+        }
+
         private int ticksAccum;
 
         /// <summary>付过钱的截止 tick；在这之前范围内的心里干扰被压住。</summary>
@@ -102,14 +115,8 @@ namespace Botania
 
         private void Settle()
         {
-            // 只要有心灵干扰在生效就得付费：
-            //  · 建筑来源（机械族干扰器）→ 全额挡住（见 IsShielded）
-            //  · 事件来源（无实体）→ 只把心情惩罚减半（见 PartialShield）
-            // 这样玩家不会以为「花没反应就是 bug」。
-            if (ActiveDrone(parent.Map) == null)
-            {
-                return;
-            }
+            // 只要记录到「有人确实被干扰影响到」就结算。
+            // 不再去查地图条件——那个查询在实机上没拿到东西，白跑一趟。
 
             int now = Find.TickManager.TicksGame;
             int pawns = 0;
@@ -160,11 +167,8 @@ namespace Botania
         /// <summary>心灵干扰正在影响这个小人：记到覆盖他的每朵花头上，作为计费依据。</summary>
         public static void NotifyAffected(Pawn pawn)
         {
+            PatchHits++;
             if (pawn == null || pawn.Map == null || All.Count == 0)
-            {
-                return;
-            }
-            if (ActiveDrone(pawn.Map) == null)
             {
                 return;
             }
@@ -184,10 +188,35 @@ namespace Botania
             }
         }
 
-        /// <summary>当前生效的心灵干扰（没有就返回 null）。</summary>
-        private static GameCondition ActiveDrone(Map map)
+        /// <summary>这张图上有没有已经摆出来的心灵干扰器（建筑）。结果缓存两秒，避免每帧扫全图。</summary>
+        public static bool HasDroneBuilding(Map map)
         {
-            return map == null ? null : map.gameConditionManager.GetActiveCondition(GameConditionDefOf.PsychicDrone);
+            if (map == null)
+            {
+                return false;
+            }
+            int now = Find.TickManager.TicksGame;
+            if (now - droneCacheTick > 120)
+            {
+                droneCache.Clear();
+                droneCacheTick = now;
+            }
+            bool cached;
+            if (droneCache.TryGetValue(map, out cached))
+            {
+                return cached;
+            }
+            bool found = false;
+            foreach (Thing thing in map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial))
+            {
+                if (thing != null && thing.def != null && thing.def.defName == "PsychicDronerShipPart" && thing.Spawned)
+                {
+                    found = true;
+                    break;
+                }
+            }
+            droneCache[map] = found;
+            return found;
         }
 
         /// <summary>这朵花是否正在为某个小人「部分」挡干扰（只看圈内、且只对无实体的事件干扰生效）。</summary>
@@ -197,10 +226,9 @@ namespace Botania
             {
                 return false;
             }
-            GameCondition condition = ActiveDrone(pawn.Map);
-            if (condition == null || condition.conditionCauser is Building)
+            if (HasDroneBuilding(pawn.Map))
             {
-                // 没有干扰，或干扰有实体来源（那种是全额挡，不走这里）
+                // 场上有干扰器建筑：那种是全额挡，不走「减半」这条路
                 return false;
             }
             for (int i = All.Count - 1; i >= 0; i--)
@@ -229,10 +257,9 @@ namespace Botania
             {
                 return false;
             }
-            GameCondition condition = ActiveDrone(pawn.Map);
-            if (condition == null || !(condition.conditionCauser is Building))
+            if (!HasDroneBuilding(pawn.Map))
             {
-                // 只有「有实体来源」的干扰才全额挡；事件干扰走 PartialShield 减半
+                // 场上没有干扰器建筑 → 不是全免档，走 PartialShield 减半
                 return false;
             }
             for (int i = All.Count - 1; i >= 0; i--)
@@ -264,9 +291,7 @@ namespace Botania
             {
                 return "Botania.ClearMindLotusIdle".Translate();
             }
-            GameCondition condition = ActiveDrone(parent.Map);
-            bool fromBuilding = condition != null && condition.conditionCauser is Building;
-            if (fromBuilding)
+            if (HasDroneBuilding(parent.Map))
             {
                 return "Botania.ClearMindLotusActive".Translate(Props.manaPerPawnSecond.ToString("0"));
             }
