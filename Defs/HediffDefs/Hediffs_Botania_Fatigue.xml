@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- ============================================================
+       劳累：苦丽花抽走精力时挂上的状态。
+       移动速度随严重度下降，缓慢自愈（-0.5/天）；心情惩罚由同名的 Thought 提供
+       （Mood 是 Need 不是 Stat，不能写在 statOffsets 里）。
+       ============================================================ -->
+
+  <HediffDef>
+    <defName>Botania_WorkFatigue</defName>
+    <label>work fatigue</label>
+    <description>The work is done, but something took the strength out of it. Limbs feel heavy and slow.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <isBad>true</isBad>
+    <everCurableByItem>false</everCurableByItem>
+    <initialSeverity>0.25</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.5</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>work fatigue</label>
+        <statOffsets>
+          <MoveSpeed>-0.10</MoveSpeed>
+        </statOffsets>
+      </li>
+      <li>
+        <minSeverity>0.5</minSeverity>
+        <label>work fatigue</label>
+        <statOffsets>
+          <MoveSpeed>-0.20</MoveSpeed>
+        </statOffsets>
+      </li>
+      <li>
+        <minSeverity>0.85</minSeverity>
+        <label>work fatigue</label>
+        <statOffsets>
+          <MoveSpeed>-0.30</MoveSpeed>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+</Defs>

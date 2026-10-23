@@ -2,6 +2,7 @@ using System;
 using HarmonyLib;
 using RimWorld;
 using Verse;
+using Verse.AI;
 
 namespace Botania
 {
@@ -141,6 +142,64 @@ namespace Botania
             catch (Exception ex)
             {
                 Log.Warning("[Botania] DoShortCircuit postfix failed: " + ex.Message);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 苦丽花的取食点：小人每完成一件「真正的工作」（有 workGiverDef 的作业，
+    /// 走路、等待这类不算），范围内的苦丽花各收一份魔力。
+    /// </summary>
+    [HarmonyPatch(typeof(Pawn_JobTracker), nameof(Pawn_JobTracker.EndCurrentJob))]
+    public static class Patch_JobCompleted
+    {
+        public static void Prefix(Pawn_JobTracker __instance, out Job __state)
+        {
+            __state = __instance != null ? __instance.curJob : null;
+        }
+
+        public static void Postfix(Pawn_JobTracker __instance, Job __state, JobCondition condition)
+        {
+            try
+            {
+                if (condition != JobCondition.Succeeded || __state == null || __state.workGiverDef == null)
+                {
+                    return;
+                }
+                // pawn 字段是私有的，用 Traverse 取，别去改访问修饰符
+                Pawn pawn = Traverse.Create(__instance).Field<Pawn>("pawn").Value;
+                CompManaBitterBloom.OnWorkCompleted(pawn);
+            }
+            catch (Exception ex)
+            {
+                Log.Warning("[Botania] job completed hook failed: " + ex.Message);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 明心莲的挡罩：心灵干扰是一条 situational thought，
+    /// 每帧都会重算，所以只能从源头把结果改掉——只压这一条，不碰别的情绪。
+    /// </summary>
+    [HarmonyPatch(typeof(ThoughtWorker_PsychicDrone), "CurrentStateInternal")]
+    public static class Patch_PsychicDrone
+    {
+        public static void Postfix(Pawn p, ref ThoughtState __result)
+        {
+            try
+            {
+                if (!__result.Active)
+                {
+                    return;
+                }
+                if (CompManaClearMindLotus.IsShielded(p))
+                {
+                    __result = ThoughtState.Inactive;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Warning("[Botania] psychic drone hook failed: " + ex.Message);
             }
         }
     }
