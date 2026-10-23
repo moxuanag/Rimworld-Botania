@@ -232,6 +232,9 @@ namespace Botania
                 {
                     return;
                 }
+                // 先记录「这个小人确实被干扰影响到了」——计费只按这群人算，
+                // 性别不符、心灵迟钝（0 敏感）的人不花钱。必须在我们改写结果之前记。
+                CompManaClearMindLotus.NotifyAffected(p);
                 if (CompManaClearMindLotus.IsShielded(p))
                 {
                     __result = ThoughtState.Inactive;

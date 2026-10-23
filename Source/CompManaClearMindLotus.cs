@@ -52,6 +52,13 @@ namespace Botania
 
         private const int TicksPerSettle = 60;
 
+        /// <summary>被心灵干扰实际影响到的小人 → 最后一次被观测到的 tick。
+        /// 只有这些人计费：性别不符、心灵迟钝（0 敏感）的人不花钱。</summary>
+        private readonly Dictionary<Pawn, int> affected = new Dictionary<Pawn, int>();
+
+        /// <summary>超过这么久没再观测到，就认为已经不影响了。</summary>
+        private const int AffectedMemoryTicks = 600;
+
         private int ticksAccum;
 
         /// <summary>付过钱的截止 tick；在这之前范围内的心里干扰被压住。</summary>
@@ -104,13 +111,29 @@ namespace Botania
                 return;
             }
 
+            int now = Find.TickManager.TicksGame;
             int pawns = 0;
-            foreach (Thing thing in GenRadial.RadialDistinctThingsAround(parent.Position, parent.Map, Props.radius, true))
+            List<Pawn> stale = null;
+            foreach (KeyValuePair<Pawn, int> pair in affected)
             {
-                Pawn pawn = thing as Pawn;
-                if (pawn != null && pawn.Spawned && !pawn.Dead && pawn.RaceProps.Humanlike)
+                Pawn pawn = pair.Key;
+                if (pawn == null || pawn.Dead || !pawn.Spawned || pawn.Map != parent.Map
+                    || now - pair.Value > AffectedMemoryTicks)
                 {
-                    pawns++;
+                    if (stale == null)
+                    {
+                        stale = new List<Pawn>();
+                    }
+                    stale.Add(pawn);
+                    continue;
+                }
+                pawns++;
+            }
+            if (stale != null)
+            {
+                for (int i = 0; i < stale.Count; i++)
+                {
+                    affected.Remove(stale[i]);
                 }
             }
             if (pawns <= 0)
@@ -132,6 +155,33 @@ namespace Botania
                 return;
             }
             paidUntilTick = Find.TickManager.TicksGame + Props.paidDurationTicks;
+        }
+
+        /// <summary>心灵干扰正在影响这个小人：记到覆盖他的每朵花头上，作为计费依据。</summary>
+        public static void NotifyAffected(Pawn pawn)
+        {
+            if (pawn == null || pawn.Map == null || All.Count == 0)
+            {
+                return;
+            }
+            if (ActiveDrone(pawn.Map) == null)
+            {
+                return;
+            }
+            int now = Find.TickManager.TicksGame;
+            for (int i = 0; i < All.Count; i++)
+            {
+                CompManaClearMindLotus lotus = All[i];
+                if (lotus == null || lotus.parent == null || !lotus.parent.Spawned || lotus.parent.Map != pawn.Map)
+                {
+                    continue;
+                }
+                if (lotus.parent.Position.DistanceTo(pawn.Position) > lotus.Props.radius)
+                {
+                    continue;
+                }
+                lotus.affected[pawn] = now;
+            }
         }
 
         /// <summary>当前生效的心灵干扰（没有就返回 null）。</summary>
