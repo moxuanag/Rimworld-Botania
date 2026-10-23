@@ -26,7 +26,7 @@
     <altitudeLayer>Building</altitudeLayer>
     <passability>Impassable</passability>
     <pathCost>50</pathCost>
-    <fillPercent>0.50</fillPercent>
+    <fillPercent>1</fillPercent>
     <rotatable>false</rotatable>
     <blockWind>true</blockWind>
     <castEdgeShadows>false</castEdgeShadows>
@@ -147,7 +147,7 @@
     <altitudeLayer>Building</altitudeLayer>
     <passability>Impassable</passability>
     <pathCost>50</pathCost>
-    <fillPercent>0.50</fillPercent>
+    <fillPercent>1</fillPercent>
     <rotatable>false</rotatable>
     <blockWind>true</blockWind>
     <castEdgeShadows>false</castEdgeShadows>
@@ -197,7 +197,7 @@
     <altitudeLayer>Building</altitudeLayer>
     <passability>Impassable</passability>
     <pathCost>50</pathCost>
-    <fillPercent>0.50</fillPercent>
+    <fillPercent>1</fillPercent>
     <rotatable>false</rotatable>
     <blockWind>true</blockWind>
     <castEdgeShadows>false</castEdgeShadows>
