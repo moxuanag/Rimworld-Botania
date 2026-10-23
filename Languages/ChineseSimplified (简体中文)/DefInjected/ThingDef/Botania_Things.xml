@@ -154,4 +154,13 @@
   <Botania_Dreamwood.stuffProps.stuffAdjective>梦木</Botania_Dreamwood.stuffProps.stuffAdjective>
   <Botania_ElementiumIngot.stuffProps.stuffAdjective>元素</Botania_ElementiumIngot.stuffProps.stuffAdjective>
 
+
+  <Botania_AlfheimGateLintel.label>精灵门上梁</Botania_AlfheimGateLintel.label>
+  <Botania_AlfheimGateLintel.description>精灵门的顶梁。两根立柱在两端立好之后，门就开了：把活木、活石或花瓣留在门洞里，它会从附近的魔力池抽取魔力，把它们变成这个世界本来没有的东西。\n\n没有魔力不会工作；少一根柱子也不会工作。</Botania_AlfheimGateLintel.description>
+
+  <Botania_AlfheimGatePillarLeft.label>精灵门立柱（左）</Botania_AlfheimGatePillarLeft.label>
+  <Botania_AlfheimGatePillarLeft.description>活木立柱，箍着魔力钢带，朝门洞那一侧镶着一条精灵石英。左右各一根再架上顶梁，就是一座精灵门。</Botania_AlfheimGatePillarLeft.description>
+
+  <Botania_AlfheimGatePillarRight.label>精灵门立柱（右）</Botania_AlfheimGatePillarRight.label>
+  <Botania_AlfheimGatePillarRight.description>活木立柱，箍着魔力钢带，朝门洞那一侧镶着一条精灵石英。左右各一根再架上顶梁，就是一座精灵门。</Botania_AlfheimGatePillarRight.description>
 </LanguageData>

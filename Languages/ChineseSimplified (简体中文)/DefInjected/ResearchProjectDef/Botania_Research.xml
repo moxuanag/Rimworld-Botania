@@ -37,7 +37,7 @@
   <Botania_WandForms.description>把森林法杖改造成两种专用形态。狙击型牺牲射速，换来一束能打穿护甲的致密长枪；爆破型射出缓慢而不稳定的魔力，落点炸开一个十字，不分敌我。两种形态都不会保留法杖原有的植物法术。</Botania_WandForms.description>
 
   <Botania_Alfheim.label>精灵之门</Botania_Alfheim.label>
-  <Botania_Alfheim.description>占位：用魔力换取精灵材料的传送门。内容将在后续版本接入。</Botania_Alfheim.description>
+  <Botania_Alfheim.description>用魔力换取精灵材料的门。上梁与左右立柱齐全时才会工作：把活木、活石或花瓣留在门洞里，它会从附近的魔力池抽取魔力，把它们变成梦木、精灵石英、精灵之尘和元素锭。</Botania_Alfheim.description>
 
   <Botania_Elementium.label>元素装备</Botania_Elementium.label>
   <Botania_Elementium.description>占位：元素武器与护甲。内容将在后续版本接入。</Botania_Elementium.description>

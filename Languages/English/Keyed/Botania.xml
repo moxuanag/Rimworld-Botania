@@ -74,4 +74,12 @@
   <Botania.BlueprintAlreadyApplied>already studied</Botania.BlueprintAlreadyApplied>
   <Botania.BlueprintCantStudy>cannot do intellectual work</Botania.BlueprintCantStudy>
   <Botania.BlueprintApplied>{0} studied the {1} and memorised the diagram.</Botania.BlueprintApplied>
+
+  <Botania.GateDisabled>Shut off</Botania.GateDisabled>
+  <Botania.GateNoInput>Nothing to convert in the doorway</Botania.GateNoInput>
+  <Botania.GateFrameIncomplete>Frame incomplete: both pillars are required</Botania.GateFrameIncomplete>
+  <Botania.GateNoMana>Not enough mana: {1} needed to make {0}</Botania.GateNoMana>
+  <Botania.GateWorking>Converting {0}: {1}%</Botania.GateWorking>
+  <Botania.GateToggle>Gate on/off</Botania.GateToggle>
+  <Botania.GateToggleDesc>When off, the gate stops and consumes neither mana nor materials.</Botania.GateToggleDesc>
 </LanguageData>

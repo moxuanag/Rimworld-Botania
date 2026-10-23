@@ -74,4 +74,12 @@
   <Botania.BlueprintAlreadyApplied>已经解读过</Botania.BlueprintAlreadyApplied>
   <Botania.BlueprintCantStudy>无法进行智力工作</Botania.BlueprintCantStudy>
   <Botania.BlueprintApplied>{0} 解读了 {1}，图样已经记下来了。</Botania.BlueprintApplied>
+
+  <Botania.GateDisabled>已关闭</Botania.GateDisabled>
+  <Botania.GateNoInput>门洞里没有可转化的材料</Botania.GateNoInput>
+  <Botania.GateFrameIncomplete>门框不完整：左右两端各需要一根立柱</Botania.GateFrameIncomplete>
+  <Botania.GateNoMana>魔力不足：转化 {0} 需要 {1} 点魔力</Botania.GateNoMana>
+  <Botania.GateWorking>正在转化 {0}：{1}%</Botania.GateWorking>
+  <Botania.GateToggle>精灵门开关</Botania.GateToggle>
+  <Botania.GateToggleDesc>关闭后精灵门会停下，不再消耗魔力与材料。</Botania.GateToggleDesc>
 </LanguageData>

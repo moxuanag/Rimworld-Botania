@@ -204,7 +204,7 @@
   <ResearchProjectDef>
     <defName>Botania_Alfheim</defName>
     <label>botania: alfheim gate</label>
-    <description>Placeholder: a gate that trades mana for elven materials. Content arrives in a later version.</description>
+    <description>A gate frame that trades mana for elven materials. It only works with a lintel and both pillars standing: leave livingwood, livingrock or petals in the doorway and it draws mana from a nearby pool to turn them into dreamwood, elven quartz, pixie dust and elementium ingot.</description>
     <baseCost>3500</baseCost>
     <techLevel>Spacer</techLevel>
     <tab>Botania</tab>
