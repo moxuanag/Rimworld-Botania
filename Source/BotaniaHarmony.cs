@@ -162,7 +162,19 @@ namespace Botania
         {
             try
             {
-                if (condition != JobCondition.Succeeded || __state == null || __state.workGiverDef == null)
+                if (condition != JobCondition.Succeeded || __state == null)
+                {
+                    return;
+                }
+                // 「完成一件工作」的判定：
+                //  1) 有 workGiverDef —— 采矿、搬运、种植这类由 WorkGiver 派下来的活；
+                //  2) 有 bill —— 工作台/屠宰这类账单活，实测它们的 workGiverDef 可能是 null，
+                //     只认 workGiverDef 会漏掉「做手工」这种最典型的工作；
+                //  3) defName 兜底 DoBill。
+                bool isWork = __state.workGiverDef != null
+                              || __state.bill != null
+                              || (__state.def != null && __state.def.defName == "DoBill");
+                if (!isWork)
                 {
                     return;
                 }
