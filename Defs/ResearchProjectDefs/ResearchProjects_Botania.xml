@@ -267,7 +267,7 @@
          tags 的取值在本引擎里只是字符串（没有 FactionCategoryDef 类型，也不参与
          任何解析），这里写 BotaniaGaiaBoss 表示「由盖亚守护者掉落」，
          不与任何派系的 categoryTag 撞上，等于宣告商人不会出售。
-         来源定案见 docs/研究项目内容规划-v0.7.md §4.2（2026-10-23 由遗迹改为 Boss 掉落）。 -->
+         来源定案见 docs/植物魔法开发文档.md §4.2（2026-10-23 由遗迹改为 Boss 掉落）。 -->
     <techprintCount>1</techprintCount>
     <heldByFactionCategoryTags>
       <li>BotaniaGaiaBoss</li>
