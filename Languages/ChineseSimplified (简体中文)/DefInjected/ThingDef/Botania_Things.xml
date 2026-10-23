@@ -133,4 +133,19 @@
   <Botania_RosaArcana.label>阿卡纳蔷薇</Botania_RosaArcana.label>
   <Botania_RosaArcana.description>一朵很执拗的蔷薇。在它旁边干活的人会发现思绪总是飘走：学得更慢，而且心里烦躁。作为交换，蔷薇收走他们「没能学进去」的那部分。什么都没得学的人，喂不了它。</Botania_RosaArcana.description>
 
+  <Botania_Dreamwood.label>梦木</Botania_Dreamwood.label>
+  <Botania_Dreamwood.description>浸透魔力的活木，颜色已经沉成深紫。看着不重，拿在手里却比外表结实；木匠说它会顺着自己的纹理继续长，所以像是「记得」你想要的样子。可用作建材。</Botania_Dreamwood.description>
+
+  <Botania_ElvenQuartz.label>精灵石英</Botania_ElvenQuartz.label>
+  <Botania_ElvenQuartz.description>长出来的水晶，不是挖出来的。光被关在里面缓慢流动，像一道迟迟不肯落下的电流。精灵门用它磨透镜，更精细的魔力装置少了它就转不起来。太脆，不能当建材。</Botania_ElvenQuartz.description>
+
+  <Botania_PixieDust.label>精灵之尘</Botania_PixieDust.label>
+  <Botania_PixieDust.description>闪着光的粉色粉尘，沾上什么就赖着不走，怎么也扫不干净。元素锭的颜色正是它给的，它也是这合金里唯一没法用钢替代的部分。</Botania_PixieDust.description>
+
+  <Botania_ElementiumIngot.label>元素锭</Botania_ElementiumIngot.label>
+  <Botania_ElementiumIngot.description>魔力钢掺入精灵之尘反复折叠，整块锭都泛出粉色。钢硬而它韧，所以做护甲极好，做刀剑也够看。可用作建材。</Botania_ElementiumIngot.description>
+
+  <Botania_GaiaSpirit.label>盖亚之魂蓝图</Botania_GaiaSpirit.label>
+  <Botania_GaiaSpirit.description>一张羊皮纸，上面的图样不像活人的手画出来的：一圈四芒，还有一半没画完。拿到研究台研究，能弄明白旧日林地那些守护者究竟是用什么做的。</Botania_GaiaSpirit.description>
+
 </LanguageData>

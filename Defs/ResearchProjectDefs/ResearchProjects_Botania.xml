@@ -257,9 +257,20 @@
     </prerequisites>
     <researchViewX>7.00</researchViewX>
     <researchViewY>3.00</researchViewY>
-    <!-- 科技蓝图等盖亚 Boss（v0.8）落地时再加 techprintCount。
-         1.7 的校验规则：一旦写了 techprintCount，就必须同时给 heldByFactionCategoryTags，
-         否则会报 "Config error: requires techprints but has no heldByFactionCategoryTags"。 -->
+    <!-- 需要 1 张「盖亚之魂蓝图」（Botania_GaiaSpirit）。
+         引擎的成对校验（ResearchProjectDef.ConfigErrors）：
+           techprintCount > 0 但 heldByFactionCategoryTags 为空
+             -> "requires techprints but has no heldByFactionCategoryTags."
+           techprintCount == 0 但写了 tags
+             -> "requires no techprints but has heldByFactionCategoryTags."
+         所以两个字段只能成对加减。
+         tags 的取值在本引擎里只是字符串（没有 FactionCategoryDef 类型，也不参与
+         任何解析），这里写 BotaniaRuins 表示「由遗迹产出」，
+         不与任何派系的 categoryTag 撞上，等于宣告商人不会出售。 -->
+    <techprintCount>1</techprintCount>
+    <heldByFactionCategoryTags>
+      <li>BotaniaRuins</li>
+    </heldByFactionCategoryTags>
   </ResearchProjectDef>
 
 </Defs>
