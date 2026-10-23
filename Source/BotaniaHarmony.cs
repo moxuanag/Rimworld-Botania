@@ -166,15 +166,10 @@ namespace Botania
                 {
                     return;
                 }
-                // 「完成一件工作」的判定：
-                //  1) 有 workGiverDef —— 采矿、搬运、种植这类由 WorkGiver 派下来的活；
-                //  2) 有 bill —— 工作台/屠宰这类账单活，实测它们的 workGiverDef 可能是 null，
-                //     只认 workGiverDef 会漏掉「做手工」这种最典型的工作；
-                //  3) defName 兜底 DoBill。
-                bool isWork = __state.workGiverDef != null
-                              || __state.bill != null
-                              || (__state.def != null && __state.def.defName == "DoBill");
-                if (!isWork)
+                // 只认 WorkGiver 派下来的活（建造、采矿、搬运、种植…）。
+                // 账单类活（缝制、屠宰、做饭）不走这里 —— 它们是「一张账单连续做很多件」，
+                // 完成一件并不会结束 job，所以由下面的 MakeRecipeProducts 补丁负责。
+                if (__state.workGiverDef == null)
                 {
                     return;
                 }
@@ -185,6 +180,31 @@ namespace Botania
             catch (Exception ex)
             {
                 Log.Warning("[Botania] job completed hook failed: " + ex.Message);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 账单类工作的完成点：每做出一件成品，引擎都会调一次 <c>GenRecipe.MakeRecipeProducts</c>，
+    /// 参数里直接有干活的 Pawn。缝制、屠宰、做饭、锻造全走这里——
+    /// 它们的 job 是「一张账单连续做很多件」，完成一件并不会结束 job，所以只能挂这儿。
+    /// </summary>
+    [HarmonyPatch(typeof(GenRecipe), nameof(GenRecipe.MakeRecipeProducts))]
+    public static class Patch_RecipeProducts
+    {
+        public static void Postfix(object[] __args)
+        {
+            try
+            {
+                Pawn worker = __args != null && __args.Length > 1 ? __args[1] as Pawn : null;
+                if (worker != null)
+                {
+                    CompManaBitterBloom.OnWorkCompleted(worker);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Warning("[Botania] recipe products hook failed: " + ex.Message);
             }
         }
     }
