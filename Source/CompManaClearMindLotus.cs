@@ -95,9 +95,11 @@ namespace Botania
 
         private void Settle()
         {
-            // 只对抗「有具体来源」的心灵干扰：机械族的心灵干扰器（建筑）制造的嗡鸣。
-            // 剧情事件那种没有实体的干扰不管，免得一张图无差别全免。
-            if (!SourceDroneActive(parent.Map))
+            // 只要有心灵干扰在生效就得付费：
+            //  · 建筑来源（机械族干扰器）→ 全额挡住（见 IsShielded）
+            //  · 事件来源（无实体）→ 只把心情惩罚减半（见 PartialShield）
+            // 这样玩家不会以为「花没反应就是 bug」。
+            if (ActiveDrone(parent.Map) == null)
             {
                 return;
             }
@@ -132,19 +134,42 @@ namespace Botania
             paidUntilTick = Find.TickManager.TicksGame + Props.paidDurationTicks;
         }
 
-        /// <summary>这张图上是否有「由建筑产生」的心灵干扰在生效。</summary>
-        private static bool SourceDroneActive(Map map)
+        /// <summary>当前生效的心灵干扰（没有就返回 null）。</summary>
+        private static GameCondition ActiveDrone(Map map)
         {
-            if (map == null)
+            return map == null ? null : map.gameConditionManager.GetActiveCondition(GameConditionDefOf.PsychicDrone);
+        }
+
+        /// <summary>这朵花是否正在为某个小人「部分」挡干扰（只看圈内、且只对无实体的事件干扰生效）。</summary>
+        public static bool PartialShield(Pawn pawn)
+        {
+            if (pawn == null || pawn.Map == null || All.Count == 0)
             {
                 return false;
             }
-            GameCondition condition = map.gameConditionManager.GetActiveCondition(GameConditionDefOf.PsychicDrone);
-            if (condition == null)
+            GameCondition condition = ActiveDrone(pawn.Map);
+            if (condition == null || condition.conditionCauser is Building)
             {
+                // 没有干扰，或干扰有实体来源（那种是全额挡，不走这里）
                 return false;
             }
-            return condition.conditionCauser is Building;
+            for (int i = All.Count - 1; i >= 0; i--)
+            {
+                CompManaClearMindLotus lotus = All[i];
+                if (lotus == null || lotus.parent == null || !lotus.parent.Spawned || lotus.parent.Map != pawn.Map)
+                {
+                    continue;
+                }
+                if (!lotus.IsPaying)
+                {
+                    continue;
+                }
+                if (lotus.parent.Position.DistanceTo(pawn.Position) <= lotus.Props.radius)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         /// <summary>这个小人是否被某朵正在付费的明心莲罩着。</summary>
@@ -154,8 +179,10 @@ namespace Botania
             {
                 return false;
             }
-            if (!SourceDroneActive(pawn.Map))
+            GameCondition condition = ActiveDrone(pawn.Map);
+            if (condition == null || !(condition.conditionCauser is Building))
             {
+                // 只有「有实体来源」的干扰才全额挡；事件干扰走 PartialShield 减半
                 return false;
             }
             for (int i = All.Count - 1; i >= 0; i--)
@@ -183,9 +210,17 @@ namespace Botania
             {
                 return null;
             }
-            return IsPaying
-                ? "Botania.ClearMindLotusActive".Translate(Props.manaPerPawnSecond.ToString("0"))
-                : "Botania.ClearMindLotusIdle".Translate();
+            if (!IsPaying)
+            {
+                return "Botania.ClearMindLotusIdle".Translate();
+            }
+            GameCondition condition = ActiveDrone(parent.Map);
+            bool fromBuilding = condition != null && condition.conditionCauser is Building;
+            if (fromBuilding)
+            {
+                return "Botania.ClearMindLotusActive".Translate(Props.manaPerPawnSecond.ToString("0"));
+            }
+            return "Botania.ClearMindLotusWeaken".Translate(Props.manaPerPawnSecond.ToString("0"));
         }
 
         public override void PostExposeData()

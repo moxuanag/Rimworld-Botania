@@ -91,10 +91,12 @@
     - WorkGiver 派下来的活（建造 / 采矿 / 搬运 / 种植）挂 `Pawn_JobTracker.EndCurrentJob`；
     - 账单类活（缝制 / 屠宰 / 做饭 / 锻造）挂 `GenRecipe.MakeRecipeProducts`——
       它们「一张单连续做很多件」，完成一件并不会结束 job，只能从成品产出那一刻取信号。
-  - **明心莲**（`Botania_ClearMindLotus`）：半径 8，**20 魔力/人/秒**，只压制**有具体来源的心灵干扰**
-    —— 判定条件是「图上有 `PsychicDrone` 且 `conditionCauser` 是建筑」（机械族的心灵干扰器），
-    剧情事件那种无实体的干扰不管；`ThoughtWorker_PsychicDrone` 的结果被改成 Inactive，
-    不改其他心情；断魔即失效。付费用「3 秒一次、整次结算」，避免每帧取魔。
+  - **明心莲**（`Botania_ClearMindLotus`）：半径 8，**20 魔力/人/秒**，分两档生效：
+    - **建筑来源的干扰**（机械族心灵干扰器，`conditionCauser` 是 Building）→ **全额挡住**，
+      `ThoughtWorker_PsychicDrone` 的结果直接改成 Inactive；
+    - **剧情事件那种无实体的干扰** → **心情惩罚减半**（补丁挂在 `Thought.MoodOffset` 上按 defName 过滤），
+      不做全免——全免会让玩家以为这朵花坏了；
+    - 两种情况都要付费，3 秒一次整次结算，断魔即失效；检视栏会写明当前是「压制」还是「削弱」。
   - 三朵都挂半径环与放置预览；前两朵归「进阶产能花」，明心莲归「功能花」。
 
 ### 变更

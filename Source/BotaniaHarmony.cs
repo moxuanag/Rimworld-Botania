@@ -185,6 +185,39 @@ namespace Botania
     }
 
     /// <summary>
+    /// 事件来源的心灵干扰（没有实体，纯剧情事件）不做「全免」，而是把心情惩罚减半——
+    /// 否则玩家会以为这朵花没生效、是个 bug。
+    /// 心灵干扰的念头是 situational 类型，没有重写 MoodOffset，所以补丁挂在基类上，
+    /// 再按 defName 过滤，不会波及其他念头。
+    /// </summary>
+    [HarmonyPatch(typeof(Thought), nameof(Thought.MoodOffset))]
+    public static class Patch_PsychicDroneMood
+    {
+        public static void Postfix(Thought __instance, ref float __result)
+        {
+            try
+            {
+                if (__result >= 0f || __instance == null || __instance.def == null)
+                {
+                    return;
+                }
+                if (__instance.def.defName != "PsychicDrone")
+                {
+                    return;
+                }
+                if (CompManaClearMindLotus.PartialShield(__instance.pawn))
+                {
+                    __result *= 0.5f;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Warning("[Botania] psychic drone mood hook failed: " + ex.Message);
+            }
+        }
+    }
+
+    /// <summary>
     /// 明心莲的挡罩：心灵干扰是一条 situational thought，
     /// 每帧都会重算，所以只能从源头把结果改掉——只压这一条，不碰别的情绪。
     /// </summary>

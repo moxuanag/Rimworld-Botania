@@ -88,5 +88,6 @@
   <Botania.BlightEaterWorking>半径内 {0} 株枯萎作物 · 已吃 {1} 株</Botania.BlightEaterWorking>
   <Botania.BitterBloomStatus>半径 {0} 格 · 已喂 {1} 次 · 上次 +{2} 魔力</Botania.BitterBloomStatus>
   <Botania.ClearMindLotusActive>正在压制心灵干扰（每人 {0} 魔力/秒）</Botania.ClearMindLotusActive>
-  <Botania.ClearMindLotusIdle>待机：只对机械族心灵干扰器产生的干扰有用</Botania.ClearMindLotusIdle>
+  <Botania.ClearMindLotusWeaken>正在削弱心灵干扰（心情惩罚减半，每人 {0} 魔力/秒）</Botania.ClearMindLotusWeaken>
+  <Botania.ClearMindLotusIdle>待机：没有心灵干扰，或魔力不足</Botania.ClearMindLotusIdle>
 </LanguageData>
