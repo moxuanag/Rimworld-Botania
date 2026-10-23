@@ -95,6 +95,13 @@ namespace Botania
 
         private void Settle()
         {
+            // 只对抗「有具体来源」的心灵干扰：机械族的心灵干扰器（建筑）制造的嗡鸣。
+            // 剧情事件那种没有实体的干扰不管，免得一张图无差别全免。
+            if (!SourceDroneActive(parent.Map))
+            {
+                return;
+            }
+
             int pawns = 0;
             foreach (Thing thing in GenRadial.RadialDistinctThingsAround(parent.Position, parent.Map, Props.radius, true))
             {
@@ -125,10 +132,29 @@ namespace Botania
             paidUntilTick = Find.TickManager.TicksGame + Props.paidDurationTicks;
         }
 
+        /// <summary>这张图上是否有「由建筑产生」的心灵干扰在生效。</summary>
+        private static bool SourceDroneActive(Map map)
+        {
+            if (map == null)
+            {
+                return false;
+            }
+            GameCondition condition = map.gameConditionManager.GetActiveCondition(GameConditionDefOf.PsychicDrone);
+            if (condition == null)
+            {
+                return false;
+            }
+            return condition.conditionCauser is Building;
+        }
+
         /// <summary>这个小人是否被某朵正在付费的明心莲罩着。</summary>
         public static bool IsShielded(Pawn pawn)
         {
             if (pawn == null || pawn.Map == null || All.Count == 0)
+            {
+                return false;
+            }
+            if (!SourceDroneActive(pawn.Map))
             {
                 return false;
             }

@@ -16,8 +16,14 @@ namespace Botania
         /// <summary>吃掉一株产多少魔力。</summary>
         public float manaPerPlant = 1500f;
 
-        /// <summary>两顿之间隔多少 tick（300 = 5 秒）。</summary>
-        public int ticksBetweenMeals = 300;
+        /// <summary>两顿之间隔多少 tick（180 = 3 秒）。</summary>
+        public int ticksBetweenMeals = 180;
+
+        /// <summary>连续吃这么多株之后要停下来消化一次。</summary>
+        public int mealsPerBatch = 10;
+
+        /// <summary>消化时间（1800 tick = 30 秒）。</summary>
+        public int restTicks = 1800;
 
         /// <summary>向魔力池输送的半径。</summary>
         public float poolRadius = 6f;
@@ -47,6 +53,9 @@ namespace Botania
     public class CompManaBlightEater : ThingComp
     {
         private int ticksToNextMeal;
+
+        /// <summary>这一批已经吃了几株，吃满 mealsPerBatch 就要消化一次。</summary>
+        private int mealsThisBatch;
 
         /// <summary>累计吃掉多少株，供信息栏显示。</summary>
         public int Eaten;
@@ -81,6 +90,14 @@ namespace Botania
             IntVec3 position = target.Position;
             target.Destroy(DestroyMode.Vanish);
             Eaten++;
+
+            // 连吃 mealsPerBatch 株就要停下来消化一次
+            mealsThisBatch++;
+            if (Props.mealsPerBatch > 0 && mealsThisBatch >= Props.mealsPerBatch)
+            {
+                mealsThisBatch = 0;
+                ticksToNextMeal = Props.restTicks;
+            }
 
             CompManaStorage pool = FindPool();
             if (pool != null)

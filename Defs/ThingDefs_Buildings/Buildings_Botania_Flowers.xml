@@ -50,7 +50,9 @@
       <li Class="Botania.CompProperties_ManaBlightEater">
         <radius>6</radius>
         <manaPerPlant>1500</manaPerPlant>
-        <ticksBetweenMeals>300</ticksBetweenMeals>
+        <ticksBetweenMeals>180</ticksBetweenMeals>
+        <mealsPerBatch>10</mealsPerBatch>
+        <restTicks>1800</restTicks>
         <poolRadius>6</poolRadius>
       </li>
       <li Class="Botania.CompProperties_RadiusRing">
