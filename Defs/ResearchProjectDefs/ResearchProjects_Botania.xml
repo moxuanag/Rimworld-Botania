@@ -60,11 +60,11 @@
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>
     <prerequisites>
-      <li>Botania_GeneratingI</li>
+      <li>Botania_PassiveGenerating</li>
     </prerequisites>
-    <!-- 坐标 (4, 0)：和「被动产能花」同为产能分支、同以产能花为前置，
-         但一格只能放一个项目。这里顺到同一行的下一格，不能写 (3, 0)——
-         那个格子是 Botania_PassiveGenerating，写重了会叠在一起。 -->
+    <!-- 产能分支是一条链：产能花 (2,0) → 被动产能花 (3,0) → 进阶产能花 (4,0)。
+         坐标一格只能放一个项目，所以进阶必须往后挪一格；前置挂在被动产能花上，
+         连线顺着 (3,0) → (4,0) 走，不会从别的节点后面穿过去。 -->
     <researchViewX>4.00</researchViewX>
     <researchViewY>0.00</researchViewY>
   </ResearchProjectDef>
