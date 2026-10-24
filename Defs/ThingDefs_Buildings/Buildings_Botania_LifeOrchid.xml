@@ -53,8 +53,8 @@
     <comps>
       <li Class="Botania.CompProperties_ManaLifeOrchid">
         <gridSize>11</gridSize>
-        <manaPerChange>12</manaPerChange>
-        <maxManaPerGeneration>600</maxManaPerGeneration>
+        <manaPerChange>40</manaPerChange>
+        <maxManaPerGeneration>900</maxManaPerGeneration>
         <cellLifespan>30</cellLifespan>
         <poolRadius>6</poolRadius>
         <seedDefName>Botania_FleshSeed</seedDefName>

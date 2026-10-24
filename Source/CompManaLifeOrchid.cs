@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using RimWorld;
+using UnityEngine;
 using Verse;
 
 namespace Botania
@@ -20,8 +21,8 @@ namespace Botania
     public class CompProperties_ManaLifeOrchid : CompProperties
     {
         public int gridSize = 11;
-        public float manaPerChange = 12f;
-        public float maxManaPerGeneration = 600f;
+        public float manaPerChange = 40f;
+        public float maxManaPerGeneration = 900f;
         public int cellLifespan = 30;
         public float poolRadius = 6f;
         public string seedDefName = "Botania_FleshSeed";
@@ -345,22 +346,15 @@ namespace Botania
             Command_Action toggle = new Command_Action();
             toggle.defaultLabel = (running ? "Botania.LifeOrchidStop" : "Botania.LifeOrchidStart").Translate();
             toggle.defaultDesc = "Botania.LifeOrchidToggleDesc".Translate();
+            toggle.icon = ContentFinder<Texture2D>.Get(
+                running ? "UI/Icons/Botania/PauseGenerations" : "UI/Icons/Botania/StartGenerations",
+                false);
             toggle.action = delegate
             {
+                // 注意：这里**不重置年龄**。否则玩家可以卡在 29 代反复暂停/启动，
+                // 让细胞永远不老——那样不用补种就能无限产出。
                 running = !running;
-                if (running)
-                {
-                    generation = 0;
-                    for (int i = 0; i < age.Length; i++)
-                    {
-                        age[i] = 0;
-                    }
-                }
             };
-            if (running)
-            {
-                toggle.hotKey = KeyBindingDefOf.Misc1;
-            }
             yield return toggle;
         }
 

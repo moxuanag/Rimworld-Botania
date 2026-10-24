@@ -6,7 +6,7 @@
   <DesignationCategoryDef>
     <defName>Botania_Life</defName>
     <label>botania life</label>
-    <order>860</order>
+    <order>855</order>
     <specialDesignatorClasses>
       <li>Botania.Designator_SowFleshCell</li>
     </specialDesignatorClasses>
