@@ -28,6 +28,8 @@
     </thingCategories>
     <comps>
       <li Class="CompProperties_Ingredients" />
+      <!-- 选中种子时显示它作为「活细胞」的年龄与代数（由附近的启命英提供） -->
+      <li Class="Botania.CompProperties_FleshSeedCell" />
     </comps>
   </ThingDef>
 

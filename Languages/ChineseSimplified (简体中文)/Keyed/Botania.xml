@@ -110,4 +110,5 @@
   <Botania.SowCellNeedBed>只能点在肉床上</Botania.SowCellNeedBed>
   <Botania.SowCellOccupied>这一格已经有细胞了</Botania.SowCellOccupied>
   <Botania.SowCellNoSeed>这张图上没有血肉之种了</Botania.SowCellNoSeed>
+  <Botania.FleshSeedCellInfo>启命英的活细胞 · 第 {0} 代 · 年龄 {1}/{2}</Botania.FleshSeedCellInfo>
 </LanguageData>

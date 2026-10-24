@@ -402,6 +402,36 @@ namespace Botania
             return status;
         }
 
+        /// <summary>查询某一格是不是这朵花的活细胞，附带年龄与代数（给种子面板用）。</summary>
+        public bool TryGetCellState(IntVec3 cell, out int cellAge, out int generationValue)
+        {
+            cellAge = 0;
+            generationValue = generation;
+            if (!parent.Spawned || parent.Map == null)
+            {
+                return false;
+            }
+            IntVec3 delta = cell - parent.Position;
+            if (Mathf.Abs(delta.x) > Radius || Mathf.Abs(delta.z) > Radius)
+            {
+                return false;
+            }
+            int x = delta.x + Radius;
+            int z = delta.z + Radius;
+            int index = z * Size + x;
+            if (index < 0 || index >= Cells)
+            {
+                return false;
+            }
+            ThingDef seedDef = SeedDef;
+            if (seedDef == null || !HasSeed(cell, parent.Map, seedDef))
+            {
+                return false;
+            }
+            cellAge = age[index];
+            return true;
+        }
+
         /// <summary>调试摘要（临时调试工具会调）。</summary>
         public string DebugLine()
         {

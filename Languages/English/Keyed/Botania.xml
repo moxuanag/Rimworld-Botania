@@ -110,4 +110,5 @@
   <Botania.SowCellNeedBed>Target must be a flesh-bed tile</Botania.SowCellNeedBed>
   <Botania.SowCellOccupied>There is already a cell there</Botania.SowCellOccupied>
   <Botania.SowCellNoSeed>No flesh seed left on this map</Botania.SowCellNoSeed>
+  <Botania.FleshSeedCellInfo>Life-orchid cell · generation {0} · age {1}/{2}</Botania.FleshSeedCellInfo>
 </LanguageData>
