@@ -47,6 +47,13 @@ namespace Botania
             {
                 return;
             }
+            // 核心被压制 / 休眠时既不出肉也不出种子——保证「有肉才有种子」这条对应关系
+            CompActivity activity = parent.TryGetComp<CompActivity>();
+            if (activity != null && !activity.IsActive)
+            {
+                return;
+            }
+
             ticksSinceLastCycle++;
             if (ticksSinceLastCycle < Props.cycleTicks)
             {
@@ -63,9 +70,37 @@ namespace Botania
             {
                 return;
             }
-            Thing seeds = ThingMaker.MakeThing(seedDef, null);
-            seeds.stackCount = Props.seedsPerCycle;
-            GenPlace.TryPlaceThing(seeds, parent.Position, parent.Map, ThingPlaceMode.Near);
+            Map map = parent.Map;
+            System.Collections.Generic.List<IntVec3> ring = new System.Collections.Generic.List<IntVec3>();
+            foreach (IntVec3 c in GenRadial.RadialCellsAround(parent.Position, 3.5f, false))
+            {
+                ring.Add(c);
+            }
+            System.Random random = new System.Random();
+            int placed = 0;
+            for (int i = 0; i < Props.seedsPerCycle; i++)
+            {
+                IntVec3 cell = parent.Position;
+                for (int attempt = 0; attempt < 12 && ring.Count > 0; attempt++)
+                {
+                    IntVec3 candidate = ring[random.Next(ring.Count)];
+                    if (candidate.InBounds(map) && candidate.Standable(map) && !candidate.Fogged(map))
+                    {
+                        cell = candidate;
+                        break;
+                    }
+                }
+                Thing seed = ThingMaker.MakeThing(seedDef, null);
+                seed.stackCount = 1;
+                GenSpawn.Spawn(seed, cell, map);
+                placed++;
+            }
+            if (placed == 0)
+            {
+                Thing seeds = ThingMaker.MakeThing(seedDef, null);
+                seeds.stackCount = Props.seedsPerCycle;
+                GenPlace.TryPlaceThing(seeds, parent.Position, map, ThingPlaceMode.Near);
+            }
         }
 
         public override string CompInspectStringExtra()
