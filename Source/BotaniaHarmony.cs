@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System;
 using HarmonyLib;
 using RimWorld;
@@ -142,6 +143,40 @@ namespace Botania
             catch (Exception ex)
             {
                 Log.Warning("[Botania] DoShortCircuit postfix failed: " + ex.Message);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 血肉核心是 Pawn，原版右键菜单只走 Pawn.GetFloatMenuOptions，不会遍历 comps，
+    /// 所以自己补一项「抽取血肉之种」（点下去派小人去用 UseItem 作业）。
+    /// </summary>
+    [HarmonyPatch(typeof(Pawn), nameof(Pawn.GetFloatMenuOptions))]
+    public static class Patch_PawnFloatMenuForCore
+    {
+        public static IEnumerable<FloatMenuOption> Postfix(
+            IEnumerable<FloatMenuOption> __result, Pawn __instance, Pawn selPawn)
+        {
+            if (__result != null)
+            {
+                foreach (FloatMenuOption option in __result)
+                {
+                    yield return option;
+                }
+            }
+            if (__instance == null || selPawn == null || !selPawn.IsColonistPlayerControlled)
+            {
+                yield break;
+            }
+            CompFleshmassCoreSeeds comp = __instance.TryGetComp<CompFleshmassCoreSeeds>();
+            if (comp == null)
+            {
+                yield break;
+            }
+            FloatMenuOption mine = comp.MakeFloatMenuOption(selPawn);
+            if (mine != null)
+            {
+                yield return mine;
             }
         }
     }

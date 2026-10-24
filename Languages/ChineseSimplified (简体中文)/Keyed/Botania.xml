@@ -113,4 +113,5 @@
   <Botania.FleshSeedCellInfo>启命英的活细胞 · 第 {0} 代 · 年龄 {1}/{2}</Botania.FleshSeedCellInfo>
   <Botania.CoreSeedReady>可以抽取血肉之种</Botania.CoreSeedReady>
   <Botania.CoreSeedCooling>核心恢复中——还需 {0} 小时</Botania.CoreSeedCooling>
+  <Botania.ExtractCoreSeed>抽取血肉之种</Botania.ExtractCoreSeed>
 </LanguageData>

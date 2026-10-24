@@ -113,4 +113,5 @@
   <Botania.FleshSeedCellInfo>Life-orchid cell · generation {0} · age {1}/{2}</Botania.FleshSeedCellInfo>
   <Botania.CoreSeedReady>Flesh seed ready to extract</Botania.CoreSeedReady>
   <Botania.CoreSeedCooling>Core recovering — ready in {0} h</Botania.CoreSeedCooling>
+  <Botania.ExtractCoreSeed>Extract flesh seed</Botania.ExtractCoreSeed>
 </LanguageData>

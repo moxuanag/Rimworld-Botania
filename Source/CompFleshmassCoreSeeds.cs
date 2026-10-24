@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using RimWorld;
 using Verse;
+using Verse.AI;
 
 namespace Botania
 {
@@ -54,6 +55,28 @@ namespace Botania
             Thing seeds = ThingMaker.MakeThing(seedDef, null);
             seeds.stackCount = CoreProps.seedsPerUse;
             GenPlace.TryPlaceThing(seeds, parent.Position, parent.Map, ThingPlaceMode.Near);
+        }
+
+        /// <summary>给「选中小人 → 右键核心」用的菜单项。核心是 Pawn，原版不会遍历它的 comps 菜单。</summary>
+        public FloatMenuOption MakeFloatMenuOption(Pawn selPawn)
+        {
+            string label = "Botania.ExtractCoreSeed".Translate();
+            AcceptanceReport report = CanBeUsedBy(selPawn, false, true);
+            if (!report.Accepted)
+            {
+                return new FloatMenuOption(label + "（" + report.Reason + "）", null);
+            }
+            JobDef useJob = DefDatabase<JobDef>.GetNamed("UseItem", false);
+            if (useJob == null)
+            {
+                return null;
+            }
+            return new FloatMenuOption(label, delegate
+            {
+                Job job = new Job(useJob, parent);
+                job.count = 1;
+                selPawn.jobs.TryTakeOrderedJob(job);
+            }, MenuOptionPriority.Default, null, parent);
         }
 
         public override string CompInspectStringExtra()
