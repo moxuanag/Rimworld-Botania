@@ -119,7 +119,6 @@
   <Botania.TerraAltarReady>材料齐全，等魔力源就位即可开工</Botania.TerraAltarReady>
   <Botania.TerraWaveNoTarget>剑气需要一个方向——朝远处的格子施放</Botania.TerraWaveNoTarget>
   <Botania.TerraWaveOutOfRange>剑气最远只有 {0} 格</Botania.TerraWaveOutOfRange>
-  <Botania.TerraWaveNoMana>附近没有足够的魔力（需要 400）</Botania.TerraWaveNoMana>
 
   <Botania.TerraAltarPlacePedestals>补齐四角基座</Botania.TerraAltarPlacePedestals>
   <Botania.TerraAltarPlacePedestalsDesc>在四角的空位直接放上凝聚基座的蓝图，省得自己一格一格对位置。已有基座或已有蓝图的角会跳过。</Botania.TerraAltarPlacePedestalsDesc>
@@ -129,4 +128,5 @@
   <Botania.TerraAltarAutoHaul>允许搬运工送料</Botania.TerraAltarAutoHaul>
   <Botania.TerraAltarAutoHaulDesc>打开后，「搬运」工作里会多出一条「给泰拉凝聚台送料」：搬运工空闲时会把台面缺的材料搬上去。不打断正在干活的小人，也不需要再点任何按钮。</Botania.TerraAltarAutoHaulDesc>
   <Botania.TerraAltarHaulOn>搬运工送料：已允许</Botania.TerraAltarHaulOn>
+  <Botania.TerraPickSpread>采矿：周围八格同步被挖</Botania.TerraPickSpread>
 </LanguageData>

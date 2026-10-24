@@ -119,7 +119,6 @@
   <Botania.TerraAltarReady>Inputs are in place; waiting on a mana pool</Botania.TerraAltarReady>
   <Botania.TerraWaveNoTarget>A wave needs a direction — cast at a distant cell</Botania.TerraWaveNoTarget>
   <Botania.TerraWaveOutOfRange>The wave reaches only {0} cells</Botania.TerraWaveOutOfRange>
-  <Botania.TerraWaveNoMana>Not enough mana nearby (400 needed)</Botania.TerraWaveNoMana>
 
   <Botania.TerraAltarPlacePedestals>Place corner pedestals</Botania.TerraAltarPlacePedestals>
   <Botania.TerraAltarPlacePedestalsDesc>Drop agglomeration pedestal blueprints on the four empty corners instead of eyeballing each cell. Corners that already have a pedestal or a blueprint are skipped.</Botania.TerraAltarPlacePedestalsDesc>
@@ -129,4 +128,5 @@
   <Botania.TerraAltarAutoHaul>Allow haulers to deliver</Botania.TerraAltarAutoHaul>
   <Botania.TerraAltarAutoHaulDesc>While on, the Hauling work gains a "deliver materials to terra altar" task: idle haulers carry the missing materials onto the slab. It never interrupts a colonist who is already working, and no button press is needed.</Botania.TerraAltarAutoHaulDesc>
   <Botania.TerraAltarHaulOn>Hauler delivery: allowed</Botania.TerraAltarHaulOn>
+  <Botania.TerraPickSpread>Mining: the surrounding 8 tiles are mined in step</Botania.TerraPickSpread>
 </LanguageData>

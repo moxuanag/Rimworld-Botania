@@ -6,7 +6,11 @@ using Verse;
 namespace Botania
 {
     /// <summary>
-    /// 泰拉刃的剑气：一条 12 格的直线冲击，伤害从 30 递减到 10，消耗 400 魔力。
+    /// 泰拉刃的剑气：一条 12 格的直线冲击，伤害从 30 递减到 10，**不耗魔力**，只吃冷却。
+    ///
+    /// 2026-10-24 玩家定：原先扣「附近魔力源」400 魔力，但装备态没有魔力条可以看，
+    /// 玩家只会觉得「按下去没反应」。与其加一条要额外解释的 UI，不如照原作 Terra Blade
+    /// 的手感——挥出去就有，只受 8 秒冷却限制。
     ///
     /// 结构照现有的 Ability_WandSpell（原版灵能套路）：
     /// abilityClass 指向本类，verbProperties 用原版 Verb_CastAbility，
@@ -76,16 +80,6 @@ namespace Botania
                     MessageTypeDefOf.RejectInput, false);
                 return false;
             }
-
-            IManaSource source = ManaSourceUtil.FindNearest(origin, map,
-                blade.Props.searchRadius, blade.Props.waveManaCost - 0.5f, caster);
-            if (source == null)
-            {
-                Messages.Message("Botania.TerraWaveNoMana".Translate(),
-                    MessageTypeDefOf.RejectInput, false);
-                return false;
-            }
-            source.DrainMana(blade.Props.waveManaCost);
 
             StrikeLine(caster, map, origin, aim);
 

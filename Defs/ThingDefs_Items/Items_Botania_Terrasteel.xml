@@ -223,9 +223,10 @@
     </apparel>
   </ThingDef>
 
-  <!-- 泰拉碎岩镐：采矿速度 +50%，兼作近战工具 -->
+  <!-- 泰拉碎岩镐：采矿速度 +50%，采矿时周围八格同步被挖，兼作近战工具 -->
   <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
     <defName>Botania_TerrasteelPick</defName>
+    <tickerType>Normal</tickerType>
     <label>terrasteel pick</label>
     <description>A pick of terrasteel and livingwood. The head drinks the shock of the strike, so it bites deeper with each swing than its weight suggests.</description>
     <possessionCount>1</possessionCount>
@@ -246,6 +247,9 @@
     <equippedStatOffsets>
       <MiningSpeed>0.5</MiningSpeed>
     </equippedStatOffsets>
+    <comps>
+      <li Class="Botania.CompProperties_TerraPick"/>
+    </comps>
     <costList>
       <Botania_TerrasteelIngot>1</Botania_TerrasteelIngot>
       <Botania_Livingwood>3</Botania_Livingwood>
