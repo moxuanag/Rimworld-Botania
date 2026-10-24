@@ -71,19 +71,20 @@
     </value>
   </Operation>
 
-  <!-- 3) 给原版血肉心脏挂「抽取血肉之种」按钮 + 摧毁时掉种子。 -->
+  <!-- 3) 血肉核心（FleshmassNucleus，打完血肉心脏后出现的那个）挂「抽取血肉之种」：
+       走原版 CompUsable / UseItem 作业，小人走过去工作 20 秒，冷却 1 天。 -->
   <Operation Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Anomaly">
-    <xpath>Defs/ThingDef[defName="FleshmassHeart"]/comps</xpath>
+    <xpath>Defs/ThingDef[defName="FleshmassNucleus"]/comps</xpath>
     <value>
-      <li Class="Botania.CompProperties_FleshSeedSource">
+      <li Class="Botania.CompProperties_FleshmassCoreSeeds">
+        <useLabel>抽取血肉之种</useLabel>
+        <useDuration>1200</useDuration>
         <seedDefName>Botania_FleshSeed</seedDefName>
-        <seedsPerExtraction>2</seedsPerExtraction>
-        <cooldownTicks>180000</cooldownTicks>
-        <dropOnDestroy>4</dropOnDestroy>
+        <seedsPerUse>2</seedsPerUse>
+        <cooldownTicks>60000</cooldownTicks>
       </li>
     </value>
   </Operation>
-
 
   <!-- 4) 「播种」设计器挂进原版「杂项」分类（不再自建分类）。 -->
   <Operation Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Anomaly">

@@ -128,6 +128,32 @@ namespace Botania
             Messages.Message("这一格放不下（3×3 需要空地）", MessageTypeDefOf.RejectInput, false);
         }
 
+        [DebugAction("Botania (temp)", "召唤血肉核心（测试用）", allowedGameStates = AllowedGameStates.PlayingOnMap)]
+        public static void SpawnFleshmassNucleus()
+        {
+            Map map = Find.CurrentMap;
+            if (map == null || !ModsConfig.AnomalyActive)
+            {
+                Messages.Message("需要异象 DLC", MessageTypeDefOf.RejectInput, false);
+                return;
+            }
+            PawnKindDef kind = DefDatabase<PawnKindDef>.GetNamed("FleshmassNucleus", false);
+            if (kind == null)
+            {
+                Messages.Message("找不到 PawnKind FleshmassNucleus", MessageTypeDefOf.RejectInput, false);
+                return;
+            }
+            IntVec3 cell = UI.MouseCell();
+            if (!cell.InBounds(map) || !cell.Standable(map))
+            {
+                cell = CellFinder.StandableCellNear(cell, map, 8f);
+            }
+            PawnGenerationRequest request = new PawnGenerationRequest(kind);
+            Pawn pawn = PawnGenerator.GeneratePawn(request);
+            GenSpawn.Spawn(pawn, cell, map);
+            Messages.Message("已召唤血肉核心——选中它右键试试「抽取血肉之种」", MessageTypeDefOf.TaskCompletion, false);
+        }
+
         [DebugAction("Botania (temp)", "诊断：启命英", allowedGameStates = AllowedGameStates.PlayingOnMap)]
         public static void Diagnose()
         {

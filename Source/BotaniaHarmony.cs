@@ -147,6 +147,42 @@ namespace Botania
     }
 
     /// <summary>
+    /// 血肉心脏每次「爆发生长」之后（Grow）由心脏本体掉一枚血肉之种——
+    /// 这是自然产出，不需要玩家操作；玩家能主动抽取的是打完之后出现的血肉核心。
+    /// </summary>
+    [HarmonyPatch(typeof(CompFleshmassHeart), "Grow")]
+    public static class Patch_HeartGrow
+    {
+        public static void Postfix(CompFleshmassHeart __instance)
+        {
+            try
+            {
+                if (!ModsConfig.AnomalyActive || __instance == null)
+                {
+                    return;
+                }
+                Thing heart = __instance.parent;
+                if (heart == null || heart.Map == null)
+                {
+                    return;
+                }
+                ThingDef seedDef = DefDatabase<ThingDef>.GetNamed("Botania_FleshSeed", false);
+                if (seedDef == null)
+                {
+                    return;
+                }
+                Thing seed = ThingMaker.MakeThing(seedDef, null);
+                seed.stackCount = 1;
+                GenPlace.TryPlaceThing(seed, heart.Position, heart.Map, ThingPlaceMode.Near);
+            }
+            catch (Exception ex)
+            {
+                Log.Warning("[Botania] heart grow hook failed: " + ex.Message);
+            }
+        }
+    }
+
+    /// <summary>
     /// 苦丽花的取食点：直接监听技能经验（<c>Pawn_SkillTracker.Learn</c>）。
     /// 任何算得上劳动的行为都会涨经验，因此不需要按 job / 账单去猜「哪一刻算完成」——
     /// 之前挂 EndCurrentJob 漏掉账单活、挂 MakeRecipeProducts 又依赖产出路径，
