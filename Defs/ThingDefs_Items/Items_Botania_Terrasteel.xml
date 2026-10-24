@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ============================================================
+       泰拉钢（Botania_Terrasteel · 4000 点 · 前置「精灵之门」）
+         · 泰拉钢锭：魔力钢锭 + 精灵石英 + 20,000 魔力，在泰拉凝聚台里合成
+         · 泰拉刃 / 泰拉甲 / 泰拉头盔 / 泰拉碎岩镐，各自吃 1 锭
+         · 1 锭 = 1 件装备（已定，见开发文档第一部分 §9–§10）
+       ============================================================ -->
+
+  <!-- 泰拉钢锭：终局主料 -->
+  <ThingDef ParentName="Botania_MaterialBase">
+    <defName>Botania_TerrasteelIngot</defName>
+    <label>terrasteel ingot</label>
+    <description>The metal that grows. Manasteel fed with elven quartz inside the agglomeration platform stops being metal in the ordinary sense and starts putting out roots. Green-gold, warm to the touch, and heavier than it looks.</description>
+    <graphicData>
+      <texPath>Things/Item/Resource/Botania/TerrasteelIngot</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <statBases>
+      <MarketValue>700</MarketValue>
+      <MaxHitPoints>200</MaxHitPoints>
+      <Mass>0.4</Mass>
+      <Flammability>0.0</Flammability>
+      <DeteriorationRate>0.0</DeteriorationRate>
+    </statBases>
+  </ThingDef>
+
+  <!-- 泰拉刃：30 伤害 / 45% 穿透 / 2.0 秒；装备后获得「剑气」技能 -->
+  <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
+    <defName>Botania_TerraBlade</defName>
+    <label>terrasteel blade</label>
+    <description>A terrasteel blade on a livingwood grip. The edge is ordinary enough; what is not ordinary is that the metal remembers the swing. Hold it and the air in front of you can be made to move with it.</description>
+    <possessionCount>1</possessionCount>
+    <graphicData>
+      <texPath>Things/Item/Equipment/WeaponMelee/Botania/TerrasteelSword</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.15,1.15)</drawSize>
+    </graphicData>
+    <techLevel>Ultra</techLevel>
+    <weaponTags>
+      <li>BotaniaMelee</li>
+    </weaponTags>
+    <statBases>
+      <WorkToMake>24000</WorkToMake>
+      <Mass>2.4</Mass>
+      <MarketValue>2400</MarketValue>
+    </statBases>
+    <costList>
+      <Botania_TerrasteelIngot>1</Botania_TerrasteelIngot>
+      <Botania_Livingwood>2</Botania_Livingwood>
+      <Botania_PixieDust>2</Botania_PixieDust>
+    </costList>
+    <recipeMaker>
+      <researchPrerequisite>Botania_Terrasteel</researchPrerequisite>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <soundWorking>Recipe_Machining</soundWorking>
+      <recipeUsers>
+        <li>FueledSmithy</li>
+        <li>ElectricSmithy</li>
+      </recipeUsers>
+      <displayPriority>350</displayPriority>
+      <skillRequirements>
+        <Crafting>8</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <equippedAngleOffset>-65</equippedAngleOffset>
+    <tools>
+      <li>
+        <label>pommel</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>10</power>
+        <cooldownTime>2.0</cooldownTime>
+      </li>
+      <li>
+        <label>point</label>
+        <capacities>
+          <li>Stab</li>
+        </capacities>
+        <power>26</power>
+        <cooldownTime>2.0</cooldownTime>
+        <armorPenetration>0.35</armorPenetration>
+      </li>
+      <li>
+        <label>edge</label>
+        <capacities>
+          <li>Cut</li>
+        </capacities>
+        <power>30</power>
+        <cooldownTime>2.0</cooldownTime>
+        <armorPenetration>0.45</armorPenetration>
+      </li>
+    </tools>
+    <comps>
+      <li Class="Botania.CompProperties_TerraBlade">
+        <waveManaCost>400</waveManaCost>
+        <searchRadius>8</searchRadius>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- 泰拉甲：锐器 110% / 钝器 55% -->
+  <ThingDef ParentName="ApparelBase">
+    <defName>Botania_TerrasteelArmor</defName>
+    <label>terrasteel armor</label>
+    <description>A suit of terrasteel plate that keeps growing into its own scratches. It stops a blade almost completely; a hammer still finds a way through.</description>
+    <techLevel>Ultra</techLevel>
+    <graphicData>
+      <texPath>Things/Pawn/Humanlike/Apparel/Botania_TerrasteelArmor/Botania_TerrasteelArmor</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.00</drawSize>
+    </graphicData>
+    <statBases>
+      <WorkToMake>26000</WorkToMake>
+      <MaxHitPoints>360</MaxHitPoints>
+      <Mass>9</Mass>
+      <Flammability>0</Flammability>
+      <ArmorRating_Sharp>1.10</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.55</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.45</ArmorRating_Heat>
+      <Insulation_Cold>16</Insulation_Cold>
+      <Insulation_Heat>6</Insulation_Heat>
+      <EquipDelay>5</EquipDelay>
+    </statBases>
+    <equippedStatOffsets>
+      <MoveSpeed>-0.12</MoveSpeed>
+    </equippedStatOffsets>
+    <thingCategories>
+      <li>ApparelArmor</li>
+    </thingCategories>
+    <costList>
+      <Botania_TerrasteelIngot>1</Botania_TerrasteelIngot>
+      <Botania_Livingwood>2</Botania_Livingwood>
+      <Botania_PixieDust>2</Botania_PixieDust>
+    </costList>
+    <recipeMaker>
+      <researchPrerequisite>Botania_Terrasteel</researchPrerequisite>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <soundWorking>Recipe_Machining</soundWorking>
+      <recipeUsers>
+        <li>FueledSmithy</li>
+        <li>ElectricSmithy</li>
+      </recipeUsers>
+      <displayPriority>352</displayPriority>
+      <skillRequirements>
+        <Crafting>8</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <apparel>
+      <wornGraphicPath>Things/Pawn/Humanlike/Apparel/Botania_TerrasteelArmor/Botania_TerrasteelArmor</wornGraphicPath>
+      <bodyPartGroups>
+        <li>Torso</li>
+        <li>Neck</li>
+        <li>Shoulders</li>
+        <li>Arms</li>
+        <li>Hands</li>
+        <li>Legs</li>
+        <li>Feet</li>
+      </bodyPartGroups>
+      <layers>
+        <li>Shell</li>
+      </layers>
+    </apparel>
+  </ThingDef>
+
+  <!-- 泰拉头盔：锐器 66% / 钝器 33% -->
+  <ThingDef ParentName="ApparelBase">
+    <defName>Botania_TerrasteelHelmet</defName>
+    <label>terrasteel helmet</label>
+    <description>A full helm of terrasteel with a visor of elven quartz. The metal closes over the face on its own; the opening is exactly wide enough to see through.</description>
+    <techLevel>Ultra</techLevel>
+    <graphicData>
+      <texPath>Things/Pawn/Humanlike/Apparel/Botania_TerrasteelHelmet/Botania_TerrasteelHelmet</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.00</drawSize>
+    </graphicData>
+    <statBases>
+      <WorkToMake>18000</WorkToMake>
+      <MaxHitPoints>240</MaxHitPoints>
+      <Mass>3</Mass>
+      <Flammability>0</Flammability>
+      <ArmorRating_Sharp>0.66</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.33</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.35</ArmorRating_Heat>
+      <Insulation_Cold>6</Insulation_Cold>
+      <Insulation_Heat>2</Insulation_Heat>
+      <EquipDelay>3</EquipDelay>
+    </statBases>
+    <thingCategories>
+      <li>ArmorHeadgear</li>
+    </thingCategories>
+    <costList>
+      <Botania_TerrasteelIngot>1</Botania_TerrasteelIngot>
+      <Botania_PixieDust>1</Botania_PixieDust>
+    </costList>
+    <recipeMaker>
+      <researchPrerequisite>Botania_Terrasteel</researchPrerequisite>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <soundWorking>Recipe_Machining</soundWorking>
+      <recipeUsers>
+        <li>FueledSmithy</li>
+        <li>ElectricSmithy</li>
+      </recipeUsers>
+      <displayPriority>353</displayPriority>
+      <skillRequirements>
+        <Crafting>8</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <apparel>
+      <wornGraphicPath>Things/Pawn/Humanlike/Apparel/Botania_TerrasteelHelmet/Botania_TerrasteelHelmet</wornGraphicPath>
+      <bodyPartGroups>
+        <li>FullHead</li>
+      </bodyPartGroups>
+      <layers>
+        <li>Overhead</li>
+      </layers>
+      <parentTagDef>ApparelHead</parentTagDef>
+    </apparel>
+  </ThingDef>
+
+  <!-- 泰拉碎岩镐：采矿速度 +50%，兼作近战工具 -->
+  <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
+    <defName>Botania_TerrasteelPick</defName>
+    <label>terrasteel pick</label>
+    <description>A pick of terrasteel and livingwood. The head drinks the shock of the strike, so it bites deeper with each swing than its weight suggests.</description>
+    <possessionCount>1</possessionCount>
+    <graphicData>
+      <texPath>Things/Item/Equipment/WeaponMelee/Botania/TerrasteelPick</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.15,1.15)</drawSize>
+    </graphicData>
+    <techLevel>Ultra</techLevel>
+    <weaponTags>
+      <li>BotaniaTool</li>
+    </weaponTags>
+    <statBases>
+      <WorkToMake>16000</WorkToMake>
+      <Mass>2.6</Mass>
+      <MarketValue>1600</MarketValue>
+    </statBases>
+    <equippedStatOffsets>
+      <MiningSpeed>0.5</MiningSpeed>
+    </equippedStatOffsets>
+    <costList>
+      <Botania_TerrasteelIngot>1</Botania_TerrasteelIngot>
+      <Botania_Livingwood>3</Botania_Livingwood>
+    </costList>
+    <recipeMaker>
+      <researchPrerequisite>Botania_Terrasteel</researchPrerequisite>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <soundWorking>Recipe_Machining</soundWorking>
+      <recipeUsers>
+        <li>FueledSmithy</li>
+        <li>ElectricSmithy</li>
+      </recipeUsers>
+      <displayPriority>354</displayPriority>
+      <skillRequirements>
+        <Crafting>8</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <equippedAngleOffset>-65</equippedAngleOffset>
+    <tools>
+      <li>
+        <label>handle</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>8</power>
+        <cooldownTime>2.2</cooldownTime>
+      </li>
+      <li>
+        <label>pick head</label>
+        <capacities>
+          <li>Stab</li>
+        </capacities>
+        <power>18</power>
+        <cooldownTime>2.2</cooldownTime>
+        <armorPenetration>0.22</armorPenetration>
+      </li>
+    </tools>
+  </ThingDef>
+
+</Defs>

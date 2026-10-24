@@ -198,4 +198,26 @@
 
   <Botania_FleshSeed.label>血肉之种</Botania_FleshSeed.label>
   <Botania_FleshSeed.description>一 knot 还在微微抽动的活肉。启命英拿它当燃料：一枚种子能换一段时间的世代，之后细胞群就干枯了。</Botania_FleshSeed.description>
+  <!-- 泰拉钢（v0.7） -->
+  <Botania_TerrasteelIngot.label>泰拉钢锭</Botania_TerrasteelIngot.label>
+  <Botania_TerrasteelIngot.description>被精灵石英喂过的魔力钢。它在凝聚台上停止做金属，开始长根。绿金色，摸着是温的，比看上去重。</Botania_TerrasteelIngot.description>
+
+  <Botania_TerraBlade.label>泰拉刃</Botania_TerraBlade.label>
+  <Botania_TerraBlade.description>活木柄上的泰拉钢刃。刃口本身平平无奇，稀奇的是金属记得这一挥——握住它，身前的空气就会跟着动。</Botania_TerraBlade.description>
+
+  <Botania_TerrasteelArmor.label>泰拉甲</Botania_TerrasteelArmor.label>
+  <Botania_TerrasteelArmor.description>一套会自己长进划痕里的泰拉钢板甲。它几乎完全挡下刀剑；锤子还是能找到路进来。</Botania_TerrasteelArmor.description>
+
+  <Botania_TerrasteelHelmet.label>泰拉头盔</Botania_TerrasteelHelmet.label>
+  <Botania_TerrasteelHelmet.description>覆住整张脸的泰拉钢盔，面甲是一片精灵石英。金属会自己合拢，留出的缝隙刚好够看。</Botania_TerrasteelHelmet.description>
+
+  <Botania_TerrasteelPick.label>泰拉碎岩镐</Botania_TerrasteelPick.label>
+  <Botania_TerrasteelPick.description>泰拉钢与活木打的镐。镐头会吃掉冲击的反震，所以每一镐都比它的分量咬得更深。</Botania_TerrasteelPick.description>
+
+  <Botania_TerrasteelAltar.label>泰拉凝聚台</Botania_TerrasteelAltar.label>
+  <Botania_TerrasteelAltar.description>一块宽阔的活石台面，四角各立一根顶着精灵石英的基座。把魔力钢锭与精灵石英放在台面上，再从一个够深的魔力池里抽一口，平台就会在环心长出泰拉钢。\n\n少一根基座不工作，附近的魔力不够也不工作。</Botania_TerrasteelAltar.description>
+
+  <Botania_TerrasteelPedestal.label>凝聚基座</Botania_TerrasteelPedestal.label>
+  <Botania_TerrasteelPedestal.description>一根矮活石柱，顶端嵌着一枚精灵石英。四根分立在平台四角，用来把魔力拢在台面上，不让它在泰拉钢成形时漏出去。</Botania_TerrasteelPedestal.description>
+
 </LanguageData>

@@ -112,4 +112,13 @@
   <Botania.SowCellNeedBed>只能点在肉床上</Botania.SowCellNeedBed>
   <Botania.SowCellOccupied>这一格已经有细胞了</Botania.SowCellOccupied>
   <Botania.SowCellNoSeed>这张图上没有血肉之种了</Botania.SowCellNoSeed>
+  <Botania.TerraAltarWorking>正在凝聚泰拉钢（{0}）</Botania.TerraAltarWorking>
+  <Botania.TerraAltarNoPedestals>四角基座还缺 {0} 根，凝聚台不工作</Botania.TerraAltarNoPedestals>
+  <Botania.TerraAltarNeedInputs>台面上需要 {0}×{1} + {2}×{3}</Botania.TerraAltarNeedInputs>
+  <Botania.TerraAltarNoMana>需要 {0} 魔力，{1} 格内没有够深的魔力源</Botania.TerraAltarNoMana>
+  <Botania.TerraAltarReady>材料齐全，等魔力源就位即可开工</Botania.TerraAltarReady>
+  <Botania.TerraWaveNoTarget>剑气需要一个方向——朝远处的格子施放</Botania.TerraWaveNoTarget>
+  <Botania.TerraWaveOutOfRange>剑气最远只有 {0} 格</Botania.TerraWaveOutOfRange>
+  <Botania.TerraWaveNoMana>附近没有足够的魔力（需要 400）</Botania.TerraWaveNoMana>
+
 </LanguageData>

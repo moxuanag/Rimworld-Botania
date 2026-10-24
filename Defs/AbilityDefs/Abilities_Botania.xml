@@ -70,4 +70,36 @@
     </verbProperties>
   </AbilityDef>
 
+  <!-- 泰拉刃的剑气：装备泰拉刃时由 MapComponent_WandState 授予。
+       一条 12 格直线，伤害 30 递减到 10，冷却 8 秒（cooldownTicksRange 480）。
+       魔力不在这里扣：Ability_TerraWave 会从 8 格内最近的魔力源抽 400。 -->
+  <AbilityDef>
+    <defName>Botania_TerraWave</defName>
+    <label>terrasteel wave</label>
+    <description>Swing the blade and let the metal remember the arc. A line of force runs twelve cells in front of you, cutting for 30 at the first step and fading to 10 at the far end. Costs 400 mana from a nearby pool.</description>
+    <iconPath>UI/Icons/Botania/TerraWave</iconPath>
+    <abilityClass>Botania.Ability_TerraWave</abilityClass>
+    <hotKey>Misc13</hotKey>
+    <cooldownTicksRange>480</cooldownTicksRange>
+    <displayGizmoWhileUndrafted>false</displayGizmoWhileUndrafted>
+    <showOnCharacterCard>false</showOnCharacterCard>
+    <statBases>
+      <Ability_EffectRadius>1</Ability_EffectRadius>
+    </statBases>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <range>12</range>
+      <warmupTime>0.6</warmupTime>
+      <requireLineOfSight>false</requireLineOfSight>
+      <soundCast>PsycastPsychicEffect</soundCast>
+      <targetParams>
+        <canTargetLocations>true</canTargetLocations>
+        <canTargetPawns>true</canTargetPawns>
+        <canTargetAnimals>true</canTargetAnimals>
+        <canTargetBuildings>true</canTargetBuildings>
+        <canTargetSelf>false</canTargetSelf>
+      </targetParams>
+    </verbProperties>
+  </AbilityDef>
+
 </Defs>

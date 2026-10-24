@@ -7,4 +7,7 @@
   <Botania_SpellConvert.label>就地转化</Botania_SpellConvert.label>
   <Botania_SpellConvert.description>教会选定位置附近的木头与石砖“活着”：原木变活木，石砖变活石。每堆消耗 20 点魔力。</Botania_SpellConvert.description>
 
+  <Botania_TerraWave.label>泰拉剑气</Botania_TerraWave.label>
+  <Botania_TerraWave.description>挥刃，让金属记住这道弧。身前 12 格扫出一道力线，最近一步 30 点切割，最远递减到 10 点。从附近的魔力池抽 400 魔力。</Botania_TerraWave.description>
+
 </LanguageData>

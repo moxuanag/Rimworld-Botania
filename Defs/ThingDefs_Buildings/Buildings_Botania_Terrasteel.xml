@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ============================================================
+       泰拉凝聚台（Terrestrial Agglomeration Platform）
+         · 主体 3×3，四角各立一根基座
+         · **缺一个基座就不工作**（检视栏会写还差几根）
+         · 玩家把魔力钢锭与精灵石英**丢在台面上**，8 格内要有 20,000 魔力
+         · 20,000 魔力 + 2,400 tick 换一枚泰拉钢锭
+       实现见 Source/CompTerraAltar.cs。设计见开发文档第一部分 §12。
+       ============================================================ -->
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>Botania_TerrasteelAltar</defName>
+    <label>terrestrial agglomeration platform</label>
+    <description>A broad livingrock platform ringed with four quartz-topped pedestals. Leave manasteel and elven quartz on the slab, draw deep on a mana pool, and the platform begins to grow terrasteel in the centre of the ring.\n\nIt will not work with a pedestal missing, and it will not work without a deep enough mana pool nearby.</description>
+    <thingClass>Building</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Things/Building/Botania/TerrasteelCore</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Walkable</passability>
+    <pathCost>20</pathCost>
+    <fillPercent>0.3</fillPercent>
+    <rotatable>false</rotatable>
+    <blockWind>false</blockWind>
+    <castEdgeShadows>false</castEdgeShadows>
+    <tickerType>Normal</tickerType>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <size>(3,3)</size>
+    <uiOrder>3000</uiOrder>
+    <statBases>
+      <MaxHitPoints>600</MaxHitPoints>
+      <WorkToBuild>4000</WorkToBuild>
+      <Mass>80</Mass>
+      <Flammability>0.0</Flammability>
+      <Beauty>12</Beauty>
+    </statBases>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Medium</destroySound>
+    </building>
+    <costList>
+      <Botania_ManasteelIngot>6</Botania_ManasteelIngot>
+      <Botania_Livingrock>8</Botania_Livingrock>
+      <Botania_ElvenQuartz>4</Botania_ElvenQuartz>
+    </costList>
+    <researchPrerequisites>
+      <li>Botania_Terrasteel</li>
+    </researchPrerequisites>
+    <comps>
+      <li Class="Botania.CompProperties_TerraAltar">
+        <manaPerIngot>20000</manaPerIngot>
+        <searchRadius>8</searchRadius>
+        <ticksPerIngot>2400</ticksPerIngot>
+        <ingredientA>Botania_ManasteelIngot</ingredientA>
+        <countA>1</countA>
+        <ingredientB>Botania_ElvenQuartz</ingredientB>
+        <countB>1</countB>
+        <product>Botania_TerrasteelIngot</product>
+        <pedestalDef>Botania_TerrasteelPedestal</pedestalDef>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- 基座：四角各一根，缺一不工作 -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>Botania_TerrasteelPedestal</defName>
+    <label>agglomeration pedestal</label>
+    <description>A short pedestal of livingrock topped with a single elven quartz. Four of them, one at each corner of the platform, are what keep the mana from spilling out while terrasteel forms.</description>
+    <thingClass>Building</thingClass>
+    <graphicData>
+      <texPath>Things/Building/Botania/TerrasteelPedestal</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>1</fillPercent>
+    <rotatable>false</rotatable>
+    <blockWind>false</blockWind>
+    <castEdgeShadows>false</castEdgeShadows>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <size>(1,1)</size>
+    <uiOrder>3001</uiOrder>
+    <statBases>
+      <MaxHitPoints>180</MaxHitPoints>
+      <WorkToBuild>400</WorkToBuild>
+      <Mass>20</Mass>
+      <Flammability>0.0</Flammability>
+      <Beauty>3</Beauty>
+    </statBases>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <costList>
+      <Botania_Livingrock>4</Botania_Livingrock>
+      <Botania_ElvenQuartz>1</Botania_ElvenQuartz>
+    </costList>
+    <researchPrerequisites>
+      <li>Botania_Terrasteel</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+</Defs>

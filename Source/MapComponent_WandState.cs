@@ -5,8 +5,8 @@ using Verse;
 namespace Botania
 {
     /// <summary>
-    /// 每 60 tick 扫一遍地图上的玩家小人，做一件事：
-    /// 手里有**基础森林法杖** → 授予「绽花」「就地转化」两个技能；没有 → 收回。
+    /// 每 60 tick 扫一遍地图上的玩家小人，按手里的武器授予/收回技能：
+    /// 基础森林法杖 → 绽花 / 就地转化；泰拉刃 → 剑气（2026-10-24 加）。
     ///
     /// 判定用的是 CompWand（只有基础森林法杖挂了它），不是 CompManaWeapon。
     /// 法杖改型出来的狙击型 / 爆破型同样带 CompManaWeapon（它们要蓄能、要开火），
@@ -24,9 +24,16 @@ namespace Botania
             "Botania_SpellConvert"
         };
 
+        private static readonly string[] TerraWaveDefNames =
+        {
+            "Botania_TerraWave"
+        };
+
         private int ticks;
 
         private List<AbilityDef> spellDefs;
+
+        private List<AbilityDef> terraWaveDefs;
 
         public MapComponent_WandState(Map map) : base(map)
         {
@@ -50,6 +57,32 @@ namespace Botania
                 }
                 return spellDefs;
             }
+        }
+
+        private List<AbilityDef> TerraWaveDefs
+        {
+            get
+            {
+                if (terraWaveDefs == null)
+                {
+                    terraWaveDefs = LoadDefs(TerraWaveDefNames);
+                }
+                return terraWaveDefs;
+            }
+        }
+
+        private static List<AbilityDef> LoadDefs(string[] names)
+        {
+            List<AbilityDef> list = new List<AbilityDef>();
+            for (int i = 0; i < names.Length; i++)
+            {
+                AbilityDef def = DefDatabase<AbilityDef>.GetNamedSilentFail(names[i]);
+                if (def != null)
+                {
+                    list.Add(def);
+                }
+            }
+            return list;
         }
 
         public override void MapComponentTick()
@@ -83,29 +116,31 @@ namespace Botania
             {
                 return;
             }
+            ThingWithComps primary = pawn.equipment.Primary;
             // 只认 CompWand：法杖改型的两个变体没有它，因此拿不到这两个法术
-            bool hasWand = pawn.equipment.Primary?.GetComp<CompWand>() != null;
+            bool hasWand = primary?.GetComp<CompWand>() != null;
+            bool hasBlade = primary?.GetComp<CompTerraBlade>() != null;
 
-            SyncAbilities(pawn, hasWand);
+            SyncAbilities(pawn, SpellDefs, hasWand);
+            SyncAbilities(pawn, TerraWaveDefs, hasBlade);
         }
 
-        private void SyncAbilities(Pawn pawn, bool hasWand)
+        private void SyncAbilities(Pawn pawn, List<AbilityDef> defs, bool shouldHave)
         {
             Pawn_AbilityTracker tracker = pawn.abilities;
             if (tracker == null)
             {
                 return;
             }
-            List<AbilityDef> defs = SpellDefs;
             for (int i = 0; i < defs.Count; i++)
             {
                 AbilityDef def = defs[i];
                 bool known = tracker.GetAbility(def) != null;
-                if (hasWand && !known)
+                if (shouldHave && !known)
                 {
                     tracker.GainAbility(def);
                 }
-                else if (!hasWand && known)
+                else if (!shouldHave && known)
                 {
                     tracker.RemoveAbility(def);
                 }

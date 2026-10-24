@@ -112,4 +112,13 @@
   <Botania.SowCellNeedBed>Target must be a flesh-bed tile</Botania.SowCellNeedBed>
   <Botania.SowCellOccupied>There is already a cell there</Botania.SowCellOccupied>
   <Botania.SowCellNoSeed>No flesh seed left on this map</Botania.SowCellNoSeed>
+  <Botania.TerraAltarWorking>Growing terrasteel ({0})</Botania.TerraAltarWorking>
+  <Botania.TerraAltarNoPedestals>Missing {0} corner pedestal(s) — the platform will not work</Botania.TerraAltarNoPedestals>
+  <Botania.TerraAltarNeedInputs>The slab needs {0}×{1} + {2}×{3}</Botania.TerraAltarNeedInputs>
+  <Botania.TerraAltarNoMana>Needs {0} mana; no pool deep enough within {1} cells</Botania.TerraAltarNoMana>
+  <Botania.TerraAltarReady>Inputs are in place; waiting on a mana pool</Botania.TerraAltarReady>
+  <Botania.TerraWaveNoTarget>A wave needs a direction — cast at a distant cell</Botania.TerraWaveNoTarget>
+  <Botania.TerraWaveOutOfRange>The wave reaches only {0} cells</Botania.TerraWaveOutOfRange>
+  <Botania.TerraWaveNoMana>Not enough mana nearby (400 needed)</Botania.TerraWaveNoMana>
+
 </LanguageData>

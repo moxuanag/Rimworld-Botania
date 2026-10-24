@@ -232,7 +232,7 @@
   <ResearchProjectDef>
     <defName>Botania_Terrasteel</defName>
     <label>botania: terrasteel</label>
-    <description>Placeholder: the terrestrial agglomeration platform, terrasteel and the Gaia ritual. Content arrives in a later version.</description>
+    <description>Feed manasteel and elven quartz to a ring of four pedestals and draw twenty thousand mana through it. What comes out is terrasteel: metal that grows. Every piece of it buys one blade, one suit of plate, one helm or one pick.</description>
     <baseCost>4000</baseCost>
     <techLevel>Spacer</techLevel>
     <tab>Botania</tab>
