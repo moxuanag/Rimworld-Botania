@@ -15,14 +15,13 @@
     <label>terrestrial agglomeration platform</label>
     <description>A broad livingrock platform ringed with four quartz-topped pedestals. Leave manasteel and elven quartz on the slab, draw deep on a mana pool, and the platform begins to grow terrasteel in the centre of the ring.\n\nIt will not work with a pedestal missing, and it will not work without a deep enough mana pool nearby.</description>
     <thingClass>Building</thingClass>
-    <drawerType>MapMeshAndRealTime</drawerType>
     <graphicData>
       <texPath>Things/Building/Botania/TerrasteelCore</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>(3,3)</drawSize>
     </graphicData>
     <altitudeLayer>Building</altitudeLayer>
-    <passability>Walkable</passability>
+    <passability>Standable</passability>
     <pathCost>20</pathCost>
     <fillPercent>0.3</fillPercent>
     <rotatable>false</rotatable>
@@ -50,6 +49,9 @@
     <researchPrerequisites>
       <li>Botania_Terrasteel</li>
     </researchPrerequisites>
+    <thingCategories>
+      <li>BotaniaBuildings</li>
+    </thingCategories>
     <comps>
       <li Class="Botania.CompProperties_TerraAltar">
         <manaPerIngot>20000</manaPerIngot>
@@ -103,6 +105,9 @@
     <researchPrerequisites>
       <li>Botania_Terrasteel</li>
     </researchPrerequisites>
+    <thingCategories>
+      <li>BotaniaBuildings</li>
+    </thingCategories>
   </ThingDef>
 
 </Defs>
