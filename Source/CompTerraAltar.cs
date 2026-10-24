@@ -60,14 +60,13 @@ namespace Botania
         private int progress;
         private bool running;
 
-        /// <summary>是否开启「自动搬运材料」（玩家用 Gizmo 开关）。</summary>
-        private bool autoHaul;
+        /// <summary>
+        /// 是否允许搬运工给这座台子送料（玩家用 Gizmo 开关）。
+        /// 真正的派活由 Hauling 工作里的 WorkGiver_TerraAltarDeliver 负责，这里只是许可位。
+        /// </summary>
+        private bool autoHaul = true;
 
-        /// <summary>上一次派搬运 job 的 tick，用于限流。</summary>
-        private int lastHaulOrderTick = -9999;
-
-        /// <summary>最近一次派单的结果说明键（空 = 还没派过）。</summary>
-        private string haulStatusKey;
+        public bool AutoHaul => autoHaul;
 
         private Map Map => parent.Map;
 
@@ -83,12 +82,7 @@ namespace Botania
             {
                 sb.Append('\n');
             }
-            string status = haulStatusKey != null ? haulStatusKey.Translate() : "";
             sb.Append("Botania.TerraAltarHaulOn".Translate());
-            if (!string.IsNullOrEmpty(status))
-            {
-                sb.Append(" · ").Append(status);
-            }
         }
 
         /// <summary>四个对角基座所在的格子（几何见 TerraAltarCorners，放置预览用的是同一份）。</summary>
@@ -150,11 +144,35 @@ namespace Botania
             return CountOnPlatform(def);
         }
 
-        /// <summary>记一次派单，顺便清掉状态。</summary>
-        public void NoteHaulOrdered()
+        /// <summary>
+        /// 台面还缺什么料：缺就返回 true，并给出材料 def 与缺口数量。
+        /// 搬运 WorkGiver 与生产判定共用这一份口径。
+        /// </summary>
+        public bool TryGetNeed(out ThingDef def, out int count)
         {
-            lastHaulOrderTick = Find.TickManager.TicksGame;
-            haulStatusKey = "Botania.TerraAltarHaulBusy";
+            def = null;
+            count = 0;
+            if (Props.ingredientA != null)
+            {
+                int haveA = CountOnPlatform(Props.ingredientA);
+                if (haveA < Props.countA)
+                {
+                    def = Props.ingredientA;
+                    count = Props.countA - haveA;
+                    return true;
+                }
+            }
+            if (Props.ingredientB != null)
+            {
+                int haveB = CountOnPlatform(Props.ingredientB);
+                if (haveB < Props.countB)
+                {
+                    def = Props.ingredientB;
+                    count = Props.countB - haveB;
+                    return true;
+                }
+            }
+            return false;
         }
 
         /// <summary>台面（3×3 自身格）上某材料的总数。</summary>
@@ -241,26 +259,7 @@ namespace Botania
                 return;
             }
             TryStart();
-
-            // 没开工时才去补材料：开了自动搬运就让小人把缺的搬上来
-            if (autoHaul && Find.TickManager.TicksGame - lastHaulOrderTick
-                >= TerraAltarHauling.OrderCooldownTicks)
-            {
-                string reason;
-                if (TerraAltarHauling.TryOrderHaul(this, out reason))
-                {
-                    haulStatusKey = "Botania.TerraAltarHaulOrdered";
-                }
-                else if (reason == "no hauler")
-                {
-                    haulStatusKey = "Botania.TerraAltarHaulNoHauler";
-                }
-                else if (reason == "no ingredient")
-                {
-                    haulStatusKey = "Botania.TerraAltarHaulNoStock";
-                }
-                lastHaulOrderTick = Find.TickManager.TicksGame;
-            }
+            // 送料不在这里做：交给 Hauling 工作里的 WorkGiver_TerraAltarDeliver
         }
 
         private void TryStart()
@@ -424,15 +423,7 @@ namespace Botania
                 defaultDesc = "Botania.TerraAltarAutoHaulDesc".Translate(),
                 icon = ContentFinder<Texture2D>.Get("UI/Commands/Botania_HaulToAltar"),
                 isActive = () => autoHaul,
-                toggleAction = delegate
-                {
-                    autoHaul = !autoHaul;
-                    lastHaulOrderTick = -9999;
-                    if (!autoHaul)
-                    {
-                        haulStatusKey = null;
-                    }
-                }
+                toggleAction = delegate { autoHaul = !autoHaul; }
             };
             return toggle;
         }
@@ -487,7 +478,7 @@ namespace Botania
             base.PostExposeData();
             Scribe_Values.Look(ref progress, "botaniaTerraAltarProgress", 0);
             Scribe_Values.Look(ref running, "botaniaTerraAltarRunning", false);
-            Scribe_Values.Look(ref autoHaul, "botaniaTerraAltarAutoHaul", false);
+            Scribe_Values.Look(ref autoHaul, "botaniaTerraAltarAutoHaul", true);
         }
     }
 }
