@@ -148,47 +148,14 @@ namespace Botania
     }
 
     /// <summary>
-    /// 血肉核心是 Pawn，原版右键菜单只走 Pawn.GetFloatMenuOptions，不会遍历 comps，
-    /// 所以自己补一项「抽取血肉之种」（点下去派小人去用 UseItem 作业）。
+    /// 血肉核心（FleshmassNucleus）每天收缩一次、产出扭曲肉（CompFleshmassNucleus.CreateMeat）。
+    /// 我们只做一件事：在它产肉的同时顺手掉一枚血肉之种。
+    /// 不碰原版心脏、不碰任何工作逻辑、不需要小人操作。
     /// </summary>
-    [HarmonyPatch(typeof(Pawn), nameof(Pawn.GetFloatMenuOptions))]
-    public static class Patch_PawnFloatMenuForCore
+    [HarmonyPatch(typeof(CompFleshmassNucleus), "CreateMeat")]
+    public static class Patch_NucleusCreateMeat
     {
-        public static IEnumerable<FloatMenuOption> Postfix(
-            IEnumerable<FloatMenuOption> __result, Pawn __instance, Pawn selPawn)
-        {
-            if (__result != null)
-            {
-                foreach (FloatMenuOption option in __result)
-                {
-                    yield return option;
-                }
-            }
-            if (__instance == null || selPawn == null || !selPawn.IsColonistPlayerControlled)
-            {
-                yield break;
-            }
-            CompFleshmassCoreSeeds comp = __instance.TryGetComp<CompFleshmassCoreSeeds>();
-            if (comp == null)
-            {
-                yield break;
-            }
-            FloatMenuOption mine = comp.MakeFloatMenuOption(selPawn);
-            if (mine != null)
-            {
-                yield return mine;
-            }
-        }
-    }
-
-    /// <summary>
-    /// 血肉心脏每次「爆发生长」之后（Grow）由心脏本体掉一枚血肉之种——
-    /// 这是自然产出，不需要玩家操作；玩家能主动抽取的是打完之后出现的血肉核心。
-    /// </summary>
-    [HarmonyPatch(typeof(CompFleshmassHeart), "Grow")]
-    public static class Patch_HeartGrow
-    {
-        public static void Postfix(CompFleshmassHeart __instance)
+        public static void Postfix(CompFleshmassNucleus __instance)
         {
             try
             {
@@ -196,8 +163,8 @@ namespace Botania
                 {
                     return;
                 }
-                Thing heart = __instance.parent;
-                if (heart == null || heart.Map == null)
+                Pawn nucleus = __instance.parent as Pawn;
+                if (nucleus == null || nucleus.Map == null)
                 {
                     return;
                 }
@@ -208,11 +175,11 @@ namespace Botania
                 }
                 Thing seed = ThingMaker.MakeThing(seedDef, null);
                 seed.stackCount = 1;
-                GenPlace.TryPlaceThing(seed, heart.Position, heart.Map, ThingPlaceMode.Near);
+                GenPlace.TryPlaceThing(seed, nucleus.Position, nucleus.Map, ThingPlaceMode.Near);
             }
             catch (Exception ex)
             {
-                Log.Warning("[Botania] heart grow hook failed: " + ex.Message);
+                Log.Warning("[Botania] nucleus meat hook failed: " + ex.Message);
             }
         }
     }

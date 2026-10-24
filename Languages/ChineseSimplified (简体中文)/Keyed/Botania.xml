@@ -93,10 +93,6 @@
   <Botania.LifeOrchidNoAnomaly>休眠中——需要异象 DLC</Botania.LifeOrchidNoAnomaly>
   <Botania.LifeOrchidStatus>第 {0} 代 · 剩余 {1} 代燃料 · 每格存活 {2} 代后自然凋亡</Botania.LifeOrchidStatus>
   <Botania.LifeOrchidNeedBed>需要在 {1}×{1} 范围内铺至少 {0} 格肉床</Botania.LifeOrchidNeedBed>
-  <Botania.ExtractFleshSeed>抽取血肉之种</Botania.ExtractFleshSeed>
-  <Botania.ExtractFleshSeedDesc>从心脏里割下一枚种子，它会慢慢长回来。</Botania.ExtractFleshSeedDesc>
-  <Botania.ExtractFleshSeedCooling>恢复中——还需 {0} 小时</Botania.ExtractFleshSeedCooling>
-  <Botania.ExtractFleshSeedReady>血肉之种还需 {0} 小时长成</Botania.ExtractFleshSeedReady>
   <Botania.LifeOrchidBlocked>罢工：范围内有别的建筑，先把场地清空</Botania.LifeOrchidBlocked>
   <Botania.LifeOrchidStart>启动演化</Botania.LifeOrchidStart>
   <Botania.LifeOrchidStop>暂停演化</Botania.LifeOrchidStop>
@@ -111,7 +107,4 @@
   <Botania.SowCellOccupied>这一格已经有细胞了</Botania.SowCellOccupied>
   <Botania.SowCellNoSeed>这张图上没有血肉之种了</Botania.SowCellNoSeed>
   <Botania.FleshSeedCellInfo>启命英的活细胞 · 第 {0} 代 · 年龄 {1}/{2}</Botania.FleshSeedCellInfo>
-  <Botania.CoreSeedReady>可以抽取血肉之种</Botania.CoreSeedReady>
-  <Botania.CoreSeedCooling>核心恢复中——还需 {0} 小时</Botania.CoreSeedCooling>
-  <Botania.ExtractCoreSeed>抽取血肉之种</Botania.ExtractCoreSeed>
 </LanguageData>
