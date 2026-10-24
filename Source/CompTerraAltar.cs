@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Text;
 using RimWorld;
+using UnityEngine;
 using Verse;
 
 namespace Botania
@@ -281,6 +282,98 @@ namespace Botania
             }
             sb.Append("Botania.TerraAltarReady".Translate());
             return sb.ToString();
+        }
+
+        /// <summary>这一格上有没有「基座的蓝图」（还没盖起来也算占位）。</summary>
+        private bool HasPedestalBlueprintAt(IntVec3 cell)
+        {
+            Map map = Map;
+            if (map == null || !cell.InBounds(map))
+            {
+                return false;
+            }
+            List<Thing> things = cell.GetThingList(map);
+            for (int i = 0; i < things.Count; i++)
+            {
+                if (things[i] is Blueprint bp && bp.def.entityDefToBuild == Props.pedestalDef)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 选中凝聚台时的「补齐四角基座」按钮：直接在对角格放蓝图，
+        /// 和原版「点建筑就给你把附属件摆好」的体验一致。
+        /// </summary>
+        public override IEnumerable<Gizmo> CompGetGizmosExtra()
+        {
+            foreach (Gizmo g in base.CompGetGizmosExtra())
+            {
+                yield return g;
+            }
+            if (parent.Faction != Faction.OfPlayer)
+            {
+                yield break;
+            }
+            Command_Action place = new Command_Action
+            {
+                defaultLabel = "Botania.TerraAltarPlacePedestals".Translate(),
+                defaultDesc = "Botania.TerraAltarPlacePedestalsDesc".Translate(),
+                icon = ContentFinder<Texture2D>.Get("UI/Commands/Botania_PlacePedestals"),
+                action = PlaceMissingPedestals
+            };
+            if (MissingPedestals == 0)
+            {
+                place.Disable("Botania.TerraAltarPedestalsComplete".Translate());
+            }
+            yield return place;
+        }
+
+        private void PlaceMissingPedestals()
+        {
+            Map map = Map;
+            if (map == null || Props.pedestalDef == null)
+            {
+                return;
+            }
+            int placed = 0;
+            int blocked = 0;
+            List<IntVec3> cells = PedestalCells();
+            for (int i = 0; i < cells.Count; i++)
+            {
+                IntVec3 cell = cells[i];
+                if (!cell.InBounds(map))
+                {
+                    blocked++;
+                    continue;
+                }
+                if (HasPedestalAt(cell) || HasPedestalBlueprintAt(cell))
+                {
+                    continue;
+                }
+                AcceptanceReport report = GenConstruct.CanPlaceBlueprintAt(
+                    Props.pedestalDef, cell, Rot4.North, map, false, null, null);
+                if (!report.Accepted)
+                {
+                    blocked++;
+                    continue;
+                }
+                GenConstruct.PlaceBlueprintForBuild(
+                    Props.pedestalDef, cell, map, Rot4.North, Faction.OfPlayer, null);
+                placed++;
+            }
+            if (placed > 0)
+            {
+                Messages.Message("Botania.TerraAltarPlacedPedestals".Translate(placed),
+                    parent, MessageTypeDefOf.TaskCompletion, false);
+            }
+            if (blocked > 0)
+            {
+                Messages.Message("Botania.TerraAltarPedestalsBlocked".Translate(blocked),
+                    parent, MessageTypeDefOf.RejectInput, false);
+            }
         }
 
         public override void PostExposeData()
