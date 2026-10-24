@@ -86,23 +86,54 @@ namespace Botania
             IntVec3 dropCell = DropCell(altar);
             Job job = JobMaker.MakeJob(JobDefOf.HaulToCell, stack, dropCell);
             job.count = needCount;
-            job.haulMode = HaulMode.ToCellStorage;
+            // 台面不是储物区，明确告诉 driver「到点就地放下」
+            job.haulMode = HaulMode.ToCellNonStorage;
             hauler.jobs.TryTakeOrderedJob(job, JobTag.Misc);
             altar.NoteHaulOrdered();
+            if (Prefs.DevMode)
+            {
+                Log.Message("[Botania] 凝聚台派搬运：" + hauler.LabelShort + " → "
+                    + needDef.label + " ×" + needCount + " → " + dropCell);
+            }
             return true;
         }
 
-        /// <summary>台面中心那格（放材料的落点）。</summary>
+        /// <summary>
+        /// 材料落点：台面上**除中心以外**的格。
+        ///
+        /// 中心那格是泰拉钢的产出点（`FinishIngot` 在 CenterCell 生成成品），
+        /// 把材料堆在中心会挡住成品落点，所以材料一律放外圈八格。
+        /// 挑法：优先选没东西的格，其次选东西最少的格。
+        /// </summary>
         private static IntVec3 DropCell(CompTerraAltar altar)
         {
+            Map map = altar.parent.Map;
             CellRect rect = altar.parent.OccupiedRect();
             IntVec3 center = rect.CenterCell;
-            Map map = altar.parent.Map;
-            if (center.InBounds(map))
+            IntVec3 best = IntVec3.Invalid;
+            int bestCount = int.MaxValue;
+            foreach (IntVec3 cell in rect)
             {
-                return center;
+                if (cell == center || !cell.InBounds(map) || !cell.Standable(map))
+                {
+                    continue;
+                }
+                int count = cell.GetThingList(map).Count;
+                if (count < bestCount)
+                {
+                    bestCount = count;
+                    best = cell;
+                }
+                if (count == 0)
+                {
+                    break;
+                }
             }
-            return altar.parent.Position;
+            if (best.IsValid)
+            {
+                return best;
+            }
+            return center.InBounds(map) ? center : altar.parent.Position;
         }
 
         private static Thing FindStack(Map map, ThingDef def, IntVec3 near, CompTerraAltar altar)
@@ -140,6 +171,31 @@ namespace Botania
             return best;
         }
 
+        /// <summary>
+        /// 「闲到可以派活」：没有 job，或者当前 job 只是原版的等待/闲逛。
+        ///
+        /// 踩过的坑：第一版要求 `curJob == null`，结果实机**永远等不到人**——
+        /// 原版小人待命时挂着 `Wait` / `Wait_Wander`，curJob 几乎不为空。
+        /// </summary>
+        private static bool IsIdleEnough(Pawn p)
+        {
+            Job cur = p.jobs?.curJob;
+            if (cur == null)
+            {
+                return true;
+            }
+            JobDef def = cur.def;
+            if (def == null)
+            {
+                return false;
+            }
+            return def == JobDefOf.Wait
+                || def == JobDefOf.Wait_Wander
+                || def == JobDefOf.Wait_Downed
+                || def == JobDefOf.GotoWander
+                || def.defName == "Wait_MaintainPosture";
+        }
+
         private static Pawn FindIdleHauler(Map map, IntVec3 near, Thing stack)
         {
             Pawn best = null;
@@ -160,8 +216,8 @@ namespace Botania
                 {
                     continue;
                 }
-                // 手头有活就不打断它
-                if (p.jobs.curJob != null)
+                // 手头有活就不打断它——但「原地发呆」也是 job（Wait/Wait_Wander），要放行
+                if (!IsIdleEnough(p))
                 {
                     continue;
                 }
