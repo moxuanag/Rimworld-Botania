@@ -21,6 +21,8 @@ namespace Botania
     {
         private static readonly Color BuildingRing = new Color(0.92f, 0.88f, 0.55f, 0.75f);
         private static readonly Color InnerRing = new Color(0.55f, 0.92f, 0.62f, 0.85f);
+        private static readonly Color CornerHave = new Color(0.55f, 0.92f, 0.62f, 0.85f);
+        private static readonly Color CornerNeed = new Color(0.95f, 0.78f, 0.35f, 0.9f);
 
         public MapComponent_Rings(Map map) : base(map)
         {
@@ -62,6 +64,60 @@ namespace Botania
                 if (ring != null && ring.Props.radius > 0f)
                 {
                     GenDraw.DrawRadiusRing(pos, ring.Props.radius, BuildingRing);
+                }
+
+                // 凝台蓝图：还没盖起来，四个角一律按「缺」画
+                if (thing is Blueprint blueprint &&
+                    blueprint.def.entityDefToBuild?.defName == "Botania_TerrasteelAltar")
+                {
+                    List<IntVec3> wanted = new List<IntVec3>();
+                    CellRect rect = thing.OccupiedRect();
+                    List<IntVec3> all = TerraAltarCorners.Of(rect);
+                    for (int c = 0; c < all.Count; c++)
+                    {
+                        if (all[c].InBounds(map))
+                        {
+                            wanted.Add(all[c]);
+                        }
+                    }
+                    if (wanted.Count > 0)
+                    {
+                        GenDraw.DrawFieldEdges(wanted, CornerNeed);
+                    }
+                    continue;
+                }
+
+                // 凝台：把四个基座的位置标出来——放了基座的绿、缺的黄
+                CompTerraAltar altar = thing.TryGetComp<CompTerraAltar>();
+                if (altar != null)
+                {
+                    List<IntVec3> have = new List<IntVec3>();
+                    List<IntVec3> need = new List<IntVec3>();
+                    List<IntVec3> cells = altar.PedestalCells();
+                    for (int c = 0; c < cells.Count; c++)
+                    {
+                        IntVec3 cell = cells[c];
+                        if (!cell.InBounds(map))
+                        {
+                            continue;
+                        }
+                        if (altar.HasPedestalAt(cell))
+                        {
+                            have.Add(cell);
+                        }
+                        else
+                        {
+                            need.Add(cell);
+                        }
+                    }
+                    if (have.Count > 0)
+                    {
+                        GenDraw.DrawFieldEdges(have, CornerHave);
+                    }
+                    if (need.Count > 0)
+                    {
+                        GenDraw.DrawFieldEdges(need, CornerNeed);
+                    }
                 }
 
                 // 内圈：贴身小范围（白雏菊的转化格）

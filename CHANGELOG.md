@@ -52,6 +52,15 @@
   引擎**不会**回落到无体型后缀的图，缺一张就在渲染那一帧报
   `Failed to find any textures at ..._Male`
 
+### 改进（2026-10-24 · 凝聚台四角提示）
+- **放置蓝图 / 选中建筑时，直接画出四个基座该放的位置**，不用玩家自己数格子：
+  - 放蓝图时：已有基座=绿、空位=天蓝、被别的建筑占住=橙
+  - 选中已建成的凝聚台：已有=绿、缺=黄
+  - 选中还没盖的凝聚台蓝图：四角全黄
+- 三个入口共用 `TerraAltarCorners.Of(CellRect)` 一份几何；
+  放置预览用 `PlaceWorker_TerraPedestals`，选中态挂在 `MapComponent_Rings`
+  （与魔力池范围环同一套：建筑的 `Draw` 不一定调到 `Comp.PostDraw`）
+
 ### 修复（2026-10-24 · 凝聚台在建造菜单里搜不到）
 - **根因**：`Botania_TerrasteelAltar` / `Botania_TerrasteelPedestal` 漏写 `<designationCategory>`。
   `BuildingBase` 不带这一项，漏了不会报错、生成物品也能刷出来，但建筑师菜单里**根本不存在**。
