@@ -98,4 +98,16 @@
   <Botania.ExtractFleshSeedCooling>恢复中——还需 {0} 小时</Botania.ExtractFleshSeedCooling>
   <Botania.ExtractFleshSeedReady>血肉之种还需 {0} 小时长成</Botania.ExtractFleshSeedReady>
   <Botania.LifeOrchidBlocked>罢工：范围内有别的建筑，先把场地清空</Botania.LifeOrchidBlocked>
+  <Botania.LifeOrchidStart>启动演化</Botania.LifeOrchidStart>
+  <Botania.LifeOrchidStop>暂停演化</Botania.LifeOrchidStop>
+  <Botania.LifeOrchidToggleDesc>在肉床上每隔几秒推进一代。只按「变化」付钱，场内有人的时候会自动暂停。</Botania.LifeOrchidToggleDesc>
+  <Botania.LifeOrchidRunning>运行中</Botania.LifeOrchidRunning>
+  <Botania.LifeOrchidPaused>已暂停</Botania.LifeOrchidPaused>
+  <Botania.LifeOrchidStatus2>{0} · 第 {1} 代 · {2} 个活细胞 · 每格存活 {3} 代后凋亡</Botania.LifeOrchidStatus2>
+  <Botania.LifeOrchidPawnInside>已暂停——范围内有人站着</Botania.LifeOrchidPawnInside>
+  <Botania.SowCell>播种（血肉细胞）</Botania.SowCell>
+  <Botania.SowCellDesc>在肉床格上放一枚血肉之种作为活细胞。用它画出起始图案。</Botania.SowCellDesc>
+  <Botania.SowCellNeedBed>只能点在肉床上</Botania.SowCellNeedBed>
+  <Botania.SowCellOccupied>这一格已经有细胞了</Botania.SowCellOccupied>
+  <Botania.SowCellNoSeed>这张图上没有血肉之种了</Botania.SowCellNoSeed>
 </LanguageData>

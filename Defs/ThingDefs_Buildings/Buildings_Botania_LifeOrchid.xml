@@ -56,9 +56,9 @@
         <manaPerChange>12</manaPerChange>
         <maxManaPerGeneration>600</maxManaPerGeneration>
         <cellLifespan>30</cellLifespan>
-        <generationsPerSeed>20</generationsPerSeed>
-        <minFleshCells>25</minFleshCells>
         <poolRadius>6</poolRadius>
+        <seedDefName>Botania_FleshSeed</seedDefName>
+        <bedDefName>Botania_FleshBed</bedDefName>
       </li>
       <li Class="Botania.CompProperties_RadiusRing">
         <radius>5.5</radius>
