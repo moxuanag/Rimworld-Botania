@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using RimWorld;
+using UnityEngine;
 using Verse;
 
 namespace Botania
@@ -512,6 +513,7 @@ namespace Botania
             }
             yield return new Command_Toggle
             {
+                icon = ContentFinder<Texture2D>.Get("UI/Commands/Botania_GateToggle"),
                 defaultLabel = "Botania.GateToggle".Translate(),
                 defaultDesc = "Botania.GateToggleDesc".Translate(),
                 isActive = () => enabled,

@@ -72,10 +72,11 @@
 - **元素甲/盔披挂图重画**：4 倍超采样抗锯齿、甲片渐变 + 描边 + 高光 + 铆钉、
   布衣内衬、柔和投影；比例按工坊护甲贴图量出的身体轮廓对齐
 
+### 修复（2026-10-24 · 精灵门开关图标）
+- **精灵门开关 gizmo 没图标**：补 `Textures/UI/Commands/Botania_GateToggle.png`
+  （128×128 透明底，程序生成的拱门 + 门洞青光），`Command_Toggle.icon` 用 `ContentFinder` 取
+
 ### 已知问题
-- **精灵门的开关 gizmo 没有图标**（`Command_Toggle` 未设 `icon`，显示空白方块）。
-  规则已写进文档：以后所有 `Command_Toggle` / `Command_Action` 都要给 `icon`
-  并在 `Textures/UI/Commands/` 下生成贴图
 - 元素剑「命中 20% 追加 8 点伤害」的小精灵演出未做（需要近战命中钩子）
 
 ### 修复
