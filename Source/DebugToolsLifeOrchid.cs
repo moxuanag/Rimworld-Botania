@@ -94,6 +94,40 @@ namespace Botania
             Messages.Message("已放启命英 + " + placed + " 个细胞（血肉之种）", MessageTypeDefOf.TaskCompletion, false);
         }
 
+        [DebugAction("Botania (temp)", "召唤血肉心脏（测试用）", allowedGameStates = AllowedGameStates.PlayingOnMap)]
+        public static void SpawnFleshmassHeart()
+        {
+            Map map = Find.CurrentMap;
+            if (map == null)
+            {
+                return;
+            }
+            if (!ModsConfig.AnomalyActive)
+            {
+                Messages.Message("需要异象 DLC", MessageTypeDefOf.RejectInput, false);
+                return;
+            }
+            ThingDef heart = DefDatabase<ThingDef>.GetNamed("FleshmassHeart", false);
+            if (heart == null)
+            {
+                Messages.Message("找不到 FleshmassHeart", MessageTypeDefOf.RejectInput, false);
+                return;
+            }
+            IntVec3 cell = UI.MouseCell();
+            if (!cell.InBounds(map))
+            {
+                cell = map.Center;
+            }
+            // 3x3 占地：找一块能放下的地方
+            if (!GenSpawn.WouldWipeAnythingWith(cell, Rot4.North, heart, map, (Thing t) => true))
+            {
+                GenSpawn.Spawn(heart, cell, map, Rot4.North);
+                Messages.Message("已召唤血肉心脏——选中它看「抽取血肉之种」按钮", MessageTypeDefOf.TaskCompletion, false);
+                return;
+            }
+            Messages.Message("这一格放不下（3×3 需要空地）", MessageTypeDefOf.RejectInput, false);
+        }
+
         [DebugAction("Botania (temp)", "诊断：启命英", allowedGameStates = AllowedGameStates.PlayingOnMap)]
         public static void Diagnose()
         {
