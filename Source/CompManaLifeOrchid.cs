@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using RimWorld;
+using UnityEngine;
 using Verse;
 
 namespace Botania
@@ -345,22 +346,15 @@ namespace Botania
             Command_Action toggle = new Command_Action();
             toggle.defaultLabel = (running ? "Botania.LifeOrchidStop" : "Botania.LifeOrchidStart").Translate();
             toggle.defaultDesc = "Botania.LifeOrchidToggleDesc".Translate();
+            toggle.icon = ContentFinder<Texture2D>.Get(
+                running ? "UI/Icons/Botania/PauseGenerations" : "UI/Icons/Botania/StartGenerations",
+                false);
             toggle.action = delegate
             {
+                // 注意：这里**不重置年龄**。否则玩家可以卡在 29 代反复暂停/启动，
+                // 让细胞永远不老——那样不用补种就能无限产出。
                 running = !running;
-                if (running)
-                {
-                    generation = 0;
-                    for (int i = 0; i < age.Length; i++)
-                    {
-                        age[i] = 0;
-                    }
-                }
             };
-            if (running)
-            {
-                toggle.hotKey = KeyBindingDefOf.Misc1;
-            }
             yield return toggle;
         }
 
