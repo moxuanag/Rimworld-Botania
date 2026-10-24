@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!--
+    给泰拉凝聚台送料：归「搬运」工作，和「运材料给蓝图/框架」同一类。
+    派出去的是原版 JobDefOf.HaulToCell，没有自定义 JobDriver。
+    优先级 8：比运材料给蓝图（9）稍微靠后一点，别抢工地供料。
+  -->
+  <WorkGiverDef>
+    <defName>BotaniaDeliverToTerraAltar</defName>
+    <label>deliver materials to terra altar</label>
+    <giverClass>Botania.WorkGiver_TerraAltarDeliver</giverClass>
+    <workType>Hauling</workType>
+    <priorityInType>8</priorityInType>
+    <verb>deliver to</verb>
+    <gerund>delivering to</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+    <nonColonistsCanDo>true</nonColonistsCanDo>
+    <prioritizeSustains>true</prioritizeSustains>
+  </WorkGiverDef>
+
+</Defs>
