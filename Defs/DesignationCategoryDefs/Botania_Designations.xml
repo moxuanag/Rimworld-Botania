@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- 启命英的「播种」设计器分类：在肉床上一格一格放细胞。
+       只在装了异象 DLC 时可见（设计器自己会检查 ModsConfig.AnomalyActive）。 -->
+  <DesignationCategoryDef>
+    <defName>Botania_Life</defName>
+    <label>botania life</label>
+    <order>860</order>
+    <specialDesignatorClasses>
+      <li>Botania.Designator_SowFleshCell</li>
+    </specialDesignatorClasses>
+  </DesignationCategoryDef>
+
+</Defs>

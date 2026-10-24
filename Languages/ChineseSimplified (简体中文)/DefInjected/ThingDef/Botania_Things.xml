@@ -191,4 +191,11 @@
   <Botania_PixieLamp.label>精灵灯</Botania_PixieLamp.label>
   <Botania_PixieLamp.description>喝魔力而不是电的灯。小精灵在玻璃罩里飘着发光；魔力一断它们就静下来，灯随之熄灭，来魔力再自己亮回去。野外、无电前哨、电网不稳的地方都能用。</Botania_PixieLamp.description>
 
+  <Botania_LifeOrchid.label>启命英</Botania_LifeOrchid.label>
+  <Botania_LifeOrchid.description>一朵玩弄生命本身的花。在它周围铺一圈扭曲血肉做成的肉床、喂它血肉之种，它就会在肉床上养一群细胞——会出生、会死亡，也会慢慢衰老。
+
+它只为「变化」付钱：静止不动的图案什么也换不到。振荡子和滑翔机值得留着，冻成一块的方块一文不值。</Botania_LifeOrchid.description>
+
+  <Botania_FleshSeed.label>血肉之种</Botania_FleshSeed.label>
+  <Botania_FleshSeed.description>一 knot 还在微微抽动的活肉。启命英拿它当燃料：一枚种子能换一段时间的世代，之后细胞群就干枯了。</Botania_FleshSeed.description>
 </LanguageData>

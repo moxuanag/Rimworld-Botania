@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+  <!-- ============================================================
+       异象 DLC（Anomaly）相关内容，全部用 MayRequire 门住：
+       没装 DLC 时这三段补丁都不会执行，模组照常加载。
+       包名：Ludeon.RimWorld.Anomaly
+       ============================================================ -->
+
+  <!-- 1) 肉床：启命英的场地。只在装了 DLC 时存在（造价用扭曲肉）。 -->
+  <Operation Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Anomaly">
+    <xpath>/Defs</xpath>
+    <value>
+      <TerrainDef ParentName="FloorBase">
+        <defName>Botania_FleshBed</defName>
+        <label>flesh bed</label>
+        <description>A mat of living tissue pressed flat. The life orchid runs its colony of cells on this surface: only flesh-bed tiles inside its eleven-by-eleven field take part in the game.</description>
+        <texturePath>Terrain/Surfaces/Botania_FleshBed</texturePath>
+        <edgeType>FadeRough</edgeType>
+        <renderPrecedence>250</renderPrecedence>
+        <statBases>
+          <WorkToBuild>120</WorkToBuild>
+          <CleaningTimeFactor>2</CleaningTimeFactor>
+        </statBases>
+        <costList>
+          <Meat_Twisted>1</Meat_Twisted>
+        </costList>
+        <uiOrder>2060</uiOrder>
+      </TerrainDef>
+    </value>
+  </Operation>
+
+  <!-- 2) 拆解扭曲肉 → 血肉之种（在屠宰台做，3 份肉换 1 枚种子）。 -->
+  <Operation Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Anomaly">
+    <xpath>/Defs</xpath>
+    <value>
+      <RecipeDef>
+        <defName>Botania_MakeFleshSeed</defName>
+        <label>render flesh seed</label>
+        <description>Press twisted meat until something in it starts to grow. The result is a seed the life orchid can burn as fuel.</description>
+        <jobString>Rendering flesh seed.</jobString>
+        <workSpeedStat>ButcheryFleshSpeed</workSpeedStat>
+        <workAmount>300</workAmount>
+        <ingredients>
+          <li>
+            <filter>
+              <thingDefs>
+                <li>Meat_Twisted</li>
+              </thingDefs>
+            </filter>
+            <count>3</count>
+          </li>
+        </ingredients>
+        <fixedIngredientFilter>
+          <thingDefs>
+            <li>Meat_Twisted</li>
+          </thingDefs>
+        </fixedIngredientFilter>
+        <products>
+          <Botania_FleshSeed>1</Botania_FleshSeed>
+        </products>
+        <recipeUsers>
+          <li>TableButcher</li>
+          <li>ButcherSpot</li>
+        </recipeUsers>
+        <researchPrerequisite>Botania_GeneratingII</researchPrerequisite>
+        <skillRequirements>
+          <Cooking>4</Cooking>
+        </skillRequirements>
+      </RecipeDef>
+    </value>
+  </Operation>
+
+  <!-- 3) 给原版血肉心脏挂「抽取血肉之种」按钮 + 摧毁时掉种子。 -->
+  <Operation Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Anomaly">
+    <xpath>Defs/ThingDef[defName="FleshmassHeart"]/comps</xpath>
+    <value>
+      <li Class="Botania.CompProperties_FleshSeedSource">
+        <seedDefName>Botania_FleshSeed</seedDefName>
+        <seedsPerExtraction>2</seedsPerExtraction>
+        <cooldownTicks>180000</cooldownTicks>
+        <dropOnDestroy>4</dropOnDestroy>
+      </li>
+    </value>
+  </Operation>
+
+</Patch>

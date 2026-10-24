@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- ============================================================
+       启命英（Dandelifeon 变体）——终极产能花。
+       规则见 Source/CompManaLifeOrchid.cs：
+         · 11×11 肉床上的生命游戏，TickRare 一代；
+         · 产魔按「这一代新生 + 死亡格数」计价，静态图案产量为 0；
+         · 每格连续存活 30 代自然凋亡，逼迫玩家周期性扰动；
+         · 只在异象 DLC 开启时工作。
+       肉床（TerrainDef Botania_FleshBed）与种子配方放在 Patches/Botania_Anomaly.xml，
+       没装 DLC 时这些内容不会生成。
+       ============================================================ -->
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>Botania_LifeOrchid</defName>
+    <label>life orchid</label>
+    <description>A flower that plays with life itself. Lay a bed of twisted flesh around it and feed it flesh seeds, and it will run a colony of cells on that bed - cells that are born, that die, and that slowly wear out.\n\nIt pays only for change: a pattern that sits still feeds it nothing. Oscillators and gliders are worth keeping; a frozen block is worth nothing at all.</description>
+    <thingClass>Building</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Things/Building/Botania/LifeOrchid</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <shadowData>
+        <volume>(0.6,0.3,0.6)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.15</fillPercent>
+    <rotatable>false</rotatable>
+    <blockWind>false</blockWind>
+    <castEdgeShadows>false</castEdgeShadows>
+    <tickerType>Rare</tickerType>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <size>(1,1)</size>
+    <statBases>
+      <MaxHitPoints>90</MaxHitPoints>
+      <WorkToBuild>1200</WorkToBuild>
+      <Mass>2</Mass>
+      <Flammability>1.0</Flammability>
+      <Beauty>4</Beauty>
+    </statBases>
+    <building>
+      <destroySound>BuildingDestroyed_Soft_Small</destroySound>
+    </building>
+    <costList>
+      <Botania_ManaPowder>12</Botania_ManaPowder>
+      <Botania_Petal_Purple>6</Botania_Petal_Purple>
+    </costList>
+    <comps>
+      <li Class="Botania.CompProperties_ManaLifeOrchid">
+        <gridSize>11</gridSize>
+        <manaPerChange>12</manaPerChange>
+        <maxManaPerGeneration>600</maxManaPerGeneration>
+        <cellLifespan>30</cellLifespan>
+        <poolRadius>6</poolRadius>
+        <seedDefName>Botania_FleshSeed</seedDefName>
+        <bedDefName>Botania_FleshBed</bedDefName>
+      </li>
+      <li Class="Botania.CompProperties_RadiusRing">
+        <radius>5.5</radius>
+      </li>
+    </comps>
+    <placeWorkers>
+      <li>Botania.PlaceWorker_RadiusFromComp</li>
+    </placeWorkers>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>Misc</designationCategory>
+    <thingCategories>
+      <li>BotaniaBuildings</li>
+    </thingCategories>
+    <researchPrerequisites>
+      <li>Botania_GeneratingII</li>
+    </researchPrerequisites>
+    <uiOrder>3290</uiOrder>
+  </ThingDef>
+
+</Defs>

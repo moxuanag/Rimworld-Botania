@@ -9,6 +9,9 @@
   <Botania_MakeManasteel.description>把魔力尘熔入钢水。成品比钢更轻，并带着永不消退的附魔。</Botania_MakeManasteel.description>
   <Botania_MakeManasteel.jobString>正在锻造魔力钢。</Botania_MakeManasteel.jobString>
 
-      
-      
+  <!-- 以下由 Patches/Botania_Anomaly.xml 注入（仅异象 DLC） -->
+  <Botania_MakeFleshSeed.label>压制血肉之种</Botania_MakeFleshSeed.label>
+  <Botania_MakeFleshSeed.description>把扭曲肉压到里面有什么东西开始生长。得到一枚启命英能烧的血肉之种。</Botania_MakeFleshSeed.description>
+  <Botania_MakeFleshSeed.jobString>正在压制血肉之种。</Botania_MakeFleshSeed.jobString>
+
 </LanguageData>

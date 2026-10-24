@@ -92,4 +92,24 @@
   <Botania.ClearMindLotusIdle>待机：没有心灵干扰，或魔力不足</Botania.ClearMindLotusIdle>
   <Botania.PixieLampOn>精灵灯：正在耗魔（每 60 秒 1 魔力）</Botania.PixieLampOn>
   <Botania.PixieLampOff>精灵灯：附近没有魔力，已熄灭</Botania.PixieLampOff>
+  <Botania.LifeOrchidNoAnomaly>休眠中——需要异象 DLC</Botania.LifeOrchidNoAnomaly>
+  <Botania.LifeOrchidStatus>第 {0} 代 · 剩余 {1} 代燃料 · 每格存活 {2} 代后自然凋亡</Botania.LifeOrchidStatus>
+  <Botania.LifeOrchidNeedBed>需要在 {1}×{1} 范围内铺至少 {0} 格肉床</Botania.LifeOrchidNeedBed>
+  <Botania.ExtractFleshSeed>抽取血肉之种</Botania.ExtractFleshSeed>
+  <Botania.ExtractFleshSeedDesc>从心脏里割下一枚种子，它会慢慢长回来。</Botania.ExtractFleshSeedDesc>
+  <Botania.ExtractFleshSeedCooling>恢复中——还需 {0} 小时</Botania.ExtractFleshSeedCooling>
+  <Botania.ExtractFleshSeedReady>血肉之种还需 {0} 小时长成</Botania.ExtractFleshSeedReady>
+  <Botania.LifeOrchidBlocked>罢工：范围内有别的建筑，先把场地清空</Botania.LifeOrchidBlocked>
+  <Botania.LifeOrchidStart>启动演化</Botania.LifeOrchidStart>
+  <Botania.LifeOrchidStop>暂停演化</Botania.LifeOrchidStop>
+  <Botania.LifeOrchidToggleDesc>在肉床上每隔几秒推进一代。只按「变化」付钱，场内有人的时候会自动暂停。</Botania.LifeOrchidToggleDesc>
+  <Botania.LifeOrchidRunning>运行中</Botania.LifeOrchidRunning>
+  <Botania.LifeOrchidPaused>已暂停</Botania.LifeOrchidPaused>
+  <Botania.LifeOrchidStatus2>{0} · 第 {1} 代 · {2} 个活细胞 · 每格存活 {3} 代后凋亡</Botania.LifeOrchidStatus2>
+  <Botania.LifeOrchidPawnInside>已暂停——范围内有人站着</Botania.LifeOrchidPawnInside>
+  <Botania.SowCell>播种（血肉细胞）</Botania.SowCell>
+  <Botania.SowCellDesc>在肉床格上放一枚血肉之种作为活细胞。用它画出起始图案。</Botania.SowCellDesc>
+  <Botania.SowCellNeedBed>只能点在肉床上</Botania.SowCellNeedBed>
+  <Botania.SowCellOccupied>这一格已经有细胞了</Botania.SowCellOccupied>
+  <Botania.SowCellNoSeed>这张图上没有血肉之种了</Botania.SowCellNoSeed>
 </LanguageData>
