@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+  <!-- ============================================================
+       抬高原版「采矿效率（MiningYield）」的上限。
+
+       实机数据（2026-10-24 玩家测）：空手挖钢铁 36，装备泰拉碎岩镐 50。
+       50 / 40（MineableSteel.mineableYield）= 1.25 —— 正好是原版 StatDef
+       `MiningYield` 的 <maxValue>1.25</maxValue>，装备加成被硬顶在 125%。
+       所以「矿物掉落 ×3」的 +2 偏移（1.0 → 3.0）永远拿不到。
+
+       这里只把天花板抬到 6（600%）。原版自己的数值最高才 1.13，
+       永远碰不到新的上限，所以**不改原版平衡**；
+       只是让「装备/特性把采矿效率拉到 125% 以上」成为可能。
+       ============================================================ -->
+
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/StatDef[defName="MiningYield"]/maxValue</xpath>
+    <value>
+      <maxValue>6</maxValue>
+    </value>
+  </Operation>
+
+</Patch>
