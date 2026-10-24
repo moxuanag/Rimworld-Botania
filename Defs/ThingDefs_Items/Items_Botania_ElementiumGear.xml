@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
   <!-- ============================================================
@@ -161,7 +161,21 @@
         </targetParams>
       </li>
     </verbs>
-    <comps>
+    <!-- comps 必须整段接管（Inherit="False"）：装备状态下的魔力条与补给按钮
+         由 CompEquippable_Wand 接管 CompEquippable 才出得来，和法杖同一套 -->
+    <comps Inherit="False">
+      <li Class="Botania.CompProperties_Equippable_Wand" />
+      <li Class="CompProperties_Forbiddable" />
+      <li Class="CompProperties_Styleable" />
+      <li Class="CompProperties_Art">
+        <nameMaker>NamerArtWeaponGun</nameMaker>
+        <descriptionMaker>ArtDescription_WeaponGun</descriptionMaker>
+        <minQualityForArtistic>Excellent</minQualityForArtistic>
+      </li>
+      <li>
+        <compClass>CompQuality</compClass>
+      </li>
+      <li Class="CompProperties_Biocodable" />
       <li Class="Botania.CompProperties_ManaWeapon">
         <maxMana>300</maxMana>
         <manaPerShot>20</manaPerShot>
@@ -220,6 +234,7 @@
       </skillRequirements>
     </recipeMaker>
     <apparel>
+      <wornGraphicPath>Things/Pawn/Humanlike/Apparel/Botania_ElementiumArmor/Botania_ElementiumArmor</wornGraphicPath>
       <bodyPartGroups>
         <li>Torso</li>
         <li>Neck</li>
@@ -259,7 +274,7 @@
       <EquipDelay>2</EquipDelay>
     </statBases>
     <thingCategories>
-      <li>ApparelArmor</li>
+      <li>ArmorHeadgear</li>
     </thingCategories>
     <costList>
       <Botania_ElementiumIngot>3</Botania_ElementiumIngot>
@@ -280,12 +295,14 @@
       </skillRequirements>
     </recipeMaker>
     <apparel>
+      <wornGraphicPath>Things/Pawn/Humanlike/Apparel/Botania_ElementiumHelmet/Botania_ElementiumHelmet</wornGraphicPath>
       <bodyPartGroups>
-        <li>Head</li>
+        <li>FullHead</li>
       </bodyPartGroups>
       <layers>
         <li>Overhead</li>
       </layers>
+      <parentTagDef>ApparelHead</parentTagDef>
     </apparel>
   </ThingDef>
 

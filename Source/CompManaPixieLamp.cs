@@ -21,6 +21,12 @@ namespace Botania
         /// <summary>找魔力源的半径。</summary>
         public float searchRadius = 8f;
 
+        /// <summary>
+        /// 熄灭后多久再看一眼。给 5 秒而不是 60 秒：
+        /// 玩家把池子搬过来的那一刻，灯应该几乎立刻亮，而不是让池子干等一分钟。
+        /// </summary>
+        public int retryIntervalTicks = 300;
+
         public CompProperties_ManaPixieLamp()
         {
             compClass = typeof(CompManaPixieLamp);
@@ -44,12 +50,8 @@ namespace Botania
         {
             base.PostSpawnSetup(respawningAfterLoad);
             flickable = parent.GetComp<CompFlickable>();
-            if (nextChargeTick <= 0)
-            {
-                // 刚建好先立刻结一次账：没魔力的话当场就是暗的，不用等一分钟
-                nextChargeTick = Find.TickManager.TicksGame;
-            }
-            ApplyLitState();
+            // 刚建好/刚加载先立刻结一次账：没魔力的话当场就是暗的，不用先亮一会儿
+            TryCharge();
         }
 
         public override void CompTick()
@@ -75,11 +77,14 @@ namespace Botania
             {
                 return;
             }
+            int now = Find.TickManager.TicksGame;
             float need = Props.manaPerCharge;
             IManaSource source = ManaSourceUtil.FindNearest(
                 parent.Position, map, Props.searchRadius, need, parent);
 
             bool got = source != null && source.DrainMana(need) >= need - 0.001f;
+            // 亮着就按一分钟一次结账；熄了就 5 秒后再看，免得池子搬到旁边还要干等
+            nextChargeTick = now + (got ? Props.chargeIntervalTicks : Props.retryIntervalTicks);
             if (got == hasMana)
             {
                 return;

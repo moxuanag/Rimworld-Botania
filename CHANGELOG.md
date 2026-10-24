@@ -47,8 +47,21 @@
   - **元素头盔**：锐器 0.54 / 钝器 0.27，Overhead 层；元素锭 ×3 + 精灵之尘 ×1
   - **精灵灯**：不耗电的照明（半径 6），从 8 格内魔力源取 **1 魔力 / 60 秒**，
     断魔立刻熄灭、来魔自动亮回；2 精灵石英 + 1 精灵之尘 + 2 魔力钢
-- **两件护甲不写 `wornGraphicPath`**：穿了没有外观变化，但也不会报错——
-  披挂图要按 5 种体型 × 3 个方向出十几张，本版先跳过
+- **两件护甲的披挂图**：`wornGraphicPath` + `_north` / `_east` / `_south` 三张
+  （西向由东向镜像），**不区分体型**——缺 `_Male` 这类后缀时引擎回落到无后缀那张，
+  所以五个体型共用三张图即可
+
+### 修复（2026-10-24 · 元素装备实测反馈）
+- **元素头盔穿不上**：`bodyPartGroups` 写了 `Head`，而原版 `BodyPartGroupDef` 只有
+  `UpperHead` / `FullHead`。引用解析失败后列表为空，物品能造、能看，但小人穿不上，
+  只在日志里留一行 `Could not resolve cross-reference ... named Head`。改用 `FullHead`，
+  并给校验器加了 `check_apparel_refs()`
+- **两件护甲穿上没有外观**：补 `wornGraphicPath` 与三向披挂图
+- **水晶弓装备后没有魔力条、也没有「充能」按钮**：`CompManaWeapon` 的 Gizmo 走的是
+  「物品自己的 Gizmo」，已装备物品要由 `CompEquippable.CompGetEquippedGizmosExtra()` 出口。
+  改为 `<comps Inherit="False">` 整段接管 + `CompProperties_Equippable_Wand`（与法杖同一套）
+- **精灵灯节奏**：建好立刻结算（不再先亮一会儿）；亮着 60 秒扣一次，熄了 5 秒后重试，
+  池子搬过来几乎立刻亮
 
 ### 已知问题
 - **精灵门的开关 gizmo 没有图标**（`Command_Toggle` 未设 `icon`，显示空白方块）。
