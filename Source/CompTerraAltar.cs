@@ -60,9 +60,36 @@ namespace Botania
         private int progress;
         private bool running;
 
+        /// <summary>是否开启「自动搬运材料」（玩家用 Gizmo 开关）。</summary>
+        private bool autoHaul;
+
+        /// <summary>上一次派搬运 job 的 tick，用于限流。</summary>
+        private int lastHaulOrderTick = -9999;
+
+        /// <summary>最近一次派单的结果说明键（空 = 还没派过）。</summary>
+        private string haulStatusKey;
+
         private Map Map => parent.Map;
 
         public CompProperties_TerraAltar Props => (CompProperties_TerraAltar)props;
+
+        private void AppendHaulLine(StringBuilder sb)
+        {
+            if (!autoHaul)
+            {
+                return;
+            }
+            if (sb.Length > 0)
+            {
+                sb.Append('\n');
+            }
+            string status = haulStatusKey != null ? haulStatusKey.Translate() : "";
+            sb.Append("Botania.TerraAltarHaulOn".Translate());
+            if (!string.IsNullOrEmpty(status))
+            {
+                sb.Append(" · ").Append(status);
+            }
+        }
 
         /// <summary>四个对角基座所在的格子（几何见 TerraAltarCorners，放置预览用的是同一份）。</summary>
         public List<IntVec3> PedestalCells()
@@ -115,6 +142,19 @@ namespace Botania
                 }
                 return missing;
             }
+        }
+
+        /// <summary>台面（3×3 自身格）上某材料的总数（给搬运逻辑用）。</summary>
+        public int CountOnPlatformPublic(ThingDef def)
+        {
+            return CountOnPlatform(def);
+        }
+
+        /// <summary>记一次派单，顺便清掉状态。</summary>
+        public void NoteHaulOrdered()
+        {
+            lastHaulOrderTick = Find.TickManager.TicksGame;
+            haulStatusKey = "Botania.TerraAltarHaulBusy";
         }
 
         /// <summary>台面（3×3 自身格）上某材料的总数。</summary>
@@ -201,6 +241,26 @@ namespace Botania
                 return;
             }
             TryStart();
+
+            // 没开工时才去补材料：开了自动搬运就让小人把缺的搬上来
+            if (autoHaul && Find.TickManager.TicksGame - lastHaulOrderTick
+                >= TerraAltarHauling.OrderCooldownTicks)
+            {
+                string reason;
+                if (TerraAltarHauling.TryOrderHaul(this, out reason))
+                {
+                    haulStatusKey = "Botania.TerraAltarHaulOrdered";
+                }
+                else if (reason == "no hauler")
+                {
+                    haulStatusKey = "Botania.TerraAltarHaulNoHauler";
+                }
+                else if (reason == "no ingredient")
+                {
+                    haulStatusKey = "Botania.TerraAltarHaulNoStock";
+                }
+                lastHaulOrderTick = Find.TickManager.TicksGame;
+            }
         }
 
         private void TryStart()
@@ -262,6 +322,7 @@ namespace Botania
             if (missing > 0)
             {
                 sb.Append("Botania.TerraAltarNoPedestals".Translate(missing));
+                AppendHaulLine(sb);
                 return sb.ToString();
             }
             if (CountOnPlatform(Props.ingredientA) < Props.countA ||
@@ -270,6 +331,7 @@ namespace Botania
                 sb.Append("Botania.TerraAltarNeedInputs".Translate(
                     Props.ingredientA.label, Props.countA,
                     Props.ingredientB.label, Props.countB));
+                AppendHaulLine(sb);
                 return sb.ToString();
             }
             IManaSource source = ManaSourceUtil.FindNearest(parent.Position, Map,
@@ -278,9 +340,11 @@ namespace Botania
             {
                 sb.Append("Botania.TerraAltarNoMana".Translate(
                     Props.manaPerIngot.ToString("F0"), Props.searchRadius.ToString("F0")));
+                AppendHaulLine(sb);
                 return sb.ToString();
             }
             sb.Append("Botania.TerraAltarReady".Translate());
+            AppendHaulLine(sb);
             return sb.ToString();
         }
 
@@ -348,6 +412,29 @@ namespace Botania
                 place.Disable("Botania.TerraAltarPedestalsComplete".Translate());
             }
             yield return place;
+            yield return MakeAutoHaulGizmo();
+        }
+
+        /// <summary>自动搬运开关（工作归搬运工，只在闲着的搬运工身上派活）。</summary>
+        private Gizmo MakeAutoHaulGizmo()
+        {
+            Command_Toggle toggle = new Command_Toggle
+            {
+                defaultLabel = "Botania.TerraAltarAutoHaul".Translate(),
+                defaultDesc = "Botania.TerraAltarAutoHaulDesc".Translate(),
+                icon = ContentFinder<Texture2D>.Get("UI/Commands/Botania_HaulToAltar"),
+                isActive = () => autoHaul,
+                toggleAction = delegate
+                {
+                    autoHaul = !autoHaul;
+                    lastHaulOrderTick = -9999;
+                    if (!autoHaul)
+                    {
+                        haulStatusKey = null;
+                    }
+                }
+            };
+            return toggle;
         }
 
         private void PlaceMissingPedestals()
@@ -400,6 +487,7 @@ namespace Botania
             base.PostExposeData();
             Scribe_Values.Look(ref progress, "botaniaTerraAltarProgress", 0);
             Scribe_Values.Look(ref running, "botaniaTerraAltarRunning", false);
+            Scribe_Values.Look(ref autoHaul, "botaniaTerraAltarAutoHaul", false);
         }
     }
 }
