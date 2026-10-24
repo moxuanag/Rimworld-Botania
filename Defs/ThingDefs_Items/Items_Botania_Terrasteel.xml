@@ -248,10 +248,14 @@
       <MiningSpeed>1</MiningSpeed>
       <MiningYield>2</MiningYield>
     </equippedStatOffsets>
-    <!-- 移动速度按倍率 ×2（装备态乘法，和泰拉甲的 -0.12 加法叠加） -->
-    <equippedStatFactors>
-      <MoveSpeed>2</MoveSpeed>
-    </equippedStatFactors>
+    <!-- 移动速度 ×2：ThingDef 没有 equippedStatFactors 字段（写了整条 Def 会加载失败），
+         所以用 CompEquipHediff 在装备态挂 Botania_TerrasteelHaste（Hediff 里写 statFactors）。 -->
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="Botania.CompProperties_EquipHediff">
+        <hediffDef>Botania_TerrasteelHaste</hediffDef>
+      </li>
+    </comps>
     <costList>
       <Botania_TerrasteelIngot>1</Botania_TerrasteelIngot>
       <Botania_Livingwood>3</Botania_Livingwood>

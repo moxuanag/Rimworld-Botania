@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- ============================================================
+       泰拉碎岩镐的「装备态移动速度 ×2」。
+       引擎的 ThingDef 只有 equippedStatOffsets（加法），没有 equippedStatFactors，
+       所以倍率只能借 Hediff 的 stages.statFactors（写法照原版 MetalhorrorSpeedBoost）。
+       由 Botania.CompEquipHediff 在装备/卸下时挂上/摘掉。
+       ============================================================ -->
+
+  <HediffDef>
+    <defName>Botania_TerrasteelHaste</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>terrasteel haste</label>
+    <description>Terrasteel hums in the hand and every step lands lighter. Movement speed is doubled while the terrasteel pick is held.</description>
+    <isBad>false</isBad>
+    <initialSeverity>1</initialSeverity>
+    <everCurableByItem>false</everCurableByItem>
+    <stages>
+      <li>
+        <statFactors>
+          <MoveSpeed>2</MoveSpeed>
+        </statFactors>
+      </li>
+    </stages>
+  </HediffDef>
+
+</Defs>
