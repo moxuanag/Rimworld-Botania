@@ -128,5 +128,4 @@
   <Botania.TerraAltarAutoHaul>Allow haulers to deliver</Botania.TerraAltarAutoHaul>
   <Botania.TerraAltarAutoHaulDesc>While on, the Hauling work gains a "deliver materials to terra altar" task: idle haulers carry the missing materials onto the slab. It never interrupts a colonist who is already working, and no button press is needed.</Botania.TerraAltarAutoHaulDesc>
   <Botania.TerraAltarHaulOn>Hauler delivery: allowed</Botania.TerraAltarHaulOn>
-  <Botania.TerraPickSpread>Mining: the surrounding 8 tiles are mined in step</Botania.TerraPickSpread>
 </LanguageData>
