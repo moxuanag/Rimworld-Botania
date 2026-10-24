@@ -304,6 +304,25 @@ namespace Botania
         }
 
         /// <summary>
+        /// 还「没安排上」几个角：既没有实心基座、也没有基座蓝图。
+        /// 和 MissingPedestals 的区别：蓝图不算「能干活」（生产判定必须实心），
+        /// 但按钮该不该变灰看的是这一条——否则放完蓝图按钮还亮着，点了什么也不发生。
+        /// </summary>
+        private int MissingOrUnplanned()
+        {
+            int n = 0;
+            List<IntVec3> cells = PedestalCells();
+            for (int i = 0; i < cells.Count; i++)
+            {
+                if (!HasPedestalAt(cells[i]) && !HasPedestalBlueprintAt(cells[i]))
+                {
+                    n++;
+                }
+            }
+            return n;
+        }
+
+        /// <summary>
         /// 选中凝聚台时的「补齐四角基座」按钮：直接在对角格放蓝图，
         /// 和原版「点建筑就给你把附属件摆好」的体验一致。
         /// </summary>
@@ -324,7 +343,7 @@ namespace Botania
                 icon = ContentFinder<Texture2D>.Get("UI/Commands/Botania_PlacePedestals"),
                 action = PlaceMissingPedestals
             };
-            if (MissingPedestals == 0)
+            if (MissingOrUnplanned() == 0)
             {
                 place.Disable("Botania.TerraAltarPedestalsComplete".Translate());
             }
