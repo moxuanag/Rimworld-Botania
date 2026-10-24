@@ -59,6 +59,21 @@
 - 文档踩坑新增 #22（可达 ≠ 没被别人占）
 - **实机验证通过（2026-10-24 20:05）**：玩家确认并行送料正常、日志不再报 `Could not reserve`
 
+### 修复（2026-10-24 · 碎岩镐整条 Def 加载失败）
+- **原因**：给碎岩镐写了 `equippedStatFactors`，但 `Verse.ThingDef` 没有这个字段
+  - 实机日志：`XML error: <equippedStatFactors> ... doesn't correspond to any field in type ThingDef`
+  - 后果不是忽略字段，而是**整条 ThingDef 失败**：碎岩镐在游戏里根本不存在
+- **修法**：移动速度 ×2 改走 Hediff
+  - 新增 `HediffDef Botania_TerrasteelHaste`（`stages[].statFactors` → `MoveSpeed 2`）
+  - 新增 `CompEquipHediff`：`Notify_Equipped` 挂、`Notify_Unequipped` 摘，
+    `PostSpawnSetup` 与每 250 tick 兜底；碎岩镐加 `tickerType Normal`
+  - 中文：泰拉疾行
+- **防呆**（避免同类事故再发生）
+  - 新工具 `_dev\_botania-dev\probe\TypeFields`：读 Assembly-CSharp.dll 元数据，列出任意类型的字段/方法（含继承字段）
+  - 导出 `thingdef_fields.txt` 白名单（303 个字段）
+  - 校验器新增 `check_thingdef_fields()`：ThingDef 里出现不认识的子元素直接报错，并提示相近字段名
+  - 回归测试：注入 `equippedStatFactors` → `[X] ... 整条 Def 会加载失败`，恢复后通过
+
 ### 改动（2026-10-24 · 剑气改三格宽）
 - **剑气宽度 1 格 → 3 格**（玩家要求），长度仍是 48 格
   - 每一步在「中心格 + 周围 8 格」里挑离轴线最近的三格，横向/斜向都是连续的一条带
