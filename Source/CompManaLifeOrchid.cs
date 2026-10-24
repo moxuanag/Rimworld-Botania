@@ -172,6 +172,21 @@ namespace Botania
                 }
             }
 
+            int aliveBefore = 0;
+            for (int i = 0; i < Cells; i++)
+            {
+                if (alive[i])
+                {
+                    aliveBefore++;
+                }
+            }
+            if (aliveBefore == 0)
+            {
+                // 场上已经没有活细胞：停机，别让代数空转
+                running = false;
+                return;
+            }
+
             int born = 0;
             int died = 0;
             for (int z = 0; z < size; z++)

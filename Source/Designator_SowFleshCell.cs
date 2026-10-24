@@ -49,6 +49,30 @@ namespace Botania
             return true;
         }
 
+        /// <summary>支持拖拽成片播种：拖过的每格各消耗一枚种子。</summary>
+        public override void DesignateMultiCell(System.Collections.Generic.IEnumerable<IntVec3> cells)
+        {
+            bool any = false;
+            foreach (IntVec3 cell in cells)
+            {
+                if (!CanDesignateCell(cell).Accepted)
+                {
+                    continue;
+                }
+                Thing seed = TakeOneSeed();
+                if (seed == null)
+                {
+                    break;
+                }
+                GenSpawn.Spawn(seed, cell, Map);
+                any = true;
+            }
+            if (!any)
+            {
+                return;
+            }
+        }
+
         public override void DesignateSingleCell(IntVec3 c)
         {
             Thing seed = TakeOneSeed();
