@@ -63,17 +63,29 @@ namespace Botania
 
         public CompProperties_TerraAltar Props => (CompProperties_TerraAltar)props;
 
-        /// <summary>四个对角基座所在的格子。</summary>
-        private List<IntVec3> PedestalCells()
+        /// <summary>四个对角基座所在的格子（几何见 TerraAltarCorners，放置预览用的是同一份）。</summary>
+        public List<IntVec3> PedestalCells()
         {
-            CellRect rect = parent.OccupiedRect();
-            return new List<IntVec3>
+            return TerraAltarCorners.Of(parent.OccupiedRect());
+        }
+
+        /// <summary>这一格上有没有基座。</summary>
+        public bool HasPedestalAt(IntVec3 cell)
+        {
+            Map map = Map;
+            if (map == null || !cell.InBounds(map))
             {
-                new IntVec3(rect.minX - 1, 0, rect.minZ - 1),
-                new IntVec3(rect.maxX + 1, 0, rect.minZ - 1),
-                new IntVec3(rect.minX - 1, 0, rect.maxZ + 1),
-                new IntVec3(rect.maxX + 1, 0, rect.maxZ + 1)
-            };
+                return false;
+            }
+            List<Thing> things = cell.GetThingList(map);
+            for (int i = 0; i < things.Count; i++)
+            {
+                if (things[i].def == Props.pedestalDef && !things[i].Destroyed)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public int MissingPedestals
@@ -95,17 +107,7 @@ namespace Botania
                         missing++;
                         continue;
                     }
-                    bool found = false;
-                    List<Thing> things = cell.GetThingList(map);
-                    for (int k = 0; k < things.Count; k++)
-                    {
-                        if (things[k].def == Props.pedestalDef && !things[k].Destroyed)
-                        {
-                            found = true;
-                            break;
-                        }
-                    }
-                    if (!found)
+                    if (!HasPedestalAt(cell))
                     {
                         missing++;
                     }

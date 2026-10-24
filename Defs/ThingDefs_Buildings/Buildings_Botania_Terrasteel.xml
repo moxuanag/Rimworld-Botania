@@ -56,6 +56,10 @@
     <designationCategory>Misc</designationCategory>
     <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
     <constructEffect>ConstructMetal</constructEffect>
+    <!-- 放蓝图时把四个基座的位置画出来 -->
+    <placeWorkers>
+      <li>Botania.PlaceWorker_TerraPedestals</li>
+    </placeWorkers>
     <comps>
       <li Class="Botania.CompProperties_TerraAltar">
         <manaPerIngot>20000</manaPerIngot>
