@@ -20,8 +20,8 @@ namespace Botania
     public class CompProperties_ManaLifeOrchid : CompProperties
     {
         public int gridSize = 11;
-        public float manaPerChange = 12f;
-        public float maxManaPerGeneration = 600f;
+        public float manaPerChange = 40f;
+        public float maxManaPerGeneration = 900f;
         public int cellLifespan = 30;
         public float poolRadius = 6f;
         public string seedDefName = "Botania_FleshSeed";
