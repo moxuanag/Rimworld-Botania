@@ -6,7 +6,8 @@ using Verse;
 namespace Botania
 {
     /// <summary>
-    /// 泰拉刃的剑气：一条 12 格的直线冲击，伤害从 30 递减到 10，**不耗魔力**，只吃冷却。
+    /// 泰拉刃的剑气：一条 48 格长、**3 格宽**的直线冲击，伤害从 30 递减到 10，
+    /// **不耗魔力**，只吃冷却。
     ///
     /// 2026-10-24 玩家改定两件事：
     /// 1. 取消耗魔（装备态没有魔力条可看，只会觉得「按下去没反应」）；
@@ -100,11 +101,11 @@ namespace Botania
         private void StrikeLine(Pawn caster, Map map, IntVec3 origin, IntVec3 aim)
         {
             ThingDef weaponDef = caster.equipment?.Primary?.def;
-            List<IntVec3> cells = TerraWavePath.Cells(origin, aim, map);
+            List<WaveCell> cells = TerraWavePath.Build(origin, aim, map);
             for (int i = 0; i < cells.Count; i++)
             {
-                IntVec3 cell = cells[i];
-                float damage = TerraWavePath.DamageAt(i, cells.Count);
+                IntVec3 cell = cells[i].cell;
+                float damage = TerraWavePath.DamageAt(cells[i].step);
 
                 // 表现：一路灰尘 + 电光
                 FleckMaker.ThrowDustPuff(cell.ToVector3Shifted(), map, 1.2f);
