@@ -90,4 +90,11 @@
   <Botania.ClearMindLotusActive>正在压制心灵干扰（每人 {0} 魔力/秒）</Botania.ClearMindLotusActive>
   <Botania.ClearMindLotusWeaken>正在削弱心灵干扰（心情惩罚减半，每人 {0} 魔力/秒）</Botania.ClearMindLotusWeaken>
   <Botania.ClearMindLotusIdle>待机：没有心灵干扰，或魔力不足</Botania.ClearMindLotusIdle>
+  <Botania.LifeOrchidNoAnomaly>休眠中——需要异象 DLC</Botania.LifeOrchidNoAnomaly>
+  <Botania.LifeOrchidStatus>第 {0} 代 · 剩余 {1} 代燃料 · 每格存活 {2} 代后自然凋亡</Botania.LifeOrchidStatus>
+  <Botania.LifeOrchidNeedBed>需要在 {1}×{1} 范围内铺至少 {0} 格肉床</Botania.LifeOrchidNeedBed>
+  <Botania.ExtractFleshSeed>抽取血肉之种</Botania.ExtractFleshSeed>
+  <Botania.ExtractFleshSeedDesc>从心脏里割下一枚种子，它会慢慢长回来。</Botania.ExtractFleshSeedDesc>
+  <Botania.ExtractFleshSeedCooling>恢复中——还需 {0} 小时</Botania.ExtractFleshSeedCooling>
+  <Botania.ExtractFleshSeedReady>血肉之种还需 {0} 小时长成</Botania.ExtractFleshSeedReady>
 </LanguageData>

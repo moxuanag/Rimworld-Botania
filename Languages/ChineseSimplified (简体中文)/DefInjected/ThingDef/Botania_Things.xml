@@ -172,4 +172,12 @@
 
   <Botania_ClearMindLotus.label>明心莲</Botania_ClearMindLotus.label>
   <Botania_ClearMindLotus.description>一朵哼着反调的白莲。只要它还有魔力，范围内的人就听不见心灵干扰——那一条念头被推出了脑子，其余心情一概不动。它喝魔很凶，一断供，干扰立刻回来。</Botania_ClearMindLotus.description>
+
+  <Botania_LifeOrchid.label>启命英</Botania_LifeOrchid.label>
+  <Botania_LifeOrchid.description>一朵玩弄生命本身的花。在它周围铺一圈扭曲血肉做成的肉床、喂它血肉之种，它就会在肉床上养一群细胞——会出生、会死亡，也会慢慢衰老。
+
+它只为「变化」付钱：静止不动的图案什么也换不到。振荡子和滑翔机值得留着，冻成一块的方块一文不值。</Botania_LifeOrchid.description>
+
+  <Botania_FleshSeed.label>血肉之种</Botania_FleshSeed.label>
+  <Botania_FleshSeed.description>一 knot 还在微微抽动的活肉。启命英拿它当燃料：一枚种子能换一段时间的世代，之后细胞群就干枯了。</Botania_FleshSeed.description>
 </LanguageData>

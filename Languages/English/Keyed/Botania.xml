@@ -90,4 +90,11 @@
   <Botania.ClearMindLotusActive>Blocking psychic drone ({0} mana/s per pawn)</Botania.ClearMindLotusActive>
   <Botania.ClearMindLotusWeaken>Weakening an event psychic drone (mood penalty halved, {0} mana/s per pawn)</Botania.ClearMindLotusWeaken>
   <Botania.ClearMindLotusIdle>Idle — no psychic drone, or no mana</Botania.ClearMindLotusIdle>
+  <Botania.LifeOrchidNoAnomaly>Dormant — requires the Anomaly expansion</Botania.LifeOrchidNoAnomaly>
+  <Botania.LifeOrchidStatus>Generation {0} · {1} generation(s) of fuel left · cells die after {2} generations</Botania.LifeOrchidStatus>
+  <Botania.LifeOrchidNeedBed>Needs at least {0} flesh-bed tiles inside its {1}×{1} field</Botania.LifeOrchidNeedBed>
+  <Botania.ExtractFleshSeed>Extract flesh seed</Botania.ExtractFleshSeed>
+  <Botania.ExtractFleshSeedDesc>Cut a seed out of the heart. It regrows slowly.</Botania.ExtractFleshSeedDesc>
+  <Botania.ExtractFleshSeedCooling>Recovering — ready in {0} h</Botania.ExtractFleshSeedCooling>
+  <Botania.ExtractFleshSeedReady>Flesh seed ready in {0} h</Botania.ExtractFleshSeedReady>
 </LanguageData>
