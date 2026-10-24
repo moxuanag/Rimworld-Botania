@@ -52,6 +52,10 @@
     <thingCategories>
       <li>BotaniaBuildings</li>
     </thingCategories>
+    <!-- 不写 designationCategory 就不会出现在建筑师菜单里（踩坑第 19 条） -->
+    <designationCategory>Misc</designationCategory>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <constructEffect>ConstructMetal</constructEffect>
     <comps>
       <li Class="Botania.CompProperties_TerraAltar">
         <manaPerIngot>20000</manaPerIngot>
@@ -108,6 +112,9 @@
     <thingCategories>
       <li>BotaniaBuildings</li>
     </thingCategories>
+    <designationCategory>Misc</designationCategory>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <constructEffect>ConstructMetal</constructEffect>
   </ThingDef>
 
 </Defs>
