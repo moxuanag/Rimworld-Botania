@@ -121,4 +121,9 @@
   <Botania.TerraWaveOutOfRange>The wave reaches only {0} cells</Botania.TerraWaveOutOfRange>
   <Botania.TerraWaveNoMana>Not enough mana nearby (400 needed)</Botania.TerraWaveNoMana>
 
+  <Botania.TerraAltarPlacePedestals>Place corner pedestals</Botania.TerraAltarPlacePedestals>
+  <Botania.TerraAltarPlacePedestalsDesc>Drop agglomeration pedestal blueprints on the four empty corners instead of eyeballing each cell. Corners that already have a pedestal or a blueprint are skipped.</Botania.TerraAltarPlacePedestalsDesc>
+  <Botania.TerraAltarPedestalsComplete>All four corner pedestals are already there</Botania.TerraAltarPedestalsComplete>
+  <Botania.TerraAltarPlacedPedestals>Placed {0} pedestal blueprint(s)</Botania.TerraAltarPlacedPedestals>
+  <Botania.TerraAltarPedestalsBlocked>{0} corner(s) blocked: something is in the way, or the terrain won't take it</Botania.TerraAltarPedestalsBlocked>
 </LanguageData>

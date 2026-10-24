@@ -121,4 +121,9 @@
   <Botania.TerraWaveOutOfRange>剑气最远只有 {0} 格</Botania.TerraWaveOutOfRange>
   <Botania.TerraWaveNoMana>附近没有足够的魔力（需要 400）</Botania.TerraWaveNoMana>
 
+  <Botania.TerraAltarPlacePedestals>补齐四角基座</Botania.TerraAltarPlacePedestals>
+  <Botania.TerraAltarPlacePedestalsDesc>在四角的空位直接放上凝聚基座的蓝图，省得自己一格一格对位置。已有基座或已有蓝图的角会跳过。</Botania.TerraAltarPlacePedestalsDesc>
+  <Botania.TerraAltarPedestalsComplete>四角基座已经齐了</Botania.TerraAltarPedestalsComplete>
+  <Botania.TerraAltarPlacedPedestals>已放下 {0} 根基座蓝图</Botania.TerraAltarPlacedPedestals>
+  <Botania.TerraAltarPedestalsBlocked>{0} 个角放不下：被别的东西占着，或地形不允许</Botania.TerraAltarPedestalsBlocked>
 </LanguageData>
