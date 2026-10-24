@@ -47,16 +47,19 @@
   - **元素头盔**：锐器 0.54 / 钝器 0.27，Overhead 层；元素锭 ×3 + 精灵之尘 ×1
   - **精灵灯**：不耗电的照明（半径 6），从 8 格内魔力源取 **1 魔力 / 60 秒**，
     断魔立刻熄灭、来魔自动亮回；2 精灵石英 + 1 精灵之尘 + 2 魔力钢
-- **两件护甲的披挂图**：`wornGraphicPath` + `_north` / `_east` / `_south` 三张
-  （西向由东向镜像），**不区分体型**——缺 `_Male` 这类后缀时引擎回落到无后缀那张，
-  所以五个体型共用三张图即可
+- **两件护甲的披挂图**：`wornGraphicPath` + 6 个体型 × 3 个方向 = 18 张
+  （`_Male_north` 这种命名；西向由东向镜像，不用画）。
+  引擎**不会**回落到无体型后缀的图，缺一张就在渲染那一帧报
+  `Failed to find any textures at ..._Male`
 
 ### 修复（2026-10-24 · 元素装备实测反馈）
 - **元素头盔穿不上**：`bodyPartGroups` 写了 `Head`，而原版 `BodyPartGroupDef` 只有
   `UpperHead` / `FullHead`。引用解析失败后列表为空，物品能造、能看，但小人穿不上，
   只在日志里留一行 `Could not resolve cross-reference ... named Head`。改用 `FullHead`，
   并给校验器加了 `check_apparel_refs()`
-- **两件护甲穿上没有外观**：补 `wornGraphicPath` 与三向披挂图
+- **两件护甲穿上没有外观**：补 `wornGraphicPath`，并按 6 体型 × 3 方向出满 18 张披挂图
+  （第一版只画了三张无体型后缀的，实机报 `Failed to find any textures at ..._Male`；
+  校验器已加 `check_worn_graphics()`）
 - **水晶弓装备后没有魔力条、也没有「充能」按钮**：`CompManaWeapon` 的 Gizmo 走的是
   「物品自己的 Gizmo」，已装备物品要由 `CompEquippable.CompGetEquippedGizmosExtra()` 出口。
   改为 `<comps Inherit="False">` 整段接管 + `CompProperties_Equippable_Wand`（与法杖同一套）
