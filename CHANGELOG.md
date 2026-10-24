@@ -59,6 +59,14 @@
 - 文档踩坑新增 #22（可达 ≠ 没被别人占）
 - **实机验证通过（2026-10-24 20:05）**：玩家确认并行送料正常、日志不再报 `Could not reserve`
 
+### 修复（2026-10-24 · 碎岩镐矿物掉落只有 ×1.25）
+- **原因**：原版 `StatDef MiningYield` 带 `<maxValue>1.25</maxValue>`，装备的 `+2` 被硬顶
+  - 实测：空手挖钢铁 36，装备后 50；`50 / 40 = 1.25`，正卡在上限
+- **修法**：新增 `Patches/Botania_MiningYieldCap.xml`，把上限换成 6.0（600%）
+  - 原版自身最高 1.13，永远碰不到新上限 → 不改原版平衡
+  - 装备后采矿效率 300%，仍会被采矿技能与操作能力正常缩放
+- 文档 §14 补「为什么 ×3 还要一个补丁」、测试清单注明 300%；新增踩坑 #26
+
 ### 修复（2026-10-24 · 碎岩镐整条 Def 加载失败）
 - **原因**：给碎岩镐写了 `equippedStatFactors`，但 `Verse.ThingDef` 没有这个字段
   - 实机日志：`XML error: <equippedStatFactors> ... doesn't correspond to any field in type ThingDef`
