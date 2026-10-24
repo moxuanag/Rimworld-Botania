@@ -52,6 +52,17 @@
   引擎**不会**回落到无体型后缀的图，缺一张就在渲染那一帧报
   `Failed to find any textures at ..._Male`
 
+### 修复（2026-10-24 · 凝聚台在建造菜单里搜不到）
+- **根因**：`Botania_TerrasteelAltar` / `Botania_TerrasteelPedestal` 漏写 `<designationCategory>`。
+  `BuildingBase` 不带这一项，漏了不会报错、生成物品也能刷出来，但建筑师菜单里**根本不存在**。
+  两个都补上 `Misc`，并顺手补 `terrainAffordanceNeeded`（台面 Medium / 基座 Light）与
+  `constructEffect`
+- **注意**：建筑还要**研究完 `Botania_Terrasteel`** 才会出现在菜单里——原版行为是「没研究就不显示」，
+  不是灰掉。想跳过研究测试，用开发者模式的「生成物品」
+- 校验器新增 `check_architect_menu()`：可建造（有 `costList`）且 `thingClass` 是 `Building`
+  的 ThingDef，沿 `ParentName` 继承链找不到 `designationCategory` 就直接 `fail`
+  （已做回归测试：删掉这两行立刻报错，还原后通过）
+
 ### 修复（2026-10-24 · 泰拉钢首次进游戏的加载报错）
 - **泰拉凝聚台整个没出现**：`<passability>Walkable</passability>`。
   引擎枚举 `Verse.Traversability` 只有 `Standable` / `PassThroughOnly` / `Impassable`，
