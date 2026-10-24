@@ -11,17 +11,13 @@
   <Operation Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Anomaly">
     <xpath>/Defs</xpath>
     <value>
-      <TerrainDef>
+      <TerrainDef ParentName="FloorBase">
         <defName>Botania_FleshBed</defName>
         <label>flesh bed</label>
         <description>A mat of living tissue pressed flat. The life orchid runs its colony of cells on this surface: only flesh-bed tiles inside its eleven-by-eleven field take part in the game.</description>
         <texturePath>Terrain/Surfaces/Botania_FleshBed</texturePath>
         <edgeType>FadeRough</edgeType>
         <renderPrecedence>250</renderPrecedence>
-        <designationCategory>Floors</designationCategory>
-        <fertility>0</fertility>
-        <constructEffect>ConstructDirt</constructEffect>
-        <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
         <statBases>
           <WorkToBuild>120</WorkToBuild>
           <CleaningTimeFactor>2</CleaningTimeFactor>

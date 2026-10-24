@@ -97,4 +97,5 @@
   <Botania.ExtractFleshSeedDesc>从心脏里割下一枚种子，它会慢慢长回来。</Botania.ExtractFleshSeedDesc>
   <Botania.ExtractFleshSeedCooling>恢复中——还需 {0} 小时</Botania.ExtractFleshSeedCooling>
   <Botania.ExtractFleshSeedReady>血肉之种还需 {0} 小时长成</Botania.ExtractFleshSeedReady>
+  <Botania.LifeOrchidBlocked>罢工：范围内有别的建筑，先把场地清空</Botania.LifeOrchidBlocked>
 </LanguageData>

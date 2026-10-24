@@ -97,4 +97,5 @@
   <Botania.ExtractFleshSeedDesc>Cut a seed out of the heart. It regrows slowly.</Botania.ExtractFleshSeedDesc>
   <Botania.ExtractFleshSeedCooling>Recovering — ready in {0} h</Botania.ExtractFleshSeedCooling>
   <Botania.ExtractFleshSeedReady>Flesh seed ready in {0} h</Botania.ExtractFleshSeedReady>
+  <Botania.LifeOrchidBlocked>Offline — something else is standing inside its field; clear the area</Botania.LifeOrchidBlocked>
 </LanguageData>

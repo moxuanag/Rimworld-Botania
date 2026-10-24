@@ -130,12 +130,17 @@ namespace Botania
 
         // ---------- 主循环 ----------
 
-        /// <summary>这一代要算的所有格是否都铺了肉床（顺便检查是否有活细胞）。</summary>
-        private bool GridReady()
+        /// <summary>
+        /// 场地检查。返回 null 表示可以工作，否则返回「为什么不能工作」的翻译文本。
+        /// 除了肉床不够，范围内有别的建筑也要罢工——那些建筑会挡住/干扰仿真区。
+        /// </summary>
+        private string GridProblem()
         {
             Map map = parent.Map;
             IntVec3 origin = parent.Position;
             int flesh = 0;
+            IntVec3 blockedAt = IntVec3.Invalid;
+
             for (int dz = -Radius; dz <= Radius; dz++)
             {
                 for (int dx = -Radius; dx <= Radius; dx++)
@@ -150,9 +155,32 @@ namespace Botania
                     {
                         flesh++;
                     }
+                    if (!blockedAt.IsValid)
+                    {
+                        Building building = cell.GetFirstBuilding(map);
+                        if (building != null && building != parent)
+                        {
+                            blockedAt = cell;
+                        }
+                    }
                 }
             }
-            return flesh >= Props.minFleshCells;
+
+            if (blockedAt.IsValid)
+            {
+                return "Botania.LifeOrchidBlocked".Translate();
+            }
+            if (flesh < Props.minFleshCells)
+            {
+                return "Botania.LifeOrchidNeedBed".Translate(
+                    Props.minFleshCells.ToString("0"), Size.ToString("0"));
+            }
+            return null;
+        }
+
+        private bool GridReady()
+        {
+            return GridProblem() == null;
         }
 
         private void Step()
