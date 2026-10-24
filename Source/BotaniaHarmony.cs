@@ -148,43 +148,6 @@ namespace Botania
     }
 
     /// <summary>
-    /// 血肉核心（FleshmassNucleus）每天收缩一次、产出扭曲肉（CompFleshmassNucleus.CreateMeat）。
-    /// 我们只做一件事：在它产肉的同时顺手掉一枚血肉之种。
-    /// 不碰原版心脏、不碰任何工作逻辑、不需要小人操作。
-    /// </summary>
-    [HarmonyPatch(typeof(CompFleshmassNucleus), "CreateMeat")]
-    public static class Patch_NucleusCreateMeat
-    {
-        public static void Postfix(CompFleshmassNucleus __instance)
-        {
-            try
-            {
-                if (!ModsConfig.AnomalyActive || __instance == null)
-                {
-                    return;
-                }
-                Pawn nucleus = __instance.parent as Pawn;
-                if (nucleus == null || nucleus.Map == null)
-                {
-                    return;
-                }
-                ThingDef seedDef = DefDatabase<ThingDef>.GetNamed("Botania_FleshSeed", false);
-                if (seedDef == null)
-                {
-                    return;
-                }
-                Thing seed = ThingMaker.MakeThing(seedDef, null);
-                seed.stackCount = 1;
-                GenPlace.TryPlaceThing(seed, nucleus.Position, nucleus.Map, ThingPlaceMode.Near);
-            }
-            catch (Exception ex)
-            {
-                Log.Warning("[Botania] nucleus meat hook failed: " + ex.Message);
-            }
-        }
-    }
-
-    /// <summary>
     /// 苦丽花的取食点：直接监听技能经验（<c>Pawn_SkillTracker.Learn</c>）。
     /// 任何算得上劳动的行为都会涨经验，因此不需要按 job / 账单去猜「哪一刻算完成」——
     /// 之前挂 EndCurrentJob 漏掉账单活、挂 MakeRecipeProducts 又依赖产出路径，
