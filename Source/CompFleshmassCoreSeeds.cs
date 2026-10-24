@@ -47,9 +47,11 @@ namespace Botania
             {
                 return;
             }
-            // 核心被压制 / 休眠时既不出肉也不出种子——保证「有肉才有种子」这条对应关系
+            // 只有真正「休眠」时才停（IsDormant）。
+            // 注意不能用 !IsActive：IsActive 指的是实体处于激活态，
+            // 核心平时是 Passive（活性缓慢涨落），用错了会让计时永远停住。
             CompActivity activity = parent.TryGetComp<CompActivity>();
-            if (activity != null && !activity.IsActive)
+            if (activity != null && activity.IsDormant)
             {
                 return;
             }
