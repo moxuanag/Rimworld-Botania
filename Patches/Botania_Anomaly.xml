@@ -48,7 +48,7 @@
                 <li>Meat_Twisted</li>
               </thingDefs>
             </filter>
-            <count>3</count>
+            <count>15</count>
           </li>
         </ingredients>
         <fixedIngredientFilter>
@@ -64,22 +64,9 @@
           <li>ButcherSpot</li>
         </recipeUsers>
         <skillRequirements>
-          <Cooking>4</Cooking>
+          <Cooking>10</Cooking>
         </skillRequirements>
       </RecipeDef>
-    </value>
-  </Operation>
-
-  <!-- 3) 血肉核心（FleshmassNucleus）：每完成一次产肉节律，脚边掉几枚血肉之种。
-       注：曾经试过 postfix CompFleshmassNucleus.CreateMeat，实机没触发，改用同节律自计时。 -->
-  <Operation Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Anomaly">
-    <xpath>Defs/ThingDef[defName="FleshmassNucleus"]/comps</xpath>
-    <value>
-      <li Class="Botania.CompProperties_FleshmassCoreSeeds">
-        <seedDefName>Botania_FleshSeed</seedDefName>
-        <seedsPerCycle>3</seedsPerCycle>
-        <cycleTicks>60000</cycleTicks>
-      </li>
     </value>
   </Operation>
 

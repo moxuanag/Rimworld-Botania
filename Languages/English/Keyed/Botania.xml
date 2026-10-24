@@ -107,5 +107,4 @@
   <Botania.SowCellOccupied>There is already a cell there</Botania.SowCellOccupied>
   <Botania.SowCellNoSeed>No flesh seed left on this map</Botania.SowCellNoSeed>
   <Botania.FleshSeedCellInfo>Life-orchid cell · generation {0} · age {1}/{2}</Botania.FleshSeedCellInfo>
-  <Botania.CoreSeedCycle>{1} flesh seed(s) after the next contraction (in {0} h)</Botania.CoreSeedCycle>
 </LanguageData>
