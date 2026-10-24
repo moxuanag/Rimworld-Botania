@@ -126,4 +126,11 @@
   <Botania.TerraAltarPedestalsComplete>All four corner pedestals are already there</Botania.TerraAltarPedestalsComplete>
   <Botania.TerraAltarPlacedPedestals>Placed {0} pedestal blueprint(s)</Botania.TerraAltarPlacedPedestals>
   <Botania.TerraAltarPedestalsBlocked>{0} corner(s) blocked: something is in the way, or the terrain won't take it</Botania.TerraAltarPedestalsBlocked>
+  <Botania.TerraAltarAutoHaul>Auto-haul materials</Botania.TerraAltarAutoHaul>
+  <Botania.TerraAltarAutoHaulDesc>While on, any **idle hauler** will carry the missing materials onto the slab. It never interrupts a colonist who is already working; the work counts as Hauling.</Botania.TerraAltarAutoHaulDesc>
+  <Botania.TerraAltarHaulOn>Auto-haul: on</Botania.TerraAltarHaulOn>
+  <Botania.TerraAltarHaulBusy>a hauler is on the way</Botania.TerraAltarHaulBusy>
+  <Botania.TerraAltarHaulOrdered>a hauler is on the way</Botania.TerraAltarHaulOrdered>
+  <Botania.TerraAltarHaulNoHauler>waiting for an idle hauler</Botania.TerraAltarHaulNoHauler>
+  <Botania.TerraAltarHaulNoStock>no such material in the colony</Botania.TerraAltarHaulNoStock>
 </LanguageData>

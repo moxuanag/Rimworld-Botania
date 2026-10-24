@@ -126,4 +126,11 @@
   <Botania.TerraAltarPedestalsComplete>四角基座已经齐了</Botania.TerraAltarPedestalsComplete>
   <Botania.TerraAltarPlacedPedestals>已放下 {0} 根基座蓝图</Botania.TerraAltarPlacedPedestals>
   <Botania.TerraAltarPedestalsBlocked>{0} 个角放不下：被别的东西占着，或地形不允许</Botania.TerraAltarPedestalsBlocked>
+  <Botania.TerraAltarAutoHaul>自动搬运材料</Botania.TerraAltarAutoHaul>
+  <Botania.TerraAltarAutoHaulDesc>开启后，只要有**闲着的搬运工**，它就会把台面缺的材料搬上去。不会打断正在干活的小人；工作归「搬运」。</Botania.TerraAltarAutoHaulDesc>
+  <Botania.TerraAltarHaulOn>自动搬运：开</Botania.TerraAltarHaulOn>
+  <Botania.TerraAltarHaulBusy>已派搬运工去取料</Botania.TerraAltarHaulBusy>
+  <Botania.TerraAltarHaulOrdered>已派搬运工去取料</Botania.TerraAltarHaulOrdered>
+  <Botania.TerraAltarHaulNoHauler>等一个闲着的搬运工</Botania.TerraAltarHaulNoHauler>
+  <Botania.TerraAltarHaulNoStock>殖民地里没有这种材料</Botania.TerraAltarHaulNoStock>
 </LanguageData>
