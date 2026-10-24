@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- 精灵灯：不用电的灯，从魔力网络抽 1 魔力 / 60 秒，断魔即熄灭。
+       实现见 Source/CompManaPixieLamp.cs：不碰 CompGlower 内部，
+       而是代替玩家去拨原版灯的 CompFlickable 开关。 -->
+  <ThingDef ParentName="LampBase">
+    <defName>Botania_PixieLamp</defName>
+    <label>pixie lamp</label>
+    <description>A quartz lamp that drinks mana instead of power. Pixies drift inside the glass and light it; when the mana runs out they go still and the lamp goes dark, then wake again when the supply returns.</description>
+    <graphicData>
+      <texPath>Things/Building/Botania/PixieLamp</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <costList>
+      <Botania_ElvenQuartz>2</Botania_ElvenQuartz>
+      <Botania_PixieDust>1</Botania_PixieDust>
+      <Botania_ManasteelIngot>2</Botania_ManasteelIngot>
+    </costList>
+    <statBases>
+      <Mass>3</Mass>
+      <WorkToBuild>800</WorkToBuild>
+      <MarketValue>320</MarketValue>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <uiOrder>2995</uiOrder>
+    <researchPrerequisites>
+      <li>Botania_Elementium</li>
+    </researchPrerequisites>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>6</glowRadius>
+        <glowColor>(253,232,180,0)</glowColor>
+      </li>
+      <li Class="Botania.CompProperties_ManaPixieLamp">
+        <manaPerCharge>1</manaPerCharge>
+        <chargeIntervalTicks>3600</chargeIntervalTicks>
+        <searchRadius>8</searchRadius>
+      </li>
+    </comps>
+  </ThingDef>
+
+</Defs>

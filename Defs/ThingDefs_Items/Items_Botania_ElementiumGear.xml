@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ============================================================
+       元素装备（Botania_Elementium · 3000 点 · 前置「精灵之门」）
+         · 元素剑 / 水晶弓 / 元素甲 / 元素头盔
+         · 护甲**不写 wornGraphicPath**：穿在身上没有外观变化，但绝不报错
+           （要补外观得按 5 种体型 × 3 个方向出图，见开发文档第一部分 §9）
+         · 全部用元素锭做料，元素锭只能由精灵之门把魔力钢 + 精灵之尘转化出来
+       ============================================================ -->
+
+  <!-- 元素剑：26 伤害 / 35% 穿透 / 2.0 秒 -->
+  <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
+    <defName>Botania_ElementiumSword</defName>
+    <label>elementium sword</label>
+    <description>A blade of elementium, the pink metal that springs back instead of shattering. Light for its length, and it keeps an edge that steel loses after a single fight.</description>
+    <possessionCount>1</possessionCount>
+    <graphicData>
+      <texPath>Things/Item/Equipment/WeaponMelee/Botania/ElementiumSword</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.15,1.15)</drawSize>
+    </graphicData>
+    <techLevel>Spacer</techLevel>
+    <weaponTags>
+      <li>BotaniaMelee</li>
+    </weaponTags>
+    <statBases>
+      <WorkToMake>12000</WorkToMake>
+      <Mass>2.2</Mass>
+      <MarketValue>800</MarketValue>
+    </statBases>
+    <costList>
+      <Botania_ElementiumIngot>3</Botania_ElementiumIngot>
+      <Botania_Livingwood>2</Botania_Livingwood>
+    </costList>
+    <recipeMaker>
+      <researchPrerequisite>Botania_Elementium</researchPrerequisite>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <soundWorking>Recipe_Machining</soundWorking>
+      <recipeUsers>
+        <li>FueledSmithy</li>
+        <li>ElectricSmithy</li>
+      </recipeUsers>
+      <displayPriority>345</displayPriority>
+      <skillRequirements>
+        <Crafting>6</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <equippedAngleOffset>-65</equippedAngleOffset>
+    <tools>
+      <li>
+        <label>handle</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2.0</cooldownTime>
+      </li>
+      <li>
+        <label>point</label>
+        <capacities>
+          <li>Stab</li>
+        </capacities>
+        <power>22</power>
+        <cooldownTime>2.0</cooldownTime>
+        <armorPenetration>0.30</armorPenetration>
+      </li>
+      <li>
+        <label>edge</label>
+        <capacities>
+          <li>Cut</li>
+        </capacities>
+        <power>26</power>
+        <cooldownTime>2.0</cooldownTime>
+        <armorPenetration>0.35</armorPenetration>
+      </li>
+    </tools>
+  </ThingDef>
+
+  <!-- 水晶弓用的箭：16 伤害 -->
+  <ThingDef ParentName="BaseBullet">
+    <defName>Botania_CrystalArrow</defName>
+    <label>crystal arrow</label>
+    <description>A sliver of elven quartz shot from the crystal bow. Mana carries it, so no arrow is ever spent.</description>
+    <graphicData>
+      <texPath>Things/Projectile/Botania/CrystalArrow</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+    </statBases>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>16</damageAmountBase>
+      <stoppingPower>1.0</stoppingPower>
+      <speed>60</speed>
+    </projectile>
+  </ThingDef>
+
+  <!-- 水晶弓：16 伤害 / 射程 30 / 2.2 秒冷却 / 吃魔力不烧箭 -->
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>Botania_CrystalBow</defName>
+    <label>crystal bow</label>
+    <description>A bow strung with drawn mana instead of sinew. Each arrow is a sliver of quartz that the bow grows as it is drawn, and the shot is paid for out of the bow's own reserve rather than from a quiver.</description>
+    <possessionCount>1</possessionCount>
+    <graphicData>
+      <texPath>Things/Item/Equipment/WeaponRanged/Botania/CrystalBow</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.2,1.2)</drawSize>
+    </graphicData>
+    <soundInteract>Bow_Small</soundInteract>
+    <techLevel>Spacer</techLevel>
+    <statBases>
+      <WorkToMake>12000</WorkToMake>
+      <MaxHitPoints>160</MaxHitPoints>
+      <Mass>2.2</Mass>
+      <MarketValue>900</MarketValue>
+      <AccuracyTouch>0.85</AccuracyTouch>
+      <AccuracyShort>0.85</AccuracyShort>
+      <AccuracyMedium>0.80</AccuracyMedium>
+      <AccuracyLong>0.70</AccuracyLong>
+      <RangedWeapon_Cooldown>2.2</RangedWeapon_Cooldown>
+    </statBases>
+    <costList>
+      <Botania_ElementiumIngot>3</Botania_ElementiumIngot>
+      <Botania_Livingwood>4</Botania_Livingwood>
+    </costList>
+    <recipeMaker>
+      <researchPrerequisite>Botania_Elementium</researchPrerequisite>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <soundWorking>Recipe_Machining</soundWorking>
+      <recipeUsers>
+        <li>FueledSmithy</li>
+        <li>ElectricSmithy</li>
+      </recipeUsers>
+      <displayPriority>346</displayPriority>
+      <skillRequirements>
+        <Crafting>6</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <weaponTags>
+      <li>BotaniaRanged</li>
+    </weaponTags>
+    <weaponClasses>
+      <li>Ranged</li>
+      <li>RangedLight</li>
+    </weaponClasses>
+    <verbs>
+      <li>
+        <verbClass>Botania.Verb_ManaBolt</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Botania_CrystalArrow</defaultProjectile>
+        <warmupTime>0.5</warmupTime>
+        <range>30</range>
+        <soundCast>Bow_Small</soundCast>
+        <muzzleFlashScale>0</muzzleFlashScale>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="Botania.CompProperties_ManaWeapon">
+        <maxMana>300</maxMana>
+        <manaPerShot>20</manaPerShot>
+        <rechargePerSecond>2</rechargePerSecond>
+        <sourceRadius>8</sourceRadius>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- 元素甲：锐器 90% / 钝器 45%（躯干 + 四肢），不写披挂外观 -->
+  <ThingDef ParentName="ApparelBase">
+    <defName>Botania_ElementiumArmor</defName>
+    <label>elementium armor</label>
+    <description>A full suit of elementium plate over a livingwood frame. It bends under a blow and springs back, so it shrugs off cuts far better than it does a hammer.</description>
+    <techLevel>Spacer</techLevel>
+    <graphicData>
+      <texPath>Things/Pawn/Humanlike/Apparel/Botania_ElementiumArmor/Botania_ElementiumArmor</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.00</drawSize>
+    </graphicData>
+    <statBases>
+      <WorkToMake>14000</WorkToMake>
+      <MaxHitPoints>260</MaxHitPoints>
+      <Mass>8</Mass>
+      <Flammability>0</Flammability>
+      <ArmorRating_Sharp>0.90</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.45</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.25</ArmorRating_Heat>
+      <Insulation_Cold>12</Insulation_Cold>
+      <Insulation_Heat>4</Insulation_Heat>
+      <EquipDelay>4</EquipDelay>
+    </statBases>
+    <equippedStatOffsets>
+      <MoveSpeed>-0.10</MoveSpeed>
+    </equippedStatOffsets>
+    <thingCategories>
+      <li>ApparelArmor</li>
+    </thingCategories>
+    <costList>
+      <Botania_ElementiumIngot>4</Botania_ElementiumIngot>
+      <Botania_Livingwood>2</Botania_Livingwood>
+      <Botania_PixieDust>1</Botania_PixieDust>
+    </costList>
+    <recipeMaker>
+      <researchPrerequisite>Botania_Elementium</researchPrerequisite>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <soundWorking>Recipe_Machining</soundWorking>
+      <recipeUsers>
+        <li>FueledSmithy</li>
+        <li>ElectricSmithy</li>
+      </recipeUsers>
+      <displayPriority>347</displayPriority>
+      <skillRequirements>
+        <Crafting>6</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <apparel>
+      <bodyPartGroups>
+        <li>Torso</li>
+        <li>Neck</li>
+        <li>Shoulders</li>
+        <li>Arms</li>
+        <li>Hands</li>
+        <li>Legs</li>
+        <li>Feet</li>
+      </bodyPartGroups>
+      <layers>
+        <li>Shell</li>
+      </layers>
+    </apparel>
+  </ThingDef>
+
+  <!-- 元素头盔：锐器 54% / 钝器 27% -->
+  <ThingDef ParentName="ApparelBase">
+    <defName>Botania_ElementiumHelmet</defName>
+    <label>elementium helmet</label>
+    <description>A helm of elementium with a quartz visor. Lighter than it looks, and it turns a blade without ringing like steel does.</description>
+    <techLevel>Spacer</techLevel>
+    <graphicData>
+      <texPath>Things/Pawn/Humanlike/Apparel/Botania_ElementiumHelmet/Botania_ElementiumHelmet</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.00</drawSize>
+    </graphicData>
+    <statBases>
+      <WorkToMake>9000</WorkToMake>
+      <MaxHitPoints>180</MaxHitPoints>
+      <Mass>2</Mass>
+      <Flammability>0</Flammability>
+      <ArmorRating_Sharp>0.54</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.27</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.20</ArmorRating_Heat>
+      <Insulation_Cold>4</Insulation_Cold>
+      <Insulation_Heat>2</Insulation_Heat>
+      <EquipDelay>2</EquipDelay>
+    </statBases>
+    <thingCategories>
+      <li>ApparelArmor</li>
+    </thingCategories>
+    <costList>
+      <Botania_ElementiumIngot>3</Botania_ElementiumIngot>
+      <Botania_PixieDust>1</Botania_PixieDust>
+    </costList>
+    <recipeMaker>
+      <researchPrerequisite>Botania_Elementium</researchPrerequisite>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <soundWorking>Recipe_Machining</soundWorking>
+      <recipeUsers>
+        <li>FueledSmithy</li>
+        <li>ElectricSmithy</li>
+      </recipeUsers>
+      <displayPriority>348</displayPriority>
+      <skillRequirements>
+        <Crafting>6</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <apparel>
+      <bodyPartGroups>
+        <li>Head</li>
+      </bodyPartGroups>
+      <layers>
+        <li>Overhead</li>
+      </layers>
+    </apparel>
+  </ThingDef>
+
+</Defs>

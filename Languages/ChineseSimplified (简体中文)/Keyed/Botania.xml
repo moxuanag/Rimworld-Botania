@@ -90,4 +90,6 @@
   <Botania.ClearMindLotusActive>正在压制心灵干扰（每人 {0} 魔力/秒）</Botania.ClearMindLotusActive>
   <Botania.ClearMindLotusWeaken>正在削弱心灵干扰（心情惩罚减半，每人 {0} 魔力/秒）</Botania.ClearMindLotusWeaken>
   <Botania.ClearMindLotusIdle>待机：没有心灵干扰，或魔力不足</Botania.ClearMindLotusIdle>
+  <Botania.PixieLampOn>精灵灯：正在耗魔（每 60 秒 1 魔力）</Botania.PixieLampOn>
+  <Botania.PixieLampOff>精灵灯：附近没有魔力，已熄灭</Botania.PixieLampOff>
 </LanguageData>

@@ -172,4 +172,23 @@
 
   <Botania_ClearMindLotus.label>明心莲</Botania_ClearMindLotus.label>
   <Botania_ClearMindLotus.description>一朵哼着反调的白莲。只要它还有魔力，范围内的人就听不见心灵干扰——那一条念头被推出了脑子，其余心情一概不动。它喝魔很凶，一断供，干扰立刻回来。</Botania_ClearMindLotus.description>
+
+  <Botania_ElementiumSword.label>元素剑</Botania_ElementiumSword.label>
+  <Botania_ElementiumSword.description>元素锭打出来的剑。这种粉色金属挨打会弹回形状，所以它比钢剑更难崩口；代价是纯靠刃口，砸不穿重甲。</Botania_ElementiumSword.description>
+
+  <Botania_CrystalBow.label>水晶弓</Botania_CrystalBow.label>
+  <Botania_CrystalBow.description>弓弦是拉直的魔力而非兽筋。每射一箭，弓自己凝出一枚石英箭，所以永远不缺箭；消耗的是弓内储备的魔力。</Botania_CrystalBow.description>
+
+  <Botania_CrystalArrow.label>水晶箭</Botania_CrystalArrow.label>
+  <Botania_CrystalArrow.description>水晶弓自行凝结的箭矢，射完就散成魔力。</Botania_CrystalArrow.description>
+
+  <Botania_ElementiumArmor.label>元素甲</Botania_ElementiumArmor.label>
+  <Botania_ElementiumArmor.description>活木骨架上覆满元素锭甲片的全套护甲。受击时先弯后弹，挡切割远好过挡钝击。穿上没有外观变化——披挂图还没做。</Botania_ElementiumArmor.description>
+
+  <Botania_ElementiumHelmet.label>元素头盔</Botania_ElementiumHelmet.label>
+  <Botania_ElementiumHelmet.description>带精灵石英面罩的元素锭头盔。比看上去轻，挡下刀刃时不像钢盔那样嗡响。</Botania_ElementiumHelmet.description>
+
+  <Botania_PixieLamp.label>精灵灯</Botania_PixieLamp.label>
+  <Botania_PixieLamp.description>喝魔力而不是电的灯。小精灵在玻璃罩里飘着发光；魔力一断它们就静下来，灯随之熄灭，来魔力再自己亮回去。野外、无电前哨、电网不稳的地方都能用。</Botania_PixieLamp.description>
+
 </LanguageData>

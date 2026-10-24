@@ -90,4 +90,6 @@
   <Botania.ClearMindLotusActive>Blocking psychic drone ({0} mana/s per pawn)</Botania.ClearMindLotusActive>
   <Botania.ClearMindLotusWeaken>Weakening an event psychic drone (mood penalty halved, {0} mana/s per pawn)</Botania.ClearMindLotusWeaken>
   <Botania.ClearMindLotusIdle>Idle — no psychic drone, or no mana</Botania.ClearMindLotusIdle>
+  <Botania.PixieLampOn>Pixie lamp: drinking mana (1 per 60 s)</Botania.PixieLampOn>
+  <Botania.PixieLampOff>Pixie lamp: no mana in range, dark</Botania.PixieLampOff>
 </LanguageData>
