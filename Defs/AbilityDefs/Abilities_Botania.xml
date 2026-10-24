@@ -76,7 +76,7 @@
   <AbilityDef>
     <defName>Botania_TerraWave</defName>
     <label>terrasteel wave</label>
-    <description>Swing the blade and let the metal remember the arc. A line of force runs twelve cells in front of you, cutting for 30 at the first step and fading to 10 at the far end. Cooldown 8 seconds, no mana cost.</description>
+    <description>Swing the blade and let the metal remember the arc. A line of force runs forty-eight cells in front of you, cutting for 30 at the first step and fading to 10 at the far end. Cooldown 8 seconds, no mana cost.</description>
     <iconPath>UI/Icons/Botania/TerraWave</iconPath>
     <abilityClass>Botania.Ability_TerraWave</abilityClass>
     <cooldownTicksRange>480</cooldownTicksRange>
@@ -88,7 +88,7 @@
     <verbProperties>
       <!-- 自定义 verb 只为画「射程圈 + 剑气扫过的格」，替代原版蓝色准星 -->
       <verbClass>Botania.Verb_TerraWave</verbClass>
-      <range>12</range>
+      <range>48</range>
       <warmupTime>0.6</warmupTime>
       <requireLineOfSight>false</requireLineOfSight>
       <soundCast>PsycastPsychicEffect</soundCast>

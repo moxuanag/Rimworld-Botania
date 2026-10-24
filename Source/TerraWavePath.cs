@@ -12,7 +12,8 @@ namespace Botania
     /// </summary>
     public static class TerraWavePath
     {
-        public const int MaxCells = 12;
+        /// <summary>剑气长度（格）。2026-10-24 玩家要求「在当前 12 格基础上 ×4」→ 48。</summary>
+        public const int MaxCells = 48;
 
         public static List<IntVec3> Cells(IntVec3 origin, IntVec3 aim, Map map)
         {

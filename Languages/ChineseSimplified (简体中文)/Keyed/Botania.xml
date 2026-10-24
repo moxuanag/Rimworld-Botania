@@ -128,5 +128,4 @@
   <Botania.TerraAltarAutoHaul>允许搬运工送料</Botania.TerraAltarAutoHaul>
   <Botania.TerraAltarAutoHaulDesc>打开后，「搬运」工作里会多出一条「给泰拉凝聚台送料」：搬运工空闲时会把台面缺的材料搬上去。不打断正在干活的小人，也不需要再点任何按钮。</Botania.TerraAltarAutoHaulDesc>
   <Botania.TerraAltarHaulOn>搬运工送料：已允许</Botania.TerraAltarHaulOn>
-  <Botania.TerraPickSpread>采矿：周围八格同步被挖</Botania.TerraPickSpread>
 </LanguageData>
