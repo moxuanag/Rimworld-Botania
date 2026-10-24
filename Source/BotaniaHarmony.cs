@@ -148,6 +148,27 @@ namespace Botania
     }
 
     /// <summary>
+    /// 地图组件不能用 XML 注册（MapComponentDef 不是合法的 Def 类型），
+    /// 只能在 Map.FillComponents 之后把自己塞进 map.components。
+    /// 启命英的「血肉核心种子计时」靠这个时钟推进。
+    /// </summary>
+    [HarmonyPatch(typeof(Map), "FillComponents")]
+    public static class Patch_MapFillComponents
+    {
+        public static void Postfix(Map __instance)
+        {
+            try
+            {
+                __instance.components.Add(new MapComponent_BotaniaCores(__instance));
+            }
+            catch (Exception ex)
+            {
+                Log.Warning("[Botania] map component hook failed: " + ex.Message);
+            }
+        }
+    }
+
+    /// <summary>
     /// 苦丽花的取食点：直接监听技能经验（<c>Pawn_SkillTracker.Learn</c>）。
     /// 任何算得上劳动的行为都会涨经验，因此不需要按 job / 账单去猜「哪一刻算完成」——
     /// 之前挂 EndCurrentJob 漏掉账单活、挂 MakeRecipeProducts 又依赖产出路径，

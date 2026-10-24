@@ -29,16 +29,42 @@ namespace Botania
 
     public class CompFleshmassCoreSeeds : ThingComp
     {
+        /// <summary>
+        /// 已生成的核全部登记在这里，由 MapComponent 统一按 TickRare 推进。
+        /// 不依赖 ThingComp.CompTick（Pawn 上的 comp tick 路径实测不可靠）。
+        /// </summary>
+        public static readonly System.Collections.Generic.List<CompFleshmassCoreSeeds> Registry =
+            new System.Collections.Generic.List<CompFleshmassCoreSeeds>();
+
         private int ticksSinceLastCycle;
 
         public CompProperties_FleshmassCoreSeeds Props => (CompProperties_FleshmassCoreSeeds)props;
 
         private ThingDef SeedDef => DefDatabase<ThingDef>.GetNamed(Props.seedDefName, false);
 
-        public override void CompTick()
+        public override void PostSpawnSetup(bool respawningAfterLoad)
         {
-            base.CompTick();
+            base.PostSpawnSetup(respawningAfterLoad);
+            if (!Registry.Contains(this))
+            {
+                Registry.Add(this);
+            }
+        }
+
+        public override void PostDeSpawn(Map map, DestroyMode mode = DestroyMode.Vanish)
+        {
+            Registry.Remove(this);
+            base.PostDeSpawn(map, mode);
+        }
+
+        /// <summary>由 MapComponent_BotaniaCores 每 TickRare 调用。</summary>
+        public void Advance(int ticks)
+        {
             if (!parent.Spawned || parent.Map == null || !ModsConfig.AnomalyActive)
+            {
+                return;
+            }
+            if (parent.Destroyed || parent.DestroyedOrNull())
             {
                 return;
             }
@@ -56,7 +82,7 @@ namespace Botania
                 return;
             }
 
-            ticksSinceLastCycle++;
+            ticksSinceLastCycle += ticks;
             if (ticksSinceLastCycle < Props.cycleTicks)
             {
                 return;
@@ -112,7 +138,13 @@ namespace Botania
                 return null;
             }
             float left = (Props.cycleTicks - ticksSinceLastCycle) / 60000f;
-            return "Botania.CoreSeedCycle".Translate(left.ToString("0.0"), Props.seedsPerCycle.ToString());
+            CompActivity activity = parent.TryGetComp<CompActivity>();
+            string state = activity == null
+                ? "no-activity-comp"
+                : string.Format("active={0} dormant={1} level={2:0}%",
+                    activity.IsActive, activity.IsDormant, activity.ActivityLevel * 100f);
+            return "Botania.CoreSeedCycle".Translate(left.ToString("0.0"), Props.seedsPerCycle.ToString())
+                + "\n[debug] ticks=" + ticksSinceLastCycle + " " + state;
         }
 
         public override void PostExposeData()
