@@ -111,6 +111,13 @@ namespace Botania
                 {
                     continue;
                 }
+                // 关键：原版 JobDriver_HaulToCell 会**预定目标格**（maxPawns 1）。
+                // 不判这一条，几个搬运工会被派到同一格，第二个必然
+                // 「Could not reserve ... for job HaulToCell」刷红字、然后站着不动。
+                if (!pawn.CanReserve(cell))
+                {
+                    continue;
+                }
                 int count = cell.GetThingList(map).Count;
                 if (count < bestCount)
                 {

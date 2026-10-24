@@ -52,6 +52,12 @@
   引擎**不会**回落到无体型后缀的图，缺一张就在渲染那一帧报
   `Failed to find any textures at ..._Male`
 
+### 修复（2026-10-24 · 送料时多人抢同一格刷红字）
+- 实机日志：多个搬运工被派到**同一个落点格**，原版 `JobDriver_HaulToCell` 会预定目标格
+  （`maxPawns = 1`），第二个必然 `Could not reserve ... for job HaulToCell`，小人站着不动还刷 Warning
+- 落点规划加 `pawn.CanReserve(cell)`：每个小人挑自己预定得到的空位，台面外圈八格可并行送料
+- 文档踩坑新增 #22（可达 ≠ 没被别人占）
+
 ### 改进（2026-10-24 · 送料改走原版「搬运」工作）
 - 送料不再是「按钮 → 手动插队」，而是**原版搬运工作里的一条正式工作**：
   `WorkGiver_TerraAltarDeliver` 挂在 `Hauling` 下，和「运材料给蓝图/框架」同类
