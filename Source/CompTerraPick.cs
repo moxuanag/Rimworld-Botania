@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using RimWorld;
+using UnityEngine;
 using Verse;
 using Verse.AI;
 
@@ -10,7 +11,7 @@ namespace Botania
         /// <summary>检查间隔（tick）。15 tick ≈ 0.25 秒，够跟上采矿进度又不至于每帧算。</summary>
         public int intervalTicks = 15;
 
-        /// <summary>相邻格是否必须划过采矿标记。默认 false：自然岩石/矿脉顺手带走。</summary>
+        /// <summary>相邻格是否必须划过采矿标记。默认 false：周围自然岩石/矿脉顺手带走。</summary>
         public bool requireDesignation = false;
 
         public CompProperties_TerraPick()
@@ -20,26 +21,21 @@ namespace Botania
     }
 
     /// <summary>
-    /// 泰拉碎岩镐：装备后采矿时，**周围八格和正在挖的那格同步被挖**。
+    /// 泰拉碎岩镐：装备后采矿时，**正在挖的那格和周围八格一起被挖穿**。
     ///
-    /// 实现思路（关键）：不自己算挖掘速度，而是**照抄中间那格的进度**——
-    /// 每隔 `intervalTicks` 记录一次中心矿物的耐久，把「掉了多少」原样打到周围八格上。
-    /// 这样无论小人技能、采矿速度、石头种类、难度系数怎么变，九格永远同步，
-    /// 不需要我去猜原版每一击多少伤害（踩坑：猜错就会出现「周围比中间快/慢」）。
+    /// 口径（2026-10-24 玩家定）：按**百分比**同步，不是按绝对耐久。
+    /// 玩家给的例子：中心 2000 耐久的压埋机械、外圈 400 耐久的砂岩，
+    /// 挖完中心那一刻外圈也要同时挖完。按绝对伤害同步会让 400 的砂岩先崩，不符合要求。
     ///
-    /// 只对自然岩石与矿脉生效（`Mineable`），不会顺手啃掉玩家自己的墙。
-    /// 中心那格被挖穿时，把**剩余耐久**一次性补到周围，做到「挖完这格，周围同时崩」。
+    /// 所以每一轮只算一件事：中心还剩百分之几，就把周围八格打到「相同的百分比」。
+    /// 这样不管两边耐久差多少倍、石种多杂，九格永远同时挖穿。
     ///
-    /// 为什么要 `tickerType Normal`：物品不写在 Def 里的 tickerType 就永远不 tick
-    /// （踩坑：自充能之类全失效）。
+    /// 只对 `Mineable`（自然岩石/矿脉）生效，**不会啃玩家自己的墙**。
+    /// 必须写 `tickerType Normal`：物品不写就永远不 tick，整个机制静默失效。
     /// </summary>
     public class CompTerraPick : ThingComp
     {
         private CompProperties_TerraPick Props => (CompProperties_TerraPick)props;
-
-        private IntVec3 lastCenter = IntVec3.Invalid;
-        private float lastHp;
-        private bool tracking;
 
         public override void CompTick()
         {
@@ -50,13 +46,11 @@ namespace Botania
             Pawn pawn = (parent.ParentHolder as Pawn_EquipmentTracker)?.pawn;
             if (pawn == null || !pawn.Spawned || pawn.Map == null || pawn.Downed || pawn.InMentalState)
             {
-                Reset();
                 return;
             }
             Job job = pawn.jobs?.curJob;
             if (job == null || job.def != JobDefOf.Mine || !job.targetA.IsValid)
             {
-                Reset();
                 return;
             }
 
@@ -64,40 +58,29 @@ namespace Botania
             Map map = pawn.Map;
             if (!center.InBounds(map))
             {
-                Reset();
                 return;
             }
 
             Mineable mine = center.GetFirstMineable(map);
-            if (mine == null || mine.Destroyed)
+            float progress;
+            if (mine == null || mine.Destroyed || mine.MaxHitPoints <= 0f)
             {
-                // 中心被挖穿了：把最后那截耐久补给周围，让它们同时崩
-                if (tracking && lastHp > 0f)
-                {
-                    SpreadDamage(pawn, map, center, lastHp);
-                }
-                Reset();
+                // 中心已经挖穿（或被别人挖掉）：周围直接补满
+                progress = 1f;
+            }
+            else
+            {
+                progress = 1f - mine.HitPoints / (float)mine.MaxHitPoints;
+            }
+            if (progress <= 0.001f)
+            {
                 return;
             }
-
-            if (!tracking || center != lastCenter)
-            {
-                // 换了一格：重新开始记账，不补伤害
-                tracking = true;
-                lastCenter = center;
-                lastHp = mine.HitPoints;
-                return;
-            }
-
-            float delta = lastHp - mine.HitPoints;
-            lastHp = mine.HitPoints;
-            if (delta > 0.01f)
-            {
-                SpreadDamage(pawn, map, center, delta);
-            }
+            SyncNeighbors(pawn, map, center, Mathf.Clamp01(progress));
         }
 
-        private void SpreadDamage(Pawn pawn, Map map, IntVec3 center, float amount)
+        /// <summary>把周围八格打到和中心**相同的完成百分比**。</summary>
+        private void SyncNeighbors(Pawn pawn, Map map, IntVec3 center, float progress)
         {
             ThingDef weaponDef = parent.def;
             for (int dx = -1; dx <= 1; dx++)
@@ -119,30 +102,63 @@ namespace Botania
                         continue;
                     }
                     Mineable other = cell.GetFirstMineable(map);
-                    if (other == null || other.Destroyed)
+                    if (other == null || other.Destroyed || other.MaxHitPoints <= 0f)
                     {
                         continue;
                     }
-                    other.TakeDamage(new DamageInfo(DamageDefOf.Blunt, amount, 1f, -1f,
+                    float targetHp = other.MaxHitPoints * (1f - progress);
+                    float damage = other.HitPoints - targetHp;
+                    if (damage <= 0.5f)
+                    {
+                        continue;
+                    }
+                    bool willBreak = damage >= other.HitPoints - 0.01f;
+                    string defName = other.def.defName;
+                    int expectedYield = YieldOf(other);
+                    ThingDef dropDef = other.def.building?.mineableThing;
+                    if (willBreak && Prefs.DevMode)
+                    {
+                        Log.Message("[Botania] 碎岩镐 3×3 挖穿 " + defName + " @" + cell
+                            + "（进度 " + progress.ToStringPercent() + "，应掉 " + expectedYield + "）");
+                    }
+                    other.TakeDamage(new DamageInfo(DamageDefOf.Blunt, damage, 1f, -1f,
                         pawn, null, weaponDef));
+                    if (willBreak && Prefs.DevMode && other.Destroyed)
+                    {
+                        Log.Message("[Botania] 实际掉落："
+                            + DropSummary(cell, map, dropDef, expectedYield));
+                    }
                 }
             }
         }
 
-        private void Reset()
+        private static int YieldOf(Mineable m)
         {
-            tracking = false;
-            lastCenter = IntVec3.Invalid;
-            lastHp = 0f;
+            BuildingProperties bp = m.def.building;
+            if (bp == null || bp.mineableYield <= 0)
+            {
+                return 1;
+            }
+            return bp.mineableYield;
         }
 
-        public override string CompInspectStringExtra()
+        /// <summary>开发者模式下核对：这一格到底掉了多少（排查「只掉一个矿」）。</summary>
+        private static string DropSummary(IntVec3 cell, Map map, ThingDef drop, int expectedYield)
         {
-            if (!Props.requireDesignation)
+            int count = 0;
+            int stacks = 0;
+            List<Thing> things = cell.GetThingList(map);
+            for (int i = 0; i < things.Count; i++)
             {
-                return "Botania.TerraPickSpread".Translate();
+                if (drop != null && things[i].def == drop)
+                {
+                    count += things[i].stackCount;
+                    stacks++;
+                }
             }
-            return null;
+            string what = drop != null ? drop.defName : "?";
+            return what + " ×" + count + "（" + stacks + " 堆），期望 " + expectedYield
+                + "，该格现有物品 " + things.Count + " 件";
         }
     }
 }
