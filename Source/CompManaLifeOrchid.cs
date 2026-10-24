@@ -189,6 +189,7 @@ namespace Botania
 
             int born = 0;
             int died = 0;
+            int aged = 0;
             for (int z = 0; z < size; z++)
             {
                 for (int x = 0; x < size; x++)
@@ -227,7 +228,8 @@ namespace Botania
                         age[index] = (byte)Math.Min(255, age[index] + 1);
                         if (age[index] > Props.cellLifespan)
                         {
-                            nextAlive = false; // 自然凋亡
+                            nextAlive = false; // 自然凋亡：算死亡，但不算「变化」付钱
+                            aged++;
                         }
                     }
                     else
@@ -276,9 +278,10 @@ namespace Botania
             }
 
             generation++;
-            if (born + died > 0)
+            int paidChanges = born + died - aged;
+            if (paidChanges > 0)
             {
-                float amount = Math.Min(Props.maxManaPerGeneration, (born + died) * Props.manaPerChange);
+                float amount = Math.Min(Props.maxManaPerGeneration, paidChanges * Props.manaPerChange);
                 CompManaStorage pool = FindPool();
                 if (pool != null)
                 {
