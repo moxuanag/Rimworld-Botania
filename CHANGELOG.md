@@ -52,6 +52,24 @@
   引擎**不会**回落到无体型后缀的图，缺一张就在渲染那一帧报
   `Failed to find any textures at ..._Male`
 
+### 修复（2026-10-24 · 泰拉钢首次进游戏的加载报错）
+- **泰拉凝聚台整个没出现**：`<passability>Walkable</passability>`。
+  引擎枚举 `Verse.Traversability` 只有 `Standable` / `PassThroughOnly` / `Impassable`，
+  写错的表现是**整份 `Buildings_Botania_Terrasteel.xml` 不加载**（凝聚台与基座一起消失），
+  并且本地化那边接着报 `Translation data for language Simplified Chinese has 2 errors`
+  （`Botania_TerrasteelAltar` 的 label / description 找不到 Def）。改成 `Standable`
+- **剑气报 `No Verse.KeyBindingDef named Misc13`**：`KeyBindingDefOf` 只预留 `Misc1`–`Misc12`，
+  `Misc11/12` 已被绽花与就地转化占用。剑气**不再写 hotKey**，从技能栏点
+- **凝聚基座报 `is minifiable but not in any thing category`**：可收纳建筑必须进分类树。
+  凝聚台与基座都补了 `BotaniaBuildings`
+- **校验器跟着出了三处改动**：
+  - `ENUM_PASSABILITY` 换成本来就对的三值，未知值从 `warn` 升级为 `fail`
+    （这次没拦住就是因为校验器清单里也写着 `Walkable`——用自己的错知识给自己盖章）；
+  - 新增 `check_load_safety()`：`AbilityDef.hotKey` 必须在 `Misc1`–`Misc12` 内；
+    有 `minifiedDef` 却没有任何（含继承的）`thingCategories` 直接 `fail`；
+  - `ENUM_ALTITUDE` 旧清单同样是编的（`Mote` / `Carpet` 不存在），改成从原版全量 XML 扫出来的 25 个真值
+- 以上两条新检查都做了**回归测试**（故意塞回 `Walkable` 与 `Misc13`，确认报错；再还原）
+
 ### 新增（2026-10-24 · 泰拉钢）
 - **泰拉钢整项**（`Botania_Terrasteel`，4000 点，前置「精灵之门」）实装，研究项不再是占位：
   - **泰拉凝聚台**（`Botania_TerrasteelAltar`，3×3）：把**魔力钢锭 ×1 + 精灵石英 ×1**
