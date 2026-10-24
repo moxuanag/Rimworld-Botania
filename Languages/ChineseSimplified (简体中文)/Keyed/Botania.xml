@@ -104,7 +104,7 @@
   <Botania.LifeOrchidRunning>运行中</Botania.LifeOrchidRunning>
   <Botania.LifeOrchidPaused>已暂停</Botania.LifeOrchidPaused>
   <Botania.LifeOrchidStatus2>{0} · 第 {1} 代 · {2} 个活细胞 · 每格存活 {3} 代后凋亡</Botania.LifeOrchidStatus2>
-  <Botania.LifeOrchidPawnInside>已暂停——范围内有人站着</Botania.LifeOrchidPawnInside>
+  <Botania.LifeOrchidPawnInside>已暂停——范围内有生物活动</Botania.LifeOrchidPawnInside>
   <Botania.SowCell>播种（血肉细胞）</Botania.SowCell>
   <Botania.SowCellDesc>在肉床格上放一枚血肉之种作为活细胞。用它画出起始图案。</Botania.SowCellDesc>
   <Botania.SowCellNeedBed>只能点在肉床上</Botania.SowCellNeedBed>

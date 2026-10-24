@@ -351,9 +351,13 @@ namespace Botania
                 false);
             toggle.action = delegate
             {
-                // 注意：这里**不重置年龄**。否则玩家可以卡在 29 代反复暂停/启动，
-                // 让细胞永远不老——那样不用补种就能无限产出。
                 running = !running;
+                if (running)
+                {
+                    // 代数只是显示，重开从头计数；但**年龄不清**——
+                    // 否则玩家卡在 29 代反复重开就能让细胞永远不老。
+                    generation = 0;
+                }
             };
             yield return toggle;
         }

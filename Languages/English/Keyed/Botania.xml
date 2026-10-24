@@ -104,7 +104,7 @@
   <Botania.LifeOrchidRunning>running</Botania.LifeOrchidRunning>
   <Botania.LifeOrchidPaused>paused</Botania.LifeOrchidPaused>
   <Botania.LifeOrchidStatus2>{0} · generation {1} · {2} cell(s) alive · each cell dies after {3} generations</Botania.LifeOrchidStatus2>
-  <Botania.LifeOrchidPawnInside>Paused — someone is standing inside the field</Botania.LifeOrchidPawnInside>
+  <Botania.LifeOrchidPawnInside>Paused — creatures are moving inside the field</Botania.LifeOrchidPawnInside>
   <Botania.SowCell>Sow flesh cell</Botania.SowCell>
   <Botania.SowCellDesc>Place a flesh seed on a flesh-bed tile as a living cell. Use it to draw the starting pattern.</Botania.SowCellDesc>
   <Botania.SowCellNeedBed>Target must be a flesh-bed tile</Botania.SowCellNeedBed>

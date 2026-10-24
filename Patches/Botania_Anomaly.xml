@@ -84,4 +84,13 @@
     </value>
   </Operation>
 
+
+  <!-- 4) 「播种」设计器挂进原版「杂项」分类（不再自建分类）。 -->
+  <Operation Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Anomaly">
+    <xpath>Defs/DesignationCategoryDef[defName="Misc"]/specialDesignatorClasses</xpath>
+    <value>
+      <li>Botania.Designator_SowFleshCell</li>
+    </value>
+  </Operation>
+
 </Patch>
