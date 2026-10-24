@@ -76,7 +76,7 @@
   <AbilityDef>
     <defName>Botania_TerraWave</defName>
     <label>terrasteel wave</label>
-    <description>Swing the blade and let the metal remember the arc. A line of force runs forty-eight cells in front of you, cutting for 30 at the first step and fading to 10 at the far end. Cooldown 8 seconds, no mana cost.</description>
+    <description>Swing the blade and let the metal remember the arc. A line of force runs forty-eight cells in front of you, three cells wide, cutting for 30 at the first step and fading to 10 at the far end. Cooldown 8 seconds, no mana cost.</description>
     <iconPath>UI/Icons/Botania/TerraWave</iconPath>
     <abilityClass>Botania.Ability_TerraWave</abilityClass>
     <cooldownTicksRange>480</cooldownTicksRange>

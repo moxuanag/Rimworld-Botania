@@ -6,7 +6,7 @@ using Verse;
 namespace Botania
 {
     /// <summary>
-    /// 剑气的瞄准预览：**技能射程圈 + 剑气实际会扫到的 12 格**，不画原版那个蓝色十字准星。
+    /// 剑气的瞄准预览：**技能射程圈 + 剑气实际会扫到的 48 步 × 3 格宽**，不画原版那个蓝色十字准星。
     ///
     /// 玩家反馈（2026-10-24）：点技能后出现的蓝色准星没有意义——
     /// 真正需要知道的是「我能打到多远」和「这一剑会扫过哪几格」。
@@ -43,14 +43,34 @@ namespace Botania
                     return;
                 }
 
-                // 2. 剑气会扫到的格
-                List<IntVec3> cells = TerraWavePath.Cells(caster.Position, target.Cell, map);
-                if (cells.Count > 0)
+                // 2. 剑气会扫到的格（3 格宽 × 48 步）
+                List<WaveCell> wave = TerraWavePath.Build(caster.Position, target.Cell, map);
+                if (wave.Count > 0)
                 {
+                    List<IntVec3> cells = new List<IntVec3>(wave.Count);
+                    List<IntVec3> lastStep = new List<IntVec3>();
+                    int maxStep = 0;
+                    for (int i = 0; i < wave.Count; i++)
+                    {
+                        cells.Add(wave[i].cell);
+                        if (wave[i].step > maxStep)
+                        {
+                            maxStep = wave[i].step;
+                        }
+                    }
                     GenDraw.DrawFieldEdges(cells, WaveColor);
-                    // 3. 落点单独标一下（不用原版蓝色准星）
-                    IntVec3 last = cells[cells.Count - 1];
-                    GenDraw.DrawFieldEdges(new List<IntVec3> { last }, AimColor);
+                    // 3. 最远那一步单独标一下（不用原版蓝色准星）
+                    for (int i = 0; i < wave.Count; i++)
+                    {
+                        if (wave[i].step == maxStep)
+                        {
+                            lastStep.Add(wave[i].cell);
+                        }
+                    }
+                    if (lastStep.Count > 0)
+                    {
+                        GenDraw.DrawFieldEdges(lastStep, AimColor);
+                    }
                 }
             }
             catch (System.Exception e)
