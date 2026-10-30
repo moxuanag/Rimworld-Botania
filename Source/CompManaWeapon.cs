@@ -164,7 +164,7 @@ namespace Botania
                 if (map != null)
                 {
                     source = ManaSourceUtil.FindNearest(
-                        EquipUtil.GetPosition(parent), map, Props.sourceRadius, 0f);
+                        EquipUtil.GetPosition(parent), map, Props.sourceRadius, needFromSource);
                 }
                 if (source == null || source.ManaAmount + 0.01f < needFromSource)
                 {

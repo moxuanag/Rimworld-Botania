@@ -57,7 +57,10 @@ namespace Botania
                 {
                     continue;
                 }
-                if (strictlyGreater ? source.ManaAmount > needAtLeast : source.ManaAmount >= needAtLeast)
+                // 正费用查询（needAtLeast<=0 的默认调用也算）必须排除空源，
+                // 否则最近的一个空池会把更远处真正有魔力的源挡住。
+                float threshold = needAtLeast > 0f ? needAtLeast : 0.01f;
+                if (strictlyGreater ? source.ManaAmount > threshold : source.ManaAmount >= threshold)
                 {
                     return source;
                 }

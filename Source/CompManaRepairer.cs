@@ -250,8 +250,17 @@ namespace Botania
                     }
                     if (totalHeal <= 0)
                     {
+                        // 一点也修不了：把抽出来的钱全部退回去
+                        source.AddMana(spent);
                         return;
                     }
+                }
+
+                // 按实际修复点数结算，把多抽的零钱退回去（例：抽 7、每点 5，只修 1 点 → 退 2）
+                float finalCost = totalHeal * Props.manaPerHp;
+                if (spent > finalCost + 0.01f)
+                {
+                    source.AddMana(spent - finalCost);
                 }
             }
 

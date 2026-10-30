@@ -84,6 +84,13 @@ namespace Botania
 
         private readonly Dictionary<Pawn, int> lastTrivialTick = new Dictionary<Pawn, int>();
 
+        /// <summary>读档用的临时工作列表：必须在字段上跨阶段存活，局部变量会在引用解析前被丢掉。</summary>
+        private List<Pawn> savedPawns;
+
+        private List<int> savedTicks;
+
+        private bool cooldownsNeedRebuild;
+
         private int ticksAccum;
 
         /// <summary>累计结算了多少次，供信息栏显示。</summary>
@@ -140,6 +147,7 @@ namespace Botania
             {
                 return;
             }
+            LoadCooldownsIfNeeded();
             ticksAccum++;
             if (ticksAccum < TicksPerSettle)
             {
@@ -147,6 +155,30 @@ namespace Botania
             }
             ticksAccum = 0;
             Settle();
+        }
+
+        /// <summary>载入后第一次 tick 才重建冷却表（此时 Pawn 引用已完成解析）。</summary>
+        private void LoadCooldownsIfNeeded()
+        {
+            if (!cooldownsNeedRebuild)
+            {
+                return;
+            }
+            cooldownsNeedRebuild = false;
+            lastTrivialTick.Clear();
+            if (savedPawns == null || savedTicks == null)
+            {
+                return;
+            }
+            for (int i = 0; i < savedPawns.Count && i < savedTicks.Count; i++)
+            {
+                if (savedPawns[i] != null)
+                {
+                    lastTrivialTick[savedPawns[i]] = savedTicks[i];
+                }
+            }
+            savedPawns = null;
+            savedTicks = null;
         }
 
         private void Settle()
@@ -276,37 +308,15 @@ namespace Botania
         public override void PostExposeData()
         {
             base.PostExposeData();
-            // 零碎劳动的冷却也要存：否则读档就能绕过冷却重复吃经验
-            if (Scribe.mode == LoadSaveMode.Saving)
+            // 零碎劳动的冷却也要存：否则读档就能绕过冷却重复吃经验。
+            // 关键点：pawn 引用要到「引用解析阶段」才有效，所以这里只负责把原始列表读进来，
+            // 真正的重建推迟到第一次 tick（LoadCooldownsIfNeeded），否则缓存的 int 会丢。
+            Scribe_Collections.Look(ref savedPawns, "trivialPawns", LookMode.Reference);
+            Scribe_Collections.Look(ref savedTicks, "trivialTicks", LookMode.Value);
+            if (Scribe.mode == LoadSaveMode.LoadingVars)
             {
-                List<Pawn> pawns = new List<Pawn>(lastTrivialTick.Keys);
-                List<int> ticks = new List<int>();
-                for (int i = 0; i < pawns.Count; i++)
-                {
-                    ticks.Add(lastTrivialTick[pawns[i]]);
-                }
-                Scribe_Collections.Look(ref pawns, "trivialPawns", LookMode.Reference);
-                Scribe_Collections.Look(ref ticks, "trivialTicks", LookMode.Value);
+                cooldownsNeedRebuild = savedPawns != null && savedTicks != null;
             }
-            else
-            {
-                List<Pawn> pawns = null;
-                List<int> ticks = null;
-                Scribe_Collections.Look(ref pawns, "trivialPawns", LookMode.Reference);
-                Scribe_Collections.Look(ref ticks, "trivialTicks", LookMode.Value);
-                if (pawns != null && ticks != null)
-                {
-                    lastTrivialTick.Clear();
-                    for (int i = 0; i < pawns.Count && i < ticks.Count; i++)
-                    {
-                        if (pawns[i] != null)
-                        {
-                            lastTrivialTick[pawns[i]] = ticks[i];
-                        }
-                    }
-                }
-            }
-
             Scribe_Values.Look(ref FedCount, "fedCount", 0);
             Scribe_Values.Look(ref LastPayout, "lastPayout", 0f);
         }

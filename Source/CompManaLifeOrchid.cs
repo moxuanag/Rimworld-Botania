@@ -475,23 +475,25 @@ namespace Botania
             Scribe_Values.Look(ref running, "running", false);
             Scribe_Values.Look(ref generation, "generation", 0);
 
-            // 细胞年龄必须存：否则读档后集体归零，等于白送了 30 代寿命
-            string ages = "";
-            if (Scribe.mode == LoadSaveMode.Saving)
-            {
-                System.Text.StringBuilder sb = new System.Text.StringBuilder(age.Length);
-                for (int i = 0; i < age.Length; i++)
-                {
-                    sb.Append((char)('A' + Math.Min(25, age[i] / 10)));
-                }
-                ages = sb.ToString();
-            }
-            Scribe_Values.Look(ref ages, "cellAges", "");
+            // 细胞年龄必须存：否则读档后集体归零，等于白送了 30 代寿命。
+            // 用 Base64 原样存字节，不能「除以 10 再乘回去」——那会把 9 变 0、29 变 20。
+            string ages = Scribe.mode == LoadSaveMode.Saving
+                ? System.Convert.ToBase64String(age)
+                : "";
+            Scribe_Values.Look(ref ages, "cellAgesB64", "");
             if (Scribe.mode == LoadSaveMode.LoadingVars && !ages.NullOrEmpty())
             {
-                for (int i = 0; i < age.Length && i < ages.Length; i++)
+                try
                 {
-                    age[i] = (byte)Math.Max(0, (ages[i] - 'A') * 10);
+                    byte[] loaded = System.Convert.FromBase64String(ages);
+                    for (int i = 0; i < age.Length && i < loaded.Length; i++)
+                    {
+                        age[i] = loaded[i];
+                    }
+                }
+                catch (System.Exception)
+                {
+                    // 旧档/脏数据：保持 0，不影响加载
                 }
             }
         }

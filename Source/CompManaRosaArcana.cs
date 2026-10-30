@@ -53,11 +53,8 @@ namespace Botania
 
     public class CompManaRosaArcana : ThingComp
     {
-        /// <summary>
-        /// 同一小人可能被多朵蔷薇同时覆盖，hediff 只能摘一次。
-        /// 用「谁在claim」的计数判断：最后一个释放者才移除 hediff。
-        /// </summary>
-        private static readonly Dictionary<Pawn, int> claims = new Dictionary<Pawn, int>();
+        /// <summary>场上所有蔷薇，用来判断「这个小人是否还被别的花管着」（读档后自动自洽）。</summary>
+        public static readonly List<CompManaRosaArcana> All = new List<CompManaRosaArcana>();
 
         private const int TicksPerSettle = 60;
 
@@ -194,41 +191,29 @@ namespace Botania
             return false;
         }
 
-        private static void Claim(Pawn pawn)
+        /// <summary>
+        /// 释放这个小人：只有当没有任何别的蔷薇还在管他时，才摘掉 hediff。
+        /// 不依赖静态计数——读档、换档、花被拆都不会让计数失真。
+        /// </summary>
+        private void ReleasePawn(Pawn pawn)
         {
-            int count;
-            claims.TryGetValue(pawn, out count);
-            claims[pawn] = count + 1;
-        }
-
-        /// <summary>释放一次占用；只有最后一个占用者离开时才真的摘 hediff。</summary>
-        private static void Release(Pawn pawn, HediffDef hediffDef)
-        {
-            if (pawn == null)
+            siphoning.Remove(pawn);
+            if (pawn == null || Props.hediffDef == null || pawn.health == null)
             {
                 return;
             }
-            int count;
-            if (claims.TryGetValue(pawn, out count))
+            for (int i = 0; i < All.Count; i++)
             {
-                count--;
-                if (count <= 0)
+                CompManaRosaArcana other = All[i];
+                if (other != null && other != this && other.siphoning != null && other.siphoning.Contains(pawn))
                 {
-                    claims.Remove(pawn);
-                }
-                else
-                {
-                    claims[pawn] = count;
                     return;
                 }
             }
-            if (hediffDef != null && pawn.health != null)
+            Hediff hediff = pawn.health.hediffSet.GetFirstHediffOfDef(Props.hediffDef);
+            if (hediff != null)
             {
-                Hediff hediff = pawn.health.hediffSet.GetFirstHediffOfDef(hediffDef);
-                if (hediff != null)
-                {
-                    pawn.health.RemoveHediff(hediff);
-                }
+                pawn.health.RemoveHediff(hediff);
             }
         }
 
@@ -263,7 +248,6 @@ namespace Botania
             if (!siphoning.Contains(pawn))
             {
                 siphoning.Add(pawn);
-                Claim(pawn);
             }
         }
 
@@ -280,16 +264,16 @@ namespace Botania
                 if (pawn == null || pawn.Dead || !pawn.Spawned)
                 {
                     // 死亡/离开地图的小人也要归还占用，否则 hediff 会永久留在身上
-                    Release(pawn, Props.hediffDef);
                     siphoning.RemoveAt(i);
+                    ReleasePawn(pawn);
                     continue;
                 }
                 if (stillInRange.Contains(pawn))
                 {
                     continue;
                 }
-                Release(pawn, Props.hediffDef);
                 siphoning.RemoveAt(i);
+                ReleasePawn(pawn);
             }
         }
 
@@ -351,25 +335,37 @@ namespace Botania
                 Props.manaPerPawnSecond.ToString("0"));
         }
 
+        public override void PostSpawnSetup(bool respawningAfterLoad)
+        {
+            base.PostSpawnSetup(respawningAfterLoad);
+            if (!All.Contains(this))
+            {
+                All.Add(this);
+            }
+        }
+
         public override void PostDeSpawn(Map map, DestroyMode mode = DestroyMode.Vanish)
         {
+            All.Remove(this);
             ReleaseAll();
             base.PostDeSpawn(map, mode);
         }
 
         public override void PostDestroy(DestroyMode mode, Map previousMap)
         {
+            All.Remove(this);
             ReleaseAll();
             base.PostDestroy(mode, previousMap);
         }
 
         private void ReleaseAll()
         {
-            for (int i = 0; i < siphoning.Count; i++)
-            {
-                Release(siphoning[i], Props.hediffDef);
-            }
+            List<Pawn> pawns = new List<Pawn>(siphoning);
             siphoning.Clear();
+            for (int i = 0; i < pawns.Count; i++)
+            {
+                ReleasePawn(pawns[i]);
+            }
         }
 
         public override void PostExposeData()

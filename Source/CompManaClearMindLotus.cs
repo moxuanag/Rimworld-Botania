@@ -50,6 +50,10 @@ namespace Botania
         /// <summary>场上所有明心莲，心灵干扰的补丁直接查这张表。</summary>
         public static readonly List<CompManaClearMindLotus> All = new List<CompManaClearMindLotus>();
 
+        /// <summary>每个小人当前由哪朵莲计费。交接时清旧记录，避免旧花继续收费。</summary>
+        private static readonly Dictionary<Pawn, CompManaClearMindLotus> owners =
+            new Dictionary<Pawn, CompManaClearMindLotus>();
+
         private const int TicksPerSettle = 60;
 
         /// <summary>被心灵干扰实际影响到的小人 → 最后一次被观测到的 tick。
@@ -111,7 +115,7 @@ namespace Botania
             // 不再去查地图条件——那个查询在实机上没拿到东西，白跑一趟。
 
             int now = Find.TickManager.TicksGame;
-            int pawns = 0;
+            List<Pawn> valid = new List<Pawn>();
             List<Pawn> stale = null;
             foreach (KeyValuePair<Pawn, int> pair in affected)
             {
@@ -128,7 +132,7 @@ namespace Botania
                     stale.Add(pawn);
                     continue;
                 }
-                pawns++;
+                valid.Add(pawn);
             }
             if (stale != null)
             {
@@ -137,15 +141,26 @@ namespace Botania
                     affected.Remove(stale[i]);
                 }
             }
-            if (pawns <= 0)
+            if (valid.Count <= 0)
             {
                 return;
             }
 
-            float cost = pawns * Props.manaPerPawnSecond;
+            float cost = valid.Count * Props.manaPerPawnSecond;
             IManaSource source = ManaSourceUtil.FindNearest(parent.Position, parent.Map, Props.poolRadius, cost);
+            // 注：FindNearest 已排除空源与不够付的源
             if (source == null)
             {
+                return;
+            }
+            if (source == null)
+            {
+                // 自己付不起：把人让给能供能的花，别占着归属不放
+                for (int i = 0; i < valid.Count; i++)
+                {
+                    affected.Remove(valid[i]);
+                    HandOff(valid[i]);
+                }
                 return;
             }
             float drained = source.DrainMana(cost);
@@ -153,6 +168,11 @@ namespace Botania
             {
                 // 不够就整次不生效，避免「半价挡半份」的模糊状态
                 source.AddMana(drained);
+                for (int i = 0; i < valid.Count; i++)
+                {
+                    affected.Remove(valid[i]);
+                    HandOff(valid[i]);
+                }
                 return;
             }
             paidUntilTick = Find.TickManager.TicksGame + Props.paidDurationTicks;
@@ -189,9 +209,63 @@ namespace Botania
                     owner = lotus;
                 }
             }
-            if (owner != null)
+            if (owner == null)
             {
-                owner.affected[pawn] = now;
+                return;
+            }
+            CompManaClearMindLotus previous;
+            if (owners.TryGetValue(pawn, out previous) && previous != null && previous != owner)
+            {
+                // 归属变了：旧花必须放弃这一笔，否则重叠区来回走会双花同时收钱
+                previous.affected.Remove(pawn);
+            }
+            owners[pawn] = owner;
+            owner.affected[pawn] = now;
+        }
+
+        /// <summary>这朵花附近有没有至少能付得起这么多魔力的源。</summary>
+        private bool CanAfford(float amount)
+        {
+            if (parent == null || parent.Map == null)
+            {
+                return false;
+            }
+            return ManaSourceUtil.FindNearest(parent.Position, parent.Map, Props.poolRadius, amount) != null;
+        }
+
+        /// <summary>把这名小人让给另一朵「确实付得起」的花（更近优先）。</summary>
+        private void HandOff(Pawn pawn)
+        {
+            if (pawn == null || pawn.Map == null)
+            {
+                return;
+            }
+            CompManaClearMindLotus best = null;
+            float bestDistance = float.MaxValue;
+            for (int i = 0; i < All.Count; i++)
+            {
+                CompManaClearMindLotus lotus = All[i];
+                if (lotus == null || lotus == this || lotus.parent == null || !lotus.parent.Spawned || lotus.parent.Map != pawn.Map)
+                {
+                    continue;
+                }
+                float distance = lotus.parent.Position.DistanceTo(pawn.Position);
+                if (distance > lotus.Props.radius || distance >= bestDistance)
+                {
+                    continue;
+                }
+                if (lotus.CanAfford(1f) == false)
+                {
+                    continue; // 付不起的花不接
+                }
+                best = lotus;
+                bestDistance = distance;
+            }
+            owners.Remove(pawn);
+            if (best != null)
+            {
+                owners[pawn] = best;
+                best.affected[pawn] = Find.TickManager.TicksGame;
             }
         }
 
