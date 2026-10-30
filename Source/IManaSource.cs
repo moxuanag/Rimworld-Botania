@@ -29,9 +29,18 @@ namespace Botania
         /// 就近寻找可用魔力源。GenRadial 的遍历顺序本身就是由近及远，
         /// 所以第一个满足条件的即为最近的。
         /// </summary>
-        /// <param name="needAtLeast">要求源至少有这么多的魔力（中继塔用它排除比自己还少的邻居，防止互抽抖动）。</param>
+        /// <param name="needAtLeast">要求源至少有这么多魔力（**含等于**：刚好够用也应视为可用）。</param>
         /// <param name="exclude">要跳过的 Thing（中继塔排除自己，避免自抽自耗）。</param>
         public static IManaSource FindNearest(IntVec3 origin, Map map, float radius, float needAtLeast = 0f, Thing exclude = null)
+        {
+            return FindNearest(origin, map, radius, needAtLeast, exclude, false);
+        }
+
+        /// <summary>
+        /// strictlyGreater=true 时要求「严格大于」，中继塔用它避免两塔互抽。
+        /// 设备付款请用默认 false（含等于），否则池里刚好够也会被判成不足。
+        /// </summary>
+        public static IManaSource FindNearest(IntVec3 origin, Map map, float radius, float needAtLeast, Thing exclude, bool strictlyGreater)
         {
             if (map == null || radius <= 0f)
             {
@@ -44,7 +53,11 @@ namespace Botania
                     continue;
                 }
                 IManaSource source = AsSource(thing);
-                if (source != null && source.ManaAmount > needAtLeast)
+                if (source == null)
+                {
+                    continue;
+                }
+                if (strictlyGreater ? source.ManaAmount > needAtLeast : source.ManaAmount >= needAtLeast)
                 {
                     return source;
                 }

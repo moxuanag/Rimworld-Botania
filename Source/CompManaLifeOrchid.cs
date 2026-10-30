@@ -160,6 +160,7 @@ namespace Botania
             }
 
             int size = Size;
+            bool[] onBed = new bool[Cells];
             bool[] alive = new bool[Cells];
             bool[] next = new bool[Cells];
 
@@ -169,7 +170,14 @@ namespace Botania
                 {
                     int index = z * size + x;
                     IntVec3 cell = origin + new IntVec3(x - Radius, 0, z - Radius);
-                    alive[index] = cell.InBounds(map) && HasSeed(cell, map, seedDef);
+                    if (!cell.InBounds(map))
+                    {
+                        continue;
+                    }
+                    // 只有肉床格参与演化：普通地面上的种子不算细胞，也不会被「生」到那里
+                    TerrainDef terrain = cell.GetTerrain(map);
+                    onBed[index] = terrain != null && terrain.defName == Props.bedDefName;
+                    alive[index] = onBed[index] && HasSeed(cell, map, seedDef);
                 }
             }
 
@@ -238,6 +246,10 @@ namespace Botania
                         age[index] = 0;
                     }
 
+                    if (!onBed[index])
+                    {
+                        nextAlive = false;
+                    }
                     next[index] = nextAlive;
                     if (!alive[index] && nextAlive)
                     {
@@ -462,6 +474,26 @@ namespace Botania
             base.PostExposeData();
             Scribe_Values.Look(ref running, "running", false);
             Scribe_Values.Look(ref generation, "generation", 0);
+
+            // 细胞年龄必须存：否则读档后集体归零，等于白送了 30 代寿命
+            string ages = "";
+            if (Scribe.mode == LoadSaveMode.Saving)
+            {
+                System.Text.StringBuilder sb = new System.Text.StringBuilder(age.Length);
+                for (int i = 0; i < age.Length; i++)
+                {
+                    sb.Append((char)('A' + Math.Min(25, age[i] / 10)));
+                }
+                ages = sb.ToString();
+            }
+            Scribe_Values.Look(ref ages, "cellAges", "");
+            if (Scribe.mode == LoadSaveMode.LoadingVars && !ages.NullOrEmpty())
+            {
+                for (int i = 0; i < age.Length && i < ages.Length; i++)
+                {
+                    age[i] = (byte)Math.Max(0, (ages[i] - 'A') * 10);
+                }
+            }
         }
     }
 }

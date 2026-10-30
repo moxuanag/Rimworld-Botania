@@ -276,6 +276,37 @@ namespace Botania
         public override void PostExposeData()
         {
             base.PostExposeData();
+            // 零碎劳动的冷却也要存：否则读档就能绕过冷却重复吃经验
+            if (Scribe.mode == LoadSaveMode.Saving)
+            {
+                List<Pawn> pawns = new List<Pawn>(lastTrivialTick.Keys);
+                List<int> ticks = new List<int>();
+                for (int i = 0; i < pawns.Count; i++)
+                {
+                    ticks.Add(lastTrivialTick[pawns[i]]);
+                }
+                Scribe_Collections.Look(ref pawns, "trivialPawns", LookMode.Reference);
+                Scribe_Collections.Look(ref ticks, "trivialTicks", LookMode.Value);
+            }
+            else
+            {
+                List<Pawn> pawns = null;
+                List<int> ticks = null;
+                Scribe_Collections.Look(ref pawns, "trivialPawns", LookMode.Reference);
+                Scribe_Collections.Look(ref ticks, "trivialTicks", LookMode.Value);
+                if (pawns != null && ticks != null)
+                {
+                    lastTrivialTick.Clear();
+                    for (int i = 0; i < pawns.Count && i < ticks.Count; i++)
+                    {
+                        if (pawns[i] != null)
+                        {
+                            lastTrivialTick[pawns[i]] = ticks[i];
+                        }
+                    }
+                }
+            }
+
             Scribe_Values.Look(ref FedCount, "fedCount", 0);
             Scribe_Values.Look(ref LastPayout, "lastPayout", 0f);
         }

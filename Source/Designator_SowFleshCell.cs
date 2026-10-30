@@ -83,17 +83,30 @@ namespace Botania
             GenSpawn.Spawn(seed, c, Map);
         }
 
+        /// <summary>
+        /// 只找「库存里的」种子：已经放在肉床上的种子是活细胞，不能拿来搬。
+        /// （旧实现只看 Spawned，会把已有细胞挪到新格子，破坏玩家摆好的图案。）
+        /// </summary>
         private Thing FirstSeedOf(ThingDef def)
         {
             System.Collections.Generic.List<Thing> list = Map.listerThings.ThingsOfDef(def);
             for (int i = 0; i < list.Count; i++)
             {
-                if (list[i].Spawned)
+                Thing thing = list[i];
+                if (!thing.Spawned || IsLiveCell(thing.Position))
                 {
-                    return list[i];
+                    continue;
                 }
+                return thing;
             }
+            // 地图上只剩活细胞时，也不能拿它们充数——返回 null 让设计器报「没有种子」
             return null;
+        }
+
+        private bool IsLiveCell(IntVec3 cell)
+        {
+            TerrainDef terrain = cell.GetTerrain(Map);
+            return terrain != null && terrain.defName == CompManaLifeOrchid.BedDefName;
         }
 
         private bool HasSeedAt(IntVec3 cell)

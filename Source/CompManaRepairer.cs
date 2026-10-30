@@ -159,20 +159,33 @@ namespace Botania
 
             int count = Mathf.Min(candidates.Count, EffectiveLimit);
 
+            // 每个目标这一周期「最多能修多少整数点」
+            float[] caps = new float[count];
             float wantedHp = 0f;
             for (int i = 0; i < count; i++)
             {
-                wantedHp += Mathf.Min(Props.hpPerCycle, candidates[i].MaxHitPoints - candidates[i].HitPoints);
+                int missing = candidates[i].MaxHitPoints - candidates[i].HitPoints;
+                caps[i] = Mathf.Min(Props.hpPerCycle, missing);
+                wantedHp += caps[i];
             }
             if (wantedHp <= 0.01f)
             {
                 return;
             }
 
+            // 先看有多少魔力可用（不先扣，避免扣了钱没修到东西）
+            IManaSource source = Map == null
+                ? null
+                : ManaSourceUtil.FindNearest(parent.Position, Map, Props.manaSearchRadius, 0f, parent);
             float wantedMana = wantedHp * Props.manaPerHp;
-            float available = TakeMana(wantedMana);
+            float available = source == null
+                ? 0f
+                : (Props.manaPerHp > 0f ? Mathf.Min(wantedMana, source.ManaAmount) : wantedMana);
+            if (Props.manaPerHp <= 0f && source == null)
+            {
+                available = wantedMana; // 免费修复
+            }
 
-            // 一分钱一分货：抽到多少就修多少
             float hpBudget = Props.manaPerHp > 0f ? available / Props.manaPerHp : wantedHp;
             hpBudget = Mathf.Min(hpBudget, wantedHp);
             if (hpBudget <= 0.01f)
@@ -180,18 +193,78 @@ namespace Botania
                 return;
             }
 
-            lastManaSpent = available;
-
+            // 分配成整数点：先按均分取整，再把剩余预算逐点补上
+            int[] heals = new int[count];
+            int totalHeal = 0;
             float perTarget = hpBudget / count;
             for (int i = 0; i < count; i++)
             {
+                int want = Mathf.RoundToInt(caps[i]);
+                int heal = Mathf.Clamp(Mathf.FloorToInt(perTarget), 0, want);
+                heals[i] = heal;
+                totalHeal += heal;
+            }
+            int budgetInt = Mathf.FloorToInt(hpBudget + 0.0001f);
+            for (int pass = 0; pass < 16 && totalHeal < budgetInt; pass++)
+            {
+                bool added = false;
+                for (int i = 0; i < count && totalHeal < budgetInt; i++)
+                {
+                    int want = Mathf.RoundToInt(caps[i]);
+                    if (heals[i] < want)
+                    {
+                        heals[i]++;
+                        totalHeal++;
+                        added = true;
+                    }
+                }
+                if (!added)
+                {
+                    break;
+                }
+            }
+            if (totalHeal <= 0)
+            {
+                return;
+            }
+
+            // 只按「真正要修的点数」扣费
+            float charge = totalHeal * Props.manaPerHp;
+            float spent = 0f;
+            if (charge > 0.01f)
+            {
+                if (source == null)
+                {
+                    return;
+                }
+                spent = source.DrainMana(charge);
+                if (spent + 0.01f < charge)
+                {
+                    // 魔力被别的设备抢走了：按实际到手的量砍掉修不完的部分
+                    int affordable = Mathf.FloorToInt(spent / Props.manaPerHp);
+                    for (int i = count - 1; i >= 0 && totalHeal > affordable; i--)
+                    {
+                        int cut = Mathf.Min(heals[i], totalHeal - affordable);
+                        heals[i] -= cut;
+                        totalHeal -= cut;
+                    }
+                    if (totalHeal <= 0)
+                    {
+                        return;
+                    }
+                }
+            }
+
+            lastManaSpent = totalHeal * Props.manaPerHp;
+            for (int i = 0; i < count; i++)
+            {
                 Thing thing = candidates[i];
-                if (thing == null || thing.Destroyed)
+                if (thing == null || thing.Destroyed || heals[i] <= 0)
                 {
                     continue;
                 }
                 int missing = thing.MaxHitPoints - thing.HitPoints;
-                int heal = Mathf.Clamp(Mathf.RoundToInt(perTarget), 0, missing);
+                int heal = Mathf.Clamp(heals[i], 0, missing);
                 if (heal <= 0)
                 {
                     continue;

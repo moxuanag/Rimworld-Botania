@@ -150,15 +150,40 @@ namespace Botania
             {
                 return true;
             }
-            if (mana + 0.01f < amount)
+
+            // 杖内余额 + 附近魔力源「共同付款」：
+            // 以前是先把魔力补进杖里再扣，受 maxMana 限制，超过容量的法术永远打不出来
+            // （比如 600 魔力的转化，基础杖只能装 500）。
+            float fromWand = Mathf.Min(mana, amount);
+            float needFromSource = amount - fromWand;
+
+            IManaSource source = null;
+            if (needFromSource > 0.01f)
             {
-                PullFromSource(amount - mana);
+                Map map = EquipUtil.GetMap(parent);
+                if (map != null)
+                {
+                    source = ManaSourceUtil.FindNearest(
+                        EquipUtil.GetPosition(parent), map, Props.sourceRadius, 0f);
+                }
+                if (source == null || source.ManaAmount + 0.01f < needFromSource)
+                {
+                    return false;
+                }
             }
-            if (mana + 0.01f < amount)
+
+            mana -= fromWand;
+            if (needFromSource > 0.01f)
             {
-                return false;
+                float got = source.DrainMana(needFromSource);
+                if (got + 0.01f < needFromSource)
+                {
+                    // 抽到的比预期少：回滚，不要半支付
+                    mana += fromWand;
+                    source.AddMana(got);
+                    return false;
+                }
             }
-            mana -= amount;
             return true;
         }
 

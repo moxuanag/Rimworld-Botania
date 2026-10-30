@@ -116,8 +116,10 @@ namespace Botania
             foreach (KeyValuePair<Pawn, int> pair in affected)
             {
                 Pawn pawn = pair.Key;
+                // 结算时复查距离：小人离开范围后不应该继续被收费
                 if (pawn == null || pawn.Dead || !pawn.Spawned || pawn.Map != parent.Map
-                    || now - pair.Value > AffectedMemoryTicks)
+                    || now - pair.Value > AffectedMemoryTicks
+                    || pawn.Position.DistanceTo(parent.Position) > Props.radius)
                 {
                     if (stale == null)
                     {
@@ -164,6 +166,11 @@ namespace Botania
                 return;
             }
             int now = Find.TickManager.TicksGame;
+
+            // 多朵莲重叠覆盖同一个人时，只让「最近的那一朵」记账，
+            // 否则同一个人会被几朵花各收一份钱。
+            CompManaClearMindLotus owner = null;
+            float best = float.MaxValue;
             for (int i = 0; i < All.Count; i++)
             {
                 CompManaClearMindLotus lotus = All[i];
@@ -171,11 +178,20 @@ namespace Botania
                 {
                     continue;
                 }
-                if (lotus.parent.Position.DistanceTo(pawn.Position) > lotus.Props.radius)
+                float distance = lotus.parent.Position.DistanceTo(pawn.Position);
+                if (distance > lotus.Props.radius)
                 {
                     continue;
                 }
-                lotus.affected[pawn] = now;
+                if (distance < best)
+                {
+                    best = distance;
+                    owner = lotus;
+                }
+            }
+            if (owner != null)
+            {
+                owner.affected[pawn] = now;
             }
         }
 

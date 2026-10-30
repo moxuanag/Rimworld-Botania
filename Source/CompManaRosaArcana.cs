@@ -53,6 +53,12 @@ namespace Botania
 
     public class CompManaRosaArcana : ThingComp
     {
+        /// <summary>
+        /// 同一小人可能被多朵蔷薇同时覆盖，hediff 只能摘一次。
+        /// 用「谁在claim」的计数判断：最后一个释放者才移除 hediff。
+        /// </summary>
+        private static readonly Dictionary<Pawn, int> claims = new Dictionary<Pawn, int>();
+
         private const int TicksPerSettle = 60;
 
         private int ticksAccum;
@@ -188,6 +194,44 @@ namespace Botania
             return false;
         }
 
+        private static void Claim(Pawn pawn)
+        {
+            int count;
+            claims.TryGetValue(pawn, out count);
+            claims[pawn] = count + 1;
+        }
+
+        /// <summary>释放一次占用；只有最后一个占用者离开时才真的摘 hediff。</summary>
+        private static void Release(Pawn pawn, HediffDef hediffDef)
+        {
+            if (pawn == null)
+            {
+                return;
+            }
+            int count;
+            if (claims.TryGetValue(pawn, out count))
+            {
+                count--;
+                if (count <= 0)
+                {
+                    claims.Remove(pawn);
+                }
+                else
+                {
+                    claims[pawn] = count;
+                    return;
+                }
+            }
+            if (hediffDef != null && pawn.health != null)
+            {
+                Hediff hediff = pawn.health.hediffSet.GetFirstHediffOfDef(hediffDef);
+                if (hediff != null)
+                {
+                    pawn.health.RemoveHediff(hediff);
+                }
+            }
+        }
+
         private void EnsureHediff(Pawn pawn)
         {
             if (Props.hediffDef != null)
@@ -219,6 +263,7 @@ namespace Botania
             if (!siphoning.Contains(pawn))
             {
                 siphoning.Add(pawn);
+                Claim(pawn);
             }
         }
 
@@ -234,6 +279,8 @@ namespace Botania
                 Pawn pawn = siphoning[i];
                 if (pawn == null || pawn.Dead || !pawn.Spawned)
                 {
+                    // 死亡/离开地图的小人也要归还占用，否则 hediff 会永久留在身上
+                    Release(pawn, Props.hediffDef);
                     siphoning.RemoveAt(i);
                     continue;
                 }
@@ -241,11 +288,7 @@ namespace Botania
                 {
                     continue;
                 }
-                Hediff hediff = pawn.health.hediffSet.GetFirstHediffOfDef(Props.hediffDef);
-                if (hediff != null)
-                {
-                    pawn.health.RemoveHediff(hediff);
-                }
+                Release(pawn, Props.hediffDef);
                 siphoning.RemoveAt(i);
             }
         }
@@ -306,6 +349,27 @@ namespace Botania
                 LastLearningCount,
                 LastInRangeCount,
                 Props.manaPerPawnSecond.ToString("0"));
+        }
+
+        public override void PostDeSpawn(Map map, DestroyMode mode = DestroyMode.Vanish)
+        {
+            ReleaseAll();
+            base.PostDeSpawn(map, mode);
+        }
+
+        public override void PostDestroy(DestroyMode mode, Map previousMap)
+        {
+            ReleaseAll();
+            base.PostDestroy(mode, previousMap);
+        }
+
+        private void ReleaseAll()
+        {
+            for (int i = 0; i < siphoning.Count; i++)
+            {
+                Release(siphoning[i], Props.hediffDef);
+            }
+            siphoning.Clear();
         }
 
         public override void PostExposeData()
