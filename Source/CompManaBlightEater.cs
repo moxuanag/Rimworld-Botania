@@ -169,6 +169,7 @@ namespace Botania
         {
             base.PostExposeData();
             Scribe_Values.Look(ref ticksToNextMeal, "ticksToNextMeal", 0);
+            Scribe_Values.Look(ref mealsThisBatch, "mealsThisBatch", 0);
             Scribe_Values.Look(ref Eaten, "eaten", 0);
         }
     }
