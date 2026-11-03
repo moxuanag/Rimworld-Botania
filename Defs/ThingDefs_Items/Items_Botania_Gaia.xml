@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ============================================================
+       盖亚装备（终局，Boss 奖励档）
+       定位：科技树终点「盖亚」的产物，比泰拉钢再高一档。
+       泰拉钢现在是 125%/62%（头盔 75%/37%），盖亚拉出 15 个百分点的差，
+       保持「Boss 奖励明显强于量产装备」的原定意图（原计划 130/65 是在
+       泰拉只有 110/55 时定的，泰拉提档后必须同步上移）。
+       用料仍然极省：1 泰拉钢锭 + 精灵石英，Boss 装备不该要求海量材料。
+       ============================================================ -->
+
+  <!-- 盖亚甲：锐器 140% / 钝器 70% / 热能 60% -->
+  <ThingDef ParentName="ApparelBase">
+    <defName>Botania_GaiaArmor</defName>
+    <label>gaia armor</label>
+    <description>Plate grown from a gaia spirit instead of forged: the metal remembers every blow it has taken and thickens where it was struck. Nothing made of ordinary matter cuts through it cleanly, and it weighs less than the terrasteel suit it replaces.</description>
+    <techLevel>Ultra</techLevel>
+    <graphicData>
+      <texPath>Things/Pawn/Humanlike/Apparel/Botania_GaiaArmor/Botania_GaiaArmor</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.00</drawSize>
+    </graphicData>
+    <statBases>
+      <WorkToMake>34000</WorkToMake>
+      <MaxHitPoints>460</MaxHitPoints>
+      <Mass>8</Mass>
+      <Flammability>0</Flammability>
+      <ArmorRating_Sharp>1.40</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.70</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.60</ArmorRating_Heat>
+      <Insulation_Cold>18</Insulation_Cold>
+      <Insulation_Heat>8</Insulation_Heat>
+      <EquipDelay>5</EquipDelay>
+    </statBases>
+    <equippedStatOffsets>
+      <MoveSpeed>-0.08</MoveSpeed>
+    </equippedStatOffsets>
+    <thingCategories>
+      <li>ApparelArmor</li>
+    </thingCategories>
+    <costList>
+      <Botania_TerrasteelIngot>1</Botania_TerrasteelIngot>
+      <Botania_ElvenQuartz>1</Botania_ElvenQuartz>
+      <Botania_PixieDust>1</Botania_PixieDust>
+    </costList>
+    <recipeMaker>
+      <researchPrerequisite>Botania_Gaia</researchPrerequisite>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <soundWorking>Recipe_Machining</soundWorking>
+      <recipeUsers>
+        <li>FueledSmithy</li>
+        <li>ElectricSmithy</li>
+      </recipeUsers>
+      <displayPriority>354</displayPriority>
+      <skillRequirements>
+        <Crafting>9</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <apparel>
+      <wornGraphicPath>Things/Pawn/Humanlike/Apparel/Botania_GaiaArmor/Botania_GaiaArmor</wornGraphicPath>
+      <bodyPartGroups>
+        <li>Torso</li>
+        <li>Neck</li>
+        <li>Shoulders</li>
+        <li>Arms</li>
+        <li>Hands</li>
+        <li>Legs</li>
+        <li>Feet</li>
+      </bodyPartGroups>
+      <layers>
+        <li>Shell</li>
+      </layers>
+    </apparel>
+  </ThingDef>
+
+  <!-- 盖亚头盔：锐器 84% / 钝器 42% / 热能 50%（甲盔比例 0.6，与另两套一致） -->
+  <ThingDef ParentName="ApparelBase">
+    <defName>Botania_GaiaHelmet</defName>
+    <label>gaia helmet</label>
+    <description>A helm of gaia plate with a crown of living petals that never wilt. It closes over the face the moment a threat is near and opens again when the shooting stops.</description>
+    <techLevel>Ultra</techLevel>
+    <graphicData>
+      <texPath>Things/Pawn/Humanlike/Apparel/Botania_GaiaHelmet/Botania_GaiaHelmet</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.00</drawSize>
+    </graphicData>
+    <statBases>
+      <WorkToMake>22000</WorkToMake>
+      <MaxHitPoints>320</MaxHitPoints>
+      <Mass>3</Mass>
+      <Flammability>0</Flammability>
+      <ArmorRating_Sharp>0.84</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.42</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.50</ArmorRating_Heat>
+      <Insulation_Cold>8</Insulation_Cold>
+      <Insulation_Heat>3</Insulation_Heat>
+      <EquipDelay>3</EquipDelay>
+    </statBases>
+    <thingCategories>
+      <li>ArmorHeadgear</li>
+    </thingCategories>
+    <costList>
+      <Botania_TerrasteelIngot>1</Botania_TerrasteelIngot>
+      <Botania_PixieDust>1</Botania_PixieDust>
+    </costList>
+    <recipeMaker>
+      <researchPrerequisite>Botania_Gaia</researchPrerequisite>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <soundWorking>Recipe_Machining</soundWorking>
+      <recipeUsers>
+        <li>FueledSmithy</li>
+        <li>ElectricSmithy</li>
+      </recipeUsers>
+      <displayPriority>355</displayPriority>
+      <skillRequirements>
+        <Crafting>9</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <apparel>
+      <wornGraphicPath>Things/Pawn/Humanlike/Apparel/Botania_GaiaHelmet/Botania_GaiaHelmet</wornGraphicPath>
+      <bodyPartGroups>
+        <li>FullHead</li>
+      </bodyPartGroups>
+      <layers>
+        <li>Overhead</li>
+      </layers>
+      <parentTagDef>ApparelHead</parentTagDef>
+    </apparel>
+  </ThingDef>
+
+</Defs>
