@@ -214,6 +214,12 @@
   <Botania_TerrasteelPick.label>泰拉碎岩镐</Botania_TerrasteelPick.label>
   <Botania_TerrasteelPick.description>泰拉钢与活木打的镐。镐头会吃掉冲击的反震，所以每一镐都比它的分量咬得更深。</Botania_TerrasteelPick.description>
 
+  <Botania_GaiaArmor.label>盖亚甲</Botania_GaiaArmor.label>
+  <Botania_GaiaArmor.description>不是锻出来的，是从一颗盖亚之魂里长出来的甲。金属记得挨过的每一击，被打中的地方会自己变厚。凡俗之物砍不穿它，而它比它取代的那套泰拉甲还轻。</Botania_GaiaArmor.description>
+
+  <Botania_GaiaHelmet.label>盖亚头盔</Botania_GaiaHelmet.label>
+  <Botania_GaiaHelmet.description>盖亚甲制的头盔，冠部是一圈永不凋谢的活花瓣。危险靠近时它会自己合上遮住整张脸，枪声停了再张开。</Botania_GaiaHelmet.description>
+
   <Botania_TerrasteelAltar.label>泰拉凝聚台</Botania_TerrasteelAltar.label>
   <Botania_TerrasteelAltar.description>一块宽阔的活石台面，四角各立一根顶着精灵石英的基座。把魔力钢锭与精灵石英放在台面上，再从一个够深的魔力池里抽一口，平台就会在环心长出泰拉钢。\n\n少一根基座不工作，附近的魔力不够也不工作。</Botania_TerrasteelAltar.description>
 
