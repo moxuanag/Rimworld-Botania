@@ -102,7 +102,11 @@
     </comps>
   </ThingDef>
 
-  <!-- 泰拉甲：锐器 110% / 钝器 55% -->
+  <!-- 泰拉甲（毕业装备）：锐器 125% / 钝器 62% / 热能 50%
+       参考基准：元素甲 90% / 45% / 25%，原版顶级动力甲约 120% / 62%。
+       定位是「把一条科技线走到底」的终点，所以三项全面压过元素甲，
+       锐器与钝器都达到或超过原版最好的甲，热能也补上（元素甲热能只有 25%）。
+       代价不变：质量 9、移速 -0.10、需要工艺 8。 -->
   <ThingDef ParentName="ApparelBase">
     <defName>Botania_TerrasteelArmor</defName>
     <label>terrasteel armor</label>
@@ -114,19 +118,19 @@
       <drawSize>1.00</drawSize>
     </graphicData>
     <statBases>
-      <WorkToMake>26000</WorkToMake>
-      <MaxHitPoints>360</MaxHitPoints>
+      <WorkToMake>30000</WorkToMake>
+      <MaxHitPoints>400</MaxHitPoints>
       <Mass>9</Mass>
       <Flammability>0</Flammability>
-      <ArmorRating_Sharp>1.10</ArmorRating_Sharp>
-      <ArmorRating_Blunt>0.55</ArmorRating_Blunt>
-      <ArmorRating_Heat>0.45</ArmorRating_Heat>
+      <ArmorRating_Sharp>1.25</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.62</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.50</ArmorRating_Heat>
       <Insulation_Cold>16</Insulation_Cold>
       <Insulation_Heat>6</Insulation_Heat>
       <EquipDelay>5</EquipDelay>
     </statBases>
     <equippedStatOffsets>
-      <MoveSpeed>-0.12</MoveSpeed>
+      <MoveSpeed>-0.10</MoveSpeed>
     </equippedStatOffsets>
     <thingCategories>
       <li>ApparelArmor</li>
@@ -167,7 +171,9 @@
     </apparel>
   </ThingDef>
 
-  <!-- 泰拉头盔：锐器 66% / 钝器 33% -->
+  <!-- 泰拉头盔（毕业装备）：锐器 75% / 钝器 37% / 热能 40%
+       与泰拉甲保持 0.6 的比例（元素套也是 0.6），热能略低于甲但明显高于元素头盔。
+       头盔不加移速惩罚。 -->
   <ThingDef ParentName="ApparelBase">
     <defName>Botania_TerrasteelHelmet</defName>
     <label>terrasteel helmet</label>
@@ -179,13 +185,13 @@
       <drawSize>1.00</drawSize>
     </graphicData>
     <statBases>
-      <WorkToMake>18000</WorkToMake>
-      <MaxHitPoints>240</MaxHitPoints>
+      <WorkToMake>20000</WorkToMake>
+      <MaxHitPoints>280</MaxHitPoints>
       <Mass>3</Mass>
       <Flammability>0</Flammability>
-      <ArmorRating_Sharp>0.66</ArmorRating_Sharp>
-      <ArmorRating_Blunt>0.33</ArmorRating_Blunt>
-      <ArmorRating_Heat>0.35</ArmorRating_Heat>
+      <ArmorRating_Sharp>0.75</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.37</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.40</ArmorRating_Heat>
       <Insulation_Cold>6</Insulation_Cold>
       <Insulation_Heat>2</Insulation_Heat>
       <EquipDelay>3</EquipDelay>
