@@ -50,10 +50,9 @@
       <workSkill>Crafting</workSkill>
       <soundWorking>Recipe_Machining</soundWorking>
       <recipeUsers>
-        <li>FueledSmithy</li>
-        <li>ElectricSmithy</li>
+        <li>FabricationBench</li>
       </recipeUsers>
-      <displayPriority>354</displayPriority>
+      <displayPriority>360</displayPriority>
       <skillRequirements>
         <Crafting>9</Crafting>
       </skillRequirements>
@@ -111,10 +110,9 @@
       <workSkill>Crafting</workSkill>
       <soundWorking>Recipe_Machining</soundWorking>
       <recipeUsers>
-        <li>FueledSmithy</li>
-        <li>ElectricSmithy</li>
+        <li>FabricationBench</li>
       </recipeUsers>
-      <displayPriority>355</displayPriority>
+      <displayPriority>361</displayPriority>
       <skillRequirements>
         <Crafting>9</Crafting>
       </skillRequirements>

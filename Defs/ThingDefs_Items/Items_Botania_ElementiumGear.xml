@@ -225,8 +225,7 @@
       <workSkill>Crafting</workSkill>
       <soundWorking>Recipe_Machining</soundWorking>
       <recipeUsers>
-        <li>FueledSmithy</li>
-        <li>ElectricSmithy</li>
+        <li>MachiningTable</li>
       </recipeUsers>
       <displayPriority>347</displayPriority>
       <skillRequirements>
@@ -286,8 +285,7 @@
       <workSkill>Crafting</workSkill>
       <soundWorking>Recipe_Machining</soundWorking>
       <recipeUsers>
-        <li>FueledSmithy</li>
-        <li>ElectricSmithy</li>
+        <li>MachiningTable</li>
       </recipeUsers>
       <displayPriority>348</displayPriority>
       <skillRequirements>
