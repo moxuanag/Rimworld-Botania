@@ -60,7 +60,7 @@
         <li>FueledSmithy</li>
         <li>ElectricSmithy</li>
       </recipeUsers>
-      <displayPriority>350</displayPriority>
+      <displayPriority>353</displayPriority>
       <skillRequirements>
         <Crafting>8</Crafting>
       </skillRequirements>
@@ -149,7 +149,7 @@
         <li>FueledSmithy</li>
         <li>ElectricSmithy</li>
       </recipeUsers>
-      <displayPriority>352</displayPriority>
+      <displayPriority>350</displayPriority>
       <skillRequirements>
         <Crafting>8</Crafting>
       </skillRequirements>
@@ -212,7 +212,7 @@
         <li>FueledSmithy</li>
         <li>ElectricSmithy</li>
       </recipeUsers>
-      <displayPriority>353</displayPriority>
+      <displayPriority>351</displayPriority>
       <skillRequirements>
         <Crafting>8</Crafting>
       </skillRequirements>
@@ -275,7 +275,7 @@
         <li>FueledSmithy</li>
         <li>ElectricSmithy</li>
       </recipeUsers>
-      <displayPriority>354</displayPriority>
+      <displayPriority>352</displayPriority>
       <skillRequirements>
         <Crafting>8</Crafting>
       </skillRequirements>

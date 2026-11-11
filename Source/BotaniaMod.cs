@@ -39,7 +39,10 @@ namespace Botania
     {
         public BotaniaMod(ModContentPack content) : base(content)
         {
-            CheckMiningYieldCap();
+            // 注意：这里**不能**做 Def 相关的自检。
+            // Mod 构造函数执行时 DefDatabase 还没装载完，GetNamedSilentFail 一律返回 null，
+            // 于是每次启动都会误报「找不到 StatDef MiningYield」（2026-11-11 实测）。
+            // Def 自检放到 BotaniaStartupChecks 的静态构造里（见文件末尾）。
         }
 
         /// <summary>
@@ -50,7 +53,7 @@ namespace Botania
         /// 这条日志是「补丁到底打没打上」的唯一可靠证据——
         /// 进游戏后搜 `[Botania]` 就能确认，不用靠猜掉落数量。
         /// </summary>
-        private static void CheckMiningYieldCap()
+        internal static void CheckMiningYieldCapInternal()
         {
             StatDef stat = DefDatabase<StatDef>.GetNamedSilentFail("MiningYield");
             if (stat == null)
@@ -108,6 +111,20 @@ namespace Botania
             list.GapLine();
             list.Label("Botania.SettingsRepairCost".Translate());
             list.End();
+        }
+    }
+
+    /// <summary>
+    /// Def 级自检。必须放在 [StaticConstructorOnStartup] 类里：
+    /// 这个静态构造在所有 Def 装载完成**之后**才执行，此时 DefDatabase 才可用。
+    /// 放在 Mod 构造函数里会误报「找不到 StatDef」。
+    /// </summary>
+    [StaticConstructorOnStartup]
+    internal static class BotaniaStartupChecks
+    {
+        static BotaniaStartupChecks()
+        {
+            BotaniaMod.CheckMiningYieldCapInternal();
         }
     }
 }
