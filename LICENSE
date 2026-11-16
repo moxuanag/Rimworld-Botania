@@ -1,95 +1,45 @@
-植物魔法 Botania · RimWorld 移植
-许可证 / License
-================================================================
+MIT License
 
-本项目自 v0.7.2 起采用 **CC BY-NC-SA 4.0**
-（Creative Commons 署名—非商业性使用—相同方式共享 4.0 国际许可协议）
+Copyright (c) 2026 moxuanag
 
-This project is licensed under **CC BY-NC-SA 4.0** since v0.7.2.
-Full legal code: https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
-中文说明: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-----------------------------------------------------------------
-一、你可以做什么 / What you may do
-----------------------------------------------------------------
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-只要你遵守下面四个条件，你可以自由地：
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
-  · 共享 —— 以任何媒介或格式复制、发行本作品
-  · 改编 —— 修改、转换本作品，并基于本作品创作
+---
 
-You are free to share and adapt this work for any purpose
-**provided you follow the license terms below**.
+补充说明（不属于 MIT 条款，仅用于标注权利归属）
 
-----------------------------------------------------------------
-二、你必须遵守的条件 / Conditions
-----------------------------------------------------------------
+本 MIT 许可覆盖本仓库中由本项目创作的 C# 代码、XML 定义、本地化文本，
+以及本项目原创或程序化生成的贴图。
 
-1. 署名（BY）
-   你必须给出适当的署名（作者 GZ / moxuanag），提供许可证链接，
-   并说明是否作出了修改。你可以用任何合理方式署名，但不得暗示
-   作者为你或你的使用背书。
+以下内容各有其权利人，不在本项目的 MIT 授权范围内：
 
-2. 非商业性使用（NC）
-   **你不得将本作品用于商业目的。**
-   包括但不限于：出售本作品或其衍生作品、付费墙、以内置广告
-   或导流链接获利、将其打包进任何付费产品。
+1. Botania 原作
+   名称「Botania」「植物魔法」、花与物品的命名体系及设定归 Vazkii 所有
+   （https://botaniamod.net）。
+   本项目是面向 RimWorld 的非官方移植，与原作者无关，未获其背书。
 
-3. 相同方式共享（SA）
-   若你改编、转换本作品，或以本作品为基础创作，
-   **你必须以相同的许可证（CC BY-NC-SA 4.0）分发你的贡献。**
+2. RimWorld 原版素材衍生部分
+   Textures/Things/Pawn/Humanlike/Apparel/ 下 Botania_TerrasteelArmor、
+   Botania_TerrasteelHelmet、Botania_ElementiumArmor、Botania_ElementiumHelmet、
+   Botania_GaiaArmor、Botania_GaiaHelmet 六个文件夹的穿着图，
+   基于 RimWorld 原版「铁甲（Cataphract）」美术换色修改，
+   版权归 Ludeon Studios 所有，请勿单独提取使用。
 
-4. 不得增加额外限制
-   你不得适用法律条款或技术措施，在法律上限制他人做本许可证
-   允许的事情。
-
-----------------------------------------------------------------
-三、授权范围 / Scope
-----------------------------------------------------------------
-
-本许可证覆盖本仓库中由本项目创作的以下内容：
-
-  · C# 源代码（Source/）
-  · XML 定义（Defs/、Patches/）
-  · 本地化文本（Languages/）
-  · 由本项目原创或程序化生成的贴图（Textures/ 中除下述例外部分）
-
-**不覆盖**以下内容，它们各有其权利人：
-
-3.1 RimWorld 原版素材衍生部分
-    路径：Textures/Things/Pawn/Humanlike/Apparel/Botania_TerrasteelArmor/、
-          Botania_TerrasteelHelmet/、Botania_ElementiumArmor/、
-          Botania_ElementiumHelmet/、Botania_GaiaArmor/、Botania_GaiaHelmet/
-    说明：以上穿着图基于 RimWorld 原版「铁甲（Cataphract）」美术换色修改，
-          **版权归 Ludeon Studios 所有**，不在本许可证授权范围内，
-          仅作为本模组的一部分随模组分发。请勿单独提取使用。
-
-3.2 Botania 原作
-    名称「Botania」「植物魔法」、花与物品的命名体系及设定归 **Vazkii** 所有
-    （https://botaniamod.net）。
-    本项目是面向 RimWorld 的非官方、非商业移植，与原作者无关，
-    未获得原作者背书。原作许可证见：
-    https://github.com/VazkiiMods/Botania/blob/1.20.x/LICENSE.txt
-
-3.3 Harmony
-    依赖的 Harmony 库（brrainz.harmony）采用 MIT 许可证，版权归 Andreas Pardeike。
-
-----------------------------------------------------------------
-四、免责声明 / Disclaimer
-----------------------------------------------------------------
-
-本作品按「现状」提供，不附带任何明示或暗示的担保，包括但不限于
-对适销性、特定用途适用性和非侵权性的担保。在任何情况下，
-作者或版权持有人均不对因本作品或本作品的使用而产生的任何索赔、
-损害或其他责任负责。
-
-THE WORK IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR
-ANY CLAIM, DAMAGES OR OTHER LIABILITY ARISING FROM THE WORK.
-
-----------------------------------------------------------------
-五、历史版本 / Previous versions
-----------------------------------------------------------------
-
-v0.7.1 及更早版本以 MIT 许可证发布，该授权对已发布的那些版本继续有效，
-无法撤回。自 v0.7.2 起的新版本适用本许可证。
+3. Harmony
+   运行时依赖 brrainz.harmony，MIT 许可，版权归 Andreas Pardeike。

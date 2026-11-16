@@ -3,7 +3,7 @@
   <name>植物魔法 Botania</name>
   <author>GZ</author>
   <packageId>gz.botania</packageId>
-  <modVersion>0.7.2</modVersion>
+  <modVersion>0.7.1</modVersion>
   <url>https://github.com/moxuanag/Rimworld-Botania</url>
   <supportedVersions>
     <li>1.7</li>
@@ -45,11 +45,8 @@
 全部为新增 Def 与自定义 Comp，仅以补丁方式向生物群系追加野生植物，不改动任何原版 Def 的既有数值。
 
 依赖：0.6.0 起需要 Harmony（brrainz.harmony）。电暴花靠一个 Harmony 补丁监听原版的电网短路事件，把短路瞬间的储能按比例分给附近的花；缺少 Harmony 时补丁不会挂上，电暴花收不到能量。
-本模组免费发布、不商业化。
-  
-  —— 授权 ——
-  CC BY-NC-SA 4.0（署名—非商业性使用—相同方式共享）。禁止任何商业用途。
-  原作 Botania 及其名称、设定归 Vazkii 所有（botaniamod.net），本项目为非官方、非商业移植，与原作者无关。
+—— 致谢与权利归属 ——
+  原作 Botania 及其名称、设定归 Vazkii 所有（botaniamod.net）；本项目为非官方移植，与原作者无关。
   部分穿着图基于 RimWorld 原版美术修改，版权归 Ludeon Studios，不在本项目授权范围内。
   详见仓库 LICENSE 文件。
   </description>

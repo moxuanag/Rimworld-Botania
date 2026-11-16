@@ -1,7 +1,7 @@
 # 植物魔法 Botania · RimWorld 1.7 移植
 
 [![release](https://img.shields.io/github/v/release/moxuanag/Rimworld-Botania?label=release)](https://github.com/moxuanag/Rimworld-Botania/releases)
-[![license](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-lightgrey)](LICENSE)
+[![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 把《我的世界》的 **Botania（植物魔法）** 移植到环世界 1.7 的非官方模组。
 
@@ -746,14 +746,9 @@ VERSIONING.md    版本号规则（协作硬约定）
 
 ## 十一、版权与致谢
 
-**本模组免费发布、不商业化。** 禁止用于任何商业目的（出售、付费墙、内置广告导流等）。
-
 ### 授权
 
-自 **v0.7.2** 起，本项目以 [CC BY-NC-SA 4.0](LICENSE) 授权（署名—非商业性使用—相同方式共享）。
-全文见 [LICENSE](LICENSE)；v0.7.1 及更早版本仍为 MIT。
-
-你可以自由地共享与改编，前提是：**署名**、**不用于商业目的**、**衍生作品使用相同许可证**。
+本项目以 [MIT](LICENSE) 授权。
 
 ### 致谢与权利归属
 
