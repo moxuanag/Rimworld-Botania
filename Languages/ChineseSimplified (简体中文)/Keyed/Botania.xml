@@ -146,11 +146,12 @@
   <Botania.GaiaPortalActivated.Label>盖亚传送门被激活</Botania.GaiaPortalActivated.Label>
   <Botania.GaiaPortalActivated.Text>调查完成的一瞬间，传送门里的绿光翻了个面，从静止变成流动。\n\n有东西开始往外挤了。</Botania.GaiaPortalActivated.Text>
   <Botania.GaiaInvestigate.Label>派人调查</Botania.GaiaInvestigate.Label>
-  <Botania.GaiaInvestigate.Desc>把最近的空闲殖民者派到传送门旁。\n\n殖民者站在门口会把调查进度推上去（一个人约 20 秒，最多 3 人同时计入）。调查完成后波次才会开始。</Botania.GaiaInvestigate.Desc>
+  <Botania.GaiaInvestigate.Desc>点击后选择一个小人，把他派到传送门旁调查。\n\n小人会走到门口并停留；站在门口期间调查进度自动累积（一个人约 20 秒，最多 3 人同时计入）。调查完成后波次才会开始。</Botania.GaiaInvestigate.Desc>
   <Botania.GaiaInvestigate.NoPawn>没有可以派去调查的殖民者（都在忙、在倒地或精神崩溃）</Botania.GaiaInvestigate.NoPawn>
   <Botania.GaiaInspect.Dormant>待调查：需要殖民者站在旁边（进度 {0}%）</Botania.GaiaInspect.Dormant>
   <Botania.GaiaInspect.Waves>波次：{0} / {1}</Botania.GaiaInspect.Waves>
   <Botania.GaiaInspect.Opened>已开启（Boss 待实装）</Botania.GaiaInspect.Opened>
   <Botania.GaiaInspect.Dimmed>黯淡中，还剩 {0} 可以重新调查</Botania.GaiaInspect.Dimmed>
 
+  <Botania.GaiaInvestigate.Ordered>已派 {0} 去调查盖亚传送门</Botania.GaiaInvestigate.Ordered>
 </LanguageData>

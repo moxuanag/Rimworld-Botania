@@ -151,7 +151,7 @@ namespace Botania
                 {
                     continue;
                 }
-                if (p.Position.DistanceToSquared(parent.InteractionCell) <= r2)
+                if (p.Position.DistanceToSquared(parent.OccupiedRect().CenterCell) <= r2)
                 {
                     count++;
                     if (count >= Props.maxInvestigators)
@@ -311,12 +311,27 @@ namespace Botania
 
             if (phase == Phase.Dormant)
             {
-                yield return new Command_Action
+                yield return new Command_Target
                 {
                     defaultLabel = "Botania.GaiaInvestigate.Label".Translate(),
                     defaultDesc = "Botania.GaiaInvestigate.Desc".Translate(),
                     icon = TexCommand.GatherSpotActive,
-                    action = OrderInvestigation
+                    targetingParams = new TargetingParameters
+                    {
+                        canTargetPawns = true,
+                        canTargetLocations = false,
+                        canTargetBuildings = false,
+                        canTargetAnimals = false,
+                        canTargetMechs = false,
+                        validator = ti => ti.Thing is Pawn p && p.IsColonistPlayerControlled && !p.Dead
+                    },
+                    action = ti =>
+                    {
+                        if (ti.Thing is Pawn p)
+                        {
+                            OrderInvestigation(p);
+                        }
+                    }
                 };
             }
 
@@ -356,40 +371,37 @@ namespace Botania
             }
         }
 
-        /// <summary>把最近的空闲殖民者派到门口去调查（只下达「走过去」，调查进度靠站在附近累积）。</summary>
-        private void OrderInvestigation()
+        /// <summary>
+        /// 把**指定的**殖民者派到门口：先 Goto 到传送门旁，再原地等待 investigationTicks。
+        /// 光用 Goto 会在到达后立刻恢复日常工作走开，必须再排一个 Wait。
+        /// </summary>
+        private void OrderInvestigation(Pawn pawn)
         {
-            Pawn best = null;
-            float bestDist = float.MaxValue;
-            List<Pawn> pawns = Map.mapPawns.FreeColonistsSpawned;
-            for (int i = 0; i < pawns.Count; i++)
+            if (pawn == null || pawn.Dead || pawn.Downed || !pawn.Spawned)
             {
-                Pawn p = pawns[i];
-                if (p.Dead || p.Downed || !p.Spawned || p.Drafted || p.InMentalState)
-                {
-                    continue;
-                }
-                float d = p.Position.DistanceToSquared(parent.InteractionCell);
-                if (d < bestDist)
-                {
-                    bestDist = d;
-                    best = p;
-                }
-            }
-
-            if (best == null)
-            {
-                Messages.Message("Botania.GaiaInvestigate.NoPawn".Translate(),
-                    MessageTypeDefOf.RejectInput, false);
                 return;
             }
 
-            Job job = JobMaker.MakeJob(JobDefOf.Goto, parent.InteractionCell);
-            best.jobs.TryTakeOrderedJob(job, JobTag.Misc);
-            if (best.drafter != null && best.Drafted)
+            if (pawn.Drafted && pawn.drafter != null)
             {
-                best.drafter.Drafted = false;
+                pawn.drafter.Drafted = false;
             }
+
+            IntVec3 stand = CellFinder.RandomClosewalkCellNear(
+                parent.OccupiedRect().CenterCell, Map, 2,
+                c => c.Walkable(Map) && !c.Fogged(Map));
+            if (!stand.IsValid)
+            {
+                stand = parent.InteractionCell;
+            }
+
+            Job gotoJob = JobMaker.MakeJob(JobDefOf.Goto, stand);
+            Job waitJob = JobMaker.MakeJob(JobDefOf.Wait, Props.investigationTicks);
+            pawn.jobs.TryTakeOrderedJob(gotoJob, JobTag.Misc);
+            pawn.jobs.jobQueue.EnqueueFirst(waitJob, JobTag.Misc);
+
+            Messages.Message("Botania.GaiaInvestigate.Ordered".Translate(pawn.LabelShort),
+                new LookTargets(pawn), MessageTypeDefOf.NeutralEvent, false);
         }
 
         public override void PostExposeData()
