@@ -21,4 +21,22 @@
     <prioritizeSustains>true</prioritizeSustains>
   </WorkGiverDef>
 
+
+  <!--
+    调查盖亚传送门：归「研究」工作类型，和原版研究同一优先级面板。
+    传送门处于「待调查」时才会派活；进度按小人的研究速度计算。
+  -->
+  <WorkGiverDef>
+    <defName>BotaniaInvestigateGaiaPortal</defName>
+    <label>investigate gaia portal</label>
+    <giverClass>Botania.WorkGiver_GaiaInvestigation</giverClass>
+    <workType>Research</workType>
+    <priorityInType>10</priorityInType>
+    <verb>investigate</verb>
+    <gerund>investigating</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
 </Defs>

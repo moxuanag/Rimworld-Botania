@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- 调查盖亚传送门：一项正式工作，归「研究」类型 -->
+  <JobDef>
+    <defName>Botania_InvestigateGaiaPortal</defName>
+    <driverClass>Botania.JobDriver_InvestigateGaiaPortal</driverClass>
+    <reportString>调查盖亚传送门。</reportString>
+    <casualInterruptible>false</casualInterruptible>
+  </JobDef>
+
+</Defs>

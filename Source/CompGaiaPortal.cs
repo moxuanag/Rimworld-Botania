@@ -101,7 +101,7 @@ namespace Botania
                     break;
 
                 case Phase.Dormant:
-                    TickInvestigation();
+                    // 进度只由 JobDriver_InvestigateGaiaPortal 推进（必须有小人在做这项工作）
                     break;
 
                 case Phase.Waves:
@@ -121,46 +121,42 @@ namespace Botania
             }
         }
 
-        // ---------------- 调查 ----------------
+        // ---------------- 调查（由 JobDriver 推进） ----------------
 
-        /// <summary>附近有殖民者站着就累进度；凑够 investigationTicks 就激活。</summary>
-        private void TickInvestigation()
+        /// <summary>是否处于「待调查」状态（WorkGiver / JobDriver 用）。</summary>
+        public bool NeedsInvestigation => phase == Phase.Dormant;
+
+        /// <summary>调查进度 0~1（给进度条用）。</summary>
+        public float InvestigationPercent
         {
-            int investigators = CountInvestigators();
-            if (investigators <= 0)
+            get
             {
-                return;
+                int need = Props.investigationTicks;
+                if (need <= 0)
+                {
+                    return 1f;
+                }
+                return investigationProgress <= 0 ? 0f : (float)investigationProgress / need;
             }
-            investigationProgress += investigators;
-            if (investigationProgress < Props.investigationTicks)
-            {
-                return;
-            }
-            Activate();
         }
 
-        private int CountInvestigators()
+        /// <summary>
+        /// 小人工作一 tick 调一次。amount 是这一 tick 的有效工作量（按研究速度算）。
+        /// 返回 true 表示调查已完成（JobDriver 据此结束当前 toil）。
+        /// </summary>
+        public bool AddInvestigationWork(float amount)
         {
-            int count = 0;
-            List<Pawn> pawns = Map.mapPawns.FreeColonistsSpawned;
-            float r2 = Props.investigateRadius * Props.investigateRadius;
-            for (int i = 0; i < pawns.Count; i++)
+            if (phase != Phase.Dormant)
             {
-                Pawn p = pawns[i];
-                if (p.Dead || p.Downed || !p.Spawned)
-                {
-                    continue;
-                }
-                if (p.Position.DistanceToSquared(parent.OccupiedRect().CenterCell) <= r2)
-                {
-                    count++;
-                    if (count >= Props.maxInvestigators)
-                    {
-                        break;
-                    }
-                }
+                return true;
             }
-            return count;
+            investigationProgress += (int)(amount <= 0f ? 1f : amount);
+            if (investigationProgress >= Props.investigationTicks)
+            {
+                Activate();
+                return true;
+            }
+            return false;
         }
 
         private void Activate()
@@ -387,18 +383,14 @@ namespace Botania
                 pawn.drafter.Drafted = false;
             }
 
-            IntVec3 stand = CellFinder.RandomClosewalkCellNear(
-                parent.OccupiedRect().CenterCell, Map, 2,
-                c => c.Walkable(Map) && !c.Fogged(Map));
-            if (!stand.IsValid)
+            JobDef def = DefDatabase<JobDef>.GetNamedSilentFail("Botania_InvestigateGaiaPortal");
+            if (def == null)
             {
-                stand = parent.InteractionCell;
+                Log.Error("[Botania] 找不到 JobDef Botania_InvestigateGaiaPortal");
+                return;
             }
-
-            Job gotoJob = JobMaker.MakeJob(JobDefOf.Goto, stand);
-            Job waitJob = JobMaker.MakeJob(JobDefOf.Wait, Props.investigationTicks);
-            pawn.jobs.TryTakeOrderedJob(gotoJob, JobTag.Misc);
-            pawn.jobs.jobQueue.EnqueueFirst(waitJob, JobTag.Misc);
+            Job job = JobMaker.MakeJob(def, parent);
+            pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
 
             Messages.Message("Botania.GaiaInvestigate.Ordered".Translate(pawn.LabelShort),
                 new LookTargets(pawn), MessageTypeDefOf.NeutralEvent, false);

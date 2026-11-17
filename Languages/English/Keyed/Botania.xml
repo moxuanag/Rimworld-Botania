@@ -146,7 +146,7 @@
   <Botania.GaiaPortalActivated.Label>Gaia portal activated</Botania.GaiaPortalActivated.Label>
   <Botania.GaiaPortalActivated.Text>The green light inside the portal flipped over the moment the survey finished, from still to flowing.\n\nSomething is already pushing at the other side.</Botania.GaiaPortalActivated.Text>
   <Botania.GaiaInvestigate.Label>Send someone to investigate</Botania.GaiaInvestigate.Label>
-  <Botania.GaiaInvestigate.Desc>Pick a colonist and send them to investigate the portal.\n\nThey walk over and stay put; standing beside the portal advances the investigation (about 20 seconds for one, up to 3 counted at once). Waves only start once the investigation is done.</Botania.GaiaInvestigate.Desc>
+  <Botania.GaiaInvestigate.Desc>Pick a colonist and assign them the Investigate Gaia Portal job.\n\nThis is a **research-type job**: they walk over, stand at the portal and advance the investigation at their research speed; leaving stops it.\n(Raising the Research work priority lets colonists come on their own.) Waves start only once the investigation is complete.</Botania.GaiaInvestigate.Desc>
   <Botania.GaiaInvestigate.NoPawn>No colonist is free to investigate (busy, downed or in a mental state)</Botania.GaiaInvestigate.NoPawn>
   <Botania.GaiaInspect.Dormant>Awaiting investigation: a colonist must stand beside it ({0}%)</Botania.GaiaInspect.Dormant>
   <Botania.GaiaInspect.Waves>Waves: {0} / {1}</Botania.GaiaInspect.Waves>

@@ -3,4 +3,8 @@
   <BotaniaDeliverToTerraAltar.label>给泰拉凝聚台送料</BotaniaDeliverToTerraAltar.label>
   <BotaniaDeliverToTerraAltar.verb>送料到</BotaniaDeliverToTerraAltar.verb>
   <BotaniaDeliverToTerraAltar.gerund>送料</BotaniaDeliverToTerraAltar.gerund>
+  <BotaniaInvestigateGaiaPortal.label>调查盖亚传送门</BotaniaInvestigateGaiaPortal.label>
+  <BotaniaInvestigateGaiaPortal.verb>调查</BotaniaInvestigateGaiaPortal.verb>
+  <BotaniaInvestigateGaiaPortal.gerund>正在调查</BotaniaInvestigateGaiaPortal.gerund>
+
 </LanguageData>
