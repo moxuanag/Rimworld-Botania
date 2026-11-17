@@ -142,4 +142,15 @@
   <Botania.GaiaSurrenderDone.Label>Gaia ritual stopped</Botania.GaiaSurrenderDone.Label>
   <Botania.GaiaSurrenderDone.Text>The portal drew the last of the light back in and went dark.\n\nIt will light again - in a day.</Botania.GaiaSurrenderDone.Text>
 
+
+  <Botania.GaiaPortalActivated.Label>Gaia portal activated</Botania.GaiaPortalActivated.Label>
+  <Botania.GaiaPortalActivated.Text>The green light inside the portal flipped over the moment the survey finished, from still to flowing.\n\nSomething is already pushing at the other side.</Botania.GaiaPortalActivated.Text>
+  <Botania.GaiaInvestigate.Label>Send someone to investigate</Botania.GaiaInvestigate.Label>
+  <Botania.GaiaInvestigate.Desc>Sends the nearest idle colonist to stand beside the portal.\n\nColonists standing at the portal advance the investigation (about 20 seconds for one, up to 3 counted at once). Waves only start once the investigation is done.</Botania.GaiaInvestigate.Desc>
+  <Botania.GaiaInvestigate.NoPawn>No colonist is free to investigate (busy, downed or in a mental state)</Botania.GaiaInvestigate.NoPawn>
+  <Botania.GaiaInspect.Dormant>Awaiting investigation: a colonist must stand beside it ({0}%)</Botania.GaiaInspect.Dormant>
+  <Botania.GaiaInspect.Waves>Waves: {0} / {1}</Botania.GaiaInspect.Waves>
+  <Botania.GaiaInspect.Opened>Open (boss not implemented yet)</Botania.GaiaInspect.Opened>
+  <Botania.GaiaInspect.Dimmed>Dimmed; can be investigated again in {0}</Botania.GaiaInspect.Dimmed>
+
 </LanguageData>

@@ -1,12 +1,15 @@
 using System.Collections.Generic;
 using RimWorld;
 using Verse;
+using Verse.AI;
 
 namespace Botania
 {
     /// <summary>
     /// 盖亚传送门配置。
-    /// 波次用原版机械族占位（默认 Mech_Scyther），等盖亚造物做出来再换 wavePawnKind。
+    /// 流程：碎块被击碎 → 传送门出现但**未激活** → 小人走过去调查 → 调查完成才开波次。
+    /// 打不过可以投降：召唤物被收回，传送门黯淡并进入冷却；冷却结束后**重新派人调查**即可再开，
+    /// 不会再天降一块新碎块。
     /// </summary>
     public class CompProperties_GaiaPortal : CompProperties
     {
@@ -19,14 +22,23 @@ namespace Botania
         /// <summary>波与波之间的间隔（tick）。90 秒 = 5400。</summary>
         public int waveIntervalTicks = 5400;
 
-        /// <summary>传送门出现后第一波的延迟。</summary>
+        /// <summary>调查完成后第一波的延迟。</summary>
         public int firstWaveDelayTicks = 600;
 
-        /// <summary>投降后冷却（tick）。1 天 = 60000。</summary>
+        /// <summary>投降后的黯淡冷却（tick）。1 天 = 60000。</summary>
         public int surrenderCooldownTicks = 60000;
 
         /// <summary>刷怪半径。</summary>
         public float spawnRadius = 8f;
+
+        /// <summary>调查所需累计 tick（一个人站在旁边 1200 tick = 20 秒）。</summary>
+        public int investigationTicks = 1200;
+
+        /// <summary>调查判定半径（格）。</summary>
+        public float investigateRadius = 2.9f;
+
+        /// <summary>同时计入进度的调查人数上限。</summary>
+        public int maxInvestigators = 3;
 
         public CompProperties_GaiaPortal()
         {
@@ -35,36 +47,36 @@ namespace Botania
     }
 
     /// <summary>
-    /// 盖亚传送门：
-    ///  · 依次放出 3 波敌人（波与波之间熄火，玩家可以修墙布防）
-    ///  · 全部清完后进入「开启」状态（Boss 未实装，先给提示）
-    ///  · 提供「停止仪式（投降）」按钮：把场上小怪化为光收回，进入 1 天冷却
-    ///  · 传送门本身不可被攻击、不可被破坏
+    /// 盖亚传送门的运行状态机：待调查 → 波次中 → 已开启；投降则回到黯淡（冷却）→ 待调查。
+    /// 传送门本身不可被攻击、不可被破坏、不可被占领。
     /// </summary>
     public class CompGaiaPortal : ThingComp
     {
+        private enum Phase
+        {
+            Dormant,    // 未激活，等人来调查
+            Waves,      // 正在放波次
+            Opened,     // 波次清空，传送门开启（Boss 待实装）
+            Dimmed      // 投降后黯淡，冷却中
+        }
+
+        private Phase phase = Phase.Dormant;
+        private int investigationProgress;
         private int wavesDone;
         private int nextWaveTick = -1;
-        private bool completed;
-        private bool surrendered;
+        private int cooldownUntil = -1;
         private List<Pawn> spawnedPawns = new List<Pawn>();
 
         private CompProperties_GaiaPortal Props => (CompProperties_GaiaPortal)props;
 
         private Map Map => parent.Map;
 
-        public bool Surrendered => surrendered;
-
-        public bool Completed => completed;
-
-        public int WavesDone => wavesDone;
-
         public int TotalWaves => Props.waveSizes == null ? 0 : Props.waveSizes.Count;
 
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             base.PostSpawnSetup(respawningAfterLoad);
-            if (nextWaveTick < 0 && !completed && !surrendered)
+            if (phase == Phase.Waves && nextWaveTick < 0)
             {
                 nextWaveTick = Find.TickManager.TicksGame + Props.firstWaveDelayTicks;
             }
@@ -73,25 +85,98 @@ namespace Botania
         public override void CompTick()
         {
             base.CompTick();
-            if (surrendered || completed)
-            {
-                return;
-            }
-            PruneDeadPawns();
 
-            if (Find.TickManager.TicksGame < nextWaveTick)
+            switch (phase)
             {
-                return;
-            }
+                case Phase.Dimmed:
+                    if (Find.TickManager.TicksGame >= cooldownUntil)
+                    {
+                        // 冷却结束：回到待调查，不会再有新的碎块
+                        phase = Phase.Dormant;
+                        investigationProgress = 0;
+                        wavesDone = 0;
+                        nextWaveTick = -1;
+                        Log.Message("[Botania] 盖亚传送门冷却结束，可以重新派人调查");
+                    }
+                    break;
 
-            if (wavesDone >= TotalWaves)
-            {
-                FinishWaves();
-                return;
-            }
+                case Phase.Dormant:
+                    TickInvestigation();
+                    break;
 
-            SpawnWave();
+                case Phase.Waves:
+                    PruneDeadPawns();
+                    if (Find.TickManager.TicksGame >= nextWaveTick)
+                    {
+                        if (wavesDone >= TotalWaves)
+                        {
+                            OpenPortal();
+                        }
+                        else
+                        {
+                            SpawnWave();
+                        }
+                    }
+                    break;
+            }
         }
+
+        // ---------------- 调查 ----------------
+
+        /// <summary>附近有殖民者站着就累进度；凑够 investigationTicks 就激活。</summary>
+        private void TickInvestigation()
+        {
+            int investigators = CountInvestigators();
+            if (investigators <= 0)
+            {
+                return;
+            }
+            investigationProgress += investigators;
+            if (investigationProgress < Props.investigationTicks)
+            {
+                return;
+            }
+            Activate();
+        }
+
+        private int CountInvestigators()
+        {
+            int count = 0;
+            List<Pawn> pawns = Map.mapPawns.FreeColonistsSpawned;
+            float r2 = Props.investigateRadius * Props.investigateRadius;
+            for (int i = 0; i < pawns.Count; i++)
+            {
+                Pawn p = pawns[i];
+                if (p.Dead || p.Downed || !p.Spawned)
+                {
+                    continue;
+                }
+                if (p.Position.DistanceToSquared(parent.InteractionCell) <= r2)
+                {
+                    count++;
+                    if (count >= Props.maxInvestigators)
+                    {
+                        break;
+                    }
+                }
+            }
+            return count;
+        }
+
+        private void Activate()
+        {
+            phase = Phase.Waves;
+            investigationProgress = 0;
+            wavesDone = 0;
+            nextWaveTick = Find.TickManager.TicksGame + Props.firstWaveDelayTicks;
+            Find.LetterStack.ReceiveLetter(
+                "Botania.GaiaPortalActivated.Label".Translate(),
+                "Botania.GaiaPortalActivated.Text".Translate(),
+                LetterDefOf.ThreatBig,
+                new LookTargets(parent));
+        }
+
+        // ---------------- 波次 ----------------
 
         private void PruneDeadPawns()
         {
@@ -110,11 +195,12 @@ namespace Botania
             PawnKindDef kind = DefDatabase<PawnKindDef>.GetNamedSilentFail(Props.wavePawnKind);
             if (kind == null)
             {
-                Log.Error("[Botania] 盖亚传送门找不到刷怪种族: " + Props.wavePawnKind + "，波次中止");
-                completed = true;
+                Log.Error("[Botania] 盖亚传送门找不到刷怪种族: " + Props.wavePawnKind);
+                OpenPortal();
                 return;
             }
 
+            Faction hostile = Faction.OfMechanoids;
             int count = Props.waveSizes[wavesDone];
             int spawned = 0;
             for (int i = 0; i < count; i++)
@@ -126,7 +212,7 @@ namespace Botania
                 {
                     continue;
                 }
-                Pawn pawn = PawnGenerator.GeneratePawn(kind, null);
+                Pawn pawn = PawnGenerator.GeneratePawn(kind, hostile);
                 if (pawn == null)
                 {
                     continue;
@@ -144,9 +230,9 @@ namespace Botania
                 new LookTargets(parent), MessageTypeDefOf.ThreatBig);
         }
 
-        private void FinishWaves()
+        private void OpenPortal()
         {
-            completed = true;
+            phase = Phase.Opened;
             Find.LetterStack.ReceiveLetter(
                 "Botania.GaiaPortalReady.Label".Translate(),
                 "Botania.GaiaPortalReady.Text".Translate(),
@@ -154,75 +240,20 @@ namespace Botania
                 new LookTargets(parent));
         }
 
-        /// <summary>传送门不可被攻击、不可被破坏。</summary>
-        public override void PostPreApplyDamage(ref DamageInfo dinfo, out bool absorbed)
-        {
-            base.PostPreApplyDamage(ref dinfo, out absorbed);
-            absorbed = true;
-        }
-
-        public override IEnumerable<Gizmo> CompGetGizmosExtra()
-        {
-            foreach (Gizmo g in base.CompGetGizmosExtra())
-            {
-                yield return g;
-            }
-
-            if (!surrendered && !completed)
-            {
-                yield return new Command_Action
-                {
-                    defaultLabel = "Botania.GaiaSurrender.Label".Translate(),
-                    defaultDesc = "Botania.GaiaSurrender.Desc".Translate(),
-                    icon = TexCommand.ClearPrioritizedWork,
-                    action = Surrender
-                };
-            }
-
-            if (Prefs.DevMode)
-            {
-                yield return new Command_Action
-                {
-                    defaultLabel = "[DEV] 立即下一波",
-                    defaultDesc = "跳过等待，立刻刷出下一波。",
-                    action = () =>
-                    {
-                        nextWaveTick = Find.TickManager.TicksGame;
-                    }
-                };
-                yield return new Command_Action
-                {
-                    defaultLabel = "[DEV] 清空小怪",
-                    defaultDesc = "把场上本传送门刷出的小怪全部移除。",
-                    action = DespawnAllSpawned
-                };
-                yield return new Command_Action
-                {
-                    defaultLabel = "[DEV] 跳过剩余波次",
-                    defaultDesc = "直接把波次计数拉满，进入「传送门开启」状态。",
-                    action = () =>
-                    {
-                        wavesDone = TotalWaves;
-                        nextWaveTick = Find.TickManager.TicksGame;
-                    }
-                };
-            }
-        }
+        // ---------------- 投降 ----------------
 
         private void Surrender()
         {
-            if (surrendered || completed)
+            if (phase != Phase.Waves && phase != Phase.Opened)
             {
                 return;
             }
-            surrendered = true;
             DespawnAllSpawned();
-
-            MapComponent_GaiaEvent mc = Map.GetComponent<MapComponent_GaiaEvent>();
-            if (mc != null)
-            {
-                mc.NotifyPortalSurrendered(parent);
-            }
+            phase = Phase.Dimmed;
+            wavesDone = 0;
+            investigationProgress = 0;
+            nextWaveTick = -1;
+            cooldownUntil = Find.TickManager.TicksGame + Props.surrenderCooldownTicks;
 
             Find.LetterStack.ReceiveLetter(
                 "Botania.GaiaSurrenderDone.Label".Translate(),
@@ -244,13 +275,131 @@ namespace Botania
             spawnedPawns.Clear();
         }
 
+        // ---------------- 交互与显示 ----------------
+
+        public override void PostPreApplyDamage(ref DamageInfo dinfo, out bool absorbed)
+        {
+            base.PostPreApplyDamage(ref dinfo, out absorbed);
+            absorbed = true;
+        }
+
+        public override string CompInspectStringExtra()
+        {
+            switch (phase)
+            {
+                case Phase.Dormant:
+                    return "Botania.GaiaInspect.Dormant".Translate(
+                        investigationProgress * 100 / Props.investigationTicks);
+                case Phase.Waves:
+                    return "Botania.GaiaInspect.Waves".Translate(wavesDone, TotalWaves);
+                case Phase.Opened:
+                    return "Botania.GaiaInspect.Opened".Translate();
+                case Phase.Dimmed:
+                    int left = cooldownUntil - Find.TickManager.TicksGame;
+                    return "Botania.GaiaInspect.Dimmed".Translate(left.ToStringTicksToPeriod());
+                default:
+                    return null;
+            }
+        }
+
+        public override IEnumerable<Gizmo> CompGetGizmosExtra()
+        {
+            foreach (Gizmo g in base.CompGetGizmosExtra())
+            {
+                yield return g;
+            }
+
+            if (phase == Phase.Dormant)
+            {
+                yield return new Command_Action
+                {
+                    defaultLabel = "Botania.GaiaInvestigate.Label".Translate(),
+                    defaultDesc = "Botania.GaiaInvestigate.Desc".Translate(),
+                    icon = TexCommand.GatherSpotActive,
+                    action = OrderInvestigation
+                };
+            }
+
+            if (phase == Phase.Waves || phase == Phase.Opened)
+            {
+                yield return new Command_Action
+                {
+                    defaultLabel = "Botania.GaiaSurrender.Label".Translate(),
+                    defaultDesc = "Botania.GaiaSurrender.Desc".Translate(),
+                    icon = TexCommand.ClearPrioritizedWork,
+                    action = Surrender
+                };
+            }
+
+            if (Prefs.DevMode)
+            {
+                yield return new Command_Action
+                {
+                    defaultLabel = "[DEV] 完成调查",
+                    action = Activate
+                };
+                yield return new Command_Action
+                {
+                    defaultLabel = "[DEV] 立即下一波",
+                    action = () => nextWaveTick = Find.TickManager.TicksGame
+                };
+                yield return new Command_Action
+                {
+                    defaultLabel = "[DEV] 清空敌人",
+                    action = DespawnAllSpawned
+                };
+                yield return new Command_Action
+                {
+                    defaultLabel = "[DEV] 进入黯淡冷却",
+                    action = Surrender
+                };
+            }
+        }
+
+        /// <summary>把最近的空闲殖民者派到门口去调查（只下达「走过去」，调查进度靠站在附近累积）。</summary>
+        private void OrderInvestigation()
+        {
+            Pawn best = null;
+            float bestDist = float.MaxValue;
+            List<Pawn> pawns = Map.mapPawns.FreeColonistsSpawned;
+            for (int i = 0; i < pawns.Count; i++)
+            {
+                Pawn p = pawns[i];
+                if (p.Dead || p.Downed || !p.Spawned || p.Drafted || p.InMentalState)
+                {
+                    continue;
+                }
+                float d = p.Position.DistanceToSquared(parent.InteractionCell);
+                if (d < bestDist)
+                {
+                    bestDist = d;
+                    best = p;
+                }
+            }
+
+            if (best == null)
+            {
+                Messages.Message("Botania.GaiaInvestigate.NoPawn".Translate(),
+                    MessageTypeDefOf.RejectInput, false);
+                return;
+            }
+
+            Job job = JobMaker.MakeJob(JobDefOf.Goto, parent.InteractionCell);
+            best.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+            if (best.drafter != null && best.Drafted)
+            {
+                best.drafter.Drafted = false;
+            }
+        }
+
         public override void PostExposeData()
         {
             base.PostExposeData();
+            Scribe_Values.Look(ref phase, "gaiaPhase", Phase.Dormant);
+            Scribe_Values.Look(ref investigationProgress, "gaiaInvestigation", 0);
             Scribe_Values.Look(ref wavesDone, "gaiaWavesDone", 0);
             Scribe_Values.Look(ref nextWaveTick, "gaiaNextWaveTick", -1);
-            Scribe_Values.Look(ref completed, "gaiaCompleted", false);
-            Scribe_Values.Look(ref surrendered, "gaiaSurrendered", false);
+            Scribe_Values.Look(ref cooldownUntil, "gaiaCooldownUntil", -1);
             Scribe_Collections.Look(ref spawnedPawns, "gaiaSpawnedPawns", LookMode.Reference);
             if (Scribe.mode == LoadSaveMode.PostLoadInit && spawnedPawns == null)
             {

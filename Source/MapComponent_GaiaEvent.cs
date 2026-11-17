@@ -7,8 +7,8 @@ namespace Botania
     /// <summary>
     /// 盖亚事件的全局状态与触发：
     ///  · 玩家完成研究 Botania_Terrasteel 后 3~5 天，天空砸下一块「盖亚碎块」
-    ///  · 每个存档只触发一次
-    ///  · 传送门投降后进入冷却（默认 1 天），冷却结束可以重新触发
+    ///  · **每个存档只砸一次**。之后所有「重新开始」都由传送门自己处理
+    ///    （投降 → 黯淡 → 冷却 → 重新调查），不会再掉第二块碎块。
     ///
     /// 用 MapComponent 而不是 IncidentDef：这一版引擎没有 Harmony，改不了原版
     /// 的随机事件池；自己计时反而更可控，也方便开发者菜单一键测试。
@@ -20,7 +20,6 @@ namespace Botania
 
         private bool shardSpawned;
         private int triggerTick = -1;
-        private int cooldownUntil = -1;
 
         public MapComponent_GaiaEvent(Map map) : base(map)
         {
@@ -31,7 +30,6 @@ namespace Botania
             base.ExposeData();
             Scribe_Values.Look(ref shardSpawned, "gaiaShardSpawned", false);
             Scribe_Values.Look(ref triggerTick, "gaiaTriggerTick", -1);
-            Scribe_Values.Look(ref cooldownUntil, "gaiaCooldownUntil", -1);
         }
 
         public override void MapComponentTick()
@@ -55,13 +53,6 @@ namespace Botania
                 return;
             }
 
-            // 冷却中（上次投降），等冷却结束再重排
-            if (cooldownUntil > 0 && Find.TickManager.TicksGame < cooldownUntil)
-            {
-                triggerTick = cooldownUntil;
-                return;
-            }
-
             if (SpawnShard())
             {
                 shardSpawned = true;
@@ -82,16 +73,6 @@ namespace Botania
             }
             triggerTick = Find.TickManager.TicksGame + Rand.Range(180000, 300000);
             Log.Message("[Botania] 盖亚事件已排期：" + triggerTick + " tick 后掉落碎块");
-        }
-
-        public void NotifyPortalSurrendered(Thing portal)
-        {
-            shardSpawned = false;
-            CompGaiaPortal comp = portal.TryGetComp<CompGaiaPortal>();
-            int cd = comp != null ? ((CompProperties_GaiaPortal)comp.props).surrenderCooldownTicks : 60000;
-            cooldownUntil = Find.TickManager.TicksGame + cd;
-            triggerTick = cooldownUntil;
-            Log.Message("[Botania] 盖亚仪式中止，冷却到 " + cooldownUntil + " tick");
         }
 
         private bool SpawnShard()
@@ -158,7 +139,6 @@ namespace Botania
             }
             mc.shardSpawned = false;
             mc.triggerTick = Find.TickManager.TicksGame;
-            mc.cooldownUntil = -1;
         }
 
         [DebugAction("Botania", "立即开启盖亚传送门",
@@ -194,7 +174,7 @@ namespace Botania
             {
                 return;
             }
-            Log.Message($"[Botania] 盖亚事件：碎块已生成={mc.shardSpawned} 触发 tick={mc.triggerTick} 冷却到={mc.cooldownUntil} 当前 tick={Find.TickManager.TicksGame}");
+            Log.Message($"[Botania] 盖亚事件：碎块已生成={mc.shardSpawned} 触发 tick={mc.triggerTick} 当前 tick={Find.TickManager.TicksGame}");
         }
     }
 }
