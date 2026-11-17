@@ -128,4 +128,18 @@
   <Botania.TerraAltarAutoHaul>Allow haulers to deliver</Botania.TerraAltarAutoHaul>
   <Botania.TerraAltarAutoHaulDesc>While on, the Hauling work gains a "deliver materials to terra altar" task: idle haulers carry the missing materials onto the slab. It never interrupts a colonist who is already working, and no button press is needed.</Botania.TerraAltarAutoHaulDesc>
   <Botania.TerraAltarHaulOn>Hauler delivery: allowed</Botania.TerraAltarHaulOn>
+
+  <!-- Gaia boss event chain -->
+  <Botania.GaiaShardFall.Label>Gaia shard falls</Botania.GaiaShardFall.Label>
+  <Botania.GaiaShardFall.Text>A slab of living crystal punched through the sky and buried itself in the ground near your colony. It vibrates, and the rhythm is like a heartbeat.\n\nBreak it open, and whatever is on the other side will have a way through.</Botania.GaiaShardFall.Text>
+  <Botania.GaiaPortalOpened.Label>Gaia portal opens</Botania.GaiaPortalOpened.Label>
+  <Botania.GaiaPortalOpened.Text>The shard cracked apart without debris, leaving a ring of green light standing upright. Something is already queuing to come through.\n\nThe portal cannot be harmed. Hold out for three waves, or press Stop the ritual and give the attempt up.\n(The boss itself is not implemented yet; clearing the waves leaves the portal open.)</Botania.GaiaPortalOpened.Text>
+  <Botania.GaiaWave.Message>Wave {0} / {1}: {2} enemies pour out of the Gaia portal</Botania.GaiaWave.Message>
+  <Botania.GaiaPortalReady.Label>Gaia portal is open</Botania.GaiaPortalReady.Label>
+  <Botania.GaiaPortalReady.Text>All three waves are gone, and the green light inside the portal has thickened into something solid.\n\n(The boss itself is not implemented yet.)</Botania.GaiaPortalReady.Text>
+  <Botania.GaiaSurrender.Label>Stop the ritual (surrender)</Botania.GaiaSurrender.Label>
+  <Botania.GaiaSurrender.Desc>Turn the enemies on the field back into light and pull them into the portal, ending this attempt. Nothing counts as a kill and nothing drops;\nthe portal goes dark for a day, after which the event can be triggered again.</Botania.GaiaSurrender.Desc>
+  <Botania.GaiaSurrenderDone.Label>Gaia ritual stopped</Botania.GaiaSurrenderDone.Label>
+  <Botania.GaiaSurrenderDone.Text>The portal drew the last of the light back in and went dark.\n\nIt will light again - in a day.</Botania.GaiaSurrenderDone.Text>
+
 </LanguageData>

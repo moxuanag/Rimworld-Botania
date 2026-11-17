@@ -128,4 +128,18 @@
   <Botania.TerraAltarAutoHaul>允许搬运工送料</Botania.TerraAltarAutoHaul>
   <Botania.TerraAltarAutoHaulDesc>打开后，「搬运」工作里会多出一条「给泰拉凝聚台送料」：搬运工空闲时会把台面缺的材料搬上去。不打断正在干活的小人，也不需要再点任何按钮。</Botania.TerraAltarAutoHaulDesc>
   <Botania.TerraAltarHaulOn>搬运工送料：已允许</Botania.TerraAltarHaulOn>
+
+  <!-- 盖亚 Boss 事件链 -->
+  <Botania.GaiaShardFall.Label>天降盖亚碎块</Botania.GaiaShardFall.Label>
+  <Botania.GaiaShardFall.Text>一块活的晶体砸穿了天空，插进你家附近的地里。它在震动，震动的节奏像心跳。\n\n把它打碎，另一边的东西就会打开通路。</Botania.GaiaShardFall.Text>
+  <Botania.GaiaPortalOpened.Label>盖亚之门开启</Botania.GaiaPortalOpened.Label>
+  <Botania.GaiaPortalOpened.Text>碎块裂开后没有碎屑，只有一道环状的绿光立在那里。有东西正在排队穿过它。\n\n盖亚传送门无法被破坏。撑过三波，或者按下「停止仪式」放弃这次。\n（Boss 本体尚未实装，波次清空后传送门会进入开启状态。）</Botania.GaiaPortalOpened.Text>
+  <Botania.GaiaWave.Message>第 {0} / {1} 波：{2} 个敌人从盖亚传送门涌出</Botania.GaiaWave.Message>
+  <Botania.GaiaPortalReady.Label>盖亚传送门已开启</Botania.GaiaPortalReady.Label>
+  <Botania.GaiaPortalReady.Text>三波敌人已经被清空，传送门里的绿光凝成了实体。\n\n（Boss 本体尚未实装。）</Botania.GaiaPortalReady.Text>
+  <Botania.GaiaSurrender.Label>停止仪式（投降）</Botania.GaiaSurrender.Label>
+  <Botania.GaiaSurrender.Desc>把场上的敌人化为光收回传送门，结束这次仪式。不会算作击杀，也不会掉任何东西；\n传送门会熄灭一天，一天后可以重新引发。</Botania.GaiaSurrender.Desc>
+  <Botania.GaiaSurrenderDone.Label>盖亚仪式已中止</Botania.GaiaSurrenderDone.Label>
+  <Botania.GaiaSurrenderDone.Text>传送门把最后一点光收了回去，随后彻底熄灭。\n\n它还会亮起来——一天之后。</Botania.GaiaSurrenderDone.Text>
+
 </LanguageData>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- ============================================================
+       盖亚 Boss 事件链（见 docs/盖亚Boss设计文档.md）
+       1. 研究完泰拉钢 3~5 天后，天降「盖亚碎块」
+       2. 摧毁碎块 → 原地开出「盖亚传送门」
+       3. 传送门放 3 波敌人，波次之间熄火 90 秒
+       4. 波次清空 → 传送门开启（Boss 本体待实装）
+       传送门不可被攻击、不可被破坏；提供「停止仪式（投降）」按钮。
+       ============================================================ -->
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>Botania_GaiaShard</defName>
+    <label>gaia shard</label>
+    <description>A slab of living crystal that fell out of the sky and buried itself in the ground. It hums, and the hum has a rhythm. Something on the other side is waiting for the shell to crack.\n\nDestroy it and the way opens.</description>
+    <thingClass>Building</thingClass>
+    <graphicData>
+      <texPath>Things/Building/Botania/GaiaShard</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <pathCost>60</pathCost>
+    <fillPercent>1</fillPercent>
+    <blockLight>true</blockLight>
+    <rotatable>false</rotatable>
+    <castEdgeShadows>false</castEdgeShadows>
+    <size>(2,2)</size>
+    <statBases>
+      <MaxHitPoints>800</MaxHitPoints>
+      <Mass>400</Mass>
+      <Flammability>0.0</Flammability>
+    </statBases>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Medium</destroySound>
+    </building>
+    <comps>
+      <li Class="Botania.CompProperties_GaiaShard" />
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>Botania_GaiaPortal</defName>
+    <label>gaia portal</label>
+    <description>A ring of torn space with green light crawling around its rim. Things come through it in waves, and they keep coming until the other side has spent what it meant to spend.\n\nIt cannot be harmed. The only way to close the ritual is to give up on it.</description>
+    <thingClass>Building</thingClass>
+    <graphicData>
+      <texPath>Things/Building/Botania/GaiaPortal</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <pathCost>60</pathCost>
+    <fillPercent>1</fillPercent>
+    <blockLight>true</blockLight>
+    <rotatable>false</rotatable>
+    <castEdgeShadows>false</castEdgeShadows>
+    <size>(2,2)</size>
+    <tickerType>Normal</tickerType>
+    <statBases>
+      <MaxHitPoints>2000</MaxHitPoints>
+      <Mass>1000</Mass>
+      <Flammability>0.0</Flammability>
+    </statBases>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Medium</destroySound>
+    </building>
+    <comps>
+      <li Class="Botania.CompProperties_GaiaPortal">
+        <wavePawnKind>Mech_Scyther</wavePawnKind>
+        <waveSizes>
+          <li>6</li>
+          <li>8</li>
+          <li>10</li>
+        </waveSizes>
+        <waveIntervalTicks>5400</waveIntervalTicks>
+        <firstWaveDelayTicks>600</firstWaveDelayTicks>
+        <surrenderCooldownTicks>60000</surrenderCooldownTicks>
+        <spawnRadius>8</spawnRadius>
+      </li>
+    </comps>
+  </ThingDef>
+
+</Defs>

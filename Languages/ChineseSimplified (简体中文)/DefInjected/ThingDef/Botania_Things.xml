@@ -226,4 +226,11 @@
   <Botania_TerrasteelPedestal.label>凝聚基座</Botania_TerrasteelPedestal.label>
   <Botania_TerrasteelPedestal.description>一根矮活石柱，顶端嵌着一枚精灵石英。四根分立在平台四角，用来把魔力拢在台面上，不让它在泰拉钢成形时漏出去。</Botania_TerrasteelPedestal.description>
 
+
+  <!-- 盖亚事件 -->
+  <Botania_GaiaShard.label>盖亚碎块</Botania_GaiaShard.label>
+  <Botania_GaiaShard.description>一块从天而降的活体晶体，半截埋进土里。它持续低频地震动，节奏像心跳。\n\n另一边的东西在等这层壳被打破。摧毁它，通路就会打开。</Botania_GaiaShard.description>
+  <Botania_GaiaPortal.label>盖亚传送门</Botania_GaiaPortal.label>
+  <Botania_GaiaPortal.description>一道被撕开的空间，边缘有绿色光在爬。有东西一波一波地穿过来，直到对面觉得该花的都花了为止。\n\n它无法被伤害，也无法被拆除。想结束这场仪式，只能主动放弃。</Botania_GaiaPortal.description>
+
 </LanguageData>
