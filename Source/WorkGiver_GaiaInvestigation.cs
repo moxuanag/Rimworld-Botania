@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using RimWorld;
 using Verse;
 using Verse.AI;
@@ -43,9 +44,33 @@ namespace Botania
 
         public override PathEndMode PathEndMode => PathEndMode.InteractionCell;
 
+        /// <summary>只有玩家把传送门的「自动调查」打开，工作系统才会主动派人。</summary>
         public override bool ShouldSkip(Pawn pawn, bool forced = false)
         {
-            return PortalDef == null || InvestigateJob == null;
+            if (PortalDef == null || InvestigateJob == null)
+            {
+                return true;
+            }
+            return !HasAutoPortalOnMap(pawn);
+        }
+
+        private bool HasAutoPortalOnMap(Pawn pawn)
+        {
+            Map map = pawn.Map;
+            if (map == null)
+            {
+                return false;
+            }
+            List<Thing> portals = map.listerThings.ThingsOfDef(PortalDef);
+            for (int i = 0; i < portals.Count; i++)
+            {
+                CompGaiaPortal c = portals[i].TryGetComp<CompGaiaPortal>();
+                if (c != null && c.NeedsInvestigation && c.AutoInvestigate)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)

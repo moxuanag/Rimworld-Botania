@@ -148,7 +148,7 @@
   <Botania.GaiaInvestigate.Label>派人调查</Botania.GaiaInvestigate.Label>
   <Botania.GaiaInvestigate.Desc>点击后选择一个小人，派他去执行「调查盖亚传送门」这项工作。\n\n这是一项**研究工作**：小人会走到门口站定，按他的研究速度推进进度，中途离开就停下。\n（把「研究」工作优先级调高，小人也会自己来调查。）进度满才会开启波次。</Botania.GaiaInvestigate.Desc>
   <Botania.GaiaInvestigate.NoPawn>没有可以派去调查的殖民者（都在忙、在倒地或精神崩溃）</Botania.GaiaInvestigate.NoPawn>
-  <Botania.GaiaInspect.Dormant>待调查：需要殖民者站在旁边（进度 {0}%）</Botania.GaiaInspect.Dormant>
+  <Botania.GaiaInspect.Dormant>待调查：需要殖民者站进门里（进度 {0}%），自动调查 {1}</Botania.GaiaInspect.Dormant>
   <Botania.GaiaInspect.Waves>波次：{0} / {1}</Botania.GaiaInspect.Waves>
   <Botania.GaiaInspect.Opened>已开启（Boss 待实装）</Botania.GaiaInspect.Opened>
   <Botania.GaiaInspect.Dimmed>黯淡中，还剩 {0} 可以重新调查</Botania.GaiaInspect.Dimmed>
@@ -157,4 +157,10 @@
   <Botania.GaiaPortalAppeared.Label>盖亚传送门出现了</Botania.GaiaPortalAppeared.Label>
   <Botania.GaiaPortalAppeared.Text>碎块裂开后没有碎屑，只有一道环状的绿光立在那里。它是静止的，但你能感觉到它在等人。\n\n派一个小人到门口**调查**它。调查完成之前，另一边的东西过不来。\n（把「研究」工作优先级调高，小人会自己来调查。）</Botania.GaiaPortalAppeared.Text>
   <Botania.GaiaInvestigate.NoCell>传送门周围没有可以站人的格子</Botania.GaiaInvestigate.NoCell>
+  <Botania.GaiaAuto.Label>自动调查</Botania.GaiaAuto.Label>
+  <Botania.GaiaAuto.Desc>开启后，小人会按「研究」工作优先级自己来调查；关闭时只能用「派人调查」指定小人。</Botania.GaiaAuto.Desc>
+  <Botania.GaiaAuto.On>开启</Botania.GaiaAuto.On>
+  <Botania.GaiaAuto.Off>关闭</Botania.GaiaAuto.Off>
+  <Botania.GaiaAuto.OnMsg>自动调查：开启（小人会按研究优先级来）</Botania.GaiaAuto.OnMsg>
+  <Botania.GaiaAuto.OffMsg>自动调查：关闭（只能手动派人）</Botania.GaiaAuto.OffMsg>
 </LanguageData>

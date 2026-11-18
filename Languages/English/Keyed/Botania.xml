@@ -148,7 +148,7 @@
   <Botania.GaiaInvestigate.Label>Send someone to investigate</Botania.GaiaInvestigate.Label>
   <Botania.GaiaInvestigate.Desc>Pick a colonist and assign them the Investigate Gaia Portal job.\n\nThis is a **research-type job**: they walk over, stand at the portal and advance the investigation at their research speed; leaving stops it.\n(Raising the Research work priority lets colonists come on their own.) Waves start only once the investigation is complete.</Botania.GaiaInvestigate.Desc>
   <Botania.GaiaInvestigate.NoPawn>No colonist is free to investigate (busy, downed or in a mental state)</Botania.GaiaInvestigate.NoPawn>
-  <Botania.GaiaInspect.Dormant>Awaiting investigation: a colonist must stand beside it ({0}%)</Botania.GaiaInspect.Dormant>
+  <Botania.GaiaInspect.Dormant>Awaiting investigation: a colonist must stand inside it ({0}%), auto-investigate {1}</Botania.GaiaInspect.Dormant>
   <Botania.GaiaInspect.Waves>Waves: {0} / {1}</Botania.GaiaInspect.Waves>
   <Botania.GaiaInspect.Opened>Open (boss not implemented yet)</Botania.GaiaInspect.Opened>
   <Botania.GaiaInspect.Dimmed>Dimmed; can be investigated again in {0}</Botania.GaiaInspect.Dimmed>
@@ -157,4 +157,10 @@
   <Botania.GaiaPortalAppeared.Label>A Gaia portal has appeared</Botania.GaiaPortalAppeared.Label>
   <Botania.GaiaPortalAppeared.Text>The shard cracked apart without debris, leaving a ring of green light standing upright. It is still - but it feels like it is waiting for someone.\n\nSend a colonist over to **investigate** it. Nothing can come through until the survey is finished.\n(Raising the Research work priority lets colonists come on their own.)</Botania.GaiaPortalAppeared.Text>
   <Botania.GaiaInvestigate.NoCell>There is no walkable cell next to the portal</Botania.GaiaInvestigate.NoCell>
+  <Botania.GaiaAuto.Label>Auto investigate</Botania.GaiaAuto.Label>
+  <Botania.GaiaAuto.Desc>When on, colonists come to investigate according to their Research work priority. When off, only the colonist you pick with Send someone to investigate will come.</Botania.GaiaAuto.Desc>
+  <Botania.GaiaAuto.On>on</Botania.GaiaAuto.On>
+  <Botania.GaiaAuto.Off>off</Botania.GaiaAuto.Off>
+  <Botania.GaiaAuto.OnMsg>Auto investigate: on (colonists come by research priority)</Botania.GaiaAuto.OnMsg>
+  <Botania.GaiaAuto.OffMsg>Auto investigate: off (manual only)</Botania.GaiaAuto.OffMsg>
 </LanguageData>

@@ -7,38 +7,24 @@ namespace Botania
 {
     /// <summary>
     /// 盖亚传送门配置。
-    /// 流程：碎块被击碎 → 传送门出现但**未激活** → 小人走过去调查 → 调查完成才开波次。
-    /// 打不过可以投降：召唤物被收回，传送门黯淡并进入冷却；冷却结束后**重新派人调查**即可再开，
-    /// 不会再天降一块新碎块。
+    /// 流程：碎块被击碎 → 传送门出现（未激活）→ 小人走到门中央**调查** → 调查完才开波次。
+    /// 打不过可以投降：召唤物被收回，传送门黯淡并进入冷却；冷却结束后重新派人调查即可，
+    /// 不会再天降第二块碎块。
     /// </summary>
     public class CompProperties_GaiaPortal : CompProperties
     {
-        /// <summary>每波刷的种族。占位：原版机械镰刀手。</summary>
         public string wavePawnKind = "Mech_Scyther";
-
-        /// <summary>每波数量。</summary>
         public List<int> waveSizes = new List<int> { 6, 8, 10 };
-
-        /// <summary>波与波之间的间隔（tick）。90 秒 = 5400。</summary>
         public int waveIntervalTicks = 5400;
-
-        /// <summary>调查完成后第一波的延迟。</summary>
         public int firstWaveDelayTicks = 600;
-
-        /// <summary>投降后的黯淡冷却（tick）。1 天 = 60000。</summary>
         public int surrenderCooldownTicks = 60000;
-
-        /// <summary>刷怪半径。</summary>
         public float spawnRadius = 8f;
 
-        /// <summary>调查所需累计 tick（一个人站在旁边 1200 tick = 20 秒）。</summary>
+        /// <summary>调查所需累计工作量（一个人、研究速度 1.0 时约 1200 tick = 20 秒）。</summary>
         public int investigationTicks = 1200;
 
-        /// <summary>调查判定半径（格）。</summary>
-        public float investigateRadius = 2.9f;
-
-        /// <summary>同时计入进度的调查人数上限。</summary>
-        public int maxInvestigators = 3;
+        /// <summary>调查判定：小人必须站在传送门占用的格子里。</summary>
+        public bool mustStandInside = true;
 
         public CompProperties_GaiaPortal()
         {
@@ -47,24 +33,32 @@ namespace Botania
     }
 
     /// <summary>
-    /// 盖亚传送门的运行状态机：待调查 → 波次中 → 已开启；投降则回到黯淡（冷却）→ 待调查。
-    /// 传送门本身不可被攻击、不可被破坏、不可被占领。
+    /// 盖亚传送门状态机：Dormant（待调查）→ Waves（波次中）→ Opened；投降回到 Dimmed（黯淡冷却）→ Dormant。
+    ///
+    /// 调查进度的唯一来源是 CompTick：**有殖民者站在传送门的 3×3 范围里**才累加，
+    /// 按该殖民者的研究速度算。这样不依赖自定义 JobDriver 的 tickAction
+    /// （本引擎里那套不稳），只要人站进去就会涨。
+    ///
+    /// 「自动调查」开关（默认关）：
+    ///  · 关：只有玩家点「派人调查」指定的小人会被派过去，工作系统不主动派人
+    ///  · 开：挂进「研究」工作类型，小人按研究优先级自己来
     /// </summary>
     public class CompGaiaPortal : ThingComp
     {
         private enum Phase
         {
-            Dormant,    // 未激活，等人来调查
-            Waves,      // 正在放波次
-            Opened,     // 波次清空，传送门开启（Boss 待实装）
-            Dimmed      // 投降后黯淡，冷却中
+            Dormant,
+            Waves,
+            Opened,
+            Dimmed
         }
 
         private Phase phase = Phase.Dormant;
-        private int investigationProgress;
+        private float investigationProgress;
         private int wavesDone;
         private int nextWaveTick = -1;
         private int cooldownUntil = -1;
+        private bool autoInvestigate;
         private List<Pawn> spawnedPawns = new List<Pawn>();
 
         private CompProperties_GaiaPortal Props => (CompProperties_GaiaPortal)props;
@@ -72,6 +66,23 @@ namespace Botania
         private Map Map => parent.Map;
 
         public int TotalWaves => Props.waveSizes == null ? 0 : Props.waveSizes.Count;
+
+        public bool NeedsInvestigation => phase == Phase.Dormant;
+
+        public bool AutoInvestigate => autoInvestigate;
+
+        public float InvestigationPercent
+        {
+            get
+            {
+                int need = Props.investigationTicks;
+                if (need <= 0)
+                {
+                    return 1f;
+                }
+                return investigationProgress <= 0f ? 0f : investigationProgress / need;
+            }
+        }
 
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
@@ -91,9 +102,8 @@ namespace Botania
                 case Phase.Dimmed:
                     if (Find.TickManager.TicksGame >= cooldownUntil)
                     {
-                        // 冷却结束：回到待调查，不会再有新的碎块
                         phase = Phase.Dormant;
-                        investigationProgress = 0;
+                        investigationProgress = 0f;
                         wavesDone = 0;
                         nextWaveTick = -1;
                         Log.Message("[Botania] 盖亚传送门冷却结束，可以重新派人调查");
@@ -101,7 +111,7 @@ namespace Botania
                     break;
 
                 case Phase.Dormant:
-                    // 进度只由 JobDriver_InvestigateGaiaPortal 推进（必须有小人在做这项工作）
+                    TickInvestigation();
                     break;
 
                 case Phase.Waves:
@@ -121,48 +131,64 @@ namespace Botania
             }
         }
 
-        // ---------------- 调查（由 JobDriver 推进） ----------------
+        // ---------------- 调查（靠「人站在门里」推进） ----------------
 
-        /// <summary>是否处于「待调查」状态（WorkGiver / JobDriver 用）。</summary>
-        public bool NeedsInvestigation => phase == Phase.Dormant;
-
-        /// <summary>调查进度 0~1（给进度条用）。</summary>
-        public float InvestigationPercent
+        private void TickInvestigation()
         {
-            get
+            int workers = CountInvestigatorsInside();
+            if (workers <= 0)
             {
-                int need = Props.investigationTicks;
-                if (need <= 0)
+                return;
+            }
+
+            float work = 0f;
+            List<Pawn> colonists = Map.mapPawns.FreeColonistsSpawned;
+            for (int i = 0; i < colonists.Count; i++)
+            {
+                Pawn p = colonists[i];
+                if (!IsInvestigating(p))
                 {
-                    return 1f;
+                    continue;
                 }
-                return investigationProgress <= 0 ? 0f : (float)investigationProgress / need;
+                float speed = p.GetStatValue(StatDefOf.ResearchSpeed);
+                work += speed <= 0f ? 0.1f : speed;
             }
-        }
 
-        /// <summary>
-        /// 小人工作一 tick 调一次。amount 是这一 tick 的有效工作量（按研究速度算）。
-        /// 返回 true 表示调查已完成（JobDriver 据此结束当前 toil）。
-        /// </summary>
-        public bool AddInvestigationWork(float amount)
-        {
-            if (phase != Phase.Dormant)
-            {
-                return true;
-            }
-            investigationProgress += (int)(amount <= 0f ? 1f : amount);
+            investigationProgress += work;
             if (investigationProgress >= Props.investigationTicks)
             {
                 Activate();
-                return true;
             }
-            return false;
+        }
+
+        private int CountInvestigatorsInside()
+        {
+            int n = 0;
+            List<Pawn> colonists = Map.mapPawns.FreeColonistsSpawned;
+            for (int i = 0; i < colonists.Count; i++)
+            {
+                if (IsInvestigating(colonists[i]))
+                {
+                    n++;
+                }
+            }
+            return n;
+        }
+
+        private bool IsInvestigating(Pawn p)
+        {
+            if (p == null || p.Dead || p.Downed || !p.Spawned)
+            {
+                return false;
+            }
+            CellRect rect = parent.OccupiedRect();
+            return rect.Contains(p.Position);
         }
 
         private void Activate()
         {
             phase = Phase.Waves;
-            investigationProgress = 0;
+            investigationProgress = 0f;
             wavesDone = 0;
             nextWaveTick = Find.TickManager.TicksGame + Props.firstWaveDelayTicks;
             Find.LetterStack.ReceiveLetter(
@@ -247,7 +273,7 @@ namespace Botania
             DespawnAllSpawned();
             phase = Phase.Dimmed;
             wavesDone = 0;
-            investigationProgress = 0;
+            investigationProgress = 0f;
             nextWaveTick = -1;
             cooldownUntil = Find.TickManager.TicksGame + Props.surrenderCooldownTicks;
 
@@ -271,13 +297,14 @@ namespace Botania
             spawnedPawns.Clear();
         }
 
-        // ---------------- 交互与显示 ----------------
-
+        /// <summary>传送门不可被攻击、不可被破坏。</summary>
         public override void PostPreApplyDamage(ref DamageInfo dinfo, out bool absorbed)
         {
             base.PostPreApplyDamage(ref dinfo, out absorbed);
             absorbed = true;
         }
+
+        // ---------------- 显示与交互 ----------------
 
         public override string CompInspectStringExtra()
         {
@@ -285,7 +312,8 @@ namespace Botania
             {
                 case Phase.Dormant:
                     return "Botania.GaiaInspect.Dormant".Translate(
-                        investigationProgress * 100 / Props.investigationTicks);
+                        (int)(InvestigationPercent * 100f),
+                        autoInvestigate ? "Botania.GaiaAuto.On".Translate() : "Botania.GaiaAuto.Off".Translate());
                 case Phase.Waves:
                     return "Botania.GaiaInspect.Waves".Translate(wavesDone, TotalWaves);
                 case Phase.Opened:
@@ -329,6 +357,21 @@ namespace Botania
                         }
                     }
                 };
+
+                yield return new Command_Toggle
+                {
+                    defaultLabel = "Botania.GaiaAuto.Label".Translate(),
+                    defaultDesc = "Botania.GaiaAuto.Desc".Translate(),
+                    icon = TexCommand.ToggleVent,
+                    isActive = () => autoInvestigate,
+                    toggleAction = () =>
+                    {
+                        autoInvestigate = !autoInvestigate;
+                        Messages.Message(
+                            (autoInvestigate ? "Botania.GaiaAuto.OnMsg" : "Botania.GaiaAuto.OffMsg").Translate(),
+                            new LookTargets(parent), MessageTypeDefOf.NeutralEvent, false);
+                    }
+                };
             }
 
             if (phase == Phase.Waves || phase == Phase.Opened)
@@ -367,28 +410,18 @@ namespace Botania
             }
         }
 
-        /// <summary>
-        /// 把**指定的**殖民者派到门口：先 Goto 到传送门旁，再原地等待 investigationTicks。
-        /// 光用 Goto 会在到达后立刻恢复日常工作走开，必须再排一个 Wait。
-        /// </summary>
+        /// <summary>派指定小人去调查：走到门中央并原地等待（进度由 CompTick 按「站在门里」累计）。</summary>
         private void OrderInvestigation(Pawn pawn)
         {
             if (pawn == null || pawn.Dead || pawn.Downed || !pawn.Spawned)
             {
                 return;
             }
-
             if (pawn.Drafted && pawn.drafter != null)
             {
                 pawn.drafter.Drafted = false;
             }
 
-            JobDef def = DefDatabase<JobDef>.GetNamedSilentFail("Botania_InvestigateGaiaPortal");
-            if (def == null)
-            {
-                Log.Error("[Botania] 找不到 JobDef Botania_InvestigateGaiaPortal");
-                return;
-            }
             IntVec3 stand = FindStandCell(parent);
             if (!stand.IsValid)
             {
@@ -396,16 +429,24 @@ namespace Botania
                     MessageTypeDefOf.RejectInput, false);
                 return;
             }
-            Job job = JobMaker.MakeJob(def, parent, stand);
-            pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+
+            JobDef def = DefDatabase<JobDef>.GetNamedSilentFail("Botania_InvestigateGaiaPortal");
+            if (def != null)
+            {
+                pawn.jobs.TryTakeOrderedJob(JobMaker.MakeJob(def, parent, stand), JobTag.Misc);
+            }
+            else
+            {
+                // 兜底：没有 JobDef 就只让他走过去待着（站在门里同样会涨进度）
+                pawn.jobs.TryTakeOrderedJob(JobMaker.MakeJob(JobDefOf.Goto, stand), JobTag.Misc);
+            }
 
             Messages.Message("Botania.GaiaInvestigate.Ordered".Translate(pawn.LabelShort),
                 new LookTargets(pawn), MessageTypeDefOf.NeutralEvent, false);
         }
 
         /// <summary>
-        /// 算一个「小人能站」的格子：传送门周围 1~4 格、可通行、不在建筑内部。
-        /// 传送门是 2×2 不可通行建筑，施工/调查都只能用相邻格。
+        /// 站位：3×3 传送门中央那一格（现在可通行，小人能直接站进去）。
         /// </summary>
         public static IntVec3 FindStandCell(Thing portal)
         {
@@ -413,38 +454,24 @@ namespace Botania
             {
                 return IntVec3.Invalid;
             }
-            Map map = portal.Map;
-            CellRect rect = portal.OccupiedRect();
-            for (int radius = 1; radius <= 4; radius++)
+            IntVec3 center = portal.OccupiedRect().CenterCell;
+            if (center.InBounds(portal.Map) && center.Walkable(portal.Map))
             {
-                CellRect ring = rect.ExpandedBy(radius);
-                foreach (IntVec3 c in ring.Cells)
-                {
-                    if (rect.Contains(c))
-                    {
-                        continue;
-                    }
-                    if (!c.InBounds(map) || !c.Walkable(map) || c.Fogged(map))
-                    {
-                        continue;
-                    }
-                    return c;
-                }
+                return center;
             }
-            // 退一步：用原版的「附近可走格」
-            IntVec3 near = CellFinder.RandomClosewalkCellNear(rect.CenterCell, map, 4,
-                x => x.Walkable(map) && !x.Fogged(map) && !rect.Contains(x));
-            return near;
+            return CellFinder.RandomClosewalkCellNear(center, portal.Map, 3,
+                c => c.Walkable(portal.Map) && !c.Fogged(portal.Map));
         }
 
         public override void PostExposeData()
         {
             base.PostExposeData();
             Scribe_Values.Look(ref phase, "gaiaPhase", Phase.Dormant);
-            Scribe_Values.Look(ref investigationProgress, "gaiaInvestigation", 0);
+            Scribe_Values.Look(ref investigationProgress, "gaiaInvestigation", 0f);
             Scribe_Values.Look(ref wavesDone, "gaiaWavesDone", 0);
             Scribe_Values.Look(ref nextWaveTick, "gaiaNextWaveTick", -1);
             Scribe_Values.Look(ref cooldownUntil, "gaiaCooldownUntil", -1);
+            Scribe_Values.Look(ref autoInvestigate, "gaiaAutoInvestigate", false);
             Scribe_Collections.Look(ref spawnedPawns, "gaiaSpawnedPawns", LookMode.Reference);
             if (Scribe.mode == LoadSaveMode.PostLoadInit && spawnedPawns == null)
             {

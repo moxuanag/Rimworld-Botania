@@ -50,16 +50,16 @@
     <graphicData>
       <texPath>Things/Building/Botania/GaiaPortal</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(2,2)</drawSize>
+      <drawSize>(3,3)</drawSize>
     </graphicData>
     <altitudeLayer>Building</altitudeLayer>
-    <passability>Impassable</passability>
-    <pathCost>60</pathCost>
-    <fillPercent>1</fillPercent>
-    <blockLight>true</blockLight>
+    <passability>PassThroughOnly</passability>
+    <pathCost>1</pathCost>
+    <fillPercent>0.15</fillPercent>
+    <blockLight>false</blockLight>
     <rotatable>false</rotatable>
     <castEdgeShadows>false</castEdgeShadows>
-    <size>(2,2)</size>
+    <size>(3,3)</size>
     <tickerType>Normal</tickerType>
     <statBases>
       <MaxHitPoints>2000</MaxHitPoints>
