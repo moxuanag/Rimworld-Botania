@@ -308,6 +308,7 @@ namespace Botania
                 Log.Error("[Botania] Boss 生成失败");
                 return;
             }
+            boss.Name = new NameSingle("Botania.GaiaBossName".Translate());
             GenSpawn.Spawn(boss, cell, Map);
             Log.Message("[Botania] 盖亚·世界之魂已从传送门走出");
         }

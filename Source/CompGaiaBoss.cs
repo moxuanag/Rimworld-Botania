@@ -136,13 +136,18 @@ namespace Botania
             TryAdvancePhase(boss);
         }
 
-        private float HealthPercent(Pawn pawn)
+        /// <summary>
+        /// Pawn 的血量百分比必须走 health.summaryHealth：
+        /// Pawn 的 HitPoints/MaxHitPoints 不是「整体血量」，比值恒为 0，
+        /// 用它判断阶段会一进场就跳到下一阶段（实测踩过）。
+        /// </summary>
+        private static float HealthPercent(Pawn pawn)
         {
-            if (pawn.MaxHitPoints <= 0)
+            if (pawn == null || pawn.health == null || pawn.health.summaryHealth == null)
             {
                 return 1f;
             }
-            return Mathf_Clamp01(pawn.HitPoints / (float)pawn.MaxHitPoints);
+            return Mathf_Clamp01(pawn.health.summaryHealth.SummaryHealthPercent);
         }
 
         private static float Mathf_Clamp01(float v)
