@@ -150,8 +150,7 @@ namespace Botania
                 {
                     continue;
                 }
-                float speed = p.GetStatValue(StatDefOf.ResearchSpeed);
-                work += speed <= 0f ? 0.1f : speed;
+                work += InvestigationWorkPerTick(p);
             }
 
             investigationProgress += work;
@@ -159,6 +158,30 @@ namespace Botania
             {
                 Activate();
             }
+        }
+
+        /// <summary>
+        /// 单个殖民者每 tick 的调查工作量：
+        ///   基础 = 研究速度（全局加成，如工作台/药物）
+        ///   智慧加成 = 0.5 + 0.1 × 智慧技能等级（0 级 0.5 倍，10 级 1.5 倍，20 级 2.5 倍）
+        /// 也就是「智慧越高，调查越快」。
+        /// </summary>
+        private static float InvestigationWorkPerTick(Pawn p)
+        {
+            float speed = p.GetStatValue(StatDefOf.ResearchSpeed);
+            if (speed <= 0f)
+            {
+                speed = 0.1f;
+            }
+            int level = 0;
+            if (p.skills != null && p.skills.GetSkill(SkillDefOf.Intellectual) != null)
+            {
+                level = p.skills.GetSkill(SkillDefOf.Intellectual).Level;
+            }
+            float skillFactor = 0.5f + 0.1f * level;
+            // 顺带给一点智慧经验，让「干这活会涨智慧」成立
+            p.skills?.Learn(SkillDefOf.Intellectual, 0.05f);
+            return speed * skillFactor;
         }
 
         private int CountInvestigatorsInside()
