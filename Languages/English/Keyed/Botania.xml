@@ -154,4 +154,7 @@
   <Botania.GaiaInspect.Dimmed>Dimmed; can be investigated again in {0}</Botania.GaiaInspect.Dimmed>
 
   <Botania.GaiaInvestigate.Ordered>{0} has been sent to investigate the Gaia portal</Botania.GaiaInvestigate.Ordered>
+  <Botania.GaiaPortalAppeared.Label>A Gaia portal has appeared</Botania.GaiaPortalAppeared.Label>
+  <Botania.GaiaPortalAppeared.Text>The shard cracked apart without debris, leaving a ring of green light standing upright. It is still - but it feels like it is waiting for someone.\n\nSend a colonist over to **investigate** it. Nothing can come through until the survey is finished.\n(Raising the Research work priority lets colonists come on their own.)</Botania.GaiaPortalAppeared.Text>
+  <Botania.GaiaInvestigate.NoCell>There is no walkable cell next to the portal</Botania.GaiaInvestigate.NoCell>
 </LanguageData>

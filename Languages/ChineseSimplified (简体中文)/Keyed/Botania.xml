@@ -154,4 +154,7 @@
   <Botania.GaiaInspect.Dimmed>黯淡中，还剩 {0} 可以重新调查</Botania.GaiaInspect.Dimmed>
 
   <Botania.GaiaInvestigate.Ordered>已派 {0} 去调查盖亚传送门</Botania.GaiaInvestigate.Ordered>
+  <Botania.GaiaPortalAppeared.Label>盖亚传送门出现了</Botania.GaiaPortalAppeared.Label>
+  <Botania.GaiaPortalAppeared.Text>碎块裂开后没有碎屑，只有一道环状的绿光立在那里。它是静止的，但你能感觉到它在等人。\n\n派一个小人到门口**调查**它。调查完成之前，另一边的东西过不来。\n（把「研究」工作优先级调高，小人会自己来调查。）</Botania.GaiaPortalAppeared.Text>
+  <Botania.GaiaInvestigate.NoCell>传送门周围没有可以站人的格子</Botania.GaiaInvestigate.NoCell>
 </LanguageData>

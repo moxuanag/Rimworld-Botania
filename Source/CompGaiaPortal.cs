@@ -389,11 +389,52 @@ namespace Botania
                 Log.Error("[Botania] 找不到 JobDef Botania_InvestigateGaiaPortal");
                 return;
             }
-            Job job = JobMaker.MakeJob(def, parent);
+            IntVec3 stand = FindStandCell(parent);
+            if (!stand.IsValid)
+            {
+                Messages.Message("Botania.GaiaInvestigate.NoCell".Translate(),
+                    MessageTypeDefOf.RejectInput, false);
+                return;
+            }
+            Job job = JobMaker.MakeJob(def, parent, stand);
             pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
 
             Messages.Message("Botania.GaiaInvestigate.Ordered".Translate(pawn.LabelShort),
                 new LookTargets(pawn), MessageTypeDefOf.NeutralEvent, false);
+        }
+
+        /// <summary>
+        /// 算一个「小人能站」的格子：传送门周围 1~4 格、可通行、不在建筑内部。
+        /// 传送门是 2×2 不可通行建筑，施工/调查都只能用相邻格。
+        /// </summary>
+        public static IntVec3 FindStandCell(Thing portal)
+        {
+            if (portal == null || !portal.Spawned)
+            {
+                return IntVec3.Invalid;
+            }
+            Map map = portal.Map;
+            CellRect rect = portal.OccupiedRect();
+            for (int radius = 1; radius <= 4; radius++)
+            {
+                CellRect ring = rect.ExpandedBy(radius);
+                foreach (IntVec3 c in ring.Cells)
+                {
+                    if (rect.Contains(c))
+                    {
+                        continue;
+                    }
+                    if (!c.InBounds(map) || !c.Walkable(map) || c.Fogged(map))
+                    {
+                        continue;
+                    }
+                    return c;
+                }
+            }
+            // 退一步：用原版的「附近可走格」
+            IntVec3 near = CellFinder.RandomClosewalkCellNear(rect.CenterCell, map, 4,
+                x => x.Walkable(map) && !x.Fogged(map) && !rect.Contains(x));
+            return near;
         }
 
         public override void PostExposeData()

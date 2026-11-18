@@ -6,17 +6,20 @@ using Verse.AI;
 namespace Botania
 {
     /// <summary>
-    /// 「调查盖亚传送门」——一项**正式工作**，和原版研究一样由小人执行：
-    /// 走到门口站定，按 ResearchSpeed 逐 tick 推进进度，进度满才开启波次。
+    /// 「调查盖亚传送门」——一项**正式工作**，归研究类，需要小人亲自来做。
     ///
-    /// 和之前「站旁边自动涨」的区别：必须有小人在做这个 Job，离开就停；
-    /// 进度按小人的研究速度算，快的研究员更快。
+    /// 关键点（踩过坑）：传送门是 2×2 不可通行建筑，它的 InteractionCell 可能落在
+    /// 建筑内部，用 PathEndMode.InteractionCell 会让小人「永远够不到」，
+    /// 工作一启动就失败，引擎会在一 tick 里反复派活（日志报 "started 10 jobs in one tick"）。
+    /// 所以 job 的第二个目标（TargetB）由派活方预先算成**可达的相邻格**，
+    /// 这里只负责走过去（OnCell）然后站定干活。
     /// </summary>
     public class JobDriver_InvestigateGaiaPortal : JobDriver
     {
         private const TargetIndex PortalInd = TargetIndex.A;
+        private const TargetIndex StandInd = TargetIndex.B;
 
-        // 保险上限：正常由进度提前结束；防止小人被卡死在这份工作上
+        // 保险上限：正常由进度提前结束；防止小人被永久卡在这份工作上
         private const int MaxWorkTicks = 20000;
 
         private Thing Portal => job.GetTarget(PortalInd).Thing;
@@ -38,10 +41,9 @@ namespace Botania
         protected override IEnumerable<Toil> MakeNewToils()
         {
             this.FailOnDespawnedOrNull(PortalInd);
-            this.FailOnCannotTouch(PortalInd, PathEndMode.InteractionCell);
 
-            // 1) 走到传送门旁边
-            yield return Toils_Goto.GotoThing(PortalInd, PathEndMode.InteractionCell);
+            // 1) 走到预先算好的相邻站位（普通格，不是 InteractionCell）
+            yield return Toils_Goto.GotoCell(StandInd, PathEndMode.OnCell);
 
             // 2) 站定调查：每 tick 把「研究速度」记进组件进度
             Toil work = new Toil();
@@ -66,7 +68,6 @@ namespace Botania
                 }
             };
             work.WithProgressBar(PortalInd, () => Comp == null ? 0f : Comp.InvestigationPercent);
-            work.WithEffect(EffecterDefOf.Research, PortalInd);
             yield return work;
         }
     }

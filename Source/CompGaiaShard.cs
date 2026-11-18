@@ -50,8 +50,8 @@ namespace Botania
             }
 
             Find.LetterStack.ReceiveLetter(
-                "Botania.GaiaPortalOpened.Label".Translate(),
-                "Botania.GaiaPortalOpened.Text".Translate(),
+                "Botania.GaiaPortalAppeared.Label".Translate(),
+                "Botania.GaiaPortalAppeared.Text".Translate(),
                 LetterDefOf.ThreatBig,
                 new LookTargets(portal));
         }

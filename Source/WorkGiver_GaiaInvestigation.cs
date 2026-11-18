@@ -69,7 +69,12 @@ namespace Botania
             {
                 return null;
             }
-            return JobMaker.MakeJob(def, t);
+            IntVec3 stand = CompGaiaPortal.FindStandCell(t);
+            if (!stand.IsValid)
+            {
+                return null;
+            }
+            return JobMaker.MakeJob(def, t, stand);
         }
     }
 }
