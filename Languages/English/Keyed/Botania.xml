@@ -163,4 +163,13 @@
   <Botania.GaiaAuto.Off>off</Botania.GaiaAuto.Off>
   <Botania.GaiaAuto.OnMsg>Auto investigate: on (colonists come by research priority)</Botania.GaiaAuto.OnMsg>
   <Botania.GaiaAuto.OffMsg>Auto investigate: off (manual only)</Botania.GaiaAuto.OffMsg>
+  <Botania.GaiaBossShieldBack>The Gaia shield re-forms</Botania.GaiaBossShieldBack>
+  <Botania.GaiaBossShieldBroken.Label>The Gaia shield shatters</Botania.GaiaBossShieldBroken.Label>
+  <Botania.GaiaBossShieldBroken.Text>The moment the shield breaks, the world-soul locks up. Hit it now.\n\nThe shield will re-form in 20 seconds.</Botania.GaiaBossShieldBroken.Text>
+  <Botania.GaiaBossPhase.Label>Gaia transforms (phase {0})</Botania.GaiaBossPhase.Label>
+  <Botania.GaiaBossPhase.Text>It has locked its wounds inside itself and is shedding a layer of shell.\n\nIt cannot be hurt for 5 seconds, and the shield re-forms.</Botania.GaiaBossPhase.Text>
+  <Botania.GaiaBossInspect.Phase>Phase: {0}</Botania.GaiaBossInspect.Phase>
+  <Botania.GaiaBossInspect.Shield>Shield: {0:F0} / {1:F0} (80% reduction)</Botania.GaiaBossInspect.Shield>
+  <Botania.GaiaBossInspect.Paralyzed>Paralyzed: takes 150% damage</Botania.GaiaBossInspect.Paralyzed>
+  <Botania.GaiaBossInspect.NoShield>Shield: broken</Botania.GaiaBossInspect.NoShield>
 </LanguageData>

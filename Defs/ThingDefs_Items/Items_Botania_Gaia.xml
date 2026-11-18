@@ -129,4 +129,30 @@
     </apparel>
   </ThingDef>
 
+
+  <!-- 盖亚核心：Boss 死亡后由尸体分解而成，用于建造「世界之种苗圃」 -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>Botania_GaiaCore</defName>
+    <label>gaia core</label>
+    <description>The heart of the world-soul, cooled into something you can carry. Roots still twitch inside it.
+
+It is the only thing that can be planted to grow a grove.</description>
+    <graphicData>
+      <texPath>Things/Item/Resource/Botania/GaiaCore/GaiaCore</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>1</stackLimit>
+    <tradeability>None</tradeability>
+    <thingCategories>
+      <li>BotaniaItems</li>
+    </thingCategories>
+    <statBases>
+      <MarketValue>3000</MarketValue>
+      <Mass>2</Mass>
+      <Flammability>0</Flammability>
+      <DeteriorationRate>0</DeteriorationRate>
+      <MaxHitPoints>200</MaxHitPoints>
+    </statBases>
+  </ThingDef>
+
 </Defs>

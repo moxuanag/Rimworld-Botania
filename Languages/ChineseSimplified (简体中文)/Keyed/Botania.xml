@@ -163,4 +163,13 @@
   <Botania.GaiaAuto.Off>关闭</Botania.GaiaAuto.Off>
   <Botania.GaiaAuto.OnMsg>自动调查：开启（小人会按研究优先级来）</Botania.GaiaAuto.OnMsg>
   <Botania.GaiaAuto.OffMsg>自动调查：关闭（只能手动派人）</Botania.GaiaAuto.OffMsg>
+  <Botania.GaiaBossShieldBack>盖亚的护盾重新成形了</Botania.GaiaBossShieldBack>
+  <Botania.GaiaBossShieldBroken.Label>盖亚的护盾崩解</Botania.GaiaBossShieldBroken.Label>
+  <Botania.GaiaBossShieldBroken.Text>护盾碎开的那一瞬间，世界之魂僵住了——现在打它。\n\n20 秒后护盾会重新成形。</Botania.GaiaBossShieldBroken.Text>
+  <Botania.GaiaBossPhase.Label>盖亚蜕变（第 {0} 阶段）</Botania.GaiaBossPhase.Label>
+  <Botania.GaiaBossPhase.Text>它把伤势锁在了体内，正在蜕去一层壳。\n\n5 秒内打不动它，护盾也会重新成形。</Botania.GaiaBossPhase.Text>
+  <Botania.GaiaBossInspect.Phase>阶段：{0}</Botania.GaiaBossInspect.Phase>
+  <Botania.GaiaBossInspect.Shield>护盾：{0:F0} / {1:F0}（80% 减伤）</Botania.GaiaBossInspect.Shield>
+  <Botania.GaiaBossInspect.Paralyzed>瘫痪中：受到 150% 伤害</Botania.GaiaBossInspect.Paralyzed>
+  <Botania.GaiaBossInspect.NoShield>护盾：已破碎</Botania.GaiaBossInspect.NoShield>
 </LanguageData>

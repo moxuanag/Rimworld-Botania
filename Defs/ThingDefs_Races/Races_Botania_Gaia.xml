@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!--
+    盖亚·世界之魂 —— Boss 本体。
+    第一版沿用原版「机械蜈蚣」的体格与外观作为占位（贴图后面再换），
+    数值按 docs/盖亚Boss设计文档.md：
+      体型 4 / 血量 healthScale 26（战争女王 5.2 × 5）
+      护甲 锐 0.60 / 钝 0.45 / 热 0.50，移速 2.0
+  -->
+  <ThingDef ParentName="MechCentipede">
+    <defName>Botania_GaiaWorldSoul</defName>
+    <label>gaia world-soul</label>
+    <description>A mass of root, stone and green light that learned to wear a shape. It moves the way weather moves: slowly, and then all at once.
+
+Its shell drinks a blow before you feel it land, and when the shell goes it lies still for a while - that is the only time it can be hurt.</description>
+    <statBases>
+      <MoveSpeed>2.0</MoveSpeed>
+      <ArmorRating_Sharp>0.60</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.45</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.50</ArmorRating_Heat>
+      <MarketValue>20000</MarketValue>
+      <ComfyTemperatureMin>-200</ComfyTemperatureMin>
+      <ComfyTemperatureMax>200</ComfyTemperatureMax>
+    </statBases>
+    <race>
+      <baseBodySize>4</baseBodySize>
+      <baseHealthScale>26</baseHealthScale>
+    </race>
+    <comps>
+      <li Class="Botania.CompProperties_GaiaBoss">
+        <shieldMax>300</shieldMax>
+        <shieldDamageFactor>0.2</shieldDamageFactor>
+        <paralysisTicks>1200</paralysisTicks>
+        <paralysisDamageFactor>1.5</paralysisDamageFactor>
+        <lockTicks>300</lockTicks>
+        <phaseThresholds>
+          <li>0.66</li>
+          <li>0.33</li>
+        </phaseThresholds>
+        <phaseShieldMax>
+          <li>300</li>
+          <li>400</li>
+          <li>500</li>
+        </phaseShieldMax>
+        <coreDefName>Botania_GaiaCore</coreDefName>
+        <blueprintDefName>Botania_GaiaSpirit</blueprintDefName>
+        <pixieDustDefName>Botania_PixieDust</pixieDustDefName>
+        <terrasteelDefName>Botania_TerrasteelIngot</terrasteelDefName>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <PawnKindDef ParentName="MechCentipedeBase">
+    <defName>Botania_GaiaWorldSoul</defName>
+    <label>gaia world-soul</label>
+    <race>Botania_GaiaWorldSoul</race>
+    <combatPower>900</combatPower>
+    <weaponTags>
+      <li>ChargeBlasterHeavyGun</li>
+    </weaponTags>
+  </PawnKindDef>
+
+</Defs>

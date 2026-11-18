@@ -278,11 +278,38 @@ namespace Botania
         private void OpenPortal()
         {
             phase = Phase.Opened;
+            SpawnBoss();
             Find.LetterStack.ReceiveLetter(
                 "Botania.GaiaPortalReady.Label".Translate(),
                 "Botania.GaiaPortalReady.Text".Translate(),
                 LetterDefOf.ThreatBig,
                 new LookTargets(parent));
+        }
+
+        /// <summary>三波清空后，从传送门里放出 Boss。</summary>
+        private void SpawnBoss()
+        {
+            PawnKindDef bossKind = DefDatabase<PawnKindDef>.GetNamedSilentFail("Botania_GaiaWorldSoul");
+            if (bossKind == null)
+            {
+                Log.Error("[Botania] 找不到 Boss PawnKindDef: Botania_GaiaWorldSoul");
+                return;
+            }
+            IntVec3 cell = CellFinder.RandomClosewalkCellNear(
+                parent.OccupiedRect().CenterCell, Map, 6,
+                c => c.Walkable(Map) && !c.Fogged(Map));
+            if (!cell.IsValid)
+            {
+                cell = parent.InteractionCell;
+            }
+            Pawn boss = PawnGenerator.GeneratePawn(bossKind, Faction.OfMechanoids);
+            if (boss == null)
+            {
+                Log.Error("[Botania] Boss 生成失败");
+                return;
+            }
+            GenSpawn.Spawn(boss, cell, Map);
+            Log.Message("[Botania] 盖亚·世界之魂已从传送门走出");
         }
 
         // ---------------- 投降 ----------------
