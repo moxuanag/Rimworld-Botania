@@ -174,4 +174,5 @@
   <Botania.GaiaBossInspect.NoShield>Shield: broken</Botania.GaiaBossInspect.NoShield>
   <Botania.GaiaBossName>Gaia, the World-Soul</Botania.GaiaBossName>
   <Botania.GaiaShieldBracket>shield {0} / {1}</Botania.GaiaShieldBracket>
+  <Botania.GaiaBossSpawned>Gaia, the World-Soul has appeared on the map</Botania.GaiaBossSpawned>
 </LanguageData>

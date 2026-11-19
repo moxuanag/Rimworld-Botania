@@ -164,6 +164,52 @@ namespace Botania
             GenSpawn.Spawn(def, cell, m);
         }
 
+        [DebugAction("Botania", "生成盖亚世界之魂（Boss）",
+            actionType = DebugActionType.Action,
+            allowedGameStates = AllowedGameStates.PlayingOnMap)]
+        public static void DevSpawnBoss()
+        {
+            Map m = Find.CurrentMap;
+            if (m == null)
+            {
+                return;
+            }
+            PawnKindDef kind = DefDatabase<PawnKindDef>.GetNamedSilentFail("Botania_GaiaWorldSoul");
+            if (kind == null)
+            {
+                Log.Error("[Botania] 找不到 Boss PawnKindDef: Botania_GaiaWorldSoul");
+                return;
+            }
+
+            IntVec3 cell = Find.CameraDriver.MapPosition;
+            if (!cell.InBounds(m) || !cell.Walkable(m))
+            {
+                cell = CellFinder.RandomClosewalkCellNear(Find.CameraDriver.MapPosition, m, 8,
+                    c => c.Walkable(m) && !c.Fogged(m));
+            }
+            if (!cell.IsValid)
+            {
+                Log.Error("[Botania] 找不到可以放 Boss 的格子");
+                return;
+            }
+
+            Pawn boss = PawnGenerator.GeneratePawn(kind, Faction.OfMechanoids);
+            if (boss == null)
+            {
+                Log.Error("[Botania] Boss 生成失败");
+                return;
+            }
+
+            string bossName = "Botania.GaiaBossName".Translate();
+            boss.Name = new NameSingle(bossName);
+            GenSpawn.Spawn(boss, cell, m);
+            boss.Name = new NameSingle(bossName);
+
+            Log.Message("[Botania] 开发者生成 Boss：" + boss.LabelCap);
+            Messages.Message("Botania.GaiaBossSpawned".Translate(),
+                new LookTargets(boss), MessageTypeDefOf.NeutralEvent, false);
+        }
+
         [DebugAction("Botania", "查看盖亚事件状态",
             actionType = DebugActionType.Action,
             allowedGameStates = AllowedGameStates.PlayingOnMap)]
