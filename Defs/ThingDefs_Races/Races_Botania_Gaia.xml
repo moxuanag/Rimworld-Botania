@@ -11,6 +11,7 @@
   <ThingDef ParentName="MechCentipede">
     <defName>Botania_GaiaWorldSoul</defName>
     <label>gaia world-soul</label>
+    <thingClass>Botania.Pawn_GaiaBoss</thingClass>
     <description>A mass of root, stone and green light that learned to wear a shape. It moves the way weather moves: slowly, and then all at once.
 
 Its shell drinks a blow before you feel it land, and when the shell goes it lies still for a while - that is the only time it can be hurt.</description>
@@ -27,28 +28,6 @@ Its shell drinks a blow before you feel it land, and when the shell goes it lies
       <baseBodySize>4</baseBodySize>
       <baseHealthScale>26</baseHealthScale>
     </race>
-    <comps>
-      <li Class="Botania.CompProperties_GaiaBoss">
-        <shieldMax>300</shieldMax>
-        <shieldDamageFactor>0.2</shieldDamageFactor>
-        <paralysisTicks>1200</paralysisTicks>
-        <paralysisDamageFactor>1.5</paralysisDamageFactor>
-        <lockTicks>300</lockTicks>
-        <phaseThresholds>
-          <li>0.66</li>
-          <li>0.33</li>
-        </phaseThresholds>
-        <phaseShieldMax>
-          <li>300</li>
-          <li>400</li>
-          <li>500</li>
-        </phaseShieldMax>
-        <coreDefName>Botania_GaiaCore</coreDefName>
-        <blueprintDefName>Botania_GaiaSpirit</blueprintDefName>
-        <pixieDustDefName>Botania_PixieDust</pixieDustDefName>
-        <terrasteelDefName>Botania_TerrasteelIngot</terrasteelDefName>
-      </li>
-    </comps>
   </ThingDef>
 
   <PawnKindDef ParentName="MechCentipedeBase">

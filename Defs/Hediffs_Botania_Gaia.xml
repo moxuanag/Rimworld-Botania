@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!--
+    盖亚护盾：只负责**显示**，出现在小人的健康面板里。
+    数值与减伤逻辑由 Botania.Pawn_GaiaBoss 控制，这里只跟着同步 severity。
+  -->
+  <HediffDef>
+    <defName>Botania_GaiaShield</defName>
+    <label>gaia shield</label>
+    <description>A lattice of green light wrapped around the world-soul. While it holds, almost nothing reaches the body underneath; when it breaks, the thing behind it goes still.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <initialSeverity>1</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <isBad>false</isBad>
+    <stages>
+      <li>
+        <label>shielded</label>
+      </li>
+    </stages>
+  </HediffDef>
+
+</Defs>
