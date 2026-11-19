@@ -175,4 +175,13 @@
   <Botania.GaiaBossName>Gaia, the World-Soul</Botania.GaiaBossName>
   <Botania.GaiaShieldBracket>shield {0} / {1}</Botania.GaiaShieldBracket>
   <Botania.GaiaBossSpawned>Gaia, the World-Soul has appeared on the map</Botania.GaiaBossSpawned>
+  <Botania.GaiaSkillEarthWrath>Earth wrath: the ground splits open</Botania.GaiaSkillEarthWrath>
+  <Botania.GaiaSkillEntangle>Roots pin the target in place</Botania.GaiaSkillEntangle>
+  <Botania.GaiaSkillManaBeam>The mana beam hits</Botania.GaiaSkillManaBeam>
+  <Botania.GaiaSkillSummon>Gaia seeds break the surface</Botania.GaiaSkillSummon>
+  <Botania.GaiaWorldSoulStart>The world-soul begins to gather itself - get behind a wall!</Botania.GaiaWorldSoulStart>
+  <Botania.GaiaWorldSoulTen>The world-soul will sweep the map in 10 seconds - get behind a wall!</Botania.GaiaWorldSoulTen>
+  <Botania.GaiaWorldSoulThree>The world-soul breaks loose in 3 seconds!</Botania.GaiaWorldSoulThree>
+  <Botania.GaiaWorldSoulEnd>The world-soul has passed</Botania.GaiaWorldSoulEnd>
+  <Botania.GaiaBossInspect.WorldSoul>Gathering the world-soul: {0}s left (invulnerable)</Botania.GaiaBossInspect.WorldSoul>
 </LanguageData>

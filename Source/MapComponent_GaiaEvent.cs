@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using LudeonTK;
 using RimWorld;
 using Verse;
@@ -209,6 +210,138 @@ namespace Botania
             Log.Message("[Botania] 开发者生成 Boss：" + boss.LabelCap);
             Messages.Message("Botania.GaiaBossSpawned".Translate(),
                 new LookTargets(boss), MessageTypeDefOf.NeutralEvent, false);
+        }
+
+        /// <summary>找当前地图上的 Boss：优先选中的，其次离镜头最近的。</summary>
+        private static Pawn_GaiaBoss FindBoss()
+        {
+            Map m = Find.CurrentMap;
+            if (m == null)
+            {
+                return null;
+            }
+            if (Find.Selector != null && Find.Selector.SingleSelectedThing is Pawn_GaiaBoss selected)
+            {
+                return selected;
+            }
+            Pawn_GaiaBoss best = null;
+            float bestDist = float.MaxValue;
+            IntVec3 cam = Find.CameraDriver.MapPosition;
+            IReadOnlyList<Pawn> pawns = m.mapPawns.AllPawnsSpawned;
+            for (int i = 0; i < pawns.Count; i++)
+            {
+                Pawn_GaiaBoss boss = pawns[i] as Pawn_GaiaBoss;
+                if (boss == null || boss.Dead)
+                {
+                    continue;
+                }
+                float d = boss.Position.DistanceToSquared(cam);
+                if (d < bestDist)
+                {
+                    bestDist = d;
+                    best = boss;
+                }
+            }
+            return best;
+        }
+
+        private static void DevCast(GaiaSkill skill, string label)
+        {
+            Pawn_GaiaBoss boss = FindBoss();
+            if (boss == null)
+            {
+                Messages.Message("[DEV] 地图上没有盖亚 Boss", MessageTypeDefOf.RejectInput, false);
+                return;
+            }
+            bool ok = boss.DebugForceSkill(skill);
+            Log.Message("[Botania] 技能：" + label + (ok ? " 已施放" : " 施放失败（没有可用目标？）"));
+            if (!ok)
+            {
+                Messages.Message("[DEV] " + label + " 施放失败（可能没有可用目标）",
+                    MessageTypeDefOf.RejectInput, false);
+            }
+        }
+
+        [DebugAction("Botania", "技能：大地之怒",
+            actionType = DebugActionType.Action,
+            allowedGameStates = AllowedGameStates.PlayingOnMap)]
+        public static void DevCastEarthWrath()
+        {
+            DevCast(GaiaSkill.EarthWrath, "大地之怒");
+        }
+
+        [DebugAction("Botania", "技能：根须缠绕",
+            actionType = DebugActionType.Action,
+            allowedGameStates = AllowedGameStates.PlayingOnMap)]
+        public static void DevCastEntangle()
+        {
+            DevCast(GaiaSkill.Entangle, "根须缠绕");
+        }
+
+        [DebugAction("Botania", "技能：魔力射线",
+            actionType = DebugActionType.Action,
+            allowedGameStates = AllowedGameStates.PlayingOnMap)]
+        public static void DevCastManaBeam()
+        {
+            DevCast(GaiaSkill.ManaBeam, "魔力射线");
+        }
+
+        [DebugAction("Botania", "技能：召唤盖亚之种",
+            actionType = DebugActionType.Action,
+            allowedGameStates = AllowedGameStates.PlayingOnMap)]
+        public static void DevCastSummonSeeds()
+        {
+            DevCast(GaiaSkill.SummonSeeds, "召唤盖亚之种");
+        }
+
+        [DebugAction("Botania", "技能：世界之魂",
+            actionType = DebugActionType.Action,
+            allowedGameStates = AllowedGameStates.PlayingOnMap)]
+        public static void DevCastWorldSoul()
+        {
+            DevCast(GaiaSkill.WorldSoul, "世界之魂");
+        }
+
+        [DebugAction("Botania", "技能：清除冷却",
+            actionType = DebugActionType.Action,
+            allowedGameStates = AllowedGameStates.PlayingOnMap)]
+        public static void DevClearSkillCooldowns()
+        {
+            Pawn_GaiaBoss boss = FindBoss();
+            if (boss == null)
+            {
+                return;
+            }
+            boss.DebugClearCooldowns();
+            Log.Message("[Botania] 技能：" + boss.DebugStatus());
+        }
+
+        [DebugAction("Botania", "技能：打断当前技能",
+            actionType = DebugActionType.Action,
+            allowedGameStates = AllowedGameStates.PlayingOnMap)]
+        public static void DevCancelSkill()
+        {
+            Pawn_GaiaBoss boss = FindBoss();
+            if (boss == null)
+            {
+                return;
+            }
+            boss.DebugCancelSkill();
+            Log.Message("[Botania] 技能：已打断");
+        }
+
+        [DebugAction("Botania", "技能：查看状态",
+            actionType = DebugActionType.Action,
+            allowedGameStates = AllowedGameStates.PlayingOnMap)]
+        public static void DevShowSkillState()
+        {
+            Pawn_GaiaBoss boss = FindBoss();
+            if (boss == null)
+            {
+                Log.Message("[Botania] 地图上没有盖亚 Boss");
+                return;
+            }
+            Log.Message("[Botania] " + boss.DebugStatus());
         }
 
         [DebugAction("Botania", "查看盖亚事件状态",

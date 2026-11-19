@@ -35,8 +35,10 @@ Its shell drinks a blow before you feel it land, and when the shell goes it lies
     <label>gaia world-soul</label>
     <race>Botania_GaiaWorldSoul</race>
     <combatPower>900</combatPower>
+    <!-- Boss 只用技能输出，武器仅一把 1 伤害的小法杖 -->
+    <weaponMoney>150~250</weaponMoney>
     <weaponTags>
-      <li>ChargeBlasterHeavyGun</li>
+      <li>BotaniaGaiaWand</li>
     </weaponTags>
   </PawnKindDef>
 

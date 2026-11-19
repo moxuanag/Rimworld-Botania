@@ -18,4 +18,33 @@
     </comps>
   </HediffDef>
 
+
+  <!-- 根须缠绕：定身 3 秒，每 2 秒 2 点自然伤害（优先腿部） -->
+  <HediffDef>
+    <defName>Botania_GaiaRooted</defName>
+    <label>gaia roots</label>
+    <description>Roots have come up through the ground and closed around the legs. They do not let go quickly.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <isBad>true</isBad>
+    <initialSeverity>1</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <stages>
+      <li>
+        <label>rooted</label>
+        <capMods>
+          <li>
+            <capacity>Moving</capacity>
+            <setMax>0</setMax>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <ticksToDisappear>180</ticksToDisappear>
+      </li>
+      <li Class="Botania.HediffCompProperties_GaiaRooted" />
+    </comps>
+  </HediffDef>
+
 </Defs>

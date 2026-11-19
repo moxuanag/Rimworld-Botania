@@ -175,4 +175,13 @@
   <Botania.GaiaBossName>盖亚·世界之魂</Botania.GaiaBossName>
   <Botania.GaiaShieldBracket>护盾 {0} / {1}</Botania.GaiaShieldBracket>
   <Botania.GaiaBossSpawned>盖亚·世界之魂已出现在地图上</Botania.GaiaBossSpawned>
+  <Botania.GaiaSkillEarthWrath>盖亚大地之怒：地面被撕开</Botania.GaiaSkillEarthWrath>
+  <Botania.GaiaSkillEntangle>盖亚根须缠绕：目标被钉在原地</Botania.GaiaSkillEntangle>
+  <Botania.GaiaSkillManaBeam>盖亚魔力射线命中</Botania.GaiaSkillManaBeam>
+  <Botania.GaiaSkillSummon>盖亚之种破土而出</Botania.GaiaSkillSummon>
+  <Botania.GaiaWorldSoulStart>盖亚的世界之魂开始蓄力——躲到墙后面！</Botania.GaiaWorldSoulStart>
+  <Botania.GaiaWorldSoulTen>世界之魂将在 10 秒后横扫全场，躲到墙后面！</Botania.GaiaWorldSoulTen>
+  <Botania.GaiaWorldSoulThree>世界之魂 3 秒后发动！</Botania.GaiaWorldSoulThree>
+  <Botania.GaiaWorldSoulEnd>世界之魂已经散去</Botania.GaiaWorldSoulEnd>
+  <Botania.GaiaBossInspect.WorldSoul>世界之魂蓄力中：剩余 {0} 秒（无敌）</Botania.GaiaBossInspect.WorldSoul>
 </LanguageData>
