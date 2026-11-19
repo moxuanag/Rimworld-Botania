@@ -214,11 +214,10 @@ namespace Botania
             investigationProgress = 0f;
             wavesDone = 0;
             nextWaveTick = Find.TickManager.TicksGame + Props.firstWaveDelayTicks;
-            Find.LetterStack.ReceiveLetter(
-                "Botania.GaiaPortalActivated.Label".Translate(),
+            Messages.Message(
                 "Botania.GaiaPortalActivated.Text".Translate(),
-                LetterDefOf.ThreatBig,
-                new LookTargets(parent));
+                new LookTargets(parent),
+                MessageTypeDefOf.NeutralEvent);
         }
 
         // ---------------- 波次 ----------------
@@ -279,11 +278,10 @@ namespace Botania
         {
             phase = Phase.Opened;
             SpawnBoss();
-            Find.LetterStack.ReceiveLetter(
-                "Botania.GaiaPortalReady.Label".Translate(),
+            Messages.Message(
                 "Botania.GaiaPortalReady.Text".Translate(),
-                LetterDefOf.ThreatBig,
-                new LookTargets(parent));
+                new LookTargets(parent),
+                MessageTypeDefOf.NeutralEvent);
         }
 
         /// <summary>三波清空后，从传送门里放出 Boss。</summary>
@@ -331,11 +329,10 @@ namespace Botania
             nextWaveTick = -1;
             cooldownUntil = Find.TickManager.TicksGame + Props.surrenderCooldownTicks;
 
-            Find.LetterStack.ReceiveLetter(
-                "Botania.GaiaSurrenderDone.Label".Translate(),
+            Messages.Message(
                 "Botania.GaiaSurrenderDone.Text".Translate(),
-                LetterDefOf.NeutralEvent,
-                new LookTargets(parent));
+                new LookTargets(parent),
+                MessageTypeDefOf.NeutralEvent);
         }
 
         private void DespawnAllSpawned()

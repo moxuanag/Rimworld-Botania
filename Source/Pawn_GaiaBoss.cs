@@ -1,4 +1,6 @@
+using System;
 using RimWorld;
+using UnityEngine;
 using Verse;
 
 namespace Botania
@@ -20,6 +22,10 @@ namespace Botania
     public class Pawn_GaiaBoss : Pawn
     {
         private const string ShieldHediffDefName = "Botania_GaiaShield";
+
+        // 原版护盾腰带用的那张气泡贴图
+        private static readonly Material BubbleMat =
+            MaterialPool.MatFrom("Other/ShieldBubble", ShaderDatabase.Transparent);
 
         private static readonly float[] PhaseShields = { 300f, 400f, 500f };
         private static readonly float[] PhaseThresholds = { 0.66f, 0.33f };
@@ -147,11 +153,10 @@ namespace Botania
                 stances.stunner.StunFor(1200, this, false, true, true);
             }
             SyncShieldHediff();
-            Find.LetterStack.ReceiveLetter(
-                "Botania.GaiaBossShieldBroken.Label".Translate(),
+            Messages.Message(
                 "Botania.GaiaBossShieldBroken.Text".Translate(),
-                LetterDefOf.ThreatBig,
-                new LookTargets(this));
+                new LookTargets(this),
+                MessageTypeDefOf.NeutralEvent);
         }
 
         // ---------------- 阶段 ----------------
@@ -183,11 +188,10 @@ namespace Botania
                 stances.stunner.StunFor(300, this, false, true, true);
             }
 
-            Find.LetterStack.ReceiveLetter(
-                "Botania.GaiaBossPhase.Label".Translate(PhaseNumber),
+            Messages.Message(
                 "Botania.GaiaBossPhase.Text".Translate(PhaseNumber),
-                LetterDefOf.ThreatBig,
-                new LookTargets(this));
+                new LookTargets(this),
+                MessageTypeDefOf.NeutralEvent);
         }
 
         // ---------------- 护盾 Hediff（健康面板显示） ----------------
@@ -236,6 +240,38 @@ namespace Botania
             return a > b ? a : b;
         }
 
+        // ---------------- 绘制 ----------------
+
+        /// <summary>
+        /// 有盾时在小人身上画一层原版护盾气泡（和护盾腰带同一张 Other/ShieldBubble）。
+        /// Pawn 的绘制入口是 DrawAt，DrawAt 里 base 之后再叠一层即可。
+        /// </summary>
+        protected override void DrawAt(Vector3 drawLoc, bool flip = false)
+        {
+            base.DrawAt(drawLoc, flip);
+
+            if (shield <= 0f)
+            {
+                return;
+            }
+
+            try
+            {
+                float frac = Mathf.Clamp01(shield / Mathf.Max(1f, ShieldMax));
+                float size = Mathf.Lerp(3.6f, 4.6f, frac);
+                Vector3 pos = drawLoc;
+                pos.y = AltitudeLayer.MoteOverhead.AltitudeFor();
+                Matrix4x4 matrix = default(Matrix4x4);
+                matrix.SetTRS(pos, Quaternion.AngleAxis(Rand.Range(0f, 360f), Vector3.up),
+                    new Vector3(size, 1f, size));
+                Graphics.DrawMesh(MeshPool.plane10, matrix, BubbleMat, 0);
+            }
+            catch (Exception e)
+            {
+                Log.ErrorOnce("[Botania] 护盾气泡绘制失败：" + e, 8172631);
+            }
+        }
+
         // ---------------- 界面 ----------------
 
         public override string GetInspectString()
@@ -244,7 +280,8 @@ namespace Botania
             string extra = IsParalyzed
                 ? "Botania.GaiaBossInspect.Paralyzed".Translate()
                 : (shield > 0f
-                    ? "Botania.GaiaBossInspect.Shield".Translate(shield, ShieldMax)
+                    ? "Botania.GaiaBossInspect.Shield".Translate(
+                        Mathf.RoundToInt(shield).ToString(), Mathf.RoundToInt(ShieldMax).ToString())
                     : "Botania.GaiaBossInspect.NoShield".Translate());
             string phase = "Botania.GaiaBossInspect.Phase".Translate(PhaseNumber);
             return baseText.NullOrEmpty() ? phase + "\n" + extra : baseText + "\n" + phase + "\n" + extra;

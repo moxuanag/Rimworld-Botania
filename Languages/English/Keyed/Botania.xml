@@ -169,8 +169,9 @@
   <Botania.GaiaBossPhase.Label>Gaia transforms (phase {0})</Botania.GaiaBossPhase.Label>
   <Botania.GaiaBossPhase.Text>It has locked its wounds inside itself and is shedding a layer of shell.\n\nIt cannot be hurt for 5 seconds, and the shield re-forms.</Botania.GaiaBossPhase.Text>
   <Botania.GaiaBossInspect.Phase>Phase: {0}</Botania.GaiaBossInspect.Phase>
-  <Botania.GaiaBossInspect.Shield>Shield: {0:F0} / {1:F0} (80% reduction)</Botania.GaiaBossInspect.Shield>
+  <Botania.GaiaBossInspect.Shield>Shield: {0} / {1} (80% reduction)</Botania.GaiaBossInspect.Shield>
   <Botania.GaiaBossInspect.Paralyzed>Paralyzed: takes 150% damage</Botania.GaiaBossInspect.Paralyzed>
   <Botania.GaiaBossInspect.NoShield>Shield: broken</Botania.GaiaBossInspect.NoShield>
   <Botania.GaiaBossName>Gaia, the World-Soul</Botania.GaiaBossName>
+  <Botania.GaiaShieldBracket>shield {0} / {1}</Botania.GaiaShieldBracket>
 </LanguageData>

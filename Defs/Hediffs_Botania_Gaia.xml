@@ -13,6 +13,9 @@
     <initialSeverity>1</initialSeverity>
     <maxSeverity>1</maxSeverity>
     <isBad>false</isBad>
+    <comps>
+      <li Class="Botania.HediffCompProperties_GaiaShieldDisplay" />
+    </comps>
     <stages>
       <li>
         <label>shielded</label>

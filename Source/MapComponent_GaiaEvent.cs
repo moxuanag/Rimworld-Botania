@@ -95,11 +95,10 @@ namespace Botania
             // 这个引擎里 explosionSound 传 null 会走 PlayOneShot(null) 报错，直接把声音关掉
             GenExplosion.DoExplosion(cell, map, 3f, DamageDefOf.Blunt, null, 40, 0.5f, doSoundEffects: false);
 
-            Find.LetterStack.ReceiveLetter(
-                "Botania.GaiaShardFall.Label".Translate(),
+            Messages.Message(
                 "Botania.GaiaShardFall.Text".Translate(),
-                LetterDefOf.ThreatBig,
-                new LookTargets(cell, map));
+                new LookTargets(cell, map),
+                MessageTypeDefOf.NeutralEvent);
             return true;
         }
 
