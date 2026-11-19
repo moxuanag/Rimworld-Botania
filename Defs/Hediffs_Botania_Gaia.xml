@@ -16,11 +16,6 @@
     <comps>
       <li Class="Botania.HediffCompProperties_GaiaShieldDisplay" />
     </comps>
-    <stages>
-      <li>
-        <label>shielded</label>
-      </li>
-    </stages>
   </HediffDef>
 
 </Defs>

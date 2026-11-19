@@ -49,10 +49,11 @@ namespace Botania
                 return;
             }
 
-            Messages.Message(
+            Find.LetterStack.ReceiveLetter(
+                "Botania.GaiaPortalAppeared.Label".Translate(),
                 "Botania.GaiaPortalAppeared.Text".Translate(),
-                new LookTargets(portal),
-                MessageTypeDefOf.NeutralEvent);
+                LetterDefOf.NeutralEvent,
+                new LookTargets(portal));
         }
     }
 }

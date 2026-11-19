@@ -19,6 +19,7 @@ namespace Botania
     ///   → 没打到阈值 → 只有护盾回满，阶段不变
     /// 护盾数值同时同步到一个 Hediff（健康面板可见）。
     /// </summary>
+    [StaticConstructorOnStartup]
     public class Pawn_GaiaBoss : Pawn
     {
         private const string ShieldHediffDefName = "Botania_GaiaShield";
@@ -75,7 +76,6 @@ namespace Botania
 
             if (Dead)
             {
-                GiveDropsOnce();
                 return;
             }
 
@@ -289,19 +289,29 @@ namespace Botania
 
         // ---------------- 掉落 ----------------
 
-        private void GiveDropsOnce()
+        /// <summary>
+        /// 掉落必须挂在 Kill 上：Pawn 死亡后会被 Corpse 替换并离开地图，
+        /// Tick 不再执行，写在 Tick 里的掉落永远不会触发（实测踩过）。
+        /// </summary>
+        public override void Kill(DamageInfo? dinfo, Hediff exactCulprit = null)
+        {
+            Map map = Map;
+            IntVec3 pos = Position;
+            base.Kill(dinfo, exactCulprit);
+            if (map != null && pos.IsValid)
+            {
+                GiveDropsOnce(map, pos);
+            }
+        }
+
+
+        private void GiveDropsOnce(Map map, IntVec3 pos)
         {
             if (dropsGiven)
             {
                 return;
             }
             dropsGiven = true;
-            Map map = Map;
-            if (map == null)
-            {
-                return;
-            }
-            IntVec3 pos = Position;
 
             SpawnItem(map, pos, "Botania_GaiaCore", 1);
             SpawnItem(map, pos, "Botania_PixieDust", Rand.RangeInclusive(8, 15));

@@ -18,7 +18,7 @@
     <graphicData>
       <texPath>Things/Building/Botania/GaiaShard</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(2,2)</drawSize>
+      <drawSize>(3,3)</drawSize>
     </graphicData>
     <altitudeLayer>Building</altitudeLayer>
     <passability>Impassable</passability>
@@ -27,7 +27,7 @@
     <blockLight>true</blockLight>
     <rotatable>false</rotatable>
     <castEdgeShadows>false</castEdgeShadows>
-    <size>(2,2)</size>
+    <size>(3,3)</size>
     <statBases>
       <MaxHitPoints>800</MaxHitPoints>
       <Mass>400</Mass>

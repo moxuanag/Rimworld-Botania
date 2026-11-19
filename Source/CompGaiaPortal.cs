@@ -60,6 +60,7 @@ namespace Botania
         private int cooldownUntil = -1;
         private bool autoInvestigate;
         private List<Pawn> spawnedPawns = new List<Pawn>();
+        private Pawn bossPawn;
 
         private CompProperties_GaiaPortal Props => (CompProperties_GaiaPortal)props;
 
@@ -311,6 +312,7 @@ namespace Botania
             GenSpawn.Spawn(boss, cell, Map);
             // 生成后再设一次：部分生成流程会重置 Name
             boss.Name = new NameSingle(bossName);
+            bossPawn = boss;
             Log.Message("[Botania] 盖亚·世界之魂已从传送门走出，显示名：" + boss.LabelCap);
         }
 
@@ -337,6 +339,13 @@ namespace Botania
 
         private void DespawnAllSpawned()
         {
+            // Boss 也要收回去，否则投降后它还在地图上打人
+            if (bossPawn != null && bossPawn.Spawned && !bossPawn.Dead)
+            {
+                bossPawn.DeSpawn(DestroyMode.Vanish);
+            }
+            bossPawn = null;
+
             for (int i = 0; i < spawnedPawns.Count; i++)
             {
                 Pawn p = spawnedPawns[i];
@@ -524,6 +533,7 @@ namespace Botania
             Scribe_Values.Look(ref cooldownUntil, "gaiaCooldownUntil", -1);
             Scribe_Values.Look(ref autoInvestigate, "gaiaAutoInvestigate", false);
             Scribe_Collections.Look(ref spawnedPawns, "gaiaSpawnedPawns", LookMode.Reference);
+            Scribe_References.Look(ref bossPawn, "gaiaBossPawn");
             if (Scribe.mode == LoadSaveMode.PostLoadInit && spawnedPawns == null)
             {
                 spawnedPawns = new List<Pawn>();
