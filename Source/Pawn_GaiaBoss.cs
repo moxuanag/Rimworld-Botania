@@ -94,6 +94,7 @@ namespace Botania
                 initialized = true;
                 shield = ShieldMax;
                 SyncShieldHediff();
+                EnsureUnstoppable();
             }
         }
 
@@ -118,6 +119,13 @@ namespace Botania
                         new LookTargets(this), MessageTypeDefOf.NeutralEvent, false);
                 }
             }
+            // 兜底：万一进入倒地状态（断肢/异常途径），把「盖亚之躯」补回来
+            if (Downed)
+            {
+                EnsureUnstoppable();
+                Log.Warning("[Botania] Boss 进入了倒地状态，已重新施加盖亚之躯");
+            }
+
             // 定期复查：盖亚与玩家的关系必须一直是敌对
             if (Now % 250 == 0)
             {
@@ -1090,6 +1098,32 @@ namespace Botania
         }
 
         // ---------------- 护盾 Hediff ----------------
+
+        /// <summary>
+        /// 「盖亚之躯」：把关键能力垫到 100%，保证 Boss 只会被打死、不会倒地。
+        /// </summary>
+        private void EnsureUnstoppable()
+        {
+            if (health == null || health.hediffSet == null)
+            {
+                return;
+            }
+            HediffDef def = DefDatabase<HediffDef>.GetNamedSilentFail("Botania_GaiaUnstoppable");
+            if (def == null)
+            {
+                return;
+            }
+            for (int i = 0; i < health.hediffSet.hediffs.Count; i++)
+            {
+                if (health.hediffSet.hediffs[i].def == def)
+                {
+                    return;
+                }
+            }
+            Hediff hediff = HediffMaker.MakeHediff(def, this);
+            hediff.Severity = 1f;
+            health.AddHediff(hediff);
+        }
 
         private void SyncShieldHediff()
         {

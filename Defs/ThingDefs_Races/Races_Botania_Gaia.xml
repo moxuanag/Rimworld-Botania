@@ -72,6 +72,8 @@ Its shell drinks a blow before you feel it land, and when the shell goes it lies
     <label>gaia world-soul</label>
     <race>Botania_GaiaWorldSoul</race>
     <combatPower>900</combatPower>
+    <!-- Boss 只会被打死，不会痛晕倒地 -->
+    <ignoresPainShock>true</ignoresPainShock>
     <!-- 自有美术：三向（南/东/北），西向由引擎镜像东向 -->
     <lifeStages Inherit="False">
       <li>

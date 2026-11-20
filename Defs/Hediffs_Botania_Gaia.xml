@@ -42,4 +42,32 @@
     </comps>
   </HediffDef>
 
+
+  <!--
+    盖亚之躯：把关键能力垫到 100%（offset +1）。
+    目的：Boss 只会被打死，不会因为断腿/失明/缺氧之类的原因进入倒地状态。
+    疼痛休克另外由 PawnKindDef.ignoresPainShock 关掉。
+  -->
+  <HediffDef>
+    <defName>Botania_GaiaUnstoppable</defName>
+    <label>gaia body</label>
+    <description>Root and stone hold the shape together. It does not fall over; it comes apart.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <isBad>false</isBad>
+    <initialSeverity>1</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <stages>
+      <li>
+        <capMods>
+          <li><capacity>Moving</capacity><offset>1</offset></li>
+          <li><capacity>Consciousness</capacity><offset>1</offset></li>
+          <li><capacity>Sight</capacity><offset>1</offset></li>
+          <li><capacity>Manipulation</capacity><offset>1</offset></li>
+          <li><capacity>Breathing</capacity><offset>1</offset></li>
+          <li><capacity>BloodPumping</capacity><offset>1</offset></li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
 </Defs>
