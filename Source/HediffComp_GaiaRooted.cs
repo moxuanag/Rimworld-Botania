@@ -1,4 +1,5 @@
 using RimWorld;
+using UnityEngine;
 using Verse;
 
 namespace Botania
@@ -21,6 +22,12 @@ namespace Botania
         /// <summary>总持续时长（tick）。3 秒 = 180。</summary>
         public int durationTicks = 180;
 
+        /// <summary>命中特效的 ThingDef（根须贴图）。</summary>
+        public string moteDefName = "Botania_Mote_GaiaRoots";
+
+        /// <summary>特效重挂间隔（tick）。Mote 自身有寿命，靠定期重挂保持不断。</summary>
+        public int moteIntervalTicks = 45;
+
         public HediffCompProperties_GaiaRooted()
         {
             compClass = typeof(HediffComp_GaiaRooted);
@@ -31,6 +38,7 @@ namespace Botania
     {
         private int nextDamageTick;
         private int endTick = -1;
+        private int nextMoteTick = -1;
 
         private HediffCompProperties_GaiaRooted Props => (HediffCompProperties_GaiaRooted)props;
 
@@ -39,6 +47,8 @@ namespace Botania
             base.CompPostPostAdd(dinfo);
             nextDamageTick = Find.TickManager.TicksGame + Props.intervalTicks;
             endTick = Find.TickManager.TicksGame + Props.durationTicks;
+            nextMoteTick = Find.TickManager.TicksGame;
+            SpawnRootMote();
         }
 
         public override void CompPostTick(ref float severityAdjustment)
@@ -61,6 +71,13 @@ namespace Botania
             // 定身：每 tick 停住脚步
             pawn.pather?.StopDead();
 
+            // 根须特效：定期重挂，视觉上一直缠在身上；效果结束后不再重挂，自然会消失
+            if (Find.TickManager.TicksGame >= nextMoteTick)
+            {
+                nextMoteTick = Find.TickManager.TicksGame + Props.moteIntervalTicks;
+                SpawnRootMote();
+            }
+
             if (Find.TickManager.TicksGame < nextDamageTick)
             {
                 return;
@@ -71,6 +88,28 @@ namespace Botania
                 Props.armorPenetration, -1f, null);
             damage.SetBodyRegion(BodyPartHeight.Bottom, BodyPartDepth.Outside);
             pawn.TakeDamage(damage);
+        }
+
+        private void SpawnRootMote()
+        {
+            Pawn pawn = parent?.pawn;
+            if (pawn == null || !pawn.Spawned || pawn.Map == null || Props.moteDefName.NullOrEmpty())
+            {
+                return;
+            }
+            ThingDef def = DefDatabase<ThingDef>.GetNamedSilentFail(Props.moteDefName);
+            if (def == null)
+            {
+                return;
+            }
+            try
+            {
+                MoteMaker.MakeAttachedOverlay(pawn, def, Vector3.zero, 1f, 0.85f);
+            }
+            catch (System.Exception)
+            {
+                // 特效失败不影响机制
+            }
         }
 
         /// <summary>健康面板括号里显示剩余秒数。</summary>

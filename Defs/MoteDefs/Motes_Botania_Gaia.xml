@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- 根须缠绕命中：附着在目标身上的根须，覆盖下半身，随定身结束消失 -->
+  <ThingDef ParentName="MoteBase">
+    <defName>Botania_Mote_GaiaRoots</defName>
+    <thingClass>MoteAttached</thingClass>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>0.08</fadeInTime>
+      <solidTime>0.9</solidTime>
+      <fadeOutTime>0.25</fadeOutTime>
+    </mote>
+    <graphicData>
+      <texPath>Things/Mote/Botania/GaiaRoots</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.5,1.5)</drawSize>
+    </graphicData>
+  </ThingDef>
+
+</Defs>
