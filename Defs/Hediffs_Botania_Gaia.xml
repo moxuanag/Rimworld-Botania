@@ -41,7 +41,7 @@
     </stages>
     <comps>
       <li Class="HediffCompProperties_Disappears">
-        <ticksToDisappear>180</ticksToDisappear>
+        <disappearsAfterTicks>180</disappearsAfterTicks>
       </li>
       <li Class="Botania.HediffCompProperties_GaiaRooted" />
     </comps>
