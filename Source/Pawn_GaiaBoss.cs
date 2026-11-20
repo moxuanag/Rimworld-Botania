@@ -1141,6 +1141,11 @@ namespace Botania
             {
                 return false;
             }
+            // 关闭的门也算阻挡；门一打开，扫描就能透过去（每 30 tick 重算，会实时变化）
+            if (b is Building_Door door && !door.Open)
+            {
+                return true;
+            }
             BuildingProperties bp = b.def.building;
             if (bp == null)
             {
