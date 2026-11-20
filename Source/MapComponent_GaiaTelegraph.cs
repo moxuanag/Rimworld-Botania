@@ -18,6 +18,20 @@ namespace Botania
         {
         }
 
+        private static List<IntVec3> FilterParity(List<IntVec3> cells, int parity)
+        {
+            List<IntVec3> result = new List<IntVec3>(cells.Count / 2 + 1);
+            for (int i = 0; i < cells.Count; i++)
+            {
+                IntVec3 c = cells[i];
+                if (((c.x + c.z) & 1) == parity)
+                {
+                    result.Add(c);
+                }
+            }
+            return result;
+        }
+
         public override void MapComponentDraw()
         {
             try
@@ -31,15 +45,22 @@ namespace Botania
                         continue;
                     }
                     // 世界之魂：红区（闪烁）+ 绿区（墙后安全）
-                    if (boss.TryGetWorldSoulZones(out List<IntVec3> red, out List<IntVec3> safe, out Color redColor))
+                    if (boss.TryGetWorldSoulZones(out List<IntVec3> red, out List<IntVec3> safe,
+                            out List<IntVec3> blockers, out Color redColor))
                     {
-                        if (safe != null && safe.Count > 0)
-                        {
-                            GenDraw.DrawFieldEdges(safe, new Color(0.30f, 1f, 0.40f, 0.55f));
-                        }
+                        // 全部格子都画（不抽样、不隔帧），保证「整片」而不是稀稀拉拉；
+                        // 闪烁靠颜色亮暗切换实现。
                         if (red != null && red.Count > 0)
                         {
                             GenDraw.DrawFieldEdges(red, redColor);
+                        }
+                        if (safe != null && safe.Count > 0)
+                        {
+                            GenDraw.DrawFieldEdges(safe, new Color(0.30f, 1f, 0.40f, 0.60f));
+                        }
+                        if (blockers != null && blockers.Count > 0)
+                        {
+                            GenDraw.DrawFieldEdges(blockers, new Color(0.55f, 0.55f, 0.6f, 0.5f));
                         }
                     }
 

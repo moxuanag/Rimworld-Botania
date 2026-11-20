@@ -660,15 +660,44 @@ namespace Botania
             return result;
         }
 
+        /// <summary>
+        /// 大地之怒的出手条件：目标方向上算出来的扇形里**真的要有一个敌对目标**，
+        /// 否则就是对着空气放技能。
+        /// </summary>
         private bool TryFindConeTarget(out IntVec3 dir)
         {
             dir = IntVec3.Invalid;
-            if (currentTarget == null)
+            Map map = Map;
+            if (currentTarget == null || map == null)
             {
                 return false;
             }
             dir = currentTarget.Position;
-            return true;
+            List<IntVec3> cone = GaiaSkills.ConeCells(this, dir, GaiaSkills.EarthWrathRadius,
+                GaiaSkills.EarthWrathHalfAngle);
+            if (cone.Count == 0)
+            {
+                return false;
+            }
+            HashSet<IntVec3> coneSet = new HashSet<IntVec3>(cone);
+            List<Thing> candidates = map.listerThings.ThingsInGroup(ThingRequestGroup.AttackTarget);
+            for (int i = 0; i < candidates.Count; i++)
+            {
+                Thing th = candidates[i];
+                if (th == null || th == this || th.Destroyed || !th.Spawned)
+                {
+                    continue;
+                }
+                if (!IsEnemyOfBoss(th))
+                {
+                    continue;
+                }
+                if (coneSet.Contains(th.Position))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private bool TryFindEntangleTargets(out List<Pawn> targets)
@@ -939,6 +968,7 @@ namespace Botania
 
         private List<IntVec3> worldSoulRed = new List<IntVec3>();
         private List<IntVec3> worldSoulSafe = new List<IntVec3>();
+        private List<IntVec3> worldSoulBlockers = new List<IntVec3>();
         private int nextZoneTick = -1;
 
         private void StartWorldSoul()
@@ -1007,6 +1037,7 @@ namespace Botania
         {
             worldSoulRed = new List<IntVec3>();
             worldSoulSafe = new List<IntVec3>();
+            worldSoulBlockers = new List<IntVec3>();
             skillCells = new List<IntVec3>();
         }
 
@@ -1059,6 +1090,7 @@ namespace Botania
 
             List<IntVec3> red = new List<IntVec3>();
             List<IntVec3> safe = new List<IntVec3>();
+            List<IntVec3> blockers = new List<IntVec3>();
             int r = Mathf.CeilToInt(maxR);
             for (int dx = -r; dx <= r; dx++)
             {
@@ -1075,17 +1107,23 @@ namespace Botania
                     }
                     if (exposed.Contains(c))
                     {
-                        red.Add(c);
+                        red.Add(c);          // 雷达扫到 -> 会被打
+                    }
+                    else if (BlocksWorldSoul(c, map))
+                    {
+                        blockers.Add(c);     // 墙/岩石本身：阻挡物，不算安全区
                     }
                     else
                     {
-                        safe.Add(c);
+                        safe.Add(c);         // 墙后扫不到 -> 安全
                     }
                 }
             }
 
-            worldSoulRed = SampleCells(red, 900);
-            worldSoulSafe = SampleCells(safe, 900);
+            // 不再抽样：抽样会把红区画得稀稀拉拉
+            worldSoulRed = red;
+            worldSoulSafe = safe;
+            worldSoulBlockers = blockers;
         }
 
         /// <summary>
@@ -1171,10 +1209,12 @@ namespace Botania
         }
 
         /// <summary>给 MapComponent 画预警用：红区（闪烁）+ 绿区（安全）。</summary>
-        public bool TryGetWorldSoulZones(out List<IntVec3> red, out List<IntVec3> safe, out Color redColor)
+        public bool TryGetWorldSoulZones(out List<IntVec3> red, out List<IntVec3> safe,
+            out List<IntVec3> blockers, out Color redColor)
         {
             red = worldSoulRed;
             safe = worldSoulSafe;
+            blockers = worldSoulBlockers;
             bool bright = Now % 40 < 20;
             redColor = bright
                 ? new Color(1f, 0.15f, 0.1f, 0.55f)
@@ -1551,8 +1591,33 @@ namespace Botania
             switch (skill)
             {
                 case GaiaSkill.EarthWrath:
+                {
+                    // 手动落点也要求扇形内真的有目标，避免空放
+                    List<IntVec3> cone = GaiaSkills.ConeCells(this, target, GaiaSkills.EarthWrathRadius,
+                        GaiaSkills.EarthWrathHalfAngle);
+                    HashSet<IntVec3> coneSet = new HashSet<IntVec3>(cone);
+                    bool hasTarget = false;
+                    List<Thing> candidates = Map.listerThings.ThingsInGroup(ThingRequestGroup.AttackTarget);
+                    for (int i = 0; i < candidates.Count; i++)
+                    {
+                        Thing th = candidates[i];
+                        if (th == null || th == this || th.Destroyed || !th.Spawned || !IsEnemyOfBoss(th))
+                        {
+                            continue;
+                        }
+                        if (coneSet.Contains(th.Position))
+                        {
+                            hasTarget = true;
+                            break;
+                        }
+                    }
+                    if (!hasTarget)
+                    {
+                        return false;
+                    }
                     StartEarthWrath(target);
                     return true;
+                }
                 case GaiaSkill.ManaBeam:
                     StartManaBeam(target);
                     return true;
