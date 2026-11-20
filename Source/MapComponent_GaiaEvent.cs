@@ -167,7 +167,7 @@ namespace Botania
         }
 
         [DebugAction("Botania", "生成盖亚世界之魂（Boss）",
-            actionType = DebugActionType.Action,
+            actionType = DebugActionType.ToolMap,
             allowedGameStates = AllowedGameStates.PlayingOnMap)]
         public static void DevSpawnBoss()
         {
@@ -183,16 +183,22 @@ namespace Botania
                 return;
             }
 
-            IntVec3 cell = Find.CameraDriver.MapPosition;
-            if (!cell.InBounds(m) || !cell.Walkable(m))
+            // ToolMap：直接用鼠标点的那一格
+            IntVec3 cell = UI.MouseCell();
+            if (!cell.InBounds(m))
             {
-                cell = CellFinder.RandomClosewalkCellNear(Find.CameraDriver.MapPosition, m, 8,
-                    c => c.Walkable(m) && !c.Fogged(m));
-            }
-            if (!cell.IsValid)
-            {
-                Log.Error("[Botania] 找不到可以放 Boss 的格子");
+                Log.Error("[Botania] 鼠标位置不在地图内");
                 return;
+            }
+            if (!cell.Walkable(m) || cell.Fogged(m))
+            {
+                IntVec3 near = CellFinder.RandomClosewalkCellNear(cell, m, 4,
+                    c => c.Walkable(m) && !c.Fogged(m));
+                Log.Message("[Botania] 鼠标格不可站，改用附近的格子：" + near);
+                if (near.IsValid)
+                {
+                    cell = near;
+                }
             }
 
             Pawn boss = PawnGenerator.GeneratePawn(kind, Faction.OfMechanoids);
