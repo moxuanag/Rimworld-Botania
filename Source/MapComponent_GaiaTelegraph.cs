@@ -30,6 +30,19 @@ namespace Botania
                     {
                         continue;
                     }
+                    // 世界之魂：红区（闪烁）+ 绿区（墙后安全）
+                    if (boss.TryGetWorldSoulZones(out List<IntVec3> red, out List<IntVec3> safe, out Color redColor))
+                    {
+                        if (safe != null && safe.Count > 0)
+                        {
+                            GenDraw.DrawFieldEdges(safe, new Color(0.30f, 1f, 0.40f, 0.55f));
+                        }
+                        if (red != null && red.Count > 0)
+                        {
+                            GenDraw.DrawFieldEdges(red, redColor);
+                        }
+                    }
+
                     if (!boss.TryGetTelegraph(out List<IntVec3> cells, out Color color))
                     {
                         continue;

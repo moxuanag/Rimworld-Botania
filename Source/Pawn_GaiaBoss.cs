@@ -860,18 +860,26 @@ namespace Botania
 
         // ---------------- 世界之魂 ----------------
 
+        // ---------------- 世界之魂（蓄力 20 秒 -> 一次性全屏爆发） ----------------
+
+        private List<IntVec3> worldSoulRed = new List<IntVec3>();
+        private List<IntVec3> worldSoulSafe = new List<IntVec3>();
+        private int nextZoneTick = -1;
+
         private void StartWorldSoul()
         {
             worldSoulActive = true;
-            worldSoulRadius = 1f;
             worldSoulLastMsgTier = 20;
             worldSoulHit = new HashSet<Pawn>();
             skillStageStart = Now;
             skillCells = new List<IntVec3>();
-            skillColor = SoulColor;
             FreezePosition();
-            Messages.Message("Botania.GaiaWorldSoulStart".Translate(),
-                new LookTargets(this), MessageTypeDefOf.NeutralEvent, false);
+            RecomputeWorldSoulZones();
+            Find.LetterStack.ReceiveLetter(
+                "Botania.GaiaWorldSoulStart.Label".Translate(),
+                "Botania.GaiaWorldSoulStart.Text".Translate(),
+                LetterDefOf.ThreatBig,
+                new LookTargets(this));
         }
 
         private void AdvanceWorldSoul()
@@ -882,13 +890,14 @@ namespace Botania
             if (map == null || Dead)
             {
                 worldSoulActive = false;
+                ClearWorldSoulZones();
                 return;
             }
 
             int elapsed = Now - skillStageStart;
             int remainSec = Mathf.CeilToInt((GaiaSkills.WorldSoulCharge - elapsed) / 60f);
 
-            // 20 / 10 / 3 秒各提示一次（普通消息）
+            // 10 / 3 秒各提示一次（普通消息）
             if (remainSec <= 10 && worldSoulLastMsgTier > 10)
             {
                 worldSoulLastMsgTier = 10;
@@ -902,48 +911,177 @@ namespace Botania
                     new LookTargets(this), MessageTypeDefOf.NeutralEvent, false);
             }
 
-            // 波前推进：每 6 tick（0.1 秒）推一次，画一圈红
-            if (Now % 6 == 0)
+            // 每 30 tick 重算一次危险区/安全区：玩家在蓄力期间补墙，新墙后的格子立刻变绿
+            if (Now >= nextZoneTick)
             {
-                float prev = worldSoulRadius;
-                worldSoulRadius = Mathf.Min(GaiaSkills.WorldSoulMaxRadius,
-                    worldSoulRadius + GaiaSkills.WorldSoulSpeedPerTick * 6f);
+                nextZoneTick = Now + 30;
+                RecomputeWorldSoulZones();
+            }
 
-                List<IntVec3> ring = GaiaSkills.RingCells(map, Position, prev, worldSoulRadius);
-                skillCells = ring;
+            if (elapsed >= GaiaSkills.WorldSoulCharge)
+            {
+                DoWorldSoulBurst();
+                worldSoulActive = false;
+                ClearWorldSoulZones();
+                Messages.Message("Botania.GaiaWorldSoulEnd".Translate(),
+                    new LookTargets(this), MessageTypeDefOf.NeutralEvent, false);
+            }
+        }
 
-                // 命中判定：新扫过的格子里、且从 boss 有视线的目标
-                for (int i = 0; i < ring.Count; i++)
+        private void ClearWorldSoulZones()
+        {
+            worldSoulRed = new List<IntVec3>();
+            worldSoulSafe = new List<IntVec3>();
+            skillCells = new List<IntVec3>();
+        }
+
+        /// <summary>
+        /// 用 BFS 从 Boss 向外扩散：遇到不可通行格（墙、岩壁、门框）就停。
+        /// 扩散到的格子 = 会被打到（红）；范围内扩散不到 = 被墙挡住（绿，安全）。
+        /// 每 30 tick 重算，所以蓄力期间新造的墙会立刻产生新的安全区。
+        /// </summary>
+        private void RecomputeWorldSoulZones()
+        {
+            Map map = Map;
+            if (map == null)
+            {
+                return;
+            }
+            float maxR = GaiaSkills.WorldSoulMaxRadius;
+            IntVec3 origin = Position;
+
+            HashSet<IntVec3> exposed = new HashSet<IntVec3>();
+            Queue<IntVec3> open = new Queue<IntVec3>();
+            exposed.Add(origin);
+            open.Enqueue(origin);
+
+            while (open.Count > 0)
+            {
+                IntVec3 c = open.Dequeue();
+                for (int d = 0; d < 4; d++)
                 {
-                    List<Thing> things = ring[i].GetThingList(map);
-                    for (int j = 0; j < things.Count; j++)
+                    IntVec3 n = c + GenAdj.CardinalDirections[d];
+                    if (!n.InBounds(map))
                     {
-                        Pawn p = things[j] as Pawn;
-                        if (p == null || p.Dead || worldSoulHit.Contains(p))
-                        {
-                            continue;
-                        }
-                        if (!GenSight.LineOfSight(Position, p.Position, map))
-                        {
-                            continue;   // 墙后：完全免伤
-                        }
-                        worldSoulHit.Add(p);
-                        p.TakeDamage(new DamageInfo(DamageDefOf.Blunt, GaiaSkills.WorldSoulDamage, 1f, -1f, this));
-                        if (p.stances != null && p.stances.stunner != null)
-                        {
-                            p.stances.stunner.StunFor(GaiaSkills.WorldSoulStunTicks, this, false, true, true);
-                        }
+                        continue;
+                    }
+                    if (origin.DistanceTo(n) > maxR)
+                    {
+                        continue;
+                    }
+                    if (exposed.Contains(n))
+                    {
+                        continue;
+                    }
+                    if (n.Impassable(map))
+                    {
+                        continue;   // 墙/岩壁：扩散停止，后面的格子成为安全区
+                    }
+                    exposed.Add(n);
+                    open.Enqueue(n);
+                }
+            }
+
+            List<IntVec3> red = new List<IntVec3>();
+            List<IntVec3> safe = new List<IntVec3>();
+            int r = Mathf.CeilToInt(maxR);
+            for (int dx = -r; dx <= r; dx++)
+            {
+                for (int dz = -r; dz <= r; dz++)
+                {
+                    IntVec3 c = new IntVec3(origin.x + dx, 0, origin.z + dz);
+                    if (!c.InBounds(map))
+                    {
+                        continue;
+                    }
+                    if (origin.DistanceTo(c) > maxR)
+                    {
+                        continue;
+                    }
+                    if (exposed.Contains(c))
+                    {
+                        red.Add(c);
+                    }
+                    else
+                    {
+                        safe.Add(c);
                     }
                 }
             }
 
-            if (elapsed >= GaiaSkills.WorldSoulCharge || worldSoulRadius >= GaiaSkills.WorldSoulMaxRadius)
+            worldSoulRed = SampleCells(red, 900);
+            worldSoulSafe = SampleCells(safe, 900);
+        }
+
+        /// <summary>格子太多时抽样，保证每帧绘制不吃性能（视觉上仍然连续）。</summary>
+        private static List<IntVec3> SampleCells(List<IntVec3> cells, int max)
+        {
+            if (cells.Count <= max)
             {
-                worldSoulActive = false;
-                skillCells = new List<IntVec3>();
-                Messages.Message("Botania.GaiaWorldSoulEnd".Translate(),
-                    new LookTargets(this), MessageTypeDefOf.NeutralEvent, false);
+                return cells;
             }
+            List<IntVec3> result = new List<IntVec3>(max);
+            int step = Mathf.CeilToInt(cells.Count / (float)max);
+            for (int i = 0; i < cells.Count; i += step)
+            {
+                result.Add(cells[i]);
+            }
+            return result;
+        }
+
+        /// <summary>蓄力结束：一次性爆发，红区内的敌对目标吃 90 伤 + 2 秒眩晕。</summary>
+        private void DoWorldSoulBurst()
+        {
+            Map map = Map;
+            if (map == null)
+            {
+                return;
+            }
+
+            HashSet<Thing> hit = new HashSet<Thing>();
+            for (int i = 0; i < worldSoulRed.Count; i++)
+            {
+                List<Thing> things = worldSoulRed[i].GetThingList(map);
+                for (int j = 0; j < things.Count; j++)
+                {
+                    Thing th = things[j];
+                    if (th == null || th == this || th.Destroyed || !th.Spawned || !hit.Add(th))
+                    {
+                        continue;
+                    }
+                    if (!IsEnemyOfBoss(th))
+                    {
+                        continue;
+                    }
+                    th.TakeDamage(new DamageInfo(DamageDefOf.Blunt, GaiaSkills.WorldSoulDamage, 1f, -1f, this));
+                    if (th is Pawn p && p.stances != null && p.stances.stunner != null)
+                    {
+                        p.stances.stunner.StunFor(GaiaSkills.WorldSoulStunTicks, this, false, true, true);
+                    }
+                }
+            }
+
+            // 视觉：中心爆开 + 红区撒裂纹
+            GenExplosion.DoExplosion(Position, map, 4f, DamageDefOf.Blunt, this, 0, 0f, doSoundEffects: false);
+            int step = Mathf.Max(1, worldSoulRed.Count / 24);
+            for (int i = 0; i < worldSoulRed.Count; i += step)
+            {
+                SpawnMoteAt("Botania_Mote_GaiaCrack", worldSoulRed[i].ToVector3Shifted(), 1.3f);
+            }
+            Messages.Message("Botania.GaiaWorldSoulBurst".Translate(),
+                new LookTargets(this), MessageTypeDefOf.NeutralEvent, false);
+        }
+
+        /// <summary>给 MapComponent 画预警用：红区（闪烁）+ 绿区（安全）。</summary>
+        public bool TryGetWorldSoulZones(out List<IntVec3> red, out List<IntVec3> safe, out Color redColor)
+        {
+            red = worldSoulRed;
+            safe = worldSoulSafe;
+            bool bright = Now % 40 < 20;
+            redColor = bright
+                ? new Color(1f, 0.15f, 0.1f, 0.55f)
+                : new Color(0.55f, 0.05f, 0.05f, 0.30f);
+            return worldSoulActive && ((red != null && red.Count > 0) || (safe != null && safe.Count > 0));
         }
 
         // ---------------- 绘制 ----------------
