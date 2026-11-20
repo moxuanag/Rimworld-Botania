@@ -58,6 +58,7 @@
     <maxSeverity>1</maxSeverity>
     <stages>
       <li>
+        <painFactor>0</painFactor>
         <capMods>
           <li><capacity>Moving</capacity><offset>1</offset></li>
           <li><capacity>Consciousness</capacity><offset>1</offset></li>

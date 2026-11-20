@@ -52,7 +52,7 @@ namespace Botania
         private List<IntVec3> skillCells = new List<IntVec3>();
         private Color skillColor = WarnColor;
         private List<Pawn> entangleTargets = new List<Pawn>();
-        private int[] skillCooldownUntil = new int[6];
+        private List<int> skillCooldownUntil = new List<int> { 0, 0, 0, 0, 0, 0 };
 
         private bool worldSoulActive;
         private float worldSoulRadius;
@@ -78,6 +78,9 @@ namespace Botania
         /// <summary>是否正在施法/蓄力（此时 AI 应站定不动）。</summary>
         public bool IsBusyCasting => worldSoulActive || currentSkill != GaiaSkill.None;
 
+        private List<IntVec3> previewCells = new List<IntVec3>();
+        private Color previewColor = Color.yellow;
+
         private GaiaSkill orderedSkill;
         private IntVec3 orderedCell = IntVec3.Invalid;
         private int orderedExpireTick = -1;
@@ -94,6 +97,53 @@ namespace Botania
             if (currentSkill != GaiaSkill.None)
             {
                 EndSkill(GaiaSkill.None, 0);
+            }
+        }
+
+        /// <summary>手动施法时跟随鼠标的预览范围。</summary>
+        public void SetPreview(GaiaSkill skill, IntVec3 target)
+        {
+            List<IntVec3> cells = PreviewCellsFor(skill, target);
+            previewCells = cells ?? new List<IntVec3>();
+            previewColor = new Color(1f, 0.85f, 0.2f, 0.45f);
+        }
+
+        public void ClearPreview()
+        {
+            previewCells = new List<IntVec3>();
+        }
+
+        private List<IntVec3> PreviewCellsFor(GaiaSkill skill, IntVec3 target)
+        {
+            Map map = Map;
+            if (map == null || !target.IsValid || !target.InBounds(map))
+            {
+                return new List<IntVec3>();
+            }
+            switch (skill)
+            {
+                case GaiaSkill.EarthWrath:
+                    return GaiaSkills.ConeCells(this, target, GaiaSkills.EarthWrathRadius, GaiaSkills.EarthWrathHalfAngle);
+                case GaiaSkill.ManaBeam:
+                    return GaiaSkills.BeamCells(this, target, GaiaSkills.ManaBeamRange);
+                case GaiaSkill.Entangle:
+                {
+                    List<IntVec3> cells = new List<IntVec3>();
+                    for (int dx = -3; dx <= 3; dx++)
+                    {
+                        for (int dz = -3; dz <= 3; dz++)
+                        {
+                            IntVec3 c = new IntVec3(target.x + dx, 0, target.z + dz);
+                            if (c.InBounds(map) && c.DistanceTo(target) <= 3.5f)
+                            {
+                                cells.Add(c);
+                            }
+                        }
+                    }
+                    return cells;
+                }
+                default:
+                    return new List<IntVec3>();
             }
         }
 
@@ -179,11 +229,15 @@ namespace Botania
                         new LookTargets(this), MessageTypeDefOf.NeutralEvent, false);
                 }
             }
-            // 兜底：万一进入倒地状态（断肢/异常途径），把「盖亚之躯」补回来
+            // 兜底：万一进入倒地状态，先把「盖亚之躯」补回来，再让引擎重新判定
             if (Downed)
             {
                 EnsureUnstoppable();
-                Log.Warning("[Botania] Boss 进入了倒地状态，已重新施加盖亚之躯");
+                if (health != null && !health.ShouldBeDowned())
+                {
+                    health.Notify_HediffChanged(null);
+                    Log.Message("[Botania] Boss 倒地状态已解除（重新判定为可站立）");
+                }
             }
 
             // 定期复查：盖亚与玩家的关系必须一直是敌对
@@ -256,6 +310,9 @@ namespace Botania
                 absorbed = true;
                 return;
             }
+
+            // 伤害永远落在躯干内部：不让四肢/头部被打断，避免能力归零被判定倒地
+            dinfo.SetBodyRegion(BodyPartHeight.Middle, BodyPartDepth.Inside);
 
             float amount = dinfo.Amount;
 
@@ -349,6 +406,8 @@ namespace Botania
         }
 
         // ---------------- 技能调度 ----------------
+
+        private int nextGlobalCastTick = -1;
 
         private bool CanAct => !Dead && !IsInvulnerable && !IsParalyzed && !worldSoulActive;
 
@@ -516,10 +575,16 @@ namespace Botania
                 return;
             }
 
-            // 阶段 I：大地之怒（4s）、根须缠绕（6s）
-            if (Now >= skillCooldownUntil[(int)GaiaSkill.EarthWrath] && TryFindConeTarget(out IntVec3 dir))
+            // 优先级：魔力射线（阶段 II+） > 根须缠绕 > 大地之怒
+            // 加全局施法间隔，避免一个技能刚放完立刻接下一个把别的技能饿死
+            if (Now < nextGlobalCastTick)
             {
-                StartEarthWrath(dir);
+                return;
+            }
+
+            if (phaseIndex >= 1 && Now >= skillCooldownUntil[(int)GaiaSkill.ManaBeam] && TryFindBeamTarget(out IntVec3 beamTarget))
+            {
+                StartManaBeam(beamTarget);
                 return;
             }
             if (Now >= skillCooldownUntil[(int)GaiaSkill.Entangle] && TryFindEntangleTargets(out List<Pawn> targets))
@@ -527,10 +592,9 @@ namespace Botania
                 StartEntangle(targets);
                 return;
             }
-            // 阶段 II 起：魔力射线（5s）
-            if (phaseIndex >= 1 && Now >= skillCooldownUntil[(int)GaiaSkill.ManaBeam] && TryFindBeamTarget(out IntVec3 beamTarget))
+            if (Now >= skillCooldownUntil[(int)GaiaSkill.EarthWrath] && TryFindConeTarget(out IntVec3 dir))
             {
-                StartManaBeam(beamTarget);
+                StartEarthWrath(dir);
             }
         }
 
@@ -741,6 +805,7 @@ namespace Botania
             if (skill != GaiaSkill.None)
             {
                 skillCooldownUntil[(int)skill] = Now + cooldownTicks;
+                nextGlobalCastTick = Now + 90;   // 1.5 秒全局施法间隔
             }
             currentSkill = GaiaSkill.None;
             skillCells = new List<IntVec3>();
@@ -973,9 +1038,9 @@ namespace Botania
                     {
                         continue;
                     }
-                    if (n.Impassable(map))
+                    if (BlocksWorldSoul(n, map))
                     {
-                        continue;   // 墙/岩壁：扩散停止，后面的格子成为安全区
+                        continue;   // 只有墙/岩石阻挡扫描；草、树、掉落物不算
                     }
                     exposed.Add(n);
                     open.Enqueue(n);
@@ -1011,6 +1076,29 @@ namespace Botania
 
             worldSoulRed = SampleCells(red, 900);
             worldSoulSafe = SampleCells(safe, 900);
+        }
+
+        /// <summary>
+        /// 只有「墙」和「岩石（可挖掘的天然岩石/矿脉）」能挡住世界之魂的扫描。
+        /// 草、树、花、掉落物都不算阻挡——否则雷达范围会被草木吃掉一大片。
+        /// </summary>
+        private static bool BlocksWorldSoul(IntVec3 c, Map map)
+        {
+            if (map == null || map.edificeGrid == null)
+            {
+                return false;
+            }
+            Building b = map.edificeGrid[c];
+            if (b == null || b.def == null)
+            {
+                return false;
+            }
+            BuildingProperties bp = b.def.building;
+            if (bp == null)
+            {
+                return false;
+            }
+            return bp.isWall || bp.isNaturalRock || bp.isResourceRock;
         }
 
         /// <summary>格子太多时抽样，保证每帧绘制不吃性能（视觉上仍然连续）。</summary>
@@ -1156,6 +1244,12 @@ namespace Botania
         /// <summary>预警范围：由 MapComponent_GaiaTelegraph 每帧读取并绘制。</summary>
         public bool TryGetTelegraph(out List<IntVec3> cells, out Color color)
         {
+            if (previewCells != null && previewCells.Count > 0)
+            {
+                cells = previewCells;
+                color = previewColor;
+                return true;
+            }
             cells = skillCells;
             color = skillColor;
             return cells != null && cells.Count > 0;
@@ -1288,8 +1382,20 @@ namespace Botania
                 canTargetSelf = false,
                 validator = ti => ti.Cell.DistanceTo(Position) <= GaiaSkills.EarthWrathRadius + 6f
             };
+            cmd.onUpdate = ti =>
+            {
+                if (ti.IsValid && Prefs.DevMode && DebugSettings.godMode)
+                {
+                    SetPreview(GaiaSkill.EarthWrath, ti.Cell);
+                }
+                else
+                {
+                    ClearPreview();
+                }
+            };
             cmd.action = ti =>
             {
+                ClearPreview();
                 if (Prefs.DevMode)
                 {
                     OrderSkillAt(GaiaSkill.EarthWrath, ti.Cell);
@@ -1330,8 +1436,20 @@ namespace Botania
                 canTargetSelf = false,
                 validator = ti => ti.Cell.DistanceTo(Position) <= maxDist
             };
+            cmd.onUpdate = ti =>
+            {
+                if (ti.IsValid && Prefs.DevMode && DebugSettings.godMode)
+                {
+                    SetPreview(skill, ti.Cell);
+                }
+                else
+                {
+                    ClearPreview();
+                }
+            };
             cmd.action = ti =>
             {
+                ClearPreview();
                 if (Prefs.DevMode && DebugSettings.godMode)
                 {
                     // 先走过去再放，避免站在原地朝远处空放
@@ -1466,7 +1584,7 @@ namespace Botania
 
         public void DebugClearCooldowns()
         {
-            for (int i = 0; i < skillCooldownUntil.Length; i++)
+            for (int i = 0; i < skillCooldownUntil.Count; i++)
             {
                 skillCooldownUntil[i] = 0;
             }
@@ -1474,6 +1592,7 @@ namespace Botania
 
         public void DebugCancelSkill()
         {
+            ClearPreview();
             orderedSkill = GaiaSkill.None;
             orderedCell = IntVec3.Invalid;
             EndSkill(GaiaSkill.None, 0);
@@ -1630,12 +1749,12 @@ namespace Botania
             Scribe_Values.Look(ref seedsPhase2Done, "gaiaSeeds2", false);
             Scribe_Values.Look(ref seedsPhase3Done, "gaiaSeeds3", false);
             Scribe_Collections.Look(ref worldSoulHit, "gaiaWorldSoulHit", LookMode.Reference);
-            Scribe_Values.Look(ref skillCooldownUntil, "gaiaSkillCd", null);
+            Scribe_Collections.Look(ref skillCooldownUntil, "gaiaSkillCdList", LookMode.Value);
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
-                if (skillCooldownUntil == null || skillCooldownUntil.Length != 6)
+                if (skillCooldownUntil == null || skillCooldownUntil.Count != 6)
                 {
-                    skillCooldownUntil = new int[6];
+                    skillCooldownUntil = new List<int> { 0, 0, 0, 0, 0, 0 };
                 }
                 if (worldSoulHit == null)
                 {
