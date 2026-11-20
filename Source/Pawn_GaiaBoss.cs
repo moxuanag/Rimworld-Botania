@@ -567,8 +567,11 @@ namespace Botania
                 return null;
             }
             List<Thing> candidates = map.listerThings.ThingsInGroup(ThingRequestGroup.AttackTarget);
-            Thing best = null;
-            float bestDist = float.MaxValue;
+            Thing nearestAny = null;
+            float nearestAnyDist = float.MaxValue;
+            Thing nearestReachable = null;
+            float nearestReachableDist = float.MaxValue;
+
             for (int i = 0; i < candidates.Count; i++)
             {
                 Thing th = candidates[i];
@@ -590,13 +593,37 @@ namespace Botania
                 {
                     continue;
                 }
-                if (d < bestDist)
+                if (d < nearestAnyDist)
                 {
-                    bestDist = d;
-                    best = th;
+                    nearestAnyDist = d;
+                    nearestAny = th;
+                }
+                // 可达性：只对最近的若干目标做寻路检查，避免性能问题
+                if (d < nearestReachableDist && d <= 40f && CanReachTarget(th))
+                {
+                    nearestReachableDist = d;
+                    nearestReachable = th;
                 }
             }
-            return best;
+            // 优先打「走得到」的目标；全都走不到才退回最近的（此时会尝试接近）
+            return nearestReachable ?? nearestAny;
+        }
+
+        /// <summary>目标是否走得到（炮塔被墙围死时走不到）。</summary>
+        private bool CanReachTarget(Thing th)
+        {
+            if (th == null || !th.Spawned || Map == null)
+            {
+                return false;
+            }
+            try
+            {
+                return this.CanReach(new LocalTargetInfo(th), PathEndMode.Touch, Danger.Deadly, false, false);
+            }
+            catch (System.Exception)
+            {
+                return true;
+            }
         }
 
         /// <summary>是否与 Boss 敌对（阵营为空时按「玩家阵营的敌人」兜底）。</summary>

@@ -1,4 +1,5 @@
 using RimWorld;
+using UnityEngine;
 using Verse;
 using Verse.AI;
 
@@ -15,6 +16,39 @@ namespace Botania
     /// </summary>
     public class JobGiver_GaiaCombat : ThinkNode_JobGiver
     {
+        /// <summary>
+        /// 目标不可达时找一个「朝目标方向、自己走得到」的中转格，
+        /// 让 Boss 至少靠近，而不是原地站着发呆。
+        /// </summary>
+        private static IntVec3 FindStagingCell(Pawn pawn, Thing target)
+        {
+            Map map = pawn.Map;
+            IntVec3 origin = pawn.Position;
+            IntVec3 toward = target.Position - origin;
+            if (toward.LengthHorizontal <= 0)
+            {
+                return IntVec3.Invalid;
+            }
+            float len = toward.LengthHorizontal;
+            for (int step = 10; step >= 2; step--)
+            {
+                float scale = Mathf.Min(1f, step / len);
+                IntVec3 candidate = new IntVec3(
+                    origin.x + Mathf.RoundToInt(toward.x * scale),
+                    0,
+                    origin.z + Mathf.RoundToInt(toward.z * scale));
+                if (!candidate.InBounds(map) || !candidate.Walkable(map))
+                {
+                    continue;
+                }
+                if (pawn.CanReach(new LocalTargetInfo(candidate), PathEndMode.OnCell, Danger.Deadly, false, false))
+                {
+                    return candidate;
+                }
+            }
+            return IntVec3.Invalid;
+        }
+
         protected override Job TryGiveJob(Pawn pawn)
         {
             Pawn_GaiaBoss boss = pawn as Pawn_GaiaBoss;
@@ -62,16 +96,22 @@ namespace Botania
                 return JobMaker.MakeJob(JobDefOf.Wait, 30);
             }
 
-            IntVec3 dest = target.Position;
             Map map = pawn.Map;
+            IntVec3 dest = target.Position;
             if (!dest.Walkable(map) || dest.Fogged(map))
             {
                 dest = CellFinder.RandomClosewalkCellNear(target.Position, map, 2,
                     c => c.Walkable(map) && !c.Fogged(map));
             }
-            if (!dest.IsValid)
+
+            // 走不到目标本身：挑一个「朝目标方向、但自己走得到」的中转格逐步靠近
+            if (!dest.IsValid || !pawn.CanReach(new LocalTargetInfo(dest), PathEndMode.OnCell, Danger.Deadly, false, false))
             {
-                // 目标位置不可达：站定，让技能按射程远程打（Tick 里会判定卡住）
+                IntVec3 staging = FindStagingCell(pawn, target);
+                if (staging.IsValid)
+                {
+                    return JobMaker.MakeJob(JobDefOf.Goto, staging);
+                }
                 boss.NotifyPathBlocked();
                 return JobMaker.MakeJob(JobDefOf.Wait, 30);
             }
