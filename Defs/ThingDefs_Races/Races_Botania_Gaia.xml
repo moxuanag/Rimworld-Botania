@@ -23,7 +23,7 @@ Its shell drinks a blow before you feel it land, and when the shell goes it lies
       <body>Human</body>
       <baseBodySize>4</baseBodySize>
       <baseHealthScale>52</baseHealthScale>
-      <intelligence>Intermediate</intelligence>
+      <intelligence>Animal</intelligence>
       <fleshType>Normal</fleshType>
       <foodType>None</foodType>
       <needsRest>false</needsRest>
