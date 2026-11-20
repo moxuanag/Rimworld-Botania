@@ -3,19 +3,46 @@
 
   <!--
     盖亚·世界之魂 —— Boss 本体。
-    第一版沿用原版「机械蜈蚣」的体格与外观作为占位（贴图后面再换），
+    注意：**不是机械族**。种族基于普通生物模板（AnimalThingBase），
+    身体是 Human（有头/躯干/四肢的正常部位），血肉类型 Normal，
+    智力 Intermediate，所以健康面板显示的是普通生物的能力项，而不是机械族那套。
+    它不吃饭不睡觉（foodType None / needsRest false），也不需要驯化。
+
+    Boss 的威胁全部来自技能；近战只有 1 点钝伤的「轻触」。
     数值按 docs/盖亚Boss设计文档.md：
-      体型 4 / 血量 healthScale 26（战争女王 5.2 × 5）
-      护甲 锐 0.60 / 钝 0.45 / 热 0.50，移速 2.0
+      体型 4 / healthScale 52 / 护甲 锐0.60 钝0.45 热0.50 / 移速 2.0
   -->
-  <ThingDef ParentName="MechCentipede">
+  <ThingDef ParentName="AnimalThingBase">
     <defName>Botania_GaiaWorldSoul</defName>
     <label>gaia world-soul</label>
-    <thingClass>Botania.Pawn_GaiaBoss</thingClass>
     <description>A mass of root, stone and green light that learned to wear a shape. It moves the way weather moves: slowly, and then all at once.
 
 Its shell drinks a blow before you feel it land, and when the shell goes it lies still for a while - that is the only time it can be hurt.</description>
+    <thingClass>Botania.Pawn_GaiaBoss</thingClass>
+    <race>
+      <body>Human</body>
+      <baseBodySize>4</baseBodySize>
+      <baseHealthScale>52</baseHealthScale>
+      <intelligence>Intermediate</intelligence>
+      <fleshType>Normal</fleshType>
+      <foodType>None</foodType>
+      <needsRest>false</needsRest>
+      <trainability>None</trainability>
+      <wildness>1</wildness>
+      <petness>0</petness>
+      <tools>
+        <li>
+          <label>tap</label>
+          <capacities>
+            <li>Blunt</li>
+          </capacities>
+          <power>1</power>
+          <cooldownTime>2</cooldownTime>
+        </li>
+      </tools>
+    </race>
     <statBases>
+      <Flammability>0.0</Flammability>
       <MoveSpeed>2.0</MoveSpeed>
       <ArmorRating_Sharp>0.60</ArmorRating_Sharp>
       <ArmorRating_Blunt>0.45</ArmorRating_Blunt>
@@ -24,22 +51,13 @@ Its shell drinks a blow before you feel it land, and when the shell goes it lies
       <ComfyTemperatureMin>-200</ComfyTemperatureMin>
       <ComfyTemperatureMax>200</ComfyTemperatureMax>
     </statBases>
-    <race>
-      <baseBodySize>4</baseBodySize>
-      <baseHealthScale>52</baseHealthScale>
-    </race>
   </ThingDef>
 
-  <PawnKindDef ParentName="MechCentipedeBase">
+  <PawnKindDef ParentName="AnimalKindBase">
     <defName>Botania_GaiaWorldSoul</defName>
     <label>gaia world-soul</label>
     <race>Botania_GaiaWorldSoul</race>
     <combatPower>900</combatPower>
-    <!-- Boss 只用技能输出，武器仅一把 1 伤害的小法杖 -->
-    <weaponMoney>180~300</weaponMoney>
-    <weaponTags>
-      <li>BotaniaGaiaWand</li>
-    </weaponTags>
     <!-- 自有美术：三向（南/东/北），西向由引擎镜像东向 -->
     <lifeStages Inherit="False">
       <li>

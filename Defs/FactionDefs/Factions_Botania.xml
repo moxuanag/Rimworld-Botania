@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!--
+    盖亚阵营：与机械族区分开的独立敌对势力。
+    hidden=true + requiredCountAtGameStart=0：不参与开局世界生成，
+    只在盖亚事件第一次召唤 Boss 时由代码创建（GaiaFaction.EnsureExists）。
+  -->
+  <FactionDef ParentName="FactionBase">
+    <defName>Botania_Gaia</defName>
+    <label>gaia</label>
+    <description>Root and stone that grew a will of its own. It does not negotiate, and it does not leave.</description>
+    <pawnSingular>gaia creation</pawnSingular>
+    <pawnsPlural>gaia creations</pawnsPlural>
+    <requiredCountAtGameStart>0</requiredCountAtGameStart>
+    <humanlikeFaction>false</humanlikeFaction>
+    <hidden>true</hidden>
+    <permanentEnemy>true</permanentEnemy>
+    <canStageAttacks>false</canStageAttacks>
+    <autoFlee>false</autoFlee>
+    <canUseAvoidGrid>false</canUseAvoidGrid>
+    <techLevel>Industrial</techLevel>
+    <colorSpectrum>
+      <li>(0.35, 0.72, 0.42)</li>
+    </colorSpectrum>
+  </FactionDef>
+
+</Defs>

@@ -301,7 +301,7 @@ namespace Botania
             {
                 cell = parent.InteractionCell;
             }
-            Pawn boss = PawnGenerator.GeneratePawn(bossKind, Faction.OfMechanoids);
+            Pawn boss = PawnGenerator.GeneratePawn(bossKind, GaiaFaction.Get());
             if (boss == null)
             {
                 Log.Error("[Botania] Boss 生成失败");

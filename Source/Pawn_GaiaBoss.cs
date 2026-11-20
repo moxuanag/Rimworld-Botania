@@ -106,10 +106,11 @@ namespace Botania
                 return;
             }
 
-            // 盖亚不能被收服：一旦阵营不是机械族，立刻改回去
-            if (Faction != Faction.OfMechanoids)
+            // 盖亚不能被收服：一旦阵营不是盖亚，立刻改回去
+            Faction gaiaFaction = GaiaFaction.Get();
+            if (gaiaFaction != null && Faction != gaiaFaction)
             {
-                SetFaction(Faction.OfMechanoids);
+                SetFaction(gaiaFaction);
                 if (!revertFactionNotified)
                 {
                     revertFactionNotified = true;
@@ -585,7 +586,7 @@ namespace Botania
                 {
                     continue;
                 }
-                Pawn seed = PawnGenerator.GeneratePawn(kind, Faction.OfMechanoids);
+                Pawn seed = PawnGenerator.GeneratePawn(kind, GaiaFaction.Get());
                 if (seed != null)
                 {
                     GenSpawn.Spawn(seed, cell, map);
