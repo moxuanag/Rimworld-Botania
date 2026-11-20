@@ -40,6 +40,19 @@ Its shell drinks a blow before you feel it land, and when the shell goes it lies
     <weaponTags>
       <li>BotaniaGaiaWand</li>
     </weaponTags>
+    <!-- 自有美术：三向（南/东/北），西向由引擎镜像东向 -->
+    <lifeStages Inherit="False">
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Botania/GaiaWorldSoul</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>4</drawSize>
+          <shadowData>
+            <volume>(1.1, 1.5, 1.1)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
   </PawnKindDef>
 
 </Defs>
