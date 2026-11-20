@@ -53,6 +53,7 @@ namespace Botania
         private Color skillColor = WarnColor;
         private List<Pawn> entangleTargets = new List<Pawn>();
         private List<int> skillCooldownUntil = new List<int> { 0, 0, 0, 0, 0, 0 };
+        private List<int> skillLastCast = new List<int> { 0, 0, 0, 0, 0, 0 };
 
         private bool worldSoulActive;
         private float worldSoulRadius;
@@ -84,6 +85,8 @@ namespace Botania
         private GaiaSkill orderedSkill;
         private IntVec3 orderedCell = IntVec3.Invalid;
         private int orderedExpireTick = -1;
+        private int orderedProgressTick = -1;
+        private float orderedLastDist = -1f;
 
         /// <summary>
         /// 玩家手动指定的「朝某点放技能」：Boss 会先走到该点附近，再施放，
@@ -94,6 +97,8 @@ namespace Botania
             orderedSkill = skill;
             orderedCell = cell;
             orderedExpireTick = Now + 1800;
+            orderedProgressTick = Now;
+            orderedLastDist = Position.DistanceTo(cell);
             if (currentSkill != GaiaSkill.None)
             {
                 EndSkill(GaiaSkill.None, 0);
@@ -457,7 +462,24 @@ namespace Botania
                 {
                     return;
                 }
-                if (orderedCell.DistanceTo(Position) <= EngageRange)
+                float orderDist = orderedCell.DistanceTo(Position);
+                // 卡死保护：每 120 tick 看有没有靠近，没有就取消指令（避免 Boss 原地呆住）
+                if (Now - orderedProgressTick > 120)
+                {
+                    if (orderedLastDist - orderDist < 0.5f)
+                    {
+                        Log.Message("[Botania] 技能指令无法接近落点，已取消");
+                        orderedSkill = GaiaSkill.None;
+                        orderedCell = IntVec3.Invalid;
+                        Messages.Message("Botania.GaiaSkillFail.Generic".Translate(),
+                            new LookTargets(Position, Map), MessageTypeDefOf.RejectInput, false);
+                        return;
+                    }
+                    orderedProgressTick = Now;
+                    orderedLastDist = orderDist;
+                }
+
+                if (orderDist <= EngageRange)
                 {
                     GaiaSkill skillToCast = orderedSkill;
                     IntVec3 cellToCast = orderedCell;
@@ -583,33 +605,68 @@ namespace Botania
                 return;
             }
 
-            // 优先级：魔力射线（阶段 II+，可远程） > 根须缠绕 > 大地之怒
+            // 轮转规则：在所有「已就绪 + 有目标 + 距离允许」的技能里，
+            // 选**最久没有放过**的那个 —— 避免高优先级技能把其它技能饿死。
             if (Now < nextGlobalCastTick)
             {
                 return;
             }
 
-            // 魔力射线是唯一允许远程释放的技能
-            if (phaseIndex >= 1 && Now >= skillCooldownUntil[(int)GaiaSkill.ManaBeam] && TryFindBeamTarget(out IntVec3 beamTarget))
+            bool near = distToTarget <= EngageRange + 0.5f;
+            GaiaSkill chosen = GaiaSkill.None;
+            int oldest = int.MaxValue;
+
+            void Consider(GaiaSkill sk)
             {
-                StartManaBeam(beamTarget);
-                return;
+                int idx = (int)sk;
+                if (Now < skillCooldownUntil[idx])
+                {
+                    return;
+                }
+                if (skillLastCast[idx] < oldest)
+                {
+                    oldest = skillLastCast[idx];
+                    chosen = sk;
+                }
             }
 
-            // 根须缠绕 / 大地之怒必须已经贴近（否则先走过去，别浪费 CD 在远处）
-            if (distToTarget > EngageRange + 0.5f)
+            // 魔力射线：唯一允许远程释放
+            if (phaseIndex >= 1 && TryFindBeamTarget(out _))
             {
-                return;
+                Consider(GaiaSkill.ManaBeam);
+            }
+            if (near)
+            {
+                if (TryFindEntangleTargets(out _))
+                {
+                    Consider(GaiaSkill.Entangle);
+                }
+                if (TryFindConeTarget(out _))
+                {
+                    Consider(GaiaSkill.EarthWrath);
+                }
             }
 
-            if (Now >= skillCooldownUntil[(int)GaiaSkill.Entangle] && TryFindEntangleTargets(out List<Pawn> targets))
+            switch (chosen)
             {
-                StartEntangle(targets);
-                return;
-            }
-            if (Now >= skillCooldownUntil[(int)GaiaSkill.EarthWrath] && TryFindConeTarget(out IntVec3 dir))
-            {
-                StartEarthWrath(dir);
+                case GaiaSkill.ManaBeam:
+                    if (TryFindBeamTarget(out IntVec3 beamTarget))
+                    {
+                        StartManaBeam(beamTarget);
+                    }
+                    break;
+                case GaiaSkill.Entangle:
+                    if (TryFindEntangleTargets(out List<Pawn> targets))
+                    {
+                        StartEntangle(targets);
+                    }
+                    break;
+                case GaiaSkill.EarthWrath:
+                    if (TryFindConeTarget(out IntVec3 dir))
+                    {
+                        StartEarthWrath(dir);
+                    }
+                    break;
             }
         }
 
@@ -851,6 +908,7 @@ namespace Botania
             if (skill != GaiaSkill.None)
             {
                 skillCooldownUntil[(int)skill] = Now + cooldownTicks;
+                skillLastCast[(int)skill] = Now;
                 nextGlobalCastTick = Now + 90;   // 1.5 秒全局施法间隔
             }
             currentSkill = GaiaSkill.None;
@@ -1861,6 +1919,10 @@ namespace Botania
                 if (skillCooldownUntil == null || skillCooldownUntil.Count != 6)
                 {
                     skillCooldownUntil = new List<int> { 0, 0, 0, 0, 0, 0 };
+                }
+                if (skillLastCast == null || skillLastCast.Count != 6)
+                {
+                    skillLastCast = new List<int> { 0, 0, 0, 0, 0, 0 };
                 }
                 if (worldSoulHit == null)
                 {
