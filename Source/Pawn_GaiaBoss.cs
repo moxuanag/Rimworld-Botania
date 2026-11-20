@@ -180,6 +180,16 @@ namespace Botania
             TickSkills();
             TickSwingMote();
 
+            if (Prefs.DevMode && Now % 300 == 0)
+            {
+                string targetName = currentTarget == null ? "无" : currentTarget.LabelShort;
+                float d = currentTarget == null ? -1f : currentTarget.Position.DistanceTo(Position);
+                string jobName = jobs?.curJob?.def?.defName ?? "无";
+                Log.Message($"[Botania][诊断] 阶段={PhaseNumber} 阵营={Faction?.Name ?? "无"} 目标={targetName} 距离={d:F1} " +
+                            $"CanAct={CanAct} 无敌={IsInvulnerable} 瘫痪={IsParalyzed} 技能={currentSkill} 世界之魂={worldSoulActive} " +
+                            $"卡住={pathingStuck} 任务={jobName} 走动={pather?.Moving} 盾={shield:F0}");
+            }
+
             if (!worldSoulActive)
             {
                 TryAdvancePhase();
