@@ -42,6 +42,7 @@ namespace Botania
         private int paralyzedUntil = -1;
         private bool dropsGiven;
         private bool initialized;
+        private bool revertFactionNotified;
 
         // ---------------- 技能状态 ----------------
         private GaiaSkill currentSkill;
@@ -103,6 +104,18 @@ namespace Botania
             if (Dead)
             {
                 return;
+            }
+
+            // 盖亚不能被收服：一旦阵营不是机械族，立刻改回去
+            if (Faction != Faction.OfMechanoids)
+            {
+                SetFaction(Faction.OfMechanoids);
+                if (!revertFactionNotified)
+                {
+                    revertFactionNotified = true;
+                    Messages.Message("Botania.GaiaBossCannotRecruit".Translate(),
+                        new LookTargets(this), MessageTypeDefOf.NeutralEvent, false);
+                }
             }
 
             // 瘫痪结束：护盾瞬满
@@ -318,7 +331,8 @@ namespace Botania
                 {
                     continue;
                 }
-                if (p.Faction != Faction.OfPlayer)
+                // 只打敌对目标（收服/同阵营一律排除）
+                if (p.Faction == null || !p.HostileTo(this))
                 {
                     continue;
                 }
@@ -739,8 +753,7 @@ namespace Botania
             }
 
             // 五个技能：选中 Boss 就能看到（原版技能样式）
-            yield return SkillGizmo(GaiaSkill.EarthWrath, "Botania.GaiaSkillEarthWrath.Label",
-                "EarthWrath", "Botania.GaiaSkillEarthWrath.Desc");
+            yield return EarthWrathGizmo();
             yield return SkillGizmo(GaiaSkill.Entangle, "Botania.GaiaSkillEntangle.Label",
                 "Entangle", "Botania.GaiaSkillEntangle.Desc");
             yield return SkillGizmo(GaiaSkill.ManaBeam, "Botania.GaiaSkillManaBeam.Label",
@@ -777,6 +790,48 @@ namespace Botania
                 icon = TexCommand.GatherSpotActive,
                 action = () => Log.Message("[Botania] " + DebugStatus())
             };
+        }
+
+        /// <summary>大地之怒：点按钮后再点地图选方向（扇形朝该点展开）。</summary>
+        private Gizmo EarthWrathGizmo()
+        {
+            int remain = Mathf.Max(0, skillCooldownUntil[(int)GaiaSkill.EarthWrath] - Now);
+            Command_Target cmd = new Command_Target();
+            cmd.defaultLabel = "Botania.GaiaSkillEarthWrath.Label".Translate();
+            string desc = "Botania.GaiaSkillEarthWrath.Desc".Translate();
+            if (CurrentSkill == GaiaSkill.EarthWrath)
+            {
+                desc += "\n\n" + "Botania.GaiaSkillCommon.Casting".Translate();
+            }
+            else if (remain > 0)
+            {
+                desc += "\n\n" + "Botania.GaiaSkillCommon.Cooldown".Translate(remain.ToStringTicksToPeriod());
+            }
+            cmd.defaultDesc = desc;
+            cmd.icon = SkillIcon("EarthWrath");
+            cmd.targetingParams = new TargetingParameters
+            {
+                canTargetLocations = true,
+                canTargetPawns = false,
+                canTargetBuildings = false,
+                canTargetAnimals = false,
+                canTargetMechs = false,
+                canTargetSelf = false,
+                validator = ti => ti.Cell.DistanceTo(Position) <= GaiaSkills.EarthWrathRadius + 6f
+            };
+            cmd.action = ti =>
+            {
+                if (Prefs.DevMode)
+                {
+                    DebugForceEarthWrathAt(ti.Cell);
+                }
+                else
+                {
+                    Messages.Message("Botania.GaiaSkillCommon.BossOnly".Translate(),
+                        MessageTypeDefOf.RejectInput, false);
+                }
+            };
+            return cmd;
         }
 
         private Gizmo SkillGizmo(GaiaSkill skill, string labelKey, string iconName, string descKey)
@@ -848,6 +903,18 @@ namespace Botania
                 default:
                     return false;
             }
+        }
+
+        /// <summary>开发者：朝指定格子施放大地之怒。</summary>
+        public bool DebugForceEarthWrathAt(IntVec3 target)
+        {
+            if (Dead || Map == null)
+            {
+                return false;
+            }
+            EndSkill(GaiaSkill.None, 0);
+            StartEarthWrath(target);
+            return true;
         }
 
         public void DebugClearCooldowns()

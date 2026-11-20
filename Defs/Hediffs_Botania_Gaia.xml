@@ -31,12 +31,8 @@
     <stages>
       <li>
         <label>rooted</label>
-        <capMods>
-          <li>
-            <capacity>Moving</capacity>
-            <setMax>0</setMax>
-          </li>
-        </capMods>
+        <!-- 不用 capMods 把 Moving 压到 0：那会让小人直接进入倒地（incapacitated），
+             定身改由 HediffComp 每 tick 停步实现 -->
       </li>
     </stages>
     <comps>

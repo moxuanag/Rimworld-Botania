@@ -40,6 +40,9 @@ namespace Botania
             {
                 return;
             }
+            // 定身：每 tick 停住脚步（不能把 Moving 压 0，否则小人会倒地）
+            pawn.pather?.StopDead();
+
             if (Find.TickManager.TicksGame < nextTick)
             {
                 return;

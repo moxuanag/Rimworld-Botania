@@ -196,4 +196,6 @@
   <Botania.GaiaSkillCommon.Casting>Casting</Botania.GaiaSkillCommon.Casting>
   <Botania.GaiaSkillCommon.Cooldown>On cooldown: {0}</Botania.GaiaSkillCommon.Cooldown>
   <Botania.GaiaSkillCommon.BossOnly>Gaia casts its own skills</Botania.GaiaSkillCommon.BossOnly>
+  <Botania.GaiaSkillSummon.Label>Summon Gaia seeds</Botania.GaiaSkillSummon.Label>
+  <Botania.GaiaBossCannotRecruit>Gaia cannot be controlled; it turns hostile again</Botania.GaiaBossCannotRecruit>
 </LanguageData>
