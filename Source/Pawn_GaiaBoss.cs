@@ -54,6 +54,8 @@ namespace Botania
         private List<Pawn> entangleTargets = new List<Pawn>();
         private List<int> skillCooldownUntil = new List<int> { 0, 0, 0, 0, 0, 0 };
         private List<int> skillLastCast = new List<int> { 0, 0, 0, 0, 0, 0 };
+        private GaiaSkill lastCastSkill;
+        private int castsSinceRoot;
 
         private bool worldSoulActive;
         private float worldSoulRadius;
@@ -605,46 +607,52 @@ namespace Botania
                 return;
             }
 
-            // 轮转规则：在所有「已就绪 + 有目标 + 距离允许」的技能里，
-            // 选**最久没有放过**的那个 —— 避免高优先级技能把其它技能饿死。
+            // 随机机制（方案 A + 防呆）：
+            //   1) 开场 / 距上次根须已过 3 次 -> 放根须缠绕（保证控制技不消失）
+            //   2) 其余时候在「大地之怒 / 魔力射线」之间 70% : 30% 抽
+            //   3) 不连续放同一个技能（除非另一个不可用）
             if (Now < nextGlobalCastTick)
             {
                 return;
             }
 
             bool near = distToTarget <= EngageRange + 0.5f;
+            bool rootReady = near
+                             && Now >= skillCooldownUntil[(int)GaiaSkill.Entangle]
+                             && TryFindEntangleTargets(out _);
+            bool earthReady = near
+                              && Now >= skillCooldownUntil[(int)GaiaSkill.EarthWrath]
+                              && TryFindConeTarget(out _);
+            bool beamReady = phaseIndex >= 1
+                             && Now >= skillCooldownUntil[(int)GaiaSkill.ManaBeam]
+                             && TryFindBeamTarget(out _);
+
             GaiaSkill chosen = GaiaSkill.None;
-            int oldest = int.MaxValue;
 
-            void Consider(GaiaSkill sk)
+            if (rootReady && (lastCastSkill == GaiaSkill.None || castsSinceRoot >= 3))
             {
-                int idx = (int)sk;
-                if (Now < skillCooldownUntil[idx])
-                {
-                    return;
-                }
-                if (skillLastCast[idx] < oldest)
-                {
-                    oldest = skillLastCast[idx];
-                    chosen = sk;
-                }
+                chosen = GaiaSkill.Entangle;
             }
-
-            // 魔力射线：唯一允许远程释放
-            if (phaseIndex >= 1 && TryFindBeamTarget(out _))
+            else if (earthReady && beamReady)
             {
-                Consider(GaiaSkill.ManaBeam);
+                GaiaSkill pick = Rand.Chance(0.7f) ? GaiaSkill.EarthWrath : GaiaSkill.ManaBeam;
+                if (pick == lastCastSkill)
+                {
+                    pick = pick == GaiaSkill.EarthWrath ? GaiaSkill.ManaBeam : GaiaSkill.EarthWrath;
+                }
+                chosen = pick;
             }
-            if (near)
+            else if (earthReady)
             {
-                if (TryFindEntangleTargets(out _))
-                {
-                    Consider(GaiaSkill.Entangle);
-                }
-                if (TryFindConeTarget(out _))
-                {
-                    Consider(GaiaSkill.EarthWrath);
-                }
+                chosen = GaiaSkill.EarthWrath;
+            }
+            else if (beamReady)
+            {
+                chosen = GaiaSkill.ManaBeam;
+            }
+            else if (rootReady)
+            {
+                chosen = GaiaSkill.Entangle;
             }
 
             switch (chosen)
@@ -909,6 +917,15 @@ namespace Botania
             {
                 skillCooldownUntil[(int)skill] = Now + cooldownTicks;
                 skillLastCast[(int)skill] = Now;
+                lastCastSkill = skill;
+                if (skill == GaiaSkill.Entangle)
+                {
+                    castsSinceRoot = 0;
+                }
+                else
+                {
+                    castsSinceRoot++;
+                }
                 nextGlobalCastTick = Now + 90;   // 1.5 秒全局施法间隔
             }
             currentSkill = GaiaSkill.None;
@@ -1914,6 +1931,8 @@ namespace Botania
             Scribe_Values.Look(ref seedsPhase3Done, "gaiaSeeds3", false);
             Scribe_Collections.Look(ref worldSoulHit, "gaiaWorldSoulHit", LookMode.Reference);
             Scribe_Collections.Look(ref skillCooldownUntil, "gaiaSkillCdList", LookMode.Value);
+            Scribe_Values.Look(ref lastCastSkill, "gaiaLastCastSkill", GaiaSkill.None);
+            Scribe_Values.Look(ref castsSinceRoot, "gaiaCastsSinceRoot", 0);
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 if (skillCooldownUntil == null || skillCooldownUntil.Count != 6)
