@@ -75,6 +75,9 @@ namespace Botania
         /// <summary>走近到这个距离后站定放技能（JobGiver 与技能门控共用）。</summary>
         public const float EngageRange = 4.5f;
 
+        /// <summary>仇恨半径：太远的目标不追（否则会隔着半张地图追一只小动物）。</summary>
+        private const float MaxAggroRange = 60f;
+
         /// <summary>当前 AI 目标（供 JobGiver_GaiaCombat 读取）。</summary>
         public Thing AITarget => currentTarget;
 
@@ -346,6 +349,35 @@ namespace Botania
             SyncShieldHediff();
         }
 
+        private static readonly System.Reflection.FieldInfo StunTicksField =
+            typeof(StunHandler).GetField("stunTicksLeft",
+                System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+
+        /// <summary>
+        /// 清除当前眩晕。StunHandler 没有公开的「解除眩晕」方法，
+        /// 所以直接把它内部的剩余眩晕 tick 置 0。
+        /// </summary>
+        private void ClearStun()
+        {
+            if (stances == null || stances.stunner == null)
+            {
+                return;
+            }
+            if (StunTicksField != null)
+            {
+                try
+                {
+                    StunTicksField.SetValue(stances.stunner, 0);
+                    return;
+                }
+                catch (System.Exception)
+                {
+                    // 落到下面的兜底
+                }
+            }
+            stances.stunner.StunFor(0, this, false, false, false);
+        }
+
         private void StartParalysis()
         {
             paralyzedUntil = Now + 1200;
@@ -380,6 +412,8 @@ namespace Botania
 
             phaseIndex++;
             invulnerableUntil = Now + 300;
+            // 进入下一阶段：先清掉当前所有眩晕/瘫痪状态，再给 5 秒锁血眩晕
+            ClearStun();
             paralyzedUntil = -1;
             shield = ShieldMax;
             SyncShieldHediff();
@@ -546,7 +580,16 @@ namespace Botania
                 {
                     continue;
                 }
+                // 跳过已倒地的小人：人已经废了就换下一个目标
+                if (th is Pawn pawnTarget && pawnTarget.Downed)
+                {
+                    continue;
+                }
                 float d = th.Position.DistanceTo(Position);
+                if (d > MaxAggroRange)
+                {
+                    continue;
+                }
                 if (d < bestDist)
                 {
                     bestDist = d;
@@ -826,7 +869,12 @@ namespace Botania
         private bool TryFindBeamTarget(out IntVec3 target)
         {
             target = IntVec3.Invalid;
-            if (currentTarget == null)
+            if (currentTarget == null || currentTarget.Destroyed || !currentTarget.Spawned)
+            {
+                return false;
+            }
+            // 射程校验：之前没有这一步，导致隔着 100 多格也在放射线
+            if (currentTarget.Position.DistanceTo(Position) > GaiaSkills.ManaBeamRange)
             {
                 return false;
             }
