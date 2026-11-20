@@ -65,6 +65,9 @@ namespace Botania
         private Thing currentTarget;
         private int nextTargetScanTick = -1;
         private int nextPathTick = -1;
+        private int nextStuckCheckTick = -1;
+        private IntVec3 lastCheckPos = IntVec3.Invalid;
+        private bool pathingStuck;
 
         /// <summary>走近到这个距离后站定放技能。</summary>
         private const float EngageRange = 4.5f;
@@ -321,6 +324,7 @@ namespace Botania
                 nextTargetScanTick = Now + 30;
                 currentTarget = FindNearestAttackTarget();
             }
+            CheckStuck();
 
             if (currentSkill != GaiaSkill.None || worldSoulActive || !CanAct)
             {
@@ -380,9 +384,19 @@ namespace Botania
             return best;
         }
 
+        /// <summary>
+        /// 直接控制寻路（不再下发 Job）：
+        /// 动物/生物的思考树会不停下「游荡」任务，抢 pather 控制权，
+        /// 导致 Boss 在某个区域来回走却不追击。这里每次把它拽回来。
+        /// </summary>
         private void IssueMoveToward(Thing target)
         {
             Map map = Map;
+            if (pather == null)
+            {
+                return;
+            }
+
             IntVec3 dest = target.Position;
             if (!dest.Walkable(map) || dest.Fogged(map))
             {
@@ -393,17 +407,32 @@ namespace Botania
             {
                 return;
             }
-            if (jobs == null)
+
+            // 打断游荡类任务，避免和我们抢移动
+            if (jobs != null && jobs.curJob != null)
+            {
+                JobDef cur = jobs.curJob.def;
+                if (cur == JobDefOf.GotoWander || cur == JobDefOf.Wait_Wander)
+                {
+                    jobs.EndCurrentJob(JobCondition.InterruptForced);
+                }
+            }
+
+            pather.StartPath(dest, PathEndMode.OnCell);
+        }
+
+        /// <summary>卡住检测：连续 120 tick 原地不动但想追人时，允许在技能射程内远程出手。</summary>
+        private void CheckStuck()
+        {
+            if (Now < nextStuckCheckTick)
             {
                 return;
             }
-            // 已经在走就不重复下任务
-            if (jobs.curJob != null && jobs.curJob.def == JobDefOf.Goto)
-            {
-                return;
-            }
-            Job job = JobMaker.MakeJob(JobDefOf.Goto, dest);
-            jobs.TryTakeOrderedJob(job, JobTag.Misc);
+            nextStuckCheckTick = Now + 120;
+            bool moved = lastCheckPos.IsValid && !Position.InHorDistOf(lastCheckPos, 0.6f);
+            pathingStuck = !moved && currentTarget != null
+                           && currentTarget.Position.DistanceTo(Position) > EngageRange;
+            lastCheckPos = Position;
         }
 
         private void TryPickSkill()
@@ -418,7 +447,9 @@ namespace Botania
             {
                 return;
             }
-            if (currentTarget.Position.DistanceTo(Position) > EngageRange + 1.5f)
+            float distToTarget = currentTarget.Position.DistanceTo(Position);
+            // 正常：走近 4 格左右才出手；走不过去（卡住）时允许在技能射程内远程打
+            if (!pathingStuck && distToTarget > EngageRange + 1.5f)
             {
                 return;
             }

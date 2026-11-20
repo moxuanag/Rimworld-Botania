@@ -39,7 +39,9 @@ Its shell drinks a blow before you feel it land, and when the shell goes it lies
       <body>Human</body>
       <baseBodySize>4</baseBodySize>
       <baseHealthScale>52</baseHealthScale>
-      <intelligence>Animal</intelligence>
+      <!-- ToolUser 而不是 Animal：RaceProperties.Animal = !ToolUser && IsFlesh，
+           用 Animal 会被当成野生动物（出现驯服/狩猎按钮） -->
+      <intelligence>ToolUser</intelligence>
       <fleshType>Normal</fleshType>
       <foodType>None</foodType>
       <needsRest>false</needsRest>
