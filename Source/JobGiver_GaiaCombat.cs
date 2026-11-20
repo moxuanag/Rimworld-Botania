@@ -29,6 +29,25 @@ namespace Botania
                 return JobMaker.MakeJob(JobDefOf.Wait, 20);
             }
 
+            // 玩家指定了技能落点：先走到落点附近，再让 Tick 施放
+            if (boss.TryGetOrderedMoveCell(out IntVec3 orderCell))
+            {
+                if (orderCell.DistanceTo(pawn.Position) <= Pawn_GaiaBoss.EngageRange)
+                {
+                    return JobMaker.MakeJob(JobDefOf.Wait, 20);
+                }
+                IntVec3 dest0 = orderCell;
+                if (!dest0.Walkable(pawn.Map) || dest0.Fogged(pawn.Map))
+                {
+                    dest0 = CellFinder.RandomClosewalkCellNear(orderCell, pawn.Map, 2,
+                        c => c.Walkable(pawn.Map) && !c.Fogged(pawn.Map));
+                }
+                if (dest0.IsValid)
+                {
+                    return JobMaker.MakeJob(JobDefOf.Goto, dest0);
+                }
+            }
+
             Thing target = boss.AITarget;
             if (target == null || target.Destroyed || !target.Spawned)
             {

@@ -78,6 +78,43 @@ namespace Botania
         /// <summary>是否正在施法/蓄力（此时 AI 应站定不动）。</summary>
         public bool IsBusyCasting => worldSoulActive || currentSkill != GaiaSkill.None;
 
+        private GaiaSkill orderedSkill;
+        private IntVec3 orderedCell = IntVec3.Invalid;
+        private int orderedExpireTick = -1;
+
+        /// <summary>
+        /// 玩家手动指定的「朝某点放技能」：Boss 会先走到该点附近，再施放，
+        /// 而不是站在原地对着 10 格外空放。
+        /// </summary>
+        public void OrderSkillAt(GaiaSkill skill, IntVec3 cell)
+        {
+            orderedSkill = skill;
+            orderedCell = cell;
+            orderedExpireTick = Now + 1800;
+            if (currentSkill != GaiaSkill.None)
+            {
+                EndSkill(GaiaSkill.None, 0);
+            }
+        }
+
+        /// <summary>JobGiver 用：是否有待执行的移动指令（走到指令点）。</summary>
+        public bool TryGetOrderedMoveCell(out IntVec3 cell)
+        {
+            cell = IntVec3.Invalid;
+            if (orderedSkill == GaiaSkill.None || !orderedCell.IsValid)
+            {
+                return false;
+            }
+            if (Now > orderedExpireTick)
+            {
+                orderedSkill = GaiaSkill.None;
+                orderedCell = IntVec3.Invalid;
+                return false;
+            }
+            cell = orderedCell;
+            return true;
+        }
+
         /// <summary>目标不可达时由 JobGiver 通知，让技能可以按射程远程出手。</summary>
         public void NotifyPathBlocked()
         {
@@ -348,6 +385,30 @@ namespace Botania
             }
             CheckStuck();
 
+            // 玩家手动指定的技能：必须先走到目标点附近再放，避免空放
+            if (orderedSkill != GaiaSkill.None)
+            {
+                if (Now > orderedExpireTick)
+                {
+                    orderedSkill = GaiaSkill.None;
+                    orderedCell = IntVec3.Invalid;
+                    return;
+                }
+                if (!CanAct || currentSkill != GaiaSkill.None || worldSoulActive)
+                {
+                    return;
+                }
+                if (orderedCell.DistanceTo(Position) <= EngageRange)
+                {
+                    GaiaSkill skillToCast = orderedSkill;
+                    IntVec3 cellToCast = orderedCell;
+                    orderedSkill = GaiaSkill.None;
+                    orderedCell = IntVec3.Invalid;
+                    DebugForceSkillAt(skillToCast, cellToCast);
+                }
+                return;
+            }
+
             if (currentSkill != GaiaSkill.None || worldSoulActive || !CanAct)
             {
                 return;
@@ -368,61 +429,29 @@ namespace Botania
             nextPathTick = Now + 30;
         }
 
-        /// <summary>用原版仇恨缓存找最近的敌对目标（含炮塔、可攻击建筑）。</summary>
+        /// <summary>
+        /// 找最近的敌对目标：直接扫 ThingRequestGroup.AttackTarget
+        /// （包含小人、动物、炮塔、机械体等一切可攻击目标）。
+        /// 之前只用 attackTargetsCache，炮塔这类建筑没被算进去。
+        /// </summary>
         private Thing FindNearestAttackTarget()
         {
-            if (Map == null || Faction == null)
+            Map map = Map;
+            if (map == null)
             {
                 return null;
             }
-            HashSet<IAttackTarget> targets = Map.attackTargetsCache.TargetsHostileToFaction(Faction);
-            if (targets == null)
-            {
-                return null;
-            }
+            List<Thing> candidates = map.listerThings.ThingsInGroup(ThingRequestGroup.AttackTarget);
             Thing best = null;
             float bestDist = float.MaxValue;
-
-            // 兜底：阵营异常/缓存为空时，直接扫玩家阵营，避免 Boss 完全没目标
-            if (targets == null || targets.Count == 0 || Faction == null)
+            for (int i = 0; i < candidates.Count; i++)
             {
-                IReadOnlyList<Pawn> allPawns = Map.mapPawns.AllPawnsSpawned;
-                for (int i = 0; i < allPawns.Count; i++)
-                {
-                    Pawn pp = allPawns[i];
-                    if (pp == null || pp == this || pp.Dead || pp.Downed || !pp.Spawned)
-                    {
-                        continue;
-                    }
-                    if (Faction != null && !pp.HostileTo(Faction))
-                    {
-                        continue;
-                    }
-                    if (Faction == null && pp.Faction != Faction.OfPlayer)
-                    {
-                        continue;
-                    }
-                    float dd = pp.Position.DistanceTo(Position);
-                    if (dd < bestDist)
-                    {
-                        bestDist = dd;
-                        best = pp;
-                    }
-                }
-                if (best != null)
-                {
-                    return best;
-                }
-            }
-
-            foreach (IAttackTarget at in targets)
-            {
-                Thing th = at?.Thing;
+                Thing th = candidates[i];
                 if (th == null || th == this || th.Destroyed || !th.Spawned)
                 {
                     continue;
                 }
-                if (!th.HostileTo(Faction))
+                if (!IsEnemyOfBoss(th))
                 {
                     continue;
                 }
@@ -434,6 +463,24 @@ namespace Botania
                 }
             }
             return best;
+        }
+
+        /// <summary>是否与 Boss 敌对（阵营为空时按「玩家阵营的敌人」兜底）。</summary>
+        private bool IsEnemyOfBoss(Thing th)
+        {
+            if (th == null || th.Faction == null)
+            {
+                return false;
+            }
+            if (Faction != null)
+            {
+                return th.HostileTo(Faction);
+            }
+            if (Faction.OfPlayer == null)
+            {
+                return false;
+            }
+            return th.HostileTo(Faction.OfPlayer);
         }
 
         /// <summary>卡住检测：连续 120 tick 原地不动但想追人时，允许在技能射程内远程出手。</summary>
@@ -452,7 +499,7 @@ namespace Botania
 
         private void TryPickSkill()
         {
-            if (!CanAct)
+            if (!CanAct || orderedSkill != GaiaSkill.None)
             {
                 return;
             }
@@ -1107,7 +1154,7 @@ namespace Botania
             {
                 if (Prefs.DevMode)
                 {
-                    DebugForceEarthWrathAt(ti.Cell);
+                    OrderSkillAt(GaiaSkill.EarthWrath, ti.Cell);
                 }
                 else
                 {
@@ -1149,7 +1196,8 @@ namespace Botania
             {
                 if (Prefs.DevMode && DebugSettings.godMode)
                 {
-                    DebugForceSkillAt(skill, ti.Cell);
+                    // 先走过去再放，避免站在原地朝远处空放
+                    OrderSkillAt(skill, ti.Cell);
                 }
             };
             return cmd;
@@ -1288,6 +1336,8 @@ namespace Botania
 
         public void DebugCancelSkill()
         {
+            orderedSkill = GaiaSkill.None;
+            orderedCell = IntVec3.Invalid;
             EndSkill(GaiaSkill.None, 0);
             worldSoulActive = false;
             skillCells = new List<IntVec3>();
