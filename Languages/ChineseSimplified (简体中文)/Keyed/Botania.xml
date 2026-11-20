@@ -199,4 +199,6 @@
   <Botania.GaiaSkillSummon.Label>召唤盖亚之种</Botania.GaiaSkillSummon.Label>
   <Botania.GaiaBossCannotRecruit>盖亚·世界之魂不受任何人控制，它重新变回了敌对</Botania.GaiaBossCannotRecruit>
   <Botania.GaiaRootedBracket>剩余 {0} 秒</Botania.GaiaRootedBracket>
+  <Botania.GaiaWorldSoulStart.Text>20 秒后它会一次性席卷整片区域。\n\n红色格子会被打中；绿色格子被墙挡住，完全安全。\n蓄力期间补的墙也会立刻生效——墙后面的格子会变绿。</Botania.GaiaWorldSoulStart.Text>
+  <Botania.GaiaWorldSoulBurst>世界之魂爆发</Botania.GaiaWorldSoulBurst>
 </LanguageData>

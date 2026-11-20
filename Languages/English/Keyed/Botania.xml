@@ -199,4 +199,6 @@
   <Botania.GaiaSkillSummon.Label>Summon Gaia seeds</Botania.GaiaSkillSummon.Label>
   <Botania.GaiaBossCannotRecruit>Gaia cannot be controlled; it turns hostile again</Botania.GaiaBossCannotRecruit>
   <Botania.GaiaRootedBracket>{0}s left</Botania.GaiaRootedBracket>
+  <Botania.GaiaWorldSoulStart.Text>In 20 seconds it will sweep the whole area in a single burst.\n\nRed cells will be hit; green cells are blocked by walls and completely safe.\nWalls built during the charge take effect immediately.</Botania.GaiaWorldSoulStart.Text>
+  <Botania.GaiaWorldSoulBurst>The world-soul bursts</Botania.GaiaWorldSoulBurst>
 </LanguageData>
