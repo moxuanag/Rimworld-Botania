@@ -382,6 +382,39 @@ namespace Botania
             }
             Thing best = null;
             float bestDist = float.MaxValue;
+
+            // 兜底：阵营异常/缓存为空时，直接扫玩家阵营，避免 Boss 完全没目标
+            if (targets == null || targets.Count == 0 || Faction == null)
+            {
+                IReadOnlyList<Pawn> allPawns = Map.mapPawns.AllPawnsSpawned;
+                for (int i = 0; i < allPawns.Count; i++)
+                {
+                    Pawn pp = allPawns[i];
+                    if (pp == null || pp == this || pp.Dead || pp.Downed || !pp.Spawned)
+                    {
+                        continue;
+                    }
+                    if (Faction != null && !pp.HostileTo(Faction))
+                    {
+                        continue;
+                    }
+                    if (Faction == null && pp.Faction != Faction.OfPlayer)
+                    {
+                        continue;
+                    }
+                    float dd = pp.Position.DistanceTo(Position);
+                    if (dd < bestDist)
+                    {
+                        bestDist = dd;
+                        best = pp;
+                    }
+                }
+                if (best != null)
+                {
+                    return best;
+                }
+            }
+
             foreach (IAttackTarget at in targets)
             {
                 Thing th = at?.Thing;
@@ -586,6 +619,7 @@ namespace Botania
         private void StartEarthWrath(IntVec3 dir)
         {
             currentSkill = GaiaSkill.EarthWrath;
+            Log.Message("[Botania] 施法：大地之怒");
             skillStageStart = Now;
             skillWarnUntil = Now + GaiaSkills.EarthWrathWarn;
             skillCells = GaiaSkills.ConeCells(this, dir, GaiaSkills.EarthWrathRadius, GaiaSkills.EarthWrathHalfAngle);
@@ -596,6 +630,7 @@ namespace Botania
         private void StartEntangle(List<Pawn> targets)
         {
             currentSkill = GaiaSkill.Entangle;
+            Log.Message("[Botania] 施法：根须缠绕");
             skillStageStart = Now;
             skillWarnUntil = Now + GaiaSkills.EntangleWarn;
             entangleTargets = targets;
@@ -611,6 +646,7 @@ namespace Botania
         private void StartManaBeam(IntVec3 target)
         {
             currentSkill = GaiaSkill.ManaBeam;
+            Log.Message("[Botania] 施法：魔力射线");
             skillStageStart = Now;
             skillWarnUntil = Now + GaiaSkills.ManaBeamCharge;
             skillCells = GaiaSkills.BeamCells(this, target, GaiaSkills.ManaBeamRange);
