@@ -184,4 +184,16 @@
   <Botania.GaiaWorldSoulThree>世界之魂 3 秒后发动！</Botania.GaiaWorldSoulThree>
   <Botania.GaiaWorldSoulEnd>世界之魂已经散去</Botania.GaiaWorldSoulEnd>
   <Botania.GaiaBossInspect.WorldSoul>世界之魂蓄力中：剩余 {0} 秒（无敌）</Botania.GaiaBossInspect.WorldSoul>
+  <Botania.GaiaSkillEarthWrath.Label>大地之怒</Botania.GaiaSkillEarthWrath.Label>
+  <Botania.GaiaSkillEarthWrath.Desc>正面 60° 扇形（半径 6），2 秒预警后造成 60 钝伤并击退 3 格。冷却 4 秒。</Botania.GaiaSkillEarthWrath.Desc>
+  <Botania.GaiaSkillEntangle.Label>根须缠绕</Botania.GaiaSkillEntangle.Label>
+  <Botania.GaiaSkillEntangle.Desc>钉住 1~2 个目标 3 秒，期间每 2 秒受 2 点自然伤害（优先腿部）。冷却 6 秒。</Botania.GaiaSkillEntangle.Desc>
+  <Botania.GaiaSkillManaBeam.Label>魔力射线</Botania.GaiaSkillManaBeam.Label>
+  <Botania.GaiaSkillManaBeam.Desc>锁定最远目标，蓄力 5 秒后沿直线造成 40 热能伤害并点燃。冷却 5 秒。</Botania.GaiaSkillManaBeam.Desc>
+  <Botania.GaiaSkillSummon.Desc>召唤 3 只盖亚之种（原版炽蚕占位）。阶段 II / III 各一次。</Botania.GaiaSkillSummon.Desc>
+  <Botania.GaiaWorldSoulStart.Label>世界之魂</Botania.GaiaWorldSoulStart.Label>
+  <Botania.GaiaWorldSoulStart.Desc>蓄力 20 秒（完全无敌），随后红色冲击波向外扩散 50 格。墙后完全免伤。一场战斗仅一次。</Botania.GaiaWorldSoulStart.Desc>
+  <Botania.GaiaSkillCommon.Casting>正在施放</Botania.GaiaSkillCommon.Casting>
+  <Botania.GaiaSkillCommon.Cooldown>冷却中：{0}</Botania.GaiaSkillCommon.Cooldown>
+  <Botania.GaiaSkillCommon.BossOnly>盖亚的技能由它自己施放</Botania.GaiaSkillCommon.BossOnly>
 </LanguageData>

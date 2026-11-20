@@ -184,4 +184,16 @@
   <Botania.GaiaWorldSoulThree>The world-soul breaks loose in 3 seconds!</Botania.GaiaWorldSoulThree>
   <Botania.GaiaWorldSoulEnd>The world-soul has passed</Botania.GaiaWorldSoulEnd>
   <Botania.GaiaBossInspect.WorldSoul>Gathering the world-soul: {0}s left (invulnerable)</Botania.GaiaBossInspect.WorldSoul>
+  <Botania.GaiaSkillEarthWrath.Label>Earth wrath</Botania.GaiaSkillEarthWrath.Label>
+  <Botania.GaiaSkillEarthWrath.Desc>A 60-degree cone (radius 6) in front. After a 2-second warning it deals 60 blunt damage and knocks targets back 3 cells. 4s cooldown.</Botania.GaiaSkillEarthWrath.Desc>
+  <Botania.GaiaSkillEntangle.Label>Entangling roots</Botania.GaiaSkillEntangle.Label>
+  <Botania.GaiaSkillEntangle.Desc>Pins 1-2 targets for 3 seconds, dealing 2 natural damage every 2 seconds (legs first). 6s cooldown.</Botania.GaiaSkillEntangle.Desc>
+  <Botania.GaiaSkillManaBeam.Label>Mana beam</Botania.GaiaSkillManaBeam.Label>
+  <Botania.GaiaSkillManaBeam.Desc>Locks the farthest target, charges for 5 seconds, then deals 40 heat damage and ignites everything along the line. 5s cooldown.</Botania.GaiaSkillManaBeam.Desc>
+  <Botania.GaiaSkillSummon.Desc>Summons 3 Gaia seeds (war urchins for now). Once in phase II and once in phase III.</Botania.GaiaSkillSummon.Desc>
+  <Botania.GaiaWorldSoulStart.Label>World-soul</Botania.GaiaWorldSoulStart.Label>
+  <Botania.GaiaWorldSoulStart.Desc>Charges for 20 seconds (fully invulnerable), then a red shockwave expands outward for 50 cells. Walls block it completely. Once per fight.</Botania.GaiaWorldSoulStart.Desc>
+  <Botania.GaiaSkillCommon.Casting>Casting</Botania.GaiaSkillCommon.Casting>
+  <Botania.GaiaSkillCommon.Cooldown>On cooldown: {0}</Botania.GaiaSkillCommon.Cooldown>
+  <Botania.GaiaSkillCommon.BossOnly>Gaia casts its own skills</Botania.GaiaSkillCommon.BossOnly>
 </LanguageData>

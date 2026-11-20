@@ -723,6 +723,94 @@ namespace Botania
             return baseText.NullOrEmpty() ? phase + "\n" + extra : baseText + "\n" + phase + "\n" + extra;
         }
 
+        // ---------------- Gizmo（像原版小人技能一样挂在 Boss 身上） ----------------
+
+        private static Texture2D SkillIcon(string name)
+        {
+            Texture2D tex = ContentFinder<Texture2D>.Get("UI/Gaia/" + name, false);
+            return tex ?? BaseContent.BadTex;
+        }
+
+        public override IEnumerable<Gizmo> GetGizmos()
+        {
+            foreach (Gizmo g in base.GetGizmos())
+            {
+                yield return g;
+            }
+
+            // 五个技能：选中 Boss 就能看到（原版技能样式）
+            yield return SkillGizmo(GaiaSkill.EarthWrath, "Botania.GaiaSkillEarthWrath.Label",
+                "EarthWrath", "Botania.GaiaSkillEarthWrath.Desc");
+            yield return SkillGizmo(GaiaSkill.Entangle, "Botania.GaiaSkillEntangle.Label",
+                "Entangle", "Botania.GaiaSkillEntangle.Desc");
+            yield return SkillGizmo(GaiaSkill.ManaBeam, "Botania.GaiaSkillManaBeam.Label",
+                "ManaBeam", "Botania.GaiaSkillManaBeam.Desc");
+            yield return SkillGizmo(GaiaSkill.SummonSeeds, "Botania.GaiaSkillSummon.Label",
+                "SummonSeeds", "Botania.GaiaSkillSummon.Desc");
+            yield return SkillGizmo(GaiaSkill.WorldSoul, "Botania.GaiaWorldSoulStart.Label",
+                "WorldSoul", "Botania.GaiaWorldSoulStart.Desc");
+
+            if (!Prefs.DevMode)
+            {
+                yield break;
+            }
+
+            // 开发工具：同样挂在 Boss 身上（仅开发者模式可见）
+            yield return new Command_Action
+            {
+                defaultLabel = "[DEV] 清除冷却",
+                defaultDesc = "把所有技能冷却清零。",
+                icon = TexCommand.ClearPrioritizedWork,
+                action = DebugClearCooldowns
+            };
+            yield return new Command_Action
+            {
+                defaultLabel = "[DEV] 打断当前技能",
+                defaultDesc = "取消正在进行的预警或蓄力。",
+                icon = TexCommand.ClearPrioritizedWork,
+                action = DebugCancelSkill
+            };
+            yield return new Command_Action
+            {
+                defaultLabel = "[DEV] 查看技能状态",
+                defaultDesc = "把阶段、冷却、当前技能打印到日志。",
+                icon = TexCommand.GatherSpotActive,
+                action = () => Log.Message("[Botania] " + DebugStatus())
+            };
+        }
+
+        private Gizmo SkillGizmo(GaiaSkill skill, string labelKey, string iconName, string descKey)
+        {
+            int remain = Mathf.Max(0, skillCooldownUntil[(int)skill] - Now);
+            Command_Action cmd = new Command_Action();
+            cmd.defaultLabel = labelKey.Translate();
+            string desc = descKey.Translate();
+            if (CurrentSkill == skill)
+            {
+                desc += "\n\n" + "Botania.GaiaSkillCommon.Casting".Translate();
+            }
+            else if (remain > 0)
+            {
+                desc += "\n\n" + "Botania.GaiaSkillCommon.Cooldown".Translate(remain.ToStringTicksToPeriod());
+            }
+            cmd.defaultDesc = desc;
+            cmd.icon = SkillIcon(iconName);
+            // 平常由 Boss 自己施放；玩家点按钮只在开发者模式下真的施放
+            cmd.action = () =>
+            {
+                if (Prefs.DevMode)
+                {
+                    DebugForceSkill(skill);
+                }
+                else
+                {
+                    Messages.Message("Botania.GaiaSkillCommon.BossOnly".Translate(),
+                        MessageTypeDefOf.RejectInput, false);
+                }
+            };
+            return cmd;
+        }
+
         // ---------------- 开发者工具接口 ----------------
 
         public bool DebugForceSkill(GaiaSkill skill)
