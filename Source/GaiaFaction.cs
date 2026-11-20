@@ -44,13 +44,27 @@ namespace Botania
                 return Faction.OfMechanoids;
             }
 
+            // 1) 优先用世界缓存（避免隐藏阵营被引擎清理后又重复创建）
+            WorldComponent_Gaia wc = Find.World?.GetComponent<WorldComponent_Gaia>();
+            if (wc != null && wc.gaiaFaction != null)
+            {
+                EnsureHostile(wc.gaiaFaction);
+                return wc.gaiaFaction;
+            }
+
+            // 2) 世界里已经存在同 Def 的阵营
             Faction existing = Find.FactionManager.FirstFactionOfDef(def);
             if (existing != null)
             {
                 EnsureHostile(existing);
+                if (wc != null)
+                {
+                    wc.gaiaFaction = existing;
+                }
                 return existing;
             }
 
+            // 3) 现场创建
             Faction created = null;
             try
             {
@@ -71,6 +85,10 @@ namespace Botania
             Find.FactionManager.Add(created);
             created.SetRelationDirect(Faction.OfPlayer, FactionRelationKind.Hostile, false);
             EnsureHostile(created);
+            if (wc != null)
+            {
+                wc.gaiaFaction = created;
+            }
             Log.Message("[Botania] 已创建盖亚阵营：" + created.Name);
             return created;
         }

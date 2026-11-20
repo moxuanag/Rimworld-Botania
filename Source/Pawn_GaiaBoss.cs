@@ -333,7 +333,7 @@ namespace Botania
             for (int i = 0; i < all.Count; i++)
             {
                 Pawn p = all[i];
-                if (p == null || p.Dead || p.Downed || !p.Spawned)
+                if (p == null || p == this || p.Dead || p.Downed || !p.Spawned)
                 {
                     continue;
                 }
@@ -758,23 +758,24 @@ namespace Botania
                 yield return g;
             }
 
-            // 五个技能：选中 Boss 就能看到（原版技能样式）
+            // 技能与测试工具只给开发者用：必须同时开「开发者模式」和 god mode
+            if (!Prefs.DevMode || !DebugSettings.godMode)
+            {
+                yield break;
+            }
+
+            // 五个技能：开发者模式下选中 Boss 就能看到
             yield return EarthWrathGizmo();
-            yield return SkillGizmo(GaiaSkill.Entangle, "Botania.GaiaSkillEntangle.Label",
-                "Entangle", "Botania.GaiaSkillEntangle.Desc");
-            yield return SkillGizmo(GaiaSkill.ManaBeam, "Botania.GaiaSkillManaBeam.Label",
-                "ManaBeam", "Botania.GaiaSkillManaBeam.Desc");
+            yield return SkillTargetGizmo(GaiaSkill.Entangle, "Botania.GaiaSkillEntangle.Label",
+                "Entangle", "Botania.GaiaSkillEntangle.Desc", GaiaSkills.EntangleRange);
+            yield return SkillTargetGizmo(GaiaSkill.ManaBeam, "Botania.GaiaSkillManaBeam.Label",
+                "ManaBeam", "Botania.GaiaSkillManaBeam.Desc", GaiaSkills.ManaBeamRange);
             yield return SkillGizmo(GaiaSkill.SummonSeeds, "Botania.GaiaSkillSummon.Label",
                 "SummonSeeds", "Botania.GaiaSkillSummon.Desc");
             yield return SkillGizmo(GaiaSkill.WorldSoul, "Botania.GaiaWorldSoulStart.Label",
                 "WorldSoul", "Botania.GaiaWorldSoulStart.Desc");
 
-            if (!Prefs.DevMode)
-            {
-                yield break;
-            }
-
-            // 开发工具：同样挂在 Boss 身上（仅开发者模式可见）
+            // 开发工具：同样挂在 Boss 身上
             yield return new Command_Action
             {
                 defaultLabel = "[DEV] 清除冷却",
@@ -835,6 +836,43 @@ namespace Botania
                 {
                     Messages.Message("Botania.GaiaSkillCommon.BossOnly".Translate(),
                         MessageTypeDefOf.RejectInput, false);
+                }
+            };
+            return cmd;
+        }
+
+        /// <summary>需要玩家点一个落点的技能（根须缠绕 / 魔力射线）。</summary>
+        private Gizmo SkillTargetGizmo(GaiaSkill skill, string labelKey, string iconName, string descKey, float maxDist)
+        {
+            int remain = Mathf.Max(0, skillCooldownUntil[(int)skill] - Now);
+            Command_Target cmd = new Command_Target();
+            cmd.defaultLabel = labelKey.Translate();
+            string desc = descKey.Translate();
+            if (CurrentSkill == skill)
+            {
+                desc += "\n\n" + "Botania.GaiaSkillCommon.Casting".Translate();
+            }
+            else if (remain > 0)
+            {
+                desc += "\n\n" + "Botania.GaiaSkillCommon.Cooldown".Translate(remain.ToStringTicksToPeriod());
+            }
+            cmd.defaultDesc = desc;
+            cmd.icon = SkillIcon(iconName);
+            cmd.targetingParams = new TargetingParameters
+            {
+                canTargetLocations = true,
+                canTargetPawns = false,
+                canTargetBuildings = false,
+                canTargetAnimals = false,
+                canTargetMechs = false,
+                canTargetSelf = false,
+                validator = ti => ti.Cell.DistanceTo(Position) <= maxDist
+            };
+            cmd.action = ti =>
+            {
+                if (Prefs.DevMode && DebugSettings.godMode)
+                {
+                    DebugForceSkillAt(skill, ti.Cell);
                 }
             };
             return cmd;
@@ -908,6 +946,46 @@ namespace Botania
                     return true;
                 default:
                     return false;
+            }
+        }
+
+        /// <summary>开发者：朝/在指定格子施放技能（根须缠绕取落点附近目标，魔力射线朝该点打线）。</summary>
+        public bool DebugForceSkillAt(GaiaSkill skill, IntVec3 target)
+        {
+            if (Dead || Map == null)
+            {
+                return false;
+            }
+            EndSkill(GaiaSkill.None, 0);
+            switch (skill)
+            {
+                case GaiaSkill.EarthWrath:
+                    StartEarthWrath(target);
+                    return true;
+                case GaiaSkill.ManaBeam:
+                    StartManaBeam(target);
+                    return true;
+                case GaiaSkill.Entangle:
+                {
+                    List<Pawn> picked = new List<Pawn>();
+                    List<Pawn> all = PlayerPawnsInRange(GaiaSkills.EntangleRange, out _, out _);
+                    all.Sort((a, b) => a.Position.DistanceToSquared(target).CompareTo(b.Position.DistanceToSquared(target)));
+                    for (int i = 0; i < all.Count && picked.Count < GaiaSkills.EntangleMaxTargets; i++)
+                    {
+                        if (all[i].Position.DistanceTo(target) <= 3.5f)
+                        {
+                            picked.Add(all[i]);
+                        }
+                    }
+                    if (picked.Count == 0)
+                    {
+                        return false;
+                    }
+                    StartEntangle(picked);
+                    return true;
+                }
+                default:
+                    return DebugForceSkill(skill);
             }
         }
 

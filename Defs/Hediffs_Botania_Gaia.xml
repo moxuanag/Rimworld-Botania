@@ -36,10 +36,9 @@
       </li>
     </stages>
     <comps>
-      <li Class="HediffCompProperties_Disappears">
-        <disappearsAfterTicks>180</disappearsAfterTicks>
+      <li Class="Botania.HediffCompProperties_GaiaRooted">
+        <durationTicks>180</durationTicks>
       </li>
-      <li Class="Botania.HediffCompProperties_GaiaRooted" />
     </comps>
   </HediffDef>
 

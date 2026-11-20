@@ -198,4 +198,5 @@
   <Botania.GaiaSkillCommon.BossOnly>Gaia casts its own skills</Botania.GaiaSkillCommon.BossOnly>
   <Botania.GaiaSkillSummon.Label>Summon Gaia seeds</Botania.GaiaSkillSummon.Label>
   <Botania.GaiaBossCannotRecruit>Gaia cannot be controlled; it turns hostile again</Botania.GaiaBossCannotRecruit>
+  <Botania.GaiaRootedBracket>{0}s left</Botania.GaiaRootedBracket>
 </LanguageData>

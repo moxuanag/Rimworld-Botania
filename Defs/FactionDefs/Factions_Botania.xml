@@ -13,6 +13,8 @@
     <pawnSingular>gaia creation</pawnSingular>
     <pawnsPlural>gaia creations</pawnsPlural>
     <!-- 创建阵营时会调用名字生成器；不配这个字段会 NullReferenceException -->
+    <!-- 固定名字：不要随机生成（否则会出现「瓦克氏族联盟」这种） -->
+    <fixedName>盖亚</fixedName>
     <factionNameMaker>NamerFactionTribal</factionNameMaker>
     <requiredCountAtGameStart>0</requiredCountAtGameStart>
     <humanlikeFaction>false</humanlikeFaction>

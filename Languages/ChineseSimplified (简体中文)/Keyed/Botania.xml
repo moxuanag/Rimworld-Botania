@@ -198,4 +198,5 @@
   <Botania.GaiaSkillCommon.BossOnly>盖亚的技能由它自己施放</Botania.GaiaSkillCommon.BossOnly>
   <Botania.GaiaSkillSummon.Label>召唤盖亚之种</Botania.GaiaSkillSummon.Label>
   <Botania.GaiaBossCannotRecruit>盖亚·世界之魂不受任何人控制，它重新变回了敌对</Botania.GaiaBossCannotRecruit>
+  <Botania.GaiaRootedBracket>剩余 {0} 秒</Botania.GaiaRootedBracket>
 </LanguageData>
