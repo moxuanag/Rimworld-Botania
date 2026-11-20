@@ -583,18 +583,25 @@ namespace Botania
                 return;
             }
 
-            // 优先级：魔力射线（阶段 II+） > 根须缠绕 > 大地之怒
-            // 加全局施法间隔，避免一个技能刚放完立刻接下一个把别的技能饿死
+            // 优先级：魔力射线（阶段 II+，可远程） > 根须缠绕 > 大地之怒
             if (Now < nextGlobalCastTick)
             {
                 return;
             }
 
+            // 魔力射线是唯一允许远程释放的技能
             if (phaseIndex >= 1 && Now >= skillCooldownUntil[(int)GaiaSkill.ManaBeam] && TryFindBeamTarget(out IntVec3 beamTarget))
             {
                 StartManaBeam(beamTarget);
                 return;
             }
+
+            // 根须缠绕 / 大地之怒必须已经贴近（否则先走过去，别浪费 CD 在远处）
+            if (distToTarget > EngageRange + 0.5f)
+            {
+                return;
+            }
+
             if (Now >= skillCooldownUntil[(int)GaiaSkill.Entangle] && TryFindEntangleTargets(out List<Pawn> targets))
             {
                 StartEntangle(targets);
@@ -1056,38 +1063,6 @@ namespace Botania
             float maxR = GaiaSkills.WorldSoulMaxRadius;
             IntVec3 origin = Position;
 
-            HashSet<IntVec3> exposed = new HashSet<IntVec3>();
-            Queue<IntVec3> open = new Queue<IntVec3>();
-            exposed.Add(origin);
-            open.Enqueue(origin);
-
-            while (open.Count > 0)
-            {
-                IntVec3 c = open.Dequeue();
-                for (int d = 0; d < 4; d++)
-                {
-                    IntVec3 n = c + GenAdj.CardinalDirections[d];
-                    if (!n.InBounds(map))
-                    {
-                        continue;
-                    }
-                    if (origin.DistanceTo(n) > maxR)
-                    {
-                        continue;
-                    }
-                    if (exposed.Contains(n))
-                    {
-                        continue;
-                    }
-                    if (BlocksWorldSoul(n, map))
-                    {
-                        continue;   // 只有墙/岩石阻挡扫描；草、树、掉落物不算
-                    }
-                    exposed.Add(n);
-                    open.Enqueue(n);
-                }
-            }
-
             List<IntVec3> red = new List<IntVec3>();
             List<IntVec3> safe = new List<IntVec3>();
             List<IntVec3> blockers = new List<IntVec3>();
@@ -1105,25 +1080,76 @@ namespace Botania
                     {
                         continue;
                     }
-                    if (exposed.Contains(c))
+                    if (BlocksWorldSoul(c, map))
                     {
-                        red.Add(c);          // 雷达扫到 -> 会被打
+                        blockers.Add(c);      // 墙/岩石/关闭的门本身
+                        continue;
                     }
-                    else if (BlocksWorldSoul(c, map))
+                    // 逐格射线：从 Boss 到该格之间只要被墙挡住，就是安全区（视线阴影）
+                    if (HasClearScanLine(origin, c, map))
                     {
-                        blockers.Add(c);     // 墙/岩石本身：阻挡物，不算安全区
+                        red.Add(c);
                     }
                     else
                     {
-                        safe.Add(c);         // 墙后扫不到 -> 安全
+                        safe.Add(c);
                     }
                 }
             }
 
-            // 不再抽样：抽样会把红区画得稀稀拉拉
             worldSoulRed = red;
             worldSoulSafe = safe;
             worldSoulBlockers = blockers;
+            Log.Message($"[Botania][世界之魂] 扫描完成：危险 {red.Count} / 安全 {safe.Count} / 阻挡 {blockers.Count}");
+        }
+
+        /// <summary>
+        /// Boss 到目标格之间有没有被墙/岩石/关闭的门挡住（Bresenham 直线逐格检查）。
+        /// 用射线而不是连通性洪水填充：这样**单面墙**也能在背后形成安全区。
+        /// </summary>
+        private bool HasClearScanLine(IntVec3 from, IntVec3 to, Map map)
+        {
+            int x0 = from.x, z0 = from.z;
+            int x1 = to.x, z1 = to.z;
+            int dx = Mathf.Abs(x1 - x0), dz = Mathf.Abs(z1 - z0);
+            int sx = x0 < x1 ? 1 : -1;
+            int sz = z0 < z1 ? 1 : -1;
+            int err = dx - dz;
+
+            int guard = 0;
+            int x = x0, z = z0;
+            while (guard++ < 200)
+            {
+                if (x == x1 && z == z1)
+                {
+                    return true;
+                }
+                int e2 = err * 2;
+                if (e2 > -dz)
+                {
+                    err -= dz;
+                    x += sx;
+                }
+                if (e2 < dx)
+                {
+                    err += dx;
+                    z += sz;
+                }
+                IntVec3 c = new IntVec3(x, 0, z);
+                if (c == to)
+                {
+                    return true;
+                }
+                if (!c.InBounds(map))
+                {
+                    return false;
+                }
+                if (BlocksWorldSoul(c, map))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         /// <summary>
