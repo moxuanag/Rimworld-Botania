@@ -51,7 +51,18 @@ namespace Botania
                 return existing;
             }
 
-            Faction created = FactionGenerator.NewGeneratedFaction(new FactionGeneratorParms(def, default, true));
+            Faction created = null;
+            try
+            {
+                created = FactionGenerator.NewGeneratedFaction(new FactionGeneratorParms(def, default, true));
+            }
+            catch (System.Exception e)
+            {
+                // 创建阵营本身可能因为名字生成器等配置抛异常；
+                // 绝不能让它冒到 OnGUI，否则整个界面会被打断
+                Log.Error("[Botania] 创建盖亚阵营时异常（改用机械族）：" + e);
+                return Faction.OfMechanoids;
+            }
             if (created == null)
             {
                 Log.Warning("[Botania] 创建盖亚阵营失败，改用机械族");

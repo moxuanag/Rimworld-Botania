@@ -12,6 +12,8 @@
     <description>Root and stone that grew a will of its own. It does not negotiate, and it does not leave.</description>
     <pawnSingular>gaia creation</pawnSingular>
     <pawnsPlural>gaia creations</pawnsPlural>
+    <!-- 创建阵营时会调用名字生成器；不配这个字段会 NullReferenceException -->
+    <factionNameMaker>NamerFactionTribal</factionNameMaker>
     <requiredCountAtGameStart>0</requiredCountAtGameStart>
     <humanlikeFaction>false</humanlikeFaction>
     <hidden>true</hidden>
