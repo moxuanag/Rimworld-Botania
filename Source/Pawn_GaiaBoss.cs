@@ -617,15 +617,11 @@ namespace Botania
             }
 
             bool near = distToTarget <= EngageRange + 0.5f;
-            bool rootReady = near
-                             && Now >= skillCooldownUntil[(int)GaiaSkill.Entangle]
-                             && TryFindEntangleTargets(out _);
-            bool earthReady = near
-                              && Now >= skillCooldownUntil[(int)GaiaSkill.EarthWrath]
-                              && TryFindConeTarget(out _);
-            bool beamReady = phaseIndex >= 1
-                             && Now >= skillCooldownUntil[(int)GaiaSkill.ManaBeam]
-                             && TryFindBeamTarget(out _);
+            // 冷却已取消：只看「距离/目标/是否已解锁」，
+            // 节奏完全由方案一的随机规则 + 各技能自身的预警/蓄力时间决定
+            bool rootReady = near && TryFindEntangleTargets(out _);
+            bool earthReady = near && TryFindConeTarget(out _);
+            bool beamReady = phaseIndex >= 1 && TryFindBeamTarget(out _);
 
             GaiaSkill chosen = GaiaSkill.None;
 
@@ -915,7 +911,8 @@ namespace Botania
         {
             if (skill != GaiaSkill.None)
             {
-                skillCooldownUntil[(int)skill] = Now + cooldownTicks;
+                // 取消冷却：这里不再设置冷却时间（保留参数以便以后回调）
+                skillCooldownUntil[(int)skill] = Now;
                 skillLastCast[(int)skill] = Now;
                 lastCastSkill = skill;
                 if (skill == GaiaSkill.Entangle)
@@ -926,7 +923,7 @@ namespace Botania
                 {
                     castsSinceRoot++;
                 }
-                nextGlobalCastTick = Now + 90;   // 1.5 秒全局施法间隔
+                nextGlobalCastTick = Now + 60;   // 1 秒全局间隔，避免同一 tick 连放
             }
             currentSkill = GaiaSkill.None;
             skillCells = new List<IntVec3>();
