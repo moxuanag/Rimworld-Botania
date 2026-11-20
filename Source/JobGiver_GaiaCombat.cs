@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -16,6 +17,57 @@ namespace Botania
     /// </summary>
     public class JobGiver_GaiaCombat : ThinkNode_JobGiver
     {
+        /// <summary>找 Boss 身边挡路的敌对墙/门（用于拆进去）。</summary>
+        private static Thing FindBlockingStructure(Pawn pawn)
+        {
+            Map map = pawn.Map;
+            if (map == null)
+            {
+                return null;
+            }
+            IntVec3 origin = pawn.Position;
+            Thing best = null;
+            float bestDist = float.MaxValue;
+            for (int dx = -3; dx <= 3; dx++)
+            {
+                for (int dz = -3; dz <= 3; dz++)
+                {
+                    IntVec3 c = new IntVec3(origin.x + dx, 0, origin.z + dz);
+                    if (!c.InBounds(map))
+                    {
+                        continue;
+                    }
+                    List<Thing> things = c.GetThingList(map);
+                    for (int i = 0; i < things.Count; i++)
+                    {
+                        Thing th = things[i];
+                        Building b = th as Building;
+                        if (b == null || b.Destroyed || !b.Spawned || b.def == null || b.def.building == null)
+                        {
+                            continue;
+                        }
+                        BuildingProperties bp = b.def.building;
+                        bool isWallOrDoor = bp.isWall || b is Building_Door;
+                        if (!isWallOrDoor)
+                        {
+                            continue;
+                        }
+                        if (b.Faction == null || !b.HostileTo(pawn.Faction))
+                        {
+                            continue;
+                        }
+                        float d = b.Position.DistanceTo(origin);
+                        if (d < bestDist)
+                        {
+                            bestDist = d;
+                            best = b;
+                        }
+                    }
+                }
+            }
+            return best;
+        }
+
         /// <summary>
         /// 目标不可达时找一个「朝目标方向、自己走得到」的中转格，
         /// 让 Boss 至少靠近，而不是原地站着发呆。
@@ -41,7 +93,7 @@ namespace Botania
                 {
                     continue;
                 }
-                if (pawn.CanReach(new LocalTargetInfo(candidate), PathEndMode.OnCell, Danger.Deadly, false, false))
+                if (pawn.CanReach(new LocalTargetInfo(candidate), PathEndMode.OnCell, Danger.Deadly, true, true))
                 {
                     return candidate;
                 }
@@ -82,6 +134,16 @@ namespace Botania
                 }
             }
 
+            // 卡住（被墙/门挡住）时：直接攻击挡路的建筑，像突袭者一样拆进去
+            if (boss.PathingStuck)
+            {
+                Thing blocker = FindBlockingStructure(pawn);
+                if (blocker != null)
+                {
+                    return JobMaker.MakeJob(JobDefOf.AttackMelee, blocker);
+                }
+            }
+
             Thing target = boss.AITarget;
             if (target == null || target.Destroyed || !target.Spawned)
             {
@@ -105,7 +167,7 @@ namespace Botania
             }
 
             // 走不到目标本身：挑一个「朝目标方向、但自己走得到」的中转格逐步靠近
-            if (!dest.IsValid || !pawn.CanReach(new LocalTargetInfo(dest), PathEndMode.OnCell, Danger.Deadly, false, false))
+            if (!dest.IsValid || !pawn.CanReach(new LocalTargetInfo(dest), PathEndMode.OnCell, Danger.Deadly, true, true))
             {
                 IntVec3 staging = FindStagingCell(pawn, target);
                 if (staging.IsValid)

@@ -175,6 +175,9 @@ namespace Botania
             return true;
         }
 
+        /// <summary>是否卡住（JobGiver 与技能门控共用）。</summary>
+        public bool PathingStuck => pathingStuck;
+
         /// <summary>目标不可达时由 JobGiver 通知，让技能可以按射程远程出手。</summary>
         public void NotifyPathBlocked()
         {
@@ -618,7 +621,7 @@ namespace Botania
             }
             try
             {
-                return this.CanReach(new LocalTargetInfo(th), PathEndMode.Touch, Danger.Deadly, false, false);
+                return this.CanReach(new LocalTargetInfo(th), PathEndMode.Touch, Danger.Deadly, true, true);
             }
             catch (System.Exception)
             {
@@ -686,7 +689,9 @@ namespace Botania
                 return;
             }
 
-            bool near = distToTarget <= EngageRange + 0.5f;
+            // 正常要求贴身；如果寻路卡住（比如被关的门挡住），放宽到技能自身射程，
+            // 至少要能还手，不能站着发呆。
+            bool near = distToTarget <= EngageRange + 0.5f || pathingStuck;
             // 冷却已取消：只看「距离/目标/是否已解锁」，
             // 节奏完全由方案一的随机规则 + 各技能自身的预警/蓄力时间决定
             bool rootReady = near && TryFindEntangleTargets(out _);
