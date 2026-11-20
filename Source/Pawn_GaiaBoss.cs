@@ -118,6 +118,11 @@ namespace Botania
                         new LookTargets(this), MessageTypeDefOf.NeutralEvent, false);
                 }
             }
+            // 定期复查：盖亚与玩家的关系必须一直是敌对
+            if (Now % 250 == 0)
+            {
+                GaiaFaction.EnsureHostile(gaiaFaction);
+            }
 
             // 瘫痪结束：护盾瞬满
             if (paralyzedUntil > 0 && Now >= paralyzedUntil)

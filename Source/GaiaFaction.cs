@@ -16,6 +16,24 @@ namespace Botania
 
         public static FactionDef Def => DefDatabase<FactionDef>.GetNamedSilentFail(FactionDefName);
 
+        /// <summary>
+        /// 程序层面保证「永久敌对」：只要玩家与盖亚的关系不是敌对，就强制改回敌对。
+        /// XML 里的 permanentEnemy 只保证不和解，这里再兜一层，防止任何途径（开发者工具、
+        /// 事件、mod 冲突）把它改成中立或盟友。
+        /// </summary>
+        public static void EnsureHostile(Faction faction)
+        {
+            if (faction == null || Faction.OfPlayer == null)
+            {
+                return;
+            }
+            if (faction.RelationKindWith(Faction.OfPlayer) != FactionRelationKind.Hostile)
+            {
+                faction.SetRelationDirect(Faction.OfPlayer, FactionRelationKind.Hostile, false);
+                Log.Message("[Botania] 盖亚阵营关系被重置为敌对");
+            }
+        }
+
         /// <summary>拿到（必要时创建）盖亚阵营；失败时退回机械族，保证 Boss 仍然敌对。</summary>
         public static Faction Get()
         {
@@ -29,6 +47,7 @@ namespace Botania
             Faction existing = Find.FactionManager.FirstFactionOfDef(def);
             if (existing != null)
             {
+                EnsureHostile(existing);
                 return existing;
             }
 
@@ -40,6 +59,7 @@ namespace Botania
             }
             Find.FactionManager.Add(created);
             created.SetRelationDirect(Faction.OfPlayer, FactionRelationKind.Hostile, false);
+            EnsureHostile(created);
             Log.Message("[Botania] 已创建盖亚阵营：" + created.Name);
             return created;
         }

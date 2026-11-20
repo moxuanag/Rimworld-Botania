@@ -2,13 +2,16 @@
 <Defs>
 
   <!--
-    盖亚·世界之魂 —— Boss 本体。
-    注意：**不是机械族**。种族基于普通生物模板（AnimalThingBase），
-    身体是 Human（有头/躯干/四肢的正常部位），血肉类型 Normal，
-    智力 Intermediate，所以健康面板显示的是普通生物的能力项，而不是机械族那套。
-    它不吃饭不睡觉（foodType None / needsRest false），也不需要驯化。
+    盖亚·世界之魂 —— Boss 本体。**不是机械族**。
+    种族基于普通生物模板（AnimalThingBase），但按本引擎的 RaceProperties 实际字段写：
+      · body=Human          普通部位（头/躯干/四肢）
+      · intelligence=Animal  枚举只有 Animal / ToolUser / Humanlike
+      · fleshType=Normal     普通血肉，因此必须配 gestationPeriodDays（已给并关闭交配）
+      · foodType=None / needsRest=false   不吃不睡
+      · lifeStageAges = AnimalAdult        PawnKindDef 的 lifeStages 数量必须与之一致
+      · tools 是 **ThingDef 层**字段，不写在 <race> 里
+      · 没有 wildness 字段（本引擎 RaceProperties 里不存在）
 
-    Boss 的威胁全部来自技能；近战只有 1 点钝伤的「轻触」。
     数值按 docs/盖亚Boss设计文档.md：
       体型 4 / healthScale 52 / 护甲 锐0.60 钝0.45 热0.50 / 移速 2.0
   -->
@@ -19,6 +22,19 @@
 
 Its shell drinks a blow before you feel it land, and when the shell goes it lies still for a while - that is the only time it can be hurt.</description>
     <thingClass>Botania.Pawn_GaiaBoss</thingClass>
+
+    <!-- 近战只有 1 点钝伤的「轻触」；威胁全部来自技能 -->
+    <tools>
+      <li>
+        <label>tap</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>1</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+    </tools>
+
     <race>
       <body>Human</body>
       <baseBodySize>4</baseBodySize>
@@ -28,19 +44,17 @@ Its shell drinks a blow before you feel it land, and when the shell goes it lies
       <foodType>None</foodType>
       <needsRest>false</needsRest>
       <trainability>None</trainability>
-      <wildness>1</wildness>
       <petness>0</petness>
-      <tools>
+      <gestationPeriodDays>1</gestationPeriodDays>
+      <disableMating>true</disableMating>
+      <lifeStageAges>
         <li>
-          <label>tap</label>
-          <capacities>
-            <li>Blunt</li>
-          </capacities>
-          <power>1</power>
-          <cooldownTime>2</cooldownTime>
+          <def>AnimalAdult</def>
+          <minAge>0</minAge>
         </li>
-      </tools>
+      </lifeStageAges>
     </race>
+
     <statBases>
       <Flammability>0.0</Flammability>
       <MoveSpeed>2.0</MoveSpeed>
