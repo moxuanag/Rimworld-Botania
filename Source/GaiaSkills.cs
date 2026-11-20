@@ -182,6 +182,42 @@ namespace Botania
             }
         }
 
+        /// <summary>
+        /// 对格子范围内的**所有敌对 Thing** 造成伤害（含炮塔、门、墙等建筑），
+        /// 只对 Pawn 做击退。Boss 因此具备拆家能力。
+        /// </summary>
+        public static void DamageHostileThingsInCells(Map map, Faction bossFaction, List<IntVec3> cells,
+            DamageDef def, float amount, Thing instigator, float armorPen, bool knockback, IntVec3 from)
+        {
+            HashSet<Thing> hit = new HashSet<Thing>();
+            for (int i = 0; i < cells.Count; i++)
+            {
+                List<Thing> things = cells[i].GetThingList(map);
+                for (int j = 0; j < things.Count; j++)
+                {
+                    Thing th = things[j];
+                    if (th == null || th == instigator || th.Destroyed || !th.Spawned)
+                    {
+                        continue;
+                    }
+                    if (!hit.Add(th))
+                    {
+                        continue;
+                    }
+                    // 只打敌对阵营的东西（自己人、中立建筑不动）
+                    if (th.Faction == null || bossFaction == null || !th.HostileTo(bossFaction))
+                    {
+                        continue;
+                    }
+                    th.TakeDamage(new DamageInfo(def, amount, armorPen, -1f, instigator));
+                    if (knockback && th is Pawn p2 && !p2.Dead)
+                    {
+                        Knockback(p2, from, EarthWrathKnockback);
+                    }
+                }
+            }
+        }
+
         /// <summary>把目标朝远离 from 的方向推开 cells 格（落地不可走就少推）。</summary>
         public static void Knockback(Pawn p, IntVec3 from, int cells)
         {

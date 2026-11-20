@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using Verse.AI;
 
 namespace Botania
 {
@@ -60,6 +61,13 @@ namespace Botania
         private bool worldSoulDone;
         private bool seedsPhase2Done;
         private bool seedsPhase3Done;
+
+        private Thing currentTarget;
+        private int nextTargetScanTick = -1;
+        private int nextPathTick = -1;
+
+        /// <summary>走近到这个距离后站定放技能。</summary>
+        private const float EngageRange = 4.5f;
 
         private int Now => Find.TickManager.TicksGame;
 
@@ -153,7 +161,9 @@ namespace Botania
                 SyncShieldHediff();
             }
 
+            TickCombat();
             TickSkills();
+            TickSwingMote();
 
             if (!worldSoulActive)
             {
@@ -295,9 +305,120 @@ namespace Botania
             TryPickSkill();
         }
 
+        /// <summary>
+        /// 走位：目标距离 &gt; EngageRange 就往它附近走（每 30 tick 重下任务），
+        /// 到了就站定准备放技能。施法期间不动。
+        /// </summary>
+        private void TickCombat()
+        {
+            if (Dead || Map == null)
+            {
+                return;
+            }
+
+            if (Now >= nextTargetScanTick)
+            {
+                nextTargetScanTick = Now + 30;
+                currentTarget = FindNearestAttackTarget();
+            }
+
+            if (currentSkill != GaiaSkill.None || worldSoulActive || !CanAct)
+            {
+                return;
+            }
+            if (currentTarget == null || currentTarget.Destroyed || !currentTarget.Spawned)
+            {
+                return;
+            }
+
+            float dist = currentTarget.Position.DistanceTo(Position);
+            if (dist <= EngageRange)
+            {
+                pather?.StopDead();
+                return;
+            }
+
+            if (Now >= nextPathTick)
+            {
+                nextPathTick = Now + 30;
+                IssueMoveToward(currentTarget);
+            }
+        }
+
+        /// <summary>用原版仇恨缓存找最近的敌对目标（含炮塔、可攻击建筑）。</summary>
+        private Thing FindNearestAttackTarget()
+        {
+            if (Map == null || Faction == null)
+            {
+                return null;
+            }
+            HashSet<IAttackTarget> targets = Map.attackTargetsCache.TargetsHostileToFaction(Faction);
+            if (targets == null)
+            {
+                return null;
+            }
+            Thing best = null;
+            float bestDist = float.MaxValue;
+            foreach (IAttackTarget at in targets)
+            {
+                Thing th = at?.Thing;
+                if (th == null || th == this || th.Destroyed || !th.Spawned)
+                {
+                    continue;
+                }
+                if (!th.HostileTo(Faction))
+                {
+                    continue;
+                }
+                float d = th.Position.DistanceTo(Position);
+                if (d < bestDist)
+                {
+                    bestDist = d;
+                    best = th;
+                }
+            }
+            return best;
+        }
+
+        private void IssueMoveToward(Thing target)
+        {
+            Map map = Map;
+            IntVec3 dest = target.Position;
+            if (!dest.Walkable(map) || dest.Fogged(map))
+            {
+                dest = CellFinder.RandomClosewalkCellNear(target.Position, map, 2,
+                    c => c.Walkable(map) && !c.Fogged(map));
+            }
+            if (!dest.IsValid)
+            {
+                return;
+            }
+            if (jobs == null)
+            {
+                return;
+            }
+            // 已经在走就不重复下任务
+            if (jobs.curJob != null && jobs.curJob.def == JobDefOf.Goto)
+            {
+                return;
+            }
+            Job job = JobMaker.MakeJob(JobDefOf.Goto, dest);
+            jobs.TryTakeOrderedJob(job, JobTag.Misc);
+        }
+
         private void TryPickSkill()
         {
             if (!CanAct)
+            {
+                return;
+            }
+
+            // 必须走近到攻击距离内才放技能（远了先走位）
+            if (currentTarget == null || currentTarget.Destroyed || !currentTarget.Spawned)
+            {
+                return;
+            }
+            if (currentTarget.Position.DistanceTo(Position) > EngageRange + 1.5f)
             {
                 return;
             }
@@ -377,19 +498,18 @@ namespace Botania
         private bool TryFindConeTarget(out IntVec3 dir)
         {
             dir = IntVec3.Invalid;
-            List<Pawn> pawns = PlayerPawnsInRange(GaiaSkills.EarthWrathRadius + 2f, out Pawn nearest, out _);
-            if (pawns.Count == 0 || nearest == null)
+            if (currentTarget == null)
             {
                 return false;
             }
-            dir = nearest.Position;
+            dir = currentTarget.Position;
             return true;
         }
 
         private bool TryFindEntangleTargets(out List<Pawn> targets)
         {
             targets = new List<Pawn>();
-            List<Pawn> pawns = PlayerPawnsInRange(GaiaSkills.EntangleRange, out _, out _);
+            List<Pawn> pawns = HostilePawnsInRange(GaiaSkills.EntangleRange);
             if (pawns.Count == 0)
             {
                 return false;
@@ -402,15 +522,51 @@ namespace Botania
             return targets.Count > 0;
         }
 
+        /// <summary>范围内的敌对 Pawn（根须缠绕这类只对生物有效的技能用）。</summary>
+        private List<Pawn> HostilePawnsInRange(float range)
+        {
+            List<Pawn> result = new List<Pawn>();
+            if (Map == null || Faction == null)
+            {
+                return result;
+            }
+            HashSet<IAttackTarget> targets = Map.attackTargetsCache.TargetsHostileToFaction(Faction);
+            if (targets == null)
+            {
+                return result;
+            }
+            foreach (IAttackTarget at in targets)
+            {
+                Pawn p = at?.Thing as Pawn;
+                if (p == null || p == this || p.Dead || p.Downed || !p.Spawned)
+                {
+                    continue;
+                }
+                if (!p.HostileTo(Faction))
+                {
+                    continue;
+                }
+                if (p.Position.DistanceTo(Position) > range)
+                {
+                    continue;
+                }
+                if (!GenSight.LineOfSight(Position, p.Position, Map))
+                {
+                    continue;
+                }
+                result.Add(p);
+            }
+            return result;
+        }
+
         private bool TryFindBeamTarget(out IntVec3 target)
         {
             target = IntVec3.Invalid;
-            List<Pawn> pawns = PlayerPawnsInRange(GaiaSkills.ManaBeamRange, out _, out Pawn farthest);
-            if (pawns.Count == 0 || farthest == null)
+            if (currentTarget == null)
             {
                 return false;
             }
-            target = farthest.Position;
+            target = currentTarget.Position;
             return true;
         }
 
@@ -506,20 +662,14 @@ namespace Botania
                 return;
             }
 
-            HashSet<Pawn> hit = new HashSet<Pawn>();
-            for (int i = 0; i < cells.Count; i++)
+            GaiaSkills.DamageHostileThingsInCells(Map, Faction, cells, DamageDefOf.Blunt,
+                GaiaSkills.EarthWrathDamage, this, 0.5f, true, Position);
+
+            // 视觉：命中区域撒地面裂纹
+            for (int i = 0; i < cells.Count && i < 10; i += Math.Max(1, cells.Count / 10))
             {
-                List<Thing> things = cells[i].GetThingList(map);
-                for (int j = 0; j < things.Count; j++)
-                {
-                    Pawn p = things[j] as Pawn;
-                    if (p == null || p.Dead || !hit.Add(p))
-                    {
-                        continue;
-                    }
-                    p.TakeDamage(new DamageInfo(DamageDefOf.Blunt, GaiaSkills.EarthWrathDamage, 0.5f, -1f, this));
-                    GaiaSkills.Knockback(p, Position, GaiaSkills.EarthWrathKnockback);
-                }
+                IntVec3 c = cells[i];
+                SpawnMoteAt("Botania_Mote_GaiaCrack", c.ToVector3Shifted(), 1f);
             }
 
             GenExplosion.DoExplosion(Position, map, 1.5f, DamageDefOf.Blunt, this, 0,
@@ -569,20 +719,13 @@ namespace Botania
                 return;
             }
             List<IntVec3> cells = skillCells;
-            HashSet<Pawn> hit = new HashSet<Pawn>();
-            for (int i = 0; i < cells.Count; i++)
+            GaiaSkills.DamageHostileThingsInCells(map, Faction, cells, DamageDefOf.Burn,
+                GaiaSkills.ManaBeamDamage, this, 0.3f, false, Position);
+
+            // 视觉：沿射线撒光斑
+            for (int i = 0; i < cells.Count; i += Math.Max(1, cells.Count / 14))
             {
-                List<Thing> things = cells[i].GetThingList(map);
-                for (int j = 0; j < things.Count; j++)
-                {
-                    Pawn p = things[j] as Pawn;
-                    if (p == null || p.Dead || !hit.Add(p))
-                    {
-                        continue;
-                    }
-                    p.TakeDamage(new DamageInfo(DamageDefOf.Burn, GaiaSkills.ManaBeamDamage, 0.3f, -1f, this));
-                    GaiaSkills.TryIgnite(p, 0.6f);
-                }
+                SpawnMoteAt("Botania_Mote_GaiaSpark", cells[i].ToVector3Shifted(), 1.2f);
             }
             Messages.Message("Botania.GaiaSkillManaBeam".Translate(),
                 new LookTargets(Position, map), MessageTypeDefOf.NeutralEvent, false);
@@ -708,6 +851,73 @@ namespace Botania
         }
 
         // ---------------- 绘制 ----------------
+
+        private int nextSwingMoteTick;
+
+        private void SpawnMoteAt(string defName, Vector3 pos, float scale = 1f)
+        {
+            Map map = Map;
+            if (map == null || defName.NullOrEmpty())
+            {
+                return;
+            }
+            ThingDef def = DefDatabase<ThingDef>.GetNamedSilentFail(defName);
+            if (def == null)
+            {
+                return;
+            }
+            try
+            {
+                MoteMaker.MakeStaticMote(pos, map, def, scale);
+            }
+            catch (Exception)
+            {
+                // 特效失败不影响机制
+            }
+        }
+
+        /// <summary>近战挥击时在身前生成手臂弧光。</summary>
+        private void TickSwingMote()
+        {
+            if (Now < nextSwingMoteTick)
+            {
+                return;
+            }
+            if (!(stances?.curStance is Stance_Busy busy) || busy.verb == null || busy.neverAimWeapon)
+            {
+                return;
+            }
+            nextSwingMoteTick = Now + 12;
+
+            Vector3 dir = Vector3.forward;
+            if (busy.focusTarg.IsValid)
+            {
+                dir = (busy.focusTarg.Cell.ToVector3() - Position.ToVector3()).Yto0();
+            }
+            else if (Rotation == Rot4.North)
+            {
+                dir = Vector3.forward;
+            }
+            else if (Rotation == Rot4.East)
+            {
+                dir = Vector3.right;
+            }
+            else if (Rotation == Rot4.West)
+            {
+                dir = Vector3.left;
+            }
+            else
+            {
+                dir = Vector3.back;
+            }
+            if (dir.sqrMagnitude < 0.01f)
+            {
+                dir = Vector3.forward;
+            }
+            dir.Normalize();
+            Vector3 pos = DrawPos + dir * 0.9f;
+            SpawnMoteAt("Botania_Mote_GaiaSwing", pos, 1f);
+        }
 
         /// <summary>预警范围：由 MapComponent_GaiaTelegraph 每帧读取并绘制。</summary>
         public bool TryGetTelegraph(out List<IntVec3> cells, out Color color)
@@ -986,7 +1196,7 @@ namespace Botania
                 case GaiaSkill.Entangle:
                 {
                     List<Pawn> picked = new List<Pawn>();
-                    List<Pawn> all = PlayerPawnsInRange(GaiaSkills.EntangleRange, out _, out _);
+                    List<Pawn> all = HostilePawnsInRange(GaiaSkills.EntangleRange);
                     all.Sort((a, b) => a.Position.DistanceToSquared(target).CompareTo(b.Position.DistanceToSquared(target)));
                     for (int i = 0; i < all.Count && picked.Count < GaiaSkills.EntangleMaxTargets; i++)
                     {
