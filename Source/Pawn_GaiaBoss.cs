@@ -528,17 +528,27 @@ namespace Botania
                 Log.Error("[Botania] 找不到 HediffDef Botania_GaiaRooted");
                 return;
             }
+            // 生效时必须重新核对：只有仍然站在绿色预警格子里的目标才会被缠住。
+            // （预警 2 秒内跑出去的应该免疫，否则「躲开」毫无意义）
+            HashSet<IntVec3> warnedCells = new HashSet<IntVec3>(skillCells);
+            int hitCount = 0;
             for (int i = 0; i < entangleTargets.Count; i++)
             {
                 Pawn p = entangleTargets[i];
-                if (p == null || p.Dead || p.Downed)
+                if (p == null || p.Dead || p.Downed || !p.Spawned)
                 {
                     continue;
+                }
+                if (!warnedCells.Contains(p.Position))
+                {
+                    continue;   // 已经走出预警范围：躲开了
                 }
                 Hediff hediff = HediffMaker.MakeHediff(rootDef, p);
                 hediff.Severity = 1f;
                 p.health.AddHediff(hediff);
+                hitCount++;
             }
+            Log.Message($"[Botania] 根须缠绕：命中 {hitCount} / {entangleTargets.Count} 个目标（其余已离开预警格）");
             Messages.Message("Botania.GaiaSkillEntangle".Translate(),
                 new LookTargets(Position, Map), MessageTypeDefOf.NeutralEvent, false);
         }
