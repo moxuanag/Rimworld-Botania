@@ -463,7 +463,15 @@ namespace Botania
                     IntVec3 cellToCast = orderedCell;
                     orderedSkill = GaiaSkill.None;
                     orderedCell = IntVec3.Invalid;
-                    DebugForceSkillAt(skillToCast, cellToCast);
+                    bool ok = DebugForceSkillAt(skillToCast, cellToCast);
+                    if (!ok)
+                    {
+                        string why = skillToCast == GaiaSkill.Entangle
+                            ? "Botania.GaiaSkillFail.NoPawnNearPoint".Translate()
+                            : "Botania.GaiaSkillFail.Generic".Translate();
+                        Messages.Message(why, new LookTargets(cellToCast, Map),
+                            MessageTypeDefOf.RejectInput, false);
+                    }
                 }
                 return;
             }
@@ -680,26 +688,28 @@ namespace Botania
         }
 
         /// <summary>范围内的敌对 Pawn（根须缠绕这类只对生物有效的技能用）。</summary>
+        /// <summary>
+        /// 范围内的敌对 Pawn（根须缠绕这类只对生物有效的技能用）。
+        /// 注意：不能用 Map.attackTargetsCache —— 本引擎里它经常是空的，
+        /// 之前根须缠绕一直放不出来就是这个原因。
+        /// </summary>
         private List<Pawn> HostilePawnsInRange(float range)
         {
             List<Pawn> result = new List<Pawn>();
-            if (Map == null || Faction == null)
+            Map map = Map;
+            if (map == null)
             {
                 return result;
             }
-            HashSet<IAttackTarget> targets = Map.attackTargetsCache.TargetsHostileToFaction(Faction);
-            if (targets == null)
+            List<Thing> candidates = map.listerThings.ThingsInGroup(ThingRequestGroup.AttackTarget);
+            for (int i = 0; i < candidates.Count; i++)
             {
-                return result;
-            }
-            foreach (IAttackTarget at in targets)
-            {
-                Pawn p = at?.Thing as Pawn;
-                if (p == null || p == this || p.Dead || p.Downed || !p.Spawned)
+                Pawn p = candidates[i] as Pawn;
+                if (p == null || p == this || p.Dead || !p.Spawned)
                 {
                     continue;
                 }
-                if (!p.HostileTo(Faction))
+                if (!IsEnemyOfBoss(p))
                 {
                     continue;
                 }
@@ -707,7 +717,7 @@ namespace Botania
                 {
                     continue;
                 }
-                if (!GenSight.LineOfSight(Position, p.Position, Map))
+                if (!GenSight.LineOfSight(Position, p.Position, map))
                 {
                     continue;
                 }

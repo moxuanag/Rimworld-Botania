@@ -201,4 +201,6 @@
   <Botania.GaiaRootedBracket>{0}s left</Botania.GaiaRootedBracket>
   <Botania.GaiaWorldSoulStart.Text>In 20 seconds it will sweep the whole area in a single burst.\n\nRed cells will be hit; green cells are blocked by walls and completely safe.\nWalls built during the charge take effect immediately.</Botania.GaiaWorldSoulStart.Text>
   <Botania.GaiaWorldSoulBurst>The world-soul bursts</Botania.GaiaWorldSoulBurst>
+  <Botania.GaiaSkillFail.NoPawnNearPoint>No enemies near the target point; the roots cannot reach anyone</Botania.GaiaSkillFail.NoPawnNearPoint>
+  <Botania.GaiaSkillFail.Generic>Skill failed: no valid target</Botania.GaiaSkillFail.Generic>
 </LanguageData>
