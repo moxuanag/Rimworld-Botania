@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!--
+    盖亚专用思考树：只做三件事
+      1. 受伤/着火/倒地的紧急响应（复用原版子树）
+      2. 有敌对目标 -> 走近，到了站定
+      3. 没有目标 -> 原地待命（不游荡）
+    这样就不会再和 Pawn.Tick 里的技能逻辑抢 pather 控制权。
+  -->
+  <ThinkTreeDef>
+    <defName>Botania_Gaia</defName>
+    <thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+        <li Class="ThinkNode_Subtree">
+          <treeDef>Downed</treeDef>
+        </li>
+        <li Class="ThinkNode_Subtree">
+          <treeDef>BurningResponse</treeDef>
+        </li>
+        <li Class="ThinkNode_QueuedJob" />
+        <li Class="Botania.JobGiver_GaiaCombat" />
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+
+</Defs>

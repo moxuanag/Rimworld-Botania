@@ -69,8 +69,20 @@ namespace Botania
         private IntVec3 lastCheckPos = IntVec3.Invalid;
         private bool pathingStuck;
 
-        /// <summary>走近到这个距离后站定放技能。</summary>
-        private const float EngageRange = 4.5f;
+        /// <summary>走近到这个距离后站定放技能（JobGiver 与技能门控共用）。</summary>
+        public const float EngageRange = 4.5f;
+
+        /// <summary>当前 AI 目标（供 JobGiver_GaiaCombat 读取）。</summary>
+        public Thing AITarget => currentTarget;
+
+        /// <summary>是否正在施法/蓄力（此时 AI 应站定不动）。</summary>
+        public bool IsBusyCasting => worldSoulActive || currentSkill != GaiaSkill.None;
+
+        /// <summary>目标不可达时由 JobGiver 通知，让技能可以按射程远程出手。</summary>
+        public void NotifyPathBlocked()
+        {
+            pathingStuck = true;
+        }
 
         private int Now => Find.TickManager.TicksGame;
 
@@ -342,11 +354,8 @@ namespace Botania
                 return;
             }
 
-            if (Now >= nextPathTick)
-            {
-                nextPathTick = Now + 30;
-                IssueMoveToward(currentTarget);
-            }
+            // 移动由思考树 + JobGiver_GaiaCombat 负责，这里不再抢 pather
+            nextPathTick = Now + 30;
         }
 
         /// <summary>用原版仇恨缓存找最近的敌对目标（含炮塔、可攻击建筑）。</summary>
@@ -382,43 +391,6 @@ namespace Botania
                 }
             }
             return best;
-        }
-
-        /// <summary>
-        /// 直接控制寻路（不再下发 Job）：
-        /// 动物/生物的思考树会不停下「游荡」任务，抢 pather 控制权，
-        /// 导致 Boss 在某个区域来回走却不追击。这里每次把它拽回来。
-        /// </summary>
-        private void IssueMoveToward(Thing target)
-        {
-            Map map = Map;
-            if (pather == null)
-            {
-                return;
-            }
-
-            IntVec3 dest = target.Position;
-            if (!dest.Walkable(map) || dest.Fogged(map))
-            {
-                dest = CellFinder.RandomClosewalkCellNear(target.Position, map, 2,
-                    c => c.Walkable(map) && !c.Fogged(map));
-            }
-            if (!dest.IsValid)
-            {
-                return;
-            }
-
-            // 打断游荡类任务，避免和我们抢移动
-            if (jobs != null && jobs.curJob != null)
-            {
-                JobDef cur = jobs.curJob.def;
-                if (cur == JobDefOf.GotoWander || cur == JobDefOf.Wait_Wander)
-                {
-                    jobs.EndCurrentJob(JobCondition.InterruptForced);
-                }
-            }
-
-            pather.StartPath(dest, PathEndMode.OnCell);
         }
 
         /// <summary>卡住检测：连续 120 tick 原地不动但想追人时，允许在技能射程内远程出手。</summary>

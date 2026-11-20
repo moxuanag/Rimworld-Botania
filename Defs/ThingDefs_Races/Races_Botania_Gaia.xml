@@ -42,6 +42,9 @@ Its shell drinks a blow before you feel it land, and when the shell goes it lies
       <!-- ToolUser 而不是 Animal：RaceProperties.Animal = !ToolUser && IsFlesh，
            用 Animal 会被当成野生动物（出现驯服/狩猎按钮） -->
       <intelligence>ToolUser</intelligence>
+      <!-- 自定义思考树：追击/站定，不游荡 -->
+      <thinkTreeMain>Botania_Gaia</thinkTreeMain>
+      <thinkTreeConstant>AnimalConstant</thinkTreeConstant>
       <fleshType>Normal</fleshType>
       <foodType>None</foodType>
       <needsRest>false</needsRest>
