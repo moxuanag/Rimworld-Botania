@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!--
+    盖亚造物：Boss 召唤的小型生物（替代原来的原版炽蚕占位）。
+    非机械族：普通血肉、虫型体格、不吃不睡。
+    行为由 Botania_GaiaSpawnling 思考树 + JobGiver_GaiaSpawnlingCombat 驱动：
+    找最近的敌人冲上去近战。
+  -->
+  <ThingDef ParentName="AnimalThingBase">
+    <defName>Botania_GaiaSpawnling</defName>
+    <label>gaia spawnling</label>
+    <description>A knot of root and seed the size of a dog, grown in a hurry and angry about it. It has no purpose beyond closing the distance.</description>
+    <tools>
+      <li>
+        <label>bite</label>
+        <capacities>
+          <li>Bite</li>
+        </capacities>
+        <power>7</power>
+        <cooldownTime>1.6</cooldownTime>
+      </li>
+    </tools>
+    <race>
+      <body>BeetleLike</body>
+      <baseBodySize>0.5</baseBodySize>
+      <baseHealthScale>0.9</baseHealthScale>
+      <intelligence>Animal</intelligence>
+      <fleshType>Normal</fleshType>
+      <foodType>None</foodType>
+      <needsRest>false</needsRest>
+      <trainability>None</trainability>
+      <petness>0</petness>
+      <gestationPeriodDays>1</gestationPeriodDays>
+      <disableMating>true</disableMating>
+      <thinkTreeMain>Botania_GaiaSpawnling</thinkTreeMain>
+      <lifeStageAges>
+        <li>
+          <def>AnimalAdult</def>
+          <minAge>0</minAge>
+        </li>
+      </lifeStageAges>
+    </race>
+    <statBases>
+      <Flammability>0.0</Flammability>
+      <MoveSpeed>4.2</MoveSpeed>
+      <ArmorRating_Sharp>0.15</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.10</ArmorRating_Blunt>
+      <MarketValue>120</MarketValue>
+      <ComfyTemperatureMin>-30</ComfyTemperatureMin>
+      <ComfyTemperatureMax>60</ComfyTemperatureMax>
+    </statBases>
+  </ThingDef>
+
+  <PawnKindDef ParentName="AnimalKindBase">
+    <defName>Botania_GaiaSpawnling</defName>
+    <label>gaia spawnling</label>
+    <race>Botania_GaiaSpawnling</race>
+    <combatPower>40</combatPower>
+    <lifeStages Inherit="False">
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Botania/GaiaSpawnling</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>0.9</drawSize>
+          <shadowData>
+            <volume>(0.3, 0.4, 0.3)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+  </PawnKindDef>
+
+</Defs>

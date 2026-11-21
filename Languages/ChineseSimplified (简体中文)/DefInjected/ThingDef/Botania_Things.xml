@@ -246,4 +246,6 @@
   <Botania_Mote_GaiaSwing.label>盖亚挥击</Botania_Mote_GaiaSwing.label>
   <Botania_WorldSeedNursery.label>世界之种苗圃</Botania_WorldSeedNursery.label>
   <Botania_WorldSeedNursery.description>一圈石台里嵌着一枚活的种荚。留在里面的泰拉钢会被重新培育：形状还是那个形状，但它已经"长"过一遍了。\n\n把泰拉钢护甲或头盔放进它的范围，会被转化为盖亚装备。站在范围内的殖民者身上穿着的装备会优先转化。</Botania_WorldSeedNursery.description>
+  <Botania_GaiaSpawnling.label>盖亚造物</Botania_GaiaSpawnling.label>
+  <Botania_GaiaSpawnling.description>一团长得跟狗差不多大的根与种子，催生出来的，脾气很坏。它没有别的用途，只会缩短距离。</Botania_GaiaSpawnling.description>
 </LanguageData>

@@ -24,4 +24,22 @@
     </thinkRoot>
   </ThinkTreeDef>
 
+
+  <!-- 盖亚造物：只做「冲上去近战」，没有游荡行为 -->
+  <ThinkTreeDef>
+    <defName>Botania_GaiaSpawnling</defName>
+    <thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+        <li Class="ThinkNode_Subtree">
+          <treeDef>Downed</treeDef>
+        </li>
+        <li Class="ThinkNode_Subtree">
+          <treeDef>BurningResponse</treeDef>
+        </li>
+        <li Class="ThinkNode_QueuedJob" />
+        <li Class="Botania.JobGiver_GaiaSpawnlingCombat" />
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+
 </Defs>

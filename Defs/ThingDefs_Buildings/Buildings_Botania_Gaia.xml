@@ -72,7 +72,7 @@
     </building>
     <comps>
       <li Class="Botania.CompProperties_GaiaPortal">
-        <wavePawnKind>Mech_Scyther</wavePawnKind>
+        <wavePawnKind>Botania_GaiaSpawnling</wavePawnKind>
         <waveSizes>
           <li>6</li>
           <li>8</li>

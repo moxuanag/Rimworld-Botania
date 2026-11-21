@@ -42,7 +42,7 @@ namespace Botania
         public const float ManaBeamDamage = 40f;
 
         public const int SummonSeedsCount = 3;
-        public const string SeedPawnKind = "Mech_WarUrchin";
+        public const string SeedPawnKind = "Botania_GaiaSpawnling";
 
         public const int WorldSoulCharge = 1200;    // 20 秒蓄力
         public const float WorldSoulSpeedPerTick = 2.5f / 60f;
