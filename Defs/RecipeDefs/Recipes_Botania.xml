@@ -37,6 +37,7 @@
     <recipeUsers>
       <li>CraftingSpot</li>
       <li>FueledSmithy</li>
+      <li>ElectricSmithy</li>
     </recipeUsers>
   </RecipeDef>
 
