@@ -1,54 +1,57 @@
+using System;
 using System.Collections.Generic;
 using LudeonTK;
 using RimWorld;
-using UnityEngine;
 using Verse;
 
 namespace Botania
 {
     /// <summary>
-    /// 开发者工具：生成本模组添加的武器与护甲。
+    /// 开发者工具：生成本模组的武器与护甲。
     ///
-    /// 入口在开发者菜单的「Botania / 植物魔法」页 下，
-    /// 文字全部走 Translate()，便于 Dev In Your Language 之类的翻译模组接管。
+    /// 做法参考原版「Spawn item」：
+    ///   1. 点工具 -> 弹出物品列表（本模组的武器/护甲）
+    ///   2. 选中一项后进入「工具模式」，鼠标左键在地图上点击的位置生成该物品
+    ///
+    /// 文字全部走 Translate()/DefInjected，便于 Dev In Your Language 之类的翻译模组接管。
     /// </summary>
     public static class DebugActions_BotaniaGear
     {
-        [DebugAction("Botania", "生成植物魔法装备", actionType = DebugActionType.Action,
-            allowedGameStates = AllowedGameStates.PlayingOnMap, displayPriority = 0)]
-        private static void OpenGearSpawner()
-        {
-            Find.WindowStack.Add(new Dialog_DevSpawnBotaniaGear());
-        }
-    }
-
-    /// <summary>
-    /// 装备生成窗口：列出本模组的全部武器与护甲，点一下就在鼠标位置生成。
-    /// </summary>
-    public class Dialog_DevSpawnBotaniaGear : Window
-    {
         private const string PackageId = "gz.botania";
 
-        private Vector2 scroll;
-        private readonly List<ThingDef> defs = new List<ThingDef>();
-
-        public override Vector2 InitialSize => new Vector2(560f, 640f);
-
-        public Dialog_DevSpawnBotaniaGear()
+        [DebugAction("Botania", "生成植物魔法装备", actionType = DebugActionType.ToolMap,
+            allowedGameStates = AllowedGameStates.PlayingOnMap, displayPriority = 0)]
+        private static void SpawnBotaniaGear()
         {
-            doCloseX = true;
-            doCloseButton = false;
-            forcePause = false;
-            absorbInputAroundWindow = true;
-            closeOnClickedOutside = true;
+            List<DebugMenuOption> options = new List<DebugMenuOption>();
+            foreach (ThingDef def in GearDefs())
+            {
+                ThingDef captured = def;
+                options.Add(new DebugMenuOption(captured.LabelCap, DebugMenuOptionMode.Tool,
+                    delegate { SpawnAt(captured); }));
+            }
 
+            if (options.Count == 0)
+            {
+                Messages.Message("Botania.DevGear.Empty".Translate(), MessageTypeDefOf.RejectInput, false);
+                return;
+            }
+
+            Find.WindowStack.Add(new Dialog_DebugOptionListLister(
+                options, "Botania.DevGear.Title".Translate()));
+        }
+
+        /// <summary>本模组的武器与护甲（按中文名排序）。</summary>
+        private static List<ThingDef> GearDefs()
+        {
+            List<ThingDef> result = new List<ThingDef>();
             foreach (ThingDef def in DefDatabase<ThingDef>.AllDefs)
             {
                 if (def == null || def.modContentPack == null)
                 {
                     continue;
                 }
-                if (!string.Equals(def.modContentPack.PackageId, PackageId, System.StringComparison.OrdinalIgnoreCase))
+                if (!string.Equals(def.modContentPack.PackageId, PackageId, StringComparison.OrdinalIgnoreCase))
                 {
                     continue;
                 }
@@ -56,64 +59,13 @@ namespace Botania
                 {
                     continue;
                 }
-                defs.Add(def);
+                result.Add(def);
             }
-            defs.Sort((a, b) => string.Compare(a.LabelCap, b.LabelCap, System.StringComparison.CurrentCulture));
+            result.Sort((a, b) => string.Compare(a.LabelCap, b.LabelCap, StringComparison.CurrentCulture));
+            return result;
         }
 
-        public override void DoWindowContents(Rect inRect)
-        {
-            Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(0f, 0f, inRect.width, 34f), "Botania.DevGear.Title".Translate());
-            Text.Font = GameFont.Small;
-
-            Widgets.Label(new Rect(0f, 34f, inRect.width, 22f), "Botania.DevGear.Hint".Translate());
-
-            Rect outRect = new Rect(0f, 60f, inRect.width, inRect.height - 60f);
-            float rowHeight = 30f;
-            Rect viewRect = new Rect(0f, 0f, outRect.width - 20f, defs.Count * rowHeight + 8f);
-
-            Widgets.BeginScrollView(outRect, ref scroll, viewRect);
-            float y = 4f;
-            for (int i = 0; i < defs.Count; i++)
-            {
-                ThingDef def = defs[i];
-                Rect row = new Rect(0f, y, viewRect.width, rowHeight - 2f);
-
-                if (i % 2 == 0)
-                {
-                    Widgets.DrawLightHighlight(row);
-                }
-
-                string kind = def.IsApparel
-                    ? "Botania.DevGear.Apparel".Translate()
-                    : "Botania.DevGear.Weapon".Translate();
-
-                Rect labelRect = new Rect(row.x + 6f, row.y, row.width - 150f, row.height);
-                Widgets.Label(labelRect, def.LabelCap);
-
-                Rect kindRect = new Rect(row.xMax - 140f, row.y, 130f, row.height);
-                GUI.color = new Color(1f, 1f, 1f, 0.65f);
-                Widgets.Label(kindRect, kind);
-                GUI.color = Color.white;
-
-                if (Widgets.ButtonInvisible(row))
-                {
-                    SpawnOne(def);
-                }
-
-                y += rowHeight;
-            }
-            Widgets.EndScrollView();
-
-            if (defs.Count == 0)
-            {
-                Widgets.Label(new Rect(0f, outRect.y + 8f, outRect.width, 24f),
-                    "Botania.DevGear.Empty".Translate());
-            }
-        }
-
-        private static void SpawnOne(ThingDef def)
+        private static void SpawnAt(ThingDef def)
         {
             Map map = Find.CurrentMap;
             if (map == null)
@@ -125,7 +77,6 @@ namespace Botania
             {
                 return;
             }
-
             Thing thing = ThingMaker.MakeThing(def);
             if (thing == null)
             {
