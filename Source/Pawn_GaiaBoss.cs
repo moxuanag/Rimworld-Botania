@@ -559,12 +559,8 @@ namespace Botania
             if (pathingStuck && pather != null && !pather.Moving && Now >= nextPathTick)
             {
                 nextPathTick = Now + 60;
-                IntVec3 dest = currentTarget.Position;
-                if (!dest.Walkable(Map) || dest.Fogged(Map))
-                {
-                    dest = CellFinder.RandomClosewalkCellNear(currentTarget.Position, Map, 2,
-                        c => c.Walkable(Map) && !c.Fogged(Map));
-                }
+                IntVec3 dest = CellFinder.RandomClosewalkCellNear(currentTarget.Position, Map, 2,
+                    c => c.Walkable(Map) && !c.Fogged(Map) && c != currentTarget.Position);
                 if (dest.IsValid)
                 {
                     pather.StartPath(dest, PathEndMode.OnCell);

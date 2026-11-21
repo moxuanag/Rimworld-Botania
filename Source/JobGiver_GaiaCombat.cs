@@ -149,14 +149,12 @@ namespace Botania
             }
 
             Map map = pawn.Map;
-            IntVec3 dest = target.Position;
-            if (!dest.Walkable(map) || dest.Fogged(map))
-            {
-                dest = CellFinder.RandomClosewalkCellNear(target.Position, map, 2,
-                    c => c.Walkable(map) && !c.Fogged(map));
-            }
+            // 关键：不能走到「目标所在格」——那个格子被目标占着，永远不可达。
+            // 应该走到目标的**旁边**。
+            IntVec3 dest = CellFinder.RandomClosewalkCellNear(target.Position, map, 2,
+                c => c.Walkable(map) && !c.Fogged(map) && c != target.Position);
 
-            // 走不到目标本身：挑一个「朝目标方向、但自己走得到」的中转格逐步靠近
+            // 走不到目标旁边：挑一个「朝目标方向、但自己走得到」的中转格逐步靠近
             if (!dest.IsValid || !pawn.CanReach(new LocalTargetInfo(dest), PathEndMode.OnCell, Danger.Deadly, true, true))
             {
                 IntVec3 staging = FindStagingCell(pawn, target);

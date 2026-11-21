@@ -87,12 +87,12 @@
     <stages>
       <li>
         <statOffsets>
-          <MoveSpeed>0.35</MoveSpeed>
-          <WorkSpeedGlobal>0.20</WorkSpeedGlobal>
-          <ImmunityGainSpeed>0.30</ImmunityGainSpeed>
-          <IncomingDamageFactor>-0.10</IncomingDamageFactor>
-          <ArmorRating_Sharp>0.10</ArmorRating_Sharp>
-          <ArmorRating_Blunt>0.10</ArmorRating_Blunt>
+          <MoveSpeed>1.05</MoveSpeed>
+          <WorkSpeedGlobal>0.60</WorkSpeedGlobal>
+          <ImmunityGainSpeed>0.90</ImmunityGainSpeed>
+          <IncomingDamageFactor>-0.30</IncomingDamageFactor>
+          <ArmorRating_Sharp>0.30</ArmorRating_Sharp>
+          <ArmorRating_Blunt>0.30</ArmorRating_Blunt>
         </statOffsets>
       </li>
     </stages>
