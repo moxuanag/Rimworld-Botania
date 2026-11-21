@@ -249,7 +249,7 @@ namespace Botania
                 if (health != null && !health.ShouldBeDowned())
                 {
                     health.Notify_HediffChanged(null);
-                    Log.Message("[Botania] Boss 倒地状态已解除（重新判定为可站立）");
+                    BotaniaDebug.Log("[Botania] Boss 倒地状态已解除（重新判定为可站立）");
                 }
             }
 
@@ -291,7 +291,7 @@ namespace Botania
                 string targetName = currentTarget == null ? "无" : currentTarget.LabelShort;
                 float d = currentTarget == null ? -1f : currentTarget.Position.DistanceTo(Position);
                 string jobName = jobs?.curJob?.def?.defName ?? "无";
-                Log.Message($"[Botania][诊断] 阶段={PhaseNumber} 阵营={Faction?.Name ?? "无"} 目标={targetName} 距离={d:F1} " +
+                BotaniaDebug.Log($"[Botania][诊断] 阶段={PhaseNumber} 阵营={Faction?.Name ?? "无"} 目标={targetName} 距离={d:F1} " +
                             $"CanAct={CanAct} 无敌={IsInvulnerable} 瘫痪={IsParalyzed} 技能={currentSkill} 世界之魂={worldSoulActive} " +
                             $"卡住={pathingStuck} 任务={jobName} 走动={pather?.Moving} 盾={shield:F0}");
             }
@@ -509,7 +509,7 @@ namespace Botania
                 {
                     if (orderedLastDist - orderDist < 0.5f)
                     {
-                        Log.Message("[Botania] 技能指令无法接近落点，已取消");
+                        BotaniaDebug.Log("[Botania] 技能指令无法接近落点，已取消");
                         orderedSkill = GaiaSkill.None;
                         orderedCell = IntVec3.Invalid;
                         Messages.Message("Botania.GaiaSkillFail.Generic".Translate(),
@@ -571,7 +571,7 @@ namespace Botania
             if (pathingStuck && Now % 120 == 0)
             {
                 bool reach = CanReachTarget(currentTarget);
-                Log.Message($"[Botania][移动] 目标={currentTarget.LabelShort} 距离={dist:F1} " +
+                BotaniaDebug.Log($"[Botania][移动] 目标={currentTarget.LabelShort} 距离={dist:F1} " +
                             $"可达={reach} 任务={jobs?.curJob?.def?.defName ?? "无"} 走动={pather?.Moving}");
             }
 
@@ -733,7 +733,7 @@ namespace Botania
             }
             if (best != null && best != breachWall)
             {
-                Log.Message("[Botania] 需要破墙：" + best.LabelShort + "（位置 " + best.Position + "）");
+                BotaniaDebug.Log("[Botania] 需要破墙：" + best.LabelShort + "（位置 " + best.Position + "）");
             }
             return best;
         }
@@ -891,7 +891,7 @@ namespace Botania
             pather?.StopDead();
             SpawnMoteAt("Botania_Mote_GaiaCrack", landing.ToVector3Shifted(), 1.4f);
 
-            Log.Message($"[Botania] 寻路死锁兜底：突进到 ({landing.x},{landing.z})，距离目标 " +
+            BotaniaDebug.Log($"[Botania] 寻路死锁兜底：突进到 ({landing.x},{landing.z})，距离目标 " +
                         $"{landing.DistanceTo(currentTarget.Position):F1}");
         }
 
@@ -922,7 +922,7 @@ namespace Botania
             {
                 if (blocker != null)
                 {
-                    Log.Message("[Botania] 挡路建筑已破开，重新判定目标");
+                    BotaniaDebug.Log("[Botania] 挡路建筑已破开，重新判定目标");
                     breachWall = null;
                 }
                 return;
@@ -937,7 +937,7 @@ namespace Botania
             breachTarget = blocker;
             StartEarthWrath(blocker.Position);
             nextBreachTick = Now + GaiaSkills.EarthWrathWarn + 120;
-            Log.Message("[Botania] 卡住：对挡路建筑施放大地之怒 " + blocker.LabelShort);
+            BotaniaDebug.Log("[Botania] 卡住：对挡路建筑施放大地之怒 " + blocker.LabelShort);
         }
 
         /// <summary>
@@ -1291,7 +1291,7 @@ namespace Botania
         private void StartEarthWrath(IntVec3 dir)
         {
             currentSkill = GaiaSkill.EarthWrath;
-            Log.Message("[Botania] 施法：大地之怒");
+            BotaniaDebug.Log("[Botania] 施法：大地之怒");
             skillStageStart = Now;
             skillWarnUntil = Now + GaiaSkills.EarthWrathWarn;
             skillCells = GaiaSkills.ConeCells(this, dir, GaiaSkills.EarthWrathRadius, GaiaSkills.EarthWrathHalfAngle);
@@ -1302,7 +1302,7 @@ namespace Botania
         private void StartEntangle(List<Pawn> targets)
         {
             currentSkill = GaiaSkill.Entangle;
-            Log.Message("[Botania] 施法：根须缠绕");
+            BotaniaDebug.Log("[Botania] 施法：根须缠绕");
             skillStageStart = Now;
             skillWarnUntil = Now + GaiaSkills.EntangleWarn;
             entangleTargets = targets;
@@ -1318,7 +1318,7 @@ namespace Botania
         private void StartManaBeam(IntVec3 target)
         {
             currentSkill = GaiaSkill.ManaBeam;
-            Log.Message("[Botania] 施法：魔力射线");
+            BotaniaDebug.Log("[Botania] 施法：魔力射线");
             skillStageStart = Now;
             skillWarnUntil = Now + GaiaSkills.ManaBeamCharge;
             skillCells = GaiaSkills.BeamCells(this, target, GaiaSkills.ManaBeamRange);
@@ -1409,7 +1409,7 @@ namespace Botania
                 breachTarget.TakeDamage(new DamageInfo(DamageDefOf.Blunt,
                     GaiaSkills.EarthWrathDamage, 0.5f, -1f, this));
                 SpawnMoteAt("Botania_Mote_GaiaCrack", breachTarget.Position.ToVector3Shifted(), 1.2f);
-                Log.Message("[Botania] 大地之怒砸中挡路建筑 " + breachTarget.LabelShort +
+                BotaniaDebug.Log("[Botania] 大地之怒砸中挡路建筑 " + breachTarget.LabelShort +
                             "（剩余耐久 " + breachTarget.HitPoints + "）");
                 if (breachTarget == breachWall)
                 {
@@ -1459,7 +1459,7 @@ namespace Botania
                 p.health.AddHediff(hediff);
                 hitCount++;
             }
-            Log.Message($"[Botania] 根须缠绕：命中 {hitCount} / {entangleTargets.Count} 个目标（其余已离开预警格）");
+            BotaniaDebug.Log($"[Botania] 根须缠绕：命中 {hitCount} / {entangleTargets.Count} 个目标（其余已离开预警格）");
             Messages.Message("Botania.GaiaSkillEntangle".Translate(),
                 new LookTargets(Position, Map), MessageTypeDefOf.NeutralEvent, false);
         }
@@ -1646,7 +1646,7 @@ namespace Botania
             worldSoulRed = red;
             worldSoulSafe = safe;
             worldSoulBlockers = blockers;
-            Log.Message($"[Botania][世界之魂] 扫描完成：危险 {red.Count} / 安全 {safe.Count} / 阻挡 {blockers.Count}");
+            BotaniaDebug.Log($"[Botania][世界之魂] 扫描完成：危险 {red.Count} / 安全 {safe.Count} / 阻挡 {blockers.Count}");
         }
 
         /// <summary>
@@ -1978,7 +1978,7 @@ namespace Botania
                 defaultLabel = "[DEV] 查看技能状态",
                 defaultDesc = "把阶段、冷却、当前技能打印到日志。",
                 icon = TexCommand.GatherSpotActive,
-                action = () => Log.Message("[Botania] " + DebugStatus())
+                action = () => BotaniaDebug.Log("[Botania] " + DebugStatus())
             };
         }
 
@@ -2282,7 +2282,7 @@ namespace Botania
                 if (corpse != null && !corpse.Destroyed)
                 {
                     corpse.Destroy(DestroyMode.Vanish);
-                    Log.Message("[Botania] 盖亚的遗体已消散");
+                    BotaniaDebug.Log("[Botania] 盖亚的遗体已消散");
                 }
             }
             catch (System.Exception e)

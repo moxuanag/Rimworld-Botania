@@ -30,7 +30,7 @@ namespace Botania
             if (faction.RelationKindWith(Faction.OfPlayer) != FactionRelationKind.Hostile)
             {
                 faction.SetRelationDirect(Faction.OfPlayer, FactionRelationKind.Hostile, false);
-                Log.Message("[Botania] 盖亚阵营关系被重置为敌对");
+                BotaniaDebug.Log("[Botania] 盖亚阵营关系被重置为敌对");
             }
         }
 
@@ -89,7 +89,7 @@ namespace Botania
             {
                 wc.gaiaFaction = created;
             }
-            Log.Message("[Botania] 已创建盖亚阵营：" + created.Name);
+            BotaniaDebug.Log("[Botania] 已创建盖亚阵营：" + created.Name);
             return created;
         }
     }

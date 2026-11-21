@@ -73,7 +73,7 @@ namespace Botania
                 return;
             }
             triggerTick = Find.TickManager.TicksGame + Rand.Range(180000, 300000);
-            Log.Message("[Botania] 盖亚事件已排期：" + triggerTick + " tick 后掉落碎块");
+            BotaniaDebug.Log("[Botania] 盖亚事件已排期：" + triggerTick + " tick 后掉落碎块");
         }
 
         private bool SpawnShard()
@@ -194,7 +194,7 @@ namespace Botania
             {
                 IntVec3 near = CellFinder.RandomClosewalkCellNear(cell, m, 4,
                     c => c.Walkable(m) && !c.Fogged(m));
-                Log.Message("[Botania] 鼠标格不可站，改用附近的格子：" + near);
+                BotaniaDebug.Log("[Botania] 鼠标格不可站，改用附近的格子：" + near);
                 if (near.IsValid)
                 {
                     cell = near;
@@ -213,7 +213,7 @@ namespace Botania
             GenSpawn.Spawn(boss, cell, m);
             boss.Name = new NameSingle(bossName);
 
-            Log.Message("[Botania] 开发者生成 Boss：" + boss.LabelCap);
+            BotaniaDebug.Log("[Botania] 开发者生成 Boss：" + boss.LabelCap);
             Messages.Message("Botania.GaiaBossSpawned".Translate(),
                 new LookTargets(boss), MessageTypeDefOf.NeutralEvent, false);
         }
@@ -261,7 +261,7 @@ namespace Botania
             {
                 return;
             }
-            Log.Message($"[Botania] 盖亚事件：碎块已生成={mc.shardSpawned} 触发 tick={mc.triggerTick} 当前 tick={Find.TickManager.TicksGame}");
+            BotaniaDebug.Log($"[Botania] 盖亚事件：碎块已生成={mc.shardSpawned} 触发 tick={mc.triggerTick} 当前 tick={Find.TickManager.TicksGame}");
         }
     }
 }

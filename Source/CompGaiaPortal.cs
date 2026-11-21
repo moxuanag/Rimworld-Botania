@@ -107,7 +107,7 @@ namespace Botania
                         investigationProgress = 0f;
                         wavesDone = 0;
                         nextWaveTick = -1;
-                        Log.Message("[Botania] 盖亚传送门冷却结束，可以重新派人调查");
+                        BotaniaDebug.Log("[Botania] 盖亚传送门冷却结束，可以重新派人调查");
                     }
                     break;
 
@@ -313,7 +313,7 @@ namespace Botania
             // 生成后再设一次：部分生成流程会重置 Name
             boss.Name = new NameSingle(bossName);
             bossPawn = boss;
-            Log.Message("[Botania] 盖亚·世界之魂已从传送门走出，显示名：" + boss.LabelCap);
+            BotaniaDebug.Log("[Botania] 盖亚·世界之魂已从传送门走出，显示名：" + boss.LabelCap);
         }
 
         // ---------------- 投降 ----------------

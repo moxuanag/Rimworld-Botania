@@ -58,7 +58,7 @@ namespace Botania
                 }
                 if (Find.TickManager.TicksGame % 250 == 0)
                 {
-                    Log.Message($"[Botania] 调查中：{pawn.LabelShort} 位于门内，进度 {c.InvestigationPercent:P0}");
+                    BotaniaDebug.Log($"[Botania] 调查中：{pawn.LabelShort} 位于门内，进度 {c.InvestigationPercent:P0}");
                 }
             };
             work.WithProgressBar(PortalInd, () => Comp == null ? 0f : Comp.InvestigationPercent);

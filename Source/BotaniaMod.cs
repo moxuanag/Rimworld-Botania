@@ -10,6 +10,9 @@ namespace Botania
     /// </summary>
     public class BotaniaModSettings : ModSettings
     {
+        /// <summary>是否把 [Botania] 流程日志写进 Player.log（默认关闭）。</summary>
+        public bool debugLogging = false;
+
         public bool limitStructureTargets = true;
         public int maxStructureTargets = 5;
 
@@ -28,6 +31,7 @@ namespace Botania
         public override void ExposeData()
         {
             base.ExposeData();
+            Scribe_Values.Look(ref debugLogging, "debugLogging", false);
             Scribe_Values.Look(ref limitStructureTargets, "limitStructureTargets", true);
             Scribe_Values.Look(ref maxStructureTargets, "maxStructureTargets", 5);
             Scribe_Values.Look(ref limitItemTargets, "limitItemTargets", true);
@@ -68,7 +72,7 @@ namespace Botania
                     + "请检查 Patches/Botania_MiningYieldCap.xml 是否被其他模组覆盖。");
                 return;
             }
-            Log.Message("[Botania] 采矿效率上限已抬到 " + stat.maxValue.ToString("F1")
+            BotaniaDebug.Log("[Botania] 采矿效率上限已抬到 " + stat.maxValue.ToString("F1")
                 + "（原版 1.25）：碎岩镐的矿物掉落 ×3 可正常生效。");
         }
 
@@ -107,6 +111,11 @@ namespace Botania
             {
                 list.Label("Botania.SettingsUnlimited".Translate());
             }
+
+            list.GapLine();
+            list.Label("Botania.SettingsDebugHeader".Translate());
+            list.CheckboxLabeled("Botania.SettingsDebugLogging".Translate(), ref s.debugLogging,
+                "Botania.SettingsDebugLoggingDesc".Translate());
 
             list.GapLine();
             list.Label("Botania.SettingsRepairCost".Translate());

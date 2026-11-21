@@ -207,4 +207,7 @@
   <Botania.GaiaNursery.ConvertedGround>The nursery produced {0}</Botania.GaiaNursery.ConvertedGround>
   <Botania.GaiaNursery.Inspect>Radius {0}: terrasteel gear inside is grown into Gaia gear</Botania.GaiaNursery.Inspect>
   <Botania.GaiaSetBonus.On>{0} wears the full Gaia panoply and gains the Gaia blessing</Botania.GaiaSetBonus.On>
+  <Botania.SettingsDebugHeader>Debug and logging</Botania.SettingsDebugHeader>
+  <Botania.SettingsDebugLogging>Write debug log</Botania.SettingsDebugLogging>
+  <Botania.SettingsDebugLoggingDesc>When on, Boss/skill flow logs are written to Player.log for troubleshooting. Keep it off for normal play.</Botania.SettingsDebugLoggingDesc>
 </LanguageData>
