@@ -1177,20 +1177,25 @@ namespace Botania
             }
             float distToTarget = currentTarget.Position.DistanceTo(Position);
             bool near = distToTarget <= EngageRange;
-            if (!pathingStuck && distToTarget > EngageRange + 1.5f)
-            {
-                return;   // 离得远先走位
-            }
             if (Now < nextGlobalCastTick)
             {
                 return;
             }
 
             int level = Math.Min(2, Math.Max(0, phaseIndex));   // 缠绕等级 0/1/2
+            // 缠绕按自身半径判定（7/10/13 格），不需要先贴脸
             bool rootReady = CanCastEntangle(level, distToTarget);
             bool earthReady = near && TryFindConeTarget(out _);
             bool beamReady = phaseIndex == 1 && TryFindBeamTarget(out _);
             bool leapReady = CanCastLeapSkill(distToTarget);
+
+            // 远程可用技能（缠绕 / 突进）在射程内即可出手；
+            // 近战技能（大地之怒 / 射线）仍要求先走到 4.5 格附近
+            bool hasRangedOption = rootReady || leapReady;
+            if (!pathingStuck && !near && !hasRangedOption && distToTarget > EngageRange + 1.5f)
+            {
+                return;   // 只有近战技能可用时，先走位
+            }
 
             // 权重随阶段变化：二阶段射线权重减半（用户要求）
             List<GaiaSkill> pool = new List<GaiaSkill>();

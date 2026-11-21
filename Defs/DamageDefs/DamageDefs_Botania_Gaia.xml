@@ -9,7 +9,6 @@
     <defaultDamage>7</defaultDamage>
     <defaultArmorPenetration>0.6</defaultArmorPenetration>
     <buildingDamageFactor>0.5</buildingDamageFactor>
-    <applyAllDamage>false</applyAllDamage>
     <deathMessage>{0} has been unmade by mana.</deathMessage>
   </DamageDef>
 
@@ -21,7 +20,6 @@
     <defaultDamage>2</defaultDamage>
     <defaultArmorPenetration>0.35</defaultArmorPenetration>
     <buildingDamageFactor>0.2</buildingDamageFactor>
-    <applyAllDamage>false</applyAllDamage>
     <deathMessage>{0} has bled out among the thorns.</deathMessage>
   </DamageDef>
 
