@@ -134,6 +134,20 @@ namespace Botania
                 }
             }
 
+            // 需要破墙：先站到那面墙「自己走得到」的一侧
+            if (boss.BreachWall != null && boss.BreachWall.Spawned && !boss.BreachWall.Destroyed)
+            {
+                if (boss.TryGetBreachStandCell(out IntVec3 stand))
+                {
+                    if (stand.DistanceTo(pawn.Position) <= 1.5f)
+                    {
+                        return JobMaker.MakeJob(JobDefOf.Wait, 20);
+                    }
+                    return JobMaker.MakeJob(JobDefOf.Goto, stand);
+                }
+                return JobMaker.MakeJob(JobDefOf.Wait, 20);
+            }
+
             Thing target = boss.AITarget;
             if (target == null || target.Destroyed || !target.Spawned)
             {

@@ -579,22 +579,28 @@ namespace Botania
         }
 
         /// <summary>
-        /// 找最近的敌对目标：直接扫 ThingRequestGroup.AttackTarget
-        /// （包含小人、动物、炮塔、机械体等一切可攻击目标）。
-        /// 之前只用 attackTargetsCache，炮塔这类建筑没被算进去。
+        /// 选目标，规则参考原版突袭者：
+        ///   1) 「野外」可达的小人（不穿墙、不穿关着的门就能走到）
+        ///   2) 「野外」可达的炮塔/建筑
+        ///   3) 都不可达 -> 记下要破的墙/门（breachWall），走「破门」分支
+        /// 破开门之后下一次刷新会自动把房间里的目标算成「可达」，从而进房间。
         /// </summary>
         private Thing FindNearestAttackTarget()
         {
             Map map = Map;
             if (map == null)
             {
+                breachWall = null;
                 return null;
             }
+
             List<Thing> candidates = map.listerThings.ThingsInGroup(ThingRequestGroup.AttackTarget);
-            Thing nearestAny = null;
-            float nearestAnyDist = float.MaxValue;
-            Thing nearestReachable = null;
-            float nearestReachableDist = float.MaxValue;
+            Thing bestPawnWild = null;
+            float bestPawnWildDist = float.MaxValue;
+            Thing bestBuildingWild = null;
+            float bestBuildingWildDist = float.MaxValue;
+            Thing bestUnreachable = null;
+            float bestUnreachableDist = float.MaxValue;
 
             for (int i = 0; i < candidates.Count; i++)
             {
@@ -607,7 +613,6 @@ namespace Botania
                 {
                     continue;
                 }
-                // 跳过已倒地的小人：人已经废了就换下一个目标
                 if (th is Pawn pawnTarget && pawnTarget.Downed)
                 {
                     continue;
@@ -617,20 +622,194 @@ namespace Botania
                 {
                     continue;
                 }
-                if (d < nearestAnyDist)
+
+                if (CanReachWild(th))
                 {
-                    nearestAnyDist = d;
-                    nearestAny = th;
+                    if (th is Pawn)
+                    {
+                        if (d < bestPawnWildDist)
+                        {
+                            bestPawnWildDist = d;
+                            bestPawnWild = th;
+                        }
+                    }
+                    else if (d < bestBuildingWildDist)
+                    {
+                        bestBuildingWildDist = d;
+                        bestBuildingWild = th;
+                    }
                 }
-                // 可达性：只对最近的若干目标做寻路检查，避免性能问题
-                if (d < nearestReachableDist && d <= 40f && CanReachTarget(th))
+                else if (d < bestUnreachableDist)
                 {
-                    nearestReachableDist = d;
-                    nearestReachable = th;
+                    bestUnreachableDist = d;
+                    bestUnreachable = th;
                 }
             }
-            // 优先打「走得到」的目标；全都走不到才退回最近的（此时会尝试接近）
-            return nearestReachable ?? nearestAny;
+
+            Thing chosen = bestPawnWild ?? bestBuildingWild ?? bestUnreachable;
+            if (chosen == null)
+            {
+                breachWall = null;
+                return null;
+            }
+
+            // 有野外可达的目标就正常打；只有全都被墙挡住时才破墙
+            bool needBreach = bestPawnWild == null && bestBuildingWild == null;
+            if (needBreach)
+            {
+                if (breachWall == null || breachWall.Destroyed || !breachWall.Spawned)
+                {
+                    breachWall = FindBreachWall(chosen);
+                }
+            }
+            else
+            {
+                breachWall = null;
+            }
+            return chosen;
+        }
+
+        /// <summary>「野外」可达：不穿墙、不穿关着的门（原版 NoPassClosedDoors）。</summary>
+        private bool CanReachWild(Thing th)
+        {
+            if (th == null || Map == null)
+            {
+                return false;
+            }
+            try
+            {
+                TraverseParms parms = TraverseParms.For(this, Danger.Deadly,
+                    TraverseMode.NoPassClosedDoors, false);
+                return Map.reachability.CanReach(Position, new LocalTargetInfo(th),
+                    PathEndMode.Touch, parms);
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 找要破的墙/门：要求「自己这一侧有野外可达的相邻格」，
+        /// 并且尽量靠近目标（= 朝目标方向前进）。
+        /// </summary>
+        private Building FindBreachWall(Thing target)
+        {
+            Map map = Map;
+            if (map == null || target == null)
+            {
+                return null;
+            }
+            Building best = null;
+            float bestScore = float.MaxValue;
+            int radius = 24;
+            for (int dx = -radius; dx <= radius; dx++)
+            {
+                for (int dz = -radius; dz <= radius; dz++)
+                {
+                    IntVec3 c = new IntVec3(Position.x + dx, 0, Position.z + dz);
+                    if (!c.InBounds(map))
+                    {
+                        continue;
+                    }
+                    Building b = map.edificeGrid[c];
+                    if (b == null || b.Destroyed || !b.Spawned || b.def?.building == null)
+                    {
+                        continue;
+                    }
+                    BuildingProperties bp = b.def.building;
+                    if (!bp.isWall && !(b is Building_Door))
+                    {
+                        continue;
+                    }
+                    if (b.Faction == null || Faction == null || !b.HostileTo(Faction))
+                    {
+                        continue;
+                    }
+                    if (!HasWildReachableNeighbour(b))
+                    {
+                        continue;
+                    }
+                    // 评分：优先「离自己近 + 离目标近」的墙
+                    float score = b.Position.DistanceTo(Position) * 0.6f
+                                  + b.Position.DistanceTo(target.Position) * 0.4f;
+                    if (score < bestScore)
+                    {
+                        bestScore = score;
+                        best = b;
+                    }
+                }
+            }
+            if (best != null && best != breachWall)
+            {
+                Log.Message("[Botania] 需要破墙：" + best.LabelShort + "（位置 " + best.Position + "）");
+            }
+            return best;
+        }
+
+        private bool HasWildReachableNeighbour(Building b)
+        {
+            Map map = Map;
+            for (int i = 0; i < 8; i++)
+            {
+                IntVec3 c = b.Position + GenAdj.AdjacentCells[i];
+                if (!c.InBounds(map) || !c.Walkable(map))
+                {
+                    continue;
+                }
+                if (CanReachWildCell(c))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool CanReachWildCell(IntVec3 cell)
+        {
+            Map map = Map;
+            if (map == null)
+            {
+                return false;
+            }
+            try
+            {
+                TraverseParms parms = TraverseParms.For(this, Danger.Deadly,
+                    TraverseMode.NoPassClosedDoors, false);
+                return map.reachability.CanReach(Position, new LocalTargetInfo(cell),
+                    PathEndMode.OnCell, parms);
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>当前要破的墙（JobGiver / 破拆逻辑共用）。</summary>
+        public Building BreachWall => breachWall;
+
+        /// <summary>找破墙目标旁边「自己走得到」的格子，用于站位。</summary>
+        public bool TryGetBreachStandCell(out IntVec3 cell)
+        {
+            cell = IntVec3.Invalid;
+            if (breachWall == null || breachWall.Destroyed || !breachWall.Spawned)
+            {
+                return false;
+            }
+            for (int i = 0; i < 8; i++)
+            {
+                IntVec3 c = breachWall.Position + GenAdj.AdjacentCells[i];
+                if (!c.InBounds(Map) || !c.Walkable(Map))
+                {
+                    continue;
+                }
+                if (CanReachWildCell(c))
+                {
+                    cell = c;
+                    return true;
+                }
+            }
+            return false;
         }
 
         /// <summary>目标是否走得到（炮塔被墙围死时走不到）。</summary>
@@ -672,6 +851,7 @@ namespace Botania
         private Thing breachTarget;
         private int stuckScanCount;
         private int nextTeleportTick = -1;
+        private Building breachWall;
 
         /// <summary>
         /// 卡住时直接破坏挡路的敌对墙/门。
@@ -694,7 +874,11 @@ namespace Botania
             {
                 return;
             }
-            if (stuckScanCount < 3 || Now < nextTeleportTick)
+            if (breachWall != null && breachWall.Spawned && !breachWall.Destroyed)
+            {
+                return;   // 已经有破墙目标，交给破拆流程
+            }
+            if (stuckScanCount < 5 || Now < nextTeleportTick)
             {
                 return;
             }
@@ -741,10 +925,20 @@ namespace Botania
                 return;
             }
 
-            Thing blocker = FindBlockingStructureNearby(12);
-            if (blocker == null)
+            // 破墙目标由目标选择阶段确定（野外可达的小人/建筑都没有时才会设置）
+            Thing blocker = breachWall;
+            if (blocker == null || blocker.Destroyed || !blocker.Spawned)
             {
+                if (blocker != null)
+                {
+                    Log.Message("[Botania] 挡路建筑已破开，重新判定目标");
+                    breachWall = null;
+                }
                 return;
+            }
+            if (blocker.Position.DistanceTo(Position) > GaiaSkills.EarthWrathRadius + 1f)
+            {
+                return;   // 还没走到能砸到的距离
             }
 
             // 不直接扣耐久：改为朝挡路建筑施放「大地之怒」，
@@ -1226,6 +1420,10 @@ namespace Botania
                 SpawnMoteAt("Botania_Mote_GaiaCrack", breachTarget.Position.ToVector3Shifted(), 1.2f);
                 Log.Message("[Botania] 大地之怒砸中挡路建筑 " + breachTarget.LabelShort +
                             "（剩余耐久 " + breachTarget.HitPoints + "）");
+                if (breachTarget == breachWall)
+                {
+                    breachWall = null;   // 下次刷新重新判定：门破了，里面的目标可能就可达了
+                }
             }
             breachTarget = null;
 
