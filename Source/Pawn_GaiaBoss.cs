@@ -282,6 +282,7 @@ namespace Botania
 
             TickCombat();
             TickStuckBreach();
+            TickStuckTeleport();
             TickSkills();
             TickSwingMote();
 
@@ -669,12 +670,56 @@ namespace Botania
 
         private int nextBreachTick = -1;
         private Thing breachTarget;
+        private int stuckScanCount;
+        private int nextTeleportTick = -1;
 
         /// <summary>
         /// 卡住时直接破坏挡路的敌对墙/门。
         /// 不走 AI 任务（JobDefOf.AttackMelee 在这套引擎里对建筑经常不执行），
         /// 改为自己每 60 tick 扣一次耐久，稳定可靠。
         /// </summary>
+        /// <summary>
+        /// 引擎层寻路死锁的最终兜底：连续卡住 3 次检测（约 6 秒）、
+        /// 任务给了 Goto 但 pather 不走 -> 直接突进到目标附近。
+        ///
+        /// 这是保底手段，正常情况不应该触发；一旦触发会在日志里明确记录。
+        /// </summary>
+        private void TickStuckTeleport()
+        {
+            if (currentTarget == null || Map == null || !pathingStuck)
+            {
+                return;
+            }
+            if (currentTarget.Position.DistanceTo(Position) <= EngageRange)
+            {
+                return;
+            }
+            if (stuckScanCount < 3 || Now < nextTeleportTick)
+            {
+                return;
+            }
+
+            Map map = Map;
+            IntVec3 landing = CellFinder.RandomClosewalkCellNear(currentTarget.Position, map, 3,
+                c => c.Walkable(map) && !c.Fogged(map));
+            if (!landing.IsValid)
+            {
+                return;
+            }
+
+            nextTeleportTick = Now + 600;
+            stuckScanCount = 0;
+            pathingStuck = false;
+
+            SpawnMoteAt("Botania_Mote_GaiaCrack", Position.ToVector3Shifted(), 1.4f);
+            Position = landing;
+            pather?.StopDead();
+            SpawnMoteAt("Botania_Mote_GaiaCrack", landing.ToVector3Shifted(), 1.4f);
+
+            Log.Message($"[Botania] 寻路死锁兜底：突进到 ({landing.x},{landing.z})，距离目标 " +
+                        $"{landing.DistanceTo(currentTarget.Position):F1}");
+        }
+
         private void TickStuckBreach()
         {
             if (!pathingStuck || currentTarget == null || Map == null)
@@ -696,7 +741,7 @@ namespace Botania
                 return;
             }
 
-            Thing blocker = FindBlockingStructureNearby(6);
+            Thing blocker = FindBlockingStructureNearby(12);
             if (blocker == null)
             {
                 return;
@@ -710,7 +755,10 @@ namespace Botania
             Log.Message("[Botania] 卡住：对挡路建筑施放大地之怒 " + blocker.LabelShort);
         }
 
-        /// <summary>找附近的敌对墙/门（用于破拆）。</summary>
+        /// <summary>
+        /// 找「朝目标方向」的敌对墙/门（用于破拆）。
+        /// 只在 6 格内找不够：门可能在 7~12 格处，于是永远找不到 -> 卡死。
+        /// </summary>
         private Thing FindBlockingStructureNearby(int radius)
         {
             Map map = Map;
@@ -720,6 +768,11 @@ namespace Botania
             }
             Thing best = null;
             float bestDist = float.MaxValue;
+            IntVec3 origin = Position;
+            IntVec3 toward = currentTarget != null ? (currentTarget.Position - origin) : IntVec3.North;
+            float towardLen = toward.LengthHorizontal;
+            float towardX = towardLen > 0.01f ? toward.x / towardLen : 0f;
+            float towardZ = towardLen > 0.01f ? toward.z / towardLen : 1f;
             for (int dx = -radius; dx <= radius; dx++)
             {
                 for (int dz = -radius; dz <= radius; dz++)
@@ -742,6 +795,18 @@ namespace Botania
                     if (b.Faction == null || Faction == null || !b.HostileTo(Faction))
                     {
                         continue;
+                    }
+                    // 只拆「朝向目标方向」的阻挡物（dot > 0.2），免得对着侧面的墙乱砸
+                    float vx = b.Position.x - origin.x;
+                    float vz = b.Position.z - origin.z;
+                    float len = Mathf.Sqrt(vx * vx + vz * vz);
+                    if (len > 0.01f)
+                    {
+                        float dot = (vx * towardX + vz * towardZ) / len;
+                        if (dot < 0.2f)
+                        {
+                            continue;
+                        }
                     }
                     float d = b.Position.DistanceTo(Position);
                     if (d < bestDist)
@@ -774,11 +839,16 @@ namespace Botania
             if (moved)
             {
                 pathingStuck = false;
+                stuckScanCount = 0;
             }
             else
             {
                 pathingStuck = currentTarget != null
                                && currentTarget.Position.DistanceTo(Position) > EngageRange;
+                if (pathingStuck)
+                {
+                    stuckScanCount++;
+                }
             }
             lastCheckPos = Position;
         }
