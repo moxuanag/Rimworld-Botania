@@ -26,7 +26,7 @@ namespace Botania
         public const int EarthWrathWarn = 120;      // 2 秒预警
         public const int EarthWrathCd = 240;        // 4 秒冷却
         public const float EarthWrathRadius = 6f;
-        public const float EarthWrathHalfAngle = 30f;   // 60° 锥形
+        public const float EarthWrathHalfAngle = 45f;   // 90° 扇形：正面 3 格，每远一格左右各 +1
         public const float EarthWrathDamage = 60f;
         public const int EarthWrathKnockback = 3;
 
@@ -87,7 +87,8 @@ namespace Botania
                         continue;
                     }
                     float cos = (vx * dirX + vz * dirZ) / len;
-                    if (cos < Mathf.Cos(halfAngle * Mathf.Deg2Rad))
+                    // 容差 0.03：对角格常常刚好压在边界上，不加容差会被排除
+                    if (cos < Mathf.Cos(halfAngle * Mathf.Deg2Rad) - 0.03f)
                     {
                         continue;
                     }
@@ -99,6 +100,43 @@ namespace Botania
                 }
             }
             return cells;
+        }
+
+        /// <summary>
+        /// 某格是否落在扇形内（距离 + 角度 + 视线）。
+        /// 用几何判定而不是「格子集合包含」，可以容忍格子边缘的取整误差。
+        /// </summary>
+        public static bool IsInCone(Pawn boss, IntVec3 dir, IntVec3 cell, float radius, float halfAngle)
+        {
+            Map map = boss.Map;
+            if (map == null || !cell.InBounds(map))
+            {
+                return false;
+            }
+            IntVec3 origin = boss.Position;
+            float vx = cell.x - origin.x;
+            float vz = cell.z - origin.z;
+            float len = Mathf.Sqrt(vx * vx + vz * vz);
+            if (len <= 0.01f || len > radius + 0.5f)
+            {
+                return false;
+            }
+            float dx = dir.x - origin.x;
+            float dz = dir.z - origin.z;
+            float dirLen = Mathf.Sqrt(dx * dx + dz * dz);
+            if (dirLen <= 0.01f)
+            {
+                dz = 1f;
+                dirLen = 1f;
+            }
+            dx /= dirLen;
+            dz /= dirLen;
+            float cos = (vx * dx + vz * dz) / len;
+            if (cos < Mathf.Cos(halfAngle * Mathf.Deg2Rad) - 0.03f)
+            {
+                return false;
+            }
+            return GenSight.LineOfSight(origin, cell, map);
         }
 
         /// <summary>从 boss 指向 target 的直线格子（宽 3 格，方便玩家看清）。</summary>

@@ -939,13 +939,8 @@ namespace Botania
                 return false;
             }
             dir = currentTarget.Position;
-            List<IntVec3> cone = GaiaSkills.ConeCells(this, dir, GaiaSkills.EarthWrathRadius,
-                GaiaSkills.EarthWrathHalfAngle);
-            if (cone.Count == 0)
-            {
-                return false;
-            }
-            HashSet<IntVec3> coneSet = new HashSet<IntVec3>(cone);
+            // 几何判定（距离 + 角度 + 视线）：对角方向的目标也算在扇形内，
+            // 不会再因为格子取整误差被排除。
             List<Thing> candidates = map.listerThings.ThingsInGroup(ThingRequestGroup.AttackTarget);
             for (int i = 0; i < candidates.Count; i++)
             {
@@ -958,7 +953,8 @@ namespace Botania
                 {
                     continue;
                 }
-                if (coneSet.Contains(th.Position))
+                if (GaiaSkills.IsInCone(this, dir, th.Position,
+                        GaiaSkills.EarthWrathRadius, GaiaSkills.EarthWrathHalfAngle))
                 {
                     return true;
                 }
@@ -1915,9 +1911,6 @@ namespace Botania
                 case GaiaSkill.EarthWrath:
                 {
                     // 手动落点也要求扇形内真的有目标，避免空放
-                    List<IntVec3> cone = GaiaSkills.ConeCells(this, target, GaiaSkills.EarthWrathRadius,
-                        GaiaSkills.EarthWrathHalfAngle);
-                    HashSet<IntVec3> coneSet = new HashSet<IntVec3>(cone);
                     bool hasTarget = false;
                     List<Thing> candidates = Map.listerThings.ThingsInGroup(ThingRequestGroup.AttackTarget);
                     for (int i = 0; i < candidates.Count; i++)
@@ -1927,7 +1920,8 @@ namespace Botania
                         {
                             continue;
                         }
-                        if (coneSet.Contains(th.Position))
+                        if (GaiaSkills.IsInCone(this, target, th.Position,
+                                GaiaSkills.EarthWrathRadius, GaiaSkills.EarthWrathHalfAngle))
                         {
                             hasTarget = true;
                             break;
