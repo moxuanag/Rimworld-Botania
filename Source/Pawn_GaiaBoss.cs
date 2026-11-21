@@ -32,6 +32,12 @@ namespace Botania
         private static readonly Material BubbleMat =
             MaterialPool.MatFrom("Other/ShieldBubble", ShaderDatabase.Transparent);
 
+        // 表现升级用的两张自制贴图
+        private static readonly Material ArmMat =
+            MaterialPool.MatFrom("Things/Mote/Botania/GaiaArm", ShaderDatabase.Transparent);
+        private static readonly Material ShockwaveMat =
+            MaterialPool.MatFrom("Things/Mote/Botania/GaiaShockwave", ShaderDatabase.Transparent);
+
         private static readonly Color WarnColor = new Color(0.95f, 0.25f, 0.2f, 0.45f);
         private static readonly Color BeamColor = new Color(1f, 0.35f, 0.15f, 0.55f);
         private static readonly Color RootColor = new Color(0.45f, 0.9f, 0.4f, 0.5f);
@@ -417,6 +423,8 @@ namespace Botania
 
             phaseIndex++;
             invulnerableUntil = Now + 300;
+            phaseIntroUntil = Now + 90;
+            SpawnTransitionBurst();
             // 进入下一阶段：先清掉当前所有眩晕/瘫痪状态，再给 5 秒锁血眩晕
             ClearStun();
             paralyzedUntil = -1;
@@ -843,6 +851,15 @@ namespace Botania
         private int stuckScanCount;
         private int nextTeleportTick = -1;
         private Building breachWall;
+
+        // ---- 表现层（只影响绘制，不参与战斗判定）----
+        /// <summary>上一次大地之怒命中的 tick（用于挥击跟随动作）。</summary>
+        private int lastEarthWrathImpactTick = -9999;
+        /// <summary>大地之怒的朝向（单位向量，绘制手臂用）。</summary>
+        private float earthWrathDirX;
+        private float earthWrathDirZ = 1f;
+        /// <summary>阶段切换演出的结束 tick。</summary>
+        private int phaseIntroUntil = -1;
 
         /// <summary>
         /// 卡住时直接破坏挡路的敌对墙/门。
@@ -1292,6 +1309,15 @@ namespace Botania
         {
             currentSkill = GaiaSkill.EarthWrath;
             BotaniaDebug.Log("[Botania] 施法：大地之怒");
+            // 记录朝向：手臂与冲击波都按这个方向画
+            Vector3 aim = (dir.ToVector3() - Position.ToVector3()).Yto0();
+            if (aim.sqrMagnitude < 0.01f)
+            {
+                aim = Vector3.forward;
+            }
+            aim.Normalize();
+            earthWrathDirX = aim.x;
+            earthWrathDirZ = aim.z;
             skillStageStart = Now;
             skillWarnUntil = Now + GaiaSkills.EarthWrathWarn;
             skillCells = GaiaSkills.ConeCells(this, dir, GaiaSkills.EarthWrathRadius, GaiaSkills.EarthWrathHalfAngle);
@@ -1399,6 +1425,7 @@ namespace Botania
                 return;
             }
 
+            lastEarthWrathImpactTick = Now;
             GaiaSkills.DamageHostileThingsInCells(Map, Faction, cells, DamageDefOf.Blunt,
                 GaiaSkills.EarthWrathDamage, this, 0.5f, true, Position);
 
@@ -1884,27 +1911,183 @@ namespace Botania
 
         protected override void DrawAt(Vector3 drawLoc, bool flip = false)
         {
-            base.DrawAt(drawLoc, flip);
+            Vector3 dir = new Vector3(earthWrathDirX, 0f, earthWrathDirZ);
+            if (dir.sqrMagnitude < 0.01f)
+            {
+                dir = Vector3.forward;
+            }
+            dir.Normalize();
 
+            // ---- 姿态：大地之怒「蓄力后仰 -> 挥出」----
+            Vector3 bodyOffset = Vector3.zero;
+            float armSwing;
+            if (currentSkill == GaiaSkill.EarthWrath)
+            {
+                float prog = Mathf.Clamp01((Now - skillStageStart) / (float)GaiaSkills.EarthWrathWarn);
+                if (prog < 0.8f)
+                {
+                    float k = prog / 0.8f;
+                    bodyOffset = dir * (-0.22f * k);       // 后仰
+                    armSwing = -0.85f * k;                 // 手臂向后拉
+                }
+                else
+                {
+                    float k = (prog - 0.8f) / 0.2f;
+                    bodyOffset = dir * Mathf.Lerp(-0.22f, 0.45f, k);   // 前冲
+                    armSwing = Mathf.Lerp(-0.85f, 1.4f, k);            // 挥出
+                }
+            }
+            else if (Now - lastEarthWrathImpactTick <= 18)
+            {
+                float t = Mathf.Clamp01((Now - lastEarthWrathImpactTick) / 18f);
+                bodyOffset = dir * (0.45f * (1f - t));
+                armSwing = 1.4f * (1f - t);
+            }
+            else if (currentSkill == GaiaSkill.ManaBeam)
+            {
+                // 射线蓄力：双臂前推，微微抖动
+                float prog = Mathf.Clamp01((Now - skillStageStart) / (float)GaiaSkills.ManaBeamCharge);
+                bodyOffset = dir * (0.12f + 0.05f * Mathf.Sin(Now * 0.4f));
+                armSwing = Mathf.Lerp(0.5f, 1.25f, prog) + 0.06f * Mathf.Sin(Now * 0.9f);
+            }
+            else if (worldSoulActive)
+            {
+                // 世界之魂蓄力：双臂高举般缓慢摆动
+                armSwing = 1.05f + 0.28f * Mathf.Sin(Now * 0.055f);
+            }
+            else
+            {
+                // 闲时呼吸：手臂轻微起伏
+                armSwing = Mathf.Sin(Now * 0.035f) * 0.10f;
+            }
+
+            base.DrawAt(drawLoc + bodyOffset, flip);
+
+            try
+            {
+                DrawArms(drawLoc + bodyOffset, dir, armSwing);
+                DrawEarthWrathShockwave(drawLoc, dir);
+                DrawPhaseIntro(drawLoc);
+                DrawShieldBubble(drawLoc);
+            }
+            catch (Exception e)
+            {
+                Log.ErrorOnce("[Botania] Boss 表现层绘制失败：" + e, 9172631);
+            }
+        }
+
+        /// <summary>两条手臂：常驻轻微摆动，大地之怒时随施法进度挥出。</summary>
+        private void DrawArms(Vector3 drawLoc, Vector3 dir, float swing)
+        {
+            if (Dead)
+            {
+                return;
+            }
+            Vector3 side = new Vector3(dir.z, 0f, -dir.x);
+            float baseAng = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
+            Vector3 pos = drawLoc;
+            pos.y = AltitudeLayer.MoteOverhead.AltitudeFor();
+            for (int sign = -1; sign <= 1; sign += 2)
+            {
+                Vector3 shoulder = pos + side * (0.95f * sign) + dir * 0.15f;
+                float ang = baseAng - sign * swing * Mathf.Rad2Deg * 0.30f;
+                Vector3 center = shoulder + dir * 0.85f;
+                Matrix4x4 m = default(Matrix4x4);
+                m.SetTRS(center, Quaternion.AngleAxis(ang, Vector3.up), new Vector3(0.85f, 1f, 2.1f));
+                Graphics.DrawMesh(MeshPool.plane10, m, ArmMat, 0);
+            }
+        }
+
+        /// <summary>大地之怒命中后 18 tick 的扩散冲击环（朝施法方向偏前）。</summary>
+        private void DrawEarthWrathShockwave(Vector3 drawLoc, Vector3 dir)
+        {
+            float elapsed = Now - lastEarthWrathImpactTick;
+            if (elapsed < 0 || elapsed > 18)
+            {
+                return;
+            }
+            float t = Mathf.Clamp01(elapsed / 18f);
+            Vector3 pos = drawLoc + dir * 2.4f;
+            pos.y = AltitudeLayer.MoteOverhead.AltitudeFor() - 0.06f;
+            float r = Mathf.Lerp(2.5f, 9.5f, t);
+            Matrix4x4 m = default(Matrix4x4);
+            m.SetTRS(pos, Quaternion.identity, new Vector3(r, 1f, r));
+            Graphics.DrawMesh(MeshPool.plane10, m, ShockwaveMat, 0);
+        }
+
+        /// <summary>阶段切换：脚下扩散的大环。</summary>
+        private void DrawPhaseIntro(Vector3 drawLoc)
+        {
+            if (phaseIntroUntil < 0 || Now >= phaseIntroUntil)
+            {
+                return;
+            }
+            float t = 1f - (phaseIntroUntil - Now) / 90f;
+            Vector3 pos = drawLoc;
+            pos.y = AltitudeLayer.MoteOverhead.AltitudeFor() - 0.06f;
+            float r = Mathf.Lerp(1.5f, 16f, Mathf.Clamp01(t));
+            Matrix4x4 m = default(Matrix4x4);
+            m.SetTRS(pos, Quaternion.identity, new Vector3(r, 1f, r));
+            Graphics.DrawMesh(MeshPool.plane10, m, ShockwaveMat, 0);
+        }
+
+        /// <summary>护盾气泡（原逻辑）。</summary>
+        private void DrawShieldBubble(Vector3 drawLoc)
+        {
             if (shield <= 0f)
             {
                 return;
             }
+            float frac = Mathf.Clamp01(shield / Mathf.Max(1f, ShieldMax));
+            float size = Mathf.Lerp(3.6f, 4.6f, frac);
+            Vector3 pos = drawLoc;
+            pos.y = AltitudeLayer.MoteOverhead.AltitudeFor();
+            Matrix4x4 m = default(Matrix4x4);
+            m.SetTRS(pos, Quaternion.AngleAxis(Rand.Range(0f, 360f), Vector3.up),
+                new Vector3(size, 1f, size));
+            Graphics.DrawMesh(MeshPool.plane10, m, BubbleMat, 0);
+        }
 
-            try
+        /// <summary>阶段切换时的粒子爆发。</summary>
+        private void SpawnTransitionBurst()
+        {
+            Map map = Map;
+            if (map == null)
             {
-                float frac = Mathf.Clamp01(shield / Mathf.Max(1f, ShieldMax));
-                float size = Mathf.Lerp(3.6f, 4.6f, frac);
-                Vector3 pos = drawLoc;
-                pos.y = AltitudeLayer.MoteOverhead.AltitudeFor();
-                Matrix4x4 matrix = default(Matrix4x4);
-                matrix.SetTRS(pos, Quaternion.AngleAxis(Rand.Range(0f, 360f), Vector3.up),
-                    new Vector3(size, 1f, size));
-                Graphics.DrawMesh(MeshPool.plane10, matrix, BubbleMat, 0);
+                return;
             }
-            catch (Exception e)
+            for (int i = 0; i < 18; i++)
             {
-                Log.ErrorOnce("[Botania] 护盾气泡绘制失败：" + e, 8172631);
+                float ang = i * (360f / 18f) * Mathf.Deg2Rad;
+                Vector3 p = Position.ToVector3Shifted()
+                            + new Vector3(Mathf.Cos(ang), 0f, Mathf.Sin(ang)) * Rand.Range(2.5f, 6.5f);
+                SpawnMoteAt("Botania_Mote_GaiaSpark", p, Rand.Range(1.2f, 1.8f));
+            }
+            for (int i = 0; i < 6; i++)
+            {
+                IntVec3 c = Position + GenRadial.RadialPattern[i + 1] * 2;
+                if (c.InBounds(map))
+                {
+                    SpawnMoteAt("Botania_Mote_GaiaCrack", c.ToVector3Shifted(), 1.5f);
+                }
+            }
+        }
+
+        /// <summary>死亡时的粒子爆发（尸体已移除，用粒子表现「崩塌」）。</summary>
+        private void SpawnDeathBurst(Map map, IntVec3 pos)
+        {
+            if (map == null || !pos.IsValid)
+            {
+                return;
+            }
+            for (int i = 0; i < 26; i++)
+            {
+                float ang = Rand.Range(0f, 360f) * Mathf.Deg2Rad;
+                float dist = Rand.Range(1f, 7f);
+                Vector3 p = pos.ToVector3Shifted()
+                            + new Vector3(Mathf.Cos(ang), 0f, Mathf.Sin(ang)) * dist;
+                SpawnMoteAt(i % 3 == 0 ? "Botania_Mote_GaiaCrack" : "Botania_Mote_GaiaSpark",
+                    p, Rand.Range(1.2f, 2.2f));
             }
         }
 
@@ -2273,6 +2456,7 @@ namespace Botania
             if (map != null && pos.IsValid)
             {
                 GiveDropsOnce(map, pos);
+                SpawnDeathBurst(map, pos);
             }
 
             // 尸体消失：世界之魂本就不该留下能屠宰的遗体
