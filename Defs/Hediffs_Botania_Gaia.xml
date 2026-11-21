@@ -71,4 +71,31 @@
     </stages>
   </HediffDef>
 
+
+  <!--
+    盖亚之赐：同时穿着盖亚甲 + 盖亚头盔时获得的套装加成。
+    数值全在这里，调平衡只改这个 Def。
+  -->
+  <HediffDef>
+    <defName>Botania_GaiaSetBonus</defName>
+    <label>gaia blessing</label>
+    <description>The full Gaia panoply answers to its wearer. Root-light runs along the seams, and the body moves like something that grew into the shape rather than being fitted to it.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <isBad>false</isBad>
+    <initialSeverity>1</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <stages>
+      <li>
+        <statOffsets>
+          <MoveSpeed>0.35</MoveSpeed>
+          <WorkSpeedGlobal>0.20</WorkSpeedGlobal>
+          <ImmunityGainSpeed>0.30</ImmunityGainSpeed>
+          <IncomingDamageFactor>-0.10</IncomingDamageFactor>
+          <ArmorRating_Sharp>0.10</ArmorRating_Sharp>
+          <ArmorRating_Blunt>0.10</ArmorRating_Blunt>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
 </Defs>
