@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- 开发者菜单新增一页「植物魔法」，里面的工具见 DebugActions_BotaniaGear -->
+  <DebugTabMenuDef>
+    <defName>Botania</defName>
+    <label>plant magic</label>
+    <menuClass>RimWorld.DebugTabMenu_Actions</menuClass>
+    <displayOrder>70</displayOrder>
+  </DebugTabMenuDef>
+
+</Defs>

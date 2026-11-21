@@ -212,4 +212,10 @@
   <Botania.SettingsDebugLoggingDesc>开启后会把 Boss/技能的流程日志写进 Player.log，用于排查问题；正常游玩建议关闭。</Botania.SettingsDebugLoggingDesc>
   <Botania.TerrasteelSetBonus.On>{0} 穿齐了泰拉套装，获得「泰拉之赐」</Botania.TerrasteelSetBonus.On>
   <Botania.TerrasteelMending.Tip>每 2 秒愈合一处伤口</Botania.TerrasteelMending.Tip>
+  <Botania.DevGear.Title>植物魔法 · 装备生成器</Botania.DevGear.Title>
+  <Botania.DevGear.Hint>点左键：在鼠标位置生成该装备</Botania.DevGear.Hint>
+  <Botania.DevGear.Empty>没有找到植物魔法装备</Botania.DevGear.Empty>
+  <Botania.DevGear.Weapon>武器</Botania.DevGear.Weapon>
+  <Botania.DevGear.Apparel>护甲</Botania.DevGear.Apparel>
+  <Botania.DevGear.Spawned>已生成 {0}</Botania.DevGear.Spawned>
 </LanguageData>

@@ -212,4 +212,10 @@
   <Botania.SettingsDebugLoggingDesc>When on, Boss/skill flow logs are written to Player.log for troubleshooting. Keep it off for normal play.</Botania.SettingsDebugLoggingDesc>
   <Botania.TerrasteelSetBonus.On>{0} wears the full terrasteel panoply and gains the terrasteel blessing</Botania.TerrasteelSetBonus.On>
   <Botania.TerrasteelMending.Tip>Heals one wound every 2 seconds</Botania.TerrasteelMending.Tip>
+  <Botania.DevGear.Title>Plant Magic - Gear Spawner</Botania.DevGear.Title>
+  <Botania.DevGear.Hint>Left click: spawn the gear at the cursor</Botania.DevGear.Hint>
+  <Botania.DevGear.Empty>No plant magic gear found</Botania.DevGear.Empty>
+  <Botania.DevGear.Weapon>Weapon</Botania.DevGear.Weapon>
+  <Botania.DevGear.Apparel>Apparel</Botania.DevGear.Apparel>
+  <Botania.DevGear.Spawned>Spawned {0}</Botania.DevGear.Spawned>
 </LanguageData>
