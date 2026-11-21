@@ -579,22 +579,93 @@ namespace Botania
             if (pathingStuck && pather != null && !pather.Moving && Now >= nextPathTick)
             {
                 nextPathTick = Now + 60;
-                IntVec3 dest = CellFinder.RandomClosewalkCellNear(currentTarget.Position, Map, 2,
-                    c => c.Walkable(Map) && !c.Fogged(Map) && c != currentTarget.Position);
-                if (dest.IsValid)
-                {
-                    pather.StartPath(dest, PathEndMode.OnCell);
-                }
+                DiagnoseAndRepath(currentTarget, dist);
             }
 
             if (pathingStuck && Now % 120 == 0)
             {
                 bool reach = CanReachTarget(currentTarget);
                 BotaniaDebug.Log($"[Botania][移动] 目标={currentTarget.LabelShort} 距离={dist:F1} " +
-                            $"可达={reach} 任务={jobs?.curJob?.def?.defName ?? "无"} 走动={pather?.Moving}");
+                            $"可达={reach} 任务={jobs?.curJob?.def?.defName ?? "无"} 走动={pather?.Moving}" +
+                            $" 自身格={Position} 自身格可走={Position.Walkable(Map)}");
             }
 
             nextPathTick = Now + 30;
+        }
+
+        /// <summary>
+        /// 卡住时：先确认「自己站的格子能不能走」，再找一个真的可达的落点起路。
+        ///
+        /// 之前的实现直接 pather.StartPath 但不看返回值，也没有检查自身格，
+        /// 所以「站在不可走格子上」或「落点不可达」时会一直失败且没有日志，
+        /// 表现为「任务=Goto 但走动=False」永远不变。
+        /// </summary>
+        private void DiagnoseAndRepath(Thing target, float dist)
+        {
+            Map map = Map;
+            if (map == null || target == null)
+            {
+                return;
+            }
+
+            bool selfWalkable = Position.Walkable(map);
+            if (!selfWalkable)
+            {
+                // 站在墙里/建筑上时，任何寻路都会失败，先挪出来
+                if (CellFinder.TryFindRandomCellNear(Position, map, 3,
+                        c => c.Walkable(map) && !c.Fogged(map), out IntVec3 freeCell))
+                {
+                    BotaniaDebug.Log("[Botania][卡住] 自身格不可走 " + Position + " -> 挪到 " + freeCell);
+                    Position = freeCell;
+                    pather?.StopDead();
+                    selfWalkable = true;
+                }
+            }
+
+            // 由近到远找「离目标最近且真的可达」的落脚点
+            IntVec3 best = IntVec3.Invalid;
+            TraverseParms parms = TraverseParms.For(this, Danger.Deadly, TraverseMode.PassDoors, false);
+            for (int r = 1; r <= 12 && !best.IsValid; r++)
+            {
+                foreach (IntVec3 c in GenRadial.RadialCellsAround(target.Position, r, true))
+                {
+                    if (!c.InBounds(map) || c == target.Position || !c.Walkable(map) || c.Fogged(map))
+                    {
+                        continue;
+                    }
+                    try
+                    {
+                        if (map.reachability.CanReach(Position, new LocalTargetInfo(c),
+                                PathEndMode.OnCell, parms))
+                        {
+                            best = c;
+                            break;
+                        }
+                    }
+                    catch (System.Exception)
+                    {
+                        // 忽略单个格子的异常
+                    }
+                }
+            }
+
+            bool started = false;
+            if (best.IsValid)
+            {
+                pather.StartPath(best, PathEndMode.OnCell);
+                started = pather.Moving;   // StartPath 返回 void，用 Moving 判断是否真的出发了
+            }
+
+            BotaniaDebug.Log($"[Botania][卡住明细] 距离={dist:F1} 自身格可走={selfWalkable} " +
+                        $"选中落点={best} 落点可走={(best.IsValid && best.Walkable(map))} " +
+                        $"起路成功={started} 走动={pather.Moving} " +
+                        $"任务={jobs?.curJob?.def?.defName ?? "无"} 连续卡住={stuckScanCount}");
+
+            if (started)
+            {
+                pathingStuck = false;
+                stuckScanCount = 0;
+            }
         }
 
         /// <summary>
