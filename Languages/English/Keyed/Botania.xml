@@ -203,4 +203,7 @@
   <Botania.GaiaWorldSoulBurst>The world-soul bursts</Botania.GaiaWorldSoulBurst>
   <Botania.GaiaSkillFail.NoPawnNearPoint>No enemies near the target point; the roots cannot reach anyone</Botania.GaiaSkillFail.NoPawnNearPoint>
   <Botania.GaiaSkillFail.Generic>Skill failed: no valid target</Botania.GaiaSkillFail.Generic>
+  <Botania.GaiaNursery.ConvertedWorn>The nursery grew {2}'s {0} into {1}</Botania.GaiaNursery.ConvertedWorn>
+  <Botania.GaiaNursery.ConvertedGround>The nursery produced {0}</Botania.GaiaNursery.ConvertedGround>
+  <Botania.GaiaNursery.Inspect>Radius {0}: terrasteel gear inside is grown into Gaia gear</Botania.GaiaNursery.Inspect>
 </LanguageData>

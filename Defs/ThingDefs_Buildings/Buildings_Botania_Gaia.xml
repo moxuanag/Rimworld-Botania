@@ -86,4 +86,75 @@
     </comps>
   </ThingDef>
 
+
+  <!--
+    世界之种苗圃：把范围内的泰拉钢护甲/头盔培育成盖亚甲/头盔。
+    转化清单写在 comp 的 conversions 里，以后加装备只要加一行。
+  -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>Botania_WorldSeedNursery</defName>
+    <label>world-seed nursery</label>
+    <description>A pod of living seed matter set in a ring of stone. Terrasteel left inside it comes out changed: the same shape, but grown through.<br/><br/>Put terrasteel armour or a terrasteel helmet in its field and it will be reborn as Gaia gear. Colonists standing in the field have their worn gear converted first.</description>
+    <thingClass>Building</thingClass>
+    <graphicData>
+      <texPath>Things/Building/Botania/GaiaNursery</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>1</fillPercent>
+    <rotatable>false</rotatable>
+    <castEdgeShadows>false</castEdgeShadows>
+    <tickerType>Normal</tickerType>
+    <size>(3,3)</size>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>Buildings</li>
+    </thingCategories>
+    <uiOrder>3100</uiOrder>
+    <designationCategory>Misc</designationCategory>
+    <researchPrerequisites>
+      <li>Botania_Gaia</li>
+    </researchPrerequisites>
+    <statBases>
+      <MaxHitPoints>800</MaxHitPoints>
+      <WorkToBuild>8000</WorkToBuild>
+      <Mass>120</Mass>
+      <Flammability>0.0</Flammability>
+      <Beauty>8</Beauty>
+    </statBases>
+    <costList>
+      <Botania_GaiaCore>1</Botania_GaiaCore>
+      <Botania_TerrasteelIngot>20</Botania_TerrasteelIngot>
+      <Botania_PixieDust>30</Botania_PixieDust>
+    </costList>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Medium</destroySound>
+    </building>
+    <comps>
+      <li Class="Botania.CompProperties_RadiusRing">
+        <radius>8</radius>
+      </li>
+      <li Class="Botania.CompProperties_GaiaNursery">
+        <radius>8</radius>
+        <intervalTicks>300</intervalTicks>
+        <conversions>
+          <li>
+            <from>Botania_TerrasteelArmor</from>
+            <to>Botania_GaiaArmor</to>
+          </li>
+          <li>
+            <from>Botania_TerrasteelHelmet</from>
+            <to>Botania_GaiaHelmet</to>
+          </li>
+        </conversions>
+      </li>
+    </comps>
+    <placeWorkers>
+      <li>Botania.PlaceWorker_RadiusFromComp</li>
+    </placeWorkers>
+  </ThingDef>
+
 </Defs>

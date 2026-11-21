@@ -203,4 +203,7 @@
   <Botania.GaiaWorldSoulBurst>世界之魂爆发</Botania.GaiaWorldSoulBurst>
   <Botania.GaiaSkillFail.NoPawnNearPoint>落点附近没有敌人，根须缠绕无法命中</Botania.GaiaSkillFail.NoPawnNearPoint>
   <Botania.GaiaSkillFail.Generic>技能释放失败（没有有效目标）</Botania.GaiaSkillFail.Generic>
+  <Botania.GaiaNursery.ConvertedWorn>苗圃把 {2} 身上的{0}培育成了{1}</Botania.GaiaNursery.ConvertedWorn>
+  <Botania.GaiaNursery.ConvertedGround>苗圃培育出了一件{0}</Botania.GaiaNursery.ConvertedGround>
+  <Botania.GaiaNursery.Inspect>范围半径 {0} 格：范围内泰拉钢装备会被培育成盖亚装备</Botania.GaiaNursery.Inspect>
 </LanguageData>

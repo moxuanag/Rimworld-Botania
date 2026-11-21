@@ -244,4 +244,6 @@
   <Botania_Mote_GaiaCrack.label>大地之怒裂纹</Botania_Mote_GaiaCrack.label>
   <Botania_Mote_GaiaSpark.label>魔力射线光斑</Botania_Mote_GaiaSpark.label>
   <Botania_Mote_GaiaSwing.label>盖亚挥击</Botania_Mote_GaiaSwing.label>
+  <Botania_WorldSeedNursery.label>世界之种苗圃</Botania_WorldSeedNursery.label>
+  <Botania_WorldSeedNursery.description>一圈石台里嵌着一枚活的种荚。留在里面的泰拉钢会被重新培育：形状还是那个形状，但它已经"长"过一遍了。\n\n把泰拉钢护甲或头盔放进它的范围，会被转化为盖亚装备。站在范围内的殖民者身上穿着的装备会优先转化。</Botania_WorldSeedNursery.description>
 </LanguageData>
