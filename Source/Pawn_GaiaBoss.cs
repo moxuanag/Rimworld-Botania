@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -38,6 +39,10 @@ namespace Botania
         private static readonly Material ShockwaveMat =
             MaterialPool.MatFrom("Things/Mote/Botania/GaiaShockwave", ShaderDatabase.Transparent);
 
+        private static readonly Material SilenceMat =
+            MaterialPool.MatFrom("Things/Mote/Botania/GaiaShockwave", ShaderDatabase.Transparent,
+                new Color(0.02f, 0.03f, 0.03f, 0.55f));
+
         // 世界之跃：落点处的 Boss 轮廓（半透明残影）
         private static readonly Material[] LeapGhostMats =
         {
@@ -67,10 +72,28 @@ namespace Botania
         private int skillStageStart;
         private int skillWarnUntil;
         private List<IntVec3> skillCells = new List<IntVec3>();
+
+        /// <summary>缠绕：已经种下、等待长成荆棘的目标。</summary>
+        private List<EntanglePending> entanglePending = new List<EntanglePending>();
+
+        /// <summary>被沉默（兜底突进之后不能动也不能打）的结束 tick。</summary>
+        private int silencedUntil = -1;
+
+        /// <summary>本次世界之跃是不是「卡住兜底」形态。</summary>
+        private bool leapIsFallback;
+
+        private class EntanglePending
+        {
+            public Pawn pawn;
+            public IntVec3 cell;
+            public int growAt;
+            public int rootTicks;
+            public int damage;
+        }
         private Color skillColor = WarnColor;
         private List<Pawn> entangleTargets = new List<Pawn>();
-        private List<int> skillCooldownUntil = new List<int> { 0, 0, 0, 0, 0, 0 };
-        private List<int> skillLastCast = new List<int> { 0, 0, 0, 0, 0, 0 };
+        private List<int> skillCooldownUntil = new List<int> { 0, 0, 0, 0, 0, 0, 0 };
+        private List<int> skillLastCast = new List<int> { 0, 0, 0, 0, 0, 0, 0 };
         private GaiaSkill lastCastSkill;
         private int castsSinceRoot;
 
@@ -474,10 +497,14 @@ namespace Botania
 
         private int nextGlobalCastTick = -1;
 
-        private bool CanAct => !Dead && !IsInvulnerable && !IsParalyzed && !worldSoulActive;
+        /// <summary>兜底突进后 5 秒沉默：不能移动、不能攻击。</summary>
+        public bool IsSilenced => Now < silencedUntil;
+
+        private bool CanAct => !Dead && !IsInvulnerable && !IsParalyzed && !worldSoulActive && Now >= silencedUntil;
 
         private void TickSkills()
         {
+            TickEntanglePending();
             if (worldSoulActive)
             {
                 AdvanceWorldSoul();
@@ -558,7 +585,7 @@ namespace Botania
                 return;
             }
 
-            if (currentSkill != GaiaSkill.None || worldSoulActive || !CanAct)
+            if (currentSkill != GaiaSkill.None || worldSoulActive || !CanAct || IsSilenced)
             {
                 return;
             }
@@ -985,7 +1012,7 @@ namespace Botania
 
             nextTeleportTick = Now + 900;
             stuckScanCount = 0;
-            StartLeap();   // 走「世界之跃」技能：先预警再瞬移
+            StartLeap(targetBehindCurrentTarget(), true);   // 兜底：跳到敌人身后 + 5 秒沉默
         }
 
         private void TickStuckBreach()
@@ -1131,91 +1158,98 @@ namespace Botania
             lastCheckPos = Position;
         }
 
+        /// <summary>
+        /// 按阶段决定技能池：
+        ///   一阶段：缠绕1 + 大地之怒
+        ///   二阶段：缠绕2 + 魔力射线
+        ///   三阶段：缠绕3 + 大地之怒（世界之魂在切换时单独触发一次）
+        /// 另外「世界之跃」作为独立技能，冷却好了且目标够远时有概率使用。
+        /// </summary>
         private void TryPickSkill()
         {
             if (!CanAct || orderedSkill != GaiaSkill.None)
             {
                 return;
             }
-
-            // 必须走近到攻击距离内才放技能（远了先走位）
             if (currentTarget == null || currentTarget.Destroyed || !currentTarget.Spawned)
             {
                 return;
             }
             float distToTarget = currentTarget.Position.DistanceTo(Position);
-            // 正常：走近 4 格左右才出手；走不过去（卡住）时允许在技能射程内远程打
+            bool near = distToTarget <= EngageRange;
             if (!pathingStuck && distToTarget > EngageRange + 1.5f)
             {
-                return;
+                return;   // 离得远先走位
             }
-
-            // 随机机制（方案 A + 防呆）：
-            //   1) 开场 / 距上次根须已过 3 次 -> 放根须缠绕（保证控制技不消失）
-            //   2) 其余时候在「大地之怒 / 魔力射线」之间 70% : 30% 抽
-            //   3) 不连续放同一个技能（除非另一个不可用）
             if (Now < nextGlobalCastTick)
             {
                 return;
             }
 
-            // 大地之怒严格 <=4.5（6 格时角落会打不到）；
-            // 根须缠绕正常也 <=4.5，卡住时放宽到 6 格以覆盖角落情况。
-            bool near = distToTarget <= EngageRange;
-            bool nearRoot = near || (pathingStuck && distToTarget <= 6f);
-            // 冷却已取消：只看「距离/目标/是否已解锁」，
-            // 节奏完全由方案一的随机规则 + 各技能自身的预警/蓄力时间决定
-            bool rootReady = nearRoot && TryFindEntangleTargets(out _);
+            int level = Math.Min(2, Math.Max(0, phaseIndex));   // 缠绕等级 0/1/2
+            bool rootReady = CanCastEntangle(level, distToTarget);
             bool earthReady = near && TryFindConeTarget(out _);
-            bool beamReady = phaseIndex >= 1 && TryFindBeamTarget(out _);
+            bool beamReady = phaseIndex == 1 && TryFindBeamTarget(out _);
+            bool leapReady = CanCastLeapSkill(distToTarget);
 
-            GaiaSkill chosen = GaiaSkill.None;
-
-            if (rootReady && (lastCastSkill == GaiaSkill.None || castsSinceRoot >= 3))
+            // 权重随阶段变化：二阶段射线权重减半（用户要求）
+            List<GaiaSkill> pool = new List<GaiaSkill>();
+            List<float> weights = new List<float>();
+            if (rootReady) { pool.Add(GaiaSkill.Entangle); weights.Add(55f); }
+            if (phaseIndex == 0 || phaseIndex >= 2)
             {
-                chosen = GaiaSkill.Entangle;
+                if (earthReady) { pool.Add(GaiaSkill.EarthWrath); weights.Add(100f); }
             }
-            else if (earthReady && beamReady)
+            if (phaseIndex == 1 && beamReady) { pool.Add(GaiaSkill.ManaBeam); weights.Add(15f); }
+            if (leapReady) { pool.Add(GaiaSkill.Leap); weights.Add(25f); }
+
+            if (pool.Count == 0)
             {
-                GaiaSkill pick = Rand.Chance(0.7f) ? GaiaSkill.EarthWrath : GaiaSkill.ManaBeam;
-                if (pick == lastCastSkill)
+                return;
+            }
+
+            // 不连续放同一个技能（除非只有一个可用）
+            if (pool.Count > 1 && pool.Count(x => x == lastCastSkill) == 1)
+            {
+                int idx = pool.IndexOf(lastCastSkill);
+                float removed = weights[idx];
+                pool.RemoveAt(idx);
+                weights.RemoveAt(idx);
+                float total = weights.Sum();
+                // 把它的权重按比例分给其它技能
+                for (int i = 0; i < weights.Count; i++)
                 {
-                    pick = pick == GaiaSkill.EarthWrath ? GaiaSkill.ManaBeam : GaiaSkill.EarthWrath;
+                    weights[i] += weights[i] / total * removed;
                 }
-                chosen = pick;
             }
-            else if (earthReady)
+
+            float sum = weights.Sum();
+            float roll = Rand.Range(0f, sum);
+            float acc = 0f;
+            GaiaSkill chosen = pool[pool.Count - 1];
+            for (int i = 0; i < pool.Count; i++)
             {
-                chosen = GaiaSkill.EarthWrath;
-            }
-            else if (beamReady)
-            {
-                chosen = GaiaSkill.ManaBeam;
-            }
-            else if (rootReady)
-            {
-                chosen = GaiaSkill.Entangle;
+                acc += weights[i];
+                if (roll <= acc)
+                {
+                    chosen = pool[i];
+                    break;
+                }
             }
 
             switch (chosen)
             {
                 case GaiaSkill.ManaBeam:
-                    if (TryFindBeamTarget(out IntVec3 beamTarget))
-                    {
-                        StartManaBeam(beamTarget);
-                    }
+                    if (TryFindBeamTarget(out IntVec3 beamTarget)) StartManaBeam(beamTarget);
                     break;
                 case GaiaSkill.Entangle:
-                    if (TryFindEntangleTargets(out List<Pawn> targets))
-                    {
-                        StartEntangle(targets);
-                    }
+                    if (TryFindEntangleTargets(out List<Pawn> targets)) StartEntangle(targets);
                     break;
                 case GaiaSkill.EarthWrath:
-                    if (TryFindConeTarget(out IntVec3 dir))
-                    {
-                        StartEarthWrath(dir);
-                    }
+                    if (TryFindConeTarget(out IntVec3 dir)) StartEarthWrath(dir);
+                    break;
+                case GaiaSkill.Leap:
+                    StartLeap(targetBehindCurrentTarget(), false);
                     break;
             }
         }
@@ -1310,20 +1344,68 @@ namespace Botania
             return false;
         }
 
+        /// <summary>按当前阶段等级（1~3）找最近的若干敌对生物。</summary>
         private bool TryFindEntangleTargets(out List<Pawn> targets)
         {
             targets = new List<Pawn>();
-            List<Pawn> pawns = HostilePawnsInRange(GaiaSkills.EntangleRange);
+            int level = Math.Max(0, Math.Min(2, phaseIndex));
+            float radius = GaiaSkills.EntangleRadius[level];
+            int want = GaiaSkills.EntangleTargets[level];
+            List<Pawn> pawns = HostilePawnsInRange(radius);
             if (pawns.Count == 0)
             {
                 return false;
             }
-            pawns.Sort((a, b) => a.Position.DistanceToSquared(Position).CompareTo(b.Position.DistanceToSquared(Position)));
-            for (int i = 0; i < pawns.Count && i < GaiaSkills.EntangleMaxTargets; i++)
+            pawns.Sort((a, b) => a.Position.DistanceToSquared(Position)
+                .CompareTo(b.Position.DistanceToSquared(Position)));
+            for (int i = 0; i < pawns.Count && i < want; i++)
             {
                 targets.Add(pawns[i]);
             }
             return targets.Count > 0;
+        }
+
+        /// <summary>能否放缠绕（等级对应冷却与半径）。</summary>
+        private bool CanCastEntangle(int level, float distToTarget)
+        {
+            if (Now < skillCooldownUntil[(int)GaiaSkill.Entangle])
+            {
+                return false;
+            }
+            // 只要半径内存在敌对生物即可（不要求一定在身边）
+            return HostilePawnsInRange(GaiaSkills.EntangleRadius[level]).Count > 0;
+        }
+
+        /// <summary>世界之跃（技能形态）是否可用。</summary>
+        private bool CanCastLeapSkill(float distToTarget)
+        {
+            if (Now < skillCooldownUntil[(int)GaiaSkill.Leap])
+            {
+                return false;
+            }
+            if (distToTarget < 6f || distToTarget > GaiaSkills.LeapSkillRange)
+            {
+                return false;
+            }
+            return currentTarget != null && currentTarget.Spawned;
+        }
+
+        /// <summary>目标身后一格（从 Boss 指向目标的方向再往外一格）。</summary>
+        private IntVec3 targetBehindCurrentTarget()
+        {
+            if (currentTarget == null || Map == null)
+            {
+                return IntVec3.Invalid;
+            }
+            IntVec3 origin = Position;
+            IntVec3 t = currentTarget.Position;
+            IntVec3 dir = t - origin;
+            IntVec3 behind = t + new IntVec3(Math.Sign(dir.x), 0, Math.Sign(dir.z));
+            if (!behind.InBounds(Map) || !behind.Walkable(Map))
+            {
+                behind = t;
+            }
+            return behind;
         }
 
         /// <summary>范围内的敌对 Pawn（根须缠绕这类只对生物有效的技能用）。</summary>
@@ -1403,52 +1485,69 @@ namespace Botania
 
         private void StartEntangle(List<Pawn> targets)
         {
+            int level = Math.Max(0, Math.Min(2, phaseIndex));
             currentSkill = GaiaSkill.Entangle;
-            BotaniaDebug.Log("[Botania] 施法：根须缠绕");
+            BotaniaDebug.Log("[Botania] 施法：根须缠绕（" + (level + 1) + " 级）");
             skillStageStart = Now;
-            skillWarnUntil = Now + GaiaSkills.EntangleWarn;
+            skillWarnUntil = Now + GaiaSkills.EntangleWindupSec[level] * 60;
             entangleTargets = targets;
             skillCells = new List<IntVec3>();
             for (int i = 0; i < targets.Count; i++)
             {
-                skillCells.Add(targets[i].Position);
+                if (targets[i] != null && targets[i].Spawned)
+                {
+                    skillCells.Add(targets[i].Position);
+                }
             }
             skillColor = RootColor;
             FreezePosition();
         }
 
         /// <summary>世界之跃：蓄力 45 tick（落点显示残影与圆圈），随后瞬移。</summary>
-        private void StartLeap()
+        /// <summary>
+        /// 世界之跃：前摇 5 秒（武器旋转一周 + 落点残影），然后瞬移。
+        /// fallback=true 表示「卡住兜底」形态：落地后 5 秒沉默不动。
+        /// </summary>
+        private void StartLeap(IntVec3 landingHint, bool fallback)
         {
             Map map = Map;
-            if (map == null || currentTarget == null || currentSkill != GaiaSkill.None)
+            if (map == null || currentSkill != GaiaSkill.None)
             {
                 return;
             }
-            IntVec3 landing = CellFinder.RandomClosewalkCellNear(currentTarget.Position, map, 3,
-                c => c.Walkable(map) && !c.Fogged(map));
+            IntVec3 landing = landingHint;
+            if (!landing.IsValid || !landing.InBounds(map) || !landing.Walkable(map))
+            {
+                landing = CellFinder.RandomClosewalkCellNear(
+                    currentTarget != null ? currentTarget.Position : Position, map, 2,
+                    c => c.Walkable(map) && !c.Fogged(map));
+            }
             if (!landing.IsValid)
             {
                 return;
             }
+
             leapLanding = landing;
+            leapIsFallback = fallback;
             currentSkill = GaiaSkill.Leap;
-            BotaniaDebug.Log("[Botania] 施法：世界之跃 -> " + landing);
+            BotaniaDebug.Log("[Botania] 施法：世界之跃（" + (fallback ? "兜底" : "技能") +
+                             "）-> " + landing);
             skillStageStart = Now;
-            skillWarnUntil = Now + GaiaSkills.LeapWarn;
+            skillWarnUntil = Now + GaiaSkills.LeapWindup;
             skillCells = new List<IntVec3>();
-            foreach (IntVec3 c in GenRadial.RadialCellsAround(landing, GaiaSkills.LeapImpactRadius, true))
+            foreach (IntVec3 c in GenRadial.RadialCellsAround(landing, 1.6f, true))
             {
                 if (c.InBounds(map))
                 {
                     skillCells.Add(c);
                 }
             }
-            skillColor = new Color(0.55f, 0.95f, 0.6f, 0.45f);
+            skillColor = new Color(0.62f, 0.95f, 0.7f, 0.45f);
             FreezePosition();
         }
 
         /// <summary>世界之跃落地：瞬移 + 冲击 + 小范围伤害与击退。</summary>
+        /// <summary>世界之跃落地：技能形态造成 3x3 魔法爆炸；兜底形态进入 5 秒沉默。</summary>
         private void DoLeap()
         {
             Map map = Map;
@@ -1459,46 +1558,50 @@ namespace Botania
             }
 
             Vector3 from = Position.ToVector3Shifted();
-            SpawnMoteAt("Botania_Mote_GaiaCrack", from, 1.6f);
-
+            SpawnMoteAt("Botania_Mote_GaiaCrack", from, 1.5f);
             Position = leapLanding;
             pather?.StopDead();
-
             Vector3 to = leapLanding.ToVector3Shifted();
-            for (int i = 0; i < 6; i++)
-            {
-                float ang = i * Mathf.PI / 3f;
-                SpawnMoteAt("Botania_Mote_GaiaSpark",
-                    to + new Vector3(Mathf.Cos(ang), 0f, Mathf.Sin(ang)) * Rand.Range(0.8f, 2.2f), 1.5f);
-            }
-            SpawnMoteAt("Botania_Mote_GaiaCrack", to, 1.8f);
+            SpawnMoteAt("Botania_Mote_GaiaShockwave", to, 1.2f);
 
-            // 落点小范围伤害 + 击退
-            List<Thing> victims = map.listerThings.ThingsInGroup(ThingRequestGroup.AttackTarget);
-            for (int i = 0; i < victims.Count; i++)
+            if (leapIsFallback)
             {
-                Thing th = victims[i];
-                if (th == null || th == this || th.Destroyed || !th.Spawned || !IsEnemyOfBoss(th))
+                silencedUntil = Now + GaiaSkills.LeapSilenceTicks;
+                BotaniaDebug.Log("[Botania] 世界之跃（兜底）：落地后沉默 5 秒");
+            }
+            else
+            {
+                // 3x3 魔力爆炸
+                List<Thing> victims = map.listerThings.ThingsInGroup(ThingRequestGroup.AttackTarget);
+                DamageDef manaDmg = DefDatabase<DamageDef>.GetNamedSilentFail("Botania_ManaBurst")
+                                    ?? DamageDefOf.Bomb;
+                for (int i = 0; i < victims.Count; i++)
                 {
-                    continue;
-                }
-                if (th is Pawn p && p.Downed)
-                {
-                    continue;
-                }
-                if (th.Position.DistanceTo(leapLanding) > GaiaSkills.LeapImpactRadius + 0.5f)
-                {
-                    continue;
-                }
-                th.TakeDamage(new DamageInfo(DamageDefOf.Blunt, GaiaSkills.LeapImpactDamage, 0.4f, -1f, this));
-                if (th is Pawn victim && victim.Spawned)
-                {
-                    if (CellFinder.TryFindRandomCellNear(victim.Position, map, GaiaSkills.LeapKnockback,
-                            c => c.Walkable(map), out IntVec3 dest))
+                    Thing th = victims[i];
+                    if (th == null || th == this || th.Destroyed || !th.Spawned || !IsEnemyOfBoss(th))
                     {
-                        victim.Position = dest;
+                        continue;
                     }
+                    if (th.Position.DistanceTo(leapLanding) > GaiaSkills.LeapExplosionRadius + 0.6f)
+                    {
+                        continue;
+                    }
+                    th.TakeDamage(new DamageInfo(manaDmg, GaiaSkills.LeapExplosionDamage,
+                        0.6f, -1f, this));
                 }
+                for (int i = 0; i < 8; i++)
+                {
+                    float ang = i * Mathf.PI / 4f;
+                    SpawnMoteAt("Botania_Mote_GaiaSpark",
+                        to + new Vector3(Mathf.Cos(ang), 0f, Mathf.Sin(ang)) * Rand.Range(0.6f, 1.9f),
+                        1.4f);
+                }
+            }
+
+            // 技能形态开始计冷却
+            if (!leapIsFallback)
+            {
+                skillCooldownUntil[(int)GaiaSkill.Leap] = Now + GaiaSkills.LeapSkillCooldown;
             }
             leapLanding = IntVec3.Invalid;
         }
@@ -1624,37 +1727,128 @@ namespace Botania
                 new LookTargets(Position, map), MessageTypeDefOf.NeutralEvent, false);
         }
 
+        /// <summary>
+        /// 缠绕出手：在每个目标脚下种下「矮藤蔓」，
+        /// 生长时间到后再长成荆棘（定身 + 腿脚切割伤害）。
+        /// 荆棘消失后才开始算冷却。
+        /// </summary>
         private void DoEntangle()
         {
-            HediffDef rootDef = DefDatabase<HediffDef>.GetNamedSilentFail("Botania_GaiaRooted");
-            if (rootDef == null)
-            {
-                Log.Error("[Botania] 找不到 HediffDef Botania_GaiaRooted");
-                return;
-            }
-            // 生效时必须重新核对：只有仍然站在绿色预警格子里的目标才会被缠住。
-            // （预警 2 秒内跑出去的应该免疫，否则「躲开」毫无意义）
-            HashSet<IntVec3> warnedCells = new HashSet<IntVec3>(skillCells);
-            int hitCount = 0;
+            int level = Math.Max(0, Math.Min(2, phaseIndex));
+            int growTicks = GaiaSkills.EntangleGrowSec[level] * 60;
+            int rootTicks = GaiaSkills.EntangleRootSec[level] * 60;
+            int damage = GaiaSkills.EntangleDamage[level];
+
+            entanglePending.Clear();
+            int planted = 0;
             for (int i = 0; i < entangleTargets.Count; i++)
             {
-                Pawn p = entangleTargets[i];
-                if (p == null || p.Dead || p.Downed || !p.Spawned)
+                Pawn t = entangleTargets[i];
+                if (t == null || t.Dead || !t.Spawned)
                 {
                     continue;
                 }
-                if (!warnedCells.Contains(p.Position))
+                IntVec3 cell = t.Position;
+                // 矮藤蔓（先只到膝盖高度）
+                SpawnMoteAt("Botania_Mote_GaiaRoots", cell.ToVector3Shifted(), 0.55f);
+                entanglePending.Add(new EntanglePending
                 {
-                    continue;   // 已经走出预警范围：躲开了
-                }
-                Hediff hediff = HediffMaker.MakeHediff(rootDef, p);
-                hediff.Severity = 1f;
-                p.health.AddHediff(hediff);
-                hitCount++;
+                    pawn = t,
+                    cell = cell,
+                    growAt = Now + growTicks,
+                    rootTicks = rootTicks,
+                    damage = damage,
+                });
+                planted++;
             }
-            BotaniaDebug.Log($"[Botania] 根须缠绕：命中 {hitCount} / {entangleTargets.Count} 个目标（其余已离开预警格）");
-            Messages.Message("Botania.GaiaSkillEntangle".Translate(),
-                new LookTargets(Position, Map), MessageTypeDefOf.NeutralEvent, false);
+            BotaniaDebug.Log($"[Botania] 缠绕：种下 {planted} 处藤蔓，{growTicks / 60} 秒后长成荆棘");
+        }
+
+        /// <summary>每 tick 推进藤蔓生长：到点长成荆棘，定身 + 腿脚伤害。</summary>
+        private void TickEntanglePending()
+        {
+            if (entanglePending.Count == 0)
+            {
+                return;
+            }
+            int level = Math.Max(0, Math.Min(2, phaseIndex));
+            for (int i = entanglePending.Count - 1; i >= 0; i--)
+            {
+                EntanglePending pend = entanglePending[i];
+                if (Now < pend.growAt)
+                {
+                    continue;
+                }
+                Map map = Map;
+                if (map == null)
+                {
+                    entanglePending.RemoveAt(i);
+                    continue;
+                }
+
+                // 长成高大荆棘
+                SpawnMoteAt("Botania_Mote_GaiaRoots", pend.cell.ToVector3Shifted(), 1.5f);
+                SpawnMoteAt("Botania_Mote_GaiaCrack", pend.cell.ToVector3Shifted(), 1.0f);
+
+                Pawn victim = pend.pawn;
+                bool hit = victim != null && !victim.Dead && victim.Spawned
+                           && victim.Position.DistanceTo(pend.cell) <= 0.8f;
+                if (hit)
+                {
+                    ApplyEntangleRoot(victim, pend.rootTicks, pend.damage);
+                }
+
+                // 荆棘存在 rootTicks 后才开始计冷却
+                int thornsEnd = Now + pend.rootTicks;
+                int cd = GaiaSkills.EntangleCooldownSec[level] * 60;
+                int until = thornsEnd + cd;
+                if (until > skillCooldownUntil[(int)GaiaSkill.Entangle])
+                {
+                    skillCooldownUntil[(int)GaiaSkill.Entangle] = until;
+                }
+                entanglePending.RemoveAt(i);
+            }
+        }
+
+        /// <summary>对目标施加定身 + 腿脚切割伤害。</summary>
+        private void ApplyEntangleRoot(Pawn victim, int rootTicks, int damage)
+        {
+            HediffDef def = DefDatabase<HediffDef>.GetNamedSilentFail("Botania_GaiaRooted");
+            if (def != null && victim.health != null)
+            {
+                Hediff hediff = HediffMaker.MakeHediff(def, victim);
+                victim.health.AddHediff(hediff);
+                HediffComp_GaiaRooted comp = hediff.TryGetComp<HediffComp_GaiaRooted>();
+                if (comp != null)
+                {
+                    comp.SetDuration(rootTicks);
+                }
+            }
+
+            // 腿/脚切割伤害
+            BodyPartRecord part = null;
+            if (victim.health?.hediffSet != null)
+            {
+                List<BodyPartRecord> legs = new List<BodyPartRecord>();
+                foreach (BodyPartRecord rec in victim.health.hediffSet.GetNotMissingParts())
+                {
+                    if (rec.def == null)
+                    {
+                        continue;
+                    }
+                    if (rec.def == BodyPartDefOf.Leg || rec.def.defName == "Foot")
+                    {
+                        legs.Add(rec);
+                    }
+                }
+                if (legs.Count > 0)
+                {
+                    part = legs.RandomElement();
+                }
+            }
+            DamageDef dmgDef = DefDatabase<DamageDef>.GetNamedSilentFail("Botania_ThornCut")
+                              ?? DamageDefOf.Cut;
+            victim.TakeDamage(new DamageInfo(dmgDef, damage, 0.35f, -1f, this, part));
         }
 
         private void DoManaBeam()
@@ -2109,6 +2303,13 @@ namespace Botania
                 bodyOffset = dir * (0.45f * (1f - t));
                 armSwing = 1.4f * (1f - t);
             }
+            else if (currentSkill == GaiaSkill.Leap)
+            {
+                // 前摇：武器（手臂）旋转一周
+                float prog = Mathf.Clamp01((Now - skillStageStart) / (float)GaiaSkills.LeapWindup);
+                armSwing = prog * Mathf.PI * 2f;
+                bodyOffset = dir * 0.08f;
+            }
             else if (currentSkill == GaiaSkill.ManaBeam)
             {
                 // 射线蓄力：双臂前推，微微抖动
@@ -2143,6 +2344,7 @@ namespace Botania
                 DrawEarthWrathShockwave(drawLoc, dir);
                 DrawPhaseIntro(drawLoc);
                 DrawLeapGhost(drawLoc);
+                DrawSilenceOverlay(drawLoc);
                 DrawShieldBubble(drawLoc);
             }
             catch (Exception e)
@@ -2165,7 +2367,7 @@ namespace Botania
             for (int sign = -1; sign <= 1; sign += 2)
             {
                 Vector3 shoulder = pos + side * (0.95f * sign) + dir * 0.15f;
-                float ang = baseAng - sign * swing * Mathf.Rad2Deg * 0.30f;
+                float ang = baseAng - sign * swing * Mathf.Rad2Deg;
                 Vector3 center = shoulder + dir * 0.85f;
                 Matrix4x4 m = default(Matrix4x4);
                 m.SetTRS(center, Quaternion.AngleAxis(ang, Vector3.up), new Vector3(0.85f, 1f, 2.1f));
@@ -2221,6 +2423,20 @@ namespace Botania
             Matrix4x4 m = default(Matrix4x4);
             m.SetTRS(pos, Quaternion.identity, new Vector3(r, 1f, r));
             Graphics.DrawMesh(MeshPool.plane10, m, ShockwaveMat, 0);
+        }
+
+        /// <summary>沉默（兜底突进后 5 秒不能动）：身上盖一层暗色。</summary>
+        private void DrawSilenceOverlay(Vector3 drawLoc)
+        {
+            if (Now >= silencedUntil)
+            {
+                return;
+            }
+            Vector3 pos = drawLoc;
+            pos.y = AltitudeLayer.MoteOverhead.AltitudeFor() + 0.02f;
+            Matrix4x4 m = default(Matrix4x4);
+            m.SetTRS(pos, Quaternion.identity, new Vector3(4.4f, 1f, 4.4f));
+            Graphics.DrawMesh(MeshPool.plane10, m, SilenceMat, 0);
         }
 
         /// <summary>护盾气泡（原逻辑）。</summary>

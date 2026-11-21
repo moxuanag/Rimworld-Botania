@@ -31,13 +31,22 @@ namespace Botania
         public const float EarthWrathDamage = 60f;
         public const int EarthWrathKnockback = 3;
 
-        public const int EntangleWarn = 120;        // 2 秒预警
+        // ---- 根须缠绕（分级：一阶段 1 级 / 二阶段 2 级 / 三阶段 3 级）----
+        public static readonly int[] EntangleCooldownSec = { 15, 12, 9 };
+        public static readonly int[] EntangleWindupSec   = { 5, 4, 3 };
+        public static readonly int[] EntangleRadius      = { 7, 10, 13 };
+        public static readonly int[] EntangleTargets     = { 3, 5, 7 };
+        public static readonly int[] EntangleGrowSec     = { 5, 4, 3 };
+        public static readonly int[] EntangleRootSec     = { 3, 4, 5 };
+        public static readonly int[] EntangleDamage      = { 2, 4, 6 };
+
+        public const int EntangleWarn = 120;        // 旧值（保留兼容，新流程用分级值）
         public const int EntangleCd = 360;          // 6 秒冷却
         public const float EntangleRange = 14f;
         public const int EntangleMaxTargets = 2;
         public const int EntangleRootTicks = 180;   // 3 秒定身
 
-        public const int ManaBeamCharge = 300;      // 5 秒蓄力
+        public const int ManaBeamCharge = 150;      // 2.5 秒蓄力（用户要求减半）
         public const int ManaBeamCd = 300;          // 5 秒冷却
         public const float ManaBeamRange = 30f;
         public const float ManaBeamDamage = 40f;
@@ -52,6 +61,14 @@ namespace Botania
         public const int WorldSoulStunTicks = 120;
 
         // 世界之跃（突进）：先蓄力 45 tick，在落点显示轮廓，然后瞬移
+        // ---- 世界之跃（技能形态）----
+        public const int LeapSkillCooldown = 900;    // 15 秒
+        public const float LeapSkillRange = 30f;     // 30 格
+        public const int LeapWindup = 300;           // 5 秒前摇
+        public const float LeapExplosionRadius = 1.5f;  // 3x3
+        public const int LeapExplosionDamage = 7;
+        public const int LeapSilenceTicks = 300;     // 兜底突进后沉默 5 秒
+
         public const int LeapWarn = 45;
         public const float LeapImpactRadius = 2.2f;
         public const int LeapImpactDamage = 12;

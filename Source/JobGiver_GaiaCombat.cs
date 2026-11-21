@@ -110,6 +110,10 @@ namespace Botania
             }
 
             // 施法/世界之魂期间：站定，不移动
+            if (boss.IsSilenced)
+            {
+                return JobMaker.MakeJob(JobDefOf.Wait, 20);
+            }
             if (boss.IsBusyCasting)
             {
                 return JobMaker.MakeJob(JobDefOf.Wait, 20);

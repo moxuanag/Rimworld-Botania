@@ -36,11 +36,23 @@ namespace Botania
 
     public class HediffComp_GaiaRooted : HediffComp
     {
+        /// <summary>外部指定的持续时长（&gt;0 时覆盖 Def 里的 durationTicks）。</summary>
+        public int overrideDurationTicks = -1;
+
         private int nextDamageTick;
         private int endTick = -1;
         private int nextMoteTick = -1;
 
         private HediffCompProperties_GaiaRooted Props => (HediffCompProperties_GaiaRooted)props;
+
+        /// <summary>外部指定定身时长（在 AddHediff 之后调用）。</summary>
+        public void SetDuration(int ticks)
+        {
+            if (ticks > 0)
+            {
+                endTick = Find.TickManager.TicksGame + ticks;
+            }
+        }
 
         public override void CompPostPostAdd(DamageInfo? dinfo)
         {

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- 世界之跃落地：魔力爆炸（游戏内显示为魔法伤害） -->
+  <DamageDef>
+    <defName>Botania_ManaBurst</defName>
+    <label>mana burst</label>
+    <workerClass>DamageWorker_AddInjury</workerClass>
+    <defaultDamage>7</defaultDamage>
+    <defaultArmorPenetration>0.6</defaultArmorPenetration>
+    <buildingDamageFactor>0.5</buildingDamageFactor>
+    <applyAllDamage>false</applyAllDamage>
+    <deathMessage>{0} has been unmade by mana.</deathMessage>
+  </DamageDef>
+
+  <!-- 荆棘划伤：只对腿脚，切割性质 -->
+  <DamageDef>
+    <defName>Botania_ThornCut</defName>
+    <label>thorn cut</label>
+    <workerClass>DamageWorker_AddInjury</workerClass>
+    <defaultDamage>2</defaultDamage>
+    <defaultArmorPenetration>0.35</defaultArmorPenetration>
+    <buildingDamageFactor>0.2</buildingDamageFactor>
+    <applyAllDamage>false</applyAllDamage>
+    <deathMessage>{0} has bled out among the thorns.</deathMessage>
+  </DamageDef>
+
+</Defs>
