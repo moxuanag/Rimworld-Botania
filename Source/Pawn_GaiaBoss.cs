@@ -281,6 +281,7 @@ namespace Botania
             }
 
             TickCombat();
+            TickStuckBreach();
             TickSkills();
             TickSwingMote();
 
@@ -553,7 +554,30 @@ namespace Botania
                 return;
             }
 
-            // 移动由思考树 + JobGiver_GaiaCombat 负责，这里不再抢 pather
+            // 正常情况由 JobGiver 下发 Goto；但如果卡住且 pather 没在动，
+            // 这里直接兜底控制寻路，避免「任务=Goto 但走动=False」的死局
+            if (pathingStuck && pather != null && !pather.Moving && Now >= nextPathTick)
+            {
+                nextPathTick = Now + 60;
+                IntVec3 dest = currentTarget.Position;
+                if (!dest.Walkable(Map) || dest.Fogged(Map))
+                {
+                    dest = CellFinder.RandomClosewalkCellNear(currentTarget.Position, Map, 2,
+                        c => c.Walkable(Map) && !c.Fogged(Map));
+                }
+                if (dest.IsValid)
+                {
+                    pather.StartPath(dest, PathEndMode.OnCell);
+                }
+            }
+
+            if (pathingStuck && Now % 120 == 0)
+            {
+                bool reach = CanReachTarget(currentTarget);
+                Log.Message($"[Botania][移动] 目标={currentTarget.LabelShort} 距离={dist:F1} " +
+                            $"可达={reach} 任务={jobs?.curJob?.def?.defName ?? "无"} 走动={pather?.Moving}");
+            }
+
             nextPathTick = Now + 30;
         }
 
@@ -647,6 +671,83 @@ namespace Botania
             return th.HostileTo(Faction.OfPlayer);
         }
 
+        private int nextBreachTick = -1;
+
+        /// <summary>
+        /// 卡住时直接破坏挡路的敌对墙/门。
+        /// 不走 AI 任务（JobDefOf.AttackMelee 在这套引擎里对建筑经常不执行），
+        /// 改为自己每 60 tick 扣一次耐久，稳定可靠。
+        /// </summary>
+        private void TickStuckBreach()
+        {
+            if (!pathingStuck || currentTarget == null || Map == null)
+            {
+                return;
+            }
+            if (currentTarget.Position.DistanceTo(Position) <= EngageRange)
+            {
+                return;
+            }
+            if (Now < nextBreachTick)
+            {
+                return;
+            }
+            nextBreachTick = Now + 60;
+
+            Thing blocker = FindBlockingStructureNearby(5);
+            if (blocker == null)
+            {
+                return;
+            }
+            blocker.TakeDamage(new DamageInfo(DamageDefOf.Blunt, 25f, 0.5f, -1f, this));
+            SpawnMoteAt("Botania_Mote_GaiaCrack", blocker.Position.ToVector3Shifted(), 1.1f);
+            Log.Message("[Botania] 卡住：破坏挡路建筑 " + blocker.LabelShort + "（剩余耐久 " + blocker.HitPoints + "）");
+        }
+
+        /// <summary>找附近的敌对墙/门（用于破拆）。</summary>
+        private Thing FindBlockingStructureNearby(int radius)
+        {
+            Map map = Map;
+            if (map == null)
+            {
+                return null;
+            }
+            Thing best = null;
+            float bestDist = float.MaxValue;
+            for (int dx = -radius; dx <= radius; dx++)
+            {
+                for (int dz = -radius; dz <= radius; dz++)
+                {
+                    IntVec3 c = new IntVec3(Position.x + dx, 0, Position.z + dz);
+                    if (!c.InBounds(map))
+                    {
+                        continue;
+                    }
+                    Building b = map.edificeGrid[c];
+                    if (b == null || b.Destroyed || !b.Spawned || b.def?.building == null)
+                    {
+                        continue;
+                    }
+                    BuildingProperties bp = b.def.building;
+                    if (!bp.isWall && !(b is Building_Door))
+                    {
+                        continue;
+                    }
+                    if (b.Faction == null || Faction == null || !b.HostileTo(Faction))
+                    {
+                        continue;
+                    }
+                    float d = b.Position.DistanceTo(Position);
+                    if (d < bestDist)
+                    {
+                        bestDist = d;
+                        best = b;
+                    }
+                }
+            }
+            return best;
+        }
+
         /// <summary>卡住检测：连续 120 tick 原地不动但想追人时，允许在技能射程内远程出手。</summary>
         private void CheckStuck()
         {
@@ -689,12 +790,13 @@ namespace Botania
                 return;
             }
 
-            // 正常要求贴身；如果寻路卡住（比如被关的门挡住），放宽到技能自身射程，
-            // 至少要能还手，不能站着发呆。
-            bool near = distToTarget <= EngageRange + 0.5f || pathingStuck;
+            // 大地之怒严格 <=4.5（6 格时角落会打不到）；
+            // 根须缠绕正常也 <=4.5，卡住时放宽到 6 格以覆盖角落情况。
+            bool near = distToTarget <= EngageRange;
+            bool nearRoot = near || (pathingStuck && distToTarget <= 6f);
             // 冷却已取消：只看「距离/目标/是否已解锁」，
             // 节奏完全由方案一的随机规则 + 各技能自身的预警/蓄力时间决定
-            bool rootReady = near && TryFindEntangleTargets(out _);
+            bool rootReady = nearRoot && TryFindEntangleTargets(out _);
             bool earthReady = near && TryFindConeTarget(out _);
             bool beamReady = phaseIndex >= 1 && TryFindBeamTarget(out _);
 
