@@ -1201,31 +1201,15 @@ namespace Botania
             List<GaiaSkill> pool = new List<GaiaSkill>();
             List<float> weights = new List<float>();
             if (rootReady) { pool.Add(GaiaSkill.Entangle); weights.Add(55f); }
-            if (phaseIndex == 0 || phaseIndex >= 2)
-            {
-                if (earthReady) { pool.Add(GaiaSkill.EarthWrath); weights.Add(100f); }
-            }
+            // 大地之怒：一阶段 / 二阶段 / 三阶段都可用
+            if (earthReady) { pool.Add(GaiaSkill.EarthWrath); weights.Add(100f); }
+            // 魔力射线：仅二阶段
             if (phaseIndex == 1 && beamReady) { pool.Add(GaiaSkill.ManaBeam); weights.Add(15f); }
             if (leapReady) { pool.Add(GaiaSkill.Leap); weights.Add(25f); }
 
             if (pool.Count == 0)
             {
                 return;
-            }
-
-            // 不连续放同一个技能（除非只有一个可用）
-            if (pool.Count > 1 && pool.Count(x => x == lastCastSkill) == 1)
-            {
-                int idx = pool.IndexOf(lastCastSkill);
-                float removed = weights[idx];
-                pool.RemoveAt(idx);
-                weights.RemoveAt(idx);
-                float total = weights.Sum();
-                // 把它的权重按比例分给其它技能
-                for (int i = 0; i < weights.Count; i++)
-                {
-                    weights[i] += weights[i] / total * removed;
-                }
             }
 
             float sum = weights.Sum();
