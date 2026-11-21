@@ -79,8 +79,7 @@ namespace Botania
                         Hediff hediff = HediffMaker.MakeHediff(buffDef, pawn);
                         hediff.Severity = 1f;
                         pawn.health.AddHediff(hediff);
-                        Messages.Message(set.messageKey.Translate(pawn.LabelShort),
-                            new LookTargets(pawn), MessageTypeDefOf.PositiveEvent, false);
+                        // 用户要求：套装 buff 不再弹消息（只在 Hediff 面板可见）
                     }
                     else if (!complete && existing != null)
                     {

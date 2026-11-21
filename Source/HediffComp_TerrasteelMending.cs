@@ -15,7 +15,7 @@ namespace Botania
         /// <summary>治疗间隔（tick）。120 = 2 秒。</summary>
         public int intervalTicks = 120;
 
-        /// <summary>每次治疗量（伤口严重度，1 ≈ 一个小擦伤）。</summary>
+        /// <summary>保留字段（当前实现是直接治愈整处伤口，不再按严重度削减）。</summary>
         public float healAmount = 2f;
 
         public HediffCompProperties_TerrasteelMending()
@@ -72,11 +72,8 @@ namespace Botania
                 return;
             }
 
-            worst.Heal(Props.healAmount);
-            if (worst.Severity <= 0.01f)
-            {
-                pawn.health.RemoveHediff(worst);
-            }
+            // 用户要求：每 2 秒「治愈一个伤口」，直接移除整处伤口，而不是缓慢减严重度
+            pawn.health.RemoveHediff(worst);
         }
 
         public override string CompTipStringExtra => "Botania.TerrasteelMending.Tip".Translate();
