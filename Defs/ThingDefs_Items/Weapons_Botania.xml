@@ -35,7 +35,7 @@
       <AccuracyShort>0.80</AccuracyShort>
       <AccuracyMedium>0.80</AccuracyMedium>
       <AccuracyLong>0.80</AccuracyLong>
-      <RangedWeapon_Cooldown>0.9</RangedWeapon_Cooldown>
+      <RangedWeapon_Cooldown>0.5</RangedWeapon_Cooldown>
     </statBases>
     <costList>
       <Botania_Livingwood>12</Botania_Livingwood>
@@ -63,7 +63,7 @@
         <verbClass>Botania.Verb_ManaBolt</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Botania_ManaBolt</defaultProjectile>
-        <warmupTime>0.6</warmupTime>
+        <warmupTime>1.1</warmupTime>
         <range>26</range>
         <soundCast>Shot_ChargeRifle</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
@@ -199,7 +199,7 @@
       <AccuracyShort>0.85</AccuracyShort>
       <AccuracyMedium>0.85</AccuracyMedium>
       <AccuracyLong>0.85</AccuracyLong>
-      <RangedWeapon_Cooldown>1.2</RangedWeapon_Cooldown>
+      <RangedWeapon_Cooldown>0.5</RangedWeapon_Cooldown>
     </statBases>
     <!-- 改造配方由 recipeMaker + costList 生成（原版武器都是这条路）。
          costList 里放基础法杖 = 改造时消耗掉那根杖，等价于「方案 C」。
@@ -236,7 +236,7 @@
         <verbClass>Botania.Verb_ManaBolt</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Botania_ManaLance</defaultProjectile>
-        <warmupTime>1.0</warmupTime>
+        <warmupTime>2.0</warmupTime>
         <range>40</range>
         <soundCast>Shot_ChargeRifle</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
@@ -304,7 +304,7 @@
       <AccuracyShort>0.70</AccuracyShort>
       <AccuracyMedium>0.65</AccuracyMedium>
       <AccuracyLong>0.60</AccuracyLong>
-      <RangedWeapon_Cooldown>1.6</RangedWeapon_Cooldown>
+      <RangedWeapon_Cooldown>0.5</RangedWeapon_Cooldown>
     </statBases>
     <!-- 改造配方由 recipeMaker + costList 生成（原版武器都是这条路）。
          costList 里放基础法杖 = 改造时消耗掉那根杖，等价于「方案 C」。
@@ -341,7 +341,7 @@
         <verbClass>Botania.Verb_ManaBolt</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Botania_ManaBlast</defaultProjectile>
-        <warmupTime>1.2</warmupTime>
+        <warmupTime>3.7</warmupTime>
         <range>16</range>
         <soundCast>Shot_ChargeRifle</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
