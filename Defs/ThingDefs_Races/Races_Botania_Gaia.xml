@@ -44,7 +44,7 @@ Its shell drinks a blow before you feel it land, and when the shell goes it lies
       <intelligence>ToolUser</intelligence>
       <!-- 自定义思考树：追击/站定，不游荡 -->
       <thinkTreeMain>Botania_Gaia</thinkTreeMain>
-      <thinkTreeConstant>AnimalConstant</thinkTreeConstant>
+      <thinkTreeConstant>Botania_GaiaConstant</thinkTreeConstant>
       <fleshType>Normal</fleshType>
       <bleedRateFactor>0</bleedRateFactor>
       <foodType>None</foodType>

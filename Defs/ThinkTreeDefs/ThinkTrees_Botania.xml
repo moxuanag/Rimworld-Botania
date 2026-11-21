@@ -42,4 +42,27 @@
     </thinkRoot>
   </ThinkTreeDef>
 
+
+  <!--
+    常量思考树：盖亚系单位（Boss / 造物）共用。
+    原版 AnimalConstant 里有 JobGiver_AnimalFlee —— 会「逃离敌人」，
+    表现就是明明没有目标也在 Boss 身边来回乱跑。这里只保留最基本的响应。
+  -->
+  <ThinkTreeDef>
+    <defName>Botania_GaiaConstant</defName>
+    <thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+        <li Class="ThinkNode_Subtree">
+          <treeDef>Despawned</treeDef>
+        </li>
+        <li Class="ThinkNode_Subtree">
+          <treeDef>MentalStateCritical</treeDef>
+        </li>
+        <li Class="ThinkNode_Subtree">
+          <treeDef>BurningResponse</treeDef>
+        </li>
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+
 </Defs>

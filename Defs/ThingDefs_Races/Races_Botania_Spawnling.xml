@@ -34,6 +34,7 @@
       <gestationPeriodDays>1</gestationPeriodDays>
       <disableMating>true</disableMating>
       <thinkTreeMain>Botania_GaiaSpawnling</thinkTreeMain>
+      <thinkTreeConstant>Botania_GaiaConstant</thinkTreeConstant>
       <lifeStageAges>
         <li>
           <def>AnimalAdult</def>
