@@ -22,5 +22,5 @@
   <Botania_GaiaSetBonus.label>盖亚之赐</Botania_GaiaSetBonus.label>
   <Botania_GaiaSetBonus.description>整套盖亚护甲会回应穿戴者。光沿着接缝流动，身体像"长成这个形状"，而不是被塞进去的。</Botania_GaiaSetBonus.description>
   <Botania_TerrasteelBlessing.label>泰拉之赐</Botania_TerrasteelBlessing.label>
-  <Botania_TerrasteelBlessing.description>泰拉钢记得自己曾是活物。伤口会自己合拢，好像金属在把血肉重新塑形。</Botania_TerrasteelBlessing.description>
+  <Botania_TerrasteelBlessing.description>泰拉钢记得自己曾是活物。移动速度 +100%，每 2 秒治愈一处伤口——好像金属在把血肉重新塑形。</Botania_TerrasteelBlessing.description>
 </LanguageData>

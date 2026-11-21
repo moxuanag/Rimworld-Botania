@@ -17,7 +17,7 @@ namespace Botania
     /// </summary>
     public class JobGiver_GaiaSpawnlingCombat : ThinkNode_JobGiver
     {
-        private const float SearchRadius = 45f;
+        private const float SearchRadius = 25f;   // 只追 25 格内的目标，避免跑遍全图
         private const float BossLeashRange = 7f;
 
         protected override Job TryGiveJob(Pawn pawn)
@@ -61,15 +61,7 @@ namespace Botania
                         return JobMaker.MakeJob(JobDefOf.Goto, back);
                     }
                 }
-                else if (Rand.Chance(0.35f))
-                {
-                    IntVec3 wander = CellFinder.RandomClosewalkCellNear(pawn.Position, map, 3,
-                        c => c.Walkable(map) && !c.Fogged(map));
-                    if (wander.IsValid)
-                    {
-                        return JobMaker.MakeJob(JobDefOf.GotoWander, wander);
-                    }
-                }
+                // 靠近 Boss 时原地待命，不再随机游荡（之前会来回乱走）
             }
 
             return JobMaker.MakeJob(JobDefOf.Wait, 120);
