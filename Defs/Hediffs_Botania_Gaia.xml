@@ -101,7 +101,7 @@
 
   <!--
     泰拉之赐：同时穿着泰拉甲 + 泰拉头盔时获得。
-    移速 +100%，并且每 2 秒愈合一处伤口（HediffComp_TerrasteelMending）。
+    移速 +100%，并且每 2 秒愈合一处伤口（由套装组件执行）。
   -->
   <HediffDef>
     <defName>Botania_TerrasteelBlessing</defName>
@@ -111,12 +111,6 @@
     <isBad>false</isBad>
     <initialSeverity>1</initialSeverity>
     <maxSeverity>1</maxSeverity>
-    <comps>
-      <li Class="Botania.HediffCompProperties_TerrasteelMending">
-        <intervalTicks>120</intervalTicks>
-        <healAmount>2</healAmount>
-      </li>
-    </comps>
     <stages>
       <li>
         <statOffsets>
