@@ -12,6 +12,14 @@
 - **删除「盖亚小法杖」**物品与贴图：Boss 早已不再装备它（现在用种族自带的肢体攻击），
   该物品既无工作台可造也无实际用途，属于遗留空壳。
 
+- **仓库布局调整**：源码仓库迁移到 `RimWorld\_dev\Botania-src`，
+  `Mods\[GZ]Botania` 只保留游戏需要的发布载荷（About / Assemblies / Defs / Languages /
+  Textures / Patches / LoadFolders.xml / LICENSE）。
+  原因是创意工坊上传会把模组根目录**整个上传**，之前会把 `.git`、`Source`、`docs`
+  一并传上去（33 MB → 现在 2.7 MB）。新增 `deploy.ps1` 一键编译并同步载荷。
+- **README 精简**：README 只保留模组介绍、核心内容、安装与文档索引；
+  物品/建筑/研究/玩法流程/数值总表等详细内容移到 [`docs/玩法指南.md`](docs/玩法指南.md)。
+
 ### 平衡与 AI
 - **盖亚造物**行动逻辑与 Boss 对齐：优先攻击「野外可达」的敌对目标（小人与炮塔同优先级、
   就近选择）→ 目标都不可达时**砸墙破门** → 没有敌人时**回到 Boss 身边游荡**。
