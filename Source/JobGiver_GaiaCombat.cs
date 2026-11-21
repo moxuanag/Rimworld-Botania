@@ -134,16 +134,6 @@ namespace Botania
                 }
             }
 
-            // 卡住（被墙/门挡住）时：直接攻击挡路的建筑，像突袭者一样拆进去
-            if (boss.PathingStuck)
-            {
-                Thing blocker = FindBlockingStructure(pawn);
-                if (blocker != null)
-                {
-                    return JobMaker.MakeJob(JobDefOf.AttackMelee, blocker);
-                }
-            }
-
             Thing target = boss.AITarget;
             if (target == null || target.Destroyed || !target.Spawned)
             {

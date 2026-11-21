@@ -766,9 +766,24 @@ namespace Botania
                 return;
             }
             nextStuckCheckTick = Now + 120;
+
+            // 施法期间本来就不动，不能算「卡住」——否则根须缠绕一放完就把自己标成卡住
+            if (currentSkill != GaiaSkill.None || worldSoulActive || IsParalyzed || IsInvulnerable)
+            {
+                lastCheckPos = Position;
+                return;
+            }
+
             bool moved = lastCheckPos.IsValid && !Position.InHorDistOf(lastCheckPos, 0.6f);
-            pathingStuck = !moved && currentTarget != null
-                           && currentTarget.Position.DistanceTo(Position) > EngageRange;
+            if (moved)
+            {
+                pathingStuck = false;
+            }
+            else
+            {
+                pathingStuck = currentTarget != null
+                               && currentTarget.Position.DistanceTo(Position) > EngageRange;
+            }
             lastCheckPos = Position;
         }
 
@@ -2009,6 +2024,21 @@ namespace Botania
             if (map != null && pos.IsValid)
             {
                 GiveDropsOnce(map, pos);
+            }
+
+            // 尸体消失：世界之魂本就不该留下能屠宰的遗体
+            try
+            {
+                Corpse corpse = Corpse;
+                if (corpse != null && !corpse.Destroyed)
+                {
+                    corpse.Destroy(DestroyMode.Vanish);
+                    Log.Message("[Botania] 盖亚的遗体已消散");
+                }
+            }
+            catch (System.Exception e)
+            {
+                Log.Warning("[Botania] 移除遗体失败：" + e);
             }
         }
 
