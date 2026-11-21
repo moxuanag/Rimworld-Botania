@@ -72,11 +72,25 @@ namespace Botania
 
         private void Settle()
         {
+            // 被玩家关掉（或者断电）时：不扣魔力、输出归零
+            CompFlickable flickable = parent.TryGetComp<CompFlickable>();
+            if (flickable != null && !flickable.SwitchIsOn)
+            {
+                hasMana = false;
+                PowerOutput = 0f;
+                return;
+            }
+
             float needed = ManaProps.manaPerSecond;
             // 就近取魔力：魔力池与魔力中继塔都算（中继塔让供给范围向外延伸）
             IManaSource source = ManaSourceUtil.FindNearest(
                 parent.Position, parent.Map, ManaProps.searchRadius);
-            float drained = source == null ? 0f : source.DrainMana(needed);
+            // 凑不够就别扣：以前是「有多少扣多少」，池子会被慢慢抽干却发不出电
+            float drained = 0f;
+            if (source != null && source.ManaAmount + 0.01f >= needed)
+            {
+                drained = source.DrainMana(needed);
+            }
             // 允许 1% 误差，避免浮点抖动导致频繁启停
             hasMana = needed <= 0f || drained >= needed * 0.99f;
             PowerOutput = hasMana ? -ManaProps.PowerConsumption : 0f;

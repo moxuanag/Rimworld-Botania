@@ -53,6 +53,9 @@ namespace Botania
 
     public class CompManaRosaArcana : ThingComp
     {
+        /// <summary>场上所有蔷薇，用来判断「这个小人是否还被别的花管着」（读档后自动自洽）。</summary>
+        public static readonly List<CompManaRosaArcana> All = new List<CompManaRosaArcana>();
+
         private const int TicksPerSettle = 60;
 
         private int ticksAccum;
@@ -188,6 +191,32 @@ namespace Botania
             return false;
         }
 
+        /// <summary>
+        /// 释放这个小人：只有当没有任何别的蔷薇还在管他时，才摘掉 hediff。
+        /// 不依赖静态计数——读档、换档、花被拆都不会让计数失真。
+        /// </summary>
+        private void ReleasePawn(Pawn pawn)
+        {
+            siphoning.Remove(pawn);
+            if (pawn == null || Props.hediffDef == null || pawn.health == null)
+            {
+                return;
+            }
+            for (int i = 0; i < All.Count; i++)
+            {
+                CompManaRosaArcana other = All[i];
+                if (other != null && other != this && other.siphoning != null && other.siphoning.Contains(pawn))
+                {
+                    return;
+                }
+            }
+            Hediff hediff = pawn.health.hediffSet.GetFirstHediffOfDef(Props.hediffDef);
+            if (hediff != null)
+            {
+                pawn.health.RemoveHediff(hediff);
+            }
+        }
+
         private void EnsureHediff(Pawn pawn)
         {
             if (Props.hediffDef != null)
@@ -234,19 +263,17 @@ namespace Botania
                 Pawn pawn = siphoning[i];
                 if (pawn == null || pawn.Dead || !pawn.Spawned)
                 {
+                    // 死亡/离开地图的小人也要归还占用，否则 hediff 会永久留在身上
                     siphoning.RemoveAt(i);
+                    ReleasePawn(pawn);
                     continue;
                 }
                 if (stillInRange.Contains(pawn))
                 {
                     continue;
                 }
-                Hediff hediff = pawn.health.hediffSet.GetFirstHediffOfDef(Props.hediffDef);
-                if (hediff != null)
-                {
-                    pawn.health.RemoveHediff(hediff);
-                }
                 siphoning.RemoveAt(i);
+                ReleasePawn(pawn);
             }
         }
 
@@ -306,6 +333,39 @@ namespace Botania
                 LastLearningCount,
                 LastInRangeCount,
                 Props.manaPerPawnSecond.ToString("0"));
+        }
+
+        public override void PostSpawnSetup(bool respawningAfterLoad)
+        {
+            base.PostSpawnSetup(respawningAfterLoad);
+            if (!All.Contains(this))
+            {
+                All.Add(this);
+            }
+        }
+
+        public override void PostDeSpawn(Map map, DestroyMode mode = DestroyMode.Vanish)
+        {
+            All.Remove(this);
+            ReleaseAll();
+            base.PostDeSpawn(map, mode);
+        }
+
+        public override void PostDestroy(DestroyMode mode, Map previousMap)
+        {
+            All.Remove(this);
+            ReleaseAll();
+            base.PostDestroy(mode, previousMap);
+        }
+
+        private void ReleaseAll()
+        {
+            List<Pawn> pawns = new List<Pawn>(siphoning);
+            siphoning.Clear();
+            for (int i = 0; i < pawns.Count; i++)
+            {
+                ReleasePawn(pawns[i]);
+            }
         }
 
         public override void PostExposeData()

@@ -218,4 +218,5 @@
   <Botania.DevGear.Weapon>武器</Botania.DevGear.Weapon>
   <Botania.DevGear.Apparel>护甲</Botania.DevGear.Apparel>
   <Botania.DevGear.Spawned>已生成 {0}</Botania.DevGear.Spawned>
+  <Botania.FleshSeedCellInfo>启命英的活细胞 · 第 {0} 代 · 年龄 {1}/{2}</Botania.FleshSeedCellInfo>
 </LanguageData>

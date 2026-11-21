@@ -48,7 +48,7 @@
                 <li>Meat_Twisted</li>
               </thingDefs>
             </filter>
-            <count>3</count>
+            <count>15</count>
           </li>
         </ingredients>
         <fixedIngredientFilter>
@@ -63,24 +63,18 @@
           <li>TableButcher</li>
           <li>ButcherSpot</li>
         </recipeUsers>
-        <researchPrerequisite>Botania_GeneratingII</researchPrerequisite>
         <skillRequirements>
-          <Cooking>4</Cooking>
+          <Cooking>10</Cooking>
         </skillRequirements>
       </RecipeDef>
     </value>
   </Operation>
 
-  <!-- 3) 给原版血肉心脏挂「抽取血肉之种」按钮 + 摧毁时掉种子。 -->
+  <!-- 4) 「播种」设计器挂进原版「杂项」分类（不再自建分类）。 -->
   <Operation Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Anomaly">
-    <xpath>Defs/ThingDef[defName="FleshmassHeart"]/comps</xpath>
+    <xpath>Defs/DesignationCategoryDef[defName="Misc"]/specialDesignatorClasses</xpath>
     <value>
-      <li Class="Botania.CompProperties_FleshSeedSource">
-        <seedDefName>Botania_FleshSeed</seedDefName>
-        <seedsPerExtraction>2</seedsPerExtraction>
-        <cooldownTicks>180000</cooldownTicks>
-        <dropOnDestroy>4</dropOnDestroy>
-      </li>
+      <li>Botania.Designator_SowFleshCell</li>
     </value>
   </Operation>
 
