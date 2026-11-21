@@ -218,4 +218,5 @@
   <Botania.DevGear.Weapon>Weapon</Botania.DevGear.Weapon>
   <Botania.DevGear.Apparel>Apparel</Botania.DevGear.Apparel>
   <Botania.DevGear.Spawned>Spawned {0}</Botania.DevGear.Spawned>
+  <Botania.FleshSeedCellInfo>Life-orchid cell · generation {0} · age {1}/{2}</Botania.FleshSeedCellInfo>
 </LanguageData>

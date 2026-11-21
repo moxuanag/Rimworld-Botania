@@ -142,8 +142,21 @@ namespace Botania
             // 只从"魔力比自己多"的源抽取：这样两座同级塔不会互抽，
             // 整条链路天然从池子向远离池子的方向流动。
             IManaSource upstream = ManaSourceUtil.FindNearest(
-                parent.Position, map, Props.radius, mana + LevelEpsilon, parent);
+                parent.Position, map, Props.radius, mana + LevelEpsilon, parent, true);
             if (upstream == null)
+            {
+                return;
+            }
+
+            // 一次只搬走「差距的一半」，否则抽完会让高低关系反转，
+            // 两座塔就会来回互抽，白白损耗（每轮 lossPercent 都吃一次）。
+            float gap = upstream.ManaAmount - mana;
+            if (gap <= 0.01f)
+            {
+                return;
+            }
+            wanted = Math.Min(wanted, gap * 0.5f);
+            if (wanted <= 0.01f)
             {
                 return;
             }

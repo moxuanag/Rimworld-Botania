@@ -160,6 +160,7 @@ namespace Botania
             }
 
             int size = Size;
+            bool[] onBed = new bool[Cells];
             bool[] alive = new bool[Cells];
             bool[] next = new bool[Cells];
 
@@ -169,7 +170,14 @@ namespace Botania
                 {
                     int index = z * size + x;
                     IntVec3 cell = origin + new IntVec3(x - Radius, 0, z - Radius);
-                    alive[index] = cell.InBounds(map) && HasSeed(cell, map, seedDef);
+                    if (!cell.InBounds(map))
+                    {
+                        continue;
+                    }
+                    // 只有肉床格参与演化：普通地面上的种子不算细胞，也不会被「生」到那里
+                    TerrainDef terrain = cell.GetTerrain(map);
+                    onBed[index] = terrain != null && terrain.defName == Props.bedDefName;
+                    alive[index] = onBed[index] && HasSeed(cell, map, seedDef);
                 }
             }
 
@@ -238,6 +246,10 @@ namespace Botania
                         age[index] = 0;
                     }
 
+                    if (!onBed[index])
+                    {
+                        nextAlive = false;
+                    }
                     next[index] = nextAlive;
                     if (!alive[index] && nextAlive)
                     {
@@ -351,9 +363,13 @@ namespace Botania
                 false);
             toggle.action = delegate
             {
-                // 注意：这里**不重置年龄**。否则玩家可以卡在 29 代反复暂停/启动，
-                // 让细胞永远不老——那样不用补种就能无限产出。
                 running = !running;
+                if (running)
+                {
+                    // 代数只是显示，重开从头计数；但**年龄不清**——
+                    // 否则玩家卡在 29 代反复重开就能让细胞永远不老。
+                    generation = 0;
+                }
             };
             yield return toggle;
         }
@@ -398,6 +414,36 @@ namespace Botania
             return status;
         }
 
+        /// <summary>查询某一格是不是这朵花的活细胞，附带年龄与代数（给种子面板用）。</summary>
+        public bool TryGetCellState(IntVec3 cell, out int cellAge, out int generationValue)
+        {
+            cellAge = 0;
+            generationValue = generation;
+            if (!parent.Spawned || parent.Map == null)
+            {
+                return false;
+            }
+            IntVec3 delta = cell - parent.Position;
+            if (Mathf.Abs(delta.x) > Radius || Mathf.Abs(delta.z) > Radius)
+            {
+                return false;
+            }
+            int x = delta.x + Radius;
+            int z = delta.z + Radius;
+            int index = z * Size + x;
+            if (index < 0 || index >= Cells)
+            {
+                return false;
+            }
+            ThingDef seedDef = SeedDef;
+            if (seedDef == null || !HasSeed(cell, parent.Map, seedDef))
+            {
+                return false;
+            }
+            cellAge = age[index];
+            return true;
+        }
+
         /// <summary>调试摘要（临时调试工具会调）。</summary>
         public string DebugLine()
         {
@@ -428,6 +474,28 @@ namespace Botania
             base.PostExposeData();
             Scribe_Values.Look(ref running, "running", false);
             Scribe_Values.Look(ref generation, "generation", 0);
+
+            // 细胞年龄必须存：否则读档后集体归零，等于白送了 30 代寿命。
+            // 用 Base64 原样存字节，不能「除以 10 再乘回去」——那会把 9 变 0、29 变 20。
+            string ages = Scribe.mode == LoadSaveMode.Saving
+                ? System.Convert.ToBase64String(age)
+                : "";
+            Scribe_Values.Look(ref ages, "cellAgesB64", "");
+            if (Scribe.mode == LoadSaveMode.LoadingVars && !ages.NullOrEmpty())
+            {
+                try
+                {
+                    byte[] loaded = System.Convert.FromBase64String(ages);
+                    for (int i = 0; i < age.Length && i < loaded.Length; i++)
+                    {
+                        age[i] = loaded[i];
+                    }
+                }
+                catch (System.Exception)
+                {
+                    // 旧档/脏数据：保持 0，不影响加载
+                }
+            }
         }
     }
 }
