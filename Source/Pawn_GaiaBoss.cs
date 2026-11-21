@@ -672,6 +672,7 @@ namespace Botania
         }
 
         private int nextBreachTick = -1;
+        private Thing breachTarget;
 
         /// <summary>
         /// 卡住时直接破坏挡路的敌对墙/门。
@@ -694,14 +695,23 @@ namespace Botania
             }
             nextBreachTick = Now + 60;
 
-            Thing blocker = FindBlockingStructureNearby(5);
+            if (currentSkill != GaiaSkill.None)
+            {
+                return;
+            }
+
+            Thing blocker = FindBlockingStructureNearby(6);
             if (blocker == null)
             {
                 return;
             }
-            blocker.TakeDamage(new DamageInfo(DamageDefOf.Blunt, 25f, 0.5f, -1f, this));
-            SpawnMoteAt("Botania_Mote_GaiaCrack", blocker.Position.ToVector3Shifted(), 1.1f);
-            Log.Message("[Botania] 卡住：破坏挡路建筑 " + blocker.LabelShort + "（剩余耐久 " + blocker.HitPoints + "）");
+
+            // 不直接扣耐久：改为朝挡路建筑施放「大地之怒」，
+            // 让破拆看起来像技能行为，而不是无声掉血。
+            breachTarget = blocker;
+            StartEarthWrath(blocker.Position);
+            nextBreachTick = Now + GaiaSkills.EarthWrathWarn + 120;
+            Log.Message("[Botania] 卡住：对挡路建筑施放大地之怒 " + blocker.LabelShort);
         }
 
         /// <summary>找附近的敌对墙/门（用于破拆）。</summary>
@@ -1110,6 +1120,10 @@ namespace Botania
             currentSkill = GaiaSkill.None;
             skillCells = new List<IntVec3>();
             entangleTargets = new List<Pawn>();
+            if (skill != GaiaSkill.EarthWrath)
+            {
+                breachTarget = null;
+            }
         }
 
         // ---------------- 各技能效果 ----------------
@@ -1125,6 +1139,18 @@ namespace Botania
 
             GaiaSkills.DamageHostileThingsInCells(Map, Faction, cells, DamageDefOf.Blunt,
                 GaiaSkills.EarthWrathDamage, this, 0.5f, true, Position);
+
+            // 破拆专用：挡路的墙/门往往挡在自己的视线里，扇形选不中它，
+            // 这里保证它吃到全额伤害
+            if (breachTarget != null && breachTarget.Spawned && !breachTarget.Destroyed)
+            {
+                breachTarget.TakeDamage(new DamageInfo(DamageDefOf.Blunt,
+                    GaiaSkills.EarthWrathDamage, 0.5f, -1f, this));
+                SpawnMoteAt("Botania_Mote_GaiaCrack", breachTarget.Position.ToVector3Shifted(), 1.2f);
+                Log.Message("[Botania] 大地之怒砸中挡路建筑 " + breachTarget.LabelShort +
+                            "（剩余耐久 " + breachTarget.HitPoints + "）");
+            }
+            breachTarget = null;
 
             // 视觉：命中区域撒地面裂纹
             for (int i = 0; i < cells.Count && i < 10; i += Math.Max(1, cells.Count / 10))
