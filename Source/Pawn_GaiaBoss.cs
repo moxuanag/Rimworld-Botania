@@ -595,10 +595,9 @@ namespace Botania
             }
 
             List<Thing> candidates = map.listerThings.ThingsInGroup(ThingRequestGroup.AttackTarget);
-            Thing bestPawnWild = null;
-            float bestPawnWildDist = float.MaxValue;
-            Thing bestBuildingWild = null;
-            float bestBuildingWildDist = float.MaxValue;
+            // 小人与炮塔/建筑同一优先级：谁「野外可达」且更近就打谁
+            Thing bestWild = null;
+            float bestWildDist = float.MaxValue;
             Thing bestUnreachable = null;
             float bestUnreachableDist = float.MaxValue;
 
@@ -625,18 +624,10 @@ namespace Botania
 
                 if (CanReachWild(th))
                 {
-                    if (th is Pawn)
+                    if (d < bestWildDist)
                     {
-                        if (d < bestPawnWildDist)
-                        {
-                            bestPawnWildDist = d;
-                            bestPawnWild = th;
-                        }
-                    }
-                    else if (d < bestBuildingWildDist)
-                    {
-                        bestBuildingWildDist = d;
-                        bestBuildingWild = th;
+                        bestWildDist = d;
+                        bestWild = th;
                     }
                 }
                 else if (d < bestUnreachableDist)
@@ -646,7 +637,7 @@ namespace Botania
                 }
             }
 
-            Thing chosen = bestPawnWild ?? bestBuildingWild ?? bestUnreachable;
+            Thing chosen = bestWild ?? bestUnreachable;
             if (chosen == null)
             {
                 breachWall = null;
@@ -654,7 +645,7 @@ namespace Botania
             }
 
             // 有野外可达的目标就正常打；只有全都被墙挡住时才破墙
-            bool needBreach = bestPawnWild == null && bestBuildingWild == null;
+            bool needBreach = bestWild == null;
             if (needBreach)
             {
                 if (breachWall == null || breachWall.Destroyed || !breachWall.Spawned)
