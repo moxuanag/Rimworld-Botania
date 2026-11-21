@@ -120,7 +120,7 @@
       <AccuracyShort>0.85</AccuracyShort>
       <AccuracyMedium>0.80</AccuracyMedium>
       <AccuracyLong>0.70</AccuracyLong>
-      <RangedWeapon_Cooldown>2.2</RangedWeapon_Cooldown>
+      <RangedWeapon_Cooldown>1.6</RangedWeapon_Cooldown>
     </statBases>
     <costList>
       <Botania_ElementiumIngot>3</Botania_ElementiumIngot>

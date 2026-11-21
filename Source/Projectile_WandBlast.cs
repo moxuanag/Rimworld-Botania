@@ -93,6 +93,11 @@ namespace Botania
                         {
                             continue;
                         }
+                        // 不炸到自己：爆心贴脸时会打到自己，造成僵直（表现为「开火后停顿很久」）
+                        if (t == Launcher)
+                        {
+                            continue;
+                        }
                         // 多格建筑可能同时落在两个格子里，只结算一次
                         if (!Damaged.Add(t))
                         {

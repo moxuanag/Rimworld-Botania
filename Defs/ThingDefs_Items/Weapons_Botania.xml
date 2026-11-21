@@ -35,7 +35,7 @@
       <AccuracyShort>0.80</AccuracyShort>
       <AccuracyMedium>0.80</AccuracyMedium>
       <AccuracyLong>0.80</AccuracyLong>
-      <RangedWeapon_Cooldown>1.0</RangedWeapon_Cooldown>
+      <RangedWeapon_Cooldown>0.9</RangedWeapon_Cooldown>
     </statBases>
     <costList>
       <Botania_Livingwood>12</Botania_Livingwood>
@@ -199,7 +199,7 @@
       <AccuracyShort>0.85</AccuracyShort>
       <AccuracyMedium>0.85</AccuracyMedium>
       <AccuracyLong>0.85</AccuracyLong>
-      <RangedWeapon_Cooldown>1.5</RangedWeapon_Cooldown>
+      <RangedWeapon_Cooldown>1.2</RangedWeapon_Cooldown>
     </statBases>
     <!-- 改造配方由 recipeMaker + costList 生成（原版武器都是这条路）。
          costList 里放基础法杖 = 改造时消耗掉那根杖，等价于「方案 C」。
@@ -304,7 +304,7 @@
       <AccuracyShort>0.70</AccuracyShort>
       <AccuracyMedium>0.65</AccuracyMedium>
       <AccuracyLong>0.60</AccuracyLong>
-      <RangedWeapon_Cooldown>3.0</RangedWeapon_Cooldown>
+      <RangedWeapon_Cooldown>1.6</RangedWeapon_Cooldown>
     </statBases>
     <!-- 改造配方由 recipeMaker + costList 生成（原版武器都是这条路）。
          costList 里放基础法杖 = 改造时消耗掉那根杖，等价于「方案 C」。
