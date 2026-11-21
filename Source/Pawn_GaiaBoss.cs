@@ -2127,6 +2127,14 @@ namespace Botania
                 armSwing = Mathf.Sin(Now * 0.035f) * 0.10f;
             }
 
+            // 没有腿：移动时用上下浮动 + 轻微前后倾表示"漂浮前进"
+            if (pather != null && pather.Moving)
+            {
+                bodyOffset.y += Mathf.Sin(Now * 0.22f) * 0.06f;
+                bodyOffset.x += dir.x * Mathf.Sin(Now * 0.22f + 1.2f) * 0.03f;
+                bodyOffset.z += dir.z * Mathf.Sin(Now * 0.22f + 1.2f) * 0.03f;
+            }
+
             base.DrawAt(drawLoc + bodyOffset, flip);
 
             try
