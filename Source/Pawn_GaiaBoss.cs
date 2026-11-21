@@ -38,6 +38,17 @@ namespace Botania
         private static readonly Material ShockwaveMat =
             MaterialPool.MatFrom("Things/Mote/Botania/GaiaShockwave", ShaderDatabase.Transparent);
 
+        // 世界之跃：落点处的 Boss 轮廓（半透明残影）
+        private static readonly Material[] LeapGhostMats =
+        {
+            MaterialPool.MatFrom("Things/Pawn/Botania/GaiaWorldSoul_south", ShaderDatabase.Transparent,
+                new Color(0.55f, 1f, 0.65f, 0.45f)),
+            MaterialPool.MatFrom("Things/Pawn/Botania/GaiaWorldSoul_east", ShaderDatabase.Transparent,
+                new Color(0.55f, 1f, 0.65f, 0.45f)),
+            MaterialPool.MatFrom("Things/Pawn/Botania/GaiaWorldSoul_north", ShaderDatabase.Transparent,
+                new Color(0.55f, 1f, 0.65f, 0.45f)),
+        };
+
         private static readonly Color WarnColor = new Color(0.95f, 0.25f, 0.2f, 0.45f);
         private static readonly Color BeamColor = new Color(1f, 0.35f, 0.15f, 0.55f);
         private static readonly Color RootColor = new Color(0.45f, 0.9f, 0.4f, 0.5f);
@@ -860,6 +871,8 @@ namespace Botania
         private float earthWrathDirZ = 1f;
         /// <summary>阶段切换演出的结束 tick。</summary>
         private int phaseIntroUntil = -1;
+        /// <summary>世界之跃的落点（无效表示没有待执行的跃迁）。</summary>
+        private IntVec3 leapLanding = IntVec3.Invalid;
 
         /// <summary>
         /// 卡住时直接破坏挡路的敌对墙/门。
@@ -878,38 +891,30 @@ namespace Botania
             {
                 return;
             }
+            if (worldSoulActive || IsInvulnerable || IsParalyzed || Dead)
+            {
+                return;
+            }
             if (currentTarget.Position.DistanceTo(Position) <= EngageRange)
             {
                 return;
             }
             if (breachWall != null && breachWall.Spawned && !breachWall.Destroyed)
             {
-                return;   // 已经有破墙目标，交给破拆流程
+                return;   // 有墙可破时先破墙
             }
-            if (stuckScanCount < 5 || Now < nextTeleportTick)
+            if (stuckScanCount < 8 || Now < nextTeleportTick)
+            {
+                return;
+            }
+            if (currentSkill != GaiaSkill.None)
             {
                 return;
             }
 
-            Map map = Map;
-            IntVec3 landing = CellFinder.RandomClosewalkCellNear(currentTarget.Position, map, 3,
-                c => c.Walkable(map) && !c.Fogged(map));
-            if (!landing.IsValid)
-            {
-                return;
-            }
-
-            nextTeleportTick = Now + 600;
+            nextTeleportTick = Now + 900;
             stuckScanCount = 0;
-            pathingStuck = false;
-
-            SpawnMoteAt("Botania_Mote_GaiaCrack", Position.ToVector3Shifted(), 1.4f);
-            Position = landing;
-            pather?.StopDead();
-            SpawnMoteAt("Botania_Mote_GaiaCrack", landing.ToVector3Shifted(), 1.4f);
-
-            BotaniaDebug.Log($"[Botania] 寻路死锁兜底：突进到 ({landing.x},{landing.z})，距离目标 " +
-                        $"{landing.DistanceTo(currentTarget.Position):F1}");
+            StartLeap();   // 走「世界之跃」技能：先预警再瞬移
         }
 
         private void TickStuckBreach()
@@ -1341,6 +1346,92 @@ namespace Botania
             FreezePosition();
         }
 
+        /// <summary>世界之跃：蓄力 45 tick（落点显示残影与圆圈），随后瞬移。</summary>
+        private void StartLeap()
+        {
+            Map map = Map;
+            if (map == null || currentTarget == null || currentSkill != GaiaSkill.None)
+            {
+                return;
+            }
+            IntVec3 landing = CellFinder.RandomClosewalkCellNear(currentTarget.Position, map, 3,
+                c => c.Walkable(map) && !c.Fogged(map));
+            if (!landing.IsValid)
+            {
+                return;
+            }
+            leapLanding = landing;
+            currentSkill = GaiaSkill.Leap;
+            BotaniaDebug.Log("[Botania] 施法：世界之跃 -> " + landing);
+            skillStageStart = Now;
+            skillWarnUntil = Now + GaiaSkills.LeapWarn;
+            skillCells = new List<IntVec3>();
+            foreach (IntVec3 c in GenRadial.RadialCellsAround(landing, GaiaSkills.LeapImpactRadius, true))
+            {
+                if (c.InBounds(map))
+                {
+                    skillCells.Add(c);
+                }
+            }
+            skillColor = new Color(0.55f, 0.95f, 0.6f, 0.45f);
+            FreezePosition();
+        }
+
+        /// <summary>世界之跃落地：瞬移 + 冲击 + 小范围伤害与击退。</summary>
+        private void DoLeap()
+        {
+            Map map = Map;
+            if (map == null || !leapLanding.IsValid)
+            {
+                leapLanding = IntVec3.Invalid;
+                return;
+            }
+
+            Vector3 from = Position.ToVector3Shifted();
+            SpawnMoteAt("Botania_Mote_GaiaCrack", from, 1.6f);
+
+            Position = leapLanding;
+            pather?.StopDead();
+
+            Vector3 to = leapLanding.ToVector3Shifted();
+            for (int i = 0; i < 6; i++)
+            {
+                float ang = i * Mathf.PI / 3f;
+                SpawnMoteAt("Botania_Mote_GaiaSpark",
+                    to + new Vector3(Mathf.Cos(ang), 0f, Mathf.Sin(ang)) * Rand.Range(0.8f, 2.2f), 1.5f);
+            }
+            SpawnMoteAt("Botania_Mote_GaiaCrack", to, 1.8f);
+
+            // 落点小范围伤害 + 击退
+            List<Thing> victims = map.listerThings.ThingsInGroup(ThingRequestGroup.AttackTarget);
+            for (int i = 0; i < victims.Count; i++)
+            {
+                Thing th = victims[i];
+                if (th == null || th == this || th.Destroyed || !th.Spawned || !IsEnemyOfBoss(th))
+                {
+                    continue;
+                }
+                if (th is Pawn p && p.Downed)
+                {
+                    continue;
+                }
+                if (th.Position.DistanceTo(leapLanding) > GaiaSkills.LeapImpactRadius + 0.5f)
+                {
+                    continue;
+                }
+                th.TakeDamage(new DamageInfo(DamageDefOf.Blunt, GaiaSkills.LeapImpactDamage, 0.4f, -1f, this));
+                if (th is Pawn victim && victim.Spawned)
+                {
+                    if (CellFinder.TryFindRandomCellNear(victim.Position, map, GaiaSkills.LeapKnockback,
+                            c => c.Walkable(map), out IntVec3 dest))
+                    {
+                        victim.Position = dest;
+                    }
+                }
+            }
+            leapLanding = IntVec3.Invalid;
+        }
+
         private void StartManaBeam(IntVec3 target)
         {
             currentSkill = GaiaSkill.ManaBeam;
@@ -1380,6 +1471,10 @@ namespace Botania
                 case GaiaSkill.ManaBeam:
                     DoManaBeam();
                     EndSkill(GaiaSkill.ManaBeam, GaiaSkills.ManaBeamCd);
+                    break;
+                case GaiaSkill.Leap:
+                    DoLeap();
+                    EndSkill(GaiaSkill.None, 0);
                     break;
                 default:
                     EndSkill(GaiaSkill.None, 0);
@@ -1968,6 +2063,7 @@ namespace Botania
                 DrawArms(drawLoc + bodyOffset, dir, armSwing);
                 DrawEarthWrathShockwave(drawLoc, dir);
                 DrawPhaseIntro(drawLoc);
+                DrawLeapGhost(drawLoc);
                 DrawShieldBubble(drawLoc);
             }
             catch (Exception e)
@@ -2013,6 +2109,23 @@ namespace Botania
             Matrix4x4 m = default(Matrix4x4);
             m.SetTRS(pos, Quaternion.identity, new Vector3(r, 1f, r));
             Graphics.DrawMesh(MeshPool.plane10, m, ShockwaveMat, 0);
+        }
+
+        /// <summary>世界之跃：在落点画出 Boss 残影（让玩家看到「要跳到这里」）。</summary>
+        private void DrawLeapGhost(Vector3 drawLoc)
+        {
+            if (currentSkill != GaiaSkill.Leap || !leapLanding.IsValid)
+            {
+                return;
+            }
+            float prog = Mathf.Clamp01((Now - skillStageStart) / (float)GaiaSkills.LeapWarn);
+            Vector3 pos = leapLanding.ToVector3Shifted();
+            pos.y = AltitudeLayer.Pawn.AltitudeFor() + 0.01f;
+            float scale = Mathf.Lerp(3.2f, 4.0f, prog);
+            int idx = Rotation == Rot4.South ? 0 : (Rotation == Rot4.East ? 1 : (Rotation == Rot4.West ? 1 : 2));
+            Matrix4x4 m = default(Matrix4x4);
+            m.SetTRS(pos, Quaternion.AngleAxis(0f, Vector3.up), new Vector3(scale, 1f, scale));
+            Graphics.DrawMesh(MeshPool.plane10, m, LeapGhostMats[idx], 0);
         }
 
         /// <summary>阶段切换：脚下扩散的大环。</summary>

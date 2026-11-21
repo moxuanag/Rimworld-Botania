@@ -13,7 +13,8 @@ namespace Botania
         Entangle = 2,     // 根须缠绕（阶段 I）
         ManaBeam = 3,     // 魔力射线（阶段 II）
         SummonSeeds = 4,  // 召唤盖亚之种（II / III 各一次）
-        WorldSoul = 5     // 世界之魂（III 一次性）
+        WorldSoul = 5,    // 世界之魂（III 一次性）
+        Leap = 6          // 世界之跃（寻路死锁时的突进，带落点预警）
     }
 
     /// <summary>
@@ -49,6 +50,12 @@ namespace Botania
         public const float WorldSoulMaxRadius = 50f;
         public const float WorldSoulDamage = 90f;
         public const int WorldSoulStunTicks = 120;
+
+        // 世界之跃（突进）：先蓄力 45 tick，在落点显示轮廓，然后瞬移
+        public const int LeapWarn = 45;
+        public const float LeapImpactRadius = 2.2f;
+        public const int LeapImpactDamage = 12;
+        public const int LeapKnockback = 2;
 
         // ---- 几何 ----
 
