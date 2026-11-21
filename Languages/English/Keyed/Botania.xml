@@ -210,4 +210,6 @@
   <Botania.SettingsDebugHeader>Debug and logging</Botania.SettingsDebugHeader>
   <Botania.SettingsDebugLogging>Write debug log</Botania.SettingsDebugLogging>
   <Botania.SettingsDebugLoggingDesc>When on, Boss/skill flow logs are written to Player.log for troubleshooting. Keep it off for normal play.</Botania.SettingsDebugLoggingDesc>
+  <Botania.TerrasteelSetBonus.On>{0} wears the full terrasteel panoply and gains the terrasteel blessing</Botania.TerrasteelSetBonus.On>
+  <Botania.TerrasteelMending.Tip>Heals one wound every 2 seconds</Botania.TerrasteelMending.Tip>
 </LanguageData>

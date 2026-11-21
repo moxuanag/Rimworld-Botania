@@ -210,4 +210,6 @@
   <Botania.SettingsDebugHeader>调试与日志</Botania.SettingsDebugHeader>
   <Botania.SettingsDebugLogging>输出调试日志</Botania.SettingsDebugLogging>
   <Botania.SettingsDebugLoggingDesc>开启后会把 Boss/技能的流程日志写进 Player.log，用于排查问题；正常游玩建议关闭。</Botania.SettingsDebugLoggingDesc>
+  <Botania.TerrasteelSetBonus.On>{0} 穿齐了泰拉套装，获得「泰拉之赐」</Botania.TerrasteelSetBonus.On>
+  <Botania.TerrasteelMending.Tip>每 2 秒愈合一处伤口</Botania.TerrasteelMending.Tip>
 </LanguageData>

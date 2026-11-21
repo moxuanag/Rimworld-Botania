@@ -4,20 +4,42 @@ using Verse;
 namespace Botania
 {
     /// <summary>
-    /// 盖亚套装检测：同时穿着盖亚甲 + 盖亚头盔时，给一个小人挂上「盖亚之赐」Hediff。
+    /// 套装检测：同时穿着整套装备时给小人挂上对应的增益 Hediff。
     ///
-    /// 用 MapComponent 而不是 apparel 的 comp：
-    /// 因为要判断「两件同时穿」，放在装备自己身上互相看不见；
-    /// 而 MapComponentTick 每 120 tick 扫一次殖民者，逻辑最简单也最稳。
+    /// 目前两套：
+    ///   盖亚套装（盖亚甲 + 盖亚头盔）  -> Botania_GaiaSetBonus
+    ///   泰拉套装（泰拉甲 + 泰拉头盔）  -> Botania_TerrasteelBlessing（移速 +100% + 每 2 秒愈合一处伤口）
     ///
-    /// 具体 buff 数值写在 HediffDef Botania_GaiaSetBonus 的 statOffsets 里，
-    /// 以后调数值不用改代码。
+    /// 引擎会自动实例化所有 MapComponent 子类（Map.FillComponents 反射扫描），
+    /// 不需要在 XML 里注册。
     /// </summary>
     public class MapComponent_GaiaSetBonus : MapComponent
     {
-        private const string ArmorDefName = "Botania_GaiaArmor";
-        private const string HelmetDefName = "Botania_GaiaHelmet";
-        private const string BuffDefName = "Botania_GaiaSetBonus";
+        private sealed class SetDef
+        {
+            public string armor;
+            public string helmet;
+            public string buff;
+            public string messageKey;
+        }
+
+        private static readonly SetDef[] Sets =
+        {
+            new SetDef
+            {
+                armor = "Botania_GaiaArmor",
+                helmet = "Botania_GaiaHelmet",
+                buff = "Botania_GaiaSetBonus",
+                messageKey = "Botania.GaiaSetBonus.On",
+            },
+            new SetDef
+            {
+                armor = "Botania_TerrasteelArmor",
+                helmet = "Botania_TerrasteelHelmet",
+                buff = "Botania_TerrasteelBlessing",
+                messageKey = "Botania.TerrasteelSetBonus.On",
+            },
+        };
 
         public MapComponent_GaiaSetBonus(Map map) : base(map)
         {
@@ -32,12 +54,6 @@ namespace Botania
                 return;
             }
 
-            HediffDef buffDef = DefDatabase<HediffDef>.GetNamedSilentFail(BuffDefName);
-            if (buffDef == null)
-            {
-                return;
-            }
-
             var colonists = map.mapPawns.FreeColonistsSpawned;
             for (int i = 0; i < colonists.Count; i++)
             {
@@ -47,20 +63,29 @@ namespace Botania
                     continue;
                 }
 
-                bool hasSet = WearsDef(pawn, ArmorDefName) && WearsDef(pawn, HelmetDefName);
-                Hediff existing = FindHediff(pawn, buffDef);
+                for (int s = 0; s < Sets.Length; s++)
+                {
+                    SetDef set = Sets[s];
+                    bool complete = WearsDef(pawn, set.armor) && WearsDef(pawn, set.helmet);
+                    HediffDef buffDef = DefDatabase<HediffDef>.GetNamedSilentFail(set.buff);
+                    if (buffDef == null)
+                    {
+                        continue;
+                    }
+                    Hediff existing = FindHediff(pawn, buffDef);
 
-                if (hasSet && existing == null)
-                {
-                    Hediff hediff = HediffMaker.MakeHediff(buffDef, pawn);
-                    hediff.Severity = 1f;
-                    pawn.health.AddHediff(hediff);
-                    Messages.Message("Botania.GaiaSetBonus.On".Translate(pawn.LabelShort),
-                        new LookTargets(pawn), MessageTypeDefOf.PositiveEvent, false);
-                }
-                else if (!hasSet && existing != null)
-                {
-                    pawn.health.RemoveHediff(existing);
+                    if (complete && existing == null)
+                    {
+                        Hediff hediff = HediffMaker.MakeHediff(buffDef, pawn);
+                        hediff.Severity = 1f;
+                        pawn.health.AddHediff(hediff);
+                        Messages.Message(set.messageKey.Translate(pawn.LabelShort),
+                            new LookTargets(pawn), MessageTypeDefOf.PositiveEvent, false);
+                    }
+                    else if (!complete && existing != null)
+                    {
+                        pawn.health.RemoveHediff(existing);
+                    }
                 }
             }
         }
