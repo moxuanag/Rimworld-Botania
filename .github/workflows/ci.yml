@@ -1,0 +1,32 @@
+name: ci
+
+# PR 到 main 时先跑一遍静态检查，避免把坏 XML / 版本号不一致合进去。
+# 注意：这里**不编译** Assembly-CSharp —— 游戏 DLL 不在仓库里，Linux runner 编不了。
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 读取 About 版本号
+        id: ver
+        run: |
+          VERSION="$(grep -oP '(?<=<modVersion>)[^<]+' About/About.xml)"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "About 版本：${VERSION}"
+
+      - name: 版本与程序集检查
+        run: python3 scripts/check_version.py "${{ steps.ver.outputs.version }}"
+
+      - name: XML 语法检查
+        run: python3 scripts/validate_xml.py
