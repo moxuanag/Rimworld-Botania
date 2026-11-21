@@ -5,7 +5,7 @@
   <DebugTabMenuDef>
     <defName>Botania</defName>
     <label>plant magic</label>
-    <menuClass>RimWorld.DebugTabMenu_Actions</menuClass>
+    <menuClass>LudeonTK.DebugTabMenu_Actions</menuClass>
     <displayOrder>70</displayOrder>
   </DebugTabMenuDef>
 
