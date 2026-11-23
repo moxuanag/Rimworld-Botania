@@ -73,6 +73,17 @@
 
 ## [未发布]
 
+### 框架 S2 续：修复器迁移 + 付款框架补强（2026-11-23）
+
+- `ManaDeviceCore` 补强：
+  - `SettleOnce()` 改为 `protected virtual`：允许设备覆写整套周期逻辑
+  - 新增 `FindSource(needAtLeast)`：暴露取源能力，供需要自己控制付款/退款的设备使用
+- 迁移**修复器 `CompManaRepairer`**（416 行）：
+  - props 继承 `CompProperties_ManaDevice`；`manaSearchRadius`→`searchRadius`、`ticksPerCycle`→`workIntervalTicks`
+  - comp 继承 `CompManaDevice`，删除自建 tick 累加与 CompTick，改覆写 `SettleOnce`
+  - **完整保留老行为**：按实际可修点数计费、魔力不足按比例少修、多抽的零钱退回、可用模组设置关掉目标上限
+  - 存档键 `manaRepairerEnabled` 保持不变
+
 ### 框架 S1.5 续：产魔钩子 + 火红莲迁移（2026-11-23）
 
 - `CompManaProducer` 新增两个钩子：

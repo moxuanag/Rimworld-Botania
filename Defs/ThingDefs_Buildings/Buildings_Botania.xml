@@ -475,8 +475,8 @@
     <comps>
       <li Class="Botania.CompProperties_ManaRepairer">
         <radius>8</radius>
-        <manaSearchRadius>6</manaSearchRadius>
-        <ticksPerCycle>60</ticksPerCycle>
+        <searchRadius>6</searchRadius>
+        <workIntervalTicks>60</workIntervalTicks>
         <hpPerCycle>5</hpPerCycle>
         <manaPerHp>5</manaPerHp>
         <maxTargets>4</maxTargets>
@@ -537,8 +537,8 @@
     <comps>
       <li Class="Botania.CompProperties_ManaRepairer">
         <radius>6</radius>
-        <manaSearchRadius>6</manaSearchRadius>
-        <ticksPerCycle>60</ticksPerCycle>
+        <searchRadius>6</searchRadius>
+        <workIntervalTicks>60</workIntervalTicks>
         <hpPerCycle>6</hpPerCycle>
         <manaPerHp>5</manaPerHp>
         <maxTargets>4</maxTargets>

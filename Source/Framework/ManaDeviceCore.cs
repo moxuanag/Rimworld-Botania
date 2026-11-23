@@ -196,6 +196,21 @@ namespace Botania
         }
 
         /// <summary>
+        /// 找最近的可支付魔力源（不扣款）。给需要自己控制付款节奏的设备用
+        /// （例如修复器：先看有多少、再按实际修理点数扣、多抽的还要退）。
+        /// </summary>
+        public IManaSource FindSource(float needAtLeast = 0f)
+        {
+            Thing parent = Parent;
+            if (parent == null || parent.Map == null)
+            {
+                return null;
+            }
+            return ManaSourceUtil.FindNearest(
+                parent.Position, parent.Map, props.SearchRadius, needAtLeast, parent);
+        }
+
+        /// <summary>
         /// 按「有多少抽多少」支付：最多抽 amount，返回实际抽到的量。
         /// 修复器这类「按修理量计费」的设备用它；与 <see cref="TryPay"/> 不同，允许部分支付。
         /// </summary>
@@ -306,7 +321,7 @@ namespace Botania
         }
 
         /// <summary>立刻结算一次（由 tick 或子类显式调用）。</summary>
-        protected bool SettleOnce()
+        protected virtual bool SettleOnce()
         {
             bool wants = WantsWork();
             bool paid = wants && Core.TryPay(ManaPerWork);
