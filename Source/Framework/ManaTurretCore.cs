@@ -196,13 +196,8 @@ namespace Botania
         /// 选中时的范围提示。
         ///
         /// 引擎的 <see cref="Building_TurretGun.DrawExtraSelectionOverlays"/> 只在射程 < 90 时画外圈，
-        /// 所以射程 ≥ 90 的炮塔（爆萼花 100 格）在选中时看不到自己能打多远 —— 这里补画。
-        ///
-        /// 两个坑（都踩过）：
-        /// 1. <c>GenDraw.DrawRadiusRing</c> 用预计算格子表，超过 <c>GenRadial.MaxRadialPatternRadius</c>
-        ///    （约 79 格）会每帧报 "not enough squares" 且什么都不画；
-        /// 2. 用 <c>DrawLineBetween</c> 自己画圆时，**必须**通过 <c>layer</c> 参数抬到 MetaOverlays 高度，
-        ///    否则线段贴在 y≈0，被地形/建筑盖住 —— 视觉上就是「点了没反应」。
+        /// 射程 ≥ 90 的炮塔（爆萼花 100 格）选中时看不到自己能打多远，这里补画。
+        /// 具体绘制交给共用的 <see cref="BotaniaOverlays.DrawRadiusRingSafe"/>（处理半径上限与渲染高度）。
         /// </summary>
         public override void DrawExtraSelectionOverlays()
         {
@@ -214,32 +209,9 @@ namespace Botania
             float range = AttackVerb.EffectiveRange;
             if (range < 90f)
             {
-                return; // 基类已经画了
+                return; // 基类已经画过
             }
-            if (range <= GenRadial.MaxRadialPatternRadius)
-            {
-                GenDraw.DrawRadiusRing(Position, range);
-                return;
-            }
-            DrawRingWithLines(Position, range);
-        }
-
-        /// <summary>用线段画半径环（超出引擎预计算上限时用）。</summary>
-        private static void DrawRingWithLines(IntVec3 center, float radius)
-        {
-            const int segments = 128;
-            float layer = AltitudeLayer.MetaOverlays.AltitudeFor();
-            Vector3 c = center.ToVector3Shifted();
-            c.y = 0f;
-            Vector3 prev = c + new Vector3(radius, 0f, 0f);
-            for (int i = 1; i <= segments; i++)
-            {
-                float ang = i * Mathf.PI * 2f / segments;
-                Vector3 cur = c + new Vector3(Mathf.Sin(ang) * radius, 0f, Mathf.Cos(ang) * radius);
-                // 3 参重载 = 用 layer 抬高 + 内置白色线材质（与强制目标线同一套渲染）
-                GenDraw.DrawLineBetween(prev, cur, layer);
-                prev = cur;
-            }
+            BotaniaOverlays.DrawRadiusRingSafe(Position, range);
         }
 
         /// <summary>发射瞬间的炮口烟（迫击炮是「轰」一下；速射炮的逐发闪光由 Verb 负责）。</summary>

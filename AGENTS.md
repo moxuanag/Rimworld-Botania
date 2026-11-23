@@ -7,13 +7,15 @@
 - 用户是最终裁决者。**有任何不确定、或认为用户方案有问题，先说明并让用户决定**，不要自行猜测推进。
 - 用户说"先给方案"时：**只出方案，不写实现代码**。方案必须包含：参考依据、机制设计、兼容性分析、可能存在的问题、待确认事项。
 - 交付物一律附 **中文名 ↔ defName ↔ 怎么测** 的表格。
-- **任何「看得见的东西」（贴图、范围环、Gizmo 按钮、动画、光线）都必须登记到
-  `docs/游戏内验证清单.md`**，并写出一条「用户 30 秒内能判断成功/失败」的验证法。
-  用户正是在这类问题上反复踩坑（射程环看不见、炮管不转向、按钮不可见），
+- **不建额外的「验证清单」文件**：需要用户验的东西，直接在对话里列出「怎么测 / 期望值」。
+  但**踩过的坑必须写进 `docs/植物魔法开发文档.md` → 踩坑记录**，不要只记在脑子里，
+  更不要让用户反复提醒同一个问题。
+- **任何「看得见的东西」（贴图、范围环、Gizmo、动画）交付前必须自问三件事**：
+  ①引擎会不会根本没画（半径上限、渲染高度、贴图路径）②它会不会被挡住 ③用户 30 秒内怎么判断成功。
   编译通过 **不等于** 游戏里看得见。
-- 画任何 overlay（范围环/连线/高亮）前，**先看原版同类代码怎么调**：
-  例如 `GenDraw.DrawLineBetween` 的 3 参重载要传 `layer`，否则线段贴在 y≈0 会被地形盖住
-  （原版强制目标线就显式把 y 设成 `AltitudeLayer.MetaOverlays.AltitudeFor()`）。
+- 画 overlay（范围环/连线/高亮）一律用 `Source/Framework/OverlayUtil.cs` 的
+  `BotaniaOverlays.DrawRadiusRingSafe()`，它已处理「引擎半径上限 ~79 格」与
+  「必须抬到 `AltitudeLayer.MetaOverlays` 才不被地形盖住」两个坑。
 - 文档（`docs/`）与 `CHANGELOG.md` 必须同步更新。
 
 ## 2. 框架式设计（强制）
@@ -21,7 +23,7 @@
 新增任何内容前先问自己：**这套逻辑是否已有可复用的基类/组件？**
 
 - 设备/功能花/耗魔建筑 → 继承或组合 `Source/Framework/ManaDeviceCore.cs`（`CompManaDevice` + `ManaDeviceCore`）
-- 已有的复用件：`ManaSourceUtil`、`CompManaStorage`、`CompRadiusRing`（+`MapComponent_Rings`）、`PlaceWorker_RadiusFromComp`、`BotaniaDebug`
+- 已有的复用件：`ManaSourceUtil`、`CompManaStorage`、`CompRadiusRing`（+`MapComponent_Rings`）、`PlaceWorker_RadiusFromComp`、`BotaniaDebug`、**`BotaniaOverlays.DrawRadiusRingSafe`（范围环绘制）**
 - 一个功能 = 一个 30~60 行的子类 + 一段 XML；如果又要抄一遍"找魔力源 / 定时结算 / 存档 / inspect"，说明框架没用好
 - **带作用范围的建筑必须画范围**：放置预览环 + 选中常驻环，缺一视为未完成
 

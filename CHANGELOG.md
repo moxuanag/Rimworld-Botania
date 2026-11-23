@@ -73,6 +73,16 @@
 
 ## [未发布]
 
+### 框架：overlay 绘制抽成共用件 `BotaniaOverlays`
+
+- 新增 `Source/Framework/OverlayUtil.cs`：`BotaniaOverlays.DrawRadiusRingSafe(center, radius)`
+  - 半径 ≤ 引擎上限（`GenRadial.MaxRadialPatternRadius`，约 79 格）→ 用 `GenDraw.DrawRadiusRing`
+  - 超限 → 128 段线段画圆，且**自动抬到 `AltitudeLayer.MetaOverlays`**（否则被地形盖住、视觉上等于没画）
+- `Building_ManaTurretGun.DrawExtraSelectionOverlays()` 改为调用它，不再自己维护绘制细节
+- 以后任何需要画大范围环的建筑（不止炮塔）直接复用，不必再踩半径上限 / 渲染高度这两个坑
+- `AGENTS.md`：§1 与 §2 都登记该工具；删除「验证清单文件」的规定（用户认为多余），
+  改为「需要用户验证的点直接在对话里列，踩过的坑必须写进文档」
+
 ### 修复：爆萼花选中看不到射程环（第二次）
 
 - 现象：上一版修掉「每帧报错」后，射程环**仍然看不见**
