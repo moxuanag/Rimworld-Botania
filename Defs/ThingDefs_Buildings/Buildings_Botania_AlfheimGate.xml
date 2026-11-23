@@ -52,7 +52,7 @@
     <comps>
       <li Class="Botania.CompProperties_ManaGate">
         <openingDepth>2</openingDepth>
-        <manaSearchRadius>8</manaSearchRadius>
+        <searchRadius>8</searchRadius>
         <framePillarHeight>3</framePillarHeight>
         <framePillarDefs>
           <li>Botania_AlfheimGatePillarLeft</li>

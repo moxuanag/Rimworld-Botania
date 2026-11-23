@@ -265,4 +265,18 @@
     <Botania.Dev.AltarGiveDesc>Dev tool: spawn one stack of whatever this altar currently needs.</Botania.Dev.AltarGiveDesc>
     <Botania.Dev.AltarGiveNone>This altar currently needs nothing</Botania.Dev.AltarGiveNone>
     <Botania.Dev.AltarGiveDone>Spawned {0} x {1}</Botania.Dev.AltarGiveDone>
+    <Botania.Dev.GateComplete>Complete teleport now</Botania.Dev.GateComplete>
+    <Botania.Dev.GateCompleteDesc>Dev tool: push current teleport progress to completion.</Botania.Dev.GateCompleteDesc>
+    <Botania.Dev.GateCompleteDone>Teleport completed: {0}</Botania.Dev.GateCompleteDone>
+    <Botania.Dev.GateCompleteNoMana>Pushed to completion but not enough mana nearby; inputs kept.</Botania.Dev.GateCompleteNoMana>
+    <Botania.Dev.GateCompleteNoTarget>No teleport available to complete.</Botania.Dev.GateCompleteNoTarget>
+    <Botania.Dev.GateGive>Give one input material</Botania.Dev.GateGive>
+    <Botania.Dev.GateGiveDesc>Dev tool: spawn one required input inside the gate.</Botania.Dev.GateGiveDesc>
+    <Botania.Dev.GateGiveDone>Gave one '{0}' input</Botania.Dev.GateGiveDone>
+    <Botania.Dev.GateGiveNone>Cannot give input: no usable rule or no items in its category.</Botania.Dev.GateGiveNone>
+    <Botania.Dev.GateFillMana>Fill mana</Botania.Dev.GateFillMana>
+    <Botania.Dev.GateFillManaDesc>Dev tool: fill the nearest mana source.</Botania.Dev.GateFillManaDesc>
+    <Botania.Dev.GateFillManaDone>Added {0} mana</Botania.Dev.GateFillManaDone>
+    <Botania.Dev.GateFillManaFull>Nearest mana source is already full</Botania.Dev.GateFillManaFull>
+    <Botania.Dev.GateFillManaNone>No mana source within {0} cells</Botania.Dev.GateFillManaNone>
 </LanguageData>

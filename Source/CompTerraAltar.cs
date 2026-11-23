@@ -15,11 +15,15 @@ namespace Botania
     /// 材料从台面上取（玩家把魔力钢锭 / 精灵石英丢在台子上即可），
     /// 魔力从 8 格内最近的魔力源一次性扣 20,000。
     /// 先扣材料与魔力，再走 2,400 tick 的凝聚进度，完成时在台心生成一枚泰拉钢锭。
+    ///
+    /// 框架迁移（0.8.4 S3-b）：找魔力源 / 结算节流 / 存档键交给 <see cref="CompManaDevice"/>，
+    /// 本文件只保留 pedestal 判定、材料需求（<see cref="TryGetNeed"/>）、仪式进度与 autoHaul。
+    /// 祭坛是「开工时一次付清 + 长时间计时」的设备，所以覆写 <see cref="CompManaDevice.SettleOnce"/>：
+    /// 付款与进度都由本处控制，不走基类「每次结算付一小笔」的模板。
     /// </summary>
-    public class CompProperties_TerraAltar : CompProperties
+    public class CompProperties_TerraAltar : CompProperties_ManaDevice
     {
-        public float manaPerIngot = 20000f;
-        public float searchRadius = 8f;
+        /// <summary>凝聚一枚锭需要的 tick 数。</summary>
         public int ticksPerIngot = 2400;
 
         public ThingDef ingredientA;
@@ -29,9 +33,28 @@ namespace Botania
         public ThingDef product;
         public ThingDef pedestalDef;
 
+        // ---- 本组件自己的存档键（都带基类的 saveKeyPrefix 前缀，避免同一件东西上多个组件平铺撞键） ----
+        // 前缀 "botaniaTerraAltar" 与旧版键名完全一致，所以老档不需要任何 legacy 只读键就能读回。
+        public string ProgressSaveKey => saveKeyPrefix + "Progress";
+        public string RunningSaveKey => saveKeyPrefix + "Running";
+        public string AutoHaulSaveKey => saveKeyPrefix + "AutoHaul";
+
         public CompProperties_TerraAltar()
         {
             compClass = typeof(CompTerraAltar);
+
+            // 基类配置（全部沿用旧版数值）：
+            //   searchRadius       = 8      取魔半径（旧 XML 同名字段，可直接沿用，无需改名）
+            //   manaPerWork        = 20000  一条泰拉钢锭的魔力成本（旧字段 manaPerIngot，XML 需改名）
+            //   workIntervalTicks  = 60     每 60 tick 推进一次进度（旧版 IsHashIntervalTick(60)）
+            //   retryIntervalTicks = 60     缺料 / 缺魔力时同样每 60 tick 重试（旧版行为）
+            //   manaTolerance      = 0.5    旧版找源门槛是 manaPerIngot - 0.5f
+            searchRadius = 8f;
+            manaPerWork = 20000f;
+            workIntervalTicks = 60;
+            retryIntervalTicks = 60;
+            manaTolerance = 0.5f;
+            saveKeyPrefix = "botaniaTerraAltar";
         }
 
         public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
@@ -55,7 +78,7 @@ namespace Botania
         }
     }
 
-    public class CompTerraAltar : ThingComp
+    public class CompTerraAltar : CompManaDevice
     {
         private int progress;
         private bool running;
@@ -71,6 +94,89 @@ namespace Botania
         private Map Map => parent.Map;
 
         public CompProperties_TerraAltar Props => (CompProperties_TerraAltar)props;
+
+        // ---- 基类要求的两个抽象钩子 ----
+        // 整套周期已经被 SettleOnce 覆写，这里保留「开工条件 / 开工动作」的语义，
+        // 由 TryStart 复用，避免同一套判定写两遍。
+
+        /// <summary>能否开工：基座齐全 + 材料齐全（付款能力在 TryStart 里判断）。</summary>
+        protected override bool WantsWork()
+        {
+            if (running)
+            {
+                return false;
+            }
+            if (MissingPedestals > 0)
+            {
+                return false;
+            }
+            return HasAllInputs();
+        }
+
+        /// <summary>开工动作：扣掉台面上的材料、进入 2400 tick 计时。付款已在 TryStart 里完成。</summary>
+        protected override void DoWork(int ticks)
+        {
+            ConsumeFromPlatform(Props.ingredientA, Props.countA);
+            ConsumeFromPlatform(Props.ingredientB, Props.countB);
+            running = true;
+            progress = 0;
+        }
+
+        /// <summary>
+        /// 覆写整套周期：祭坛是「开工时一次性付款 + 长计时」的设备，
+        /// 与基类「每次结算付一小笔」的模板不同，因此自己控制付款与进度，
+        /// 只复用基类的计时调度（<see cref="ManaDeviceCore.ScheduleNext"/>）、
+        /// 找源（<see cref="ManaDeviceCore.FindSource"/>）与存档。
+        /// </summary>
+        protected override bool SettleOnce()
+        {
+            bool worked;
+            if (running)
+            {
+                // 旧版：每 60 tick progress += 60。
+                progress += DeviceProps.workIntervalTicks;
+                worked = true;
+                if (progress >= Props.ticksPerIngot)
+                {
+                    FinishIngot();
+                }
+            }
+            else
+            {
+                worked = TryStart();
+            }
+            Core.ScheduleNext(worked);
+            return worked;
+        }
+
+        /// <summary>
+        /// 开工：pedestal 齐 → 料齐（WantsWork，与旧版检查顺序一致）→ 找源付款 → 扣料 → 计时。
+        /// 旧版付款细节：找源门槛是 cost − 0.5，找到后直接 DrainMana(cost)、抽到多少算多少（不校验实际抽到的量）。
+        /// </summary>
+        private bool TryStart()
+        {
+            if (!WantsWork())
+            {
+                return false;
+            }
+            IManaSource source = Core.FindSource(DeviceProps.manaPerWork - DeviceProps.manaTolerance);
+            if (source == null)
+            {
+                return false;
+            }
+            source.DrainMana(DeviceProps.manaPerWork);
+            DoWork(DeviceProps.workIntervalTicks);
+            return true;
+        }
+
+        private bool HasAllInputs()
+        {
+            if (CountOnPlatform(Props.ingredientA) < Props.countA)
+            {
+                return false;
+            }
+            return CountOnPlatform(Props.ingredientB) >= Props.countB;
+        }
 
         private void AppendHaulLine(StringBuilder sb)
         {
@@ -238,57 +344,6 @@ namespace Botania
             }
         }
 
-        public override void CompTick()
-        {
-            if (!parent.IsHashIntervalTick(60))
-            {
-                return;
-            }
-            Map map = Map;
-            if (map == null)
-            {
-                return;
-            }
-            if (running)
-            {
-                progress += 60;
-                if (progress >= Props.ticksPerIngot)
-                {
-                    FinishIngot();
-                }
-                return;
-            }
-            TryStart();
-            // 送料不在这里做：交给 Hauling 工作里的 WorkGiver_TerraAltarDeliver
-        }
-
-        private void TryStart()
-        {
-            if (MissingPedestals > 0)
-            {
-                return;
-            }
-            if (CountOnPlatform(Props.ingredientA) < Props.countA)
-            {
-                return;
-            }
-            if (CountOnPlatform(Props.ingredientB) < Props.countB)
-            {
-                return;
-            }
-            IManaSource source = ManaSourceUtil.FindNearest(parent.Position, Map,
-                Props.searchRadius, Props.manaPerIngot - 0.5f, parent);
-            if (source == null)
-            {
-                return;
-            }
-            source.DrainMana(Props.manaPerIngot);
-            ConsumeFromPlatform(Props.ingredientA, Props.countA);
-            ConsumeFromPlatform(Props.ingredientB, Props.countB);
-            running = true;
-            progress = 0;
-        }
-
         private void FinishIngot()
         {
             running = false;
@@ -333,12 +388,11 @@ namespace Botania
                 AppendHaulLine(sb);
                 return sb.ToString();
             }
-            IManaSource source = ManaSourceUtil.FindNearest(parent.Position, Map,
-                Props.searchRadius, Props.manaPerIngot - 0.5f, parent);
+            IManaSource source = Core.FindSource(DeviceProps.manaPerWork - DeviceProps.manaTolerance);
             if (source == null)
             {
                 sb.Append("Botania.TerraAltarNoMana".Translate(
-                    Props.manaPerIngot.ToString("F0"), Props.searchRadius.ToString("F0")));
+                    DeviceProps.manaPerWork.ToString("F0"), DeviceProps.searchRadius.ToString("F0")));
                 AppendHaulLine(sb);
                 return sb.ToString();
             }
@@ -391,13 +445,15 @@ namespace Botania
         /// </summary>
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
-            foreach (Gizmo g in base.CompGetGizmosExtra())
-            {
-                yield return g;
-            }
+            // 旧版对非玩家阵营的祭坛不显示任何按钮；这里保持同样的可见性。
             if (parent.Faction != Faction.OfPlayer)
             {
                 yield break;
+            }
+            // 基类通用调试按钮（仅开发者模式）：立刻结算一次 / 跳过冷却。
+            foreach (Gizmo g in base.CompGetGizmosExtra())
+            {
+                yield return g;
             }
             if (Prefs.DevMode)
             {
@@ -506,10 +562,13 @@ namespace Botania
 
         public override void PostExposeData()
         {
+            // 基类负责：botaniaTerraAltarHasMana / botaniaTerraAltarNextWorkTick
             base.PostExposeData();
-            Scribe_Values.Look(ref progress, "botaniaTerraAltarProgress", 0);
-            Scribe_Values.Look(ref running, "botaniaTerraAltarRunning", false);
-            Scribe_Values.Look(ref autoHaul, "botaniaTerraAltarAutoHaul", true);
+            // 旧版键名就是 botaniaTerraAltar + Progress/Running/AutoHaul，
+            // 这里用 saveKeyPrefix 拼出来完全一致，老档直接读回，无需 legacy 只读键。
+            Scribe_Values.Look(ref progress, Props.ProgressSaveKey, 0);
+            Scribe_Values.Look(ref running, Props.RunningSaveKey, false);
+            Scribe_Values.Look(ref autoHaul, Props.AutoHaulSaveKey, true);
         }
     }
 }

@@ -265,4 +265,18 @@
     <Botania.Dev.AltarGiveDesc>开发者工具：按祭坛当前需要，直接生成一份对应材料到旁边。</Botania.Dev.AltarGiveDesc>
     <Botania.Dev.AltarGiveNone>祭坛当前没有材料需求</Botania.Dev.AltarGiveNone>
     <Botania.Dev.AltarGiveDone>已生成 {0} × {1}</Botania.Dev.AltarGiveDone>
+    <Botania.Dev.GateComplete>立即完成当前传送</Botania.Dev.GateComplete>
+    <Botania.Dev.GateCompleteDesc>开发者工具：把当前传送进度直接推到完成（仍需门框完整、材料齐全、魔力足够）。</Botania.Dev.GateCompleteDesc>
+    <Botania.Dev.GateCompleteDone>传送已立即完成：{0}</Botania.Dev.GateCompleteDone>
+    <Botania.Dev.GateCompleteNoMana>已推进到完成，但附近魔力不足，未产出；材料保留。</Botania.Dev.GateCompleteNoMana>
+    <Botania.Dev.GateCompleteNoTarget>当前没有可完成的传送。</Botania.Dev.GateCompleteNoTarget>
+    <Botania.Dev.GateGive>给一份输入材料</Botania.Dev.GateGive>
+    <Botania.Dev.GateGiveDesc>开发者工具：按当前规则在门洞里生成一份所需材料。</Botania.Dev.GateGiveDesc>
+    <Botania.Dev.GateGiveDone>已给出一份「{0}」所需材料</Botania.Dev.GateGiveDone>
+    <Botania.Dev.GateGiveNone>给不出材料：没有可用规则，或类别下没有物品。</Botania.Dev.GateGiveNone>
+    <Botania.Dev.GateFillMana>灌满魔力</Botania.Dev.GateFillMana>
+    <Botania.Dev.GateFillManaDesc>开发者工具：把附近最近的一个魔力源注满。</Botania.Dev.GateFillManaDesc>
+    <Botania.Dev.GateFillManaDone>已注入 {0} 魔力</Botania.Dev.GateFillManaDone>
+    <Botania.Dev.GateFillManaFull>附近最近的魔力源已经是满的</Botania.Dev.GateFillManaFull>
+    <Botania.Dev.GateFillManaNone>附近 {0} 格内没有魔力源</Botania.Dev.GateFillManaNone>
 </LanguageData>

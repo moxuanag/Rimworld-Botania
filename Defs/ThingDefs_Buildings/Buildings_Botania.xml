@@ -394,9 +394,9 @@
     </costList>
     <comps>
       <li Class="Botania.CompProperties_ManaTransmuter">
-        <ticksPerConvert>300</ticksPerConvert>
-        <manaPerConvert>20</manaPerConvert>
-        <manaSearchRadius>6</manaSearchRadius>
+        <workTicks>300</workTicks>
+        <manaPerWork>20</manaPerWork>
+        <searchRadius>6</searchRadius>
         <!-- 附近没有魔力池/中继塔时，转化间隔乘以这个倍数（且不消耗魔力） -->
         <noManaSlowdown>5</noManaSlowdown>
         <rules>
