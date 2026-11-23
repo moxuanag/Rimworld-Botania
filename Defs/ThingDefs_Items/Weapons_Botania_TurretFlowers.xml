@@ -77,12 +77,12 @@
         <!-- 直接使用原版高爆弹：伤害/爆炸半径/音效/命中特效与迫击炮完全一致 -->
         <defaultProjectile>Bullet_Shell_HighExplosive</defaultProjectile>
         <isMortar>true</isMortar>
-        <!-- 偏差 4：原版 9 是为 500 格攻城炮设计，45 格防御炮沿用会既打不准又容易自伤 -->
-        <forcedMissRadius>4</forcedMissRadius>
+        <!-- 偏差 6：原版 9 是为 500 格攻城炮设计，100 格防御炮沿用会既打不准又容易自伤 -->
+        <forcedMissRadius>6</forcedMissRadius>
         <warmupTime>4.0</warmupTime>
         <!-- 最小射程 10：原版 29.9 的死区在自家基地里几乎无靶可打，防御炮只需避开高爆自伤 -->
         <minRange>10</minRange>
-        <range>45</range>
+        <range>100</range>
         <burstShotCount>1</burstShotCount>
         <soundCast>Mortar_LaunchA</soundCast>
         <soundCastTail>GunTail_Light</soundCastTail>

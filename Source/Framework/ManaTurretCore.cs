@@ -175,6 +175,31 @@ namespace Botania
             SpawnLaunchSmoke();
         }
 
+        /// <summary>
+        /// 选中时的范围提示。
+        /// 引擎的 <see cref="Building_TurretGun.DrawExtraSelectionOverlays"/> 只画 &lt; 90 格的射程环，
+        /// 所以射程 ≥ 90 的炮塔（例如爆萼花）选中后会看不到外圈 —— 这里补画，避免玩家不知道打多远。
+        /// 与基类互补、不重复画（基类画过的范围不再画）。
+        /// </summary>
+        public override void DrawExtraSelectionOverlays()
+        {
+            base.DrawExtraSelectionOverlays();
+            if (!Spawned || Map == null)
+            {
+                return;
+            }
+            float range = AttackVerb.EffectiveRange;
+            float minRange = AttackVerb.verbProps.EffectiveMinRange(allowAdjacentShot: true);
+            if (minRange >= range)
+            {
+                return;
+            }
+            if (range >= 90f)
+            {
+                GenDraw.DrawRadiusRing(Position, range);
+            }
+        }
+
         /// <summary>发射瞬间的炮口烟（迫击炮是「轰」一下；速射炮的逐发闪光由 Verb 负责）。</summary>
         private void SpawnLaunchSmoke()
         {
