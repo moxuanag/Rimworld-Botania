@@ -178,9 +178,9 @@
       <li Class="CompProperties_Biocodable" />
       <li Class="Botania.CompProperties_ManaWeapon">
         <maxMana>300</maxMana>
-        <manaPerShot>20</manaPerShot>
+        <manaPerUse>20</manaPerUse>
         <rechargePerSecond>2</rechargePerSecond>
-        <sourceRadius>8</sourceRadius>
+        <searchRadius>8</searchRadius>
       </li>
     </comps>
   </ThingDef>
