@@ -219,4 +219,6 @@
   <Botania.DevGear.Apparel>护甲</Botania.DevGear.Apparel>
   <Botania.DevGear.Spawned>已生成 {0}</Botania.DevGear.Spawned>
   <Botania.FleshSeedCellInfo>启命英的活细胞 · 第 {0} 代 · 年龄 {1}/{2}</Botania.FleshSeedCellInfo>
+    <Botania.DeviceWorking>设备：正在消耗魔力运转</Botania.DeviceWorking>
+    <Botania.DeviceNoMana>设备：附近没有可用魔力，已停工</Botania.DeviceNoMana>
 </LanguageData>

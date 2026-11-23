@@ -219,4 +219,6 @@
   <Botania.DevGear.Apparel>Apparel</Botania.DevGear.Apparel>
   <Botania.DevGear.Spawned>Spawned {0}</Botania.DevGear.Spawned>
   <Botania.FleshSeedCellInfo>Life-orchid cell · generation {0} · age {1}/{2}</Botania.FleshSeedCellInfo>
+    <Botania.DeviceWorking>Device: running on mana</Botania.DeviceWorking>
+    <Botania.DeviceNoMana>Device: no usable mana nearby, halted</Botania.DeviceNoMana>
 </LanguageData>

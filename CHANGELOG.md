@@ -73,6 +73,20 @@
 
 ## [未发布]
 
+### 设备框架 S1：`CompManaDevice`（2026-11-23）
+
+把「找魔力源 → 凑够才扣 → 定时结算 → 断魔重试 → 存档」这段逻辑从 10 个文件里收进一套基类。
+
+- 新增 `Source/Framework/ManaDeviceCore.cs`：
+  - `CompProperties_ManaDevice`：统一配置（半径 / 每次付费 / 间隔 / 文案 key / 存档键前缀）
+  - `ManaDeviceCore`：可组合进任何 Comp 的核心状态机
+  - `CompManaDevice`：便捷基类，只需写 `WantsWork` + `DoWork`
+- 首个迁移：**精灵灯**（127 行 → 96 行，业务只剩「拨开关」）
+- **存档兼容**：沿用旧键 `botaniaPixieLampHasMana` / `botaniaPixieLampNextChargeTick`
+- 新增 Keyed：`Botania.DeviceWorking` / `Botania.DeviceNoMana`（中英）
+- 验证：`dotnet build` 0 错误；`validate_mod.py` 全部检查通过
+
+
 ### 新增（泰拉套装增益）
 - **泰拉之赐**：同时穿着泰拉护甲 + 泰拉头盔时获得
   - **移动速度 +100%**（MoveSpeed +1.0）
