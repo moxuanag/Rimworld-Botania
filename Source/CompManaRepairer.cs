@@ -424,6 +424,56 @@ namespace Botania
                     lastManaSpent = 0f;
                 }
             };
+
+            // ---- 开发调试按钮（仅开发者模式）----
+            if (!Prefs.DevMode)
+            {
+                yield break;
+            }
+            yield return new Command_Action
+            {
+                defaultLabel = "Botania.Dev.RepairNow".Translate(),
+                defaultDesc = "Botania.Dev.RepairNowDesc".Translate(),
+                action = delegate { SettleOnce(); }
+            };
+            yield return new Command_Action
+            {
+                defaultLabel = "Botania.Dev.DamageAround".Translate(),
+                defaultDesc = "Botania.Dev.DamageAroundDesc".Translate(),
+                action = delegate { DamageTargetsAround(); }
+            };
+        }
+
+        /// <summary>
+        /// 开发调试：把范围内的可修目标打残到半血，方便立刻测试「修复 → 扣费」。
+        /// </summary>
+        private void DamageTargetsAround()
+        {
+            Map map = Map;
+            if (map == null)
+            {
+                return;
+            }
+            int touched = 0;
+            foreach (Thing thing in GenRadial.RadialDistinctThingsAround(parent.Position, map, Props.radius, true))
+            {
+                if (thing == parent || thing.Destroyed || thing.MaxHitPoints <= 0)
+                {
+                    continue;
+                }
+                if (thing.def.category != ThingCategory.Building && thing.def.category != ThingCategory.Item)
+                {
+                    continue;
+                }
+                int target = thing.MaxHitPoints / 2;
+                if (thing.HitPoints > target)
+                {
+                    thing.HitPoints = target;
+                    touched++;
+                }
+            }
+            Messages.Message("Botania.Dev.DamageAroundDone".Translate(touched),
+                new LookTargets(parent), MessageTypeDefOf.NeutralEvent, false);
         }
 
         public override void PostExposeData()

@@ -249,4 +249,9 @@
     <Botania.Dev.PoolAddDesc>Dev tool: add 10000 mana.</Botania.Dev.PoolAddDesc>
     <Botania.Dev.PoolClear>Clear mana</Botania.Dev.PoolClear>
     <Botania.Dev.PoolClearDesc>Dev tool: set mana to zero.</Botania.Dev.PoolClearDesc>
+    <Botania.Dev.RepairNow>Force repair now</Botania.Dev.RepairNow>
+    <Botania.Dev.RepairNowDesc>Dev tool: run one repair cycle immediately (pays mana per repaired HP).</Botania.Dev.RepairNowDesc>
+    <Botania.Dev.DamageAround>Damage targets around (to 50%)</Botania.Dev.DamageAround>
+    <Botania.Dev.DamageAroundDesc>Dev tool: cut hit points of buildings/items in repair radius to half.</Botania.Dev.DamageAroundDesc>
+    <Botania.Dev.DamageAroundDone>Set {0} targets to half HP</Botania.Dev.DamageAroundDone>
 </LanguageData>

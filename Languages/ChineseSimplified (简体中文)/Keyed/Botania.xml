@@ -249,4 +249,9 @@
     <Botania.Dev.PoolAddDesc>开发者工具：加一万魔力。</Botania.Dev.PoolAddDesc>
     <Botania.Dev.PoolClear>清空魔力</Botania.Dev.PoolClear>
     <Botania.Dev.PoolClearDesc>开发者工具：把魔力归零。</Botania.Dev.PoolClearDesc>
+    <Botania.Dev.RepairNow>立即强制修复一次</Botania.Dev.RepairNow>
+    <Botania.Dev.RepairNowDesc>开发者工具：立刻跑一遍修复周期（扣魔力、按实际修理点数计费）。</Botania.Dev.RepairNowDesc>
+    <Botania.Dev.DamageAround>打残范围内目标（降到半血）</Botania.Dev.DamageAround>
+    <Botania.Dev.DamageAroundDesc>开发者工具：把修复半径内的建筑/物品耐久降到一半，方便测试修复。</Botania.Dev.DamageAroundDesc>
+    <Botania.Dev.DamageAroundDone>已把 {0} 个目标降到半血</Botania.Dev.DamageAroundDone>
 </LanguageData>
