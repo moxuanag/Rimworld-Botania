@@ -399,6 +399,37 @@ namespace Botania
             {
                 yield break;
             }
+            if (Prefs.DevMode)
+            {
+                yield return new Command_Action
+                {
+                    defaultLabel = "Botania.Dev.AltarGive".Translate(),
+                    defaultDesc = "Botania.Dev.AltarGiveDesc".Translate(),
+                    action = delegate
+                    {
+                        Map map = parent.Map;
+                        if (map == null)
+                        {
+                            return;
+                        }
+                        if (!TryGetNeed(out ThingDef need, out int needCount) || need == null)
+                        {
+                            Messages.Message("Botania.Dev.AltarGiveNone".Translate(),
+                                new LookTargets(parent), MessageTypeDefOf.NeutralEvent, false);
+                            return;
+                        }
+                        Thing thing = ThingMaker.MakeThing(need);
+                        if (thing == null)
+                        {
+                            return;
+                        }
+                        thing.stackCount = needCount;
+                        GenPlace.TryPlaceThing(thing, parent.Position, map, ThingPlaceMode.Near);
+                        Messages.Message("Botania.Dev.AltarGiveDone".Translate(need.LabelCap, needCount),
+                            new LookTargets(parent), MessageTypeDefOf.NeutralEvent, false);
+                    }
+                };
+            }
             Command_Action place = new Command_Action
             {
                 defaultLabel = "Botania.TerraAltarPlacePedestals".Translate(),

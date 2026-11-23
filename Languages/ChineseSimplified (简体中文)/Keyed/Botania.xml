@@ -261,4 +261,8 @@
     <Botania.Dev.TransmuterGiven>已生成 {0}</Botania.Dev.TransmuterGiven>
     <Botania.Dev.FurnaceSettle>立刻产魔一次</Botania.Dev.FurnaceSettle>
     <Botania.Dev.FurnaceSettleDesc>开发者工具：立刻按当前房间温度结算一次产魔。</Botania.Dev.FurnaceSettleDesc>
+    <Botania.Dev.AltarGive>直接给一份所需材料</Botania.Dev.AltarGive>
+    <Botania.Dev.AltarGiveDesc>开发者工具：按祭坛当前需要，直接生成一份对应材料到旁边。</Botania.Dev.AltarGiveDesc>
+    <Botania.Dev.AltarGiveNone>祭坛当前没有材料需求</Botania.Dev.AltarGiveNone>
+    <Botania.Dev.AltarGiveDone>已生成 {0} × {1}</Botania.Dev.AltarGiveDone>
 </LanguageData>

@@ -261,4 +261,8 @@
     <Botania.Dev.TransmuterGiven>Spawned {0}</Botania.Dev.TransmuterGiven>
     <Botania.Dev.FurnaceSettle>Produce mana now</Botania.Dev.FurnaceSettle>
     <Botania.Dev.FurnaceSettleDesc>Dev tool: settle one production tick using the current room heat.</Botania.Dev.FurnaceSettleDesc>
+    <Botania.Dev.AltarGive>Grant one required material</Botania.Dev.AltarGive>
+    <Botania.Dev.AltarGiveDesc>Dev tool: spawn one stack of whatever this altar currently needs.</Botania.Dev.AltarGiveDesc>
+    <Botania.Dev.AltarGiveNone>This altar currently needs nothing</Botania.Dev.AltarGiveNone>
+    <Botania.Dev.AltarGiveDone>Spawned {0} x {1}</Botania.Dev.AltarGiveDone>
 </LanguageData>
