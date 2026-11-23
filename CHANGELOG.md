@@ -73,6 +73,21 @@
 
 ## [未发布]
 
+### 框架 S2 批量迁移（2026-11-23）
+
+一次性迁移 5 个设备/花到框架（行为逐点保留，XML 字段同步改名）：
+
+| 组件 | 类型 | XML 字段变化 |
+|---|---|---|
+| 明心莲 `CompManaClearMindLotus` | 消耗（覆写 SettleOnce） | `poolRadius` → `searchRadius` |
+| 苦丽花 `CompManaBitterBloom` | 产魔 | `radius`→`workRadius`、`poolRadius`→`radius` |
+| 阿卡纳蔷薇 `CompManaRosaArcana` | 产魔 | `radius`→`siphonRadius`、`poolRadius`→`radius` |
+| 噬草花 `CompManaBlightEater` | 产魔 | `radius`→`plantRadius`、`poolRadius`→`radius`、`ticksBetweenMeals`→`settleIntervalTicks` |
+| 荆棘花 `CompThornFlower` | 消耗（覆写 SettleOnce） | `sourceRadius`→`searchRadius`、`pulseTicks`→`workIntervalTicks` |
+
+共同点：删除自建 tick 节流、自写找源/找池、无前缀存档键；改为基类调度 + `Core.FindSource` / `FindTarget`，
+旧存档键以 `legacy*` 只读兼容；`check_comp_fields.py` 全绿。
+
 ### 框架 S2 续：修复器迁移 + 付款框架补强（2026-11-23）
 
 - `ManaDeviceCore` 补强：

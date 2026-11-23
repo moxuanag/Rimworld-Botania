@@ -48,12 +48,12 @@
     </costList>
     <comps>
       <li Class="Botania.CompProperties_ManaBlightEater">
-        <radius>6</radius>
+        <plantRadius>6</plantRadius>
         <manaPerPlant>1500</manaPerPlant>
-        <ticksBetweenMeals>180</ticksBetweenMeals>
+        <settleIntervalTicks>180</settleIntervalTicks>
         <mealsPerBatch>10</mealsPerBatch>
         <restTicks>1800</restTicks>
-        <poolRadius>6</poolRadius>
+        <radius>6</radius>
       </li>
       <li Class="Botania.CompProperties_RadiusRing">
         <radius>6</radius>
@@ -113,7 +113,7 @@
     </costList>
     <comps>
       <li Class="Botania.CompProperties_ManaBitterBloom">
-        <radius>8</radius>
+        <workRadius>8</workRadius>
         <manaPerXp>10</manaPerXp>
         <maxManaPerWork>400</maxManaPerWork>
         <trivialXpThreshold>5</trivialXpThreshold>
@@ -121,7 +121,7 @@
         <fatigueSeverity>0.25</fatigueSeverity>
         <hediffDef>Botania_WorkFatigue</hediffDef>
         <thoughtDef>Botania_WorkFatigueThought</thoughtDef>
-        <poolRadius>6</poolRadius>
+        <radius>6</radius>
       </li>
       <li Class="Botania.CompProperties_RadiusRing">
         <radius>8</radius>
@@ -183,7 +183,7 @@
       <li Class="Botania.CompProperties_ManaClearMindLotus">
         <radius>8</radius>
         <manaPerPawnSecond>20</manaPerPawnSecond>
-        <poolRadius>6</poolRadius>
+        <searchRadius>6</searchRadius>
         <paidDurationTicks>180</paidDurationTicks>
       </li>
       <li Class="Botania.CompProperties_RadiusRing">

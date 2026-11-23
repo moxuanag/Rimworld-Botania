@@ -8,8 +8,14 @@ namespace Botania
     /// 明心莲：用魔力替范围内的小人挡住「心灵干扰」。
     /// 只对冲心灵干扰（PsychicDrone）那一条念头，不做整体心情加成；
     /// 断魔就失效，所以它是个吃钱的功能花，不是白给的心情挂件。
+    ///
+    /// 框架迁移（0.8.4 S2）：props 继承 <see cref="CompProperties_ManaDevice"/>，comp 继承
+    /// <see cref="CompManaDevice"/>；节流、找魔力源、存档键前缀交给基类 /
+    /// <see cref="ManaDeviceCore"/>。本文件只保留明心莲独有的账：
+    /// 「谁真的被干扰影响到 → 按人数收费 → 付成后压制到 paidUntilTick」，
+    /// 以及多朵莲重叠时的归属与交接。
     /// </summary>
-    public class CompProperties_ManaClearMindLotus : CompProperties
+    public class CompProperties_ManaClearMindLotus : CompProperties_ManaDevice
     {
         /// <summary>庇护半径（格）。</summary>
         public float radius = 8f;
@@ -17,15 +23,30 @@ namespace Botania
         /// <summary>每个被庇护者每秒消耗多少魔力。</summary>
         public float manaPerPawnSecond = 20f;
 
-        /// <summary>向魔力池取魔的半径。</summary>
-        public float poolRadius = 6f;
-
         /// <summary>付一次钱能撑多少 tick（180 = 3 秒，避免每帧反复取魔）。</summary>
         public int paidDurationTicks = 180;
+
+        /// <summary>付过钱的截止 tick 的存档键（带前缀，避免同物件其它组件撞键）。</summary>
+        public string PaidUntilSaveKey => saveKeyPrefix + "PaidUntilTick";
+
+        /// <summary>旧版存档键（老组件没有前缀，直接平铺在 Thing 节点下）；只读不写。</summary>
+        public string legacyPaidUntilKey = "paidUntilTick";
 
         public CompProperties_ManaClearMindLotus()
         {
             compClass = typeof(CompManaClearMindLotus);
+
+            // 基类配置：取魔半径 6 格（原字段 poolRadius）、每 60 tick 结算一次。
+            // 成功/失败同间隔，保持旧版「固定每 60 tick 看一次」的节奏。
+            // manaPerWork 留默认值：明心莲按受影响人数计费（count × manaPerPawnSecond），
+            // 不走基类的固定额付款路径（整套周期在 SettleOnce 里覆写了）。
+            searchRadius = 6f;
+            workIntervalTicks = 60;
+            retryIntervalTicks = 60;
+            manaTolerance = 0.01f;
+
+            // 存档键前缀；老档里的 paidUntilTick 由 legacyPaidUntilKey 读回。
+            saveKeyPrefix = "botaniaClearMindLotus";
         }
 
         public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
@@ -45,7 +66,7 @@ namespace Botania
         }
     }
 
-    public class CompManaClearMindLotus : ThingComp
+    public class CompManaClearMindLotus : CompManaDevice
     {
         /// <summary>场上所有明心莲，心灵干扰的补丁直接查这张表。</summary>
         public static readonly List<CompManaClearMindLotus> All = new List<CompManaClearMindLotus>();
@@ -53,8 +74,6 @@ namespace Botania
         /// <summary>每个小人当前由哪朵莲计费。交接时清旧记录，避免旧花继续收费。</summary>
         private static readonly Dictionary<Pawn, CompManaClearMindLotus> owners =
             new Dictionary<Pawn, CompManaClearMindLotus>();
-
-        private const int TicksPerSettle = 60;
 
         /// <summary>被心灵干扰实际影响到的小人 → 最后一次被观测到的 tick。
         /// 只有这些人计费：性别不符、心灵迟钝（0 敏感）的人不花钱。</summary>
@@ -66,9 +85,6 @@ namespace Botania
         private static readonly Dictionary<Map, bool> droneCache = new Dictionary<Map, bool>();
 
         private static int droneCacheTick = -999;
-
-
-        private int ticksAccum;
 
         /// <summary>付过钱的截止 tick；在这之前范围内的心里干扰被压住。</summary>
         private int paidUntilTick;
@@ -93,23 +109,32 @@ namespace Botania
             All.Remove(this);
         }
 
-        public override void CompTick()
+        /// <summary>
+        /// 覆写整套周期：明心莲是「按受影响人数计费、整次付款、付不成退款并交接」，
+        /// 与基类的「固定额、凑够才扣」语义不同，因此自己控制付款，只复用基类的
+        /// 计时调度（<see cref="ManaDeviceCore.ScheduleNext"/>）、找源
+        /// （<see cref="ManaDeviceCore.FindSource"/>）与存档。
+        /// </summary>
+        protected override bool SettleOnce()
         {
-            base.CompTick();
-            if (!parent.Spawned)
-            {
-                return;
-            }
-            ticksAccum++;
-            if (ticksAccum < TicksPerSettle)
-            {
-                return;
-            }
-            ticksAccum = 0;
-            Settle();
+            bool paid = SettleCycle();
+            // 成功/失败间隔都是 60 tick（构造里两个都设成 60），与旧版固定节奏一致。
+            Core.ScheduleNext(paid);
+            return paid;
         }
 
-        private void Settle()
+        // 基类要求实现的两个抽象钩子：整套周期已被 SettleOnce 覆写，这里只做保守默认。
+        protected override bool WantsWork()
+        {
+            return false;
+        }
+
+        protected override void DoWork(int ticks)
+        {
+        }
+
+        /// <summary>一次结算：复核受影响的人、按人数收费、成功则续 paidUntilTick。返回本次是否付成。</summary>
+        private bool SettleCycle()
         {
             // 只要记录到「有人确实被干扰影响到」就结算。
             // 不再去查地图条件——那个查询在实机上没拿到东西，白跑一趟。
@@ -143,39 +168,32 @@ namespace Botania
             }
             if (valid.Count <= 0)
             {
-                return;
+                return false;
             }
 
             float cost = valid.Count * Props.manaPerPawnSecond;
-            IManaSource source = ManaSourceUtil.FindNearest(parent.Position, parent.Map, Props.poolRadius, cost);
-            // 注：FindNearest 已排除空源与不够付的源
+            // 基类的 FindSource 与旧版 ManaSourceUtil.FindNearest 一样会排除空源与不够付的源
+            IManaSource source = Core.FindSource(cost);
             if (source == null)
             {
-                return;
-            }
-            if (source == null)
-            {
-                // 自己付不起：把人让给能供能的花，别占着归属不放
-                for (int i = 0; i < valid.Count; i++)
-                {
-                    affected.Remove(valid[i]);
-                    HandOff(valid[i]);
-                }
-                return;
+                // 自己付不起时旧版直接返回：不扣钱、也不动归属（下一 tick 再算）
+                return false;
             }
             float drained = source.DrainMana(cost);
-            if (drained + 0.01f < cost)
+            if (drained + Props.ManaTolerance < cost)
             {
-                // 不够就整次不生效，避免「半价挡半份」的模糊状态
+                // 不够就整次不生效，避免「半价挡半份」的模糊状态；
+                // 把钱退回去，并把人让给能供能的其它花
                 source.AddMana(drained);
                 for (int i = 0; i < valid.Count; i++)
                 {
                     affected.Remove(valid[i]);
                     HandOff(valid[i]);
                 }
-                return;
+                return false;
             }
             paidUntilTick = Find.TickManager.TicksGame + Props.paidDurationTicks;
+            return true;
         }
 
         /// <summary>心灵干扰正在影响这个小人：记到覆盖他的每朵花头上，作为计费依据。</summary>
@@ -230,7 +248,7 @@ namespace Botania
             {
                 return false;
             }
-            return ManaSourceUtil.FindNearest(parent.Position, parent.Map, Props.poolRadius, amount) != null;
+            return Core.FindSource(amount) != null;
         }
 
         /// <summary>把这名小人让给另一朵「确实付得起」的花（更近优先）。</summary>
@@ -382,7 +400,16 @@ namespace Botania
         public override void PostExposeData()
         {
             base.PostExposeData();
-            Scribe_Values.Look(ref paidUntilTick, "paidUntilTick", 0);
+
+            // 明心莲真正的持久状态只有「付过钱的截止 tick」。
+            // 新键带前缀（同物件上别的组件不会撞），旧档的 paidUntilTick 只读不写。
+            int paidUntil = paidUntilTick;
+            Scribe_Values.Look(ref paidUntil, Props.PaidUntilSaveKey, 0);
+            if (Scribe.mode == LoadSaveMode.LoadingVars && !Props.legacyPaidUntilKey.NullOrEmpty())
+            {
+                Scribe_Values.Look(ref paidUntil, Props.legacyPaidUntilKey, paidUntil);
+            }
+            paidUntilTick = paidUntil;
         }
     }
 }

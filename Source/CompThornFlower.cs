@@ -9,17 +9,16 @@ namespace Botania
     /// 荆棘花的属性。
     /// 行为：花自带 manaCapacity 的缓冲，战斗时先用缓冲，不够再从网络抽。
     /// 只在「范围内没有敌人」时缓慢回充，因此断网时还能撑一阵。
+    ///
+    /// 框架迁移：取魔半径 / 结算间隔 / 存档键等公共配置继承 <see cref="CompProperties_ManaDevice"/>，
+    /// 本类只保留荆棘花特有的战斗参数。
+    /// 旧字段 <c>sourceRadius</c> / <c>pulseTicks</c> 已并入基类 <c>searchRadius</c> / <c>workIntervalTicks</c>，
+    /// 构造函数默认值取旧 XML 里的 10 / 60，XML 字段改名前后行为一致。
     /// </summary>
-    public class CompProperties_ThornFlower : CompProperties
+    public class CompProperties_ThornFlower : CompProperties_ManaDevice
     {
         /// <summary>伤害与减速的作用半径。</summary>
         public float radius = 10f;
-
-        /// <summary>寻找魔力池 / 中继塔的半径。</summary>
-        public float sourceRadius = 10f;
-
-        /// <summary>结算间隔（tick）。30 tick = 0.5 秒。</summary>
-        public int pulseTicks = 30;
 
         /// <summary>每目标每结算的伤害。</summary>
         public float damagePerPulse = 3f;
@@ -45,9 +44,25 @@ namespace Botania
         /// <summary>命中时在目标脚下生成的 Mote。</summary>
         public ThingDef thornMote;
 
+        /// <summary>旧版存档里的缓冲字段名（迁移兼容：只读不写）。</summary>
+        public string legacyManaKey;
+
+        /// <summary>缓冲的存档键（带前缀，避免同一件东西上多个组件平铺撞键）。</summary>
+        public string ManaSaveKey => saveKeyPrefix + "Mana";
+
         public CompProperties_ThornFlower()
         {
             compClass = typeof(CompThornFlower);
+
+            // 基类配置：取魔半径 10 格、每 60 tick 结算一次。
+            // 旧 XML 是 sourceRadius=10 / pulseTicks=60，且旧版无论成功、缺魔还是没目标都固定 60 tick 重来，
+            // 因此 retryIntervalTicks 也取 60。
+            searchRadius = 10f;
+            workIntervalTicks = 60;
+            retryIntervalTicks = 60;
+            manaTolerance = 0.01f;
+            saveKeyPrefix = "botaniaThornFlower";
+            legacyManaKey = "botaniaThornMana";
         }
 
         public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
@@ -56,13 +71,10 @@ namespace Botania
             {
                 yield return e;
             }
+            // 结算间隔 > 0 由基类检查 workIntervalTicks，这里不再重复。
             if (slowHediff == null)
             {
                 yield return "thorn flower: slowHediff 未设置，减速不会生效";
-            }
-            if (pulseTicks <= 0)
-            {
-                yield return "thorn flower: pulseTicks 必须大于 0";
             }
             if (manaPerTarget < 0f)
             {
@@ -78,103 +90,77 @@ namespace Botania
     /// <summary>
     /// 荆棘花：魔力驱动的范围防御花。
     /// 自带 150 缓冲；结算时先扣缓冲，不够才向附近的魔力池 / 中继塔要。
+    ///
+    /// 框架迁移：计时节流（Core.ShouldWorkNow）、找魔力源（Core.FindSource）、
+    /// 存档（Core.ExposeData + 带前缀的缓冲键）交给 <see cref="CompManaDevice"/> / <see cref="ManaDeviceCore"/>。
+    /// 因为它是「多目标 × 按目标计费 × 缓冲优先 × 可部分支付」，与基类「固定额、凑够才扣」语义不同，
+    /// 所以覆写 <see cref="SettleOnce"/> 自己控制付款，只复用基类的调度与取源。
     /// </summary>
-    public class CompThornFlower : ThingComp
+    public class CompThornFlower : CompManaDevice
     {
-        private int ticksToPulse;
-        private int rechargeTickCounter;
         private float mana;
 
-        public CompProperties_ThornFlower Props
-        {
-            get { return (CompProperties_ThornFlower)props; }
-        }
+        public CompProperties_ThornFlower Props => (CompProperties_ThornFlower)props;
 
-        public float Mana
-        {
-            get { return mana; }
-        }
+        public float Mana => mana;
 
-        public override void PostSpawnSetup(bool respawningAfterLoad)
-        {
-            base.PostSpawnSetup(respawningAfterLoad);
-            if (ticksToPulse <= 0)
-            {
-                ticksToPulse = Props.pulseTicks;
-            }
-            if (mana < 0f)
-            {
-                mana = 0f;
-            }
-            if (mana > Props.manaCapacity)
-            {
-                mana = Props.manaCapacity;
-            }
-        }
-
-        public override void PostExposeData()
-        {
-            base.PostExposeData();
-            Scribe_Values.Look(ref mana, "botaniaThornMana", 0f);
-        }
-
-        public override void CompTick()
+        /// <summary>
+        /// 覆写整套周期：一次结算里先看目标——没有敌人就回充，有敌人就减速 + 按付得起的数量扎。
+        /// 旧版是「回充计数器」与「结算计数器」两个 60 tick 计数同相触发，这里合并成同一次结算，
+        /// 节流只剩基类一处（AGENTS §5.3）。
+        /// </summary>
+        protected override bool SettleOnce()
         {
             Map map = parent.Map;
-            if (map == null || !parent.Spawned)
+            if (map == null)
             {
-                return;
+                // 正常不会走到（基类 ShouldWorkNow 已要求 Spawned），保守排下一次，避免每 tick 空转。
+                Core.ScheduleNext(false);
+                return false;
             }
 
-            // 回充：只在没有敌人时进行，避免战斗中被网络实时补满
-            rechargeTickCounter++;
-            if (rechargeTickCounter >= 60)
-            {
-                rechargeTickCounter = 0;
-                Recharge(map);
-            }
+            List<Pawn> targets = CollectTargets(map);
+            // 旧版 Recharge 内部会再看一遍「范围内有没有敌人」，等价于这里的 targets.Count == 0。
+            bool worked = targets.Count == 0 ? Recharge() : Pulse(map, targets);
+            // 旧行为：不管打没打、缺不缺魔、有没有目标，下一次都固定 60 tick 后
+            // （workIntervalTicks == retryIntervalTicks == 60）。
+            Core.ScheduleNext(worked);
+            return worked;
+        }
 
-            ticksToPulse--;
-            if (ticksToPulse > 0)
-            {
-                return;
-            }
-            ticksToPulse = Props.pulseTicks;
-            Pulse(map);
+        // 基类要求实现的两个抽象钩子：整套周期已被 SettleOnce 覆写，这里只做保守默认。
+        protected override bool WantsWork()
+        {
+            return parent.Spawned;
+        }
+
+        protected override void DoWork(int ticks)
+        {
         }
 
         /// <summary>没有敌人时，从网络把缓冲补满。</summary>
-        private void Recharge(Map map)
+        private bool Recharge()
         {
             if (mana >= Props.manaCapacity - 0.01f)
             {
-                return;
+                return false;
             }
             if (Props.rechargePerSecond <= 0f)
             {
-                return;
-            }
-            // 战斗中不回充：先看范围内有没有活着的敌对目标
-            if (CollectTargets(map).Count > 0)
-            {
-                return;
+                return false;
             }
             float want = Mathf.Min(Props.manaCapacity - mana, Props.rechargePerSecond);
-            float got = DrainAcross(map, parent.Position, want);
+            float got = DrainAcross(want);
             if (got > 0f)
             {
                 mana = Mathf.Min(Props.manaCapacity, mana + got);
+                return true;
             }
+            return false;
         }
 
-        private void Pulse(Map map)
+        private bool Pulse(Map map, List<Pawn> targets)
         {
-            List<Pawn> targets = CollectTargets(map);
-            if (targets.Count == 0)
-            {
-                return;
-            }
-
             // 由近到远，保证魔力有限时先扎离花最近的那批
             IntVec3 origin = parent.Position;
             targets.Sort(delegate(Pawn a, Pawn b)
@@ -211,18 +197,21 @@ namespace Botania
             }
             if (affordable <= 0)
             {
-                return;
+                return false;
             }
 
+            bool hit = false;
             for (int i = 0; i < affordable; i++)
             {
                 Pawn pawn = targets[i];
-                if (!TryPayMana(map, origin))
+                if (!TryPayMana())
                 {
                     break;
                 }
                 HitTarget(pawn, map);
+                hit = true;
             }
+            return hit;
         }
 
         private List<Pawn> CollectTargets(Map map)
@@ -252,7 +241,7 @@ namespace Botania
         private float TotalAvailableMana(Map map, IntVec3 origin)
         {
             float sum = 0f;
-            foreach (Thing thing in GenRadial.RadialDistinctThingsAround(origin, map, Props.sourceRadius, true))
+            foreach (Thing thing in GenRadial.RadialDistinctThingsAround(origin, map, Props.searchRadius, true))
             {
                 IManaSource source = ManaSourceUtil.AsSource(thing);
                 if (source != null)
@@ -263,14 +252,21 @@ namespace Botania
             return sum;
         }
 
-        /// <summary>从网络里抽魔力，返回实际抽到的量。</summary>
-        private float DrainAcross(Map map, IntVec3 origin, float amount)
+        /// <summary>
+        /// 从网络里抽魔力（由近及远、可跨多个源），返回实际抽到的量。
+        /// 旧版直接调 ManaSourceUtil.FindNearest；这里改用基类的取源口（Core.FindSource），搜索半径与排除条件一致。
+        /// </summary>
+        private float DrainAcross(float amount)
         {
+            if (amount <= 0f)
+            {
+                return 0f;
+            }
             float left = amount;
             int guard = 0;
             while (left > 0.01f && guard++ < 16)
             {
-                IManaSource source = ManaSourceUtil.FindNearest(origin, map, Props.sourceRadius);
+                IManaSource source = Core.FindSource(0f);
                 if (source == null)
                 {
                     break;
@@ -285,8 +281,8 @@ namespace Botania
             return amount - left;
         }
 
-        /// <summary>为一次命中支付魔力：先扣缓冲，不足再从网络补。</summary>
-        private bool TryPayMana(Map map, IntVec3 origin)
+        /// <summary>为一次命中支付魔力：先扣缓冲，不足再从网络补（只抽到一部分也算命中，与旧版一致）。</summary>
+        private bool TryPayMana()
         {
             float cost = Props.manaPerTarget;
             if (cost <= 0f)
@@ -304,7 +300,7 @@ namespace Botania
             // 缓冲不够：把缓冲用光，剩下的向网络要
             float remainder = cost - mana;
             mana = 0f;
-            float got = DrainAcross(map, origin, remainder);
+            float got = DrainAcross(remainder);
             if (got <= 0.01f)
             {
                 return false;
@@ -362,6 +358,8 @@ namespace Botania
             {
                 return null;
             }
+            // 荆棘花的提示带「敌人数量 / 够打几个 / 储能」这些专用参数，通用文案表达不了，
+            // 因此保留专用 Keyed（文案与旧版逐字一致）。
             float network = TotalAvailableMana(map, parent.Position);
             int count = CollectTargets(map).Count;
             if (count == 0)
@@ -380,6 +378,24 @@ namespace Botania
                 affordable = count;
             }
             return "Botania.Thorn.Status".Translate(count, affordable, mana, Props.manaCapacity, Props.damagePerPulse);
+        }
+
+        public override void PostExposeData()
+        {
+            base.PostExposeData();
+            float savedMana = mana;
+            Scribe_Values.Look(ref savedMana, Props.ManaSaveKey, 0f);
+            // 旧版存档兼容：旧键只读不写（回写会和新键重复占坑）
+            if (Scribe.mode == LoadSaveMode.LoadingVars)
+            {
+                if (!Props.legacyManaKey.NullOrEmpty())
+                {
+                    Scribe_Values.Look(ref savedMana, Props.legacyManaKey, savedMana);
+                }
+                // 旧版在 PostSpawnSetup 里把缓冲夹到 [0, 容量]；这里等价地在读档后夹一次。
+                savedMana = Mathf.Clamp(savedMana, 0f, Props.manaCapacity);
+            }
+            mana = savedMana;
         }
     }
 }

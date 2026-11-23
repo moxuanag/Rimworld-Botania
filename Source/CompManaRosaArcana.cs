@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using System.Xml;
 using RimWorld;
 using Verse;
 
@@ -8,11 +8,18 @@ namespace Botania
     /// <summary>
     /// 阿卡纳蔷薇：把附近小人「还没学完的那部分」抽成魔力。
     /// 范围内的小人会带上「灵思被引」——学得更慢、心情更差；已经全技能满级的人抽不出东西。
+    ///
+    /// 框架迁移（0.8.4 S2）：找魔力池 / 结算节流 / 存档键交给 <see cref="CompManaProducer"/>，
+    /// 本文件只保留「谁在学、每人抽多少、hediff / 念头怎么挂」。
     /// </summary>
-    public class CompProperties_ManaRosaArcana : CompProperties
+    public class CompProperties_ManaRosaArcana : CompProperties_ManaProducer
     {
-        /// <summary>影响半径（格）。</summary>
-        public float radius = 8f;
+        /// <summary>
+        /// 抽取半径（格）。旧字段名是 radius；
+        /// 因为基类 <see cref="CompProperties_ManaProducer.radius"/> 是「找魔力池的半径」，
+        /// 这里必须改名，避免同名（XML 里旧的 &lt;radius&gt; 需同步改成 &lt;siphonRadius&gt;）。
+        /// </summary>
+        public float siphonRadius = 8f;
 
         /// <summary>每个可抽取的小人每秒产出多少魔力。</summary>
         public float manaPerPawnSecond = 6f;
@@ -26,12 +33,17 @@ namespace Botania
         /// </summary>
         public ThoughtDef thoughtDef;
 
-        /// <summary>向魔力池输送的半径。</summary>
-        public float poolRadius = 6f;
-
         public CompProperties_ManaRosaArcana()
         {
             compClass = typeof(CompManaRosaArcana);
+
+            // 基类配置：每秒结算一次、无缓冲、只喂魔力池（行为与旧版一致）；
+            // 送魔半径沿用旧 poolRadius = 6（XML 里旧的 <poolRadius> 需同步改成 <radius>）。
+            radius = 6f;
+            settleIntervalTicks = 60;
+            bufferCapacity = 0f;
+            feedRelays = false;
+            saveKeyPrefix = "botaniaRosaArcana";
         }
 
         public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
@@ -51,14 +63,16 @@ namespace Botania
         }
     }
 
-    public class CompManaRosaArcana : ThingComp
+    public class CompManaRosaArcana : CompManaProducer
     {
         /// <summary>场上所有蔷薇，用来判断「这个小人是否还被别的花管着」（读档后自动自洽）。</summary>
         public static readonly List<CompManaRosaArcana> All = new List<CompManaRosaArcana>();
 
-        private const int TicksPerSettle = 60;
+        /// <summary>存档键：前缀 + 字段名（本引擎把组件字段平铺在 Thing 节点下，键必须唯一）。</summary>
+        private const string SiphoningSaveKey = "botaniaRosaArcanaSiphoning";
 
-        private int ticksAccum;
+        /// <summary>旧档里这个列表的键；只读不写（保住老档里正在被抽取的小人）。</summary>
+        private const string LegacySiphoningSaveKey = "siphoningPawns";
 
         /// <summary>正在被抽取的小人，离开范围时要摘掉 hediff。</summary>
         private List<Pawn> siphoning = new List<Pawn>();
@@ -66,29 +80,29 @@ namespace Botania
         /// <summary>上一次采样时各小人的累计经验，用来判断「这一秒他到底有没有在学」。</summary>
         private Dictionary<Pawn, float> lastXp = new Dictionary<Pawn, float>();
 
+        // 读档标记：必须跨 LoadingVars → ResolvingCrossRefs 两个阶段存活，
+        // 因为引用列表要在这两阶段各读一次，且两个阶段都必须使用同一个键。
+        private bool siphoningWasScribed;
+        private bool useLegacySiphoningKey;
+
         public CompProperties_ManaRosaArcana Props => (CompProperties_ManaRosaArcana)props;
 
-        public override void CompTick()
-        {
-            base.CompTick();
-            if (!parent.Spawned)
-            {
-                return;
-            }
-            ticksAccum++;
-            if (ticksAccum < TicksPerSettle)
-            {
-                return;
-            }
-            ticksAccum = 0;
-            Settle();
-        }
+        /// <summary>上一次结算时范围内的总人数 / 正在被抽取的人数，供信息栏显示。</summary>
+        public int LastInRangeCount { get; private set; }
 
-        private void Settle()
+        public int LastLearningCount { get; private set; }
+
+        /// <summary>
+        /// 一次结算（基类每 settleIntervalTicks = 60 tick 调用一次）：
+        /// 收集范围内小人 → 挑出「还在学」的 → 按人数折算魔力 → 挂 hediff/念头 → 清理离场小人。
+        /// 魔力入池由基类负责（本设备无缓冲：直接送半径内最近的魔力池）。
+        /// 旧行为是每结算固定 +manaPerPawnSecond（结算间隔固定 60 tick = 1 秒），这里保持。
+        /// </summary>
+        protected override float ProducePerSettle(int ticks)
         {
             List<Pawn> inRange = new List<Pawn>();
             Map map = parent.Map;
-            foreach (Thing thing in GenRadial.RadialDistinctThingsAround(parent.Position, map, Props.radius, true))
+            foreach (Thing thing in GenRadial.RadialDistinctThingsAround(parent.Position, map, Props.siphonRadius, true))
             {
                 Pawn pawn = thing as Pawn;
                 if (pawn == null || pawn.Dead || !pawn.Spawned || pawn.Downed)
@@ -132,23 +146,11 @@ namespace Botania
             LastInRangeCount = inRange.Count;
             LastLearningCount = learningCount;
 
-            if (mana > 0f)
-            {
-                CompManaStorage pool = FindPool();
-                if (pool != null)
-                {
-                    pool.AddMana(mana);
-                }
-            }
-
             CleanupHediffs(inRange);
             PruneXpSnapshots(inRange);
+
+            return mana;
         }
-
-        /// <summary>上一次结算时范围内的总人数 / 正在被抽取的人数，供信息栏显示。</summary>
-        public int LastInRangeCount { get; private set; }
-
-        public int LastLearningCount { get; private set; }
 
         /// <summary>正在做研究的人算「在学习」——技能每日上限满了也不至于突然停产。</summary>
         private static bool IsResearching(Pawn pawn)
@@ -305,24 +307,6 @@ namespace Botania
             }
         }
 
-        private CompManaStorage FindPool()
-        {
-            Map map = parent.Map;
-            if (map == null)
-            {
-                return null;
-            }
-            foreach (Thing thing in GenRadial.RadialDistinctThingsAround(parent.Position, map, Props.poolRadius, true))
-            {
-                CompManaStorage storage = thing.TryGetComp<CompManaStorage>();
-                if (storage != null && storage.AcceptsMana && !storage.IsFull)
-                {
-                    return storage;
-                }
-            }
-            return null;
-        }
-
         public override string CompInspectStringExtra()
         {
             if (parent.Map == null)
@@ -371,11 +355,49 @@ namespace Botania
         public override void PostExposeData()
         {
             base.PostExposeData();
-            Scribe_Collections.Look(ref siphoning, "siphoningPawns", LookMode.Reference);
+            ScribeSiphoning();
             if (siphoning == null)
             {
                 siphoning = new List<Pawn>();
             }
+        }
+
+        /// <summary>
+        /// 只保留旧版那一个字段的存档：正在被抽取的小人列表。
+        /// 键带前缀（本引擎平铺字段，同 Thing 上多个组件不能用同名键）；
+        /// 旧档的键是 siphoningPawns —— 没有新键时退回旧键读取，旧键不回写。
+        /// Reference 列表必须在 LoadingVars 和 ResolvingCrossRefs 两个阶段
+        /// 用同一个键各读一次，否则引用解析会拿不到数据。
+        /// </summary>
+        private void ScribeSiphoning()
+        {
+            if (Scribe.mode == LoadSaveMode.Saving)
+            {
+                Scribe_Collections.Look(ref siphoning, SiphoningSaveKey, LookMode.Reference);
+                return;
+            }
+            if (Scribe.mode != LoadSaveMode.LoadingVars && Scribe.mode != LoadSaveMode.ResolvingCrossRefs)
+            {
+                return;
+            }
+            if (Scribe.mode == LoadSaveMode.LoadingVars)
+            {
+                // LoadingVars 期间 curXmlParent 就是当前 Thing 节点（组件字段平铺）；
+                // 拿不到节点时按新档处理，不去碰旧键，避免残留未消费的引用注册。
+                XmlNode thingNode = Scribe.loader.curXmlParent;
+                bool hasNewKey = thingNode != null && thingNode[SiphoningSaveKey] != null;
+                bool hasLegacyKey = thingNode != null && thingNode[LegacySiphoningSaveKey] != null;
+                useLegacySiphoningKey = !hasNewKey && hasLegacyKey;
+                siphoningWasScribed = hasNewKey || hasLegacyKey;
+            }
+            if (!siphoningWasScribed)
+            {
+                return;
+            }
+            Scribe_Collections.Look(
+                ref siphoning,
+                useLegacySiphoningKey ? LegacySiphoningSaveKey : SiphoningSaveKey,
+                LookMode.Reference);
         }
     }
 }

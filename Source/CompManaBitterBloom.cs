@@ -12,11 +12,21 @@ namespace Botania
     /// 任何真正算得上劳动的行为都会涨经验，盖屋顶这种零成本小活只涨几点、
     /// 缝一件衣服涨几十点，于是收益天然按「干了多少活」分层，不需要给工作类型列白名单，
     /// 也不依赖 job / 账单在哪一刻结束。
+    ///
+    /// 框架迁移（0.8.4 S2）：找魔力池（<see cref="CompManaProducer.FindTarget"/>）、
+    /// 结算节流（基类的 <c>settleIntervalTicks</c>，旧版是自建的 60 tick 累加器）、
+    /// 存档键前缀交给 <see cref="CompManaProducer"/>。本文件只保留苦丽花独有的账：
+    /// 「经验 → 魔力」计价、零碎小活冷却、劳累 hediff / 心情念头，
+    /// 以及<b>按小人逐笔送池</b>的旧行为（每个小人各找一次最近的池子，不合并成一笔）。
     /// </summary>
-    public class CompProperties_ManaBitterBloom : CompProperties
+    public class CompProperties_ManaBitterBloom : CompProperties_ManaProducer
     {
-        /// <summary>影响半径（格）。</summary>
-        public float radius = 8f;
+        /// <summary>
+        /// 影响半径（格）：这个半径内的小人涨技能经验，花就能吃到。
+        /// 旧版 XML 里这项叫 <c>radius</c>；现在基类的 <c>radius</c> 表示「送魔力池的半径」
+        /// （旧版 <c>poolRadius</c>），所以这里改名为 <c>workRadius</c>。
+        /// </summary>
+        public float workRadius = 8f;
 
         /// <summary>每 1 点经验折多少魔力。</summary>
         public float manaPerXp = 10f;
@@ -39,12 +49,34 @@ namespace Botania
         /// <summary>配套的心情念头。</summary>
         public ThoughtDef thoughtDef;
 
-        /// <summary>向魔力池输送的半径。</summary>
-        public float poolRadius = 6f;
+        // ---- 本组件自己的存档键（都带基类的 saveKeyPrefix 前缀，避免同一件东西上多个组件平铺撞键） ----
+
+        public string FedCountSaveKey => saveKeyPrefix + "FedCount";
+        public string LastPayoutSaveKey => saveKeyPrefix + "LastPayout";
+        public string TrivialPawnsSaveKey => saveKeyPrefix + "TrivialPawns";
+        public string TrivialTicksSaveKey => saveKeyPrefix + "TrivialTicks";
+
+        // ---- 旧版存档键（老组件没有前缀，直接平铺在 Thing 节点下）；只读不写 ----
+
+        public string legacyFedCountKey = "fedCount";
+        public string legacyLastPayoutKey = "lastPayout";
+        public string legacyTrivialPawnsKey = "trivialPawns";
+        public string legacyTrivialTicksKey = "trivialTicks";
 
         public CompProperties_ManaBitterBloom()
         {
             compClass = typeof(CompManaBitterBloom);
+
+            // 基类配置：
+            //   radius = 6            —— 送魔力池的半径（旧版 poolRadius，旧值 6）
+            //   settleIntervalTicks   —— 60 tick 结算一次（旧版自建累加器的 TicksPerSettle）
+            //   bufferCapacity = 0    —— 不缓冲：结算到的魔力直接送池（旧版行为）
+            //   feedRelays = false    —— 只喂魔力池，不喂中继塔（旧版行为）
+            radius = 6f;
+            settleIntervalTicks = 60;
+            bufferCapacity = 0f;
+            feedRelays = false;
+            saveKeyPrefix = "botaniaBitterBloom";
         }
 
         public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
@@ -72,12 +104,10 @@ namespace Botania
         }
     }
 
-    public class CompManaBitterBloom : ThingComp
+    public class CompManaBitterBloom : CompManaProducer
     {
         /// <summary>场上所有的苦丽花，经验钩子直接查这张表。</summary>
         public static readonly List<CompManaBitterBloom> All = new List<CompManaBitterBloom>();
-
-        private const int TicksPerSettle = 60;
 
         /// <summary>这朵花攒下的、还没结算的经验。</summary>
         private readonly Dictionary<Pawn, float> pending = new Dictionary<Pawn, float>();
@@ -89,9 +119,12 @@ namespace Botania
 
         private List<int> savedTicks;
 
-        private bool cooldownsNeedRebuild;
+        /// <summary>旧版存档键读出来的临时工作列表（只读兼容，读完即丢）。</summary>
+        private List<Pawn> legacySavedPawns;
 
-        private int ticksAccum;
+        private List<int> legacySavedTicks;
+
+        private bool cooldownsNeedRebuild;
 
         /// <summary>累计结算了多少次，供信息栏显示。</summary>
         public int FedCount;
@@ -130,7 +163,7 @@ namespace Botania
                 {
                     continue;
                 }
-                if (bloom.parent.Position.DistanceTo(pawn.Position) > bloom.Props.radius)
+                if (bloom.parent.Position.DistanceTo(pawn.Position) > bloom.Props.workRadius)
                 {
                     continue;
                 }
@@ -140,21 +173,32 @@ namespace Botania
             }
         }
 
-        public override void CompTick()
+        /// <summary>
+        /// 每 tick 的记账钩子：载入后第一次 tick 才重建冷却表（此时 Pawn 引用已完成解析）。
+        /// 结算节流只有基类一处（settleIntervalTicks = 旧版的 60 tick）。
+        /// </summary>
+        protected override void ExtraTick()
         {
-            base.CompTick();
-            if (!parent.Spawned)
-            {
-                return;
-            }
             LoadCooldownsIfNeeded();
-            ticksAccum++;
-            if (ticksAccum < TicksPerSettle)
-            {
-                return;
-            }
-            ticksAccum = 0;
-            Settle();
+        }
+
+        /// <summary>攒到经验才值得结算；没经验时基类什么都不做（与旧版 <c>pending.Count == 0</c> 提前返回一致）。</summary>
+        protected override bool WantsProduce()
+        {
+            return pending.Count > 0;
+        }
+
+        /// <summary>
+        /// 结算「攒下的经验 → 魔力」。
+        ///
+        /// 返回 0：旧行为是<b>每个小人各找一次最近的魔力池再 AddMana</b>
+        /// （池子满了会跳到下一个），合并成一整笔交给基类推送会改变多池 / 池子快满时的目标选择，
+        /// 因此这里逐笔付款，不触发基类的整笔推送。
+        /// </summary>
+        protected override float ProducePerSettle(int ticks)
+        {
+            SettlePendingXp();
+            return 0f;
         }
 
         /// <summary>载入后第一次 tick 才重建冷却表（此时 Pawn 引用已完成解析）。</summary>
@@ -181,7 +225,7 @@ namespace Botania
             savedTicks = null;
         }
 
-        private void Settle()
+        private void SettlePendingXp()
         {
             if (pending.Count == 0)
             {
@@ -234,7 +278,8 @@ namespace Botania
             }
             FedCount++;
             LastPayout = amount;
-            CompManaStorage pool = FindPool();
+            // 基类统一找池子：半径 = 旧版的 poolRadius，条件 = AcceptsMana 且未满（feedRelays = false）
+            IManaSource pool = FindTarget();
             if (pool != null)
             {
                 pool.AddMana(amount);
@@ -275,50 +320,62 @@ namespace Botania
             }
         }
 
-        private CompManaStorage FindPool()
-        {
-            Map map = parent.Map;
-            if (map == null)
-            {
-                return null;
-            }
-            foreach (Thing thing in GenRadial.RadialDistinctThingsAround(parent.Position, map, Props.poolRadius, true))
-            {
-                CompManaStorage storage = thing.TryGetComp<CompManaStorage>();
-                if (storage != null && storage.AcceptsMana && !storage.IsFull)
-                {
-                    return storage;
-                }
-            }
-            return null;
-        }
-
         public override string CompInspectStringExtra()
         {
             if (parent.Map == null)
             {
                 return null;
             }
+            // 文案沿用旧版 Keyed（半径 / 已喂次数 / 上次产出），不走基类的通用「有池 / 无池」文案。
             return "Botania.BitterBloomStatus".Translate(
-                Props.radius.ToString("0"),
+                Props.workRadius.ToString("0"),
                 FedCount,
                 LastPayout.ToString("0"));
         }
 
         public override void PostExposeData()
         {
+            // 基类负责：botaniaBitterBloomBuffer / botaniaBitterBloomNextSettleTick
             base.PostExposeData();
-            // 零碎劳动的冷却也要存：否则读档就能绕过冷却重复吃经验。
-            // 关键点：pawn 引用要到「引用解析阶段」才有效，所以这里只负责把原始列表读进来，
-            // 真正的重建推迟到第一次 tick（LoadCooldownsIfNeeded），否则缓存的 int 会丢。
-            Scribe_Collections.Look(ref savedPawns, "trivialPawns", LookMode.Reference);
-            Scribe_Collections.Look(ref savedTicks, "trivialTicks", LookMode.Value);
+
             if (Scribe.mode == LoadSaveMode.LoadingVars)
             {
-                cooldownsNeedRebuild = savedPawns != null && savedTicks != null;
+                // 新键（带前缀）
+                Scribe_Values.Look(ref FedCount, Props.FedCountSaveKey, 0);
+                Scribe_Values.Look(ref LastPayout, Props.LastPayoutSaveKey, 0f);
+                Scribe_Collections.Look(ref savedPawns, Props.TrivialPawnsSaveKey, LookMode.Reference);
+                Scribe_Collections.Look(ref savedTicks, Props.TrivialTicksSaveKey, LookMode.Value);
+
+                // 旧版存档键：只读不写（回写会和新键重复占坑）。
+                // pawn 引用的列表在本阶段只是登记 loadID，真正的解析在 ResolvingCrossRefs。
+                Scribe_Values.Look(ref FedCount, Props.legacyFedCountKey, FedCount);
+                Scribe_Values.Look(ref LastPayout, Props.legacyLastPayoutKey, LastPayout);
+                Scribe_Collections.Look(ref legacySavedPawns, Props.legacyTrivialPawnsKey, LookMode.Reference);
+                Scribe_Collections.Look(ref legacySavedTicks, Props.legacyTrivialTicksKey, LookMode.Value);
+                return;
             }
-            Scribe_Values.Look(ref FedCount, "fedCount", 0);
-            Scribe_Values.Look(ref LastPayout, "lastPayout", 0f);
+
+            if (Scribe.mode == LoadSaveMode.ResolvingCrossRefs)
+            {
+                // 引用列表必须在引用解析阶段再走一遍，才会从 loadID 变成真正的 Pawn。
+                Scribe_Collections.Look(ref savedPawns, Props.TrivialPawnsSaveKey, LookMode.Reference);
+                Scribe_Collections.Look(ref legacySavedPawns, Props.legacyTrivialPawnsKey, LookMode.Reference);
+                if (savedTicks == null)
+                {
+                    // 新键没有冷却表 → 这是旧档，接住旧键读出来的那份
+                    savedPawns = legacySavedPawns;
+                    savedTicks = legacySavedTicks;
+                }
+                legacySavedPawns = null;
+                legacySavedTicks = null;
+                // 冷却表的重建推迟到第一次 tick（此时 Pawn 引用才有效）。
+                cooldownsNeedRebuild = savedPawns != null && savedTicks != null;
+                return;
+            }
+
+            // 保存阶段：只写新键
+            Scribe_Collections.Look(ref savedPawns, Props.TrivialPawnsSaveKey, LookMode.Reference);
+            Scribe_Collections.Look(ref savedTicks, Props.TrivialTicksSaveKey, LookMode.Value);
         }
     }
 }

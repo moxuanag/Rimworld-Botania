@@ -183,11 +183,11 @@
     </costList>
     <comps>
       <li Class="Botania.CompProperties_ManaRosaArcana">
-        <radius>8</radius>
+        <siphonRadius>8</siphonRadius>
         <manaPerPawnSecond>6</manaPerPawnSecond>
         <hediffDef>Botania_MindSiphoned</hediffDef>
         <thoughtDef>Botania_ThoughtSiphoned</thoughtDef>
-        <poolRadius>6</poolRadius>
+        <radius>6</radius>
       </li>
       <!-- 选中时显示影响范围 -->
       <li Class="Botania.CompProperties_RadiusRing">
