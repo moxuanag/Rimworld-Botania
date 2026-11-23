@@ -239,6 +239,31 @@ namespace Botania
             return null;
         }
 
+        /// <summary>开发调试按钮：立刻产魔一次 / 跳过计时。</summary>
+        public override System.Collections.Generic.IEnumerable<Gizmo> CompGetGizmosExtra()
+        {
+            foreach (Gizmo gizmo in base.CompGetGizmosExtra())
+            {
+                yield return gizmo;
+            }
+            if (!Prefs.DevMode)
+            {
+                yield break;
+            }
+            yield return new Command_Action
+            {
+                defaultLabel = "Botania.Dev.FurnaceSettle".Translate(),
+                defaultDesc = "Botania.Dev.FurnaceSettleDesc".Translate(),
+                action = delegate { Settle(); }
+            };
+            yield return new Command_Action
+            {
+                defaultLabel = "Botania.Dev.SkipCooldown".Translate(),
+                defaultDesc = "Botania.Dev.SkipCooldownDesc".Translate(),
+                action = delegate { ticksAccum = 0; }
+            };
+        }
+
         public override string CompInspectStringExtra()
         {
             if (parent.Map == null)

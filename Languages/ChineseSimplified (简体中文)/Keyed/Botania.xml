@@ -259,4 +259,6 @@
     <Botania.Dev.TransmuterGive>丢一份输入材料</Botania.Dev.TransmuterGive>
     <Botania.Dev.TransmuterGiveDesc>开发者工具：把转化表里第一种可转换材料丢到旁边。</Botania.Dev.TransmuterGiveDesc>
     <Botania.Dev.TransmuterGiven>已生成 {0}</Botania.Dev.TransmuterGiven>
+    <Botania.Dev.FurnaceSettle>立刻产魔一次</Botania.Dev.FurnaceSettle>
+    <Botania.Dev.FurnaceSettleDesc>开发者工具：立刻按当前房间温度结算一次产魔。</Botania.Dev.FurnaceSettleDesc>
 </LanguageData>

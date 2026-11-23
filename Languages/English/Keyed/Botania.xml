@@ -259,4 +259,6 @@
     <Botania.Dev.TransmuterGive>Drop one input material</Botania.Dev.TransmuterGive>
     <Botania.Dev.TransmuterGiveDesc>Dev tool: spawn one convertible input of this transmuter.</Botania.Dev.TransmuterGiveDesc>
     <Botania.Dev.TransmuterGiven>Spawned {0}</Botania.Dev.TransmuterGiven>
+    <Botania.Dev.FurnaceSettle>Produce mana now</Botania.Dev.FurnaceSettle>
+    <Botania.Dev.FurnaceSettleDesc>Dev tool: settle one production tick using the current room heat.</Botania.Dev.FurnaceSettleDesc>
 </LanguageData>
