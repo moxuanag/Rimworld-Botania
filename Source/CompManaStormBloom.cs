@@ -75,6 +75,28 @@ namespace Botania
             return false;
         }
 
+        /// <summary>
+        /// 开发调试按钮（仅开发者模式）：直接注入一次「短路能量」，
+        /// 不用真的等电网发生 Zzztt 就能验证「吸收 → 缓存 → 送池」整条链路。
+        /// </summary>
+        public override System.Collections.Generic.IEnumerable<Gizmo> CompGetGizmosExtra()
+        {
+            foreach (Gizmo gizmo in base.CompGetGizmosExtra())
+            {
+                yield return gizmo;
+            }
+            if (!Prefs.DevMode)
+            {
+                yield break;
+            }
+            yield return new Command_Action
+            {
+                defaultLabel = "Botania.Dev.StormInject".Translate(),
+                defaultDesc = "Botania.Dev.StormInjectDesc".Translate(),
+                action = delegate { AbsorbEnergy(10f); }
+            };
+        }
+
         /// <summary>提示文案沿用旧版：缓存 / 上限 / 吸收半径。</summary>
         protected override string ExtraInspectString()
         {

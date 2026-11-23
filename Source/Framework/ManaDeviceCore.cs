@@ -142,6 +142,12 @@ namespace Botania
         /// <summary>上一次结算是否付得起魔力。断魔时为 false。</summary>
         public bool HasMana { get; private set; } = true;
 
+        /// <summary>开发调试：把下一次结算时刻清零（相当于「清除冷却」）。</summary>
+        public void DebugSkipCooldown()
+        {
+            nextWorkTick = 0;
+        }
+
         /// <summary>由外部（组合式设备）直接设定当前是否有魔力，例如玩家手动关灯。</summary>
         public void SetHasMana(bool value)
         {
@@ -358,6 +364,36 @@ namespace Botania
 
         /// <summary>每次结算支付多少魔力。默认读配置，特殊设备可覆写。</summary>
         protected virtual float ManaPerWork => DeviceProps.manaPerWork;
+
+        /// <summary>
+        /// 开发模式下的通用调试按钮（只有勾选「开发者模式」才出现）：
+        ///   · 立刻结算一次
+        ///   · 跳过冷却（等价于原版的「清除冷却」类工具）
+        /// 子类可以覆写并 yield base 的结果，再追加自己专用的调试按钮。
+        /// </summary>
+        public override IEnumerable<Gizmo> CompGetGizmosExtra()
+        {
+            foreach (Gizmo gizmo in base.CompGetGizmosExtra())
+            {
+                yield return gizmo;
+            }
+            if (!Prefs.DevMode)
+            {
+                yield break;
+            }
+            yield return new Command_Action
+            {
+                defaultLabel = "Botania.Dev.SettleNow".Translate(),
+                defaultDesc = "Botania.Dev.SettleNowDesc".Translate(),
+                action = delegate { SettleOnce(); }
+            };
+            yield return new Command_Action
+            {
+                defaultLabel = "Botania.Dev.SkipCooldown".Translate(),
+                defaultDesc = "Botania.Dev.SkipCooldownDesc".Translate(),
+                action = delegate { Core.DebugSkipCooldown(); }
+            };
+        }
 
         public override string CompInspectStringExtra()
         {

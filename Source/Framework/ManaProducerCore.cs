@@ -119,6 +119,27 @@ namespace Botania
             return 0f;
         }
 
+        /// <summary>开发调试：把下一次结算时刻清零（相当于「清除冷却」）。</summary>
+        public void DebugSkipCooldown()
+        {
+            nextSettleTick = 0;
+        }
+
+        /// <summary>开发调试：把缓存灌满（仅缓冲式设备有意义）。</summary>
+        public void DebugFillBuffer()
+        {
+            if (ProducerProps.bufferCapacity > 0f)
+            {
+                buffer = ProducerProps.bufferCapacity;
+            }
+        }
+
+        /// <summary>开发调试：清空缓存。</summary>
+        public void DebugClearBuffer()
+        {
+            buffer = 0f;
+        }
+
         /// <summary>允许外部把能量直接灌进缓存（电暴花吸收电网短路能量用）。</summary>
         public float AbsorbIntoBuffer(float amount)
         {
@@ -145,10 +166,11 @@ namespace Botania
                 return;
             }
             nextSettleTick = Find.TickManager.TicksGame + Math.Max(1, ProducerProps.settleIntervalTicks);
-            Settle();
+            SettleNow();
         }
 
-        private void Settle()
+        /// <summary>立刻结算一次（tick 之外也可以调用，例如开发调试按钮）。</summary>
+        protected void SettleNow()
         {
             bool buffered = ProducerProps.bufferCapacity > 0f;
             if (buffered)
@@ -265,6 +287,47 @@ namespace Botania
                 state += "\n" + extra;
             }
             return state;
+        }
+
+        /// <summary>
+        /// 开发模式下的通用调试按钮：立刻结算 / 跳过冷却 / 灌满或清空缓存。
+        /// 子类可覆写并 yield base 的结果，追加自己专用的调试按钮。
+        /// </summary>
+        public override IEnumerable<Gizmo> CompGetGizmosExtra()
+        {
+            foreach (Gizmo gizmo in base.CompGetGizmosExtra())
+            {
+                yield return gizmo;
+            }
+            if (!Prefs.DevMode)
+            {
+                yield break;
+            }
+            yield return new Command_Action
+            {
+                defaultLabel = "Botania.Dev.SettleNow".Translate(),
+                defaultDesc = "Botania.Dev.SettleNowDesc".Translate(),
+                action = delegate { SettleNow(); }
+            };
+            yield return new Command_Action
+            {
+                defaultLabel = "Botania.Dev.SkipCooldown".Translate(),
+                defaultDesc = "Botania.Dev.SkipCooldownDesc".Translate(),
+                action = delegate { DebugSkipCooldown(); }
+            };
+            if (ProducerProps.bufferCapacity > 0f)
+            {
+                yield return new Command_Action
+                {
+                    defaultLabel = "Botania.Dev.FillBuffer".Translate(),
+                    action = delegate { DebugFillBuffer(); }
+                };
+                yield return new Command_Action
+                {
+                    defaultLabel = "Botania.Dev.ClearBuffer".Translate(),
+                    action = delegate { DebugClearBuffer(); }
+                };
+            }
         }
 
         /// <summary>子类追加提示（昼夜、缓冲量、剩余寿命等）。</summary>

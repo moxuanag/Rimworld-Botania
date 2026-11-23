@@ -235,4 +235,18 @@
     <Botania.DevBld.PoolNotFound>鼠标下（或附近）没有魔力池</Botania.DevBld.PoolNotFound>
     <Botania.DevBld.PoolFilled>魔力池已注满：{0}</Botania.DevBld.PoolFilled>
     <Botania.DevBld.PoolDrained>魔力池已抽干：剩余 {0}</Botania.DevBld.PoolDrained>
+    <Botania.Dev.SettleNow>立刻结算一次</Botania.Dev.SettleNow>
+    <Botania.Dev.SettleNowDesc>开发者工具：跳过等待，立即结算本设备的周期。</Botania.Dev.SettleNowDesc>
+    <Botania.Dev.SkipCooldown>跳过冷却</Botania.Dev.SkipCooldown>
+    <Botania.Dev.SkipCooldownDesc>开发者工具：把下一次结算时刻清零，等价于原版「清除冷却」。</Botania.Dev.SkipCooldownDesc>
+    <Botania.Dev.FillBuffer>灌满缓存</Botania.Dev.FillBuffer>
+    <Botania.Dev.ClearBuffer>清空缓存</Botania.Dev.ClearBuffer>
+    <Botania.Dev.StormInject>注入短路能量（10 瓦日）</Botania.Dev.StormInject>
+    <Botania.Dev.StormInjectDesc>开发者工具：模拟一次电网短路，把 10 瓦日能量灌进电暴花缓存。</Botania.Dev.StormInjectDesc>
+    <Botania.Dev.PoolFill>灌满魔力</Botania.Dev.PoolFill>
+    <Botania.Dev.PoolFillDesc>开发者工具：把魔力补到上限。</Botania.Dev.PoolFillDesc>
+    <Botania.Dev.PoolAdd>+10000 魔力</Botania.Dev.PoolAdd>
+    <Botania.Dev.PoolAddDesc>开发者工具：加一万魔力。</Botania.Dev.PoolAddDesc>
+    <Botania.Dev.PoolClear>清空魔力</Botania.Dev.PoolClear>
+    <Botania.Dev.PoolClearDesc>开发者工具：把魔力归零。</Botania.Dev.PoolClearDesc>
 </LanguageData>

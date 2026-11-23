@@ -235,4 +235,18 @@
     <Botania.DevBld.PoolNotFound>No mana pool under or near the cursor</Botania.DevBld.PoolNotFound>
     <Botania.DevBld.PoolFilled>Mana pool filled: {0}</Botania.DevBld.PoolFilled>
     <Botania.DevBld.PoolDrained>Mana pool drained: {0} left</Botania.DevBld.PoolDrained>
+    <Botania.Dev.SettleNow>Settle now</Botania.Dev.SettleNow>
+    <Botania.Dev.SettleNowDesc>Dev tool: skip the wait and settle this device's cycle immediately.</Botania.Dev.SettleNowDesc>
+    <Botania.Dev.SkipCooldown>Skip cooldown</Botania.Dev.SkipCooldown>
+    <Botania.Dev.SkipCooldownDesc>Dev tool: reset the next settlement time (like vanilla 'clear cooldowns').</Botania.Dev.SkipCooldownDesc>
+    <Botania.Dev.FillBuffer>Fill buffer</Botania.Dev.FillBuffer>
+    <Botania.Dev.ClearBuffer>Clear buffer</Botania.Dev.ClearBuffer>
+    <Botania.Dev.StormInject>Inject short-circuit (10 Wd)</Botania.Dev.StormInject>
+    <Botania.Dev.StormInjectDesc>Dev tool: simulate a grid short circuit and feed 10 watt-days into this storm bloom.</Botania.Dev.StormInjectDesc>
+    <Botania.Dev.PoolFill>Fill mana</Botania.Dev.PoolFill>
+    <Botania.Dev.PoolFillDesc>Dev tool: fill mana to capacity.</Botania.Dev.PoolFillDesc>
+    <Botania.Dev.PoolAdd>+10000 mana</Botania.Dev.PoolAdd>
+    <Botania.Dev.PoolAddDesc>Dev tool: add 10000 mana.</Botania.Dev.PoolAddDesc>
+    <Botania.Dev.PoolClear>Clear mana</Botania.Dev.PoolClear>
+    <Botania.Dev.PoolClearDesc>Dev tool: set mana to zero.</Botania.Dev.PoolClearDesc>
 </LanguageData>
