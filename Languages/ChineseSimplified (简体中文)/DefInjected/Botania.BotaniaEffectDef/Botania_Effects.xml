@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <!-- EN: growth surge -->
+  <BotaniaEffect_GrowthBoost.label>生长涌动</BotaniaEffect_GrowthBoost.label>
+  <!-- EN: A pulse of mana pushes every plant in range further along in its growth. -->
+  <BotaniaEffect_GrowthBoost.description>魔力顺着根系涌过，把范围内的每株植物向前推一截成长度。</BotaniaEffect_GrowthBoost.description>
+
+  <!-- EN: purifying pulse -->
+  <BotaniaEffect_CleanFilth.label>净化脉冲</BotaniaEffect_CleanFilth.label>
+  <!-- EN: Mana washes the ground clean, dissolving every patch of filth in range. -->
+  <BotaniaEffect_CleanFilth.description>魔力冲刷地面，把范围内的污秽全部溶解干净。</BotaniaEffect_CleanFilth.description>
+
+  <!-- EN: harvesting pulse -->
+  <BotaniaEffect_AutoHarvest.label>采收脉冲</BotaniaEffect_AutoHarvest.label>
+  <!-- EN: Mana spirit-hands gather every mature crop in range, leaving the harvest on the ground. -->
+  <BotaniaEffect_AutoHarvest.description>魔力凝成无形的手，把范围内成熟的作物收下来，堆在设备旁边。</BotaniaEffect_AutoHarvest.description>
+
+</LanguageData>

@@ -279,4 +279,7 @@
     <Botania.Dev.GateFillManaDone>Added {0} mana</Botania.Dev.GateFillManaDone>
     <Botania.Dev.GateFillManaFull>Nearest mana source is already full</Botania.Dev.GateFillManaFull>
     <Botania.Dev.GateFillManaNone>No mana source within {0} cells</Botania.Dev.GateFillManaNone>
+
+    <!-- S5 effect device (CompManaEffectDevice): appended 'Effects: ...' line in the inspect pane -->
+    <Botania.EffectDeviceEffects>Effects: {0}</Botania.EffectDeviceEffects>
 </LanguageData>

@@ -279,4 +279,7 @@
     <Botania.Dev.GateFillManaDone>已注入 {0} 魔力</Botania.Dev.GateFillManaDone>
     <Botania.Dev.GateFillManaFull>附近最近的魔力源已经是满的</Botania.Dev.GateFillManaFull>
     <Botania.Dev.GateFillManaNone>附近 {0} 格内没有魔力源</Botania.Dev.GateFillManaNone>
+
+    <!-- S5 效果设备（CompManaEffectDevice）：inspect 面板追加的「效果：…」列表 -->
+    <Botania.EffectDeviceEffects>效果：{0}</Botania.EffectDeviceEffects>
 </LanguageData>
