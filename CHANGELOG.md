@@ -73,6 +73,15 @@
 
 ## [未发布]
 
+### 修复：精灵灯开关与灯光反向（S1 回归）
+
+- 现象：先放灯后放魔力池 → 按钮显示「开」但灯不亮、提示无魔力；派小人关灯反而点亮；重装才恢复
+- 根因：直接写 `CompFlickable.SwitchIsOn`，与 `wantSwitchOn` 脱钩（Gizmo 看 want，灯光看 actual）
+- 修复：改为实现 `IThingGlower`，由引擎决定亮灭；不再操作 `CompFlickable`
+- 同时修复调度相位 bug：`ticksAccum` + `IsHashIntervalTick` 双层节流可能永不触发 → 只保留一处时间比较
+- 新增 `_dev/_botania-dev/check_component_rules.py` 静态检查（拦开关直写 / 双重节流 / PostSpawnSetup 结算）
+- 文档新增 §19.7「组件交互铁律」，记录事故复盘与五条规则
+
 ### 设备框架 S1：`CompManaDevice`（2026-11-23）
 
 把「找魔力源 → 凑够才扣 → 定时结算 → 断魔重试 → 存档」这段逻辑从 10 个文件里收进一套基类。

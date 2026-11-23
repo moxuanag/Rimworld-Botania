@@ -30,9 +30,6 @@ namespace Botania
         /// <summary>魔力不足时的重试间隔（tick），比正常间隔短，来魔后能很快恢复。</summary>
         public int retryIntervalTicks = 300;
 
-        /// <summary>计时检查的节流间隔（tick）。每 60 tick 看一次表通常足够。</summary>
-        public int checkIntervalTicks = 60;
-
         /// <summary>允许的魔力误差（浮点抖动），低于此值视为「刚好够」。</summary>
         public float manaTolerance = 0.01f;
 
@@ -83,10 +80,6 @@ namespace Botania
             {
                 yield return "retryIntervalTicks must be greater than 0.";
             }
-            if (checkIntervalTicks <= 0)
-            {
-                yield return "checkIntervalTicks must be greater than 0.";
-            }
             if (searchRadius < 0f)
             {
                 yield return "searchRadius must not be negative.";
@@ -122,12 +115,15 @@ namespace Botania
         private Thing Parent => owner?.parent;
 
         /// <summary>
-        /// 每 tick 调用（内部自带节流）。返回 true 表示「到了该结算的时刻」。
+        /// 每 tick 调用，返回 true 表示「到了该结算的时刻」。
+        /// 只做一次整数比较，开销可忽略——**不要**在这里再叠 IsHashIntervalTick，
+        /// 那会和调用方的计数器锁成不同相位，导致组件永远等不到结算时刻
+        /// （0.8.4 精灵灯踩过：放好了池子却一直不亮）。
         /// </summary>
         public bool ShouldWorkNow()
         {
             Thing parent = Parent;
-            if (parent == null || !parent.Spawned || parent.IsHashIntervalTick(props.checkIntervalTicks) == false)
+            if (parent == null || !parent.Spawned)
             {
                 return false;
             }
@@ -213,7 +209,7 @@ namespace Botania
     public abstract class CompManaDevice : ThingComp
     {
         private ManaDeviceCore core;
-        private int ticksAccum;
+        private bool? lastReportedHasMana;
 
         protected ManaDeviceCore Core => core ??= new ManaDeviceCore(this, DeviceProps);
 
@@ -223,22 +219,14 @@ namespace Botania
         {
             base.PostSpawnSetup(respawningAfterLoad);
             _ = Core;
+            // 刻意**不**在这里结算：PostSpawnSetup 期间别的组件可能还没初始化完，
+            // 此时去改别人的状态（例如拨灯光开关）会被覆盖或与引擎内部状态脱钩。
+            // nextWorkTick 默认 0，下一个 tick 自然会结算一次。
         }
 
         public override void CompTick()
         {
             base.CompTick();
-            if (!parent.Spawned)
-            {
-                return;
-            }
-            // 先做便宜的累加节流，再问 Core 是否到点
-            ticksAccum++;
-            if (ticksAccum < DeviceProps.checkIntervalTicks)
-            {
-                return;
-            }
-            ticksAccum = 0;
             if (!Core.ShouldWorkNow())
             {
                 return;
@@ -246,7 +234,7 @@ namespace Botania
             SettleOnce();
         }
 
-        /// <summary>立刻结算一次（建好 / 读档时用，避免先亮一会儿再熄）。</summary>
+        /// <summary>立刻结算一次（由 tick 或子类显式调用）。</summary>
         protected bool SettleOnce()
         {
             bool wants = WantsWork();
@@ -256,8 +244,19 @@ namespace Botania
                 DoWork(DeviceProps.workIntervalTicks);
             }
             Core.ScheduleNext(paid);
+            // 魔力状态变化时通知子类（灯光、贴图、电网输出等在这里刷新）
+            if (lastReportedHasMana != Core.HasMana)
+            {
+                lastReportedHasMana = Core.HasMana;
+                OnManaStateChanged(Core.HasMana);
+            }
             OnSettled(paid);
             return paid;
+        }
+
+        /// <summary>魔力状态发生变化（有→无 或 无→有）时调用。首次结算也会调用一次。</summary>
+        protected virtual void OnManaStateChanged(bool hasMana)
+        {
         }
 
         /// <summary>是否想干活（关着 / 无目标时返回 false，此时不扣魔力）。</summary>

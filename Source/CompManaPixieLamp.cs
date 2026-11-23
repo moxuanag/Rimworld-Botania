@@ -7,11 +7,18 @@ namespace Botania
     /// 精灵灯：不耗电，从魔力网络抽 1 魔力 / 60 秒。
     ///
     /// 断魔语义和精灵门一致——**直接熄灭**，来了魔力再自己亮回来。
-    /// 实现方式刻意不碰 CompGlower 内部：原版灯本来就有 CompFlickable（开关），
-    /// 我们只是代替玩家去拨这个开关，所以不用反射、也不用改引擎行为。
     ///
-    /// 框架迁移：付款 / 节流 / 存档 / 提示 全部交给 CompManaDevice 基类，
-    /// 本文件只保留「有没有魔力 → 拨开关」这一件事。
+    /// 关键点（0.8.4 踩坑后重写）：**绝不去动 CompFlickable**。
+    /// 原版 CompFlickable 有两套状态：`switchOnInt`（实际开关，`SwitchIsOn`）
+    /// 与 `wantSwitchOn`（玩家想要的状态，Gizmo 按钮显示的就是它）。
+    /// 直接写 `SwitchIsOn` 会让两者脱钩：按钮显示「开」而灯不亮，
+    /// 玩家一旦点关闭，小人来拨开关时 `DoFlick()` 取反反而把灯点亮，
+    /// 并且 `WantsFlick()` 永久为真 → 小人反复跑过来拨灯。
+    ///
+    /// 正确做法：实现引擎自带的 **`IThingGlower`**。CompGlower 的 `ShouldBeLitNow`
+    /// 会遍历同物件的所有组件询问 `IThingGlower.ShouldBeLitNow()`
+    /// （CompPowerTrader / CompRefuelable 就是这么给灯断电的），
+    /// 因此我们只要回答「现在有魔力吗」，灯光就由引擎自己切，开关语义完全不受影响。
     /// </summary>
     public class CompProperties_ManaPixieLamp : CompProperties_ManaDevice
     {
@@ -24,7 +31,6 @@ namespace Botania
             workIntervalTicks = 3600;
             retryIntervalTicks = 300;
             searchRadius = 8f;
-            checkIntervalTicks = 60;
 
             // 沿用旧存档键，老存档里的状态能直接读回来。
             saveKeyPrefix = "botaniaPixieLamp";
@@ -36,46 +42,47 @@ namespace Botania
         }
     }
 
-    public class CompManaPixieLamp : CompManaDevice
+    public class CompManaPixieLamp : CompManaDevice, IThingGlower
     {
-        private CompFlickable flickable;
+        private CompGlower glower;
 
+        /// <summary>灯现在是否亮着（= 上次结算付得起魔力）。</summary>
         public bool Lit => Core.HasMana;
 
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             base.PostSpawnSetup(respawningAfterLoad);
-            flickable = parent.GetComp<CompFlickable>();
-            // 刚建好/刚加载先立刻结一次账：没魔力的话当场就是暗的，不用先亮一会儿
-            SettleOnce();
+            glower = parent.GetComp<CompGlower>();
         }
 
-        /// <summary>灯永远想亮，能否亮取决于付不付得起魔力。</summary>
+        /// <summary>
+        /// 引擎问「现在该亮吗」。返回 false 时 CompGlower 会把灯关掉，
+        /// 返回 true 时仍需 CompFlickable 处于开启状态才会亮——语义正确。
+        /// </summary>
+        public bool ShouldBeLitNow()
+        {
+            return Core.HasMana;
+        }
+
+        /// <summary>
+        /// 玩家手动关掉这盏灯时不扣魔力——与灯光判定保持同一口径
+        /// （引擎的 WantsToBeOn 也看 CompFlickable.SwitchIsOn）。
+        /// </summary>
         protected override bool WantsWork()
         {
-            return true;
+            return FlickUtility.WantsToBeOn(parent);
         }
 
-        /// <summary>已经付过魔力了，这里只把状态翻译成开关。</summary>
         protected override void DoWork(int ticks)
         {
         }
 
-        protected override void OnSettled(bool worked)
+        /// <summary>魔力状态一变就主动刷新一次灯光（引擎只在信号/初始化时重算）。</summary>
+        protected override void OnManaStateChanged(bool hasMana)
         {
-            ApplyLitState();
-        }
-
-        /// <summary>把「有没有魔力」翻译成「灯的开关状态」。</summary>
-        private void ApplyLitState()
-        {
-            if (flickable == null)
+            if (glower != null && parent.Spawned && parent.Map != null)
             {
-                return;
-            }
-            if (flickable.SwitchIsOn != Core.HasMana)
-            {
-                flickable.SwitchIsOn = Core.HasMana;
+                glower.UpdateLit(parent.Map);
             }
         }
     }
