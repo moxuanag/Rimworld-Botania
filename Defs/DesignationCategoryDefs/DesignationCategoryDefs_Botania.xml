@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- 植物魔法建筑分类：紧跟在原版「杂项」(order 250) 后面，所以取 245。
+       分类内的排列由各 ThingDef 的 designatorDropdown（分组）+ uiOrder（组内顺序）决定。 -->
+  <DesignationCategoryDef>
+    <defName>Botania</defName>
+    <label>botania</label>
+    <order>245</order>
+  </DesignationCategoryDef>
+
+  <!-- ============================================================
+       五个子分组（建筑师菜单里显示为下拉按钮）。
+       iconSource=Placed 用建筑贴图做图标；Cost 用材料图标。
+       ============================================================ -->
+
+  <DesignatorDropdownGroupDef>
+    <defName>Botania_ProduceBuildings</defName>
+    <label>production buildings</label>
+    <iconSource>Placed</iconSource>
+  </DesignatorDropdownGroupDef>
+
+  <DesignatorDropdownGroupDef>
+    <defName>Botania_Buildings</defName>
+    <label>buildings</label>
+    <iconSource>Placed</iconSource>
+  </DesignatorDropdownGroupDef>
+
+  <DesignatorDropdownGroupDef>
+    <defName>Botania_ManaFlowers</defName>
+    <label>mana flowers</label>
+    <iconSource>Placed</iconSource>
+  </DesignatorDropdownGroupDef>
+
+  <DesignatorDropdownGroupDef>
+    <defName>Botania_FunctionFlowers</defName>
+    <label>functional flowers</label>
+    <iconSource>Placed</iconSource>
+  </DesignatorDropdownGroupDef>
+
+  <DesignatorDropdownGroupDef>
+    <defName>Botania_DefenseFlowers</defName>
+    <label>defense flowers</label>
+    <iconSource>Placed</iconSource>
+  </DesignatorDropdownGroupDef>
+
+</Defs>

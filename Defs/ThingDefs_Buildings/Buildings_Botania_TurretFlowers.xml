@@ -68,6 +68,8 @@
        ============================================================ -->
   <ThingDef ParentName="Botania_BaseTurretFlower">
     <defName>Botania_Thornbell</defName>
+    <designatorDropdown>Botania_DefenseFlowers</designatorDropdown>
+    <designationCategory>Botania</designationCategory>
     <label>thornbell</label>
     <description>A flower that grew itself five thorn barrels. It drinks mana from a nearby pool and spits a short, vicious burst of needles at anything hostile that comes close - no colonist has to stand beside it, no ammunition has to be loaded. When the mana runs dry the barrels simply fall silent.</description>
     <graphicData>
@@ -105,7 +107,7 @@
     <researchPrerequisites>
       <li>Botania_Elementium</li>
     </researchPrerequisites>
-    <uiOrder>3290</uiOrder>
+    <uiOrder>3401</uiOrder>
   </ThingDef>
 
   <!-- ============================================================
@@ -115,6 +117,8 @@
        ============================================================ -->
   <ThingDef ParentName="Botania_BaseTurretFlower">
     <defName>Botania_Blastcalyx</defName>
+    <designatorDropdown>Botania_DefenseFlowers</designatorDropdown>
+    <designationCategory>Botania</designationCategory>
     <label>blastcalyx</label>
     <description>A flower that hollowed itself into a cannon. It gathers mana, compresses it in its calyx until the petals shiver, then throws the whole charge high over the wall as a seed that blooms into fire. Devastating against fortifications, hopeless against anything that stands close.</description>
     <graphicData>
@@ -152,7 +156,7 @@
     <researchPrerequisites>
       <li>Botania_Terrasteel</li>
     </researchPrerequisites>
-    <uiOrder>3291</uiOrder>
+    <uiOrder>3402</uiOrder>
   </ThingDef>
 
 </Defs>
