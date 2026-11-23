@@ -155,16 +155,10 @@ namespace Botania
             }
         }
 
-        /// <summary>没魔力不索敌，省掉「预热完才发现打不出去」的空转。</summary>
-        public override LocalTargetInfo TryFindNewTarget()
-        {
-            CompManaTurret comp = ManaComp;
-            if (comp != null && !comp.HasEnoughManaForBurst())
-            {
-                return LocalTargetInfo.Invalid;
-            }
-            return base.TryFindNewTarget();
-        }
+        // 注意：**不要**在这里因为缺魔力而返回 Invalid。
+        // 原版炮塔靠 currentTargetInt 驱动 TurretTop 旋转（瞄准动作），
+        // 一旦缺魔就不索敌，炮塔会完全不转向，玩家看到的就是「死物」。
+        // 缺魔只在 BeginBurst 拒绝发射，瞄准/转向照常。
 
         /// <summary>连射起手付费；付不起则本轮空射并短冷却重试。</summary>
         protected override void BeginBurst()

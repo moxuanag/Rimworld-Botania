@@ -50,9 +50,6 @@
       <destroySound>BuildingDestroyed_Soft_Small</destroySound>
       <turretTopDrawSize>1</turretTopDrawSize>
     </building>
-    <placeWorkers>
-      <li>Botania.PlaceWorker_RadiusFromComp</li>
-    </placeWorkers>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <designationCategory>Misc</designationCategory>
     <thingCategories>
@@ -97,10 +94,6 @@
         <forcedTargetAllowed>true</forcedTargetAllowed>
         <saveKeyPrefix>botaniaThornbell</saveKeyPrefix>
       </li>
-      <!-- 供弹半径：选中/放置时画出这圈（AGENTS §2 强制） -->
-      <li Class="Botania.CompProperties_RadiusRing">
-        <radius>10</radius>
-      </li>
     </comps>
     <researchPrerequisites>
       <li>Botania_Elementium</li>
@@ -125,8 +118,7 @@
     <building>
       <turretGunDef>Botania_Gun_Blastcalyx</turretGunDef>
       <turretBurstWarmupTime>4.0</turretBurstWarmupTime>
-      <turretBurstCooldownTime>14.0</turretBurstCooldownTime>
-      <turretInitialCooldownTime>120</turretInitialCooldownTime>
+      <turretBurstCooldownTime>20.0</turretBurstCooldownTime>
       <combatPower>200</combatPower>
     </building>
     <costList>
@@ -146,9 +138,6 @@
         <launchSmokeSize>1.8</launchSmokeSize>
         <forcedTargetAllowed>true</forcedTargetAllowed>
         <saveKeyPrefix>botaniaBlastcalyx</saveKeyPrefix>
-      </li>
-      <li Class="Botania.CompProperties_RadiusRing">
-        <radius>12</radius>
       </li>
     </comps>
     <researchPrerequisites>
