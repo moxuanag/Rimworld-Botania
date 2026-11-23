@@ -351,7 +351,12 @@ namespace Botania
             }
         }
 
-        /// <summary>开发调试按钮：灌满荆棘缓冲 / 立刻发一次脉冲。</summary>
+        /// <summary>
+        /// 开发调试按钮（仅开发者模式），两个都走荆棘花自己的真实机制：
+        ///   · 强制脉冲：CollectTargets → Pulse（减速 / 按魔力扎人 / 扣缓冲 / 生成 Mote 全在这条路径里）
+        ///   · 灌满缓冲：反复走 Recharge（DrainAcross → Core.FindSource，从附近真实魔力源抽魔再写回缓冲）
+        /// 以前那两个「直接改 mana 字段 / 直接调 SettleOnce」的按钮已删除。
+        /// </summary>
         public override System.Collections.Generic.IEnumerable<Gizmo> CompGetGizmosExtra()
         {
             foreach (Gizmo gizmo in base.CompGetGizmosExtra())
@@ -364,14 +369,97 @@ namespace Botania
             }
             yield return new Command_Action
             {
-                defaultLabel = "Botania.Dev.ThornFill".Translate(),
-                action = delegate { mana = Props.manaCapacity; }
+                defaultLabel = "Botania.Dev.ThornForcePulse".Translate(),
+                defaultDesc = "Botania.Dev.ThornForcePulseDesc".Translate(),
+                action = DebugForcePulse
             };
             yield return new Command_Action
             {
-                defaultLabel = "Botania.Dev.ThornPulse".Translate(),
-                action = delegate { SettleOnce(); }
+                defaultLabel = "Botania.Dev.ThornFillMana".Translate(),
+                defaultDesc = "Botania.Dev.ThornFillManaDesc".Translate(),
+                action = DebugFillManaFromNetwork
             };
+        }
+
+        /// <summary>
+        /// 开发调试：强制走一次真实的「收集目标 → 脉冲」路径。
+        /// 没有敌人时不会凭空造目标，只提示（真实机制里脉冲本来就需要目标）。
+        /// </summary>
+        private void DebugForcePulse()
+        {
+            Map map = parent?.Map;
+            if (map == null)
+            {
+                return;
+            }
+            List<Pawn> targets = CollectTargets(map);
+            if (targets.Count == 0)
+            {
+                Messages.Message(
+                    "Botania.Dev.ThornNoTargets".Translate(Props.radius.ToString("0")),
+                    new LookTargets(parent),
+                    MessageTypeDefOf.NeutralEvent,
+                    false);
+                return;
+            }
+            Pulse(map, targets);
+            Messages.Message(
+                "Botania.Dev.ThornPulseDone".Translate(targets.Count),
+                new LookTargets(parent),
+                MessageTypeDefOf.NeutralEvent,
+                false);
+        }
+
+        /// <summary>
+        /// 开发调试：反复走真实回充路径 Recharge，直到缓冲满或附近抽不到魔力。
+        /// 每一次都经过 DrainAcross → Core.FindSource → IManaSource.DrainMana，
+        /// 会真的消耗附近魔力池里的魔力，不直接给字段赋值。
+        /// </summary>
+        private void DebugFillManaFromNetwork()
+        {
+            Map map = parent?.Map;
+            if (map == null)
+            {
+                return;
+            }
+            if (mana >= Props.manaCapacity - 0.01f)
+            {
+                Messages.Message(
+                    "Botania.Dev.ThornFillFull".Translate(),
+                    new LookTargets(parent),
+                    MessageTypeDefOf.NeutralEvent,
+                    false);
+                return;
+            }
+            float before = mana;
+            int guard = 0;
+            while (mana < Props.manaCapacity - 0.01f)
+            {
+                if (guard++ > 1000 || !Recharge())
+                {
+                    break;
+                }
+            }
+            float gained = mana - before;
+            if (gained <= 0.01f)
+            {
+                Messages.Message(
+                    "Botania.Dev.ThornFillNoSource".Translate(
+                        mana.ToString("0"),
+                        Props.manaCapacity.ToString("0")),
+                    new LookTargets(parent),
+                    MessageTypeDefOf.NeutralEvent,
+                    false);
+                return;
+            }
+            Messages.Message(
+                "Botania.Dev.ThornFillDone".Translate(
+                    gained.ToString("0"),
+                    mana.ToString("0"),
+                    Props.manaCapacity.ToString("0")),
+                new LookTargets(parent),
+                MessageTypeDefOf.NeutralEvent,
+                false);
         }
 
         public override string CompInspectStringExtra()

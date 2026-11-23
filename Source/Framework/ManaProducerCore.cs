@@ -119,13 +119,20 @@ namespace Botania
             return 0f;
         }
 
-        /// <summary>开发调试：把下一次结算时刻清零（相当于「清除冷却」）。</summary>
+        /// <summary>
+        /// 开发调试：把下一次结算时刻清零（相当于「清除冷却」）。
+        /// 基类<b>不再</b>显示通用调试按钮；需要时由子类在它自己的专用调试按钮里调用本方法。
+        /// </summary>
         public void DebugSkipCooldown()
         {
             nextSettleTick = 0;
         }
 
-        /// <summary>开发调试：把缓存灌满（仅缓冲式设备有意义）。</summary>
+        /// <summary>
+        /// 开发调试：把缓存灌满（仅缓冲式设备有意义）。
+        /// 基类<b>不再</b>显示通用调试按钮；需要时由子类在专用调试按钮里调用。
+        /// 注意：它直接改缓存，不经过产能机制——子类若要走真实产能路径，不要用它。
+        /// </summary>
         public void DebugFillBuffer()
         {
             if (ProducerProps.bufferCapacity > 0f)
@@ -134,7 +141,10 @@ namespace Botania
             }
         }
 
-        /// <summary>开发调试：清空缓存。</summary>
+        /// <summary>
+        /// 开发调试：清空缓存。
+        /// 基类<b>不再</b>显示通用调试按钮；需要时由子类在专用调试按钮里调用。
+        /// </summary>
         public void DebugClearBuffer()
         {
             buffer = 0f;
@@ -289,46 +299,10 @@ namespace Botania
             return state;
         }
 
-        /// <summary>
-        /// 开发模式下的通用调试按钮：立刻结算 / 跳过冷却 / 灌满或清空缓存。
-        /// 子类可覆写并 yield base 的结果，追加自己专用的调试按钮。
-        /// </summary>
-        public override IEnumerable<Gizmo> CompGetGizmosExtra()
-        {
-            foreach (Gizmo gizmo in base.CompGetGizmosExtra())
-            {
-                yield return gizmo;
-            }
-            if (!Prefs.DevMode)
-            {
-                yield break;
-            }
-            yield return new Command_Action
-            {
-                defaultLabel = "Botania.Dev.SettleNow".Translate(),
-                defaultDesc = "Botania.Dev.SettleNowDesc".Translate(),
-                action = delegate { SettleNow(); }
-            };
-            yield return new Command_Action
-            {
-                defaultLabel = "Botania.Dev.SkipCooldown".Translate(),
-                defaultDesc = "Botania.Dev.SkipCooldownDesc".Translate(),
-                action = delegate { DebugSkipCooldown(); }
-            };
-            if (ProducerProps.bufferCapacity > 0f)
-            {
-                yield return new Command_Action
-                {
-                    defaultLabel = "Botania.Dev.FillBuffer".Translate(),
-                    action = delegate { DebugFillBuffer(); }
-                };
-                yield return new Command_Action
-                {
-                    defaultLabel = "Botania.Dev.ClearBuffer".Translate(),
-                    action = delegate { DebugClearBuffer(); }
-                };
-            }
-        }
+        // 开发模式下的调试按钮刻意不在基类提供：
+        // 以前的「立刻结算 / 跳过冷却 / 灌满缓存 / 清空缓存」是绕过设备流程的通用按钮，
+        // 对任何设备都一样、也测不出该设备独有的机制，用户明确要求去掉。
+        // 调试按钮改由每个设备按自己真实的机制入口单独实现（见各子类的 CompGetGizmosExtra）。
 
         /// <summary>子类追加提示（昼夜、缓冲量、剩余寿命等）。</summary>
         protected virtual string ExtraInspectString()

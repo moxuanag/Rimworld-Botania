@@ -333,6 +333,102 @@ namespace Botania
                 LastPayout.ToString("0"));
         }
 
+        /// <summary>
+        /// 开发调试按钮（仅开发者模式），两个都走苦丽花自己的真实机制：
+        ///   · 清空劳累冷却：走读档时的冷却重建入口 <see cref="LoadCooldownsIfNeeded"/>（清表 → 按快照重建，本次快照为空）
+        ///   · 给附近小人加经验：走 <see cref="RecordXp"/>（与 Harmony 里 SkillTracker.Learn 钩子同一个入口），
+        ///     不直接写 pending 字典，也不直接改小人技能。
+        /// 以前基类的「立刻结算 / 跳过冷却 / 灌满缓存 / 清空缓存」通用按钮已删除。
+        /// </summary>
+        public override System.Collections.Generic.IEnumerable<Gizmo> CompGetGizmosExtra()
+        {
+            foreach (Gizmo gizmo in base.CompGetGizmosExtra())
+            {
+                yield return gizmo;
+            }
+            if (!Prefs.DevMode)
+            {
+                yield break;
+            }
+            yield return new Command_Action
+            {
+                defaultLabel = "Botania.Dev.BitterClearCooldown".Translate(),
+                defaultDesc = "Botania.Dev.BitterClearCooldownDesc".Translate(),
+                action = DebugClearTrivialCooldowns
+            };
+            yield return new Command_Action
+            {
+                defaultLabel = "Botania.Dev.BitterGrantXp".Translate(),
+                defaultDesc = "Botania.Dev.BitterGrantXpDesc".Translate(),
+                action = DebugGrantXpToNearbyPawns
+            };
+        }
+
+        /// <summary>
+        /// 开发调试：清空「零碎小活」的劳累冷却。
+        /// 不直接 <c>lastTrivialTick.Clear()</c>，而是丢掉读档快照并标记需要重建，
+        /// 再跑一次真实的冷却重建入口——该入口负责清表并按快照回填，本次快照为空所以冷却全部解除。
+        /// </summary>
+        private void DebugClearTrivialCooldowns()
+        {
+            int before = lastTrivialTick.Count;
+            savedPawns = null;
+            savedTicks = null;
+            legacySavedPawns = null;
+            legacySavedTicks = null;
+            cooldownsNeedRebuild = true;
+            LoadCooldownsIfNeeded();
+            Messages.Message(
+                "Botania.Dev.BitterCooldownCleared".Translate(before),
+                new LookTargets(parent),
+                MessageTypeDefOf.NeutralEvent,
+                false);
+        }
+
+        /// <summary>
+        /// 开发调试：给工作半径内的小人记一笔经验，走 <see cref="RecordXp"/>——
+        /// 也就是 Harmony 里 <c>Pawn_SkillTracker.Learn</c> 钩子调用的同一个入口。
+        /// 经验量取「零碎小活阈值 ×4」与 20 的较大值，保证下一次结算不会因为经验太少被冷却吞掉。
+        /// </summary>
+        private void DebugGrantXpToNearbyPawns()
+        {
+            Map map = parent?.Map;
+            if (map == null)
+            {
+                return;
+            }
+            float xp = Math.Max(20f, Props.trivialXpThreshold * 4f);
+            int count = 0;
+            foreach (Thing thing in GenRadial.RadialDistinctThingsAround(parent.Position, map, Props.workRadius, true))
+            {
+                Pawn pawn = thing as Pawn;
+                if (pawn == null || !pawn.Spawned || pawn.Dead)
+                {
+                    continue;
+                }
+                if (pawn.RaceProps == null || !pawn.RaceProps.Humanlike)
+                {
+                    continue;
+                }
+                RecordXp(pawn, xp);
+                count++;
+            }
+            if (count == 0)
+            {
+                Messages.Message(
+                    "Botania.Dev.BitterNoPawns".Translate(Props.workRadius.ToString("0")),
+                    new LookTargets(parent),
+                    MessageTypeDefOf.NeutralEvent,
+                    false);
+                return;
+            }
+            Messages.Message(
+                "Botania.Dev.BitterXpGranted".Translate(count, xp.ToString("0")),
+                new LookTargets(parent),
+                MessageTypeDefOf.NeutralEvent,
+                false);
+        }
+
         public override void PostExposeData()
         {
             // 基类负责：botaniaBitterBloomBuffer / botaniaBitterBloomNextSettleTick

@@ -282,4 +282,38 @@
 
     <!-- S5 效果设备（CompManaEffectDevice）：inspect 面板追加的「效果：…」列表 -->
     <Botania.EffectDeviceEffects>效果：{0}</Botania.EffectDeviceEffects>
+    <Botania.Dev.StormShortCircuit>触发一次真实短路</Botania.Dev.StormShortCircuit>
+    <Botania.Dev.StormShortCircuitDesc>开发者工具：按原版事件入口触发一次真实电网短路，引擎抽干电池并按实际储能喂给电暴花。会真的爆炸，请用小电网测试。</Botania.Dev.StormShortCircuitDesc>
+    <Botania.Dev.StormShortCircuitNoBattery>吸收半径 {0} 格内没有储能足够的电池</Botania.Dev.StormShortCircuitNoBattery>
+    <Botania.Dev.StormShortCircuitDone>已触发真实短路：电池约 {0} 瓦日，电暴花缓存 +{1}</Botania.Dev.StormShortCircuitDone>
+    <Botania.Dev.ThornForcePulse>强制脉冲一次（范围内敌人）</Botania.Dev.ThornForcePulse>
+    <Botania.Dev.ThornForcePulseDesc>开发者工具：按真实流程走一次「收集目标 → 脉冲」。没有敌人时不会凭空造目标。</Botania.Dev.ThornForcePulseDesc>
+    <Botania.Dev.ThornPulseDone>已按真实脉冲路径结算：范围内 {0} 个敌人</Botania.Dev.ThornPulseDone>
+    <Botania.Dev.ThornNoTargets>半径 {0} 格内没有敌人</Botania.Dev.ThornNoTargets>
+    <Botania.Dev.ThornFillMana>灌满荆棘缓冲（真实抽取）</Botania.Dev.ThornFillMana>
+    <Botania.Dev.ThornFillManaDesc>开发者工具：反复走真实回充路径把缓冲补满，会实际消耗附近魔力。</Botania.Dev.ThornFillManaDesc>
+    <Botania.Dev.ThornFillFull>荆棘缓冲已满</Botania.Dev.ThornFillFull>
+    <Botania.Dev.ThornFillDone>已补入 {0} 魔力（缓冲 {1}/{2}）</Botania.Dev.ThornFillDone>
+    <Botania.Dev.ThornFillNoSource>附近没有可用魔力源</Botania.Dev.ThornFillNoSource>
+    <Botania.Dev.BitterClearCooldown>清空劳累冷却</Botania.Dev.BitterClearCooldown>
+    <Botania.Dev.BitterClearCooldownDesc>开发者工具：走真实的冷却重建入口清空零碎小活冷却表。</Botania.Dev.BitterClearCooldownDesc>
+    <Botania.Dev.BitterCooldownCleared>已清空 {0} 条零碎小活冷却</Botania.Dev.BitterCooldownCleared>
+    <Botania.Dev.BitterGrantXp>给半径内小人加经验</Botania.Dev.BitterGrantXp>
+    <Botania.Dev.BitterGrantXpDesc>开发者工具：对工作半径内每个小人调用真实经验入口。</Botania.Dev.BitterGrantXpDesc>
+    <Botania.Dev.BitterXpGranted>已给 {0} 个小人各记 {1} 点经验</Botania.Dev.BitterXpGranted>
+    <Botania.Dev.BitterNoPawns>半径 {0} 格内没有小人</Botania.Dev.BitterNoPawns>
+    <Botania.Dev.LotusShieldNearby>让附近小人进入被庇护状态</Botania.Dev.LotusShieldNearby>
+    <Botania.Dev.LotusShieldNearbyDesc>开发者工具：把半径内类人按真实的被干扰登记路径处理，再跑一次真实结算（按人数扣魔力）。</Botania.Dev.LotusShieldNearbyDesc>
+    <Botania.Dev.LotusShieldNearbyDone>已按真实路径庇护 {0} 名小人</Botania.Dev.LotusShieldNearbyDone>
+    <Botania.Dev.LotusShieldNearbyNone>附近没有可登记的小人</Botania.Dev.LotusShieldNearbyNone>
+    <Botania.Dev.LotusShieldNearbyNoMana>已登记 {0} 名小人，但魔力不足，庇护未生效</Botania.Dev.LotusShieldNearbyNoMana>
+    <Botania.Dev.RosaSiphonNow>立刻吸取一次附近小人的智力</Botania.Dev.RosaSiphonNow>
+    <Botania.Dev.RosaSiphonNowDesc>开发者工具：按真实经验差分路径结算一次。</Botania.Dev.RosaSiphonNowDesc>
+    <Botania.Dev.RosaSiphonDone>已从 {0} 名小人吸取智力，产出 {1} 魔力</Botania.Dev.RosaSiphonDone>
+    <Botania.Dev.RosaSiphonNoPool>已吸取 {0} 名小人，但没有魔力池接收，{1} 魔力流失</Botania.Dev.RosaSiphonNoPool>
+    <Botania.Dev.RosaSiphonNone>附近没有可吸取的小人</Botania.Dev.RosaSiphonNone>
+    <Botania.Dev.TransmuterConvert>转化一次相邻材料</Botania.Dev.TransmuterConvert>
+    <Botania.Dev.TransmuterConvertDesc>开发者工具：对相邻材料走一次真实转化周期。</Botania.Dev.TransmuterConvertDesc>
+    <Botania.Dev.TransmuterConvertDone>已转化出 {0} × {1}</Botania.Dev.TransmuterConvertDone>
+    <Botania.Dev.TransmuterConvertNone>相邻格没有可转化的输入材料</Botania.Dev.TransmuterConvertNone>
 </LanguageData>

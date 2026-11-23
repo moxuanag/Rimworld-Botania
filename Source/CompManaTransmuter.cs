@@ -275,7 +275,7 @@ namespace Botania
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
-            // 框架级开发调试按钮（立刻结算 / 跳过冷却，仅开发者模式）
+            // 基类已不再提供通用调试按钮；调试按钮见下方（仅开发者模式）
             foreach (Gizmo gizmo in base.CompGetGizmosExtra())
             {
                 yield return gizmo;
@@ -321,6 +321,52 @@ namespace Botania
                         }
                     }
                 };
+                yield return new Command_Action
+                {
+                    defaultLabel = "Botania.Dev.TransmuterConvert".Translate(),
+                    defaultDesc = "Botania.Dev.TransmuterConvertDesc".Translate(),
+                    action = DebugConvertAdjacent
+                };
+            }
+        }
+
+        /// <summary>
+        /// 开发者工具：把相邻格的输入材料真实转化一次。
+        ///
+        /// 不直接生成产物，而是走两条真实入口：
+        ///   1. <see cref="TryFindInput"/> —— 与每轮结算同一个扫描（同一套过滤 + 规则匹配），
+        ///      顺带把匹配到的规则记进 pendingRule；
+        ///   2. <see cref="CompManaRecipeBuilding.SettleOnce"/> —— 框架的真实周期：
+        ///      有魔力就凑够才扣（<see cref="ManaDeviceCore.TryPay"/>），断魔则按白雏菊的
+        ///      真实语义「慢速免费转化」；最终产出仍由 <see cref="DoConvert"/> 调用
+        ///      <see cref="ManaTransmutation.TryConvert"/> 完成（split → destroy → 生成产出）。
+        /// </summary>
+        private void DebugConvertAdjacent()
+        {
+            Map map = parent?.Map;
+            if (map == null)
+            {
+                return;
+            }
+            Thing probe;
+            if (!enabled || !TryFindInput(out probe) || probe == null)
+            {
+                Messages.Message("Botania.Dev.TransmuterConvertNone".Translate(),
+                    new LookTargets(parent), MessageTypeDefOf.NeutralEvent, false);
+                return;
+            }
+            ManaConversionRule rule = pendingRule;
+            bool converted = SettleOnce();
+            if (converted && rule != null && rule.toDef != null)
+            {
+                Messages.Message("Botania.Dev.TransmuterConvertDone".Translate(
+                        rule.toDef.LabelCap, Math.Max(1, rule.count)),
+                    new LookTargets(parent), MessageTypeDefOf.NeutralEvent, false);
+            }
+            else
+            {
+                Messages.Message("Botania.Dev.TransmuterConvertNone".Translate(),
+                    new LookTargets(parent), MessageTypeDefOf.NeutralEvent, false);
             }
         }
 

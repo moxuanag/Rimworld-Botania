@@ -282,4 +282,38 @@
 
     <!-- S5 effect device (CompManaEffectDevice): appended 'Effects: ...' line in the inspect pane -->
     <Botania.EffectDeviceEffects>Effects: {0}</Botania.EffectDeviceEffects>
+    <Botania.Dev.StormShortCircuit>Trigger a real short circuit</Botania.Dev.StormShortCircuit>
+    <Botania.Dev.StormShortCircuitDesc>Dev tool: fire a real grid short circuit via the vanilla incident entry; the engine drains batteries and feeds this bloom. It really explodes - use a small grid.</Botania.Dev.StormShortCircuitDesc>
+    <Botania.Dev.StormShortCircuitNoBattery>No battery with enough charge within {0} cells</Botania.Dev.StormShortCircuitNoBattery>
+    <Botania.Dev.StormShortCircuitDone>Short circuit triggered: battery {0} Wd, buffer +{1}</Botania.Dev.StormShortCircuitDone>
+    <Botania.Dev.ThornForcePulse>Force one pulse</Botania.Dev.ThornForcePulse>
+    <Botania.Dev.ThornForcePulseDesc>Dev tool: run the real collect-targets then pulse path. No fake targets.</Botania.Dev.ThornForcePulseDesc>
+    <Botania.Dev.ThornPulseDone>Pulsed through the real path: {0} enemies</Botania.Dev.ThornPulseDone>
+    <Botania.Dev.ThornNoTargets>No enemies within {0} cells</Botania.Dev.ThornNoTargets>
+    <Botania.Dev.ThornFillMana>Fill thorn buffer from nearby sources</Botania.Dev.ThornFillMana>
+    <Botania.Dev.ThornFillManaDesc>Dev tool: repeatedly run the real recharge path; actually consumes nearby mana.</Botania.Dev.ThornFillManaDesc>
+    <Botania.Dev.ThornFillFull>Thorn buffer is full</Botania.Dev.ThornFillFull>
+    <Botania.Dev.ThornFillDone>Added {0} mana (buffer {1}/{2})</Botania.Dev.ThornFillDone>
+    <Botania.Dev.ThornFillNoSource>No usable mana source nearby</Botania.Dev.ThornFillNoSource>
+    <Botania.Dev.BitterClearCooldown>Clear fatigue cooldowns</Botania.Dev.BitterClearCooldown>
+    <Botania.Dev.BitterClearCooldownDesc>Dev tool: rebuild the real cooldown table to clear trivial-work cooldowns.</Botania.Dev.BitterClearCooldownDesc>
+    <Botania.Dev.BitterCooldownCleared>Cleared {0} trivial-work cooldowns</Botania.Dev.BitterCooldownCleared>
+    <Botania.Dev.BitterGrantXp>Grant XP to nearby pawns</Botania.Dev.BitterGrantXp>
+    <Botania.Dev.BitterGrantXpDesc>Dev tool: call the real XP entry for each pawn in range.</Botania.Dev.BitterGrantXpDesc>
+    <Botania.Dev.BitterXpGranted>Granted {1} XP to {0} pawns</Botania.Dev.BitterXpGranted>
+    <Botania.Dev.BitterNoPawns>No pawns within {0} cells</Botania.Dev.BitterNoPawns>
+    <Botania.Dev.LotusShieldNearby>Shield nearby pawns</Botania.Dev.LotusShieldNearby>
+    <Botania.Dev.LotusShieldNearbyDesc>Dev tool: register nearby humanlikes through the real affected path, then settle once (charges per pawn).</Botania.Dev.LotusShieldNearbyDesc>
+    <Botania.Dev.LotusShieldNearbyDone>Shielded {0} pawns through the real path</Botania.Dev.LotusShieldNearbyDone>
+    <Botania.Dev.LotusShieldNearbyNone>No registerable pawns nearby</Botania.Dev.LotusShieldNearbyNone>
+    <Botania.Dev.LotusShieldNearbyNoMana>Registered {0} pawns but not enough mana</Botania.Dev.LotusShieldNearbyNoMana>
+    <Botania.Dev.RosaSiphonNow>Siphon nearby pawns now</Botania.Dev.RosaSiphonNow>
+    <Botania.Dev.RosaSiphonNowDesc>Dev tool: settle once through the real XP-difference path.</Botania.Dev.RosaSiphonNowDesc>
+    <Botania.Dev.RosaSiphonDone>Siphoned {0} pawns, produced {1} mana</Botania.Dev.RosaSiphonDone>
+    <Botania.Dev.RosaSiphonNoPool>Siphoned {0} pawns but no pool; {1} mana lost</Botania.Dev.RosaSiphonNoPool>
+    <Botania.Dev.RosaSiphonNone>No pawns available to siphon</Botania.Dev.RosaSiphonNone>
+    <Botania.Dev.TransmuterConvert>Convert adjacent input once</Botania.Dev.TransmuterConvert>
+    <Botania.Dev.TransmuterConvertDesc>Dev tool: run one real conversion cycle on an adjacent input.</Botania.Dev.TransmuterConvertDesc>
+    <Botania.Dev.TransmuterConvertDone>Converted into {0} x {1}</Botania.Dev.TransmuterConvertDone>
+    <Botania.Dev.TransmuterConvertNone>No convertible input adjacent</Botania.Dev.TransmuterConvertNone>
 </LanguageData>

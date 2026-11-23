@@ -604,8 +604,8 @@ namespace Botania
             };
 
             // ---- 精灵门专用调试按钮（仅开发者模式）----
-            // 通用「立刻结算一次 / 跳过冷却」由基类 CompManaDevice 提供（已在上面的 base 循环里）；
-            // 这里追加门自己的三个按钮。Preference 门控与其它迁移设备一致。
+            // 基类 CompManaDevice 已不再提供「立刻结算一次 / 跳过冷却」这类通用按钮；
+            // 这里只放精灵门自己的三个真实路径按钮。Preference 门控与其它迁移设备一致。
             if (!Prefs.DevMode)
             {
                 yield break;
@@ -634,10 +634,13 @@ namespace Botania
         /// <summary>
         /// 开发者工具：把当前传送的进度直接推到「完成」边界。
         ///
-        /// 安全性说明：这里**不**跳过付款/吃材料/产出，只把计数推进到 workTicks，
-        /// 然后立刻走一次正常结算——付款、扣材料、产出全部还是原状态机那条路径，
-        /// 所以不会出现「没付魔力白拿产物」或「材料没扣却出成品」的脏状态。
-        /// 魔力不足时结算是「停在 100% 等魔力」，材料保留。
+        /// 安全性说明：这里**不**跳过付款/吃材料/产出，也不直接写 progress——
+        /// 而是循环调用真实状态机入口 <see cref="SettleOnce"/>（= 正常每 tick 的那一次
+        /// TickGate），由状态机自己一 tick 一 tick 把进度走满：门框复核、材料复核、
+        /// 付款 <see cref="ConsumeMana"/>、扣料 <see cref="ConsumeInputs"/>、产出
+        /// <see cref="Produce"/> 全部还是原状态机那条路径，所以不会出现「没付魔力白拿产物」
+        /// 或「材料没扣却出成品」的脏状态。
+        /// 魔力不足时状态机会自己停在 100% 等魔力，材料保留。
         /// </summary>
         private void DebugCompleteTransmission()
         {
@@ -663,9 +666,7 @@ namespace Botania
                         new LookTargets(parent), MessageTypeDefOf.NeutralEvent, false);
                     return;
                 }
-                ruleIndex = found;
-                progress = 0;
-                rule = ActiveRule;
+                rule = Props.rules[found];
             }
             if (!HasAllInputs(map, rule))
             {
@@ -674,8 +675,24 @@ namespace Botania
                 return;
             }
             inputReady = true;
-            progress = rule.workTicks;
-            if (SettleOnce())
+
+            // 真实状态机快进：每一轮 SettleOnce 只推进 1 点进度，完成那一刻才付款/扣料/产出。
+            bool completed = false;
+            for (int i = 0; i < rule.workTicks; i++)
+            {
+                if (SettleOnce())
+                {
+                    completed = true;
+                    break;
+                }
+                // 状态机把进度重置了（材料被搬走 / 规则失效 / 门框变化）或已停在 100% 等魔力，
+                // 别继续空转重试。
+                if (ActiveRule != rule || progress >= rule.workTicks)
+                {
+                    break;
+                }
+            }
+            if (completed)
             {
                 Messages.Message("Botania.Dev.GateCompleteDone".Translate(RuleName(rule)),
                     new LookTargets(parent), MessageTypeDefOf.NeutralEvent, false);

@@ -380,6 +380,96 @@ namespace Botania
             return false;
         }
 
+        public override IEnumerable<Gizmo> CompGetGizmosExtra()
+        {
+            foreach (Gizmo gizmo in base.CompGetGizmosExtra())
+            {
+                yield return gizmo;
+            }
+            if (!Prefs.DevMode)
+            {
+                yield break;
+            }
+            yield return new Command_Action
+            {
+                defaultLabel = "Botania.Dev.LotusShieldNearby".Translate(),
+                defaultDesc = "Botania.Dev.LotusShieldNearbyDesc".Translate(),
+                action = DebugShieldNearbyPawns
+            };
+        }
+
+        /// <summary>
+        /// 开发者工具：让附近小人立刻进入「被心灵干扰影响到」的状态。
+        ///
+        /// 这里走的是**真实目标收集路径**，不是直接改 paidUntilTick：
+        ///   · 范围内每个类人生物都交给 <see cref="NotifyAffected"/>——和
+        ///     ThoughtWorker_PsychicDrone 补丁里完全同一个入口，由它做范围判定、
+        ///     「最近的花」归属以及重叠区的交接；
+        ///   · 然后对实际接管了这些小人的花（可能不止这朵）各跑一次真实结算
+        ///     <see cref="SettleOnce"/>：按受影响人数找源、扣魔力，付成才把
+        ///     paidUntilTick 往后推；付不起就整次退款并把小人交接给别的花。
+        ///
+        /// 唯一的「作弊」是跳过海选：把半径内的类人生物直接当成「已经被干扰影响到」。
+        /// 心灵干扰念头本身仍由原版事件 / 干扰器建筑提供，本按钮只负责莲的记账与庇护。
+        /// </summary>
+        private void DebugShieldNearbyPawns()
+        {
+            Map map = parent?.Map;
+            if (map == null)
+            {
+                return;
+            }
+            List<Pawn> targets = new List<Pawn>();
+            foreach (Thing thing in GenRadial.RadialDistinctThingsAround(parent.Position, map, Props.radius, true))
+            {
+                Pawn pawn = thing as Pawn;
+                if (pawn == null || pawn.Dead || !pawn.Spawned || !pawn.RaceProps.Humanlike)
+                {
+                    continue;
+                }
+                targets.Add(pawn);
+            }
+            if (targets.Count <= 0)
+            {
+                Messages.Message("Botania.Dev.LotusShieldNearbyNone".Translate(),
+                    new LookTargets(parent), MessageTypeDefOf.NeutralEvent, false);
+                return;
+            }
+
+            HashSet<CompManaClearMindLotus> ownersToSettle = new HashSet<CompManaClearMindLotus>();
+            for (int i = 0; i < targets.Count; i++)
+            {
+                Pawn pawn = targets[i];
+                NotifyAffected(pawn);
+                CompManaClearMindLotus owner;
+                if (owners.TryGetValue(pawn, out owner) && owner != null)
+                {
+                    ownersToSettle.Add(owner);
+                }
+            }
+            if (ownersToSettle.Count == 0)
+            {
+                ownersToSettle.Add(this);
+            }
+
+            bool paid = false;
+            foreach (CompManaClearMindLotus owner in ownersToSettle)
+            {
+                // 每朵花结自己的账：真实 SettleOnce → SettleCycle → 按人数收费、付成才续 paidUntilTick
+                paid |= owner.SettleOnce();
+            }
+            if (paid)
+            {
+                Messages.Message("Botania.Dev.LotusShieldNearbyDone".Translate(targets.Count),
+                    new LookTargets(parent), MessageTypeDefOf.NeutralEvent, false);
+            }
+            else
+            {
+                Messages.Message("Botania.Dev.LotusShieldNearbyNoMana".Translate(targets.Count),
+                    new LookTargets(parent), MessageTypeDefOf.NeutralEvent, false);
+            }
+        }
+
         public override string CompInspectStringExtra()
         {
             if (parent.Map == null)

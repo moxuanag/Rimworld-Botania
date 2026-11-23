@@ -100,21 +100,7 @@ namespace Botania
         /// </summary>
         protected override float ProducePerSettle(int ticks)
         {
-            List<Pawn> inRange = new List<Pawn>();
-            Map map = parent.Map;
-            foreach (Thing thing in GenRadial.RadialDistinctThingsAround(parent.Position, map, Props.siphonRadius, true))
-            {
-                Pawn pawn = thing as Pawn;
-                if (pawn == null || pawn.Dead || !pawn.Spawned || pawn.Downed)
-                {
-                    continue;
-                }
-                if (!pawn.RaceProps.Humanlike || pawn.skills == null)
-                {
-                    continue;
-                }
-                inRange.Add(pawn);
-            }
+            List<Pawn> inRange = CollectInRangePawns();
 
             float mana = 0f;
             int learningCount = 0;
@@ -150,6 +136,31 @@ namespace Botania
             PruneXpSnapshots(inRange);
 
             return mana;
+        }
+
+        /// <summary>
+        /// 抽取半径内可作为目标的类人生物。
+        /// 与 ProducePerSettle 用的是同一套过滤（死亡 / 倒地 / 非类人 / 无技能 都排除），
+        /// 供正常结算与调试按钮共用，避免两条路径的筛选条件漂移。
+        /// </summary>
+        private List<Pawn> CollectInRangePawns()
+        {
+            List<Pawn> inRange = new List<Pawn>();
+            Map map = parent.Map;
+            foreach (Thing thing in GenRadial.RadialDistinctThingsAround(parent.Position, map, Props.siphonRadius, true))
+            {
+                Pawn pawn = thing as Pawn;
+                if (pawn == null || pawn.Dead || !pawn.Spawned || pawn.Downed)
+                {
+                    continue;
+                }
+                if (!pawn.RaceProps.Humanlike || pawn.skills == null)
+                {
+                    continue;
+                }
+                inRange.Add(pawn);
+            }
+            return inRange;
         }
 
         /// <summary>正在做研究的人算「在学习」——技能每日上限满了也不至于突然停产。</summary>
@@ -304,6 +315,88 @@ namespace Botania
                 {
                     lastXp.Remove(pawn);
                 }
+            }
+        }
+
+        public override IEnumerable<Gizmo> CompGetGizmosExtra()
+        {
+            foreach (Gizmo gizmo in base.CompGetGizmosExtra())
+            {
+                yield return gizmo;
+            }
+            if (!Prefs.DevMode)
+            {
+                yield break;
+            }
+            yield return new Command_Action
+            {
+                defaultLabel = "Botania.Dev.RosaSiphonNow".Translate(),
+                defaultDesc = "Botania.Dev.RosaSiphonNowDesc".Translate(),
+                action = DebugSiphonNow
+            };
+        }
+
+        /// <summary>
+        /// 开发者工具：立刻吸取一次附近小人的智力。
+        ///
+        /// 走的是真实的「技能经验差分 → 挂 hediff / 念头 → 按人数产魔 → 推魔力池」路径：
+        ///   · 只把每个候选小人的上次经验快照压到当前值以下（种一个必定更小的差分基线），
+        ///     真实结算里的 xpGrew 判定于是自然成立——不直接改小人经验、不直接塞魔力；
+        ///   · 然后调用基类的真实结算 <see cref="CompManaProducer.SettleNow"/>（与每 60 tick
+        ///     正常结算同一条路径），由 ProducePerSettle 自己复核「还有没有可学」「有没有在学」、
+        ///     给符合条件的人挂 hediff/念头，并把产物推进最近的魔力池。
+        ///
+        /// 差分基线只影响这一次结算，结算后 lastXp 会写回真实当前值，不影响后续正常 tick。
+        /// </summary>
+        private void DebugSiphonNow()
+        {
+            Map map = parent?.Map;
+            if (map == null)
+            {
+                return;
+            }
+            List<Pawn> inRange = CollectInRangePawns();
+            int seeded = 0;
+            for (int i = 0; i < inRange.Count; i++)
+            {
+                Pawn pawn = inRange[i];
+                if (!HasSomethingLeftToLearn(pawn))
+                {
+                    continue;
+                }
+                // 种差分：让真实 XP 差分判定成「这一秒他学到了点东西」。
+                // 基线取当前累计经验的一半（而不是减一个很小的常数）——累计经验是 float，
+                // 满级小人的总量很大，减 0.01 会被浮点精度吞掉、差分判不出来。
+                float totalXp = TotalSkillXp(pawn);
+                lastXp[pawn] = totalXp > 1f ? totalXp * 0.5f : -1f;
+                seeded++;
+            }
+            if (seeded <= 0)
+            {
+                Messages.Message("Botania.Dev.RosaSiphonNone".Translate(),
+                    new LookTargets(parent), MessageTypeDefOf.NeutralEvent, false);
+                return;
+            }
+
+            SettleNow();
+
+            int siphoned = LastLearningCount;
+            float mana = siphoned * Props.manaPerPawnSecond;
+            if (siphoned <= 0)
+            {
+                Messages.Message("Botania.Dev.RosaSiphonNone".Translate(),
+                    new LookTargets(parent), MessageTypeDefOf.NeutralEvent, false);
+                return;
+            }
+            if (HasTarget())
+            {
+                Messages.Message("Botania.Dev.RosaSiphonDone".Translate(siphoned, mana.ToString("0")),
+                    new LookTargets(parent), MessageTypeDefOf.NeutralEvent, false);
+            }
+            else
+            {
+                Messages.Message("Botania.Dev.RosaSiphonNoPool".Translate(siphoned, mana.ToString("0")),
+                    new LookTargets(parent), MessageTypeDefOf.NeutralEvent, false);
             }
         }
 
