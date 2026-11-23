@@ -167,6 +167,11 @@ namespace Botania
                     if (accepted > 0f)
                     {
                         buffer = Math.Max(0f, buffer - accepted);
+                        OnManaAccepted(accepted);
+                    }
+                    else
+                    {
+                        OnNoTarget();
                     }
                 }
                 return;
@@ -179,8 +184,26 @@ namespace Botania
             float amount = ProducePerSettle(ProducerProps.settleIntervalTicks);
             if (amount > 0f)
             {
-                PushToPool(amount);
+                float accepted = PushToPool(amount);
+                if (accepted > 0f)
+                {
+                    OnManaAccepted(accepted);
+                }
+                else
+                {
+                    OnNoTarget();
+                }
             }
+        }
+
+        /// <summary>产物被池子实际接收后回调（例如火红莲按接收量扣燃料）。</summary>
+        protected virtual void OnManaAccepted(float acceptedMana)
+        {
+        }
+
+        /// <summary>有产物、但附近没有可接收的池子时回调（例如允许空烧燃料的花）。</summary>
+        protected virtual void OnNoTarget()
+        {
         }
 
         /// <summary>把魔力推给最近的池子，返回实际被接收的量。</summary>
