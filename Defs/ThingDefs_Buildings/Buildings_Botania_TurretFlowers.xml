@@ -49,8 +49,6 @@
     <building>
       <destroySound>BuildingDestroyed_Soft_Small</destroySound>
       <turretTopDrawSize>1</turretTopDrawSize>
-      <turretTopOffset>(0,0,-0.05)</turretTopOffset>
-      <ai_IsBuildingDestroyer>false</ai_IsBuildingDestroyer>
     </building>
     <placeWorkers>
       <li>Botania.PlaceWorker_RadiusFromComp</li>

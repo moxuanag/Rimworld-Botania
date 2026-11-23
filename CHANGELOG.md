@@ -73,6 +73,20 @@
 
 ## [未发布]
 
+### 修复：炮塔花 Def 加载失败与 Mote 字段错误（2026-11-23）
+
+用户日志报错，全部为本引擎与原版字段差异导致：
+
+- `MoteProperties` 只有 `growthRate`，没有 `growRate` / `rotationRate`
+  - `<growRate>` → `<growthRate>`，删除 `<rotationRate>`
+- `BuildingProperties.turretTopOffset` 在本引擎是 **Vector2**，写 `(0,0,-0.05)` 三元组解析失败
+  - 整个 `Buildings_Botania_TurretFlowers.xml` 的 def 加载异常，连带中文翻译注入报 4 个错误
+  - 直接删除该字段（默认零偏移）
+- `BuildingProperties` 没有 `ai_IsBuildingDestroyer`，已删除
+- 新增校验脚本 `_dev/_botania-dev/check_xml_fields.py`：从 decomp 解析 `<building>` / `<mote>` 字段表，
+  并检查 `Vector2` / `Vector3` 字段的元数，专抓这类「字段名/向量元数不匹配」的启动报错
+- AGENTS.md：验证顺序加入该脚本，并新增「写 building/mote 前先查 decomp 字段表」条款
+
 ### 新增：建筑自带的开发调试按钮（选中时出现）
 
 开发者模式（`Prefs.DevMode`）下，选中建筑会多出调试按钮，**框架级自动继承**：
