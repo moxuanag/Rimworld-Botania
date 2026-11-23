@@ -351,6 +351,29 @@ namespace Botania
             }
         }
 
+        /// <summary>开发调试按钮：灌满荆棘缓冲 / 立刻发一次脉冲。</summary>
+        public override System.Collections.Generic.IEnumerable<Gizmo> CompGetGizmosExtra()
+        {
+            foreach (Gizmo gizmo in base.CompGetGizmosExtra())
+            {
+                yield return gizmo;
+            }
+            if (!Prefs.DevMode)
+            {
+                yield break;
+            }
+            yield return new Command_Action
+            {
+                defaultLabel = "Botania.Dev.ThornFill".Translate(),
+                action = delegate { mana = Props.manaCapacity; }
+            };
+            yield return new Command_Action
+            {
+                defaultLabel = "Botania.Dev.ThornPulse".Translate(),
+                action = delegate { SettleOnce(); }
+            };
+        }
+
         public override string CompInspectStringExtra()
         {
             Map map = parent.Map;

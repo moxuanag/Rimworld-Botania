@@ -268,6 +268,41 @@ namespace Botania
                 isActive = () => enabled,
                 toggleAction = () => enabled = !enabled
             };
+
+            if (Prefs.DevMode)
+            {
+                yield return new Command_Action
+                {
+                    defaultLabel = "Botania.Dev.TransmuterGive".Translate(),
+                    defaultDesc = "Botania.Dev.TransmuterGiveDesc".Translate(),
+                    action = delegate
+                    {
+                        Map map = parent.Map;
+                        if (map == null || Props.rules == null)
+                        {
+                            return;
+                        }
+                        for (int i = 0; i < Props.rules.Count; i++)
+                        {
+                            ManaConversionRule rule = Props.rules[i];
+                            if (rule == null || rule.fromDef == null)
+                            {
+                                continue;
+                            }
+                            Thing thing = ThingMaker.MakeThing(rule.fromDef);
+                            if (thing == null)
+                            {
+                                continue;
+                            }
+                            thing.stackCount = Math.Max(1, rule.count);
+                            GenPlace.TryPlaceThing(thing, parent.Position, map, ThingPlaceMode.Near);
+                            Messages.Message("Botania.Dev.TransmuterGiven".Translate(rule.fromDef.LabelCap),
+                                new LookTargets(parent), MessageTypeDefOf.NeutralEvent, false);
+                            return;
+                        }
+                    }
+                };
+            }
         }
 
         public override void PostExposeData()

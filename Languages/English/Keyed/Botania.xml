@@ -254,4 +254,9 @@
     <Botania.Dev.DamageAround>Damage targets around (to 50%)</Botania.Dev.DamageAround>
     <Botania.Dev.DamageAroundDesc>Dev tool: cut hit points of buildings/items in repair radius to half.</Botania.Dev.DamageAroundDesc>
     <Botania.Dev.DamageAroundDone>Set {0} targets to half HP</Botania.Dev.DamageAroundDone>
+    <Botania.Dev.ThornFill>Fill thorn buffer</Botania.Dev.ThornFill>
+    <Botania.Dev.ThornPulse>Fire thorn pulse now</Botania.Dev.ThornPulse>
+    <Botania.Dev.TransmuterGive>Drop one input material</Botania.Dev.TransmuterGive>
+    <Botania.Dev.TransmuterGiveDesc>Dev tool: spawn one convertible input of this transmuter.</Botania.Dev.TransmuterGiveDesc>
+    <Botania.Dev.TransmuterGiven>Spawned {0}</Botania.Dev.TransmuterGiven>
 </LanguageData>

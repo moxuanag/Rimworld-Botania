@@ -254,4 +254,9 @@
     <Botania.Dev.DamageAround>打残范围内目标（降到半血）</Botania.Dev.DamageAround>
     <Botania.Dev.DamageAroundDesc>开发者工具：把修复半径内的建筑/物品耐久降到一半，方便测试修复。</Botania.Dev.DamageAroundDesc>
     <Botania.Dev.DamageAroundDone>已把 {0} 个目标降到半血</Botania.Dev.DamageAroundDone>
+    <Botania.Dev.ThornFill>灌满荆棘缓冲</Botania.Dev.ThornFill>
+    <Botania.Dev.ThornPulse>立刻发一次荆棘脉冲</Botania.Dev.ThornPulse>
+    <Botania.Dev.TransmuterGive>丢一份输入材料</Botania.Dev.TransmuterGive>
+    <Botania.Dev.TransmuterGiveDesc>开发者工具：把转化表里第一种可转换材料丢到旁边。</Botania.Dev.TransmuterGiveDesc>
+    <Botania.Dev.TransmuterGiven>已生成 {0}</Botania.Dev.TransmuterGiven>
 </LanguageData>
