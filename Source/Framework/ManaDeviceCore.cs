@@ -16,7 +16,30 @@ namespace Botania
     /// 设备 Comp 要么继承 <see cref="CompManaDevice"/>，要么持有一个 <see cref="ManaDeviceCore"/>。
     /// 后者用于父类必须是原版 Comp（例如 CompPowerTrader）的设备。
     /// </summary>
-    public class CompProperties_ManaDevice : CompProperties
+    /// <summary>
+    /// 设备付款行为的配置接口。
+    ///
+    /// 为什么需要接口：有些设备的 CompProperties 必须继承原版类型
+    /// （例如通量场要继承 <c>CompProperties_Power</c> 才能接电网），
+    /// 无法同时继承 <see cref="CompProperties_ManaDevice"/>。
+    /// 让这类 props 实现本接口，<see cref="ManaDeviceCore"/> 就能照常复用。
+    /// </summary>
+    public interface IManaDeviceConfig
+    {
+        float SearchRadius { get; }
+        float ManaPerWork { get; }
+        int WorkIntervalTicks { get; }
+        int RetryIntervalTicks { get; }
+        float ManaTolerance { get; }
+        string WorkingKey { get; }
+        string NoManaKey { get; }
+        string HasManaSaveKey { get; }
+        string NextWorkSaveKey { get; }
+        string LegacyHasManaKey { get; }
+        string LegacyNextWorkKey { get; }
+    }
+
+    public class CompProperties_ManaDevice : CompProperties, IManaDeviceConfig
     {
         /// <summary>寻找魔力源（魔力池 / 中继塔）的半径。</summary>
         public float searchRadius = 8f;
@@ -57,6 +80,13 @@ namespace Botania
             compClass = typeof(CompManaDevice);
         }
 
+        public float SearchRadius => searchRadius;
+        public float ManaPerWork => manaPerWork;
+        public int WorkIntervalTicks => workIntervalTicks;
+        public int RetryIntervalTicks => retryIntervalTicks;
+        public float ManaTolerance => manaTolerance;
+        public string LegacyHasManaKey => legacyHasManaKey;
+        public string LegacyNextWorkKey => legacyNextWorkKey;
         public string HasManaSaveKey => saveKeyPrefix + "HasMana";
         public string NextWorkSaveKey => saveKeyPrefix + "NextWorkTick";
         public string WorkingKey => inspectWorkingKey ?? "Botania.DeviceWorking";
@@ -98,19 +128,25 @@ namespace Botania
     public class ManaDeviceCore
     {
         private readonly ThingComp owner;
-        private readonly CompProperties_ManaDevice props;
+        private readonly IManaDeviceConfig props;
         private int nextWorkTick;
 
-        public ManaDeviceCore(ThingComp owner, CompProperties_ManaDevice props)
+        public ManaDeviceCore(ThingComp owner, IManaDeviceConfig props)
         {
             this.owner = owner;
             this.props = props;
         }
 
-        public CompProperties_ManaDevice Props => props;
+        public IManaDeviceConfig Props => props;
 
         /// <summary>上一次结算是否付得起魔力。断魔时为 false。</summary>
         public bool HasMana { get; private set; } = true;
+
+        /// <summary>由外部（组合式设备）直接设定当前是否有魔力，例如玩家手动关灯。</summary>
+        public void SetHasMana(bool value)
+        {
+            HasMana = value;
+        }
 
         private Thing Parent => owner?.parent;
 
@@ -148,12 +184,12 @@ namespace Botania
                 return true;
             }
             IManaSource source = ManaSourceUtil.FindNearest(
-                parent.Position, parent.Map, props.searchRadius, amount, parent);
+                parent.Position, parent.Map, props.SearchRadius, amount, parent);
             bool paid = false;
-            if (source != null && source.ManaAmount + props.manaTolerance >= amount)
+            if (source != null && source.ManaAmount + props.ManaTolerance >= amount)
             {
                 float drained = source.DrainMana(amount);
-                paid = drained >= amount - props.manaTolerance;
+                paid = drained >= amount - props.ManaTolerance;
             }
             HasMana = paid;
             return paid;
@@ -166,7 +202,7 @@ namespace Botania
         public void ScheduleNext(bool worked)
         {
             nextWorkTick = Find.TickManager.TicksGame
-                + (worked ? props.workIntervalTicks : props.retryIntervalTicks);
+                + (worked ? props.WorkIntervalTicks : props.RetryIntervalTicks);
         }
 
         /// <summary>通用提示文案。</summary>
@@ -188,13 +224,13 @@ namespace Botania
             // 旧版存档兼容：老键只读不写（回写会和新键重复占坑）
             if (Scribe.mode == LoadSaveMode.LoadingVars)
             {
-                if (!props.legacyHasManaKey.NullOrEmpty())
+                if (!props.LegacyHasManaKey.NullOrEmpty())
                 {
-                    Scribe_Values.Look(ref hasMana, props.legacyHasManaKey, hasMana);
+                    Scribe_Values.Look(ref hasMana, props.LegacyHasManaKey, hasMana);
                 }
-                if (!props.legacyNextWorkKey.NullOrEmpty())
+                if (!props.LegacyNextWorkKey.NullOrEmpty())
                 {
-                    Scribe_Values.Look(ref next, props.legacyNextWorkKey, next);
+                    Scribe_Values.Look(ref next, props.LegacyNextWorkKey, next);
                 }
             }
             HasMana = hasMana;

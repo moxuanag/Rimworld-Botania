@@ -221,4 +221,7 @@
   <Botania.FleshSeedCellInfo>Life-orchid cell · generation {0} · age {1}/{2}</Botania.FleshSeedCellInfo>
     <Botania.DeviceWorking>Device: running on mana</Botania.DeviceWorking>
     <Botania.DeviceNoMana>Device: no usable mana nearby, halted</Botania.DeviceNoMana>
+    <Botania.ProducerWorking>Producing: feeding mana into a nearby pool</Botania.ProducerWorking>
+    <Botania.ProducerNoPool>Producing: no mana pool in range to accept mana</Botania.ProducerNoPool>
+    <Botania.ProducerStored>Buffer: {0} / {1} mana</Botania.ProducerStored>
 </LanguageData>

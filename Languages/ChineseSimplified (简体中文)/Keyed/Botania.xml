@@ -221,4 +221,7 @@
   <Botania.FleshSeedCellInfo>启命英的活细胞 · 第 {0} 代 · 年龄 {1}/{2}</Botania.FleshSeedCellInfo>
     <Botania.DeviceWorking>设备：正在消耗魔力运转</Botania.DeviceWorking>
     <Botania.DeviceNoMana>设备：附近没有可用魔力，已停工</Botania.DeviceNoMana>
+    <Botania.ProducerWorking>产能：正在把魔力送入附近的魔力池</Botania.ProducerWorking>
+    <Botania.ProducerNoPool>产能：附近没有可接收魔力的魔力池，魔力无处可去</Botania.ProducerNoPool>
+    <Botania.ProducerStored>缓存：{0} / {1} 魔力</Botania.ProducerStored>
 </LanguageData>

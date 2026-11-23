@@ -54,7 +54,7 @@
         <maxRoomArea>150</maxRoomArea>
         <maxManaPerSecond>90</maxManaPerSecond>
         <baseTemperature>20</baseTemperature>
-        <poolRadius>6</poolRadius>
+        <radius>6</radius>
         <overheatThreshold>150</overheatThreshold>
         <damagePerDegree>0.04</damagePerDegree>
         <ignitionThreshold>195</ignitionThreshold>

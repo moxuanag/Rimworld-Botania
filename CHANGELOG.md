@@ -73,6 +73,18 @@
 
 ## [未发布]
 
+### 框架 S1.5：产魔框架 + 组合式付款（2026-11-23）
+
+- 新增 `Source/Framework/ManaProducerCore.cs`
+  - `CompProperties_ManaProducer` / `CompManaProducer`：找池子、缓冲、结算节流、存档、提示文案统一
+  - 子类只写 `WantsProduce` / `ProducePerSettle` / `ExtraTick`
+- 新增 `IManaDeviceConfig`：props 必须继承原版类型时（如 `CompProperties_Power`）也能复用付款核心
+- 迁移**电暴花**（缓冲式）、**太阳花/夜颠茄**（无缓冲式）：行为与提示文案保持不变
+- 迁移**通量场**：组合式示范（`CompPowerTrader` + `ManaDeviceCore`），旧存档键 `hasMana` 兼容
+- 新增 Keyed：`Botania.ProducerWorking` / `ProducerNoPool` / `ProducerStored`（中英）
+- 电暴花 Def：`poolRadius` → `radius`（并入产魔框架统一字段）
+- 已知缺口记录：修复器需要「按量付款」，待下一步给核心加 `TryPayUpTo`
+
 ### 新增：精灵灯支持改灯光颜色
 
 - 精灵灯的 `CompGlower` 打开 `colorPickerEnabled`，与原版灯完全一致：
