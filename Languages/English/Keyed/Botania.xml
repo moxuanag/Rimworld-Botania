@@ -316,4 +316,15 @@
     <Botania.Dev.TransmuterConvertDesc>Dev tool: run one real conversion cycle on an adjacent input.</Botania.Dev.TransmuterConvertDesc>
     <Botania.Dev.TransmuterConvertDone>Converted into {0} x {1}</Botania.Dev.TransmuterConvertDone>
     <Botania.Dev.TransmuterConvertNone>No convertible input adjacent</Botania.Dev.TransmuterConvertNone>
+    <Botania.TurretReady>Turret: enough mana, ready to fire</Botania.TurretReady>
+    <Botania.TurretNoMana>Turret: not enough mana nearby, holding fire</Botania.TurretNoMana>
+    <Botania.Dev.TurretSummonTarget>Summon a hostile target in range</Botania.Dev.TurretSummonTarget>
+    <Botania.Dev.TurretSummonTargetDesc>Dev tool: spawn a hostile inside range (past minimum range), then let the turret acquire, warm up and fire normally.</Botania.Dev.TurretSummonTargetDesc>
+    <Botania.Dev.TurretSummonDone>Summoned {0}; the turret will engage it by itself</Botania.Dev.TurretSummonDone>
+    <Botania.Dev.TurretSummonFailed>Summon failed: no hostile faction available or no standable cell</Botania.Dev.TurretSummonFailed>
+    <Botania.Dev.TurretFillMana>Fill nearby mana source</Botania.Dev.TurretFillMana>
+    <Botania.Dev.TurretFillManaDesc>Dev tool: call the real AddMana path on the nearest mana source.</Botania.Dev.TurretFillManaDesc>
+    <Botania.Dev.TurretFillManaDone>Added {0} mana</Botania.Dev.TurretFillManaDone>
+    <Botania.Dev.TurretFillManaFull>Nearest mana source is already full</Botania.Dev.TurretFillManaFull>
+    <Botania.Dev.TurretFillManaNone>No mana source nearby</Botania.Dev.TurretFillManaNone>
 </LanguageData>

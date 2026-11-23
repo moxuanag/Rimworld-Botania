@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- ============================================================
+       炮塔型功能花的开火表现 Mote。
+       注意：Mote 贴图在 validate_mod 里按 Mote 路径豁免透明度检查。
+       ============================================================ -->
+
+  <!-- 荆棘钟花：逐发枪口闪光（Verb 每打出一发就放一个） -->
+  <ThingDef ParentName="MoteBase">
+    <defName>Botania_Mote_TurretFlash</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>0.02</fadeInTime>
+      <solidTime>0.05</solidTime>
+      <fadeOutTime>0.12</fadeOutTime>
+    </mote>
+    <graphicData>
+      <texPath>Things/Mote/Botania/TurretFlash</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.7,0.7)</drawSize>
+    </graphicData>
+  </ThingDef>
+
+  <!-- 爆萼花：炮口爆闪 -->
+  <ThingDef ParentName="MoteBase">
+    <defName>Botania_Mote_TurretBlastFlash</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>0.03</fadeInTime>
+      <solidTime>0.12</solidTime>
+      <fadeOutTime>0.30</fadeOutTime>
+    </mote>
+    <graphicData>
+      <texPath>Things/Mote/Botania/TurretBlastFlash</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.9,1.9)</drawSize>
+    </graphicData>
+  </ThingDef>
+
+  <!-- 爆萼花：发射烟 -->
+  <ThingDef ParentName="MoteBase">
+    <defName>Botania_Mote_TurretBlastSmoke</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>0.06</fadeInTime>
+      <solidTime>0.35</solidTime>
+      <fadeOutTime>0.55</fadeOutTime>
+      <growRate>1.4</growRate>
+      <rotationRate>25</rotationRate>
+    </mote>
+    <graphicData>
+      <texPath>Things/Mote/Botania/TurretBlastSmoke</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.4,1.4)</drawSize>
+    </graphicData>
+  </ThingDef>
+
+  <!-- 魔力微光（供后续效果复用） -->
+  <ThingDef ParentName="MoteBase">
+    <defName>Botania_Mote_TurretManaSpark</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>0.05</fadeInTime>
+      <solidTime>0.15</solidTime>
+      <fadeOutTime>0.35</fadeOutTime>
+      <growRate>0.6</growRate>
+    </mote>
+    <graphicData>
+      <texPath>Things/Mote/Botania/TurretManaSpark</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.9,0.9)</drawSize>
+    </graphicData>
+  </ThingDef>
+
+</Defs>

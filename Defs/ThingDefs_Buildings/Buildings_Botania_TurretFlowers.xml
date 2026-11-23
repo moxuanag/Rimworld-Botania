@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- ============================================================
+       炮塔型功能花（0.8.5）
+
+       两朵都不需要人操作、不吃电、不吃弹药：
+         荆棘钟花 —— 五连射速射炮，每轮连射消耗魔力
+         爆萼花   —— 高抛高爆迫击炮，每发消耗魔力
+
+       实现要点（见 Source/Framework/ManaTurretCore.cs）：
+         · thingClass 用 Botania.Building_ManaTurretGun，在连射起手处付费
+         · 不挂 CompMannable → 引擎自动索敌开火
+         · 不挂 CompPowerTrader → 永远"有电"
+         · 不挂 CompRefuelable / CompChangeableProjectile → 魔力即弹药，无需装填
+         · 顶部炮塔贴图由 building/turretTopDrawSize 控制，随目标旋转（这就是瞄准动画）
+       ============================================================ -->
+
+  <ThingDef ParentName="BuildingBase" Abstract="True" Name="Botania_BaseTurretFlower">
+    <thingClass>Botania.Building_ManaTurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <drawHighlight>true</drawHighlight>
+    <drawHighlightOnlyForHostile>true</drawHighlightOnlyForHostile>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.15</fillPercent>
+    <rotatable>false</rotatable>
+    <blockWind>false</blockWind>
+    <castEdgeShadows>false</castEdgeShadows>
+    <tickerType>Normal</tickerType>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <size>(1,1)</size>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <shadowData>
+        <volume>(0.55,0.28,0.55)</volume>
+      </shadowData>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>140</MaxHitPoints>
+      <WorkToBuild>1600</WorkToBuild>
+      <Mass>6</Mass>
+      <Flammability>0.8</Flammability>
+      <Beauty>-8</Beauty>
+      <ShootingAccuracyTurret>0.96</ShootingAccuracyTurret>
+    </statBases>
+    <building>
+      <destroySound>BuildingDestroyed_Soft_Small</destroySound>
+      <turretTopDrawSize>1</turretTopDrawSize>
+      <turretTopOffset>(0,0,-0.05)</turretTopOffset>
+      <ai_IsBuildingDestroyer>false</ai_IsBuildingDestroyer>
+    </building>
+    <placeWorkers>
+      <li>Botania.PlaceWorker_RadiusFromComp</li>
+    </placeWorkers>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>Misc</designationCategory>
+    <thingCategories>
+      <li>BotaniaBuildings</li>
+    </thingCategories>
+  </ThingDef>
+
+  <!-- ============================================================
+       荆棘钟花：五连射速射炮
+       冷却 4.8s / 射程 28.9 / 精度与子弹全部同原版 mini-turret
+       ============================================================ -->
+  <ThingDef ParentName="Botania_BaseTurretFlower">
+    <defName>Botania_Thornbell</defName>
+    <label>thornbell</label>
+    <description>A flower that grew itself five thorn barrels. It drinks mana from a nearby pool and spits a short, vicious burst of needles at anything hostile that comes close - no colonist has to stand beside it, no ammunition has to be loaded. When the mana runs dry the barrels simply fall silent.</description>
+    <graphicData>
+      <texPath>Things/Building/Botania/Thornbell_Base</texPath>
+    </graphicData>
+    <building>
+      <turretGunDef>Botania_Gun_Thornbell</turretGunDef>
+      <turretBurstWarmupTime>0.4</turretBurstWarmupTime>
+      <turretBurstCooldownTime>4.8</turretBurstCooldownTime>
+      <combatPower>120</combatPower>
+    </building>
+    <costList>
+      <Botania_Petal_Green>8</Botania_Petal_Green>
+      <Botania_ManaPowder>10</Botania_ManaPowder>
+      <Botania_ManasteelIngot>4</Botania_ManasteelIngot>
+    </costList>
+    <comps>
+      <li Class="Botania.CompProperties_ManaTurret">
+        <manaPerBurst>15</manaPerBurst>
+        <noManaRetryTicks>120</noManaRetryTicks>
+        <searchRadius>10</searchRadius>
+        <muzzleFlashMote>Botania_Mote_TurretFlash</muzzleFlashMote>
+        <muzzleFlashSize>0.9</muzzleFlashSize>
+        <muzzleForwardOffset>0.55</muzzleForwardOffset>
+        <launchSmokeMote>Botania_Mote_TurretManaSpark</launchSmokeMote>
+        <launchSmokeSize>1.0</launchSmokeSize>
+        <forcedTargetAllowed>true</forcedTargetAllowed>
+        <saveKeyPrefix>botaniaThornbell</saveKeyPrefix>
+      </li>
+      <!-- 供弹半径：选中/放置时画出这圈（AGENTS §2 强制） -->
+      <li Class="Botania.CompProperties_RadiusRing">
+        <radius>10</radius>
+      </li>
+    </comps>
+    <researchPrerequisites>
+      <li>Botania_Elementium</li>
+    </researchPrerequisites>
+    <uiOrder>3290</uiOrder>
+  </ThingDef>
+
+  <!-- ============================================================
+       爆萼花：高抛高爆迫击炮
+       伤害 = 原版高爆弹（Bomb 50 / 半径 2.9 / 越墙）
+       冷却 = 原版迫击炮 28s 的一半 = 14s
+       ============================================================ -->
+  <ThingDef ParentName="Botania_BaseTurretFlower">
+    <defName>Botania_Blastcalyx</defName>
+    <label>blastcalyx</label>
+    <description>A flower that hollowed itself into a cannon. It gathers mana, compresses it in its calyx until the petals shiver, then throws the whole charge high over the wall as a seed that blooms into fire. Devastating against fortifications, hopeless against anything that stands close.</description>
+    <graphicData>
+      <texPath>Things/Building/Botania/Blastcalyx_Base</texPath>
+    </graphicData>
+    <building>
+      <turretGunDef>Botania_Gun_Blastcalyx</turretGunDef>
+      <turretBurstWarmupTime>4.0</turretBurstWarmupTime>
+      <turretBurstCooldownTime>14.0</turretBurstCooldownTime>
+      <turretInitialCooldownTime>120</turretInitialCooldownTime>
+      <combatPower>200</combatPower>
+    </building>
+    <costList>
+      <Botania_Petal_Green>10</Botania_Petal_Green>
+      <Botania_ManaPowder>16</Botania_ManaPowder>
+      <Botania_TerrasteelIngot>3</Botania_TerrasteelIngot>
+    </costList>
+    <comps>
+      <li Class="Botania.CompProperties_ManaTurret">
+        <manaPerBurst>80</manaPerBurst>
+        <noManaRetryTicks>300</noManaRetryTicks>
+        <searchRadius>12</searchRadius>
+        <muzzleFlashMote>Botania_Mote_TurretBlastFlash</muzzleFlashMote>
+        <muzzleFlashSize>1.6</muzzleFlashSize>
+        <muzzleForwardOffset>0.6</muzzleForwardOffset>
+        <launchSmokeMote>Botania_Mote_TurretBlastSmoke</launchSmokeMote>
+        <launchSmokeSize>1.8</launchSmokeSize>
+        <forcedTargetAllowed>true</forcedTargetAllowed>
+        <saveKeyPrefix>botaniaBlastcalyx</saveKeyPrefix>
+      </li>
+      <li Class="Botania.CompProperties_RadiusRing">
+        <radius>12</radius>
+      </li>
+    </comps>
+    <researchPrerequisites>
+      <li>Botania_Terrasteel</li>
+    </researchPrerequisites>
+    <uiOrder>3291</uiOrder>
+  </ThingDef>
+
+</Defs>

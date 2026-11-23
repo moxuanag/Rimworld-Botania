@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- ============================================================
+       炮塔型功能花的「枪械」定义。
+       这些 ThingDef 不会作为物品出现，只由建筑的 building/turretGunDef 引用，
+       用来描述射程、连发、精度、投射物与炮塔顶贴图。
+
+       数值来源（对齐原版）：
+         荆棘钟花 —— 射速/冷却/射程/精度/子弹全部对齐原版 mini-turret
+                    （冷却 4.8s、射程 28.9、Bullet_MiniTurret），
+                    唯一差别是连发从 2 发改为 5 发（用户指定）。
+         爆萼花   —— 投射物直接使用原版高爆弹 Bullet_Shell_HighExplosive
+                    （Bomb 伤害 50、爆炸半径 2.9、越墙高抛），
+                    预热 4.0s / 最小射程 29.9 / 最大射程 500 / 偏差 9 均同原版迫击炮，
+                    冷却取原版 28s 的一半 = 14s（用户指定）。
+       ============================================================ -->
+
+  <!-- 荆棘钟花的五连射炮管 -->
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>Botania_Gun_Thornbell</defName>
+    <label>thornbell barrels</label>
+    <description>The five thorn barrels of a thornbell flower. Not a weapon anyone can carry - it only exists so the flower knows what to shoot.</description>
+    <graphicData>
+      <texPath>Things/Building/Botania/Thornbell_Top</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>0.77</AccuracyTouch>
+      <AccuracyShort>0.70</AccuracyShort>
+      <AccuracyMedium>0.45</AccuracyMedium>
+      <AccuracyLong>0.24</AccuracyLong>
+      <RangedWeapon_Cooldown>4.8</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>5</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <!-- 自定义 Verb：只加「每发枪口闪光」，其余沿用 Verb_Shoot -->
+        <verbClass>Botania.Verb_ManaTurretShot</verbClass>
+        <defaultProjectile>Bullet_MiniTurret</defaultProjectile>
+        <warmupTime>0</warmupTime>
+        <range>28.9</range>
+        <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
+        <burstShotCount>5</burstShotCount>
+        <soundCast>GunShotA</soundCast>
+        <soundCastTail>GunTail_Light</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  <!-- 爆萼花的炮筒（高抛高爆弹） -->
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>Botania_Gun_Blastcalyx</defName>
+    <label>blastcalyx barrel</label>
+    <description>The single wide barrel of a blastcalyx flower. Lobs captured mana up and over walls as a high-explosive bloom.</description>
+    <graphicData>
+      <texPath>Things/Building/Botania/Blastcalyx_Top</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <uiIconScale>1.25</uiIconScale>
+    <statBases>
+      <AccuracyTouch>0.60</AccuracyTouch>
+      <AccuracyShort>0.55</AccuracyShort>
+      <AccuracyMedium>0.40</AccuracyMedium>
+      <AccuracyLong>0.20</AccuracyLong>
+      <RangedWeapon_Cooldown>4.8</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>8</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Botania.Verb_ManaTurretShot</verbClass>
+        <!-- 直接使用原版高爆弹：伤害/爆炸半径/音效/命中特效与迫击炮完全一致 -->
+        <defaultProjectile>Bullet_Shell_HighExplosive</defaultProjectile>
+        <isMortar>true</isMortar>
+        <forcedMissRadius>9</forcedMissRadius>
+        <warmupTime>4.0</warmupTime>
+        <minRange>29.9</minRange>
+        <range>500</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Mortar_LaunchA</soundCast>
+        <soundCastTail>GunTail_Light</soundCastTail>
+        <muzzleFlashScale>16</muzzleFlashScale>
+        <requireLineOfSight>false</requireLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+  </ThingDef>
+
+</Defs>

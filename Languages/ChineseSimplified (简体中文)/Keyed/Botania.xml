@@ -316,4 +316,15 @@
     <Botania.Dev.TransmuterConvertDesc>开发者工具：对相邻材料走一次真实转化周期。</Botania.Dev.TransmuterConvertDesc>
     <Botania.Dev.TransmuterConvertDone>已转化出 {0} × {1}</Botania.Dev.TransmuterConvertDone>
     <Botania.Dev.TransmuterConvertNone>相邻格没有可转化的输入材料</Botania.Dev.TransmuterConvertNone>
+    <Botania.TurretReady>炮塔：魔力充足，随时开火</Botania.TurretReady>
+    <Botania.TurretNoMana>炮塔：附近没有足够魔力，已停火</Botania.TurretNoMana>
+    <Botania.Dev.TurretSummonTarget>召唤一个射程内敌对目标</Botania.Dev.TurretSummonTarget>
+    <Botania.Dev.TurretSummonTargetDesc>开发者工具：在射程内（避开最小射程）生成一个敌对单位，之后走真实的索敌→预热→开火流程。</Botania.Dev.TurretSummonTargetDesc>
+    <Botania.Dev.TurretSummonDone>已召唤 {0}，炮塔会自己索敌开火</Botania.Dev.TurretSummonDone>
+    <Botania.Dev.TurretSummonFailed>召唤失败：没有可用的敌对派系或找不到可站立的地格</Botania.Dev.TurretSummonFailed>
+    <Botania.Dev.TurretFillMana>把附近魔力源注满</Botania.Dev.TurretFillMana>
+    <Botania.Dev.TurretFillManaDesc>开发者工具：对射程内最近的魔力源调用真实的 AddMana 补满。</Botania.Dev.TurretFillManaDesc>
+    <Botania.Dev.TurretFillManaDone>已注入 {0} 魔力</Botania.Dev.TurretFillManaDone>
+    <Botania.Dev.TurretFillManaFull>附近魔力源已经是满的</Botania.Dev.TurretFillManaFull>
+    <Botania.Dev.TurretFillManaNone>附近没有魔力源</Botania.Dev.TurretFillManaNone>
 </LanguageData>
