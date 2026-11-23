@@ -224,4 +224,15 @@
     <Botania.ProducerWorking>Producing: feeding mana into a nearby pool</Botania.ProducerWorking>
     <Botania.ProducerNoPool>Producing: no mana pool in range to accept mana</Botania.ProducerNoPool>
     <Botania.ProducerStored>Buffer: {0} / {1} mana</Botania.ProducerStored>
+    <Botania.DevBld.Title>Botania buildings</Botania.DevBld.Title>
+    <Botania.DevBld.SceneTitle>Test scene: building + full mana pool</Botania.DevBld.SceneTitle>
+    <Botania.DevBld.Empty>No spawnable Botania building found</Botania.DevBld.Empty>
+    <Botania.DevBld.Spawned>Spawned {0}</Botania.DevBld.Spawned>
+    <Botania.DevBld.SceneSpawned>Spawned {0} with a full mana pool</Botania.DevBld.SceneSpawned>
+    <Botania.DevBld.Cat.Produce>produce</Botania.DevBld.Cat.Produce>
+    <Botania.DevBld.Cat.Consume>consume</Botania.DevBld.Cat.Consume>
+    <Botania.DevBld.Cat.Other>other</Botania.DevBld.Cat.Other>
+    <Botania.DevBld.PoolNotFound>No mana pool under or near the cursor</Botania.DevBld.PoolNotFound>
+    <Botania.DevBld.PoolFilled>Mana pool filled: {0}</Botania.DevBld.PoolFilled>
+    <Botania.DevBld.PoolDrained>Mana pool drained: {0} left</Botania.DevBld.PoolDrained>
 </LanguageData>

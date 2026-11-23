@@ -224,4 +224,15 @@
     <Botania.ProducerWorking>产能：正在把魔力送入附近的魔力池</Botania.ProducerWorking>
     <Botania.ProducerNoPool>产能：附近没有可接收魔力的魔力池，魔力无处可去</Botania.ProducerNoPool>
     <Botania.ProducerStored>缓存：{0} / {1} 魔力</Botania.ProducerStored>
+    <Botania.DevBld.Title>植物魔法建筑</Botania.DevBld.Title>
+    <Botania.DevBld.SceneTitle>测试场景：建筑 + 满魔力池</Botania.DevBld.SceneTitle>
+    <Botania.DevBld.Empty>没有找到可生成的植物魔法建筑</Botania.DevBld.Empty>
+    <Botania.DevBld.Spawned>已生成 {0}</Botania.DevBld.Spawned>
+    <Botania.DevBld.SceneSpawned>已生成 {0} 并配了一个满魔力池</Botania.DevBld.SceneSpawned>
+    <Botania.DevBld.Cat.Produce>产魔</Botania.DevBld.Cat.Produce>
+    <Botania.DevBld.Cat.Consume>耗魔</Botania.DevBld.Cat.Consume>
+    <Botania.DevBld.Cat.Other>其它</Botania.DevBld.Cat.Other>
+    <Botania.DevBld.PoolNotFound>鼠标下（或附近）没有魔力池</Botania.DevBld.PoolNotFound>
+    <Botania.DevBld.PoolFilled>魔力池已注满：{0}</Botania.DevBld.PoolFilled>
+    <Botania.DevBld.PoolDrained>魔力池已抽干：剩余 {0}</Botania.DevBld.PoolDrained>
 </LanguageData>
