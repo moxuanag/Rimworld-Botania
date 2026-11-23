@@ -196,6 +196,41 @@ namespace Botania
         }
 
         /// <summary>
+        /// 按「有多少抽多少」支付：最多抽 amount，返回实际抽到的量。
+        /// 修复器这类「按修理量计费」的设备用它；与 <see cref="TryPay"/> 不同，允许部分支付。
+        /// </summary>
+        public float TryPayUpTo(float amount)
+        {
+            Thing parent = Parent;
+            if (parent == null || parent.Map == null)
+            {
+                HasMana = false;
+                return 0f;
+            }
+            if (amount <= 0f)
+            {
+                HasMana = true;
+                return 0f;
+            }
+            IManaSource source = ManaSourceUtil.FindNearest(
+                parent.Position, parent.Map, props.SearchRadius, 0f, parent);
+            if (source == null)
+            {
+                HasMana = false;
+                return 0f;
+            }
+            float take = Math.Min(amount, source.ManaAmount);
+            if (take <= 0f)
+            {
+                HasMana = false;
+                return 0f;
+            }
+            float drained = source.DrainMana(take);
+            HasMana = drained > 0f;
+            return drained;
+        }
+
+        /// <summary>
         /// 结算成功或失败后安排下一次结算时刻：
         /// 成功按正常间隔，失败按较短的 retry 间隔（来魔后能立刻恢复）。
         /// </summary>

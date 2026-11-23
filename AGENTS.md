@@ -41,6 +41,14 @@
 4. **状态变化后主动通知引擎**：`CompGlower.UpdateLit(map)`、`MapMeshDirty(pos, ...)`。
 5. 提交前跑 `python _dev/_botania-dev/check_component_rules.py`。
 
+**批量改 XML / C# 的替换纪律（0.8.4 炉心蕙事故后新增）**
+
+- **禁止「首次匹配」式替换**：同名字段在多个组件里重复出现（`poolRadius`、`radius`、`bufferCapacity`…），
+  `str.replace(old, new, 1)` 极易改到隔壁组件上，编译与语法校验都看不出，进游戏才报 XML error。
+- 必须**带上下文整块匹配**（把 `<li Class="...` 到 `</li>` 一起放进 old/new），或按行号定位，
+  并在写回后**回读校验**目标文件确实变成预期内容。
+- 改完跑 `python _dev/_botania-dev/check_comp_fields.py`：它会比对 XML 组件字段与 C# 属性类字段。
+
 ## 6. 存档兼容
 
 - 本引擎存档把组件字段**平铺在 Thing 节点下**（没有 `<comps><li Class>` 分组），因此：
@@ -52,7 +60,7 @@
 
 - 源码仓库：`_dev/Botania-src`；发布载荷：`Mods/[GZ]Botania`（部署用 `deploy.ps1`，不要把工具塞进载荷）。
 - 开发工具与笔记一律放 `_dev/_botania-dev/`。
-- 验证顺序：`dotnet build -c Release` → `validate_mod.py` → `check_component_rules.py` → 部署 → 用户进游戏实测。
+- 验证顺序：`dotnet build -c Release` → `validate_mod.py` → `check_comp_fields.py` → `check_component_rules.py` → 部署 → 用户进游戏实测。
 - **无法自行启动游戏**：编译与静态校验只能证明"不会崩"，行为必须由用户回传日志/截图确认。日志：`%USERPROFILE%\AppData\LocalLow\Ludeon Studios\RimWorld by Ludeon Studios\Logs\Player.log`。
 
 ## 8. 版本与推送

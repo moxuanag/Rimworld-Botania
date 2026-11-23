@@ -54,7 +54,7 @@
         <maxRoomArea>150</maxRoomArea>
         <maxManaPerSecond>90</maxManaPerSecond>
         <baseTemperature>20</baseTemperature>
-        <radius>6</radius>
+        <poolRadius>6</poolRadius>
         <overheatThreshold>150</overheatThreshold>
         <damagePerDegree>0.04</damagePerDegree>
         <ignitionThreshold>195</ignitionThreshold>
@@ -122,7 +122,7 @@
       <li Class="Botania.CompProperties_ManaStormBloom">
         <bufferCapacity>2400</bufferCapacity>
         <manaPerWattDay>200</manaPerWattDay>
-        <poolRadius>6</poolRadius>
+        <radius>6</radius>
       </li>
       <!-- 短路吸收半径 15 格：和 CompManaStormBloom.AbsorbRadius 必须一致 -->
       <li Class="Botania.CompProperties_RadiusRing">
