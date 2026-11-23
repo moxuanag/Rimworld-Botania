@@ -73,7 +73,7 @@
     <building>
       <turretGunDef>Botania_Gun_Thornbell</turretGunDef>
       <turretBurstWarmupTime>0.4</turretBurstWarmupTime>
-      <turretBurstCooldownTime>4.8</turretBurstCooldownTime>
+      <turretBurstCooldownTime>4</turretBurstCooldownTime>
       <combatPower>120</combatPower>
     </building>
     <costList>

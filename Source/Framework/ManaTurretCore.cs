@@ -99,6 +99,23 @@ namespace Botania
             return source != null && source.ManaAmount + p.manaTolerance >= p.manaPerBurst;
         }
 
+        /// <summary>
+        /// 炮塔的检视文案必须**实时**判断魔力，不能沿用基类缓存的 HasMana：
+        /// 炮塔没有周期结算（CompTick 是空的），HasMana 只在真正开火付款时才更新，
+        /// 所以刚造好时它仍是初始值 true —— 玩家会看到「魔力充足」但附近根本没有魔力池。
+        /// </summary>
+        public override string CompInspectStringExtra()
+        {
+            if (parent == null || parent.Map == null)
+            {
+                return null;
+            }
+            CompProperties_ManaTurret p = TurretProps;
+            return HasEnoughManaForBurst()
+                ? p.WorkingKey.Translate()
+                : p.NoManaKey.Translate();
+        }
+
         /// <summary>取附近最近的魔力源（不扣款），供建筑侧的调试工具使用。</summary>
         public IManaSource FindNearbySource()
         {
@@ -196,7 +213,31 @@ namespace Botania
             }
             if (range >= 90f)
             {
-                GenDraw.DrawRadiusRing(Position, range);
+                if (range <= GenRadial.MaxRadialPatternRadius)
+                {
+                    GenDraw.DrawRadiusRing(Position, range);
+                }
+                else
+                {
+                    // 引擎的半径环用预计算格子表，最大只到 MaxRadialPatternRadius（约 79 格）；
+                    // 直接画会每帧报 "not enough squares in the precalculated list"，所以自己用线段画圆。
+                    DrawRingWithLines(Position, range);
+                }
+            }
+        }
+
+        /// <summary>用线段画一圈半径环（用于超出引擎预计算上限的大射程）。</summary>
+        private static void DrawRingWithLines(IntVec3 center, float radius)
+        {
+            const int segments = 96;
+            Vector3 c = center.ToVector3Shifted();
+            Vector3 prev = c + new Vector3(radius, 0f, 0f);
+            for (int i = 1; i <= segments; i++)
+            {
+                float ang = 360f * i / segments * Mathf.Deg2Rad;
+                Vector3 cur = c + new Vector3(Mathf.Sin(ang) * radius, 0f, Mathf.Cos(ang) * radius);
+                GenDraw.DrawLineBetween(prev, cur, SimpleColor.White, 0.12f);
+                prev = cur;
             }
         }
 

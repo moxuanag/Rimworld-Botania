@@ -30,7 +30,7 @@
       <AccuracyShort>0.70</AccuracyShort>
       <AccuracyMedium>0.45</AccuracyMedium>
       <AccuracyLong>0.24</AccuracyLong>
-      <RangedWeapon_Cooldown>4.8</RangedWeapon_Cooldown>
+      <RangedWeapon_Cooldown>4</RangedWeapon_Cooldown>
       <DeteriorationRate>0</DeteriorationRate>
       <Mass>5</Mass>
       <Flammability>0</Flammability>
@@ -41,7 +41,7 @@
         <verbClass>Botania.Verb_ManaTurretShot</verbClass>
         <defaultProjectile>Bullet_MiniTurret</defaultProjectile>
         <warmupTime>0</warmupTime>
-        <range>28.9</range>
+        <range>30</range>
         <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
         <burstShotCount>5</burstShotCount>
         <soundCast>GunShotA</soundCast>

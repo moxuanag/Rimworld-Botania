@@ -73,6 +73,18 @@
 
 ## [未发布]
 
+### 修复：炮塔花检视文案与大半径射程环报错；荆棘钟花调参
+
+- **检视文案错误**（用户报「一直显示魔力充足，甚至不在魔力网络范围里」）
+  - 根因：炮塔没有周期结算，`ManaDeviceCore.HasMana` 一直停在初始值 `true`
+  - 修复：`CompManaTurret` 覆写 `CompInspectStringExtra()`，每次显示都实时调用 `HasEnoughManaForBurst()`
+- **大半径射程环报错**（用户报「建造迫击炮花之后报错」）
+  - 日志：`Cannot draw radius ring of radius 100: not enough squares in the precalculated list`
+  - 根因：`GenDraw.DrawRadiusRing` 受 `GenRadial.MaxRadialPatternRadius`（约 79 格）限制
+  - 修复：超过上限时改用 `DrawRingWithLines()`（96 段线段画圆），分三档处理不再报错
+- **荆棘钟花调参**：射程 28.9 → **30**，攻击间隔 4.8s → **4s**
+- 文档新增 §19.15.2 记录这两个坑
+
 ### 调整：爆萼花射程定为 100 / 最小射程 10 / 偏差 6
 
 - 用户确认为「基地中远程压制」定位的折中方案（原版迫击炮射出程 500 / 死区 29.9 不适合基地防御）
