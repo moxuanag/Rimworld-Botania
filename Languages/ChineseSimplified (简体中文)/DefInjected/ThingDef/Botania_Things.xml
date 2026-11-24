@@ -52,7 +52,7 @@
   <Botania_ManaFluxfield.description>缠绕着魔力钢线圈的一团封存之光。它从附近的魔力池或魔力中继塔中抽取魔力，转化为普通电力。抽不到魔力时它会完全停转。</Botania_ManaFluxfield.description>
 
   <Botania_ManaRelay.label>魔力中继塔</Botania_ManaRelay.label>
-  <Botania_ManaRelay.description>一根活木塔身、缠着魔力钢箍的细塔，顶端悬着一团流动的光。它从魔力池或上游的中继塔抽取魔力，存进自己的小缓冲，让更远处的设备也能取用。每经过一座塔，损耗约一成魔力。</Botania_ManaRelay.description>
+  <Botania_ManaRelay.description>一根活木塔身、缠着魔力钢箍的细塔，顶端悬着一团流动的光。它自己一点魔力都不存——只把魔力网络的覆盖范围往外拉，让 11 格内的池子与设备仍处在同一张网里。圆圈碰不到任何接池节点的塔只是废铁，检视栏会直接告诉你它没连上。</Botania_ManaRelay.description>
 
   <Botania_PureDaisy.label>白雏菊</Botania_PureDaisy.label>
   <Botania_PureDaisy.description>一朵白雏菊，花瓣外绕着淡淡一圈光。\n\n把它放在原木堆或石砖堆旁边——注意是切好的石砖（花岗岩砖、石灰岩砖这类），不是没切开的石块——它会慢慢教会这些材料“活着”：原木变成活木，石砖变成活石。\n\n每次转化消耗 6 格内魔力池或中继塔的一点魔力；附近没有可用的魔力网络时它照样工作，但耗时变成五倍，且不消耗魔力。</Botania_PureDaisy.description>

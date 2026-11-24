@@ -59,7 +59,7 @@
 
   <!-- ============================================================
        荆棘钟花：五连射速射炮
-       冷却 4.8s / 射程 28.9 / 精度与子弹全部同原版 mini-turret
+       冷却 4s（一轮含预热/连发约 4.8s）/ 射程 30 / 精度与子弹同原版 mini-turret
        ============================================================ -->
   <ThingDef ParentName="Botania_BaseTurretFlower">
     <defName>Botania_Thornbell</defName>
@@ -101,9 +101,9 @@
   </ThingDef>
 
   <!-- ============================================================
-       爆萼花：高抛高爆迫击炮
+       爆萼花：高抛高爆迫击炮（2×2）
        伤害 = 原版高爆弹（Bomb 50 / 半径 2.9 / 越墙）
-       冷却 = 原版迫击炮 28s 的一半 = 14s
+       射程 70 / 死区 10 / 偏差 6 / 预热 4s / 冷却 40s（0.9.2 调整）
        ============================================================ -->
   <ThingDef ParentName="Botania_BaseTurretFlower">
     <defName>Botania_Blastcalyx</defName>
@@ -156,7 +156,9 @@
   </ThingDef>
 
 
-  <!-- 重型迫击炮花：终局攻城花。全图射程 500 / 死区 29.9 / 攻击间隔 60 秒 / 反物质弹一半。 -->
+  <!-- 远古陨击花（重型迫击炮花）：终局攻城花，5×5。
+       全图射程 500 / 死区 20 / 偏差 9 / 预热 4s + 冷却 75s（2026-11-24 平衡）。
+       伤害 275 / 爆炸半径 9.5（反物质弹头的一半伤害，半径按 0.9.2 定案放大）。 -->
   <ThingDef ParentName="Botania_BaseTurretFlower">
     <defName>Botania_AncientStarfall</defName>
     <designatorDropdown>Botania_DefenseFlowers</designatorDropdown>

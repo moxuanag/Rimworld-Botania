@@ -156,7 +156,7 @@
       <li>BotaniaBuildings</li>
     </thingCategories>
     <researchPrerequisites>
-      <li>Botania_BasicMana</li>
+      <li>Botania_PureDaisyStudy</li>
     </researchPrerequisites>
     <constructEffect>ConstructWood</constructEffect>
     <uiOrder>3000</uiOrder>
@@ -234,7 +234,7 @@
       <li>BotaniaBuildings</li>
     </thingCategories>
     <researchPrerequisites>
-      <li>Botania_GeneratingI</li>
+      <li>Botania_EndoflameStudy</li>
     </researchPrerequisites>
     <constructEffect>ConstructWood</constructEffect>
     <uiOrder>3202</uiOrder>
@@ -306,7 +306,7 @@
       <li>BotaniaBuildings</li>
     </thingCategories>
     <researchPrerequisites>
-      <li>Botania_FunctionalI</li>
+      <li>Botania_ThornFlowerStudy</li>
     </researchPrerequisites>
     <uiOrder>3400</uiOrder>
   </ThingDef>
@@ -367,7 +367,7 @@
       <li>BotaniaBuildings</li>
     </thingCategories>
     <researchPrerequisites>
-      <li>Botania_FunctionalI</li>
+      <li>Botania_ClearMindLotusStudy</li>
     </researchPrerequisites>
     <uiOrder>3100</uiOrder>
   </ThingDef>

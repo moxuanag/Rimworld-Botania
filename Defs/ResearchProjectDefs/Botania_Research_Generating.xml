@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- ============================================================
+       产能花支线（0.9.2 拆分，2026-11-24）。
+       一条直线挂在 y=0：总览 → 太阳花 → 夜颠茄 → 火红莲 → 电暴花 →
+       苦丽花 → 噬草花 → 阿卡纳蔷薇 → 炉心蕙 → 启命英。
+       每条 description 的数字都来自 ThingDef 的 comps 字段或
+       Source/CompMana*.cs / ManaProducerCore.cs 的实现，不抄旧文档。
+       完整推导见 docs/玩法指南.md。
+       ============================================================ -->
+
+  <!-- 1 支线总览：三类产能花的分工与共同前提（x=2.00, y=0.00） -->
+  <ResearchProjectDef>
+    <defName>Botania_GeneratingI</defName>
+    <label>generating flowers</label>
+    <description>Generating flowers are the only place a colony's mana can come from, and they divide into three jobs. Burners eat wood, chemfuel or livingwood and pay out a steady stream of mana for every unit of fuel (a unit is worth 3,000 mana; the basic burner drinks 0.01 fuel per second, which is 30 mana/s). Passive blooms drink daylight or darkness for nothing, give 8 mana/s by day and 4 by night, and wither after 15 days. Scavengers pay in bursts for something the colony would otherwise throw away: a short circuit, a blighted crop, a pawn's labour, or a pattern of living cells.\n\nNearly all of them share one rule: the flower must stand inside the supply circle of a mana pool (4 tiles for a simple pool, 7 for a manasteel pool), or of a relay (11 tiles) that is chained to one - that is the colony's mana network. Outside it, most flowers stop dead and burn nothing; scavengers still take their meal and the mana is simply wasted. None of them holds much of a reserve, so a full pool is as good as no pool.\n\nFull numbers and derivations: gameplay guide.</description>
+    <baseCost>600</baseCost>
+    <techLevel>Medieval</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_BasicMana</li>
+    </prerequisites>
+    <researchViewX>2.00</researchViewX>
+    <researchViewY>0.00</researchViewY>
+  </ResearchProjectDef>
+
+  <!-- 2 太阳花：白天零成本被动产魔，15 天枯萎（x=3.00, y=0.00） -->
+  <ResearchProjectDef>
+    <defName>Botania_PassiveGenerating</defName>
+    <label>daybloom</label>
+    <description>A flower that asks for nothing but daylight. While the sky over its tile is brighter than the 0.5 threshold (noon is 1), it trickles 8 mana every second into the network that covers it: no fuel, no pawns, no upkeep. It is the cheapest way to keep a small pool topped up, and 250 seconds of daylight is enough to fill a simple pool (2,000 mana) at that rate.\n\nIt must sit inside a pool's supply circle (4 tiles for a simple pool, 7 for a manasteel pool) or a relay's circle (11 tiles). Light decides everything: at night, under an eclipse or under volcanic ash it stops, and 15 days (900,000 ticks) after planting it withers and vanishes, leaving nothing behind. Formula: 8 mana/s x 1 s = 8 mana per payout, one payout per second.\n\nFull numbers and derivations: gameplay guide.</description>
+    <baseCost>400</baseCost>
+    <techLevel>Medieval</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_GeneratingI</li>
+    </prerequisites>
+    <researchViewX>3.00</researchViewX>
+    <researchViewY>0.00</researchViewY>
+  </ResearchProjectDef>
+
+  <!-- 3 夜颠茄：夜间被动产魔，产量是太阳花的一半（x=4.00, y=0.00） -->
+  <ResearchProjectDef>
+    <defName>Botania_NightshadeStudy</defName>
+    <label>nightshade</label>
+    <description>Nightshade is the daybloom's mirror image: 4 mana per second, paid only while the sky over it is dark (sky glow at or below 0.5). It costs half what a daybloom produces and burns nothing, which makes it the flower that keeps a pool filling through the night - and the one that keeps working under an eclipse or a volcanic winter while everything else goes quiet.\n\nThe rules are the same as any passive bloom: it must stand inside a pool's supply circle (4 tiles for a simple pool, 7 for a manasteel pool) or a relay's circle (11 tiles), and it withers 15 days (900,000 ticks) after planting. Under darkness it takes 500 seconds to fill a simple pool (2,000 mana). Formula: 4 mana/s x 1 s = 4 mana per payout, one payout per second.\n\nFull numbers and derivations: gameplay guide.</description>
+    <baseCost>400</baseCost>
+    <techLevel>Medieval</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_PassiveGenerating</li>
+    </prerequisites>
+    <researchViewX>4.00</researchViewX>
+    <researchViewY>0.00</researchViewY>
+  </ResearchProjectDef>
+
+  <!-- 4 火红莲：烧燃料换稳定 30 魔力/秒，没池子不烧料（x=5.00, y=0.00） -->
+  <ResearchProjectDef>
+    <defName>Botania_EndoflameStudy</defName>
+    <label>endoflame</label>
+    <description>An endoflame eats fire instead of light. Feed it wood, chemfuel or livingwood and it burns 0.01 of a fuel unit per second, turning each unit into 3,000 mana: 30 mana/s, with 50 units of fuel in its hopper - 150,000 mana, 5,000 seconds of running. It is the first generating flower that gives a real, predictable supply instead of a trickle.\n\nFeed it only when a pool can take the mana: the flower is paid for what the pool actually accepts and burns fuel only for that, so a full pool means no fuel is wasted. With no pool covering its tile (a pool's 4 or 7 tile circle, or a relay's 11) it stops and burns nothing at all. Formula: mana/s = fuel per second x mana per fuel = 0.01 x 3,000 = 30 mana/s.\n\nFull numbers and derivations: gameplay guide.</description>
+    <baseCost>700</baseCost>
+    <techLevel>Medieval</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_NightshadeStudy</li>
+    </prerequisites>
+    <researchViewX>5.00</researchViewX>
+    <researchViewY>0.00</researchViewY>
+  </ResearchProjectDef>
+
+  <!-- 5 电暴花：捡电网短路的漏，15 格吸收、缓存 12 瓦日（x=6.00, y=0.00） -->
+  <ResearchProjectDef>
+    <defName>Botania_StormBloomStudy</defName>
+    <label>storm bloom</label>
+    <description>A tiny flower with a deliberately small reservoir. When a power conduit short-circuits and the grid dumps its stored charge, every storm bloom within 15 tiles of the faulty conduit drinks what it can of that burst and passes it into the network at 200 mana per watt-day. Its own reservoir holds 2,400 mana - 12 watt-days - so a single bloom can only salvage the first 12 watt-days of a discharge; blooms are served nearest-first and the rest of the burst is lost.\n\nIt produces nothing on its own: no short circuit, no mana. It also only catches a real discharge, which takes a battery holding more than 20 watt-days; smaller faults just spark. And it must be able to push its reservoir into a pool (a pool's 4 or 7 tile circle, or a relay's 11) - a bloom with nowhere to send mana stays full and eats nothing further. Formula: mana = watt-days salvaged x 200, hard-capped at 2,400 per discharge; emptied into the pool once a second, that is at most 2,400 mana/s.\n\nFull numbers and derivations: gameplay guide.</description>
+    <baseCost>900</baseCost>
+    <techLevel>Industrial</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_EndoflameStudy</li>
+    </prerequisites>
+    <researchViewX>6.00</researchViewX>
+    <researchViewY>0.00</researchViewY>
+  </ResearchProjectDef>
+
+  <!-- 6 苦丽花：8 格内按技能经验 ×10 计费，单次封顶 400（x=7.00, y=0.00） -->
+  <ResearchProjectDef>
+    <defName>Botania_BitterBloomStudy</defName>
+    <label>bitter bloom</label>
+    <description>Bitter bloom lives off other people's work. Every point of skill experience a pawn earns within 8 tiles is banked, and once a second the bloom cashes it in at 10 mana per point, up to 400 mana/s per pawn. It is the one generating flower that scales with how busy the colony is, and the only one that sends the bill to the workers: each payout adds 0.25 severity of work fatigue (max 1, movement -10% to -30%, fading 0.5 per day) and a -2 mood memory that stacks up to 3 times.\n\nFiddling is not worth much: a payout under 5 experience counts as small work and only pays once per pawn every 60 seconds. Idlers earn nothing, and if no pool covers the flower the mana is lost while the fatigue and the bad mood are still handed out. Formula: mana/s per pawn = min(400, experience x 10).\n\nFull numbers and derivations: gameplay guide.</description>
+    <baseCost>900</baseCost>
+    <techLevel>Medieval</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_StormBloomStudy</li>
+    </prerequisites>
+    <researchViewX>7.00</researchViewX>
+    <researchViewY>0.00</researchViewY>
+  </ResearchProjectDef>
+
+  <!-- 7 噬草花：6 格内吃枯萎病作物，3 秒一株 1500 魔力（x=8.00, y=0.00） -->
+  <ResearchProjectDef>
+    <defName>Botania_BlightEaterStudy</defName>
+    <label>blight eater</label>
+    <description>A scavenger that eats sickness. Every 3 seconds it looks for a blighted crop within 6 tiles, swallows the nearest one whole and wrings 1,500 mana out of the rot. It never touches a healthy plant, so it is not a farm - it is a field cleaner that happens to pay. Ten plants in a row fill it, after which it sits and digests for 30 seconds.\n\nRead it as a cycle: 10 plants at 3 seconds each is 30 seconds of eating for 15,000 mana, then 30 seconds of rest, so 250 mana/s sustained as long as the blight lasts, and 500 mana/s in the moment it swallows. No blighted crops in range means no output at all. If no pool covers its tile it still eats and the mana is simply lost. Formula: 1,500 x 10 plants per (10 x 3 s + 30 s) = 250 mana/s.\n\nFull numbers and derivations: gameplay guide.</description>
+    <baseCost>1000</baseCost>
+    <techLevel>Industrial</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_BitterBloomStudy</li>
+    </prerequisites>
+    <researchViewX>8.00</researchViewX>
+    <researchViewY>0.00</researchViewY>
+  </ResearchProjectDef>
+
+  <!-- 8 阿卡纳蔷薇：8 格内每个还在学习的小人 6 魔力/秒（x=9.00, y=0.00） -->
+  <ResearchProjectDef>
+    <defName>Botania_RosaArcanaStudy</defName>
+    <label>rosa arcana</label>
+    <description>A rose that harvests what a mind has not finished learning. Anyone within 8 tiles who still has a skill below level 20, and who actually learns something during the second (skill experience went up, or they are doing research), feeds it 6 mana per second. Five researchers are 30 mana/s; a crowd of idlers is zero.\n\nThe pawn pays for it: a thought-siphoned hediff halves their global learning factor while they are in range, and a -2 mood memory follows them out. Pawns with every skill at 20 give it nothing. It needs a pool covering its tile; without one the siphoning still happens and the mana is lost. Formula: mana/s = 6 x number of pawns still learning.\n\nFull numbers and derivations: gameplay guide.</description>
+    <baseCost>1100</baseCost>
+    <techLevel>Industrial</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_BlightEaterStudy</li>
+    </prerequisites>
+    <researchViewX>9.00</researchViewX>
+    <researchViewY>0.00</researchViewY>
+  </ResearchProjectDef>
+
+  <!-- 9 炉心蕙：密闭高温房间 + 燃料，0.2 × (T−40) × √A，上限 60（x=10.00, y=0.00） -->
+  <ResearchProjectDef>
+    <defName>Botania_GeneratingII</defName>
+    <label>furnace orchid</label>
+    <description>The furnace orchid turns heat into mana, but not for free: it wants a sealed, roofed room, a temperature above 40C and fuel. Its output is 0.2 x (T - 40) x the square root of the floor space it commands, where that space is the room's area (capped at 150) divided by the number of furnace orchids in it, and each orchid needs more than 11 tiles to work at all. A 100-tile room at 70C with one orchid already hits the 60 mana/s hard cap.\n\nFuel is spent per point of mana actually delivered: 2,000 mana per unit, 50 units to a hopper. Orchids packed shoulder to shoulder stop working, so leave a tile between them. Past 150C the flower takes 0.04 HP per degree per second, and at 195C it can catch fire at 1% per second. In open air, below 40C or without fuel it produces nothing at all; with no pool covering its tile the mana is lost instead of stored, and a hot room keeps damaging it while it tries. Formula: mana/s = min(60, 0.2 x (T - 40) x sqrt(A)), A = room area / orchids.\n\nFull numbers and derivations: gameplay guide.</description>
+    <baseCost>1500</baseCost>
+    <techLevel>Industrial</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_RosaArcanaStudy</li>
+    </prerequisites>
+    <researchViewX>10.00</researchViewX>
+    <researchViewY>0.00</researchViewY>
+  </ResearchProjectDef>
+
+  <!-- 10 启命英：11×11 肉床上的生命游戏，按变化格 ×40 计价，单代上限 900（x=11.00, y=0.00） -->
+  <ResearchProjectDef>
+    <defName>Botania_LifeOrchidStudy</defName>
+    <label>life orchid</label>
+    <description>The last generating flower is not a source at all - it is a game. Around the orchid, an 11x11 patch of flesh bed (at least 25 cells of it) is a colony of cells: flesh seeds on that bed live, breed and die by the ordinary rules of Conway's life, one generation every 250 ticks (TickRare, about 4 seconds). It pays only for change: 40 mana per cell born, 40 per cell that dies, minus the cells lost to old age, capped at 900 mana per generation - 216 mana/s at best. 23 changed cells already reach that cap.\n\nA still pattern pays nothing, ever, so an oscillator or a glider is what you actually want. Cells that stay alive 30 generations in a row wither on their own and have to be disturbed. A pawn or an edifice standing inside the 11x11 pauses everything, and without the Anomaly DLC the flower does nothing at all. A mana pool within 6 tiles collects the payout; with none, generations keep running and the mana is lost. Formula: mana per generation = min(900, 40 x (born + died - aged)).\n\nFull numbers and derivations: gameplay guide.</description>
+    <baseCost>2500</baseCost>
+    <techLevel>Industrial</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_GeneratingII</li>
+    </prerequisites>
+    <researchViewX>11.00</researchViewX>
+    <researchViewY>0.00</researchViewY>
+  </ResearchProjectDef>
+
+</Defs>

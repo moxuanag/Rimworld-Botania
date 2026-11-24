@@ -6,7 +6,9 @@
          炉心蕙   —— 封闭高温房间里的产出，产量随室温与√面积增长
          电暴花   —— 电网短路（Zzztt）时捡漏，把爆炸能量转成魔力
          阿卡纳蔷薇 —— 抽取附近小人的学习潜力，小人学得更慢、心情更差
-       三朵都需要研究 Botania_GeneratingII。
+       三朵花各自一个研究项目（0.9.2 科技线重构后）：
+         炉心蕙 = Botania_GeneratingII、电暴花 = Botania_StormBloomStudy、
+         阿卡纳蔷薇 = Botania_RosaArcanaStudy，都是 Botania_GeneratingI 支线的产物。
        ============================================================ -->
 
   <ThingDef ParentName="BuildingBase">
@@ -156,7 +158,7 @@
       <li>BotaniaBuildings</li>
     </thingCategories>
     <researchPrerequisites>
-      <li>Botania_GeneratingII</li>
+      <li>Botania_StormBloomStudy</li>
     </researchPrerequisites>
     <uiOrder>3203</uiOrder>
   </ThingDef>
@@ -222,7 +224,7 @@
       <li>BotaniaBuildings</li>
     </thingCategories>
     <researchPrerequisites>
-      <li>Botania_GeneratingII</li>
+      <li>Botania_RosaArcanaStudy</li>
     </researchPrerequisites>
     <uiOrder>3205</uiOrder>
   </ThingDef>

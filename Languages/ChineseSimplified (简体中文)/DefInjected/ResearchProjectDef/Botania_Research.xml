@@ -1,37 +1,30 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
 
+  <!-- 主干节点（机制 / 装备 / 结构 / 终局）。
+       三条花支线的中文注入在各自分支文件里：
+         Botania_Research_Generating.xml / _Functional.xml / _Defense.xml -->
+
   <Botania_Flowers.label>神秘花卉</Botania_Flowers.label>
   <Botania_Flowers.description>边缘世界的荒野里生长着神秘花。学会分辨哪些花带着魔力、以及如何把它们种回来，是每一座植物魔法殖民地的起点。</Botania_Flowers.description>
 
   <Botania_BasicMana.label>魔力</Botania_BasicMana.label>
-  <Botania_BasicMana.description>研究某些花朵如何把能量储存在花瓣之中。研磨花瓣可以提炼出魔力尘：它能熔进钢铁、缚入木材，也能储存在一池流动的光里。</Botania_BasicMana.description>
-
-  <Botania_GeneratingI.label>产能花</Botania_GeneratingI.label>
-  <Botania_GeneratingI.description>会自己产魔的花。火红莲把木头、活木或化合燃料烧成魔力，喂得越勤产得越多。</Botania_GeneratingI.description>
-
-  <Botania_PassiveGenerating.label>被动产能花</Botania_PassiveGenerating.label>
-  <Botania_PassiveGenerating.description>不用燃料、只靠时间产魔的花。太阳花喝日光、夜颠茄喝夜色，两者造价低廉、随手就能摆，代价是每朵只能撑一季，到点会自行枯萎。</Botania_PassiveGenerating.description>
-  <Botania_GeneratingII.label>进阶产能花</Botania_GeneratingII.label>
-  <Botania_GeneratingII.description>三朵要求更高的花：炉心蕙吃一间烧热的密闭房间，电暴花捡电网短路的漏，阿卡纳蔷薇则抽走一颗脑子还没学完的那部分。</Botania_GeneratingII.description>
+  <Botania_BasicMana.description>研究某些花朵如何把能量储存在花瓣之中，并造出把这些花瓣变成可用材料的花药台。\n\n这是整条科技线的根。点完它，树会分成三股：产魔力的花、花魔力干活的「功能花」、以及会打架的「防御花」。研磨花瓣还能得到魔力尘：它能熔进钢铁、缚入木材，也能储存在一池流动的光里。</Botania_BasicMana.description>
 
   <Botania_Garden.label>花圃工艺</Botania_Garden.label>
-  <Botania_Garden.description>把活木与活石拼成一支能引导魔力的手杖。森林法杖由此建成；批量制花的花瓣祭坛留待后续版本。</Botania_Garden.description>
-
-  <Botania_FunctionalI.label>功能花</Botania_FunctionalI.label>
-  <Botania_FunctionalI.description>替殖民地干活、而不是产魔力的花。第一种是荆棘花：闯进十格内的敌人会被拖慢，然后被魔力刺伤。</Botania_FunctionalI.description>
+  <Botania_Garden.description>把活木与活石拼成一支能引导魔力的手杖。森林法杖由此建成，殖民地也从「只会砍木头」变成「能塑造活的材料」。</Botania_Garden.description>
 
   <Botania_Manasteel.label>魔力钢</Botania_Manasteel.label>
   <Botania_Manasteel.description>把魔力尘熔进钢铁，得到既轻又韧的魔力钢。它是所有高级魔力结构的骨架——池子、中继塔、通量场与修复器都要用它。</Botania_Manasteel.description>
 
-  <Botania_Mending.label>魔力修补</Botania_Mending.label>
-  <Botania_Mending.description>用魔力修装备的修补台，以及缓慢修补墙体与家具的修补塔。它们按实际修复的耐久量扣魔力。</Botania_Mending.description>
+  <Botania_ManaStorage.label>魔力存储</Botania_ManaStorage.label>
+  <Botania_ManaStorage.description>魔力钢比活石能装下多得多的魔力。一座正经的魔力钢池可以把整座殖民地的储备集中在一处，而不是散落在十几个小碗里。</Botania_ManaStorage.description>
 
   <Botania_Infusion.label>魔力灌注</Botania_Infusion.label>
   <Botania_Infusion.description>用魔力替代电力制造高阶物品的灌注台。</Botania_Infusion.description>
 
   <Botania_ManaGrid.label>魔力网络</Botania_ManaGrid.label>
-  <Botania_ManaGrid.description>占位：更远的中继、更大的池子、更高效的通量场。内容将在后续版本接入。</Botania_ManaGrid.description>
+  <Botania_ManaGrid.description>把整座殖民地的魔力织成一张网：更远的中继塔、更大的池子，让十几朵散落的花共同供养一处储备。</Botania_ManaGrid.description>
 
   <Botania_WandForms.label>法杖改型</Botania_WandForms.label>
   <Botania_WandForms.description>把森林法杖改造成两种专用形态。狙击型牺牲射速，换来一束能打穿护甲的致密长枪；爆破型射出缓慢而不稳定的魔力，落点炸开一个十字，不分敌我。两种形态都不会保留法杖原有的植物法术。</Botania_WandForms.description>
@@ -40,7 +33,7 @@
   <Botania_Alfheim.description>用魔力换取精灵材料的门。上梁与左右立柱齐全时才会工作：把活木、活石或花瓣留在门洞里，它会从附近的魔力池抽取魔力，把它们变成梦木、精灵石英、精灵之尘和元素锭。</Botania_Alfheim.description>
 
   <Botania_Elementium.label>元素装备</Botania_Elementium.label>
-  <Botania_Elementium.description>占位：元素武器与护甲。内容将在后续版本接入。</Botania_Elementium.description>
+  <Botania_Elementium.description>元素就是精灵之门用魔力钢与精灵之尘炼出的粉色金属：它不碎，只会弯，刃口比钢更耐。\n\n这一项是拿它做的一整套东西：一把太空时代的剑、一身板甲（锐器 1.04 / 钝器 0.42 / 热能 0.49），配套头盔按身甲的 60% 取值，还有一盏烧精灵之尘、常亮不灭的精灵灯。元素装备卡在魔力钢与泰拉钢之间——比殖民地自己锻得出的都好，只差盖亚之魂教的那一层。</Botania_Elementium.description>
 
   <Botania_Terrasteel.label>泰拉钢</Botania_Terrasteel.label>
   <Botania_Terrasteel.description>把魔力钢与精灵石英喂给四根基座围成的平台，再从魔力池里抽两万魔力过去。出来的就是泰拉钢——会生长的金属。一枚锭换一把刃、一套甲，或者一顶盔。</Botania_Terrasteel.description>
@@ -48,15 +41,4 @@
   <Botania_Gaia.label>盖亚</Botania_Gaia.label>
   <Botania_Gaia.description>占位：只能靠盖亚之魂的科技蓝图解锁，光堆研究点不行。内容将在后续版本接入。</Botania_Gaia.description>
 
-
-  <!-- ===== 魔力存储 ===== -->
-  <Botania_ManaStorage.label>魔力存储</Botania_ManaStorage.label>
-  <Botania_ManaStorage.description>魔力钢比活石能装下多得多的魔力。一座正经的魔力钢池可以把整座殖民地的储备集中在一处，而不是散落在十几个小碗里。</Botania_ManaStorage.description>
-
-    <Botania_DefenseI.label>防御花</Botania_DefenseI.label>
-    <Botania_DefenseI.description>会反击的花。只要背后有一座像样的魔力池，荆棘钟花就能自己长出五根炮管，在没有任何小人值守的情况下向靠近的敌人倾泻针刺。</Botania_DefenseI.description>
-    <Botania_DefenseII.label>进阶防御花</Botania_DefenseII.label>
-    <Botania_DefenseII.description>教一朵花把它的魔力积蓄抛过墙去。爆萼花放弃了荆棘钟花的连射，换取一颗落地即爆的高爆种子。</Botania_DefenseII.description>
-    <Botania_DefenseIII.label>远古防御花</Botania_DefenseIII.label>
-    <Botania_DefenseIII.description>把盖亚之魂教给你的东西熔进一朵花里。重型迫击炮花能把压缩魔力战斗部丢到全图任何角落，落点只剩一个弹坑。</Botania_DefenseIII.description>
 </LanguageData>

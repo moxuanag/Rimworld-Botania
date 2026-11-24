@@ -135,7 +135,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>Botania_ManaRelay</defName>
     <label>mana relay tower</label>
-    <description>A slender spire of livingwood wrapped in manasteel coils, capped with a mote of drifting light. It draws mana from a pool or from an upstream relay and holds it in its own small buffer, so devices further away can tap it. Each hop costs a tenth of the mana.</description>
+    <description>A slender spire of livingwood wrapped in manasteel coils, capped with a mote of drifting light. It stores no mana of its own: it only stretches a mana network's reach, so pools and devices up to 11 tiles away behave as if they were close together. A tower whose circle touches no pool-backed node is dead weight and says so on inspection.</description>
     <thingClass>Building</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <graphicData>
@@ -249,7 +249,7 @@
     <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
     <designationCategory>Botania</designationCategory>
     <researchPrerequisites>
-      <li>Botania_Mending</li>
+      <li>Botania_StructureRepairerStudy</li>
     </researchPrerequisites>
     <constructEffect>ConstructWood</constructEffect>
     <uiOrder>2905</uiOrder>
@@ -310,7 +310,7 @@
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <designationCategory>Botania</designationCategory>
     <researchPrerequisites>
-      <li>Botania_Mending</li>
+      <li>Botania_ItemRepairerStudy</li>
     </researchPrerequisites>
     <constructEffect>ConstructWood</constructEffect>
     <uiOrder>2906</uiOrder>

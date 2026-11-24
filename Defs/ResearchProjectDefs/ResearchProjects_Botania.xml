@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
+
+<!-- ============================================================
+     植物魔法的研究线（0.9.2 科技线重构后的主干）。
+
+     这一版把「花」从主干里拆出去，按用户要求分成三条独立支线：
+       · 产能花 / 功能花 / 防御花 —— 每条支线一个总览节点，然后每朵花
+         一个研究项目（见同目录 Botania_Research_Generating / _Functional / _Defense.xml）。
+     本文件只留「机制 / 装备 / 结构 / 终局」节点。
+
+     坐标约定（x = 时代推进，y = 分支行，y 越大越靠上）：
+       y=0  产能花支线（分支文件）
+       y=1  功能花支线（分支文件）
+       y=2  防御花支线（分支文件）
+       y=3  花圃工艺（森林法杖）
+       y=4  魔导装备（魔力钢 → 存储 → 灌注 → 精灵门 → 元素）
+       y=5  网络 / 泰拉 / 盖亚
+     所有支线的根都挂在 (1,0) 的 Botania_BasicMana（花药台）上，
+     所以 x=2 这一列是五条支线的「根」：产能花(2,0) 功能花(2,1) 防御花(2,2)
+     花圃(2,3) 魔力钢(2,4)。
+     ============================================================ -->
+
 <Defs>
-
-  <!-- ============================================================
-       植物魔法的研究线（v0.5 骨架版）。
-
-       本版只把「树」搭起来：每个项目都有正确的时代、点数、前置与坐标，
-       但绝大多数还没有接入内容（见 description 里的 placeholder 标注）。
-       已有内容仍挂在 Botania_BasicMana 下，所以它的 defName 不能改。
-
-       坐标约定：X = 时代推进（0 = 采集，7 = 终局），Y = 分支（0 产能 / 1 花圃 / 2 装备 / 3 结构 / 4 终局）。
-       ============================================================ -->
 
   <!-- ===== E0 萌芽 ===== -->
 
@@ -27,7 +38,7 @@
   <ResearchProjectDef>
     <defName>Botania_BasicMana</defName>
     <label>botania: mana</label>
-    <description>Study how certain flowers hold energy in their petals. Grinding them releases mana powder, which can be folded into steel or bound into wood, and stored in a pool of liquid light.</description>
+    <description>Study how certain flowers hold energy in their petals, and build the petal apothecary that turns them into something usable.\n\nThis is the root of the whole line. Once it is done the tree forks three ways: flowers that make mana, flowers that spend it on work, and flowers that fight. Grinding petals also yields mana powder, which can be folded into steel or bound into wood, and stored in a pool of liquid light.</description>
     <baseCost>900</baseCost>
     <techLevel>Medieval</techLevel>
     <tab>Botania</tab>
@@ -38,57 +49,12 @@
     <researchViewY>0.00</researchViewY>
   </ResearchProjectDef>
 
-  <ResearchProjectDef>
-    <defName>Botania_GeneratingI</defName>
-    <label>botania: generating flowers</label>
-    <description>Flowers that produce mana on their own. The endoflame burns fuel; the daybloom and nightshade simply drink the sun and the dark, then wither once their season is over.</description>
-    <baseCost>600</baseCost>
-    <techLevel>Medieval</techLevel>
-    <tab>Botania</tab>
-    <prerequisites>
-      <li>Botania_BasicMana</li>
-    </prerequisites>
-    <researchViewX>2.00</researchViewX>
-    <researchViewY>0.00</researchViewY>
-  </ResearchProjectDef>
-
-  <ResearchProjectDef>
-    <defName>Botania_GeneratingII</defName>
-    <label>botania: advanced flowers</label>
-    <description>Three flowers that ask for more than fuel: the furnace orchid feeds on a hot sealed room, the storm bloom salvages short-circuit bursts, and the rosa arcana takes what a mind has not finished learning.</description>
-    <baseCost>1500</baseCost>
-    <techLevel>Industrial</techLevel>
-    <tab>Botania</tab>
-    <prerequisites>
-      <li>Botania_PassiveGenerating</li>
-    </prerequisites>
-    <!-- 产能分支是一条链：产能花 (2,0) → 被动产能花 (3,0) → 进阶产能花 (4,0)。
-         坐标一格只能放一个项目，所以进阶必须往后挪一格；前置挂在被动产能花上，
-         连线顺着 (3,0) → (4,0) 走，不会从别的节点后面穿过去。 -->
-    <researchViewX>4.00</researchViewX>
-    <researchViewY>0.00</researchViewY>
-  </ResearchProjectDef>
-
-  <!-- ===== E1 花圃 ===== -->
-
-  <ResearchProjectDef>
-    <defName>Botania_PassiveGenerating</defName>
-    <label>botania: passive generating flowers</label>
-    <description>Flowers that pull mana out of daylight or moonlight without burning anything. Cheap and easy to place, but each one only lasts a season before withering away.</description>
-    <baseCost>400</baseCost>
-    <techLevel>Medieval</techLevel>
-    <tab>Botania</tab>
-    <prerequisites>
-      <li>Botania_GeneratingI</li>
-    </prerequisites>
-    <researchViewX>3.00</researchViewX>
-    <researchViewY>0.00</researchViewY>
-  </ResearchProjectDef>
+  <!-- ===== E1 花圃工艺（森林法杖） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_Garden</defName>
     <label>botania: garden craft</label>
-    <description>Bind livingwood and livingrock into a staff that can channel mana. This is where the wand of the forest is built; the petal apothecary comes later.</description>
+    <description>Bind livingwood and livingrock into a staff that can channel mana. This is where the wand of the forest is built, and where the colony learns to shape living materials instead of only cutting them.</description>
     <baseCost>900</baseCost>
     <techLevel>Medieval</techLevel>
     <tab>Botania</tab>
@@ -96,21 +62,7 @@
       <li>Botania_BasicMana</li>
     </prerequisites>
     <researchViewX>2.00</researchViewX>
-    <researchViewY>1.00</researchViewY>
-  </ResearchProjectDef>
-
-  <ResearchProjectDef>
-    <defName>Botania_FunctionalI</defName>
-    <label>botania: functional flowers</label>
-    <description>Flowers that work for the colony instead of producing mana. The first of them is the thorn flower: a defensive bulb that slows anything hostile inside ten tiles, then bleeds it with mana.</description>
-    <baseCost>1200</baseCost>
-    <techLevel>Medieval</techLevel>
-    <tab>Botania</tab>
-    <prerequisites>
-      <li>Botania_Garden</li>
-    </prerequisites>
-    <researchViewX>3.00</researchViewX>
-    <researchViewY>1.00</researchViewY>
+    <researchViewY>3.00</researchViewY>
   </ResearchProjectDef>
 
   <!-- ===== E2 魔导 ===== -->
@@ -126,7 +78,7 @@
       <li>Botania_BasicMana</li>
     </prerequisites>
     <researchViewX>2.00</researchViewX>
-    <researchViewY>2.00</researchViewY>
+    <researchViewY>4.00</researchViewY>
   </ResearchProjectDef>
 
   <ResearchProjectDef>
@@ -134,20 +86,6 @@
     <label>botania: mana storage</label>
     <description>Manasteel can hold far more mana than livingrock. A proper manasteel-lined pool keeps a colony's whole reserve in one place instead of spilling it across a dozen small bowls.</description>
     <baseCost>1500</baseCost>
-    <techLevel>Industrial</techLevel>
-    <tab>Botania</tab>
-    <prerequisites>
-      <li>Botania_Manasteel</li>
-    </prerequisites>
-    <researchViewX>3.00</researchViewX>
-    <researchViewY>2.00</researchViewY>
-  </ResearchProjectDef>
-
-  <ResearchProjectDef>
-    <defName>Botania_Mending</defName>
-    <label>botania: mana mending</label>
-    <description>A bench that repairs gear with mana, and a tower that slowly mends walls and furniture. Both drain mana in proportion to the damage they undo.</description>
-    <baseCost>1200</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>
     <prerequisites>
@@ -168,13 +106,13 @@
       <li>Botania_ManaStorage</li>
     </prerequisites>
     <researchViewX>4.00</researchViewX>
-    <researchViewY>2.00</researchViewY>
+    <researchViewY>4.00</researchViewY>
   </ResearchProjectDef>
 
   <ResearchProjectDef>
     <defName>Botania_ManaGrid</defName>
     <label>botania: mana grid</label>
-    <description>Placeholder: relays with longer reach, bigger pools and a more efficient fluxfield. Content arrives in a later version.</description>
+    <description>Rope the colony's mana into one grid: relays with longer reach and bigger pools, so a dozen scattered flowers can feed a single reserve.</description>
     <baseCost>1800</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>
@@ -182,7 +120,7 @@
       <li>Botania_Manasteel</li>
     </prerequisites>
     <researchViewX>3.00</researchViewX>
-    <researchViewY>3.00</researchViewY>
+    <researchViewY>5.00</researchViewY>
   </ResearchProjectDef>
 
   <ResearchProjectDef>
@@ -196,7 +134,7 @@
       <li>Botania_ManaGrid</li>
     </prerequisites>
     <researchViewX>4.00</researchViewX>
-    <researchViewY>3.00</researchViewY>
+    <researchViewY>5.00</researchViewY>
   </ResearchProjectDef>
 
   <!-- ===== E3 精灵 ===== -->
@@ -212,13 +150,13 @@
       <li>Botania_Infusion</li>
     </prerequisites>
     <researchViewX>5.00</researchViewX>
-    <researchViewY>2.00</researchViewY>
+    <researchViewY>4.00</researchViewY>
   </ResearchProjectDef>
 
   <ResearchProjectDef>
     <defName>Botania_Elementium</defName>
     <label>botania: elementium</label>
-    <description>Placeholder: elementium weapons and armour. Content arrives in a later version.</description>
+    <description>Elementium is the pink metal the elven gate makes from manasteel and pixie dust: it bends instead of shattering, and it keeps an edge that steel loses after a single fight.\n\nThis project is the kit built from it: a spacer-grade sword, a full suit of plate (1.04 sharp / 0.42 blunt / 0.49 heat) with a matching helm at 60% of the body rating, and the pixie lamp, which burns dust for a soft permanent glow. Elementium sits between manasteel and terrasteel - better than anything the colony can forge itself, short of what the gaia spirit teaches.</description>
     <baseCost>3000</baseCost>
     <techLevel>Spacer</techLevel>
     <tab>Botania</tab>
@@ -226,7 +164,7 @@
       <li>Botania_Alfheim</li>
     </prerequisites>
     <researchViewX>6.00</researchViewX>
-    <researchViewY>2.00</researchViewY>
+    <researchViewY>4.00</researchViewY>
   </ResearchProjectDef>
 
   <ResearchProjectDef>
@@ -240,7 +178,7 @@
       <li>Botania_Alfheim</li>
     </prerequisites>
     <researchViewX>6.00</researchViewX>
-    <researchViewY>3.00</researchViewY>
+    <researchViewY>5.00</researchViewY>
   </ResearchProjectDef>
 
   <!-- ===== E4 盖亚 ===== -->
@@ -256,7 +194,7 @@
       <li>Botania_Terrasteel</li>
     </prerequisites>
     <researchViewX>7.00</researchViewX>
-    <researchViewY>3.00</researchViewY>
+    <researchViewY>5.00</researchViewY>
     <!-- 需要 1 张「盖亚之魂蓝图」（Botania_GaiaSpirit）。
          引擎的成对校验（ResearchProjectDef.ConfigErrors）：
            techprintCount > 0 但 heldByFactionCategoryTags 为空
@@ -274,57 +212,12 @@
     </heldByFactionCategoryTags>
   </ResearchProjectDef>
 
-
-  <!-- ===== 防御花线（2026-11-24 定案，2026-11-25 调整坐标） =====
-       y=1 是「花」分支，四朵花的研究连成一条直线：
-         x3 功能花 ── x4 防御花 ── x5 进阶防御花 ── x6 重型防御花
-                                            ↘（前置还需要盖亚，x7,y3）
-       前置关系：功能花 + 魔力存储 → 防御花；防御花 → 进阶防御花；
-                 进阶防御花 + 盖亚 → 重型防御花。
-       重型原先放在 (6,4) 导致两条长斜线横穿全树，已移回花行。 -->
-
-  <ResearchProjectDef>
-    <defName>Botania_DefenseI</defName>
-    <label>botania: defense flowers</label>
-    <description>Flowers that fight back. With a proper mana pool behind them, a thornbell can grow its own barrels and spit needles at anything hostile without a colonist ever standing beside it.</description>
-    <baseCost>1500</baseCost>
-    <techLevel>Industrial</techLevel>
-    <tab>Botania</tab>
-    <prerequisites>
-      <li>Botania_FunctionalI</li>
-      <li>Botania_ManaStorage</li>
-    </prerequisites>
-    <researchViewX>4.00</researchViewX>
-    <researchViewY>1.00</researchViewY>
-  </ResearchProjectDef>
-
-  <ResearchProjectDef>
-    <defName>Botania_DefenseII</defName>
-    <label>botania: advanced defense flowers</label>
-    <description>Teach a flower to lob its mana charge over the wall. The blastcalyx trades the thornbell's rapid fire for a single, high-explosive seed that bursts where it lands.</description>
-    <baseCost>2500</baseCost>
-    <techLevel>Industrial</techLevel>
-    <tab>Botania</tab>
-    <prerequisites>
-      <li>Botania_DefenseI</li>
-    </prerequisites>
-    <researchViewX>5.00</researchViewX>
-    <researchViewY>1.00</researchViewY>
-  </ResearchProjectDef>
-
-  <ResearchProjectDef>
-    <defName>Botania_DefenseIII</defName>
-    <label>botania: heavy defense flowers</label>
-    <description>Fuse what the gaia spirit taught you into a single siege bloom. The heavy mortar flower throws a compressed mana warhead across the whole map, and leaves nothing but a crater behind.</description>
-    <baseCost>4000</baseCost>
-    <techLevel>Ultra</techLevel>
-    <tab>Botania</tab>
-    <prerequisites>
-      <li>Botania_DefenseII</li>
-      <li>Botania_Gaia</li>
-    </prerequisites>
-    <researchViewX>6.00</researchViewX>
-    <researchViewY>1.00</researchViewY>
-  </ResearchProjectDef>
+  <!-- ============================================================
+       防御花线已迁到 Botania_Research_Defense.xml（2026-11-24 三支线拆分）：
+         Botania_DefenseFlowers（总览，新）→ DefenseI 荆棘钟花 → DefenseII 爆萼花
+         → DefenseIII 远古陨击花（额外前置 Botania_Gaia）。
+       产能花线在 Botania_Research_Generating.xml，
+       功能花线（含两件修补器具）在 Botania_Research_Functional.xml。
+       ============================================================ -->
 
 </Defs>

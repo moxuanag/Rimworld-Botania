@@ -9,7 +9,7 @@ namespace Botania
     /// 炮塔型功能花的公共配置。
     ///
     /// 炮塔不是「定时结算」设备：节奏由 <see cref="Building_TurretGun"/> 的预热 / 连射 / 冷却驱动，
-    /// 所以本组件**不用** CompManaDevice 的周期结算，只借用它的「就近找魔力源 + 凑够才扣 + 存档」。
+    /// 所以本组件**不用** CompManaDevice 的周期结算，只借用它的「按网络取源 + 凑够才扣 + 存档」。
     /// 付费点在 BeginBurst：付得起才发射，付不起当轮空射并短冷却重试。
     /// </summary>
     public class CompProperties_ManaTurret : CompProperties_ManaDevice
@@ -122,7 +122,15 @@ namespace Botania
             return Core.FindSource(0f);
         }
 
-        /// <summary>支付一轮连射的魔力（凑够才扣）。</summary>
+        /// <summary>
+        /// 支付一轮连射的魔力（凑够才扣）。
+        ///
+        /// 必须和 <see cref="HasEnoughManaForBurst"/> 走**同一个**魔力源。
+        /// 网络重构后设备只看自己所在格的魔力网络（中继塔能把网络延伸出去），
+        /// 而基类 <c>TryPay</c> 仍是「searchRadius 内找最近的池子」的老口径——
+        /// 两者不一致时，只靠中继塔延伸到的炮塔会「检视显示魔力充足、实际一发打不出」，
+        /// 表现就是玩家看到炮塔一直瞄准却永远不开火。所以这里直接按网络取源扣款。
+        /// </summary>
         public bool TryPayBurst()
         {
             CompProperties_ManaTurret p = TurretProps;
@@ -130,7 +138,13 @@ namespace Botania
             {
                 return true;
             }
-            return Core.TryPay(p.manaPerBurst);
+            IManaSource source = Core.FindSource(p.manaPerBurst);
+            if (source == null)
+            {
+                return false;
+            }
+            float drained = source.DrainMana(p.manaPerBurst);
+            return drained >= p.manaPerBurst - p.manaTolerance;
         }
     }
 

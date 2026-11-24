@@ -73,7 +73,7 @@
       <li>BotaniaBuildings</li>
     </thingCategories>
     <researchPrerequisites>
-      <li>Botania_GeneratingII</li>
+      <li>Botania_LifeOrchidStudy</li>
     </researchPrerequisites>
     <uiOrder>3208</uiOrder>
   </ThingDef>

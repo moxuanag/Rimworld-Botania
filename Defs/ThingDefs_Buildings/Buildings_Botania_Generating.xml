@@ -132,7 +132,7 @@
       <li>BotaniaBuildings</li>
     </thingCategories>
     <researchPrerequisites>
-      <li>Botania_PassiveGenerating</li>
+      <li>Botania_NightshadeStudy</li>
     </researchPrerequisites>
     <uiOrder>3201</uiOrder>
   </ThingDef>

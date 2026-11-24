@@ -69,7 +69,7 @@
       <li>BotaniaBuildings</li>
     </thingCategories>
     <researchPrerequisites>
-      <li>Botania_GeneratingII</li>
+      <li>Botania_BlightEaterStudy</li>
     </researchPrerequisites>
     <uiOrder>3206</uiOrder>
   </ThingDef>
@@ -138,7 +138,7 @@
       <li>BotaniaBuildings</li>
     </thingCategories>
     <researchPrerequisites>
-      <li>Botania_GeneratingII</li>
+      <li>Botania_BitterBloomStudy</li>
     </researchPrerequisites>
     <uiOrder>3207</uiOrder>
   </ThingDef>
