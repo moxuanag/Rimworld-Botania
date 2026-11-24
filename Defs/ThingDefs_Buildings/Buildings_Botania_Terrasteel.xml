@@ -12,7 +12,6 @@
 
   <ThingDef ParentName="BuildingBase">
     <defName>Botania_TerrasteelAltar</defName>
-    <designatorDropdown>Botania_ProduceBuildings</designatorDropdown>
     <label>terrestrial agglomeration platform</label>
     <description>A broad livingrock platform ringed with four quartz-topped pedestals. Leave manasteel and elven quartz on the slab, draw deep on a mana pool, and the platform begins to grow terrasteel in the centre of the ring.\n\nIt will not work with a pedestal missing, and it will not work without a deep enough mana pool nearby.</description>
     <thingClass>Building</thingClass>
@@ -31,7 +30,7 @@
     <tickerType>Normal</tickerType>
     <minifiedDef>MinifiedThing</minifiedDef>
     <size>(3,3)</size>
-    <uiOrder>3000</uiOrder>
+    <uiOrder>3001</uiOrder>
     <statBases>
       <MaxHitPoints>600</MaxHitPoints>
       <WorkToBuild>4000</WorkToBuild>
@@ -78,7 +77,6 @@
   <!-- 基座：四角各一根，缺一不工作 -->
   <ThingDef ParentName="BuildingBase">
     <defName>Botania_TerrasteelPedestal</defName>
-    <designatorDropdown>Botania_ProduceBuildings</designatorDropdown>
     <label>agglomeration pedestal</label>
     <description>A short pedestal of livingrock topped with a single elven quartz. Four of them, one at each corner of the platform, are what keep the mana from spilling out while terrasteel forms.</description>
     <thingClass>Building</thingClass>
@@ -96,7 +94,7 @@
     <castEdgeShadows>false</castEdgeShadows>
     <minifiedDef>MinifiedThing</minifiedDef>
     <size>(1,1)</size>
-    <uiOrder>3001</uiOrder>
+    <uiOrder>3002</uiOrder>
     <statBases>
       <MaxHitPoints>180</MaxHitPoints>
       <WorkToBuild>400</WorkToBuild>

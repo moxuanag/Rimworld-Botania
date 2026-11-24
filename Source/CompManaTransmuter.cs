@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using RimWorld;
+using UnityEngine;
 using Verse;
 
 namespace Botania
@@ -47,6 +48,9 @@ namespace Botania
 
         /// <summary>转化规则表。</summary>
         public List<ManaConversionRule> rules = new List<ManaConversionRule>();
+
+        /// <summary>开关按钮图标路径（框架化：以后别的转化设备也能换图标）</summary>
+        public string toggleIcon = "UI/Commands/Botania_DaisyToggle";
 
         /// <summary>慢速（断魔免费）转化的间隔：workTicks × noManaSlowdown。</summary>
         public int SlowIntervalTicks => Math.Max(1, workTicks * Math.Max(1, noManaSlowdown));
@@ -282,8 +286,9 @@ namespace Botania
             }
             yield return new Command_Toggle
             {
-                defaultLabel = "转化开关",
-                defaultDesc = "关闭后白雏菊会停下，不再消耗魔力与材料。",
+                defaultLabel = "Botania.DaisyToggle.Label".Translate(),
+                defaultDesc = "Botania.DaisyToggle.Desc".Translate(),
+                icon = ContentFinder<Texture2D>.Get(Props.toggleIcon, false) ?? BaseContent.BadTex,
                 isActive = () => enabled,
                 toggleAction = () => enabled = !enabled
             };

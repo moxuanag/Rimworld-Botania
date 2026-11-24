@@ -337,4 +337,6 @@
   <Botania.FurnaceNoFuel>Offline — no fuel</Botania.FurnaceNoFuel>
   <Botania.FurnaceFuel>Fuel: {0} ({1} s of output left)</Botania.FurnaceFuel>
     <Botania.ManaReadoutShots>{0} shots left</Botania.ManaReadoutShots>
+    <Botania.DaisyToggle.Label>Conversion toggle</Botania.DaisyToggle.Label>
+    <Botania.DaisyToggle.Desc>When off, the pure daisy stops and consumes neither mana nor materials.</Botania.DaisyToggle.Desc>
 </LanguageData>

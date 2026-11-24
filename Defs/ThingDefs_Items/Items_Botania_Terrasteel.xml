@@ -4,7 +4,7 @@
   <!-- ============================================================
        泰拉钢（Botania_Terrasteel · 4000 点 · 前置「精灵之门」）
          · 泰拉钢锭：魔力钢锭 + 精灵石英 + 20,000 魔力，在泰拉凝聚台里合成
-         · 泰拉刃 / 泰拉甲 / 泰拉头盔 / 泰拉碎岩镐，各自吃 1 锭
+         · 泰拉刃 / 泰拉甲 / 泰拉头盔，各自吃 1 锭
          · 1 锭 = 1 件装备（已定，见开发文档第一部分 §9–§10）
        ============================================================ -->
 
@@ -226,82 +226,6 @@
       </layers>
       <parentTagDef>ApparelHead</parentTagDef>
     </apparel>
-  </ThingDef>
-
-  <!-- 泰拉碎岩镐：采矿速度 +50%，采矿时周围八格同步被挖，兼作近战工具 -->
-  <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
-    <defName>Botania_TerrasteelPick</defName>
-    <label>terrasteel pick</label>
-    <description>A pick of terrasteel and livingwood. The head drinks the shock of the strike, so it bites deeper with each swing than its weight suggests.</description>
-    <possessionCount>1</possessionCount>
-    <graphicData>
-      <texPath>Things/Item/Equipment/WeaponMelee/Botania/TerrasteelPick</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(1.15,1.15)</drawSize>
-    </graphicData>
-    <techLevel>Ultra</techLevel>
-    <weaponTags>
-      <li>BotaniaTool</li>
-    </weaponTags>
-    <statBases>
-      <WorkToMake>16000</WorkToMake>
-      <Mass>2.6</Mass>
-      <MarketValue>1600</MarketValue>
-    </statBases>
-    <!-- 挖矿速度 base 1 → 2（×2）；矿物掉落 base 1 → 3（×3） -->
-    <equippedStatOffsets>
-      <MiningSpeed>1</MiningSpeed>
-      <MiningYield>2</MiningYield>
-    </equippedStatOffsets>
-    <!-- 移动速度 ×2：ThingDef 没有 equippedStatFactors 字段（写了整条 Def 会加载失败），
-         所以用 CompEquipHediff 在装备态挂 Botania_TerrasteelHaste（Hediff 里写 statFactors）。 -->
-    <tickerType>Normal</tickerType>
-    <comps>
-      <li Class="Botania.CompProperties_EquipHediff">
-        <hediffDef>Botania_TerrasteelHaste</hediffDef>
-      </li>
-    </comps>
-    <costList>
-      <Botania_TerrasteelIngot>1</Botania_TerrasteelIngot>
-      <Botania_Livingwood>3</Botania_Livingwood>
-    </costList>
-    <recipeMaker>
-      <researchPrerequisite>Botania_Terrasteel</researchPrerequisite>
-      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-      <workSkill>Crafting</workSkill>
-      <soundWorking>Recipe_Machining</soundWorking>
-      <recipeUsers>
-        <li>FueledSmithy</li>
-        <li>ElectricSmithy</li>
-      </recipeUsers>
-      <displayPriority>352</displayPriority>
-      <skillRequirements>
-        <Crafting>8</Crafting>
-      </skillRequirements>
-    </recipeMaker>
-    <equippedAngleOffset>-65</equippedAngleOffset>
-    <!-- 攻击数值对齐「传奇玻璃钢战锤」：
-         锤头 20 × 玻璃钢钝器 0.9 × 传奇 1.65 ≈ 30；柄 11 × 玻璃钢利器 1.1 × 传奇 1.65 ≈ 20；
-         冷却 2.6 × 玻璃钢 0.8 ≈ 2.08 秒。这里写的是**基础值**，成品按自身品质再乘。 -->
-    <tools>
-      <li>
-        <label>handle</label>
-        <capacities>
-          <li>Poke</li>
-        </capacities>
-        <power>20</power>
-        <cooldownTime>2.08</cooldownTime>
-      </li>
-      <li>
-        <label>pick head</label>
-        <labelUsedInLogging>false</labelUsedInLogging>
-        <capacities>
-          <li>Blunt</li>
-        </capacities>
-        <power>30</power>
-        <cooldownTime>2.08</cooldownTime>
-      </li>
-    </tools>
   </ThingDef>
 
 </Defs>

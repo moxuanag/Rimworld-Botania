@@ -3,7 +3,6 @@
 
   <ThingDef ParentName="BuildingBase">
     <defName>Botania_ManaPoolSimple</defName>
-    <designatorDropdown>Botania_Buildings</designatorDropdown>
     <label>simple mana pool</label>
     <description>A small bowl of livingrock and livingwood holding a shallow pool of mana. It stores far less than a proper manasteel pool, but it is the first vessel most gardeners ever build.</description>
     <thingClass>Building</thingClass>
@@ -62,14 +61,13 @@
       <li>Botania_BasicMana</li>
     </researchPrerequisites>
     <constructEffect>ConstructWood</constructEffect>
-    <uiOrder>3101</uiOrder>
+    <uiOrder>2902</uiOrder>
   </ThingDef>
 
   
 
   <ThingDef ParentName="BuildingBase">
     <defName>Botania_ManaFluxfield</defName>
-    <designatorDropdown>Botania_Buildings</designatorDropdown>
     <label>mana fluxfield</label>
     <description>A lattice of manasteel coils around a mote of bottled light. It pulls mana out of a nearby pool and turns it into ordinary electric power. It runs only while it can find mana to draw.</description>
     <thingClass>Building</thingClass>
@@ -127,7 +125,7 @@
       <li>Botania_Infusion</li>
     </researchPrerequisites>
     <constructEffect>ConstructMetal</constructEffect>
-    <uiOrder>3103</uiOrder>
+    <uiOrder>2904</uiOrder>
   </ThingDef>
 
   <!-- ============================================================
@@ -136,7 +134,6 @@
        ============================================================ -->
   <ThingDef ParentName="BuildingBase">
     <defName>Botania_ManaRelay</defName>
-    <designatorDropdown>Botania_Buildings</designatorDropdown>
     <label>mana relay tower</label>
     <description>A slender spire of livingwood wrapped in manasteel coils, capped with a mote of drifting light. It draws mana from a pool or from an upstream relay and holds it in its own small buffer, so devices further away can tap it. Each hop costs a tenth of the mana.</description>
     <thingClass>Building</thingClass>
@@ -193,7 +190,7 @@
       <li>Botania_ManaGrid</li>
     </researchPrerequisites>
     <constructEffect>ConstructWood</constructEffect>
-    <uiOrder>3102</uiOrder>
+    <uiOrder>2903</uiOrder>
   </ThingDef>
 
   <!-- ============================================================
@@ -204,7 +201,6 @@
        ============================================================ -->
   <ThingDef ParentName="BuildingBase">
     <defName>Botania_StructureRepairer</defName>
-    <designatorDropdown>Botania_Buildings</designatorDropdown>
     <label>structure repairer</label>
     <description>A livingrock frame wrapped around a wall of mana-veined stone. Held near a mana pool, it seeps mana into cracked walls and slowly knits the masonry back together. It only mends what is already built - it will not finish construction, and it will not touch another faction's walls.</description>
     <thingClass>Building</thingClass>
@@ -256,7 +252,7 @@
       <li>Botania_Mending</li>
     </researchPrerequisites>
     <constructEffect>ConstructWood</constructEffect>
-    <uiOrder>3104</uiOrder>
+    <uiOrder>2905</uiOrder>
   </ThingDef>
 
   <!-- ============================================================
@@ -266,7 +262,6 @@
        ============================================================ -->
   <ThingDef ParentName="BuildingBase">
     <defName>Botania_ItemRepairer</defName>
-    <designatorDropdown>Botania_Buildings</designatorDropdown>
     <label>item repairer</label>
     <description>A livingwood bench with a manasteel anvil and a clamp of woven mana. Any worn weapon, tool or piece of apparel left on it is soaked in mana until the cracks close. It mends what is already made - it cannot repair something that has been destroyed outright.</description>
     <thingClass>Building</thingClass>
@@ -318,7 +313,7 @@
       <li>Botania_Mending</li>
     </researchPrerequisites>
     <constructEffect>ConstructWood</constructEffect>
-    <uiOrder>3105</uiOrder>
+    <uiOrder>2906</uiOrder>
   </ThingDef>
 
 </Defs>

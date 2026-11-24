@@ -2,7 +2,8 @@
 <Defs>
 
   <!-- 植物魔法建筑分类：紧跟在原版「杂项」(order 250) 后面，所以取 245。
-       分类内的排列由各 ThingDef 的 designatorDropdown（分组）+ uiOrder（组内顺序）决定。 -->
+       分类内的排列由各 ThingDef 的 uiOrder 决定（GizmoGridDrawer 按 Order 升序；
+       Designator_Build.Order => uiOrder，下拉按钮取组内第一个 def 的 uiOrder）。 -->
   <DesignationCategoryDef>
     <defName>Botania</defName>
     <label>botania</label>
@@ -10,7 +11,10 @@
   </DesignationCategoryDef>
 
   <!-- ============================================================
-       五个子分组（建筑师菜单里显示为下拉按钮）。
+       子分组（建筑师菜单里显示为下拉按钮）。
+       0.9.2 起只保留「产魔花」和「防御花」两个折叠组；
+       建筑 / 生产建筑 / 功能花 已平铺，其对应分组 def 仅为兼容保留
+       （DefInjected 里仍有翻译，删掉也不会报错，但没必要动）。
        iconSource=Placed 用建筑贴图做图标；Cost 用材料图标。
        ============================================================ -->
 

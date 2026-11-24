@@ -2,21 +2,23 @@
 <Defs>
 
   <!-- ============================================================
-       分类排序锚点（不要随意删改顺序）
+       建筑师菜单排序参考（0.9.2：折叠分组从 5 个减到 2 个）
 
-       建筑师菜单里「植物魔法」分类下的 5 个下拉分组，其排列顺序由
-       DesignationCategoryDef.ResolveDesignators() 的「第一次遇到」顺序决定，
-       而那个顺序就是 DefDatabase 的加载顺序（XML 文件路径字母序）。
+       只剩「产魔花」与「防御花」是下拉分组；建筑 / 生产建筑 / 功能花
+       已平铺进「植物魔法」分类（无 designatorDropdown）。
 
-       本文件按字母序排在 Buildings_Botania*.xml 之前，因此这里 5 个 def 的
-       先后顺序 = 5 个分组按钮的先后顺序：
-         建筑 -> 生产建筑 -> 产魔花 -> 防御花 -> 功能花
-       其余同类建筑分散在原文件中，它们只是追加进各自分组，不影响分组顺序。
+       显示顺序由 uiOrder 决定：Designator_Build.Order => uiOrder，
+       GizmoGridDrawer 在分类内按 Order 升序稳定排序；下拉按钮的 Order
+       取组内第一个 def 的 uiOrder。当前值：
+         平铺：建筑 2901~2906 -> 生产建筑 3000~3006 -> 功能花 3100
+         折叠：产魔花 3202 起 -> 防御花 3400 起
+
+       本文件按字母序排在 Buildings_Botania*.xml 之前，只用来放几个
+       代表性 def；排序早已不依赖加载顺序，改 uiOrder 即可。
        ============================================================ -->
 
 <ThingDef ParentName="BuildingBase">
     <defName>Botania_ManaPool</defName>
-    <designatorDropdown>Botania_Buildings</designatorDropdown>
     <label>mana pool</label>
     <description>A shallow basin of livingwood lined with manasteel, filled with liquid light. It stores mana produced by nearby flowers and shares it with adjacent pools.</description>
     <thingClass>Building</thingClass>
@@ -80,11 +82,10 @@
       <li>Botania_ManaStorage</li>
     </researchPrerequisites>
     <constructEffect>ConstructMetal</constructEffect>
-    <uiOrder>3100</uiOrder>
+    <uiOrder>2901</uiOrder>
   </ThingDef>
 <ThingDef ParentName="BuildingBase">
     <defName>Botania_PureDaisy</defName>
-    <designatorDropdown>Botania_ProduceBuildings</designatorDropdown>
     <label>pure daisy</label>
     <description>A white daisy with a faint ring of light around its petals.\n\nPlace it next to a pile of logs or a pile of stone blocks - the cut stone bricks such as granite blocks or limestone blocks, not raw chunks - and it slowly teaches the material to be alive: logs become livingwood, stone blocks become livingrock.\n\nEach transformation costs a little mana from a mana pool or relay within 6 tiles. Without one it still works, but takes five times as long and costs nothing.</description>
     <thingClass>Building</thingClass>
@@ -158,7 +159,7 @@
       <li>Botania_BasicMana</li>
     </researchPrerequisites>
     <constructEffect>ConstructWood</constructEffect>
-    <uiOrder>3003</uiOrder>
+    <uiOrder>3000</uiOrder>
   </ThingDef>
 <ThingDef ParentName="BuildingBase">
     <defName>Botania_Endoflame</defName>
@@ -311,7 +312,6 @@
   </ThingDef>
 <ThingDef ParentName="BuildingBase">
     <defName>Botania_ClearMindLotus</defName>
-    <designatorDropdown>Botania_FunctionFlowers</designatorDropdown>
     <label>clear-mind lotus</label>
     <description>A pale lotus that hums a counter-note. While it is fed, everyone within range simply does not hear a psychic drone: that one thought is pushed out of their head, and nothing else about their mood changes. It drinks mana heavily, and without mana the drone comes straight back.</description>
     <thingClass>Building</thingClass>
@@ -369,7 +369,7 @@
     <researchPrerequisites>
       <li>Botania_FunctionalI</li>
     </researchPrerequisites>
-    <uiOrder>3300</uiOrder>
+    <uiOrder>3100</uiOrder>
   </ThingDef>
 
 </Defs>

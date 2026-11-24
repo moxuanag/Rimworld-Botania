@@ -93,7 +93,6 @@
   -->
   <ThingDef ParentName="BuildingBase">
     <defName>Botania_WorldSeedNursery</defName>
-    <designatorDropdown>Botania_ProduceBuildings</designatorDropdown>
     <label>world-seed nursery</label>
     <description>A pod of living seed matter set in a ring of stone. Terrasteel left inside it comes out changed: the same shape, but grown through.\n\nPut terrasteel armour or a terrasteel helmet in its field and it will be reborn as Gaia gear. Colonists standing in the field have their worn gear converted first.</description>
     <thingClass>Building</thingClass>
@@ -114,7 +113,7 @@
     <thingCategories>
       <li>Buildings</li>
     </thingCategories>
-    <uiOrder>3002</uiOrder>
+    <uiOrder>3006</uiOrder>
     <designationCategory>Botania</designationCategory>
     <researchPrerequisites>
       <li>Botania_Gaia</li>

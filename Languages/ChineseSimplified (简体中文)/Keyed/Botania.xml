@@ -337,4 +337,6 @@
   <Botania.FurnaceNoFuel>罢工：没有燃料</Botania.FurnaceNoFuel>
   <Botania.FurnaceFuel>燃料：{0}（还可产出 {1} 秒）</Botania.FurnaceFuel>
     <Botania.ManaReadoutShots>还可发射 {0} 发</Botania.ManaReadoutShots>
+    <Botania.DaisyToggle.Label>转化开关</Botania.DaisyToggle.Label>
+    <Botania.DaisyToggle.Desc>关闭后白雏菊会停下，不再消耗魔力与材料。</Botania.DaisyToggle.Desc>
 </LanguageData>
