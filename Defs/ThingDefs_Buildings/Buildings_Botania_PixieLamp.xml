@@ -31,11 +31,14 @@
       <li Class="CompProperties_Glower">
         <glowRadius>6</glowRadius>
         <glowColor>(253,232,180,0)</glowColor>
+        <!-- 和原版灯一样：研究完「高级照明 / ColoredLights」后可以改灯光颜色。
+             未研究时按钮会显示为禁用并说明原因（引擎自动处理，无需我们写代码）。 -->
+        <colorPickerEnabled>true</colorPickerEnabled>
       </li>
       <li Class="Botania.CompProperties_ManaPixieLamp">
-        <manaPerCharge>1</manaPerCharge>
-        <chargeIntervalTicks>3600</chargeIntervalTicks>
-        <searchRadius>8</searchRadius>
+        <manaPerWork>1</manaPerWork>
+        <workIntervalTicks>3600</workIntervalTicks>
+        <retryIntervalTicks>300</retryIntervalTicks>
       </li>
     </comps>
   </ThingDef>

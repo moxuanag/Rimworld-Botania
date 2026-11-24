@@ -5,24 +5,46 @@ using Verse;
 
 namespace Botania
 {
-    public class CompProperties_ManaWeapon : CompProperties
+    /// <summary>
+    /// 魔力武器的配置。找源半径 / 每次使用费用 / 存档键前缀已并入物品付款框架
+    /// <see cref="CompProperties_ManaItem"/>，本类只保留武器自己的两个参数：
+    /// 杖内储能上限与「躺在地上时」的自充速率。
+    ///
+    /// 旧字段改名（XML 必须同步改，否则加载报「字段不存在」）：
+    ///   · <c>&lt;sourceRadius&gt;</c> → <c>&lt;searchRadius&gt;</c>（基类字段，数值不变）
+    ///   · <c>&lt;manaPerShot&gt;</c>  → <c>&lt;manaPerUse&gt;</c>（基类字段，数值不变）
+    /// </summary>
+    public class CompProperties_ManaWeapon : CompProperties_ManaItem
     {
         /// <summary>杖内魔力上限。</summary>
         public float maxMana = 500f;
 
-        /// <summary>每次射击消耗的魔力。</summary>
-        public float manaPerShot = 50f;
-
-        /// <summary>向魔力网抽取的半径。</summary>
-        public float sourceRadius = 6f;
-
         /// <summary>放在地上时每秒自动吸纳的魔力。</summary>
         public float rechargePerSecond = 25f;
+
+        /// <summary>
+        /// 兼容属性：<c>Verb_ManaBolt</c> / <c>Gizmo_ManaBar</c> 还在读
+        /// <c>Props.manaPerShot</c>，实际数值统一落到基类
+        /// <see cref="CompProperties_ManaItem.manaPerUse"/>（等那两个文件迁完可删）。
+        /// </summary>
+        public float manaPerShot => manaPerUse;
 
         public CompProperties_ManaWeapon()
         {
             compClass = typeof(CompManaWeapon);
+            // 旧字段的默认值（XML 会覆盖）：sourceRadius=6、manaPerShot=50。
+            searchRadius = 6f;
+            manaPerUse = 50f;
+            // 本引擎存档把组件字段平铺在 Thing 节点下，键必须够独特。
+            saveKeyPrefix = "botaniaManaWeapon";
+            // 充能节奏：旧实现是「每 30 tick 吸一口」。节流只由 ManaItemCore 一处负责。
+            // 这里复用物品框架的 cooldown 作为**充能间隔**；开火节奏仍由武器 verb 的
+            // RangedWeapon_Cooldown 管，TrySpend 不查 Ready，所以不会出现双重节流（AGENTS.md §5）。
+            cooldownTicks = RechargeIntervalTicks;
         }
+
+        /// <summary>放在地上时每 30 tick（0.5 秒）结算一次充能。</summary>
+        public const int RechargeIntervalTicks = 30;
 
         public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
         {
@@ -34,32 +56,45 @@ namespace Botania
             {
                 yield return "maxMana must be greater than 0.";
             }
-            if (manaPerShot < 0f)
+            if (manaPerUse < 0f)
             {
-                yield return "manaPerShot must not be negative.";
+                yield return "manaPerUse must not be negative.";
             }
-            if (manaPerShot > maxMana)
+            if (manaPerUse > maxMana)
             {
-                yield return "manaPerShot is larger than maxMana, the weapon could never fire.";
+                yield return "manaPerUse is larger than maxMana, the weapon could never fire.";
             }
         }
     }
 
     /// <summary>
-    /// 魔力武器的储能：杖内自带 500 点魔力，射击扣 50。
+    /// 魔力武器的储能：杖内自带 maxMana 点魔力，射击扣 manaPerUse。
     /// 魔力不足时会就近向魔力池/中继塔借；借不到才算空弹。
-    /// 装备状态下的 Thing.Map 是空的，所以位置一律走 EquipUtil。
+    /// 装备状态下的 Thing.Map 是空的，所以位置一律走 <see cref="EquipUtil"/>
+    /// （<see cref="ManaItemCore"/> 内部已处理，本类不再自己绕 ParentHolder）。
+    ///
+    /// 框架迁移：找源 / 凑够才扣 / 充能节流 / 存档交给 <see cref="ManaItemCore"/>；
+    /// 本类只保留「杖内余额」这个物品独有的账：先扣杖内，不够的部分再问核心要。
     /// </summary>
     public class CompManaWeapon : ThingComp
     {
-        private float mana;
+        /// <summary>浮点容差，与旧实现里的 0.01f 字面量一致。</summary>
+        private const float ManaEpsilon = 0.01f;
 
-        private int ticksAccum;
+        private const string ManaSaveKey = "botaniaManaWeaponMana";
+        private const string InitializedSaveKey = "botaniaManaWeaponInitialized";
+
+        private float mana;
 
         /// <summary>是否已经给过初始魔力。老存档里的法杖魔力是 0，读档时补满一次。</summary>
         private bool initialized;
 
+        private ManaItemCore core;
+
         public CompProperties_ManaWeapon Props => (CompProperties_ManaWeapon)props;
+
+        /// <summary>物品付款框架：找魔力源 / 凑够才扣 / 充能节流 / 存档。</summary>
+        private ManaItemCore Core => core ??= new ManaItemCore(this, Props);
 
         public float Mana
         {
@@ -99,16 +134,17 @@ namespace Botania
             {
                 return;
             }
-            if (mana >= Props.maxMana - 0.01f)
+            // 节流只有 Core 一处（Ready / NotifyUsed，间隔 = Props.cooldownTicks）：
+            // 不再自建 tick 计数，也不叠 IsHashIntervalTick（AGENTS.md §5）。
+            if (!Core.Ready)
             {
                 return;
             }
-            ticksAccum++;
-            if (ticksAccum < 30)
+            Core.NotifyUsed();
+            if (mana >= Props.maxMana - ManaEpsilon)
             {
                 return;
             }
-            ticksAccum = 0;
             PullFromSource(Props.rechargePerSecond * 0.5f);
         }
 
@@ -119,18 +155,14 @@ namespace Botania
             {
                 return 0f;
             }
-            Map map = EquipUtil.GetMap(parent);
-            if (map == null)
-            {
-                return 0f;
-            }
             float room = Props.maxMana - mana;
-            if (room <= 0.01f)
+            if (room <= ManaEpsilon)
             {
                 return 0f;
             }
-            IManaSource source = ManaSourceUtil.FindNearest(
-                EquipUtil.GetPosition(parent), map, Props.sourceRadius, 1f);
+            // 找源交给核心（装备态会自动顺着 ParentHolder 找持有者位置）。
+            // 门槛 1f 保持旧行为：不足 1 点的源视为空源不去吸，也不会挡住更远的池子。
+            IManaSource source = Core.FindSource(1f);
             if (source == null)
             {
                 return 0f;
@@ -157,33 +189,13 @@ namespace Botania
             float fromWand = Mathf.Min(mana, amount);
             float needFromSource = amount - fromWand;
 
-            IManaSource source = null;
-            if (needFromSource > 0.01f)
+            // 找源 + 凑够才扣 + 抽不满退回，全部交给物品付款核心；
+            // 拿着杖开火时它内部会顺着 EquipUtil 找到持有者位置，照样能借到附近池子的魔力。
+            if (needFromSource > ManaEpsilon && !Core.TryPay(needFromSource))
             {
-                Map map = EquipUtil.GetMap(parent);
-                if (map != null)
-                {
-                    source = ManaSourceUtil.FindNearest(
-                        EquipUtil.GetPosition(parent), map, Props.sourceRadius, needFromSource);
-                }
-                if (source == null || source.ManaAmount + 0.01f < needFromSource)
-                {
-                    return false;
-                }
+                return false;
             }
-
             mana -= fromWand;
-            if (needFromSource > 0.01f)
-            {
-                float got = source.DrainMana(needFromSource);
-                if (got + 0.01f < needFromSource)
-                {
-                    // 抽到的比预期少：回滚，不要半支付
-                    mana += fromWand;
-                    source.AddMana(got);
-                    return false;
-                }
-            }
             return true;
         }
 
@@ -230,7 +242,7 @@ namespace Botania
         /// <summary>从半径内最近的魔力池/中继塔抽满，返回实际抽到的量。</summary>
         public void Charge()
         {
-            if (mana >= Props.maxMana - 0.01f)
+            if (mana >= Props.maxMana - ManaEpsilon)
             {
                 Messages.Message("Botania.WandAlreadyFull".Translate(),
                     MessageTypeDefOf.RejectInput, false);
@@ -250,8 +262,18 @@ namespace Botania
         public override void PostExposeData()
         {
             base.PostExposeData();
-            Scribe_Values.Look(ref mana, "mana", 0f);
-            Scribe_Values.Look(ref initialized, "manaInitialized", false);
+            // 充能节流状态（下一次可用 tick）与「上次付款是否成功」由核心负责，
+            // 键 = botaniaManaWeaponHasMana / botaniaManaWeaponNextUseTick。
+            Core.ExposeData();
+            // 杖内余额是物品独有的账，键同样带前缀（本引擎存档平铺在 Thing 节点下）。
+            Scribe_Values.Look(ref mana, ManaSaveKey, 0f);
+            Scribe_Values.Look(ref initialized, InitializedSaveKey, false);
+            // 旧档键只读不写：老版本用的是无前缀的 mana / manaInitialized。
+            if (Scribe.mode == LoadSaveMode.LoadingVars)
+            {
+                Scribe_Values.Look(ref mana, "mana", mana);
+                Scribe_Values.Look(ref initialized, "manaInitialized", initialized);
+            }
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 EnsureInitialized();

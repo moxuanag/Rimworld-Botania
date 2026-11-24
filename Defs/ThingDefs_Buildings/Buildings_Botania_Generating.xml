@@ -9,6 +9,7 @@
 
   <ThingDef ParentName="BuildingBase">
     <defName>Botania_Daybloom</defName>
+    <designatorDropdown>Botania_ManaFlowers</designatorDropdown>
     <label>daybloom</label>
     <description>A sun-loving flower that slowly draws mana out of daylight and sends it into a nearby pool. It needs no fuel, but it only lasts a season before withering.</description>
     <thingClass>Building</thingClass>
@@ -61,18 +62,19 @@
       <li>Botania.PlaceWorker_RadiusFromComp</li>
     </placeWorkers>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
-    <designationCategory>Misc</designationCategory>
+    <designationCategory>Botania</designationCategory>
     <thingCategories>
       <li>BotaniaBuildings</li>
     </thingCategories>
     <researchPrerequisites>
       <li>Botania_PassiveGenerating</li>
     </researchPrerequisites>
-    <uiOrder>3210</uiOrder>
+    <uiOrder>3200</uiOrder>
   </ThingDef>
 
   <ThingDef ParentName="BuildingBase">
     <defName>Botania_Nightshade</defName>
+    <designatorDropdown>Botania_ManaFlowers</designatorDropdown>
     <label>nightshade</label>
     <description>A flower that drinks the dark. It produces half as much mana as a daybloom, and only at night, but it keeps working while the colony sleeps. It also withers after a season.</description>
     <thingClass>Building</thingClass>
@@ -125,14 +127,14 @@
       <li>Botania.PlaceWorker_RadiusFromComp</li>
     </placeWorkers>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
-    <designationCategory>Misc</designationCategory>
+    <designationCategory>Botania</designationCategory>
     <thingCategories>
       <li>BotaniaBuildings</li>
     </thingCategories>
     <researchPrerequisites>
       <li>Botania_PassiveGenerating</li>
     </researchPrerequisites>
-    <uiOrder>3220</uiOrder>
+    <uiOrder>3201</uiOrder>
   </ThingDef>
 
 </Defs>

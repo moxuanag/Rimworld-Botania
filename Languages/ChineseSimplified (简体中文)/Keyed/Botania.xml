@@ -219,4 +219,119 @@
   <Botania.DevGear.Apparel>护甲</Botania.DevGear.Apparel>
   <Botania.DevGear.Spawned>已生成 {0}</Botania.DevGear.Spawned>
   <Botania.FleshSeedCellInfo>启命英的活细胞 · 第 {0} 代 · 年龄 {1}/{2}</Botania.FleshSeedCellInfo>
+    <Botania.DeviceWorking>设备：正在消耗魔力运转</Botania.DeviceWorking>
+    <Botania.DeviceNoMana>设备：附近没有可用魔力，已停工</Botania.DeviceNoMana>
+    <Botania.ProducerWorking>产能：正在把魔力送入附近的魔力池</Botania.ProducerWorking>
+    <Botania.ProducerNoPool>产能：附近没有可接收魔力的魔力池，魔力无处可去</Botania.ProducerNoPool>
+    <Botania.ProducerStored>缓存：{0} / {1} 魔力</Botania.ProducerStored>
+    <Botania.DevBld.Title>植物魔法建筑</Botania.DevBld.Title>
+    <Botania.DevBld.SceneTitle>测试场景：建筑 + 满魔力池</Botania.DevBld.SceneTitle>
+    <Botania.DevBld.Empty>没有找到可生成的植物魔法建筑</Botania.DevBld.Empty>
+    <Botania.DevBld.Spawned>已生成 {0}</Botania.DevBld.Spawned>
+    <Botania.DevBld.SceneSpawned>已生成 {0} 并配了一个满魔力池</Botania.DevBld.SceneSpawned>
+    <Botania.DevBld.Cat.Produce>产魔</Botania.DevBld.Cat.Produce>
+    <Botania.DevBld.Cat.Consume>耗魔</Botania.DevBld.Cat.Consume>
+    <Botania.DevBld.Cat.Other>其它</Botania.DevBld.Cat.Other>
+    <Botania.DevBld.PoolNotFound>鼠标下（或附近）没有魔力池</Botania.DevBld.PoolNotFound>
+    <Botania.DevBld.PoolFilled>魔力池已注满：{0}</Botania.DevBld.PoolFilled>
+    <Botania.DevBld.PoolDrained>魔力池已抽干：剩余 {0}</Botania.DevBld.PoolDrained>
+    <Botania.Dev.SettleNow>立刻结算一次</Botania.Dev.SettleNow>
+    <Botania.Dev.SettleNowDesc>开发者工具：跳过等待，立即结算本设备的周期。</Botania.Dev.SettleNowDesc>
+    <Botania.Dev.SkipCooldown>跳过冷却</Botania.Dev.SkipCooldown>
+    <Botania.Dev.SkipCooldownDesc>开发者工具：把下一次结算时刻清零，等价于原版「清除冷却」。</Botania.Dev.SkipCooldownDesc>
+    <Botania.Dev.FillBuffer>灌满缓存</Botania.Dev.FillBuffer>
+    <Botania.Dev.ClearBuffer>清空缓存</Botania.Dev.ClearBuffer>
+    <Botania.Dev.StormInject>注入短路能量（10 瓦日）</Botania.Dev.StormInject>
+    <Botania.Dev.StormInjectDesc>开发者工具：模拟一次电网短路，把 10 瓦日能量灌进电暴花缓存。</Botania.Dev.StormInjectDesc>
+    <Botania.Dev.PoolFill>灌满魔力</Botania.Dev.PoolFill>
+    <Botania.Dev.PoolFillDesc>开发者工具：把魔力补到上限。</Botania.Dev.PoolFillDesc>
+    <Botania.Dev.PoolAdd>+10000 魔力</Botania.Dev.PoolAdd>
+    <Botania.Dev.PoolAddDesc>开发者工具：加一万魔力。</Botania.Dev.PoolAddDesc>
+    <Botania.Dev.PoolClear>清空魔力</Botania.Dev.PoolClear>
+    <Botania.Dev.PoolClearDesc>开发者工具：把魔力归零。</Botania.Dev.PoolClearDesc>
+    <Botania.Dev.RepairNow>立即强制修复一次</Botania.Dev.RepairNow>
+    <Botania.Dev.RepairNowDesc>开发者工具：立刻跑一遍修复周期（扣魔力、按实际修理点数计费）。</Botania.Dev.RepairNowDesc>
+    <Botania.Dev.DamageAround>打残范围内目标（降到半血）</Botania.Dev.DamageAround>
+    <Botania.Dev.DamageAroundDesc>开发者工具：把修复半径内的建筑/物品耐久降到一半，方便测试修复。</Botania.Dev.DamageAroundDesc>
+    <Botania.Dev.DamageAroundDone>已把 {0} 个目标降到半血</Botania.Dev.DamageAroundDone>
+    <Botania.Dev.ThornFill>灌满荆棘缓冲</Botania.Dev.ThornFill>
+    <Botania.Dev.ThornPulse>立刻发一次荆棘脉冲</Botania.Dev.ThornPulse>
+    <Botania.Dev.TransmuterGive>丢一份输入材料</Botania.Dev.TransmuterGive>
+    <Botania.Dev.TransmuterGiveDesc>开发者工具：把转化表里第一种可转换材料丢到旁边。</Botania.Dev.TransmuterGiveDesc>
+    <Botania.Dev.TransmuterGiven>已生成 {0}</Botania.Dev.TransmuterGiven>
+    <Botania.Dev.FurnaceSettle>立刻产魔一次</Botania.Dev.FurnaceSettle>
+    <Botania.Dev.FurnaceSettleDesc>开发者工具：立刻按当前房间温度结算一次产魔。</Botania.Dev.FurnaceSettleDesc>
+    <Botania.Dev.AltarGive>直接给一份所需材料</Botania.Dev.AltarGive>
+    <Botania.Dev.AltarGiveDesc>开发者工具：按祭坛当前需要，直接生成一份对应材料到旁边。</Botania.Dev.AltarGiveDesc>
+    <Botania.Dev.AltarGiveNone>祭坛当前没有材料需求</Botania.Dev.AltarGiveNone>
+    <Botania.Dev.AltarGiveDone>已生成 {0} × {1}</Botania.Dev.AltarGiveDone>
+    <Botania.Dev.GateComplete>立即完成当前传送</Botania.Dev.GateComplete>
+    <Botania.Dev.GateCompleteDesc>开发者工具：把当前传送进度直接推到完成（仍需门框完整、材料齐全、魔力足够）。</Botania.Dev.GateCompleteDesc>
+    <Botania.Dev.GateCompleteDone>传送已立即完成：{0}</Botania.Dev.GateCompleteDone>
+    <Botania.Dev.GateCompleteNoMana>已推进到完成，但附近魔力不足，未产出；材料保留。</Botania.Dev.GateCompleteNoMana>
+    <Botania.Dev.GateCompleteNoTarget>当前没有可完成的传送。</Botania.Dev.GateCompleteNoTarget>
+    <Botania.Dev.GateGive>给一份输入材料</Botania.Dev.GateGive>
+    <Botania.Dev.GateGiveDesc>开发者工具：按当前规则在门洞里生成一份所需材料。</Botania.Dev.GateGiveDesc>
+    <Botania.Dev.GateGiveDone>已给出一份「{0}」所需材料</Botania.Dev.GateGiveDone>
+    <Botania.Dev.GateGiveNone>给不出材料：没有可用规则，或类别下没有物品。</Botania.Dev.GateGiveNone>
+    <Botania.Dev.GateFillMana>灌满魔力</Botania.Dev.GateFillMana>
+    <Botania.Dev.GateFillManaDesc>开发者工具：把附近最近的一个魔力源注满。</Botania.Dev.GateFillManaDesc>
+    <Botania.Dev.GateFillManaDone>已注入 {0} 魔力</Botania.Dev.GateFillManaDone>
+    <Botania.Dev.GateFillManaFull>附近最近的魔力源已经是满的</Botania.Dev.GateFillManaFull>
+    <Botania.Dev.GateFillManaNone>附近 {0} 格内没有魔力源</Botania.Dev.GateFillManaNone>
+
+    <!-- S5 效果设备（CompManaEffectDevice）：inspect 面板追加的「效果：…」列表 -->
+    <Botania.EffectDeviceEffects>效果：{0}</Botania.EffectDeviceEffects>
+    <Botania.Dev.StormShortCircuit>触发一次真实短路</Botania.Dev.StormShortCircuit>
+    <Botania.Dev.StormShortCircuitDesc>开发者工具：按原版事件入口触发一次真实电网短路，引擎抽干电池并按实际储能喂给电暴花。会真的爆炸，请用小电网测试。</Botania.Dev.StormShortCircuitDesc>
+    <Botania.Dev.StormShortCircuitNoBattery>吸收半径 {0} 格内没有储能足够的电池</Botania.Dev.StormShortCircuitNoBattery>
+    <Botania.Dev.StormShortCircuitDone>已触发真实短路：电池约 {0} 瓦日，电暴花缓存 +{1}</Botania.Dev.StormShortCircuitDone>
+    <Botania.Dev.ThornForcePulse>强制脉冲一次（范围内敌人）</Botania.Dev.ThornForcePulse>
+    <Botania.Dev.ThornForcePulseDesc>开发者工具：按真实流程走一次「收集目标 → 脉冲」。没有敌人时不会凭空造目标。</Botania.Dev.ThornForcePulseDesc>
+    <Botania.Dev.ThornPulseDone>已按真实脉冲路径结算：范围内 {0} 个敌人</Botania.Dev.ThornPulseDone>
+    <Botania.Dev.ThornNoTargets>半径 {0} 格内没有敌人</Botania.Dev.ThornNoTargets>
+    <Botania.Dev.ThornFillMana>灌满荆棘缓冲（真实抽取）</Botania.Dev.ThornFillMana>
+    <Botania.Dev.ThornFillManaDesc>开发者工具：反复走真实回充路径把缓冲补满，会实际消耗附近魔力。</Botania.Dev.ThornFillManaDesc>
+    <Botania.Dev.ThornFillFull>荆棘缓冲已满</Botania.Dev.ThornFillFull>
+    <Botania.Dev.ThornFillDone>已补入 {0} 魔力（缓冲 {1}/{2}）</Botania.Dev.ThornFillDone>
+    <Botania.Dev.ThornFillNoSource>附近没有可用魔力源</Botania.Dev.ThornFillNoSource>
+    <Botania.Dev.BitterClearCooldown>清空劳累冷却</Botania.Dev.BitterClearCooldown>
+    <Botania.Dev.BitterClearCooldownDesc>开发者工具：走真实的冷却重建入口清空零碎小活冷却表。</Botania.Dev.BitterClearCooldownDesc>
+    <Botania.Dev.BitterCooldownCleared>已清空 {0} 条零碎小活冷却</Botania.Dev.BitterCooldownCleared>
+    <Botania.Dev.BitterGrantXp>给半径内小人加经验</Botania.Dev.BitterGrantXp>
+    <Botania.Dev.BitterGrantXpDesc>开发者工具：对工作半径内每个小人调用真实经验入口。</Botania.Dev.BitterGrantXpDesc>
+    <Botania.Dev.BitterXpGranted>已给 {0} 个小人各记 {1} 点经验</Botania.Dev.BitterXpGranted>
+    <Botania.Dev.BitterNoPawns>半径 {0} 格内没有小人</Botania.Dev.BitterNoPawns>
+    <Botania.Dev.LotusShieldNearby>让附近小人进入被庇护状态</Botania.Dev.LotusShieldNearby>
+    <Botania.Dev.LotusShieldNearbyDesc>开发者工具：把半径内类人按真实的被干扰登记路径处理，再跑一次真实结算（按人数扣魔力）。</Botania.Dev.LotusShieldNearbyDesc>
+    <Botania.Dev.LotusShieldNearbyDone>已按真实路径庇护 {0} 名小人</Botania.Dev.LotusShieldNearbyDone>
+    <Botania.Dev.LotusShieldNearbyNone>附近没有可登记的小人</Botania.Dev.LotusShieldNearbyNone>
+    <Botania.Dev.LotusShieldNearbyNoMana>已登记 {0} 名小人，但魔力不足，庇护未生效</Botania.Dev.LotusShieldNearbyNoMana>
+    <Botania.Dev.RosaSiphonNow>立刻吸取一次附近小人的智力</Botania.Dev.RosaSiphonNow>
+    <Botania.Dev.RosaSiphonNowDesc>开发者工具：按真实经验差分路径结算一次。</Botania.Dev.RosaSiphonNowDesc>
+    <Botania.Dev.RosaSiphonDone>已从 {0} 名小人吸取智力，产出 {1} 魔力</Botania.Dev.RosaSiphonDone>
+    <Botania.Dev.RosaSiphonNoPool>已吸取 {0} 名小人，但没有魔力池接收，{1} 魔力流失</Botania.Dev.RosaSiphonNoPool>
+    <Botania.Dev.RosaSiphonNone>附近没有可吸取的小人</Botania.Dev.RosaSiphonNone>
+    <Botania.Dev.TransmuterConvert>转化一次相邻材料</Botania.Dev.TransmuterConvert>
+    <Botania.Dev.TransmuterConvertDesc>开发者工具：对相邻材料走一次真实转化周期。</Botania.Dev.TransmuterConvertDesc>
+    <Botania.Dev.TransmuterConvertDone>已转化出 {0} × {1}</Botania.Dev.TransmuterConvertDone>
+    <Botania.Dev.TransmuterConvertNone>相邻格没有可转化的输入材料</Botania.Dev.TransmuterConvertNone>
+    <Botania.TurretReady>炮塔：魔力充足，随时开火</Botania.TurretReady>
+    <Botania.TurretNoMana>炮塔：附近没有足够魔力，已停火</Botania.TurretNoMana>
+    <Botania.Dev.TurretSummonTarget>召唤一个射程内敌对目标</Botania.Dev.TurretSummonTarget>
+    <Botania.Dev.TurretSummonTargetDesc>开发者工具：在射程内（避开最小射程）生成一个敌对单位，之后走真实的索敌→预热→开火流程。</Botania.Dev.TurretSummonTargetDesc>
+    <Botania.Dev.TurretSummonDone>已召唤 {0}，炮塔会自己索敌开火</Botania.Dev.TurretSummonDone>
+    <Botania.Dev.TurretSummonFailed>召唤失败：没有可用的敌对派系或找不到可站立的地格</Botania.Dev.TurretSummonFailed>
+    <Botania.Dev.TurretFillMana>把附近魔力源注满</Botania.Dev.TurretFillMana>
+    <Botania.Dev.TurretFillManaDesc>开发者工具：对射程内最近的魔力源调用真实的 AddMana 补满。</Botania.Dev.TurretFillManaDesc>
+    <Botania.Dev.TurretFillManaDone>已注入 {0} 魔力</Botania.Dev.TurretFillManaDone>
+    <Botania.Dev.TurretFillManaFull>附近魔力源已经是满的</Botania.Dev.TurretFillManaFull>
+    <Botania.Dev.TurretFillManaNone>附近没有魔力源</Botania.Dev.TurretFillManaNone>
+    <Botania.RelayLinked>中继塔：已接入魔力网络（扩展半径 {0} 格）</Botania.RelayLinked>
+    <Botania.RelayNoNetwork>中继塔：无可用魔力网络（覆盖半径 {0} 格内没有已连接节点）</Botania.RelayNoNetwork>
+    <Botania.RelayLinkedShort>已接入</Botania.RelayLinkedShort>
+    <Botania.RelayNoNetworkShort>未接入</Botania.RelayNoNetworkShort>
+    <Botania.Dev.RelayReport>查看网络连接状态</Botania.Dev.RelayReport>
+    <Botania.Dev.RelayReportDesc>开发者工具：报告本塔当前是否接入网络，以及它的扩展半径。</Botania.Dev.RelayReportDesc>
+    <Botania.Dev.RelayReportResult>中继塔状态：{0}（扩展半径 {1} 格）</Botania.Dev.RelayReportResult>
 </LanguageData>

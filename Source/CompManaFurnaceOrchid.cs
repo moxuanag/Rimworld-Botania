@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using RimWorld;
 using Verse;
 
@@ -8,8 +9,15 @@ namespace Botania
     /// 炉心蕙：只在封闭、有屋顶的房间里工作，室温越高、房间越大产得越多。
     /// 产量 ∝ (T − 20) × √A，A 是这朵花分到的有效面积（房间面积 ÷ 房间里的花数，上限 150）。
     /// 维持成本由游戏自身的温度模拟承担：房间越细长、墙越外露，掉温越快，玩家就得烧更多热。
+    ///
+    /// 框架迁移（0.8.4 S3-b）：找魔力池 / 结算节流 / 存档键交给 <see cref="CompManaProducer"/>；
+    /// 本文件只保留「房间面积 → 有效面积 → 产量」的换算，以及过温掉血 / 自燃这两笔账。
+    /// 过温与自燃的结算时机与旧版一致：仍是**每次结算（60 tick = 1 秒）一次**，
+    /// 挂在产魔之后的 <see cref="OnManaAccepted"/> / <see cref="OnNoTarget"/> 上
+    /// （旧版次序也是「先送池、再 Overheat」）。刻意不搬进每 tick 的 ExtraTick——
+    /// 那里的伤害/概率没地方除 60，直接搬会让同一份「每秒」数值变成 60 倍。
     /// </summary>
-    public class CompProperties_ManaFurnaceOrchid : CompProperties
+    public class CompProperties_ManaFurnaceOrchid : CompProperties_ManaProducer
     {
         /// <summary>产量系数 k：每秒魔力 = k × (T − 20) × √A。0.20 时 12 格房在 150°C 正好摸到上限。</summary>
         public float manaScale = 0.2f;
@@ -26,9 +34,6 @@ namespace Botania
         /// <summary>产魔的起始温度（°C），低于它不产魔。</summary>
         public float baseTemperature = 20f;
 
-        /// <summary>搜索魔力池的半径（格）。</summary>
-        public float poolRadius = 6f;
-
         /// <summary>超过这个温度开始掉 HP。</summary>
         public float overheatThreshold = 150f;
 
@@ -44,9 +49,17 @@ namespace Botania
         public CompProperties_ManaFurnaceOrchid()
         {
             compClass = typeof(CompManaFurnaceOrchid);
+
+            // 基类配置：每秒结算一次、无缓冲、只喂魔力池（均与旧版一致）。
+            // 送魔半径沿用旧 poolRadius = 6（XML 里旧的 <poolRadius> 需同步改成 <radius>）。
+            radius = 6f;
+            settleIntervalTicks = 60;
+            bufferCapacity = 0f;
+            feedRelays = false;
+            saveKeyPrefix = "botaniaManaFurnaceOrchid";
         }
 
-        public override System.Collections.Generic.IEnumerable<string> ConfigErrors(ThingDef parentDef)
+        public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
         {
             foreach (string error in base.ConfigErrors(parentDef))
             {
@@ -71,12 +84,8 @@ namespace Botania
         }
     }
 
-    public class CompManaFurnaceOrchid : ThingComp
+    public class CompManaFurnaceOrchid : CompManaProducer
     {
-        private const int TicksPerSettle = 60;
-
-        private int ticksAccum;
-
         public CompProperties_ManaFurnaceOrchid Props => (CompProperties_ManaFurnaceOrchid)props;
 
         /// <summary>这朵花当前分到的有效面积（供 UI 显示）。</summary>
@@ -85,39 +94,27 @@ namespace Botania
         /// <summary>房间温度（供 UI 显示）。</summary>
         public float RoomTemperature { get; private set; }
 
-        /// <summary>当前每秒产量（供 UI 显示）。</summary>
+        /// <summary>当前产量（按一次结算计；默认结算间隔 60 tick = 1 秒，所以等于每秒产量）。</summary>
         public float CurrentOutput { get; private set; }
 
         /// <summary>不能工作的原因，null 表示正常。</summary>
         public string BlockReason { get; private set; }
 
-        public override void CompTick()
+        /// <summary>
+        /// 旧版 Settle() 里「先判断房间/拥挤/面积/温度」的那一半。
+        /// 基类每结算一次调用一次，正好对应旧版每秒一次的房间检查与缓存刷新。
+        /// </summary>
+        protected override bool WantsProduce()
         {
-            base.CompTick();
-            if (!parent.Spawned)
-            {
-                return;
-            }
-            ticksAccum++;
-            if (ticksAccum < TicksPerSettle)
-            {
-                return;
-            }
-            ticksAccum = 0;
-            Settle();
-        }
-
-        private void Settle()
-        {
-            Map map = parent.Map;
             BlockReason = null;
             CurrentOutput = 0f;
 
+            Map map = parent.Map;
             Room room = parent.GetRoom();
             if (room == null || room.PsychologicallyOutdoors || !parent.Position.Roofed(map))
             {
                 BlockReason = "Botania.FurnaceOpenAir".Translate();
-                return;
+                return false;
             }
 
             float area = Math.Min(room.CellCount, Props.maxRoomArea);
@@ -129,49 +126,64 @@ namespace Botania
             if (IsCrowded())
             {
                 BlockReason = "Botania.FurnaceTooClose".Translate();
-                return;
+                return false;
             }
             if (share <= Props.minAreaPerFlower)
             {
                 BlockReason = "Botania.FurnaceTooSmall".Translate(Props.minAreaPerFlower.ToString("0"));
-                return;
+                return false;
             }
-
-            float delta = room.Temperature - Props.baseTemperature;
-            if (delta <= 0f)
+            if (room.Temperature - Props.baseTemperature <= 0f)
             {
                 BlockReason = "Botania.FurnaceTooCold".Translate(Props.baseTemperature.ToString("0"));
-                return;
+                return false;
             }
-
-            float mana = Props.manaScale * delta * (float)Math.Sqrt(share);
-            if (mana > Props.maxManaPerSecond)
-            {
-                mana = Props.maxManaPerSecond;
-            }
-            CurrentOutput = mana;
-
-            CompManaStorage pool = FindPool();
-            if (pool != null)
-            {
-                pool.AddMana(mana);
-            }
-
-            Overheat(room.Temperature);
+            return true;
         }
 
-        /// <summary>超过阈值掉 HP；逼近沸点有概率自燃。</summary>
-        private void Overheat(float temperature)
+        /// <summary>旧版 Settle() 里「算产量」的那一半；送池由基类完成。</summary>
+        protected override float ProducePerSettle(int ticks)
         {
+            // 配置语义是「每秒」，默认 60 tick 结算一次，换算系数正好是 1（改动间隔时按比例缩放）。
+            float seconds = ticks / (float)GenTicks.TicksPerRealSecond;
+            float mana = Props.manaScale * (RoomTemperature - Props.baseTemperature)
+                * (float)Math.Sqrt(EffectiveArea) * seconds;
+            float cap = Props.maxManaPerSecond * seconds;
+            if (mana > cap)
+            {
+                mana = cap;
+            }
+            CurrentOutput = mana;
+            return mana;
+        }
+
+        /// <summary>旧版：魔力送池成功之后结算过温掉血 / 自燃。</summary>
+        protected override void OnManaAccepted(float acceptedMana)
+        {
+            Overheat();
+        }
+
+        /// <summary>旧版：附近没有池子时魔力直接损失，但过温掉血 / 自燃照旧结算。</summary>
+        protected override void OnNoTarget()
+        {
+            Overheat();
+        }
+
+        /// <summary>超过阈值掉 HP；逼近沸点有概率自燃。按一次结算（默认 1 秒）记账。</summary>
+        private void Overheat()
+        {
+            float seconds = ProducerProps.settleIntervalTicks / (float)GenTicks.TicksPerRealSecond;
+            float temperature = RoomTemperature;
             if (temperature > Props.overheatThreshold)
             {
-                float damage = (temperature - Props.overheatThreshold) * Props.damagePerDegree;
+                float damage = (temperature - Props.overheatThreshold) * Props.damagePerDegree * seconds;
                 if (damage > 0f)
                 {
                     parent.TakeDamage(new DamageInfo(DamageDefOf.Deterioration, damage));
                 }
             }
-            if (temperature >= Props.ignitionThreshold && Rand.Chance(Props.igniteChancePerSecond))
+            if (temperature >= Props.ignitionThreshold
+                && Rand.Chance(Props.igniteChancePerSecond * seconds))
             {
                 FireUtility.TryAttachFire(parent, 0.4f, null);
             }
@@ -223,20 +235,6 @@ namespace Botania
                 }
             }
             return false;
-        }
-
-        private CompManaStorage FindPool()
-        {
-            Map map = parent.Map;
-            foreach (Thing thing in GenRadial.RadialDistinctThingsAround(parent.Position, map, Props.poolRadius, true))
-            {
-                CompManaStorage storage = thing.TryGetComp<CompManaStorage>();
-                if (storage != null && storage.AcceptsMana && !storage.IsFull)
-                {
-                    return storage;
-                }
-            }
-            return null;
         }
 
         public override string CompInspectStringExtra()

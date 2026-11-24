@@ -80,11 +80,8 @@ namespace Botania
             {
                 return pool;
             }
-            CompManaRelay relay = thing.TryGetComp<CompManaRelay>();
-            if (relay != null)
-            {
-                return relay;
-            }
+            // 中继塔已改为「纯网络扩展」，不再作为魔力源；
+            // 设备统一通过 MapComponent_ManaNetwork 取网络里的共享魔力池。
             return null;
         }
     }

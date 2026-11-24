@@ -7,121 +7,83 @@ namespace Botania
     /// 精灵灯：不耗电，从魔力网络抽 1 魔力 / 60 秒。
     ///
     /// 断魔语义和精灵门一致——**直接熄灭**，来了魔力再自己亮回来。
-    /// 实现方式刻意不碰 CompGlower 内部：原版灯本来就有 CompFlickable（开关），
-    /// 我们只是代替玩家去拨这个开关，所以不用反射、也不用改引擎行为。
+    ///
+    /// 关键点（0.8.4 踩坑后重写）：**绝不去动 CompFlickable**。
+    /// 原版 CompFlickable 有两套状态：`switchOnInt`（实际开关，`SwitchIsOn`）
+    /// 与 `wantSwitchOn`（玩家想要的状态，Gizmo 按钮显示的就是它）。
+    /// 直接写 `SwitchIsOn` 会让两者脱钩：按钮显示「开」而灯不亮，
+    /// 玩家一旦点关闭，小人来拨开关时 `DoFlick()` 取反反而把灯点亮，
+    /// 并且 `WantsFlick()` 永久为真 → 小人反复跑过来拨灯。
+    ///
+    /// 正确做法：实现引擎自带的 **`IThingGlower`**。CompGlower 的 `ShouldBeLitNow`
+    /// 会遍历同物件的所有组件询问 `IThingGlower.ShouldBeLitNow()`
+    /// （CompPowerTrader / CompRefuelable 就是这么给灯断电的），
+    /// 因此我们只要回答「现在有魔力吗」，灯光就由引擎自己切，开关语义完全不受影响。
     /// </summary>
-    public class CompProperties_ManaPixieLamp : CompProperties
+    public class CompProperties_ManaPixieLamp : CompProperties_ManaDevice
     {
-        /// <summary>每次结算要付的魔力量。</summary>
-        public float manaPerCharge = 1f;
-
-        /// <summary>结算间隔（tick）。默认 60 秒。</summary>
-        public int chargeIntervalTicks = 3600;
-
-        /// <summary>找魔力源的半径。</summary>
-        public float searchRadius = 8f;
-
-        /// <summary>
-        /// 熄灭后多久再看一眼。给 5 秒而不是 60 秒：
-        /// 玩家把池子搬过来的那一刻，灯应该几乎立刻亮，而不是让池子干等一分钟。
-        /// </summary>
-        public int retryIntervalTicks = 300;
-
         public CompProperties_ManaPixieLamp()
         {
             compClass = typeof(CompManaPixieLamp);
+
+            // 精灵灯语义：每小时 1 点魔力；熄灭后 5 秒重试一次。
+            manaPerWork = 1f;
+            workIntervalTicks = 3600;
+            retryIntervalTicks = 300;
+            searchRadius = 8f;
+
+            // 沿用旧存档键，老存档里的状态能直接读回来。
+            saveKeyPrefix = "botaniaPixieLamp";
+            legacyHasManaKey = "botaniaPixieLampHasMana";
+            legacyNextWorkKey = "botaniaPixieLampNextChargeTick";
+
+            inspectWorkingKey = "Botania.PixieLampOn";
+            inspectNoManaKey = "Botania.PixieLampOff";
         }
     }
 
-    public class CompManaPixieLamp : ThingComp
+    public class CompManaPixieLamp : CompManaDevice, IThingGlower
     {
-        /// <summary>上一次结算是否有魔力。没有就一直熄着。</summary>
-        private bool hasMana = true;
+        private CompGlower glower;
 
-        private int nextChargeTick;
-
-        private CompFlickable flickable;
-
-        public CompProperties_ManaPixieLamp Props => (CompProperties_ManaPixieLamp)props;
-
-        public bool Lit => hasMana;
+        /// <summary>灯现在是否亮着（= 上次结算付得起魔力）。</summary>
+        public bool Lit => Core.HasMana;
 
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             base.PostSpawnSetup(respawningAfterLoad);
-            flickable = parent.GetComp<CompFlickable>();
-            // 刚建好/刚加载先立刻结一次账：没魔力的话当场就是暗的，不用先亮一会儿
-            TryCharge();
+            glower = parent.GetComp<CompGlower>();
         }
 
-        public override void CompTick()
+        /// <summary>
+        /// 引擎问「现在该亮吗」。返回 false 时 CompGlower 会把灯关掉，
+        /// 返回 true 时仍需 CompFlickable 处于开启状态才会亮——语义正确。
+        /// </summary>
+        public bool ShouldBeLitNow()
         {
-            // 每秒看一次表就够了，3600 tick 的账不值得每个 tick 都算
-            if (!parent.IsHashIntervalTick(60))
-            {
-                return;
-            }
-            int now = Find.TickManager.TicksGame;
-            if (now < nextChargeTick)
-            {
-                return;
-            }
-            nextChargeTick = now + Props.chargeIntervalTicks;
-            TryCharge();
+            return Core.HasMana;
         }
 
-        private void TryCharge()
+        /// <summary>
+        /// 玩家手动关掉这盏灯时不扣魔力——与灯光判定保持同一口径
+        /// （引擎的 WantsToBeOn 也看 CompFlickable.SwitchIsOn）。
+        /// </summary>
+        protected override bool WantsWork()
         {
-            Map map = parent.Map;
-            if (map == null)
-            {
-                return;
-            }
-            int now = Find.TickManager.TicksGame;
-            float need = Props.manaPerCharge;
-            IManaSource source = ManaSourceUtil.FindNearest(
-                parent.Position, map, Props.searchRadius, need, parent);
-
-            bool got = source != null && source.DrainMana(need) >= need - 0.001f;
-            // 亮着就按一分钟一次结账；熄了就 5 秒后再看，免得池子搬到旁边还要干等
-            nextChargeTick = now + (got ? Props.chargeIntervalTicks : Props.retryIntervalTicks);
-            if (got == hasMana)
-            {
-                return;
-            }
-            hasMana = got;
-            ApplyLitState();
+            return FlickUtility.WantsToBeOn(parent);
         }
 
-        /// <summary>把「有没有魔力」翻译成「灯的开关状态」。</summary>
-        private void ApplyLitState()
+        protected override void DoWork(int ticks)
         {
-            if (flickable == null)
-            {
-                return;
-            }
-            if (flickable.SwitchIsOn != hasMana)
-            {
-                flickable.SwitchIsOn = hasMana;
-            }
         }
 
-        public override string CompInspectStringExtra()
+        /// <summary>魔力状态一变就主动刷新一次灯光（引擎只在信号/初始化时重算）。</summary>
+        protected override void OnManaStateChanged(bool hasMana)
         {
-            if (parent.Map == null)
+            if (glower != null && parent.Spawned && parent.Map != null)
             {
-                return null;
+                glower.UpdateLit(parent.Map);
             }
-            return hasMana
-                ? "Botania.PixieLampOn".Translate()
-                : "Botania.PixieLampOff".Translate();
-        }
-
-        public override void PostExposeData()
-        {
-            base.PostExposeData();
-            Scribe_Values.Look(ref hasMana, "botaniaPixieLampHasMana", true);
-            Scribe_Values.Look(ref nextChargeTick, "botaniaPixieLampNextChargeTick", 0);
         }
     }
 }

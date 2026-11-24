@@ -73,6 +73,299 @@
 
 ## [未发布]
 
+（下次发版内容写在这里）
+
+## [0.9.0] - 2026-11-24
+
+### 调整：远古陨击花改为 2×2 并重制贴图
+
+- `size` (1,1) → **(2,2)**；`graphicData/drawSize` 同步 (2,2)；
+  `turretTopDrawSize` 1 → **2**；`turretTopOffset` 设为 (0,0)（Vector2）；
+  `muzzleForwardOffset` 0.7 → **1.6**（花喉离中心更远，炮口闪光外移）
+- 贴图重制为 **256×256**：
+  - `AncientStarfall_Base`：远古石板底座（八边形石板 + 石纹 + 苔藓 + 厚萼 + 中央花托带符文柱）
+  - `AncientStarfall_Top`：居中盘心 + 三片厚唇 + 钢制喉口 + 魔力核心（朝东，旋转轴居中）
+- 生成脚本 `_dev/_botania-dev/make_ancient_starfall_2x2.py`（含轴心/朝东/留边三条自检）
+- 文档新增 §19.19.2
+
+### 修复：爆炸视觉半径与伤害半径不一致（植物没了但敌人不掉血）
+
+- 根因一：`explosionEffect GiantExplosion` 是**反物质弹（半径 14.9）**的超大火球，
+  而我们的伤害半径只有 **7.45** —— 玩家看到 ~15 格的火球，实际只有 7.45 格会受伤。
+  另外 DamageDef 缺 `explosionCellFleck` / 颜色 / `soundExplosion`，逐格视觉完全缺失。
+- 修复：
+  - `Botania_HeavyManaBomb` 补齐原版 `Bomb` 的爆炸表现字段
+    （`explosionCellFleck BlastDry`、`explosionColorCenter/Edge`、`explosionHeatEnergyPerCell 5`、
+    `soundExplosion Explosion_Bomb`、`corpseDamageFactor 0.5`、`explosionAffectOutsidePartsOnly false`、
+    `combatLogRules Damage_Bomb`）
+  - 删除 `GiantExplosion`：火球大小改由伤害半径铺出，**看到多大就打多大**
+- 根因二（已修，补记录）：早期 `Botania_HeavyManaBomb` 用 `ParentName="BombSuper"` 导致整条
+  DamageDef 加载失败（该 parent 没有 `Name=`），当时这发炮弹实际没有伤害类型
+- 文档新增 §19.20 记录完整排查过程与验证方法（数格子）
+
+### 调整：远古陨击花复用原版陨石（Skyfaller）机制
+
+用户提醒「原版本来就有陨石」。确实有，而且比自定义高弧线炮弹更还原，已改成复用：
+
+- 新增 `Botania_MeteorIncoming`（`ParentName="SkyfallerBase"`，与原版陨石事件同一套机制）
+  - `<skyfaller>`：爆炸半径 **7.45**、伤害 **Botania_HeavyManaBomb（275）**、
+    `speed 1.2`、`cameraShake 0.5`、`ticksToImpactRange 100~150`、落地音效与投影沿用原版
+- 新增 `Source/Projectile_ManaMeteor.cs`：覆写 `Projectile.Launch`，
+  用引擎算好的落点（**含 forcedMiss 散布**）调 `SkyfallerMaker.SpawnSkyfaller` 后销毁弹体
+- 弹体 `Botania_Bullet_HeavyManaShell`：`thingClass` 改为该自定义类，`explosionRadius 0`（不自己炸）
+- 新增陨石贴图 `Things/Skyfaller/Botania/Meteor`（128×128，四边留透明边距）
+- 数值全部不变：伤害 275 / 半径 7.45 / 冷却 60s / 射程 500 / 死区 20 / 250 魔力
+
+### 调整：远古陨击花改为「召唤陨石」攻击
+
+- 投射物换成陨石表现：新贴图 `ManaMeteor`（燃烧岩块 + 熔岩裂纹 + 尾焰），
+  `arcHeightFactor 0.8`（高弧线）、`spinRate 10`（翻滚）、`screenShakeFactor 2`（落地震屏）
+- `speed` 保持 41：射程 500 时降到 26 会让飞行长达 30 秒，观感更差
+- 伤害 275 / 爆炸半径 7.45 / 起火率 / 弹坑 / 冷却 60s / 射程 500 / 死区 20 / 每发 250 魔力：全部不变
+- 中英文案同步：弹体「召唤陨石」，花与炮械描述改为「拽下陨石砸向目标」
+- 文档新增 §19.19.1
+
+### 修复：炮塔花缺魔空读秒 + 顶图朝向 90° 偏差；远古陨击花改名与死区
+
+- **缺魔仍读秒**（用户实测）：`TryStartShootSomething` 非 virtual，预热在 `BeginBurst` 之前完成，
+  导致「没魔力也读秒、读完不开火」。修法：`Building_ManaTurretGun.Tick` 覆写，
+  缺魔时把 `burstWarmupTicksLeft` 清零（保留 currentTarget，所以转向照常）。
+  三朵炮塔花共用该类，一次全部修好。
+- **炮塔顶贴图朝向错了 90°**：按 `ArtworkRotation=-90` + Unity 旋转约定推导，
+  顶图必须**朝东**而非朝北。三张顶图已顺时针旋转 90°，生成脚本同步（重生成不会退回）。
+- **远古陨击花**（原「重型迫击炮花」）：
+  - defName `Botania_HeavyMortarFlower` → `Botania_AncientStarfall`
+  - 炮械 `Botania_Gun_AncientStarfall`；贴图 `AncientStarfall_Base/Top.png`
+  - 中文名 **远古陨击花**，研究名「重型防御花」→「远古防御花」
+  - 最小射程 29.9 → **20**（按要求缩减 1/3）
+- `check_def_refs.py` 的轴心检查改为「垂直于炮口的轴必须居中」，适配朝东画的顶图
+
+### 工程：一条命令交付检查 + 一条命令加物品/建筑
+
+目标是让「不那么懂这个模组的模型」也能安全加内容，靠脚本护栏而不是记忆。
+
+- **`scripts/check_all.py`：交付闸门（一条命令跑全部）**
+  - `dotnet build` → validate_mod → check_comp_fields → check_xml_fields →
+    check_def_refs → check_component_rules
+  - 任何一项 FAIL 直接以非 0 退出，并明确打印「不许部署/提交」
+- **`_dev/_botania-dev/scaffold_apply.py`：新增物品/建筑一条命令**
+  - `scaffold_apply.py item Botania_XXX --label-zh ...` → Def + 占位贴图 + 中文 DefInjected
+  - `scaffold_apply.py building Botania_XXX --group Botania_Buildings ...` → 额外带分类、造价、研究前置
+  - 生成后**自动跑 check_all**；不通过就按报错改，不用记规矩
+  - 内置护栏：defName 前缀/格式、重名检测、`--cost` 格式、材料名白名单、`--dry-run`
+  - 开发中模板自身被 check_all 抓出过一个非法字段（`ai_combatTargeting`），已修
+- **`docs/新增内容速查.md`**：一页纸流程（物品 / 建筑 / 花设备炮塔 / 交付 / 报错对照表 / 三个易犯错）
+- AGENTS.md §7 改为「交付前只需 `check_all.py`；加物品建筑用 `scaffold_apply.py`」
+
+### 修复：重型魔力战斗部 DamageDef 加载失败 + 新增引用检查脚本
+
+- **报错**：`XML error: Could not find parent node named "BombSuper" for node "DamageDef"`
+  - 根因：本引擎的 `ParentName` 只能指向 `Name=` 属性；原版 `BombSuper` 只有 `defName`，没有 `Name=`
+  - 修复：`Botania_HeavyManaBomb` 改为**自包含**定义，把 BombSuper/Bomb 的字段抄全
+    （workerClass / isExplosive / armorCategory / hediff Shredded / hediffSolid Crack /
+    buildingDamageFactor / harmAllLayersUntilOutside 等），伤害仍是 275
+- 新增 `_dev/_botania-dev/check_def_refs.py`：
+  - 校验所有 `ParentName` 是否能在本模组或原版 Data 的 `Name=` 里找到（这条正好抓上面的 bug）
+  - 校验 `turretGunDef` / `defaultProjectile` / `damageDef` / `hediff` / `mote` / 研究前置等引用是否存在
+  - 检查炮塔顶贴图的**水平轴心**（偏了旋转就会左右漂）
+- AGENTS.md：验证顺序加入该脚本，并新增「ParentName 只能指向 Name=」条款
+
+### 调整：重型防御花研究坐标移回「花」分支（x6,y1）
+
+原先放在 (6,4) 导致「进阶防御花(5,1)」与「盖亚(7,3)」两条长斜线横穿整棵研究树，观感乱。
+研究树的 y 轴是分支而非进度，重型虽为后期解锁，分支归属仍是「花」，已移回 y=1，
+使防御花线成为一条直线（功能花→防御花→进阶防御花→重型防御花），只保留一条到盖亚的短连线。
+
+### 新增：防御花科技线 + 重型迫击炮花 + 三套贴图重做（2026-11-24）
+
+- **科技线**（接现有树）：功能花+魔力存储 → 防御花(1500, x4,y1) → 进阶防御花(2500, x5,y1)
+  → 与盖亚汇合 → 重型防御花(4000, x6,y4)
+- **重型迫击炮花** `Botania_HeavyMortarFlower`：
+  - 射程 500 / 最小 29.9（同原版迫击炮，全图）
+  - 伤害 275、爆炸半径 7.45（= 反物质弹头 550 / 14.9 的一半）
+  - 攻击间隔 **60 秒**，偏差 9，预热 4s，每发 250 魔力
+  - 新增 `Botania_HeavyManaBomb`（DamageDef）/ 弹体 / 炮械 Def + 弹体贴图
+- **贴图重做**：荆棘钟花＝花萼托座、爆萼花＝大王花（花喉朝北）、重型＝巨口；
+  统一 128×128、圆心严格落在 (64,64)、顶部小于底座、2px 描边同色系
+- 爆萼花射程 100 → **70**（最小射程 10 不变），引擎可完整绘制射程环
+
+### 重构：魔力网络（一套范围 + 中继塔改纯扩展 + 边界显示）
+
+- 新的「网络覆盖」模型取代旧的「池显示环 + 各设备 searchRadius」两套范围：
+  - 魔力池半径 **7**、简易池 **4**、中继塔扩展半径 **11**
+  - 连通判定：覆盖圆相交即相接（并查集），只有含魔力池的分量有效
+  - 同一网络内的魔力池**共享**（等价一个大池）
+  - 设备不再有自己的搜索半径；产魔花送魔、功能花取魔都只看「是否在网络覆盖内」
+- **中继塔重写为纯网络扩展建筑**：删除容量/储魔/拉取/损耗；未连上时红圈 + 「无可用魔力网络」提示
+- 选中网络节点时画**整片网络的边界**（只画边界、内部无线条），解决多圆交叉重叠的观感问题
+- 老存档：旧中继塔内的 `mana` 读档后自动转入最近魔力池，不丢失
+- 新增框架：`Framework/ManaNetwork.cs`、`MapComponent_ManaNetwork.cs`；
+  `ManaDeviceCore.FindSource` / `ManaProducerCore.FindTarget` 改走网络（设备侧零改动）
+- 移除各设备 XML 里的 `searchRadius` / `poolRadius` / `manaSearchRadius` 字段
+
+### 框架：overlay 绘制抽成共用件 `BotaniaOverlays`
+
+- 新增 `Source/Framework/OverlayUtil.cs`：`BotaniaOverlays.DrawRadiusRingSafe(center, radius)`
+  - 半径 ≤ 引擎上限（`GenRadial.MaxRadialPatternRadius`，约 79 格）→ 用 `GenDraw.DrawRadiusRing`
+  - 超限 → 128 段线段画圆，且**自动抬到 `AltitudeLayer.MetaOverlays`**（否则被地形盖住、视觉上等于没画）
+- `Building_ManaTurretGun.DrawExtraSelectionOverlays()` 改为调用它，不再自己维护绘制细节
+- 以后任何需要画大范围环的建筑（不止炮塔）直接复用，不必再踩半径上限 / 渲染高度这两个坑
+- `AGENTS.md`：§1 与 §2 都登记该工具；删除「验证清单文件」的规定（用户认为多余），
+  改为「需要用户验证的点直接在对话里列，踩过的坑必须写进文档」
+
+### 修复：爆萼花选中看不到射程环（第二次）
+
+- 现象：上一版修掉「每帧报错」后，射程环**仍然看不见**
+- 根因：`GenDraw.DrawLineBetween(A, B, mat)` 不带 layer，线段贴在 y≈0 被地形盖住；
+  原版强制目标线是显式把 y 设成 `AltitudeLayer.MetaOverlays.AltitudeFor()` 才可见
+- 修复：改用 3 参重载 `DrawLineBetween(A, B, layer)`，线段抬到 MetaOverlays；分段数 96 → 128
+- 流程改进：
+  - 新增 `docs/游戏内验证清单.md`：所有「看得见的东西」必须登记，并写明 30 秒验证法
+  - AGENTS.md 新增两条硬规则：视觉类改动必须进验证清单；画 overlay 前先抄原版调用
+
+### 修复：炮塔花检视文案与大半径射程环报错；荆棘钟花调参
+
+- **检视文案错误**（用户报「一直显示魔力充足，甚至不在魔力网络范围里」）
+  - 根因：炮塔没有周期结算，`ManaDeviceCore.HasMana` 一直停在初始值 `true`
+  - 修复：`CompManaTurret` 覆写 `CompInspectStringExtra()`，每次显示都实时调用 `HasEnoughManaForBurst()`
+- **大半径射程环报错**（用户报「建造迫击炮花之后报错」）
+  - 日志：`Cannot draw radius ring of radius 100: not enough squares in the precalculated list`
+  - 根因：`GenDraw.DrawRadiusRing` 受 `GenRadial.MaxRadialPatternRadius`（约 79 格）限制
+  - 修复：超过上限时改用 `DrawRingWithLines()`（96 段线段画圆），分三档处理不再报错
+- **荆棘钟花调参**：射程 28.9 → **30**，攻击间隔 4.8s → **4s**
+- 文档新增 §19.15.2 记录这两个坑
+
+### 调整：爆萼花射程定为 100 / 最小射程 10 / 偏差 6
+
+- 用户确认为「基地中远程压制」定位的折中方案（原版迫击炮射出程 500 / 死区 29.9 不适合基地防御）
+- 攻击间隔保持 20s，无初始冷却
+- 新增 `Building_ManaTurretGun.DrawExtraSelectionOverlays()`：
+  引擎只画 < 90 格的射程环，射程 ≥ 90 时由本覆写补画外圈，避免玩家看不到射程
+
+### 修复/调整：炮塔花的瞄准、范围与冷却（2026-11-23）
+
+用户实测反馈，三处都是设计问题：
+
+- **瞄准动作**：删掉 `TryFindNewTarget` 里的「缺魔不索敌」判断。
+  原版炮塔靠 `CurrentTarget` 驱动顶部旋转，缺魔就不索敌会让炮塔完全不转向（看起来是死物）。
+  现在缺魔只在 `BeginBurst` 拒绝发射，瞄准/预热/转向照常。
+- **多余的黄圈**：删除炮塔花的 `CompProperties_RadiusRing` 与 `PlaceWorker_RadiusFromComp`。
+  那是「魔力搜索半径」的可视化（黄色），属实现细节；引擎自己会画射程环（白色），叠在一起变两个圈。
+- **爆萼花射程**：`range 500 → 45`、`minRange 29.9 → 10`、`forcedMissRadius 9 → 4`。
+  原版 29.9 死区是为 500 格攻城炮设计，基地防御炮沿用它几乎无靶可打。
+- **爆萼花冷却**：`turretBurstCooldownTime 14 → 20`（用户指定攻击间隔 20s），
+  删除 `turretInitialCooldownTime 120`（造好即可用）。
+- 文档新增 §19.15.1「射程设计」，记录两朵花的理论射程依据与「炮塔不要挂魔力环」的结论。
+
+### 修复：炮塔花 Def 加载失败与 Mote 字段错误（2026-11-23）
+
+用户日志报错，全部为本引擎与原版字段差异导致：
+
+- `MoteProperties` 只有 `growthRate`，没有 `growRate` / `rotationRate`
+  - `<growRate>` → `<growthRate>`，删除 `<rotationRate>`
+- `BuildingProperties.turretTopOffset` 在本引擎是 **Vector2**，写 `(0,0,-0.05)` 三元组解析失败
+  - 整个 `Buildings_Botania_TurretFlowers.xml` 的 def 加载异常，连带中文翻译注入报 4 个错误
+  - 直接删除该字段（默认零偏移）
+- `BuildingProperties` 没有 `ai_IsBuildingDestroyer`，已删除
+- 新增校验脚本 `_dev/_botania-dev/check_xml_fields.py`：从 decomp 解析 `<building>` / `<mote>` 字段表，
+  并检查 `Vector2` / `Vector3` 字段的元数，专抓这类「字段名/向量元数不匹配」的启动报错
+- AGENTS.md：验证顺序加入该脚本，并新增「写 building/mote 前先查 decomp 字段表」条款
+
+### 新增：建筑自带的开发调试按钮（选中时出现）
+
+开发者模式（`Prefs.DevMode`）下，选中建筑会多出调试按钮，**框架级自动继承**：
+
+- 全部耗魔设备（`CompManaDevice`）：**立刻结算一次**、**跳过冷却**
+- 全部产魔花（`CompManaProducer`）：立刻结算一次、跳过冷却、灌满/清空缓存（缓冲式才有）
+- **电暴花**：**注入短路能量（10 瓦日）** —— 不用等电网 Zzztt 就能验证吸收链路
+- **魔力池**：灌满魔力 / +10000 魔力 / 清空魔力（文案改为走 Keyed）
+
+新增内容只要继承框架，调试按钮自动获得；Keyed 中英各补 14 条。
+
+### 新增：开发者测试工具（建筑/测试场景/魔力池）
+
+- 「调试操作 → Botania」新增三项：
+  - **生成植物魔法建筑**：按组件自动分类 `[产魔]/[耗魔]/[其它]`
+  - **生成测试场景（建筑+满魔力池）**：一键生成建筑 + 旁边满魔力池，省掉手动摆池
+  - **魔力池：注满 / 抽干**
+- 分类按组件类型判断，新增内容自动归类；文字全部走 Translate（兼容 Dev In Your Language）
+
+### 框架 S2 批量迁移（2026-11-23）
+
+一次性迁移 5 个设备/花到框架（行为逐点保留，XML 字段同步改名）：
+
+| 组件 | 类型 | XML 字段变化 |
+|---|---|---|
+| 明心莲 `CompManaClearMindLotus` | 消耗（覆写 SettleOnce） | `poolRadius` → `searchRadius` |
+| 苦丽花 `CompManaBitterBloom` | 产魔 | `radius`→`workRadius`、`poolRadius`→`radius` |
+| 阿卡纳蔷薇 `CompManaRosaArcana` | 产魔 | `radius`→`siphonRadius`、`poolRadius`→`radius` |
+| 噬草花 `CompManaBlightEater` | 产魔 | `radius`→`plantRadius`、`poolRadius`→`radius`、`ticksBetweenMeals`→`settleIntervalTicks` |
+| 荆棘花 `CompThornFlower` | 消耗（覆写 SettleOnce） | `sourceRadius`→`searchRadius`、`pulseTicks`→`workIntervalTicks` |
+
+共同点：删除自建 tick 节流、自写找源/找池、无前缀存档键；改为基类调度 + `Core.FindSource` / `FindTarget`，
+旧存档键以 `legacy*` 只读兼容；`check_comp_fields.py` 全绿。
+
+### 框架 S2 续：修复器迁移 + 付款框架补强（2026-11-23）
+
+- `ManaDeviceCore` 补强：
+  - `SettleOnce()` 改为 `protected virtual`：允许设备覆写整套周期逻辑
+  - 新增 `FindSource(needAtLeast)`：暴露取源能力，供需要自己控制付款/退款的设备使用
+- 迁移**修复器 `CompManaRepairer`**（416 行）：
+  - props 继承 `CompProperties_ManaDevice`；`manaSearchRadius`→`searchRadius`、`ticksPerCycle`→`workIntervalTicks`
+  - comp 继承 `CompManaDevice`，删除自建 tick 累加与 CompTick，改覆写 `SettleOnce`
+  - **完整保留老行为**：按实际可修点数计费、魔力不足按比例少修、多抽的零钱退回、可用模组设置关掉目标上限
+  - 存档键 `manaRepairerEnabled` 保持不变
+
+### 框架 S1.5 续：产魔钩子 + 火红莲迁移（2026-11-23）
+
+- `CompManaProducer` 新增两个钩子：
+  - `OnManaAccepted(acceptedMana)`：池子实际接收产物后回调（火红莲按接收量扣燃料）
+  - `OnNoTarget()`：有产物但附近没有池子时回调（允许空烧燃料的花）
+- 迁移**火红莲**：改用产魔框架，保留「按池子接收量扣燃料 / 无可选空烧」的老行为，166 → 168 行但去掉了自建节流与找池子
+- 文档新增 §19.11「框架清单与分类」：底座 / 消耗框架 / 产能框架 / 横向规范 / 校验工具链 / 已迁移与待迁移
+
+### 框架 S1.5：产魔框架 + 组合式付款（2026-11-23）
+
+- 新增 `Source/Framework/ManaProducerCore.cs`
+  - `CompProperties_ManaProducer` / `CompManaProducer`：找池子、缓冲、结算节流、存档、提示文案统一
+  - 子类只写 `WantsProduce` / `ProducePerSettle` / `ExtraTick`
+- 新增 `IManaDeviceConfig`：props 必须继承原版类型时（如 `CompProperties_Power`）也能复用付款核心
+- 迁移**电暴花**（缓冲式）、**太阳花/夜颠茄**（无缓冲式）：行为与提示文案保持不变
+- 迁移**通量场**：组合式示范（`CompPowerTrader` + `ManaDeviceCore`），旧存档键 `hasMana` 兼容
+- 新增 Keyed：`Botania.ProducerWorking` / `ProducerNoPool` / `ProducerStored`（中英）
+- 电暴花 Def：`poolRadius` → `radius`（并入产魔框架统一字段）
+- 已知缺口记录：修复器需要「按量付款」，待下一步给核心加 `TryPayUpTo`
+
+### 新增：精灵灯支持改灯光颜色
+
+- 精灵灯的 `CompGlower` 打开 `colorPickerEnabled`，与原版灯完全一致：
+  - 未研究 **「高级照明 / ColoredLights」**（原版科技，前置电力，300 点）时，按钮显示为灰色并提示需要该研究
+  - 研究完成后可自由改色，并支持复制/粘贴颜色
+- 灯光颜色随存档保存（`CompGlower` 自带的 `glowColorOverride`）
+
+### 修复：精灵灯开关与灯光反向（S1 回归）
+
+- 现象：先放灯后放魔力池 → 按钮显示「开」但灯不亮、提示无魔力；派小人关灯反而点亮；重装才恢复
+- 根因：直接写 `CompFlickable.SwitchIsOn`，与 `wantSwitchOn` 脱钩（Gizmo 看 want，灯光看 actual）
+- 修复：改为实现 `IThingGlower`，由引擎决定亮灭；不再操作 `CompFlickable`
+- 同时修复调度相位 bug：`ticksAccum` + `IsHashIntervalTick` 双层节流可能永不触发 → 只保留一处时间比较
+- 新增 `_dev/_botania-dev/check_component_rules.py` 静态检查（拦开关直写 / 双重节流 / PostSpawnSetup 结算）
+- 文档新增 §19.7「组件交互铁律」，记录事故复盘与五条规则
+
+### 设备框架 S1：`CompManaDevice`（2026-11-23）
+
+把「找魔力源 → 凑够才扣 → 定时结算 → 断魔重试 → 存档」这段逻辑从 10 个文件里收进一套基类。
+
+- 新增 `Source/Framework/ManaDeviceCore.cs`：
+  - `CompProperties_ManaDevice`：统一配置（半径 / 每次付费 / 间隔 / 文案 key / 存档键前缀）
+  - `ManaDeviceCore`：可组合进任何 Comp 的核心状态机
+  - `CompManaDevice`：便捷基类，只需写 `WantsWork` + `DoWork`
+- 首个迁移：**精灵灯**（127 行 → 96 行，业务只剩「拨开关」）
+- **存档兼容**：沿用旧键 `botaniaPixieLampHasMana` / `botaniaPixieLampNextChargeTick`
+- 新增 Keyed：`Botania.DeviceWorking` / `Botania.DeviceNoMana`（中英）
+- 验证：`dotnet build` 0 错误；`validate_mod.py` 全部检查通过
+
+
 ### 新增（泰拉套装增益）
 - **泰拉之赐**：同时穿着泰拉护甲 + 泰拉头盔时获得
   - **移动速度 +100%**（MoveSpeed +1.0）

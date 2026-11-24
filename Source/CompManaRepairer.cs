@@ -6,16 +6,10 @@ using Verse;
 
 namespace Botania
 {
-    public class CompProperties_ManaRepairer : CompProperties
+    public class CompProperties_ManaRepairer : CompProperties_ManaDevice
     {
         /// <summary>修复半径（格）。</summary>
         public float radius = 8f;
-
-        /// <summary>向魔力网取魔的半径。</summary>
-        public float manaSearchRadius = 6f;
-
-        /// <summary>多少 tick 一个周期，默认 60（1 秒）。</summary>
-        public int ticksPerCycle = 60;
 
         /// <summary>每个目标每周期最多修复多少点耐久。</summary>
         public float hpPerCycle = 5f;
@@ -38,6 +32,13 @@ namespace Botania
         public CompProperties_ManaRepairer()
         {
             compClass = typeof(CompManaRepairer);
+
+            // 基类配置：取魔半径 6 格、每 60 tick 一个周期（成功/失败都用同一间隔，保持旧行为）
+            searchRadius = 6f;
+            workIntervalTicks = 60;
+            retryIntervalTicks = 60;
+            manaTolerance = 0.01f;
+            saveKeyPrefix = "botaniaRepairer";
         }
 
         public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
@@ -49,10 +50,6 @@ namespace Botania
             if (radius <= 0f)
             {
                 yield return "radius must be greater than 0.";
-            }
-            if (ticksPerCycle <= 0)
-            {
-                yield return "ticksPerCycle must be greater than 0.";
             }
             if (hpPerCycle <= 0f)
             {
@@ -83,10 +80,8 @@ namespace Botania
     ///   总耗魔 = 目标数 × hpPerCycle × manaPerHp   ← 多修一个目标就多一份钱
     /// 魔力不够就按比例少修，抽不到则完全不动。
     /// </summary>
-    public class CompManaRepairer : ThingComp
+    public class CompManaRepairer : CompManaDevice
     {
-        private int ticksAccum;
-
         private bool enabled = true;
 
         /// <summary>上一周期实际修复的总耐久（仅用于检视显示）。</summary>
@@ -127,19 +122,32 @@ namespace Botania
             }
         }
 
-        public override void CompTick()
+        /// <summary>
+        /// 覆写整套周期：修复器是「按实际修理点数计费、可部分支付、多抽要退」，
+        /// 与基类的「固定额、凑够才扣」语义不同，因此自己控制付款，只复用基类的
+        /// 计时调度、取源（<see cref="ManaDeviceCore.FindSource"/>）与存档。
+        /// </summary>
+        protected override bool SettleOnce()
         {
-            if (!enabled || !parent.Spawned || Map == null)
+            bool want = enabled && parent.Spawned && Map != null;
+            if (want)
             {
-                return;
+                RunCycle();
             }
-            ticksAccum++;
-            if (ticksAccum < Props.ticksPerCycle)
-            {
-                return;
-            }
-            ticksAccum = 0;
-            RunCycle();
+            bool worked = want && lastRepaired > 0f;
+            // 关掉时也保持同一节奏（老行为：每 60 tick 看一次，不做额外退避）
+            Core.ScheduleNext(worked);
+            return worked;
+        }
+
+        // 基类要求实现的两个抽象钩子：整套周期已被 SettleOnce 覆写，这里只做保守默认。
+        protected override bool WantsWork()
+        {
+            return enabled;
+        }
+
+        protected override void DoWork(int ticks)
+        {
         }
 
         private void RunCycle()
@@ -174,9 +182,7 @@ namespace Botania
             }
 
             // 先看有多少魔力可用（不先扣，避免扣了钱没修到东西）
-            IManaSource source = Map == null
-                ? null
-                : ManaSourceUtil.FindNearest(parent.Position, Map, Props.manaSearchRadius, 0f, parent);
+            IManaSource source = Core.FindSource(0f);
             float wantedMana = wantedHp * Props.manaPerHp;
             float available = source == null
                 ? 0f
@@ -363,8 +369,7 @@ namespace Botania
             {
                 return 0f;
             }
-            IManaSource source = ManaSourceUtil.FindNearest(
-                parent.Position, map, Props.manaSearchRadius, 1f, parent);
+            IManaSource source = Core.FindSource(1f);
             if (source == null)
             {
                 return 0f;
@@ -414,12 +419,61 @@ namespace Botania
                 toggleAction = () =>
                 {
                     enabled = !enabled;
-                    ticksAccum = 0;
                     lastRepaired = 0f;
                     lastTargets = 0;
                     lastManaSpent = 0f;
                 }
             };
+
+            // ---- 开发调试按钮（仅开发者模式）----
+            if (!Prefs.DevMode)
+            {
+                yield break;
+            }
+            yield return new Command_Action
+            {
+                defaultLabel = "Botania.Dev.RepairNow".Translate(),
+                defaultDesc = "Botania.Dev.RepairNowDesc".Translate(),
+                action = delegate { SettleOnce(); }
+            };
+            yield return new Command_Action
+            {
+                defaultLabel = "Botania.Dev.DamageAround".Translate(),
+                defaultDesc = "Botania.Dev.DamageAroundDesc".Translate(),
+                action = delegate { DamageTargetsAround(); }
+            };
+        }
+
+        /// <summary>
+        /// 开发调试：把范围内的可修目标打残到半血，方便立刻测试「修复 → 扣费」。
+        /// </summary>
+        private void DamageTargetsAround()
+        {
+            Map map = Map;
+            if (map == null)
+            {
+                return;
+            }
+            int touched = 0;
+            foreach (Thing thing in GenRadial.RadialDistinctThingsAround(parent.Position, map, Props.radius, true))
+            {
+                if (thing == parent || thing.Destroyed || thing.MaxHitPoints <= 0)
+                {
+                    continue;
+                }
+                if (thing.def.category != ThingCategory.Building && thing.def.category != ThingCategory.Item)
+                {
+                    continue;
+                }
+                int target = thing.MaxHitPoints / 2;
+                if (thing.HitPoints > target)
+                {
+                    thing.HitPoints = target;
+                    touched++;
+                }
+            }
+            Messages.Message("Botania.Dev.DamageAroundDone".Translate(touched),
+                new LookTargets(parent), MessageTypeDefOf.NeutralEvent, false);
         }
 
         public override void PostExposeData()

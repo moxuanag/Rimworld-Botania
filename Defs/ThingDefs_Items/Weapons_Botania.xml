@@ -112,8 +112,7 @@
       <li Class="CompProperties_Biocodable" />
       <li Class="Botania.CompProperties_ManaWeapon">
         <maxMana>500</maxMana>
-        <manaPerShot>100</manaPerShot>
-        <sourceRadius>6</sourceRadius>
+        <manaPerUse>100</manaPerUse>
         <rechargePerSecond>25</rechargePerSecond>
       </li>
       <li Class="Botania.CompProperties_Wand">
@@ -125,7 +124,6 @@
         <convertBatchSize>10</convertBatchSize>
         <manaPerConvert>20</manaPerConvert>
         <maxConvertsPerUse>9</maxConvertsPerUse>
-        <sourceRadius>8</sourceRadius>
         <rules>
           <li>
             <fromDef>WoodLog</fromDef>
@@ -272,8 +270,7 @@
       <li Class="CompProperties_Biocodable" />
       <li Class="Botania.CompProperties_ManaWeapon">
         <maxMana>800</maxMana>
-        <manaPerShot>60</manaPerShot>
-        <sourceRadius>6</sourceRadius>
+        <manaPerUse>60</manaPerUse>
         <rechargePerSecond>25</rechargePerSecond>
       </li>
     </comps>
@@ -377,8 +374,7 @@
       <li Class="CompProperties_Biocodable" />
       <li Class="Botania.CompProperties_ManaWeapon">
         <maxMana>700</maxMana>
-        <manaPerShot>60</manaPerShot>
-        <sourceRadius>6</sourceRadius>
+        <manaPerUse>60</manaPerUse>
         <rechargePerSecond>25</rechargePerSecond>
       </li>
     </comps>

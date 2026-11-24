@@ -11,6 +11,7 @@
 
   <ThingDef ParentName="BuildingBase">
     <defName>Botania_AlfheimGateLintel</defName>
+    <designatorDropdown>Botania_ProduceBuildings</designatorDropdown>
     <label>elf gate lintel</label>
     <description>The top beam of an elven gate. Once both pillars are standing under its ends, the gate opens: leave livingwood, livingrock or petals in the doorway and it will draw mana from a nearby pool, and turn them into things that do not exist on this world.\n\nIt will not work without mana, and it will not work with a pillar missing.</description>
     <thingClass>Building</thingClass>
@@ -52,7 +53,6 @@
     <comps>
       <li Class="Botania.CompProperties_ManaGate">
         <openingDepth>2</openingDepth>
-        <manaSearchRadius>8</manaSearchRadius>
         <framePillarHeight>3</framePillarHeight>
         <framePillarDefs>
           <li>Botania_AlfheimGatePillarLeft</li>
@@ -118,7 +118,7 @@
       <li>Botania.PlaceWorker_GateFrame</li>
     </placeWorkers>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
-    <designationCategory>Misc</designationCategory>
+    <designationCategory>Botania</designationCategory>
     <thingCategories>
       <li>BotaniaBuildings</li>
     </thingCategories>
@@ -126,12 +126,13 @@
       <li>Botania_Alfheim</li>
     </researchPrerequisites>
     <constructEffect>ConstructMetal</constructEffect>
-    <uiOrder>3201</uiOrder>
+    <uiOrder>3004</uiOrder>
   </ThingDef>
 
   <!-- 左柱：内侧（右边）有石英镶边，右柱靠贴图镜像，两根柱子的 Def 不同，不能混用 -->
   <ThingDef ParentName="BuildingBase">
     <defName>Botania_AlfheimGatePillarLeft</defName>
+    <designatorDropdown>Botania_ProduceBuildings</designatorDropdown>
     <label>elf gate pillar (left)</label>
     <description>A livingwood pillar banded in manasteel, with a strip of elven quartz running down the side that faces the doorway. Two of these and a lintel across the top make a gate.</description>
     <thingClass>Building</thingClass>
@@ -169,7 +170,7 @@
       <Botania_Livingrock>2</Botania_Livingrock>
     </costList>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
-    <designationCategory>Misc</designationCategory>
+    <designationCategory>Botania</designationCategory>
     <thingCategories>
       <li>BotaniaBuildings</li>
     </thingCategories>
@@ -177,11 +178,12 @@
       <li>Botania_Alfheim</li>
     </researchPrerequisites>
     <constructEffect>ConstructWood</constructEffect>
-    <uiOrder>3202</uiOrder>
+    <uiOrder>3005</uiOrder>
   </ThingDef>
 
   <ThingDef ParentName="BuildingBase">
     <defName>Botania_AlfheimGatePillarRight</defName>
+    <designatorDropdown>Botania_ProduceBuildings</designatorDropdown>
     <label>elf gate pillar (right)</label>
     <description>A livingwood pillar banded in manasteel, with a strip of elven quartz running down the side that faces the doorway. Two of these and a lintel across the top make a gate.</description>
     <thingClass>Building</thingClass>
@@ -219,7 +221,7 @@
       <Botania_Livingrock>2</Botania_Livingrock>
     </costList>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
-    <designationCategory>Misc</designationCategory>
+    <designationCategory>Botania</designationCategory>
     <thingCategories>
       <li>BotaniaBuildings</li>
     </thingCategories>
@@ -227,7 +229,7 @@
       <li>Botania_Alfheim</li>
     </researchPrerequisites>
     <constructEffect>ConstructWood</constructEffect>
-    <uiOrder>3203</uiOrder>
+    <uiOrder>3006</uiOrder>
   </ThingDef>
 
 </Defs>

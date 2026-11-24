@@ -11,6 +11,7 @@
 
   <ThingDef ParentName="BuildingBase">
     <defName>Botania_FurnaceOrchid</defName>
+    <designatorDropdown>Botania_ManaFlowers</designatorDropdown>
     <label>furnace orchid</label>
     <description>A flower that feeds on heat. It only works inside an enclosed, roofed room, and only once the room is properly warm: output grows with temperature and with the square root of the floor space it commands. Build a square room, keep it hot, and leave a gap between orchids — packed together they stop working, and one fire takes the whole row.</description>
     <thingClass>Building</thingClass>
@@ -54,7 +55,7 @@
         <maxRoomArea>150</maxRoomArea>
         <maxManaPerSecond>90</maxManaPerSecond>
         <baseTemperature>20</baseTemperature>
-        <poolRadius>6</poolRadius>
+        <radius>6</radius>
         <overheatThreshold>150</overheatThreshold>
         <damagePerDegree>0.04</damagePerDegree>
         <ignitionThreshold>195</ignitionThreshold>
@@ -70,18 +71,19 @@
       <li>Botania.PlaceWorker_RadiusFromComp</li>
     </placeWorkers>
     <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
-    <designationCategory>Misc</designationCategory>
+    <designationCategory>Botania</designationCategory>
     <thingCategories>
       <li>BotaniaBuildings</li>
     </thingCategories>
     <researchPrerequisites>
       <li>Botania_GeneratingII</li>
     </researchPrerequisites>
-    <uiOrder>3230</uiOrder>
+    <uiOrder>3204</uiOrder>
   </ThingDef>
 
   <ThingDef ParentName="BuildingBase">
     <defName>Botania_StormBloom</defName>
+    <designatorDropdown>Botania_ManaFlowers</designatorDropdown>
     <label>storm bloom</label>
     <description>A small flower with a deliberately tiny reservoir. When a power conduit short-circuits and a battery dumps its charge, this bloom drinks whatever it can hold of that burst and feeds it into a nearby pool. It is salvage, not a power source.</description>
     <thingClass>Building</thingClass>
@@ -122,7 +124,7 @@
       <li Class="Botania.CompProperties_ManaStormBloom">
         <bufferCapacity>2400</bufferCapacity>
         <manaPerWattDay>200</manaPerWattDay>
-        <poolRadius>6</poolRadius>
+        <radius>6</radius>
       </li>
       <!-- 短路吸收半径 15 格：和 CompManaStormBloom.AbsorbRadius 必须一致 -->
       <li Class="Botania.CompProperties_RadiusRing">
@@ -133,18 +135,19 @@
       <li>Botania.PlaceWorker_RadiusFromComp</li>
     </placeWorkers>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
-    <designationCategory>Misc</designationCategory>
+    <designationCategory>Botania</designationCategory>
     <thingCategories>
       <li>BotaniaBuildings</li>
     </thingCategories>
     <researchPrerequisites>
       <li>Botania_GeneratingII</li>
     </researchPrerequisites>
-    <uiOrder>3240</uiOrder>
+    <uiOrder>3203</uiOrder>
   </ThingDef>
 
   <ThingDef ParentName="BuildingBase">
     <defName>Botania_RosaArcana</defName>
+    <designatorDropdown>Botania_ManaFlowers</designatorDropdown>
     <label>rosa arcana</label>
     <description>An insistent rose. Anyone working near it finds their thoughts drifting: they learn more slowly, and they resent it. In exchange the rose harvests what they are not quite managing to learn. Pawns who have nothing left to learn give it nothing.</description>
     <thingClass>Building</thingClass>
@@ -183,11 +186,11 @@
     </costList>
     <comps>
       <li Class="Botania.CompProperties_ManaRosaArcana">
-        <radius>8</radius>
+        <siphonRadius>8</siphonRadius>
         <manaPerPawnSecond>6</manaPerPawnSecond>
         <hediffDef>Botania_MindSiphoned</hediffDef>
         <thoughtDef>Botania_ThoughtSiphoned</thoughtDef>
-        <poolRadius>6</poolRadius>
+        <radius>6</radius>
       </li>
       <!-- 选中时显示影响范围 -->
       <li Class="Botania.CompProperties_RadiusRing">
@@ -198,14 +201,14 @@
       <li>Botania.PlaceWorker_RadiusFromComp</li>
     </placeWorkers>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
-    <designationCategory>Misc</designationCategory>
+    <designationCategory>Botania</designationCategory>
     <thingCategories>
       <li>BotaniaBuildings</li>
     </thingCategories>
     <researchPrerequisites>
       <li>Botania_GeneratingII</li>
     </researchPrerequisites>
-    <uiOrder>3250</uiOrder>
+    <uiOrder>3205</uiOrder>
   </ThingDef>
 
 </Defs>

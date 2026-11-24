@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- ============================================================
+       数据驱动的「魔力效果」注册表（S5 框架）。
+       一条 <Botania.BotaniaEffectDef> = 一个 worker 类 + 一组通用参数；
+       它本身不挂在任何东西上，必须被下面二者之一引用后才会生效：
+         · comps 里 <li Class="Botania.CompProperties_ManaEffectDevice"> 的 <effects>
+         · ThingDef 的 <modExtensions><li Class="Botania.ModExt_ManaDeviceEffects"> 的 <effects>
+       二者同时配置时按 Def 去重合并。
+       新增效果 = 在 Source 里写一个 BotaniaEffectWorker 子类 + 这里加一段 XML，
+       CompManaEffectDevice 不用改（节流 / 付款 / 存档 / 去重都由框架处理）。
+       注意：Def 元素名要写完整类型名（Botania.BotaniaEffectDef），
+       自定义命名空间的 Def 只写短名引擎找不到。
+       ============================================================ -->
+
+  <Botania.BotaniaEffectDef>
+    <defName>BotaniaEffect_GrowthBoost</defName>
+    <label>growth surge</label>
+    <description>A pulse of mana pushes every plant in range further along in its growth.</description>
+    <!-- worker：范围成长。amount = 每次结算给每株植物加的成长度，radius = 作用半径（格）。 -->
+    <workerClass>Botania.ManaEffect_GrowthBoost</workerClass>
+    <amount>0.05</amount>
+    <radius>4</radius>
+  </Botania.BotaniaEffectDef>
+
+  <Botania.BotaniaEffectDef>
+    <defName>BotaniaEffect_CleanFilth</defName>
+    <label>purifying pulse</label>
+    <description>Mana washes the ground clean, dissolving every patch of filth in range.</description>
+    <!-- worker：净化范围。radius = 作用半径（格），范围内所有 Filth 消失。 -->
+    <workerClass>Botania.ManaEffect_CleanFilth</workerClass>
+    <radius>5</radius>
+  </Botania.BotaniaEffectDef>
+
+  <Botania.BotaniaEffectDef>
+    <defName>BotaniaEffect_AutoHarvest</defName>
+    <label>harvesting pulse</label>
+    <description>Mana spirit-hands gather every mature crop in range, leaving the harvest on the ground.</description>
+    <!-- worker：范围自动采收。radius = 作用半径（格）；
+         intValue = 每次结算最多收获几株（0 或负数 = 不限），避免一次结算把整片田刷爆。 -->
+    <workerClass>Botania.ManaEffect_AutoHarvest</workerClass>
+    <radius>4</radius>
+    <intValue>8</intValue>
+  </Botania.BotaniaEffectDef>
+
+</Defs>

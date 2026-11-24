@@ -6,7 +6,19 @@ using Verse;
 
 namespace Botania
 {
-    public class CompProperties_Wand : CompProperties
+    /// <summary>
+    /// 森林法杖（森之法杖）的两个法术配置。
+    ///
+    /// 找魔力源 / 凑够才扣 / 冷却节流 / 存档键已并入物品付款框架
+    /// <see cref="CompProperties_ManaItem"/> + <see cref="ManaItemCore"/>；
+    /// 本类只保留两个法术自己的参数（绽花半径 / 转化规则 / 每株每点费用……）。
+    ///
+    /// 旧字段 <c>sourceRadius</c>（XML 写的是 8）已并入基类 <c>searchRadius</c>，
+    /// 数值不变（8）。XML 需要把
+    /// <c>&lt;sourceRadius&gt;8&lt;/sourceRadius&gt;</c> 改名为
+    /// <c>&lt;searchRadius&gt;8&lt;/searchRadius&gt;</c>，其余字段不用动。
+    /// </summary>
+    public class CompProperties_Wand : CompProperties_ManaItem
     {
         /// <summary>「绽花」影响半径。</summary>
         public float bloomRadius = 4f;
@@ -33,8 +45,8 @@ namespace Botania
         /// <summary>一次最多转化几堆。</summary>
         public int maxConvertsPerUse = 9;
 
-        /// <summary>向魔力网抽取的半径。</summary>
-        public float sourceRadius = 8f;
+        // 旧字段 sourceRadius 已并入基类 CompProperties_ManaItem.searchRadius
+        // （见类注释里的 XML 改名说明）。
 
         /// <summary>施法距离（与两个技能的 verb range 保持一致，用于画范围环）。</summary>
         public float castRange = 6f;
@@ -45,6 +57,16 @@ namespace Botania
         public CompProperties_Wand()
         {
             compClass = typeof(CompWand);
+            // 本引擎存档把组件字段平铺在 Thing 节点下，键必须够独特。
+            // 法杖以前没有任何存档字段，所以 legacy* 旧键留空。
+            saveKeyPrefix = "botaniaForestWand";
+            // 两个法术按「株」「个」动态计费，不用固定费用（基类的 manaPerUse 不适用）。
+            manaPerUse = 0f;
+            // 冷却仍然由 AbilityDef 的 cooldownTicksRange=60 管理；
+            // 这里保持 0，避免「技能冷却 + 物品冷却」两层节流叠加（AGENTS.md §5）。
+            cooldownTicks = 0;
+            // 沿用旧字段 sourceRadius 在 XML 里的值 8（基类默认也是 8）。
+            searchRadius = 8f;
         }
 
         public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
@@ -70,13 +92,21 @@ namespace Botania
 
     /// <summary>
     /// 森林法杖的两个法术：绽花、就地转化。
-    /// 真正的按钮由装备上的两个 verb 提供（Verb_WandBloom / Verb_WandConvert），
-    /// 因为这一版引擎不会把装备 Comp 的 gizmo 显示到小人身上；
+    /// 真正的按钮由装备上的两个技能（AbilityDef）提供，
     /// 本 Comp 只保留逻辑，另外在法杖躺在**地上**被选中时也提供一组带图标的按钮。
+    ///
+    /// 魔力一律从附近魔力网扣（魔力池 / 中继塔，半径 = props.searchRadius），
+    /// 由 <see cref="ManaItemCore"/> 负责「找源 + 凑够才扣 + 节流 + 存档」；
+    /// 法杖自带的 500 储能（CompManaWeapon）只服务开火，不再被法术消耗。
     /// </summary>
     public class CompWand : ThingComp
     {
+        private ManaItemCore core;
+
         public CompProperties_Wand Props => (CompProperties_Wand)props;
+
+        /// <summary>物品付款框架：找魔力源 / 凑够才扣 / 冷却 / 存档。</summary>
+        private ManaItemCore Core => core ??= new ManaItemCore(this, Props);
 
         private Pawn Wearer => EquipUtil.GetHolder(parent);
 
@@ -101,7 +131,7 @@ namespace Botania
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
-            // 装备在身上时由 verb 提供按钮，这里只负责"法杖丢在地上被选中"的情况，
+            // 装备在身上时由技能（AbilityDef）提供按钮，这里只负责"法杖丢在地上被选中"的情况，
             // 免得同一个技能出现两遍
             if (!parent.Spawned || parent.Map == null)
             {
@@ -135,6 +165,12 @@ namespace Botania
             {
                 return false;
             }
+            // 节流只有 Core 一处；法杖 cooldownTicks = 0，冷却仍由 AbilityDef 管，
+            // 这里不要再叠第二个 tick 计数（AGENTS.md §5）。
+            if (!Core.Ready)
+            {
+                return false;
+            }
 
             List<Plant> targets = new List<Plant>();
             foreach (Thing thing in GenRadial.RadialDistinctThingsAround(center, map, Props.bloomRadius, true))
@@ -157,7 +193,7 @@ namespace Botania
                 return false;
             }
 
-            if (!TryPayMana(center, map, targets.Count * Props.manaPerPlant))
+            if (!TryPayMana(targets.Count * Props.manaPerPlant))
             {
                 return false;
             }
@@ -172,6 +208,7 @@ namespace Botania
                 plant.Growth = Mathf.Min(1f, plant.Growth + Props.bloomGrowth);
                 RefreshPlantGraphic(plant, map);
             }
+            Core.NotifyUsed();
             Messages.Message("Botania.WandBloomed".Translate(targets.Count.ToString()), MessageTypeDefOf.PositiveEvent, false);
             return true;
         }
@@ -199,6 +236,11 @@ namespace Botania
         public bool TryConvertAt(IntVec3 center, Map map)
         {
             if (map == null)
+            {
+                return false;
+            }
+            // 节流只有 Core 一处（同 TryBloomAt 的说明）。
+            if (!Core.Ready)
             {
                 return false;
             }
@@ -262,7 +304,7 @@ namespace Botania
             }
 
             // 魔力按产量结算：一个活木/活石 = manaPerConvert 点魔力
-            if (!TryPayMana(center, map, totalOut * Props.manaPerConvert))
+            if (!TryPayMana(totalOut * Props.manaPerConvert))
             {
                 return false;
             }
@@ -281,34 +323,41 @@ namespace Botania
                     produced += amounts[i];
                 }
             }
+            bool succeeded = produced > 0;
+            if (succeeded)
+            {
+                // 只有真正生效才算一次使用（失败不占冷却，和技能那边的语义一致）。
+                Core.NotifyUsed();
+            }
             Messages.Message("Botania.WandConverted".Translate(produced.ToString()), MessageTypeDefOf.PositiveEvent, false);
-            return produced > 0;
+            return succeeded;
         }
 
         /// <summary>
-        /// 先确认凑得齐，再一次性扣；扣不满就退款，不做半吊子。
-        /// 法杖必定带 CompManaWeapon，而它的 TrySpend 内部已经会去附近魔力池借，
-        /// 所以这里只要问它一句就够，不需要另写一套抽源逻辑。
+        /// 付款交给物品框架：就近找魔力池/中继塔（半径 = props.searchRadius），
+        /// **凑够才扣**，抽不满会退回，不做半吊子。
+        /// 法术付的是「附近魔力网」的魔力，杖内储能（CompManaWeapon）只用于开火；
+        /// 所以提示里的「可用」也取附近实际可用的余量（没有源就是 0）。
         /// </summary>
-        private bool TryPayMana(IntVec3 center, Map map, float cost)
+        private bool TryPayMana(float cost)
         {
             if (cost <= 0f)
             {
                 return true;
             }
-
-            CompManaWeapon storage = parent.GetComp<CompManaWeapon>();
-            if (storage == null)
-            {
-                return false;
-            }
-            if (storage.TrySpend(cost))
+            if (Core.TryPay(cost))
             {
                 return true;
             }
             Messages.Message("Botania.WandNoMana".Translate(cost.ToString("F0"),
-                storage.Mana.ToString("F0")), MessageTypeDefOf.RejectInput, false);
+                Core.NearbyMana().ToString("F0")), MessageTypeDefOf.RejectInput, false);
             return false;
+        }
+
+        public override void PostExposeData()
+        {
+            base.PostExposeData();
+            Core.ExposeData();
         }
     }
 }

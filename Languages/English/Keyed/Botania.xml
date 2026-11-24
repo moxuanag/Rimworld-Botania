@@ -219,4 +219,119 @@
   <Botania.DevGear.Apparel>Apparel</Botania.DevGear.Apparel>
   <Botania.DevGear.Spawned>Spawned {0}</Botania.DevGear.Spawned>
   <Botania.FleshSeedCellInfo>Life-orchid cell · generation {0} · age {1}/{2}</Botania.FleshSeedCellInfo>
+    <Botania.DeviceWorking>Device: running on mana</Botania.DeviceWorking>
+    <Botania.DeviceNoMana>Device: no usable mana nearby, halted</Botania.DeviceNoMana>
+    <Botania.ProducerWorking>Producing: feeding mana into a nearby pool</Botania.ProducerWorking>
+    <Botania.ProducerNoPool>Producing: no mana pool in range to accept mana</Botania.ProducerNoPool>
+    <Botania.ProducerStored>Buffer: {0} / {1} mana</Botania.ProducerStored>
+    <Botania.DevBld.Title>Botania buildings</Botania.DevBld.Title>
+    <Botania.DevBld.SceneTitle>Test scene: building + full mana pool</Botania.DevBld.SceneTitle>
+    <Botania.DevBld.Empty>No spawnable Botania building found</Botania.DevBld.Empty>
+    <Botania.DevBld.Spawned>Spawned {0}</Botania.DevBld.Spawned>
+    <Botania.DevBld.SceneSpawned>Spawned {0} with a full mana pool</Botania.DevBld.SceneSpawned>
+    <Botania.DevBld.Cat.Produce>produce</Botania.DevBld.Cat.Produce>
+    <Botania.DevBld.Cat.Consume>consume</Botania.DevBld.Cat.Consume>
+    <Botania.DevBld.Cat.Other>other</Botania.DevBld.Cat.Other>
+    <Botania.DevBld.PoolNotFound>No mana pool under or near the cursor</Botania.DevBld.PoolNotFound>
+    <Botania.DevBld.PoolFilled>Mana pool filled: {0}</Botania.DevBld.PoolFilled>
+    <Botania.DevBld.PoolDrained>Mana pool drained: {0} left</Botania.DevBld.PoolDrained>
+    <Botania.Dev.SettleNow>Settle now</Botania.Dev.SettleNow>
+    <Botania.Dev.SettleNowDesc>Dev tool: skip the wait and settle this device's cycle immediately.</Botania.Dev.SettleNowDesc>
+    <Botania.Dev.SkipCooldown>Skip cooldown</Botania.Dev.SkipCooldown>
+    <Botania.Dev.SkipCooldownDesc>Dev tool: reset the next settlement time (like vanilla 'clear cooldowns').</Botania.Dev.SkipCooldownDesc>
+    <Botania.Dev.FillBuffer>Fill buffer</Botania.Dev.FillBuffer>
+    <Botania.Dev.ClearBuffer>Clear buffer</Botania.Dev.ClearBuffer>
+    <Botania.Dev.StormInject>Inject short-circuit (10 Wd)</Botania.Dev.StormInject>
+    <Botania.Dev.StormInjectDesc>Dev tool: simulate a grid short circuit and feed 10 watt-days into this storm bloom.</Botania.Dev.StormInjectDesc>
+    <Botania.Dev.PoolFill>Fill mana</Botania.Dev.PoolFill>
+    <Botania.Dev.PoolFillDesc>Dev tool: fill mana to capacity.</Botania.Dev.PoolFillDesc>
+    <Botania.Dev.PoolAdd>+10000 mana</Botania.Dev.PoolAdd>
+    <Botania.Dev.PoolAddDesc>Dev tool: add 10000 mana.</Botania.Dev.PoolAddDesc>
+    <Botania.Dev.PoolClear>Clear mana</Botania.Dev.PoolClear>
+    <Botania.Dev.PoolClearDesc>Dev tool: set mana to zero.</Botania.Dev.PoolClearDesc>
+    <Botania.Dev.RepairNow>Force repair now</Botania.Dev.RepairNow>
+    <Botania.Dev.RepairNowDesc>Dev tool: run one repair cycle immediately (pays mana per repaired HP).</Botania.Dev.RepairNowDesc>
+    <Botania.Dev.DamageAround>Damage targets around (to 50%)</Botania.Dev.DamageAround>
+    <Botania.Dev.DamageAroundDesc>Dev tool: cut hit points of buildings/items in repair radius to half.</Botania.Dev.DamageAroundDesc>
+    <Botania.Dev.DamageAroundDone>Set {0} targets to half HP</Botania.Dev.DamageAroundDone>
+    <Botania.Dev.ThornFill>Fill thorn buffer</Botania.Dev.ThornFill>
+    <Botania.Dev.ThornPulse>Fire thorn pulse now</Botania.Dev.ThornPulse>
+    <Botania.Dev.TransmuterGive>Drop one input material</Botania.Dev.TransmuterGive>
+    <Botania.Dev.TransmuterGiveDesc>Dev tool: spawn one convertible input of this transmuter.</Botania.Dev.TransmuterGiveDesc>
+    <Botania.Dev.TransmuterGiven>Spawned {0}</Botania.Dev.TransmuterGiven>
+    <Botania.Dev.FurnaceSettle>Produce mana now</Botania.Dev.FurnaceSettle>
+    <Botania.Dev.FurnaceSettleDesc>Dev tool: settle one production tick using the current room heat.</Botania.Dev.FurnaceSettleDesc>
+    <Botania.Dev.AltarGive>Grant one required material</Botania.Dev.AltarGive>
+    <Botania.Dev.AltarGiveDesc>Dev tool: spawn one stack of whatever this altar currently needs.</Botania.Dev.AltarGiveDesc>
+    <Botania.Dev.AltarGiveNone>This altar currently needs nothing</Botania.Dev.AltarGiveNone>
+    <Botania.Dev.AltarGiveDone>Spawned {0} x {1}</Botania.Dev.AltarGiveDone>
+    <Botania.Dev.GateComplete>Complete teleport now</Botania.Dev.GateComplete>
+    <Botania.Dev.GateCompleteDesc>Dev tool: push current teleport progress to completion.</Botania.Dev.GateCompleteDesc>
+    <Botania.Dev.GateCompleteDone>Teleport completed: {0}</Botania.Dev.GateCompleteDone>
+    <Botania.Dev.GateCompleteNoMana>Pushed to completion but not enough mana nearby; inputs kept.</Botania.Dev.GateCompleteNoMana>
+    <Botania.Dev.GateCompleteNoTarget>No teleport available to complete.</Botania.Dev.GateCompleteNoTarget>
+    <Botania.Dev.GateGive>Give one input material</Botania.Dev.GateGive>
+    <Botania.Dev.GateGiveDesc>Dev tool: spawn one required input inside the gate.</Botania.Dev.GateGiveDesc>
+    <Botania.Dev.GateGiveDone>Gave one '{0}' input</Botania.Dev.GateGiveDone>
+    <Botania.Dev.GateGiveNone>Cannot give input: no usable rule or no items in its category.</Botania.Dev.GateGiveNone>
+    <Botania.Dev.GateFillMana>Fill mana</Botania.Dev.GateFillMana>
+    <Botania.Dev.GateFillManaDesc>Dev tool: fill the nearest mana source.</Botania.Dev.GateFillManaDesc>
+    <Botania.Dev.GateFillManaDone>Added {0} mana</Botania.Dev.GateFillManaDone>
+    <Botania.Dev.GateFillManaFull>Nearest mana source is already full</Botania.Dev.GateFillManaFull>
+    <Botania.Dev.GateFillManaNone>No mana source within {0} cells</Botania.Dev.GateFillManaNone>
+
+    <!-- S5 effect device (CompManaEffectDevice): appended 'Effects: ...' line in the inspect pane -->
+    <Botania.EffectDeviceEffects>Effects: {0}</Botania.EffectDeviceEffects>
+    <Botania.Dev.StormShortCircuit>Trigger a real short circuit</Botania.Dev.StormShortCircuit>
+    <Botania.Dev.StormShortCircuitDesc>Dev tool: fire a real grid short circuit via the vanilla incident entry; the engine drains batteries and feeds this bloom. It really explodes - use a small grid.</Botania.Dev.StormShortCircuitDesc>
+    <Botania.Dev.StormShortCircuitNoBattery>No battery with enough charge within {0} cells</Botania.Dev.StormShortCircuitNoBattery>
+    <Botania.Dev.StormShortCircuitDone>Short circuit triggered: battery {0} Wd, buffer +{1}</Botania.Dev.StormShortCircuitDone>
+    <Botania.Dev.ThornForcePulse>Force one pulse</Botania.Dev.ThornForcePulse>
+    <Botania.Dev.ThornForcePulseDesc>Dev tool: run the real collect-targets then pulse path. No fake targets.</Botania.Dev.ThornForcePulseDesc>
+    <Botania.Dev.ThornPulseDone>Pulsed through the real path: {0} enemies</Botania.Dev.ThornPulseDone>
+    <Botania.Dev.ThornNoTargets>No enemies within {0} cells</Botania.Dev.ThornNoTargets>
+    <Botania.Dev.ThornFillMana>Fill thorn buffer from nearby sources</Botania.Dev.ThornFillMana>
+    <Botania.Dev.ThornFillManaDesc>Dev tool: repeatedly run the real recharge path; actually consumes nearby mana.</Botania.Dev.ThornFillManaDesc>
+    <Botania.Dev.ThornFillFull>Thorn buffer is full</Botania.Dev.ThornFillFull>
+    <Botania.Dev.ThornFillDone>Added {0} mana (buffer {1}/{2})</Botania.Dev.ThornFillDone>
+    <Botania.Dev.ThornFillNoSource>No usable mana source nearby</Botania.Dev.ThornFillNoSource>
+    <Botania.Dev.BitterClearCooldown>Clear fatigue cooldowns</Botania.Dev.BitterClearCooldown>
+    <Botania.Dev.BitterClearCooldownDesc>Dev tool: rebuild the real cooldown table to clear trivial-work cooldowns.</Botania.Dev.BitterClearCooldownDesc>
+    <Botania.Dev.BitterCooldownCleared>Cleared {0} trivial-work cooldowns</Botania.Dev.BitterCooldownCleared>
+    <Botania.Dev.BitterGrantXp>Grant XP to nearby pawns</Botania.Dev.BitterGrantXp>
+    <Botania.Dev.BitterGrantXpDesc>Dev tool: call the real XP entry for each pawn in range.</Botania.Dev.BitterGrantXpDesc>
+    <Botania.Dev.BitterXpGranted>Granted {1} XP to {0} pawns</Botania.Dev.BitterXpGranted>
+    <Botania.Dev.BitterNoPawns>No pawns within {0} cells</Botania.Dev.BitterNoPawns>
+    <Botania.Dev.LotusShieldNearby>Shield nearby pawns</Botania.Dev.LotusShieldNearby>
+    <Botania.Dev.LotusShieldNearbyDesc>Dev tool: register nearby humanlikes through the real affected path, then settle once (charges per pawn).</Botania.Dev.LotusShieldNearbyDesc>
+    <Botania.Dev.LotusShieldNearbyDone>Shielded {0} pawns through the real path</Botania.Dev.LotusShieldNearbyDone>
+    <Botania.Dev.LotusShieldNearbyNone>No registerable pawns nearby</Botania.Dev.LotusShieldNearbyNone>
+    <Botania.Dev.LotusShieldNearbyNoMana>Registered {0} pawns but not enough mana</Botania.Dev.LotusShieldNearbyNoMana>
+    <Botania.Dev.RosaSiphonNow>Siphon nearby pawns now</Botania.Dev.RosaSiphonNow>
+    <Botania.Dev.RosaSiphonNowDesc>Dev tool: settle once through the real XP-difference path.</Botania.Dev.RosaSiphonNowDesc>
+    <Botania.Dev.RosaSiphonDone>Siphoned {0} pawns, produced {1} mana</Botania.Dev.RosaSiphonDone>
+    <Botania.Dev.RosaSiphonNoPool>Siphoned {0} pawns but no pool; {1} mana lost</Botania.Dev.RosaSiphonNoPool>
+    <Botania.Dev.RosaSiphonNone>No pawns available to siphon</Botania.Dev.RosaSiphonNone>
+    <Botania.Dev.TransmuterConvert>Convert adjacent input once</Botania.Dev.TransmuterConvert>
+    <Botania.Dev.TransmuterConvertDesc>Dev tool: run one real conversion cycle on an adjacent input.</Botania.Dev.TransmuterConvertDesc>
+    <Botania.Dev.TransmuterConvertDone>Converted into {0} x {1}</Botania.Dev.TransmuterConvertDone>
+    <Botania.Dev.TransmuterConvertNone>No convertible input adjacent</Botania.Dev.TransmuterConvertNone>
+    <Botania.TurretReady>Turret: enough mana, ready to fire</Botania.TurretReady>
+    <Botania.TurretNoMana>Turret: not enough mana nearby, holding fire</Botania.TurretNoMana>
+    <Botania.Dev.TurretSummonTarget>Summon a hostile target in range</Botania.Dev.TurretSummonTarget>
+    <Botania.Dev.TurretSummonTargetDesc>Dev tool: spawn a hostile inside range (past minimum range), then let the turret acquire, warm up and fire normally.</Botania.Dev.TurretSummonTargetDesc>
+    <Botania.Dev.TurretSummonDone>Summoned {0}; the turret will engage it by itself</Botania.Dev.TurretSummonDone>
+    <Botania.Dev.TurretSummonFailed>Summon failed: no hostile faction available or no standable cell</Botania.Dev.TurretSummonFailed>
+    <Botania.Dev.TurretFillMana>Fill nearby mana source</Botania.Dev.TurretFillMana>
+    <Botania.Dev.TurretFillManaDesc>Dev tool: call the real AddMana path on the nearest mana source.</Botania.Dev.TurretFillManaDesc>
+    <Botania.Dev.TurretFillManaDone>Added {0} mana</Botania.Dev.TurretFillManaDone>
+    <Botania.Dev.TurretFillManaFull>Nearest mana source is already full</Botania.Dev.TurretFillManaFull>
+    <Botania.Dev.TurretFillManaNone>No mana source nearby</Botania.Dev.TurretFillManaNone>
+    <Botania.RelayLinked>Relay: linked to the mana network (extends {0} cells)</Botania.RelayLinked>
+    <Botania.RelayNoNetwork>Relay: no available mana network within {0} cells</Botania.RelayNoNetwork>
+    <Botania.RelayLinkedShort>linked</Botania.RelayLinkedShort>
+    <Botania.RelayNoNetworkShort>not linked</Botania.RelayNoNetworkShort>
+    <Botania.Dev.RelayReport>Report network status</Botania.Dev.RelayReport>
+    <Botania.Dev.RelayReportDesc>Dev tool: report whether this relay is linked and its extension radius.</Botania.Dev.RelayReportDesc>
+    <Botania.Dev.RelayReportResult>Relay status: {0} (extends {1} cells)</Botania.Dev.RelayReportResult>
 </LanguageData>

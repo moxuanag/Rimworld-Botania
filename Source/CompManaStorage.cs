@@ -22,6 +22,12 @@ namespace Botania
         /// <summary>是否与相邻魔力池自动均摊魔力。</summary>
         public bool balanceWithAdjacentPools = true;
 
+        /// <summary>
+        /// 作为**网络节点**的覆盖半径（格）。这是玩家唯一看到的范围：
+        /// 范围内的产魔花会把魔力送进来，范围内的设备可以直接从这里取魔。
+        /// </summary>
+        public float networkRadius = 7f;
+
         public CompProperties_ManaStorage()
         {
             compClass = typeof(CompManaStorage);
@@ -41,10 +47,14 @@ namespace Botania
             {
                 yield return "initialMana must not be negative.";
             }
+            if (networkRadius <= 0f)
+            {
+                yield return "networkRadius must be greater than 0.";
+            }
         }
     }
 
-    public class CompManaStorage : ThingComp, IManaSource
+    public class CompManaStorage : ThingComp, IManaSource, IManaNetworkNode
     {
         private const float BalanceEpsilon = 1f;
 
@@ -72,9 +82,34 @@ namespace Botania
 
         public float ManaPercent => Props.maxMana <= 0f ? 0f : mana / Props.maxMana;
 
+        // ---------------- 魔力网络节点 ----------------
+
+        public IntVec3 NodeCell => parent.Position;
+
+        public float NetworkRadius => Props.networkRadius;
+
+        public bool IsPoolNode => true;
+
+        public IManaSource PoolSource => this;
+
+        private void MarkNetworkDirty()
+        {
+            if (parent != null && parent.Spawned && parent.Map != null)
+            {
+                parent.Map.GetComponent<MapComponent_ManaNetwork>()?.MarkDirty();
+            }
+        }
+
+        public override void PostDeSpawn(Map map, DestroyMode mode = DestroyMode.Vanish)
+        {
+            base.PostDeSpawn(map, mode);
+            map?.GetComponent<MapComponent_ManaNetwork>()?.MarkDirty();
+        }
+
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             base.PostSpawnSetup(respawningAfterLoad);
+            MarkNetworkDirty();
             if (!respawningAfterLoad && mana <= 0f)
             {
                 mana = Clamp(Props.initialMana);
