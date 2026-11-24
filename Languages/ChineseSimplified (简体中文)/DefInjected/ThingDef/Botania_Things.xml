@@ -254,4 +254,9 @@
     <Botania_Blastcalyx.description>一朵把自己掏空成炮膛的花。它积蓄魔力，在花萼里压缩到花瓣发抖，然后把整团能量高高抛过墙去，落地炸开成一片火焰。对工事极有效，对贴到近处的东西毫无办法。</Botania_Blastcalyx.description>
     <Botania_Gun_Blastcalyx.label>爆萼花炮筒</Botania_Gun_Blastcalyx.label>
     <Botania_Gun_Blastcalyx.description>爆萼花的单根粗炮筒。</Botania_Gun_Blastcalyx.description>
+    <Botania_HeavyMortarFlower.label>重型迫击炮花</Botania_HeavyMortarFlower.label>
+    <Botania_HeavyMortarFlower.description>一朵围着压缩魔力长成的攻城花。它没法应付贴到近处的敌人，但对殖民地的射程之内、视野之内的任何东西都够得着——而它的战斗部落地之处，只剩一个弹坑。</Botania_HeavyMortarFlower.description>
+    <Botania_Gun_HeavyMortarFlower.label>重型迫击炮花炮筒</Botania_Gun_HeavyMortarFlower.label>
+    <Botania_Gun_HeavyMortarFlower.description>重型迫击炮花的巨口。它的弹头携带反物质弹头一半的装药，仍足以抹平一座工事。</Botania_Gun_HeavyMortarFlower.description>
+    <Botania_Bullet_HeavyManaShell.label>重型魔力战斗部</Botania_Bullet_HeavyManaShell.label>
 </LanguageData>

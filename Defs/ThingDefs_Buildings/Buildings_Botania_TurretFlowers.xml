@@ -94,8 +94,8 @@
         <saveKeyPrefix>botaniaThornbell</saveKeyPrefix>
       </li>
     </comps>
-    <researchPrerequisites>
-      <li>Botania_Elementium</li>
+<researchPrerequisites>
+      <li>Botania_DefenseI</li>
     </researchPrerequisites>
     <uiOrder>3401</uiOrder>
   </ThingDef>
@@ -138,10 +138,58 @@
         <saveKeyPrefix>botaniaBlastcalyx</saveKeyPrefix>
       </li>
     </comps>
-    <researchPrerequisites>
-      <li>Botania_Terrasteel</li>
+<researchPrerequisites>
+      <li>Botania_DefenseII</li>
     </researchPrerequisites>
     <uiOrder>3402</uiOrder>
+  </ThingDef>
+
+
+  <!-- 重型迫击炮花：终局攻城花。全图射程 500 / 死区 29.9 / 攻击间隔 60 秒 / 反物质弹一半。 -->
+  <ThingDef ParentName="Botania_BaseTurretFlower">
+    <defName>Botania_HeavyMortarFlower</defName>
+    <designatorDropdown>Botania_DefenseFlowers</designatorDropdown>
+    <designationCategory>Botania</designationCategory>
+    <label>heavy mortar flower</label>
+    <description>A siege bloom grown around a fist of compressed mana. It cannot defend itself at close range, but anything within sight of the colony is within its reach - and where its warhead lands, only a crater remains.</description>
+    <graphicData>
+      <texPath>Things/Building/Botania/HeavyMortar_Base</texPath>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>220</MaxHitPoints>
+      <WorkToBuild>3200</WorkToBuild>
+      <Mass>14</Mass>
+      <Flammability>0.6</Flammability>
+      <Beauty>-14</Beauty>
+    </statBases>
+    <building>
+      <turretGunDef>Botania_Gun_HeavyMortarFlower</turretGunDef>
+      <turretBurstWarmupTime>4.0</turretBurstWarmupTime>
+      <turretBurstCooldownTime>60.0</turretBurstCooldownTime>
+      <combatPower>420</combatPower>
+    </building>
+    <costList>
+      <Botania_Petal_Green>20</Botania_Petal_Green>
+      <Botania_ManaPowder>30</Botania_ManaPowder>
+      <Botania_TerrasteelIngot>8</Botania_TerrasteelIngot>
+    </costList>
+    <comps>
+      <li Class="Botania.CompProperties_ManaTurret">
+        <manaPerBurst>250</manaPerBurst>
+        <noManaRetryTicks>300</noManaRetryTicks>
+        <muzzleFlashMote>Botania_Mote_TurretBlastFlash</muzzleFlashMote>
+        <muzzleFlashSize>2.4</muzzleFlashSize>
+        <muzzleForwardOffset>0.7</muzzleForwardOffset>
+        <launchSmokeMote>Botania_Mote_TurretBlastSmoke</launchSmokeMote>
+        <launchSmokeSize>2.6</launchSmokeSize>
+        <forcedTargetAllowed>true</forcedTargetAllowed>
+        <saveKeyPrefix>botaniaHeavyMortarFlower</saveKeyPrefix>
+      </li>
+    </comps>
+    <researchPrerequisites>
+      <li>Botania_DefenseIII</li>
+    </researchPrerequisites>
+    <uiOrder>3403</uiOrder>
   </ThingDef>
 
 </Defs>

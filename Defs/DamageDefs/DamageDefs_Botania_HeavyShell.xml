@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- ============================================================
+       重型迫击炮花的伤害与弹药。
+
+       用户定案（2026-11-24）：
+         · 射程 = 原版迫击炮（全图 500 / 最小 29.9）
+         · 伤害与爆炸范围 = 原版「反物质弹头（antigrain warhead）」的一半
+             反物质：BombSuper 伤害 550 / 爆炸半径 14.9 / 炸后留火灾
+             我们  ：伤害 275 / 爆炸半径 7.45
+         · 攻击间隔 60 秒
+       ============================================================ -->
+
+  <!-- 伤害 = BombSuper 的一半。继承 BombSuper 以保留 Shredded/Crack 等原版受伤语义，
+       同时显式写出 hediff，避免本引擎「自定义 DamageDef 必须带 hediff」的坑。 -->
+  <DamageDef ParentName="BombSuper">
+    <defName>Botania_HeavyManaBomb</defName>
+    <label>heavy mana warhead</label>
+    <defaultDamage>275</defaultDamage>
+    <hediff>Shredded</hediff>
+    <deathMessage>{0} has been erased by a mana warhead.</deathMessage>
+  </DamageDef>
+
+  <!-- 投射物：高抛、大范围、留燃烧（与反物质弹同款表现，半径减半） -->
+  <ThingDef ParentName="BaseBullet">
+    <defName>Botania_Bullet_HeavyManaShell</defName>
+    <label>heavy mana warhead</label>
+    <graphicData>
+      <texPath>Things/Projectile/Botania/HeavyManaShell</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>Botania_HeavyManaBomb</damageDef>
+      <speed>41</speed>
+      <explosionRadius>7.45</explosionRadius>
+      <explosionChanceToStartFire>0.22</explosionChanceToStartFire>
+      <explosionDamageFalloff>true</explosionDamageFalloff>
+      <explosionEffect>GiantExplosion</explosionEffect>
+      <flyOverhead>true</flyOverhead>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+      <soundExplode>Explosion_GiantBomb</soundExplode>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+      <preExplosionSpawnSingleThingDef>CraterMedium</preExplosionSpawnSingleThingDef>
+    </projectile>
+  </ThingDef>
+
+</Defs>

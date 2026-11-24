@@ -53,4 +53,10 @@
   <Botania_ManaStorage.label>魔力存储</Botania_ManaStorage.label>
   <Botania_ManaStorage.description>魔力钢比活石能装下多得多的魔力。一座正经的魔力钢池可以把整座殖民地的储备集中在一处，而不是散落在十几个小碗里。</Botania_ManaStorage.description>
 
+    <Botania_DefenseI.label>防御花</Botania_DefenseI.label>
+    <Botania_DefenseI.description>会反击的花。只要背后有一座像样的魔力池，荆棘钟花就能自己长出五根炮管，在没有任何小人值守的情况下向靠近的敌人倾泻针刺。</Botania_DefenseI.description>
+    <Botania_DefenseII.label>进阶防御花</Botania_DefenseII.label>
+    <Botania_DefenseII.description>教一朵花把它的魔力积蓄抛过墙去。爆萼花放弃了荆棘钟花的连射，换取一颗落地即爆的高爆种子。</Botania_DefenseII.description>
+    <Botania_DefenseIII.label>重型防御花</Botania_DefenseIII.label>
+    <Botania_DefenseIII.description>把盖亚之魂教给你的东西熔进一朵花里。重型迫击炮花能把压缩魔力战斗部丢到全图任何角落，落点只剩一个弹坑。</Botania_DefenseIII.description>
 </LanguageData>

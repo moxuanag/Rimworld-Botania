@@ -274,4 +274,54 @@
     </heldByFactionCategoryTags>
   </ResearchProjectDef>
 
+
+  <!-- ===== 防御花线（2026-11-24 定案） =====
+       x4,y1 防御花 ── x5,y1 进阶防御花 ──(汇合盖亚)── x6,y4 重型防御花
+       前置关系：功能花 + 魔力存储 → 防御花；防御花 → 进阶防御花；
+                 进阶防御花 + 盖亚 → 重型防御花。 -->
+
+  <ResearchProjectDef>
+    <defName>Botania_DefenseI</defName>
+    <label>botania: defense flowers</label>
+    <description>Flowers that fight back. With a proper mana pool behind them, a thornbell can grow its own barrels and spit needles at anything hostile without a colonist ever standing beside it.</description>
+    <baseCost>1500</baseCost>
+    <techLevel>Industrial</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_FunctionalI</li>
+      <li>Botania_ManaStorage</li>
+    </prerequisites>
+    <researchViewX>4.00</researchViewX>
+    <researchViewY>1.00</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>Botania_DefenseII</defName>
+    <label>botania: advanced defense flowers</label>
+    <description>Teach a flower to lob its mana charge over the wall. The blastcalyx trades the thornbell's rapid fire for a single, high-explosive seed that bursts where it lands.</description>
+    <baseCost>2500</baseCost>
+    <techLevel>Industrial</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_DefenseI</li>
+    </prerequisites>
+    <researchViewX>5.00</researchViewX>
+    <researchViewY>1.00</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>Botania_DefenseIII</defName>
+    <label>botania: heavy defense flowers</label>
+    <description>Fuse what the gaia spirit taught you into a single siege bloom. The heavy mortar flower throws a compressed mana warhead across the whole map, and leaves nothing but a crater behind.</description>
+    <baseCost>4000</baseCost>
+    <techLevel>Ultra</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_DefenseII</li>
+      <li>Botania_Gaia</li>
+    </prerequisites>
+    <researchViewX>6.00</researchViewX>
+    <researchViewY>4.00</researchViewY>
+  </ResearchProjectDef>
+
 </Defs>

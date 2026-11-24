@@ -82,11 +82,54 @@
         <warmupTime>4.0</warmupTime>
         <!-- 最小射程 10：原版 29.9 的死区在自家基地里几乎无靶可打，防御炮只需避开高爆自伤 -->
         <minRange>10</minRange>
-        <range>100</range>
+        <range>70</range>
         <burstShotCount>1</burstShotCount>
         <soundCast>Mortar_LaunchA</soundCast>
         <soundCastTail>GunTail_Light</soundCastTail>
         <muzzleFlashScale>16</muzzleFlashScale>
+        <requireLineOfSight>false</requireLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+  </ThingDef>
+
+
+  <!-- 重型迫击炮花：全图射程的攻城花。数值 = 原版迫击炮（500 / 29.9 / 偏差 9），
+       弹药 = 反物质弹头的一半（275 伤害 / 7.45 半径），由 DamageDefs_Botania_HeavyShell.xml 定义。 -->
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>Botania_Gun_HeavyMortarFlower</defName>
+    <label>heavy mortar flower barrel</label>
+    <description>The enormous maw of a heavy mortar flower. Its warhead carries half the charge of an antigrain warhead, which is still more than enough to erase a fortification.</description>
+    <graphicData>
+      <texPath>Things/Building/Botania/HeavyMortar_Top</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <uiIconScale>1.25</uiIconScale>
+    <statBases>
+      <AccuracyTouch>0.55</AccuracyTouch>
+      <AccuracyShort>0.50</AccuracyShort>
+      <AccuracyMedium>0.35</AccuracyMedium>
+      <AccuracyLong>0.18</AccuracyLong>
+      <RangedWeapon_Cooldown>4.8</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>12</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Botania.Verb_ManaTurretShot</verbClass>
+        <defaultProjectile>Botania_Bullet_HeavyManaShell</defaultProjectile>
+        <isMortar>true</isMortar>
+        <forcedMissRadius>9</forcedMissRadius>
+        <warmupTime>4.0</warmupTime>
+        <minRange>29.9</minRange>
+        <range>500</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Mortar_LaunchA</soundCast>
+        <soundCastTail>GunTail_Light</soundCastTail>
+        <muzzleFlashScale>18</muzzleFlashScale>
         <requireLineOfSight>false</requireLineOfSight>
         <targetParams>
           <canTargetLocations>true</canTargetLocations>
