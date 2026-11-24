@@ -66,7 +66,7 @@ namespace Botania
 
         public override GizmoResult GizmoOnGUI(Vector2 topLeft, float maxWidth, GizmoRenderParms parms)
         {
-            Rect rect = new Rect(topLeft.x, topLeft.y, GetWidth(maxWidth), 75f);
+            Rect rect = new Rect(topLeft.x, topLeft.y, GetWidth(maxWidth), 96f);
             Widgets.DrawWindowBackground(rect);
 
             float max = Mathf.Max(1f, weapon.Props.maxMana);
@@ -82,6 +82,17 @@ namespace Botania
 
             Text.Anchor = TextAnchor.UpperCenter;
             Widgets.Label(new Rect(rect.x, rect.y + 48f, rect.width, 22f), cur + " / " + Mathf.RoundToInt(max));
+
+            // 用户反馈：只有魔力条看不出「还能打几发」，这里常驻显示（原来只在 tooltip 里）
+            int shotsLeft = weapon.Props.manaPerShot > 0f
+                ? Mathf.FloorToInt(weapon.Mana / weapon.Props.manaPerShot)
+                : 0;
+            Text.Font = GameFont.Tiny;
+            GUI.color = new Color(0.82f, 0.86f, 0.92f);
+            Widgets.Label(new Rect(rect.x, rect.y + 68f, rect.width, 20f),
+                "Botania.ManaReadoutShots".Translate(shotsLeft));
+            GUI.color = Color.white;
+            Text.Font = GameFont.Small;
 
             Text.Anchor = TextAnchor.UpperLeft;
             if (Mouse.IsOver(rect))

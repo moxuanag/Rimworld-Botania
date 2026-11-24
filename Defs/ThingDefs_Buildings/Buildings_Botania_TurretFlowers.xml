@@ -117,7 +117,7 @@
     <building>
       <turretGunDef>Botania_Gun_Blastcalyx</turretGunDef>
       <turretBurstWarmupTime>4.0</turretBurstWarmupTime>
-      <turretBurstCooldownTime>20.0</turretBurstCooldownTime>
+      <turretBurstCooldownTime>40.0</turretBurstCooldownTime>
       <combatPower>200</combatPower>
     </building>
     <costList>
@@ -169,7 +169,7 @@
       <turretTopDrawSize>2</turretTopDrawSize>
       <turretTopOffset>(0,0)</turretTopOffset>
       <turretBurstWarmupTime>4.0</turretBurstWarmupTime>
-      <turretBurstCooldownTime>60.0</turretBurstCooldownTime>
+      <turretBurstCooldownTime>75.0</turretBurstCooldownTime>
       <combatPower>420</combatPower>
     </building>
     <costList>
@@ -179,7 +179,7 @@
     </costList>
     <comps>
       <li Class="Botania.CompProperties_ManaTurret">
-        <manaPerBurst>250</manaPerBurst>
+        <manaPerBurst>400</manaPerBurst>
         <noManaRetryTicks>300</noManaRetryTicks>
         <muzzleFlashMote>Botania_Mote_TurretBlastFlash</muzzleFlashMote>
         <muzzleFlashSize>2.4</muzzleFlashSize>

@@ -336,4 +336,5 @@
     <Botania.Dev.RelayReportResult>Relay status: {0} (extends {1} cells)</Botania.Dev.RelayReportResult>
   <Botania.FurnaceNoFuel>Offline — no fuel</Botania.FurnaceNoFuel>
   <Botania.FurnaceFuel>Fuel: {0} ({1} s of output left)</Botania.FurnaceFuel>
+    <Botania.ManaReadoutShots>{0} shots left</Botania.ManaReadoutShots>
 </LanguageData>

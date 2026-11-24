@@ -27,15 +27,17 @@
       <li>LongShots</li>
     </weaponClasses>
     <statBases>
+      <ticksBetweenBurstShots>10</ticksBetweenBurstShots>
+      <burstShotCount>3</burstShotCount>
       <WorkToMake>6000</WorkToMake>
       <MaxHitPoints>120</MaxHitPoints>
       <Mass>2.5</Mass>
       <MarketValue>400</MarketValue>
-      <AccuracyTouch>0.80</AccuracyTouch>
-      <AccuracyShort>0.80</AccuracyShort>
-      <AccuracyMedium>0.80</AccuracyMedium>
-      <AccuracyLong>0.80</AccuracyLong>
-      <RangedWeapon_Cooldown>0.5</RangedWeapon_Cooldown>
+      <AccuracyTouch>0.60</AccuracyTouch>
+      <AccuracyShort>0.70</AccuracyShort>
+      <AccuracyMedium>0.65</AccuracyMedium>
+      <AccuracyLong>0.55</AccuracyLong>
+      <RangedWeapon_Cooldown>1.70</RangedWeapon_Cooldown>
     </statBases>
     <costList>
       <Botania_Livingwood>12</Botania_Livingwood>
@@ -63,8 +65,8 @@
         <verbClass>Botania.Verb_ManaBolt</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Botania_ManaBolt</defaultProjectile>
-        <warmupTime>1.1</warmupTime>
-        <range>26</range>
+        <warmupTime>1.0</warmupTime>
+        <range>30.9</range>
         <soundCast>Shot_ChargeRifle</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
         <muzzleFlashScale>3</muzzleFlashScale>
@@ -154,7 +156,7 @@
     </statBases>
     <projectile>
       <damageDef>Bullet</damageDef>
-      <damageAmountBase>25</damageAmountBase>
+      <damageAmountBase>11</damageAmountBase>
       <stoppingPower>1.5</stoppingPower>
       <speed>75</speed>
     </projectile>
@@ -193,11 +195,11 @@
       <MaxHitPoints>140</MaxHitPoints>
       <Mass>3</Mass>
       <MarketValue>900</MarketValue>
-      <AccuracyTouch>0.85</AccuracyTouch>
+      <AccuracyTouch>0.65</AccuracyTouch>
       <AccuracyShort>0.85</AccuracyShort>
       <AccuracyMedium>0.85</AccuracyMedium>
-      <AccuracyLong>0.85</AccuracyLong>
-      <RangedWeapon_Cooldown>0.5</RangedWeapon_Cooldown>
+      <AccuracyLong>0.75</AccuracyLong>
+      <RangedWeapon_Cooldown>2.7</RangedWeapon_Cooldown>
     </statBases>
     <!-- 改造配方由 recipeMaker + costList 生成（原版武器都是这条路）。
          costList 里放基础法杖 = 改造时消耗掉那根杖，等价于「方案 C」。
@@ -234,8 +236,8 @@
         <verbClass>Botania.Verb_ManaBolt</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Botania_ManaLance</defaultProjectile>
-        <warmupTime>2.0</warmupTime>
-        <range>40</range>
+        <warmupTime>1.7</warmupTime>
+        <range>32.9</range>
         <soundCast>Shot_ChargeRifle</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
         <muzzleFlashScale>3</muzzleFlashScale>
@@ -293,15 +295,12 @@
       <li>ShortShots</li>
     </weaponClasses>
     <statBases>
+      <forcedMissRadius>1.9</forcedMissRadius>
       <WorkToMake>6000</WorkToMake>
       <MaxHitPoints>140</MaxHitPoints>
       <Mass>3.5</Mass>
       <MarketValue>850</MarketValue>
-      <AccuracyTouch>0.75</AccuracyTouch>
-      <AccuracyShort>0.70</AccuracyShort>
-      <AccuracyMedium>0.65</AccuracyMedium>
-      <AccuracyLong>0.60</AccuracyLong>
-      <RangedWeapon_Cooldown>0.5</RangedWeapon_Cooldown>
+      <RangedWeapon_Cooldown>2.66</RangedWeapon_Cooldown>
     </statBases>
     <!-- 改造配方由 recipeMaker + costList 生成（原版武器都是这条路）。
          costList 里放基础法杖 = 改造时消耗掉那根杖，等价于「方案 C」。
@@ -338,8 +337,8 @@
         <verbClass>Botania.Verb_ManaBolt</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Botania_ManaBlast</defaultProjectile>
-        <warmupTime>3.7</warmupTime>
-        <range>16</range>
+        <warmupTime>1.5</warmupTime>
+        <range>12.9</range>
         <soundCast>Shot_ChargeRifle</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
         <muzzleFlashScale>3</muzzleFlashScale>
@@ -394,7 +393,7 @@
     </statBases>
     <projectile>
       <damageDef>Bullet</damageDef>
-      <damageAmountBase>50</damageAmountBase>
+      <damageAmountBase>30</damageAmountBase>
       <armorPenetrationBase>2.4</armorPenetrationBase>
       <stoppingPower>2.0</stoppingPower>
       <speed>95</speed>
@@ -410,20 +409,23 @@
     <defName>Botania_ManaBlast</defName>
     <label>mana blast</label>
     <description>A lump of unstable mana that bursts into a cross of fire where it lands.</description>
-    <thingClass>Botania.Projectile_WandBlast</thingClass>
+    <thingClass>Projectile_Explosive</thingClass>
     <graphicData>
       <texPath>Things/Projectile/Botania/ManaBlast</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <statBases>
+      <shadowSize>0.4</shadowSize>
+      <arcHeightFactor>2</arcHeightFactor>
+      <explosionRadius>1.9</explosionRadius>
       <MaxHitPoints>50</MaxHitPoints>
     </statBases>
     <projectile>
-      <damageDef>Bullet</damageDef>
-      <damageAmountBase>40</damageAmountBase>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>50</damageAmountBase>
       <armorPenetrationBase>0.5</armorPenetrationBase>
       <stoppingPower>0.5</stoppingPower>
-      <speed>60</speed>
+      <speed>12</speed>
     </projectile>
   </ThingDef>
 

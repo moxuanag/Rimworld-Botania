@@ -336,4 +336,5 @@
     <Botania.Dev.RelayReportResult>中继塔状态：{0}（扩展半径 {1} 格）</Botania.Dev.RelayReportResult>
   <Botania.FurnaceNoFuel>罢工：没有燃料</Botania.FurnaceNoFuel>
   <Botania.FurnaceFuel>燃料：{0}（还可产出 {1} 秒）</Botania.FurnaceFuel>
+    <Botania.ManaReadoutShots>还可发射 {0} 发</Botania.ManaReadoutShots>
 </LanguageData>

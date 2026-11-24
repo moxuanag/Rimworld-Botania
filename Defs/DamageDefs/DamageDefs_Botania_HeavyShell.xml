@@ -85,13 +85,13 @@
     </graphicData>
     <skyfaller>
       <shadowSize>(3, 3)</shadowSize>
-      <explosionRadius>7.45</explosionRadius>
+      <explosionRadius>9.5</explosionRadius>
       <explosionDamage>Botania_HeavyManaBomb</explosionDamage>
       <explosionDamageFactor>1</explosionDamageFactor>
       <cameraShake>0.5</cameraShake>
       <rotateGraphicTowardsDirection>true</rotateGraphicTowardsDirection>
-      <speed>1.2</speed>
-      <ticksToImpactRange>100~150</ticksToImpactRange>
+      <speed>0.7</speed>
+      <ticksToImpactRange>180~240</ticksToImpactRange>
       <impactSound>Explosion_GiantBomb</impactSound>
       <floatingSound>MortarRound_Ambient</floatingSound>
     </skyfaller>

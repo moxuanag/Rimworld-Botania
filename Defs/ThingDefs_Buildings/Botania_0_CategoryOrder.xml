@@ -281,8 +281,8 @@
     <comps>
       <li Class="Botania.CompProperties_ThornFlower">
         <radius>10</radius>
-        <workIntervalTicks>60</workIntervalTicks>
-        <damagePerPulse>3</damagePerPulse>
+        <workIntervalTicks>90</workIntervalTicks>
+        <damagePerPulse>1</damagePerPulse>
         <manaPerTarget>2</manaPerTarget>
         <maxTargets>12</maxTargets>
         <manaCapacity>150</manaCapacity>
