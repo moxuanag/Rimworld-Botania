@@ -53,11 +53,8 @@ namespace Botania
                 }
 
                 // 中继塔：选中时画整张网络，而不是只有自己这一环
-                if (thing.TryGetComp<CompManaRelay>() != null)
-                {
-                    ManaNetworkPreview.Draw(map, pos, RelayRadius(thing));
-                    continue;
-                }
+                // 中继塔/魔力池的网络范围改由 MapComponent_ManaNetwork 画「边界」，
+                // 这里不再画每个节点各自的圆（避免线段交叉重叠）。
 
                 // 外圈：作用范围（吸魔、修复、攻击……）
                 CompRadiusRing ring = thing.TryGetComp<CompRadiusRing>();

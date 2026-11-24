@@ -97,7 +97,6 @@
     <comps>
       <li Class="Botania.CompProperties_TerraBlade">
         <waveManaCost>400</waveManaCost>
-        <searchRadius>8</searchRadius>
       </li>
     </comps>
   </ThingDef>

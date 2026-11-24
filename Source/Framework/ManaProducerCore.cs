@@ -249,7 +249,13 @@ namespace Botania
             return target?.AddMana(amount) ?? 0f;
         }
 
-        /// <summary>找最近的可接收魔力的目标（默认只找魔力池）。</summary>
+        /// <summary>
+        /// 取「产魔花所在格所属的魔力网络」作为送魔目标。
+        ///
+        /// 网络重构（2026-11-24）后不再有 per-device 搜索半径：
+        /// 只要花在某个已连接节点的覆盖圆内，就把魔力送进那个网络（共享大池）。
+        /// 旧版"只喂魔力池、可选喂中继塔"的区别由网络模型自然取代。
+        /// </summary>
         protected IManaSource FindTarget()
         {
             Map map = parent.Map;
@@ -257,29 +263,15 @@ namespace Botania
             {
                 return null;
             }
-            foreach (Thing thing in GenRadial.RadialDistinctThingsAround(parent.Position, map, ProducerProps.radius, true))
-            {
-                CompManaStorage pool = thing.TryGetComp<CompManaStorage>();
-                if (pool != null && pool.AcceptsMana && !pool.IsFull)
-                {
-                    return pool;
-                }
-                if (ProducerProps.feedRelays)
-                {
-                    IManaSource source = ManaSourceUtil.AsSource(thing);
-                    if (source != null && source.FreeSpace > 0.01f)
-                    {
-                        return source;
-                    }
-                }
-            }
-            return null;
+            IManaSource source = map.GetComponent<MapComponent_ManaNetwork>()?.SourceAt(parent.Position);
+            return source;
         }
 
-        /// <summary>附近有没有能接收魔力的目标（供提示文案使用）。</summary>
+        /// <summary>所在网络里有没有**能接收魔力**的目标（供提示文案使用）。</summary>
         public bool HasTarget()
         {
-            return FindTarget() != null;
+            IManaSource target = FindTarget();
+            return target != null && target.FreeSpace > 0.01f;
         }
 
         public override string CompInspectStringExtra()

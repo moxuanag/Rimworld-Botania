@@ -85,7 +85,6 @@
       <li Class="Botania.CompProperties_ManaTurret">
         <manaPerBurst>15</manaPerBurst>
         <noManaRetryTicks>120</noManaRetryTicks>
-        <searchRadius>10</searchRadius>
         <muzzleFlashMote>Botania_Mote_TurretFlash</muzzleFlashMote>
         <muzzleFlashSize>0.9</muzzleFlashSize>
         <muzzleForwardOffset>0.55</muzzleForwardOffset>
@@ -130,7 +129,6 @@
       <li Class="Botania.CompProperties_ManaTurret">
         <manaPerBurst>80</manaPerBurst>
         <noManaRetryTicks>300</noManaRetryTicks>
-        <searchRadius>12</searchRadius>
         <muzzleFlashMote>Botania_Mote_TurretBlastFlash</muzzleFlashMote>
         <muzzleFlashSize>1.6</muzzleFlashSize>
         <muzzleForwardOffset>0.6</muzzleForwardOffset>

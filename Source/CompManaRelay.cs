@@ -1,34 +1,24 @@
-using System;
 using System.Collections.Generic;
 using RimWorld;
+using UnityEngine;
 using Verse;
 
 namespace Botania
 {
     /// <summary>
-    /// 魔力中继塔：把魔力池的供给范围向外延伸。
+    /// 魔力中继塔（重构后）：**纯网络扩展建筑**。
     ///
-    /// 工作方式（"水往低处流"模型，不做网络图）：
-    ///  1. 自身带一个小缓冲；
-    ///  2. 每 0.5 秒从半径内"比自己魔力多"的源抽一次（池子或上游中继塔），
-    ///     抽到的量按 lossPercent 损耗后再入缓冲；
-    ///  3. 设备通过 IManaSource 就近找源时也会找到塔，于是塔成了"可被抽取的临时池子"。
+    /// 用户定案（2026-11-24）：
+    ///   · 不再储魔、不再"拉"魔力、没有损耗 —— 它只是一个把魔力网络向外延伸的节点；
+    ///   · 判定：它覆盖圆内只要与「已连入有效网络的节点」相交，就算连上并扩展网络；
+    ///     否则提示「无可用魔力网络」，覆盖圈标红（见 MapComponent_ManaNetwork）。
     ///
-    /// 级联：塔 A 靠池子、塔 B 靠塔 A…… 每多一级损耗一次，因此远程供能是有代价的。
+    /// 老存档兼容：旧版塔里有 `mana` 字段，读档时把它一次性转入最近的魔力池，不丢失。
     /// </summary>
     public class CompProperties_ManaRelay : CompProperties
     {
-        /// <summary>自身缓冲容量。</summary>
-        public float capacity = 3000f;
-
-        /// <summary>抽取半径（格）。</summary>
-        public float radius = 6f;
-
-        /// <summary>每秒最多搬运多少魔力（损耗前）。</summary>
-        public float manaPerSecond = 10f;
-
-        /// <summary>每经过一跳的损耗比例（0.1 = 10%）。</summary>
-        public float lossPercent = 0.1f;
+        /// <summary>网络扩展半径（格）。</summary>
+        public float radius = 11f;
 
         public CompProperties_ManaRelay()
         {
@@ -41,133 +31,90 @@ namespace Botania
             {
                 yield return error;
             }
-            if (capacity <= 0f)
-            {
-                yield return "capacity must be greater than 0.";
-            }
             if (radius <= 0f)
             {
                 yield return "radius must be greater than 0.";
             }
-            if (manaPerSecond <= 0f)
-            {
-                yield return "manaPerSecond must be greater than 0.";
-            }
-            if (lossPercent < 0f || lossPercent >= 1f)
-            {
-                yield return "lossPercent must be within [0, 1).";
-            }
         }
     }
 
-    public class CompManaRelay : ThingComp, IManaSource
+    public class CompManaRelay : ThingComp, IManaNetworkNode
     {
-        private const int TransferIntervalTicks = 30;
-
-        /// <summary>防止浮点抖动导致来回抽。</summary>
-        private const float LevelEpsilon = 1f;
-
-        private float mana;
-        private int ticksAccum;
+        /// <summary>旧版本塔内残留的魔力（读档时迁移进最近魔力池）。</summary>
+        private float legacyMana;
 
         public CompProperties_ManaRelay Props => (CompProperties_ManaRelay)props;
 
-        public float ManaAmount => mana;
+        // ---------------- 魔力网络节点 ----------------
 
-        public float FreeSpace => Math.Max(0f, Props.capacity - mana);
+        public IntVec3 NodeCell => parent.Position;
 
-        public float ManaPercent => Props.capacity <= 0f ? 0f : mana / Props.capacity;
+        public float NetworkRadius => Props.radius;
 
-        public float AddMana(float amount)
+        /// <summary>中继塔不是魔力池，只是扩展节点。</summary>
+        public bool IsPoolNode => false;
+
+        public IManaSource PoolSource => null;
+
+        // ---------------- 生命周期 ----------------
+
+        public override void PostSpawnSetup(bool respawningAfterLoad)
         {
-            if (amount <= 0f)
+            base.PostSpawnSetup(respawningAfterLoad);
+            MarkNetworkDirty();
+            if (legacyMana > 0.01f && parent.Spawned && parent.Map != null)
             {
-                return 0f;
+                MigrateLegacyMana();
             }
-            float accepted = Math.Min(amount, FreeSpace);
-            if (accepted <= 0f)
-            {
-                return 0f;
-            }
-            mana += accepted;
-            return accepted;
         }
 
-        public float DrainMana(float amount)
+        public override void PostDeSpawn(Map map, DestroyMode mode = DestroyMode.Vanish)
         {
-            if (amount <= 0f || mana <= 0f)
-            {
-                return 0f;
-            }
-            float drained = Math.Min(amount, mana);
-            mana -= drained;
-            return drained;
+            base.PostDeSpawn(map, mode);
+            map?.GetComponent<MapComponent_ManaNetwork>()?.MarkDirty();
         }
 
-        public override void CompTick()
+        private void MarkNetworkDirty()
         {
-            base.CompTick();
-            // 塔的 tickerType 必须是 Normal，否则这里不会被调用（本项目踩过这个坑）
-            if (!parent.Spawned)
+            if (parent != null && parent.Spawned && parent.Map != null)
             {
-                return;
+                parent.Map.GetComponent<MapComponent_ManaNetwork>()?.MarkDirty();
             }
-            ticksAccum++;
-            if (ticksAccum < TransferIntervalTicks)
-            {
-                return;
-            }
-            ticksAccum = 0;
-            PullFromUpstream();
         }
 
-        private void PullFromUpstream()
+        /// <summary>把旧版塔里存的魔力搬进最近的魔力池（网络重构的一次性迁移）。</summary>
+        private void MigrateLegacyMana()
         {
-            if (FreeSpace <= 0.01f)
-            {
-                return;
-            }
             Map map = parent.Map;
-            if (map == null)
+            CompManaStorage best = null;
+            float bestDist = float.MaxValue;
+            foreach (Thing thing in map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial))
             {
+                CompManaStorage pool = thing?.TryGetComp<CompManaStorage>();
+                if (pool == null || !pool.AcceptsMana || pool.IsFull)
+                {
+                    continue;
+                }
+                float dist = thing.Position.DistanceTo(parent.Position);
+                if (dist < bestDist)
+                {
+                    best = pool;
+                    bestDist = dist;
+                }
+            }
+            if (best == null)
+            {
+                BotaniaDebug.Log("[中继塔] 旧存档魔力无处迁移（附近没有可用魔力池），已丢弃 " + legacyMana.ToString("F0"));
+                legacyMana = 0f;
                 return;
             }
-            float perInterval = Props.manaPerSecond * TransferIntervalTicks / 60f;
-            float wanted = Math.Min(perInterval, FreeSpace);
-            if (wanted <= 0f)
-            {
-                return;
-            }
-
-            // 只从"魔力比自己多"的源抽取：这样两座同级塔不会互抽，
-            // 整条链路天然从池子向远离池子的方向流动。
-            IManaSource upstream = ManaSourceUtil.FindNearest(
-                parent.Position, map, Props.radius, mana + LevelEpsilon, parent, true);
-            if (upstream == null)
-            {
-                return;
-            }
-
-            // 一次只搬走「差距的一半」，否则抽完会让高低关系反转，
-            // 两座塔就会来回互抽，白白损耗（每轮 lossPercent 都吃一次）。
-            float gap = upstream.ManaAmount - mana;
-            if (gap <= 0.01f)
-            {
-                return;
-            }
-            wanted = Math.Min(wanted, gap * 0.5f);
-            if (wanted <= 0.01f)
-            {
-                return;
-            }
-
-            float got = upstream.DrainMana(wanted);
-            if (got <= 0f)
-            {
-                return;
-            }
-            AddMana(got * (1f - Props.lossPercent));
+            float accepted = best.AddMana(legacyMana);
+            BotaniaDebug.Log("[中继塔] 旧存档魔力 " + legacyMana.ToString("F0") + " 迁移至最近魔力池，实际接收 " + accepted.ToString("F0"));
+            legacyMana = Mathf.Max(0f, legacyMana - accepted);
+            MarkNetworkDirty();
         }
+
+        // ---------------- 显示 ----------------
 
         public override string CompInspectStringExtra()
         {
@@ -175,16 +122,14 @@ namespace Botania
             {
                 return null;
             }
-            if (mana <= 0.01f)
-            {
-                return "Botania.RelayEmpty".Translate();
-            }
-            return "Botania.RelayStored".Translate(
-                mana.ToString("F0"),
-                Props.capacity.ToString("F0"),
-                (Props.lossPercent * 100f).ToString("F0"));
+            MapComponent_ManaNetwork net = parent.Map.GetComponent<MapComponent_ManaNetwork>();
+            bool connected = net != null && net.IsNodeConnected(parent);
+            return connected
+                ? "Botania.RelayLinked".Translate(Props.radius.ToString("F0"))
+                : "Botania.RelayNoNetwork".Translate(Props.radius.ToString("F0"));
         }
 
+        /// <summary>开发调试：切换前先看自己覆盖到的网络格数，方便定位「为什么没连上」。</summary>
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
             foreach (Gizmo gizmo in base.CompGetGizmosExtra())
@@ -197,22 +142,26 @@ namespace Botania
             }
             yield return new Command_Action
             {
-                defaultLabel = "灌满中继",
-                defaultDesc = "开发者工具：把中继缓冲补满。",
-                action = () => mana = Props.capacity
-            };
-            yield return new Command_Action
-            {
-                defaultLabel = "清空中继",
-                defaultDesc = "开发者工具：把中继缓冲清零。",
-                action = () => mana = 0f
+                defaultLabel = "Botania.Dev.RelayReport".Translate(),
+                defaultDesc = "Botania.Dev.RelayReportDesc".Translate(),
+                action = delegate
+                {
+                    MapComponent_ManaNetwork net = parent.Map?.GetComponent<MapComponent_ManaNetwork>();
+                    bool connected = net != null && net.IsNodeConnected(parent);
+                    Messages.Message(
+                        "Botania.Dev.RelayReportResult".Translate(
+                            connected ? "Botania.RelayLinkedShort".Translate() : "Botania.RelayNoNetworkShort".Translate(),
+                            Props.radius.ToString("F0")),
+                        new LookTargets(parent), MessageTypeDefOf.NeutralEvent, false);
+                }
             };
         }
 
         public override void PostExposeData()
         {
             base.PostExposeData();
-            Scribe_Values.Look(ref mana, "mana", 0f);
+            // 沿用旧键 mana：读回旧存档的存量，SpawnSetup 时迁移；新版不再写入
+            Scribe_Values.Look(ref legacyMana, "mana", 0f);
         }
     }
 }

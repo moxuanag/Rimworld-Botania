@@ -327,4 +327,11 @@
     <Botania.Dev.TurretFillManaDone>已注入 {0} 魔力</Botania.Dev.TurretFillManaDone>
     <Botania.Dev.TurretFillManaFull>附近魔力源已经是满的</Botania.Dev.TurretFillManaFull>
     <Botania.Dev.TurretFillManaNone>附近没有魔力源</Botania.Dev.TurretFillManaNone>
+    <Botania.RelayLinked>中继塔：已接入魔力网络（扩展半径 {0} 格）</Botania.RelayLinked>
+    <Botania.RelayNoNetwork>中继塔：无可用魔力网络（覆盖半径 {0} 格内没有已连接节点）</Botania.RelayNoNetwork>
+    <Botania.RelayLinkedShort>已接入</Botania.RelayLinkedShort>
+    <Botania.RelayNoNetworkShort>未接入</Botania.RelayNoNetworkShort>
+    <Botania.Dev.RelayReport>查看网络连接状态</Botania.Dev.RelayReport>
+    <Botania.Dev.RelayReportDesc>开发者工具：报告本塔当前是否接入网络，以及它的扩展半径。</Botania.Dev.RelayReportDesc>
+    <Botania.Dev.RelayReportResult>中继塔状态：{0}（扩展半径 {1} 格）</Botania.Dev.RelayReportResult>
 </LanguageData>

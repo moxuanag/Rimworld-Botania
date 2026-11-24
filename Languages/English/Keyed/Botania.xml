@@ -327,4 +327,11 @@
     <Botania.Dev.TurretFillManaDone>Added {0} mana</Botania.Dev.TurretFillManaDone>
     <Botania.Dev.TurretFillManaFull>Nearest mana source is already full</Botania.Dev.TurretFillManaFull>
     <Botania.Dev.TurretFillManaNone>No mana source nearby</Botania.Dev.TurretFillManaNone>
+    <Botania.RelayLinked>Relay: linked to the mana network (extends {0} cells)</Botania.RelayLinked>
+    <Botania.RelayNoNetwork>Relay: no available mana network within {0} cells</Botania.RelayNoNetwork>
+    <Botania.RelayLinkedShort>linked</Botania.RelayLinkedShort>
+    <Botania.RelayNoNetworkShort>not linked</Botania.RelayNoNetworkShort>
+    <Botania.Dev.RelayReport>Report network status</Botania.Dev.RelayReport>
+    <Botania.Dev.RelayReportDesc>Dev tool: report whether this relay is linked and its extension radius.</Botania.Dev.RelayReportDesc>
+    <Botania.Dev.RelayReportResult>Relay status: {0} (extends {1} cells)</Botania.Dev.RelayReportResult>
 </LanguageData>

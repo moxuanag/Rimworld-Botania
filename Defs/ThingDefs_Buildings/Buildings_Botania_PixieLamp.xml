@@ -39,7 +39,6 @@
         <manaPerWork>1</manaPerWork>
         <workIntervalTicks>3600</workIntervalTicks>
         <retryIntervalTicks>300</retryIntervalTicks>
-        <searchRadius>8</searchRadius>
       </li>
     </comps>
   </ThingDef>

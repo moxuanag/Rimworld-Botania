@@ -205,8 +205,11 @@ namespace Botania
         }
 
         /// <summary>
-        /// 找最近的可支付魔力源（不扣款）。给需要自己控制付款节奏的设备用
-        /// （例如修复器：先看有多少、再按实际修理点数扣、多抽的还要退）。
+        /// 取「设备所在格所属的魔力网络」作为魔力源（不扣款）。
+        ///
+        /// 网络重构（2026-11-24）后，设备**不再有各自的搜索半径**：
+        /// 只要设备所在格落在某个已连接节点的覆盖圆内，就能从该网络取魔；
+        /// 同一网络内的所有魔力池视为一个共享大池（见 ManaNetworkGroup）。
         /// </summary>
         public IManaSource FindSource(float needAtLeast = 0f)
         {
@@ -215,8 +218,16 @@ namespace Botania
             {
                 return null;
             }
-            return ManaSourceUtil.FindNearest(
-                parent.Position, parent.Map, props.SearchRadius, needAtLeast, parent);
+            IManaSource source = parent.Map.GetComponent<MapComponent_ManaNetwork>()?.SourceAt(parent.Position);
+            if (source == null)
+            {
+                return null;
+            }
+            if (needAtLeast > 0f && source.ManaAmount + props.ManaTolerance < needAtLeast)
+            {
+                return null;
+            }
+            return source;
         }
 
         /// <summary>

@@ -57,7 +57,6 @@
         <manaPerChange>40</manaPerChange>
         <maxManaPerGeneration>900</maxManaPerGeneration>
         <cellLifespan>30</cellLifespan>
-        <poolRadius>6</poolRadius>
         <seedDefName>Botania_FleshSeed</seedDefName>
         <bedDefName>Botania_FleshBed</bedDefName>
       </li>

@@ -64,7 +64,6 @@
     <comps>
       <li Class="Botania.CompProperties_TerraAltar">
         <manaPerWork>20000</manaPerWork>
-        <searchRadius>8</searchRadius>
         <ticksPerIngot>2400</ticksPerIngot>
         <ingredientA>Botania_ManasteelIngot</ingredientA>
         <countA>1</countA>

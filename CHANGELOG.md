@@ -73,6 +73,20 @@
 
 ## [未发布]
 
+### 重构：魔力网络（一套范围 + 中继塔改纯扩展 + 边界显示）
+
+- 新的「网络覆盖」模型取代旧的「池显示环 + 各设备 searchRadius」两套范围：
+  - 魔力池半径 **7**、简易池 **4**、中继塔扩展半径 **11**
+  - 连通判定：覆盖圆相交即相接（并查集），只有含魔力池的分量有效
+  - 同一网络内的魔力池**共享**（等价一个大池）
+  - 设备不再有自己的搜索半径；产魔花送魔、功能花取魔都只看「是否在网络覆盖内」
+- **中继塔重写为纯网络扩展建筑**：删除容量/储魔/拉取/损耗；未连上时红圈 + 「无可用魔力网络」提示
+- 选中网络节点时画**整片网络的边界**（只画边界、内部无线条），解决多圆交叉重叠的观感问题
+- 老存档：旧中继塔内的 `mana` 读档后自动转入最近魔力池，不丢失
+- 新增框架：`Framework/ManaNetwork.cs`、`MapComponent_ManaNetwork.cs`；
+  `ManaDeviceCore.FindSource` / `ManaProducerCore.FindTarget` 改走网络（设备侧零改动）
+- 移除各设备 XML 里的 `searchRadius` / `poolRadius` / `manaSearchRadius` 字段
+
 ### 框架：overlay 绘制抽成共用件 `BotaniaOverlays`
 
 - 新增 `Source/Framework/OverlayUtil.cs`：`BotaniaOverlays.DrawRadiusRingSafe(center, radius)`

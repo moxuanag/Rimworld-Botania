@@ -60,6 +60,7 @@
         <initialMana>0</initialMana>
         <acceptsMana>true</acceptsMana>
         <balanceWithAdjacentPools>true</balanceWithAdjacentPools>
+        <networkRadius>7</networkRadius>
       </li>
       <!-- 选中时也显示半径 6 的供给范围 -->
       <li Class="Botania.CompProperties_RadiusRing">
@@ -121,7 +122,6 @@
       <li Class="Botania.CompProperties_ManaTransmuter">
         <workTicks>300</workTicks>
         <manaPerWork>20</manaPerWork>
-        <searchRadius>6</searchRadius>
         <!-- 附近没有魔力池/中继塔时，转化间隔乘以这个倍数（且不消耗魔力） -->
         <noManaSlowdown>5</noManaSlowdown>
         <rules>
@@ -281,7 +281,6 @@
     <comps>
       <li Class="Botania.CompProperties_ThornFlower">
         <radius>10</radius>
-        <searchRadius>10</searchRadius>
         <workIntervalTicks>60</workIntervalTicks>
         <damagePerPulse>3</damagePerPulse>
         <manaPerTarget>2</manaPerTarget>
@@ -353,7 +352,6 @@
       <li Class="Botania.CompProperties_ManaClearMindLotus">
         <radius>8</radius>
         <manaPerPawnSecond>20</manaPerPawnSecond>
-        <searchRadius>6</searchRadius>
         <paidDurationTicks>180</paidDurationTicks>
       </li>
       <li Class="Botania.CompProperties_RadiusRing">

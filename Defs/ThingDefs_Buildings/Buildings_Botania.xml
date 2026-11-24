@@ -47,9 +47,7 @@
         <initialMana>0</initialMana>
         <acceptsMana>true</acceptsMana>
         <balanceWithAdjacentPools>true</balanceWithAdjacentPools>
-      </li>
-      <li Class="Botania.CompProperties_RadiusRing">
-        <radius>6</radius>
+        <networkRadius>4</networkRadius>
       </li>
     </comps>
     <placeWorkers>
@@ -115,10 +113,6 @@
         <basePowerConsumption>-1000</basePowerConsumption>
         <transmitsPower>true</transmitsPower>
         <manaPerSecond>1.5</manaPerSecond>
-        <searchRadius>6</searchRadius>
-      </li>
-      <li Class="Botania.CompProperties_RadiusRing">
-        <radius>6</radius>
       </li>
     </comps>
     <placeWorkers>
@@ -183,13 +177,7 @@
     </costList>
     <comps>
       <li Class="Botania.CompProperties_ManaRelay">
-        <capacity>6000</capacity>
-        <radius>8</radius>
-        <manaPerSecond>40</manaPerSecond>
-        <lossPercent>0.1</lossPercent>
-      </li>
-      <li Class="Botania.CompProperties_RadiusRing">
-        <radius>8</radius>
+        <radius>11</radius>
       </li>
     </comps>
     <!-- 放置时显示半径 6 的供给范围环 -->
@@ -248,7 +236,6 @@
     <comps>
       <li Class="Botania.CompProperties_ManaRepairer">
         <radius>8</radius>
-        <searchRadius>6</searchRadius>
         <workIntervalTicks>60</workIntervalTicks>
         <hpPerCycle>5</hpPerCycle>
         <manaPerHp>5</manaPerHp>
@@ -311,7 +298,6 @@
     <comps>
       <li Class="Botania.CompProperties_ManaRepairer">
         <radius>6</radius>
-        <searchRadius>6</searchRadius>
         <workIntervalTicks>60</workIntervalTicks>
         <hpPerCycle>6</hpPerCycle>
         <manaPerHp>5</manaPerHp>

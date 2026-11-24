@@ -180,7 +180,6 @@
         <maxMana>300</maxMana>
         <manaPerUse>20</manaPerUse>
         <rechargePerSecond>2</rechargePerSecond>
-        <searchRadius>8</searchRadius>
       </li>
     </comps>
   </ThingDef>
