@@ -293,7 +293,6 @@
       <li>ShortShots</li>
     </weaponClasses>
     <statBases>
-      <forcedMissRadius>1.9</forcedMissRadius>
       <WorkToMake>6000</WorkToMake>
       <MaxHitPoints>140</MaxHitPoints>
       <Mass>3.5</Mass>
@@ -335,6 +334,10 @@
         <verbClass>Botania.Verb_ManaBolt</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Botania_ManaBlast</defaultProjectile>
+        <!-- forcedMissRadius 是 Verb 字段（原版迫击炮同款），不是 StatDef。
+             它曾经被写进上面的 <statBases>，导致
+             「No StatDef named forcedMissRadius」+「verb 0 has incorrect forcedMiss settings」两条报错。 -->
+        <forcedMissRadius>1.9</forcedMissRadius>
         <warmupTime>1.5</warmupTime>
         <range>12.9</range>
         <soundCast>Shot_ChargeRifle</soundCast>
@@ -413,9 +416,6 @@
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <statBases>
-      <shadowSize>0.4</shadowSize>
-      <arcHeightFactor>2</arcHeightFactor>
-      <explosionRadius>1.9</explosionRadius>
       <MaxHitPoints>50</MaxHitPoints>
     </statBases>
     <projectile>
@@ -424,6 +424,12 @@
       <armorPenetrationBase>0.5</armorPenetrationBase>
       <stoppingPower>0.5</stoppingPower>
       <speed>12</speed>
+      <!-- shadowSize / arcHeightFactor / explosionRadius 都是 ProjectileProperties 的字段，
+           必须写在 <projectile> 里。之前写在 <statBases> 里，引擎把它们当 StatDef 解析，
+           于是报「No StatDef named ...」以及 ManaBlast 的「defines the stat base more than once」。 -->
+      <shadowSize>0.4</shadowSize>
+      <arcHeightFactor>2</arcHeightFactor>
+      <explosionRadius>1.9</explosionRadius>
     </projectile>
   </ThingDef>
 
