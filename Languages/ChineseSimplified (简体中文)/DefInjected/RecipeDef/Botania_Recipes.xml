@@ -14,4 +14,18 @@
   <Botania_MakeFleshSeed.description>把扭曲肉压到里面有什么东西开始生长。得到一枚启命英能烧的血肉之种。</Botania_MakeFleshSeed.description>
   <Botania_MakeFleshSeed.jobString>正在压制血肉之种。</Botania_MakeFleshSeed.jobString>
 
+    <Botania_DyePetal_Orange.label>染出橙色花瓣</Botania_DyePetal_Orange.label>
+    <Botania_DyePetal_Orange.description>把白色神秘花瓣浸进染料，染出橙色花瓣。</Botania_DyePetal_Orange.description>
+    <Botania_DyePetal_Yellow.label>染出黄色花瓣</Botania_DyePetal_Yellow.label>
+    <Botania_DyePetal_Yellow.description>把白色神秘花瓣浸进染料，染出黄色花瓣。</Botania_DyePetal_Yellow.description>
+    <Botania_DyePetal_Cyan.label>染出青色花瓣</Botania_DyePetal_Cyan.label>
+    <Botania_DyePetal_Cyan.description>把白色神秘花瓣浸进染料，染出青色花瓣。</Botania_DyePetal_Cyan.description>
+    <Botania_DyePetal_Purple.label>染出紫色花瓣</Botania_DyePetal_Purple.label>
+    <Botania_DyePetal_Purple.description>把白色神秘花瓣浸进染料，染出紫色花瓣。</Botania_DyePetal_Purple.description>
+    <Botania_DyePetal_Green.label>染出绿色花瓣</Botania_DyePetal_Green.label>
+    <Botania_DyePetal_Green.description>把白色神秘花瓣浸进染料，染出绿色花瓣。</Botania_DyePetal_Green.description>
+    <Botania_DyePetal_Red.label>染出红色花瓣</Botania_DyePetal_Red.label>
+    <Botania_DyePetal_Red.description>把白色神秘花瓣浸进染料，染出红色花瓣。</Botania_DyePetal_Red.description>
+    <Botania_DyePetal_Black.label>染出黑色花瓣</Botania_DyePetal_Black.label>
+    <Botania_DyePetal_Black.description>把白色神秘花瓣浸进染料，染出黑色花瓣。</Botania_DyePetal_Black.description>
 </LanguageData>

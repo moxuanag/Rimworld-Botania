@@ -113,17 +113,28 @@
     <description>A flower that hollowed itself into a cannon. It gathers mana, compresses it in its calyx until the petals shiver, then throws the whole charge high over the wall as a seed that blooms into fire. Devastating against fortifications, hopeless against anything that stands close.</description>
     <graphicData>
       <texPath>Things/Building/Botania/Blastcalyx_Base</texPath>
+      <drawSize>(2,2)</drawSize>
     </graphicData>
+    <size>(2,2)</size>
+    <statBases>
+      <MaxHitPoints>180</MaxHitPoints>
+      <WorkToBuild>1800</WorkToBuild>
+      <Mass>8</Mass>
+      <Flammability>0.6</Flammability>
+      <Beauty>-10</Beauty>
+    </statBases>
     <building>
       <turretGunDef>Botania_Gun_Blastcalyx</turretGunDef>
+      <turretTopDrawSize>2</turretTopDrawSize>
+      <turretTopOffset>(0,0)</turretTopOffset>
       <turretBurstWarmupTime>4.0</turretBurstWarmupTime>
       <turretBurstCooldownTime>40.0</turretBurstCooldownTime>
-      <combatPower>200</combatPower>
+      <combatPower>260</combatPower>
     </building>
     <costList>
-      <Botania_Petal_Green>10</Botania_Petal_Green>
-      <Botania_ManaPowder>16</Botania_ManaPowder>
-      <Botania_TerrasteelIngot>3</Botania_TerrasteelIngot>
+      <Botania_Petal_Green>15</Botania_Petal_Green>
+      <Botania_ManaPowder>24</Botania_ManaPowder>
+      <Botania_TerrasteelIngot>5</Botania_TerrasteelIngot>
     </costList>
     <comps>
       <li Class="Botania.CompProperties_ManaTurret">
@@ -131,7 +142,7 @@
         <noManaRetryTicks>300</noManaRetryTicks>
         <muzzleFlashMote>Botania_Mote_TurretBlastFlash</muzzleFlashMote>
         <muzzleFlashSize>1.6</muzzleFlashSize>
-        <muzzleForwardOffset>0.6</muzzleForwardOffset>
+        <muzzleForwardOffset>1.0</muzzleForwardOffset>
         <launchSmokeMote>Botania_Mote_TurretBlastSmoke</launchSmokeMote>
         <launchSmokeSize>1.8</launchSmokeSize>
         <forcedTargetAllowed>true</forcedTargetAllowed>
@@ -154,28 +165,28 @@
     <description>An ancient siege bloom grown around a fist of compressed mana. It cannot defend itself at close range, but anything within sight of the colony is within its reach - and where its warhead lands, only a crater remains.</description>
     <graphicData>
       <texPath>Things/Building/Botania/AncientStarfall_Base</texPath>
-      <drawSize>(2,2)</drawSize>
+      <drawSize>(5,5)</drawSize>
     </graphicData>
-    <size>(2,2)</size>
+    <size>(5,5)</size>
     <statBases>
-      <MaxHitPoints>220</MaxHitPoints>
-      <WorkToBuild>3200</WorkToBuild>
-      <Mass>14</Mass>
+      <MaxHitPoints>330</MaxHitPoints>
+      <WorkToBuild>6400</WorkToBuild>
+      <Mass>30</Mass>
       <Flammability>0.6</Flammability>
       <Beauty>-14</Beauty>
     </statBases>
     <building>
       <turretGunDef>Botania_Gun_AncientStarfall</turretGunDef>
-      <turretTopDrawSize>2</turretTopDrawSize>
+      <turretTopDrawSize>5</turretTopDrawSize>
       <turretTopOffset>(0,0)</turretTopOffset>
       <turretBurstWarmupTime>4.0</turretBurstWarmupTime>
       <turretBurstCooldownTime>75.0</turretBurstCooldownTime>
-      <combatPower>420</combatPower>
+      <combatPower>620</combatPower>
     </building>
     <costList>
-      <Botania_Petal_Green>20</Botania_Petal_Green>
-      <Botania_ManaPowder>30</Botania_ManaPowder>
-      <Botania_TerrasteelIngot>8</Botania_TerrasteelIngot>
+      <Botania_Petal_Green>50</Botania_Petal_Green>
+      <Botania_ManaPowder>75</Botania_ManaPowder>
+      <Botania_TerrasteelIngot>20</Botania_TerrasteelIngot>
     </costList>
     <comps>
       <li Class="Botania.CompProperties_ManaTurret">
@@ -183,7 +194,7 @@
         <noManaRetryTicks>300</noManaRetryTicks>
         <muzzleFlashMote>Botania_Mote_TurretBlastFlash</muzzleFlashMote>
         <muzzleFlashSize>2.4</muzzleFlashSize>
-        <muzzleForwardOffset>1.6</muzzleForwardOffset>
+        <muzzleForwardOffset>4.0</muzzleForwardOffset>
         <launchSmokeMote>Botania_Mote_TurretBlastSmoke</launchSmokeMote>
         <launchSmokeSize>2.6</launchSmokeSize>
         <forcedTargetAllowed>true</forcedTargetAllowed>

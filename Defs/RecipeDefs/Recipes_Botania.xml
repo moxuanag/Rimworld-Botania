@@ -89,4 +89,264 @@
     </recipeUsers>
   </RecipeDef>
 
+
+  <!-- 染色：白花瓣 + 原版染料 → 橙色花瓣（0.9.2 起野外只有白色神秘花） -->
+  <RecipeDef>
+    <defName>Botania_DyePetal_Orange</defName>
+    <label>dye orange petals</label>
+    <description>Soak white mystic petals in dye to coax a different colour out of them.</description>
+    <jobString>Dyeing petals.</jobString>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workAmount>600</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Botania_Petal_White</li>
+          </thingDefs>
+        </filter>
+        <count>4</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Dye</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <products>
+      <Botania_Petal_Orange>1</Botania_Petal_Orange>
+    </products>
+    <workSkill>Crafting</workSkill>
+    <researchPrerequisite>Botania_BasicMana</researchPrerequisite>
+    <recipeUsers>
+      <li>CraftingSpot</li>
+      <li>TableTailor</li>
+    </recipeUsers>
+  </RecipeDef>
+
+  <!-- 染色：白花瓣 + 原版染料 → 黄色花瓣（0.9.2 起野外只有白色神秘花） -->
+  <RecipeDef>
+    <defName>Botania_DyePetal_Yellow</defName>
+    <label>dye yellow petals</label>
+    <description>Soak white mystic petals in dye to coax a different colour out of them.</description>
+    <jobString>Dyeing petals.</jobString>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workAmount>600</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Botania_Petal_White</li>
+          </thingDefs>
+        </filter>
+        <count>4</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Dye</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <products>
+      <Botania_Petal_Yellow>1</Botania_Petal_Yellow>
+    </products>
+    <workSkill>Crafting</workSkill>
+    <researchPrerequisite>Botania_BasicMana</researchPrerequisite>
+    <recipeUsers>
+      <li>CraftingSpot</li>
+      <li>TableTailor</li>
+    </recipeUsers>
+  </RecipeDef>
+
+  <!-- 染色：白花瓣 + 原版染料 → 青色花瓣（0.9.2 起野外只有白色神秘花） -->
+  <RecipeDef>
+    <defName>Botania_DyePetal_Cyan</defName>
+    <label>dye cyan petals</label>
+    <description>Soak white mystic petals in dye to coax a different colour out of them.</description>
+    <jobString>Dyeing petals.</jobString>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workAmount>600</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Botania_Petal_White</li>
+          </thingDefs>
+        </filter>
+        <count>4</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Dye</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <products>
+      <Botania_Petal_Cyan>1</Botania_Petal_Cyan>
+    </products>
+    <workSkill>Crafting</workSkill>
+    <researchPrerequisite>Botania_BasicMana</researchPrerequisite>
+    <recipeUsers>
+      <li>CraftingSpot</li>
+      <li>TableTailor</li>
+    </recipeUsers>
+  </RecipeDef>
+
+  <!-- 染色：白花瓣 + 原版染料 → 紫色花瓣（0.9.2 起野外只有白色神秘花） -->
+  <RecipeDef>
+    <defName>Botania_DyePetal_Purple</defName>
+    <label>dye purple petals</label>
+    <description>Soak white mystic petals in dye to coax a different colour out of them.</description>
+    <jobString>Dyeing petals.</jobString>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workAmount>600</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Botania_Petal_White</li>
+          </thingDefs>
+        </filter>
+        <count>4</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Dye</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <products>
+      <Botania_Petal_Purple>1</Botania_Petal_Purple>
+    </products>
+    <workSkill>Crafting</workSkill>
+    <researchPrerequisite>Botania_BasicMana</researchPrerequisite>
+    <recipeUsers>
+      <li>CraftingSpot</li>
+      <li>TableTailor</li>
+    </recipeUsers>
+  </RecipeDef>
+
+  <!-- 染色：白花瓣 + 原版染料 → 绿色花瓣（0.9.2 起野外只有白色神秘花） -->
+  <RecipeDef>
+    <defName>Botania_DyePetal_Green</defName>
+    <label>dye green petals</label>
+    <description>Soak white mystic petals in dye to coax a different colour out of them.</description>
+    <jobString>Dyeing petals.</jobString>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workAmount>600</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Botania_Petal_White</li>
+          </thingDefs>
+        </filter>
+        <count>4</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Dye</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <products>
+      <Botania_Petal_Green>1</Botania_Petal_Green>
+    </products>
+    <workSkill>Crafting</workSkill>
+    <researchPrerequisite>Botania_BasicMana</researchPrerequisite>
+    <recipeUsers>
+      <li>CraftingSpot</li>
+      <li>TableTailor</li>
+    </recipeUsers>
+  </RecipeDef>
+
+  <!-- 染色：白花瓣 + 原版染料 → 红色花瓣（0.9.2 起野外只有白色神秘花） -->
+  <RecipeDef>
+    <defName>Botania_DyePetal_Red</defName>
+    <label>dye red petals</label>
+    <description>Soak white mystic petals in dye to coax a different colour out of them.</description>
+    <jobString>Dyeing petals.</jobString>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workAmount>600</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Botania_Petal_White</li>
+          </thingDefs>
+        </filter>
+        <count>4</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Dye</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <products>
+      <Botania_Petal_Red>1</Botania_Petal_Red>
+    </products>
+    <workSkill>Crafting</workSkill>
+    <researchPrerequisite>Botania_BasicMana</researchPrerequisite>
+    <recipeUsers>
+      <li>CraftingSpot</li>
+      <li>TableTailor</li>
+    </recipeUsers>
+  </RecipeDef>
+
+  <!-- 染色：白花瓣 + 原版染料 → 黑色花瓣（0.9.2 起野外只有白色神秘花） -->
+  <RecipeDef>
+    <defName>Botania_DyePetal_Black</defName>
+    <label>dye black petals</label>
+    <description>Soak white mystic petals in dye to coax a different colour out of them.</description>
+    <jobString>Dyeing petals.</jobString>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workAmount>600</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Botania_Petal_White</li>
+          </thingDefs>
+        </filter>
+        <count>4</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Dye</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <products>
+      <Botania_Petal_Black>1</Botania_Petal_Black>
+    </products>
+    <workSkill>Crafting</workSkill>
+    <researchPrerequisite>Botania_BasicMana</researchPrerequisite>
+    <recipeUsers>
+      <li>CraftingSpot</li>
+      <li>TableTailor</li>
+    </recipeUsers>
+  </RecipeDef>
+
 </Defs>

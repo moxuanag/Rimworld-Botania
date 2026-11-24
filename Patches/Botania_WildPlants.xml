@@ -2,7 +2,8 @@
 <Patch>
 
   <!-- ============================================================
-       让 8 种神秘花在野外自然生长。
+       0.9.2：野外**只保留白色神秘花**（零星 0.02）。
+    其它 7 色花瓣改为「白色花瓣 + 原版染料」在裁缝台/手工点染色获得。
        只挂在能长花的生物群系上：温带/寒带/热带森林、沼泽、灌木荒原、
        沙漠、冷沼、苔原。冰盖、极端沙漠、地下、海洋不长。
        每种颜色权重 0.04，合计 0.32。
@@ -15,15 +16,8 @@
   <Operation Class="PatchOperationAdd">
     <xpath>Defs/BiomeDef[defName="TemperateForest" or defName="BorealForest" or defName="TropicalRainforest" or defName="TemperateSwamp" or defName="TropicalSwamp" or defName="AridShrubland" or defName="Desert" or defName="ColdBog" or defName="Tundra"]/wildPlants</xpath>
     <value>
-      <Botania_MysticFlower_White>0.04</Botania_MysticFlower_White>
-      <Botania_MysticFlower_Orange>0.04</Botania_MysticFlower_Orange>
-      <Botania_MysticFlower_Yellow>0.04</Botania_MysticFlower_Yellow>
-      <Botania_MysticFlower_Cyan>0.04</Botania_MysticFlower_Cyan>
-      <Botania_MysticFlower_Purple>0.04</Botania_MysticFlower_Purple>
-      <Botania_MysticFlower_Green>0.04</Botania_MysticFlower_Green>
-      <Botania_MysticFlower_Red>0.04</Botania_MysticFlower_Red>
-      <Botania_MysticFlower_Black>0.04</Botania_MysticFlower_Black>
-    </value>
+        <Botania_MysticFlower_White>0.02</Botania_MysticFlower_White>
+      </value>
   </Operation>
 
 </Patch>

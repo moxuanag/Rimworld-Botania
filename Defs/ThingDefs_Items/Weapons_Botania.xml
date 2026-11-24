@@ -27,8 +27,6 @@
       <li>LongShots</li>
     </weaponClasses>
     <statBases>
-      <ticksBetweenBurstShots>10</ticksBetweenBurstShots>
-      <burstShotCount>3</burstShotCount>
       <WorkToMake>6000</WorkToMake>
       <MaxHitPoints>120</MaxHitPoints>
       <Mass>2.5</Mass>
