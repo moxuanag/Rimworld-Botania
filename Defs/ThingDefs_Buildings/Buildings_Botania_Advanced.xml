@@ -13,7 +13,7 @@
     <defName>Botania_FurnaceOrchid</defName>
     <designatorDropdown>Botania_ManaFlowers</designatorDropdown>
     <label>furnace orchid</label>
-    <description>A flower that feeds on heat. It only works inside an enclosed, roofed room, and only once the room is properly warm: output grows with temperature and with the square root of the floor space it commands. Build a square room, keep it hot, and leave a gap between orchids — packed together they stop working, and one fire takes the whole row.</description>
+    <description>A flower that burns fuel to court heat itself. It only works inside an enclosed, roofed room, only above 40C, and only while it has fuel: output grows with temperature and with the square root of the floor space it commands, and every point of mana costs fuel (1 wood = 2000 mana). A nearby steam vent cannot feed it by itself - it only saves you the cost of keeping the room hot. Build a square room, keep it warm, and leave a gap between orchids - packed together they stop working, and one fire takes the whole row.</description>
     <thingClass>Building</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <graphicData>
@@ -49,12 +49,28 @@
       <Botania_Livingrock>10</Botania_Livingrock>
     </costList>
     <comps>
+      <!-- 0.9.1 平衡：炉心蕙改成「必须烧燃料」，间歇泉只帮你维持高温、不再白嫖产魔 -->
+      <li Class="CompProperties_Refuelable">
+        <fuelCapacity>50</fuelCapacity>
+        <fuelConsumptionRate>0</fuelConsumptionRate>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+        <canEjectFuel>true</canEjectFuel>
+        <fuelFilter>
+          <thingDefs>
+            <li>WoodLog</li>
+            <li>Chemfuel</li>
+            <li>Botania_Livingwood</li>
+          </thingDefs>
+        </fuelFilter>
+      </li>
       <li Class="Botania.CompProperties_ManaFurnaceOrchid">
         <manaScale>0.2</manaScale>
         <minAreaPerFlower>11</minAreaPerFlower>
         <maxRoomArea>150</maxRoomArea>
-        <maxManaPerSecond>90</maxManaPerSecond>
-        <baseTemperature>20</baseTemperature>
+        <maxManaPerSecond>60</maxManaPerSecond>
+        <baseTemperature>40</baseTemperature>
+        <manaPerFuel>2000</manaPerFuel>
         <radius>6</radius>
         <overheatThreshold>150</overheatThreshold>
         <damagePerDegree>0.04</damagePerDegree>

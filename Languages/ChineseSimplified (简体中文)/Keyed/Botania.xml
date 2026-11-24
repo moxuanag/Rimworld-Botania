@@ -334,4 +334,6 @@
     <Botania.Dev.RelayReport>查看网络连接状态</Botania.Dev.RelayReport>
     <Botania.Dev.RelayReportDesc>开发者工具：报告本塔当前是否接入网络，以及它的扩展半径。</Botania.Dev.RelayReportDesc>
     <Botania.Dev.RelayReportResult>中继塔状态：{0}（扩展半径 {1} 格）</Botania.Dev.RelayReportResult>
+  <Botania.FurnaceNoFuel>罢工：没有燃料</Botania.FurnaceNoFuel>
+  <Botania.FurnaceFuel>燃料：{0}（还可产出 {1} 秒）</Botania.FurnaceFuel>
 </LanguageData>

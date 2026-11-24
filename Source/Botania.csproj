@@ -16,25 +16,33 @@
     <NoWarn>CS0436;CS0618</NoWarn>
   </PropertyGroup>
 
+  <!-- 游戏目录：可用环境变量 RIMWORLD_DIR 或本地 Source/Directory.Build.props 覆盖；
+       缺省仍按「模组放在 <游戏>/Mods/<模组>」推算，保持与上游布局一致。 -->
+  <PropertyGroup>
+    <RimWorldDir Condition="'$(RimWorldDir)' == '' and '$(RIMWORLD_DIR)' != ''">$(RIMWORLD_DIR)</RimWorldDir>
+    <RimWorldDir Condition="'$(RimWorldDir)' == ''">$(MSBuildThisFileDirectory)..\..\..\</RimWorldDir>
+    <HarmonyAssemblyDir Condition="'$(HarmonyAssemblyDir)' == ''">$(RimWorldDir)\..\..\workshop\content\294100\2009463077\1.7\Assemblies</HarmonyAssemblyDir>
+  </PropertyGroup>
+
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\..\Assembly-CSharp.dll</HintPath>
+      <HintPath>$(RimWorldDir)\Assembly-CSharp.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <!-- 护盾气泡需要 Material/Graphics，这些类型在自定义引擎的 Waylith 程序集里 -->
     <Reference Include="Waylith">
-      <HintPath>..\..\..\Waylith.dll</HintPath>
+      <HintPath>$(RimWorldDir)\Waylith.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="UnityStubs">
-      <HintPath>..\..\..\UnityStubs.dll</HintPath>
+      <HintPath>$(RimWorldDir)\UnityStubs.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <!-- Harmony 由 brrainz.harmony 提供，运行时不随包分发（Private=false）。
-         路径按「模组放在 <游戏>\Mods\<模组>，Harmony 在 Steam 创意工坊」推算；
-         本地布局不同时，把 HintPath 指到任意一份 0Harmony.dll 即可（2.x / 3.x 的公开 API 一致）。 -->
+         HarmonyAssemblyDir 缺省按「模组放在 <游戏>/Mods/<模组>」推算到 steamapps\workshop；
+         本地布局不同时用 RIMWORLD_DIR / Directory.Build.props 覆盖即可。 -->
     <Reference Include="0Harmony">
-      <HintPath>..\..\..\..\..\workshop\content\294100\2009463077\1.7\Assemblies\0Harmony.dll</HintPath>
+      <HintPath>$(HarmonyAssemblyDir)\0Harmony.dll</HintPath>
       <Private>false</Private>
     </Reference>
   </ItemGroup>

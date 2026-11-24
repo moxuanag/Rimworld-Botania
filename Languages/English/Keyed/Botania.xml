@@ -334,4 +334,6 @@
     <Botania.Dev.RelayReport>Report network status</Botania.Dev.RelayReport>
     <Botania.Dev.RelayReportDesc>Dev tool: report whether this relay is linked and its extension radius.</Botania.Dev.RelayReportDesc>
     <Botania.Dev.RelayReportResult>Relay status: {0} (extends {1} cells)</Botania.Dev.RelayReportResult>
+  <Botania.FurnaceNoFuel>Offline — no fuel</Botania.FurnaceNoFuel>
+  <Botania.FurnaceFuel>Fuel: {0} ({1} s of output left)</Botania.FurnaceFuel>
 </LanguageData>

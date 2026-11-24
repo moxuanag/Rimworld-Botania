@@ -125,7 +125,7 @@
   <Botania_ManaBlast.description>一团不稳定的魔力，落地后炸成十字的火。</Botania_ManaBlast.description>
 
   <Botania_FurnaceOrchid.label>炉心蕙</Botania_FurnaceOrchid.label>
-  <Botania_FurnaceOrchid.description>吃热量的花。只在封闭、有屋顶的房间里工作，而且房间得先烧热：产量随温度上升，随它分到的面积的平方根上升。把房间盖成方的、烧到合适的温度、花与花之间留出一格——贴在一起它们就不干活，而且一把火能烧掉一整排。</Botania_FurnaceOrchid.description>
+  <Botania_FurnaceOrchid.description>一朵靠烧燃料自己制造高温的花。必须建在封闭、有屋顶的房间里，室温高于 40°C，而且**必须有燃料**才会工作：产量随温度与有效面积的平方根增长，每一点魔力都要付燃料费（1 份木材 = 2000 魔力）。旁边的蒸汽间歇泉不能替它发电，只能帮你省下维持室温的开销。房间要保持方正、留出花朵之间的空隙——挤在一起会停工，而且一把火能烧掉一整排。</Botania_FurnaceOrchid.description>
 
   <Botania_StormBloom.label>电暴花</Botania_StormBloom.label>
   <Botania_StormBloom.description>一朵蓄着小水囊的花。电网短路（Zzztt）时，电池会把整条线路的储能一股脑放出来，这朵花就喝下自己装得下的那一口，送进附近的魔力池。它是捡漏，不是电源。</Botania_StormBloom.description>

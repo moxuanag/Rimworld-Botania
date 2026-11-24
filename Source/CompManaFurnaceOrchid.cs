@@ -28,11 +28,17 @@ namespace Botania
         /// <summary>房间面积软上限：超过部分不计入 A。</summary>
         public float maxRoomArea = 150f;
 
-        /// <summary>产量硬上限：温度再高也不超过这个值（基准 = 3 座火红莲）。</summary>
-        public float maxManaPerSecond = 90f;
+        /// <summary>产量硬上限（0.9.1：90 → 60，约 2 座火红莲）。</summary>
+        public float maxManaPerSecond = 60f;
 
-        /// <summary>产魔的起始温度（°C），低于它不产魔。</summary>
-        public float baseTemperature = 20f;
+        /// <summary>
+        /// 每个燃料单位能换多少魔力（0.9.1 起炉心蕙必须烧燃料）。
+        /// 比火红莲的 3000 低 1/3，换来「占地 1 格 + 上限 2 倍」。
+        /// </summary>
+        public float manaPerFuel = 2000f;
+
+        /// <summary>产魔的起始温度（°C），低于它不产魔（0.9.1：20 → 40）。</summary>
+        public float baseTemperature = 40f;
 
         /// <summary>超过这个温度开始掉 HP。</summary>
         public float overheatThreshold = 150f;
@@ -81,12 +87,18 @@ namespace Botania
             {
                 yield return "maxManaPerSecond must be greater than 0.";
             }
+            if (manaPerFuel <= 0f)
+            {
+                yield return "manaPerFuel must be greater than 0.";
+            }
         }
     }
 
     public class CompManaFurnaceOrchid : CompManaProducer
     {
         public CompProperties_ManaFurnaceOrchid Props => (CompProperties_ManaFurnaceOrchid)props;
+
+        private CompRefuelable Refuelable => parent.GetComp<CompRefuelable>();
 
         /// <summary>这朵花当前分到的有效面积（供 UI 显示）。</summary>
         public float EffectiveArea { get; private set; }
@@ -138,6 +150,19 @@ namespace Botania
                 BlockReason = "Botania.FurnaceTooCold".Translate(Props.baseTemperature.ToString("0"));
                 return false;
             }
+
+            // 0.9.1：没有燃料一分不产——堵死「间歇泉白嫖」这条挂机路线
+            CompRefuelable refuelable = Refuelable;
+            if (refuelable == null)
+            {
+                BlockReason = "Botania.FurnaceNoFuel".Translate();
+                return false;
+            }
+            if (!refuelable.HasFuel)
+            {
+                BlockReason = "Botania.FurnaceNoFuel".Translate();
+                return false;
+            }
             return true;
         }
 
@@ -153,6 +178,16 @@ namespace Botania
             {
                 mana = cap;
             }
+            // 燃料只够换这么多魔力：先按剩余燃料封顶，再交给基类送池
+            CompRefuelable refuelable = Refuelable;
+            if (refuelable != null)
+            {
+                float fuelCap = refuelable.Fuel * Props.manaPerFuel;
+                if (mana > fuelCap)
+                {
+                    mana = fuelCap;
+                }
+            }
             CurrentOutput = mana;
             return mana;
         }
@@ -160,6 +195,12 @@ namespace Botania
         /// <summary>旧版：魔力送池成功之后结算过温掉血 / 自燃。</summary>
         protected override void OnManaAccepted(float acceptedMana)
         {
+            // 只按「真的送进池子」的量烧燃料，没池子就不浪费
+            CompRefuelable refuelable = Refuelable;
+            if (refuelable != null && Props.manaPerFuel > 0f && acceptedMana > 0f)
+            {
+                refuelable.ConsumeFuel(acceptedMana / Props.manaPerFuel);
+            }
             Overheat();
         }
 
@@ -252,6 +293,16 @@ namespace Botania
                 RoomTemperature.ToString("0"),
                 EffectiveArea.ToString("0.0"),
                 CurrentOutput.ToString("0.0"));
+
+            CompRefuelable refuelable = Refuelable;
+            if (refuelable != null)
+            {
+                float fuelMana = refuelable.Fuel * Props.manaPerFuel;
+                float secondsLeft = CurrentOutput > 0.01f ? fuelMana / CurrentOutput : 0f;
+                text += "\n" + "Botania.FurnaceFuel".Translate(
+                    refuelable.Fuel.ToString("0.0"),
+                    secondsLeft.ToString("0"));
+            }
 
             // 过热与自燃要让玩家看得见，否则花只会莫名其妙掉血
             if (RoomTemperature > Props.overheatThreshold)
