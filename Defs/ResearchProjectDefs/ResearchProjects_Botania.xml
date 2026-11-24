@@ -275,10 +275,13 @@
   </ResearchProjectDef>
 
 
-  <!-- ===== 防御花线（2026-11-24 定案） =====
-       x4,y1 防御花 ── x5,y1 进阶防御花 ──(汇合盖亚)── x6,y4 重型防御花
+  <!-- ===== 防御花线（2026-11-24 定案，2026-11-25 调整坐标） =====
+       y=1 是「花」分支，四朵花的研究连成一条直线：
+         x3 功能花 ── x4 防御花 ── x5 进阶防御花 ── x6 重型防御花
+                                            ↘（前置还需要盖亚，x7,y3）
        前置关系：功能花 + 魔力存储 → 防御花；防御花 → 进阶防御花；
-                 进阶防御花 + 盖亚 → 重型防御花。 -->
+                 进阶防御花 + 盖亚 → 重型防御花。
+       重型原先放在 (6,4) 导致两条长斜线横穿全树，已移回花行。 -->
 
   <ResearchProjectDef>
     <defName>Botania_DefenseI</defName>
@@ -321,7 +324,7 @@
       <li>Botania_Gaia</li>
     </prerequisites>
     <researchViewX>6.00</researchViewX>
-    <researchViewY>4.00</researchViewY>
+    <researchViewY>1.00</researchViewY>
   </ResearchProjectDef>
 
 </Defs>
