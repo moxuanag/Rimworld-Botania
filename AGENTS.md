@@ -57,6 +57,10 @@
 - 必须**带上下文整块匹配**（把 `<li Class="...` 到 `</li>` 一起放进 old/new），或按行号定位，
   并在写回后**回读校验**目标文件确实变成预期内容。
 - 改完跑 `python _dev/_botania-dev/check_comp_fields.py`：它会比对 XML 组件字段与 C# 属性类字段。
+- **`ParentName` 只能指向 `Name=` 属性，不是 `defName`**：原版 `BombSuper` 只有 defName、没有 Name=，
+  写 `ParentName="BombSuper"` 会让整个 def 加载失败（`Could not find parent node named`）。
+  要么改成引用 `<DamageDef Name="Bomb">` 这类真父节点，要么把字段抄全、写成自包含 def。
+  改完跑 `python _dev/_botania-dev/check_def_refs.py`。
 - **写 `<building>` / `<mote>` 块之前先查 decomp 的字段表**：本引擎与原版差别不小
   （例：`MoteProperties` 只有 `growthRate`，没有 `growRate` / `rotationRate`；
   `BuildingProperties.turretTopOffset` 是 **Vector2** 而不是 Vector3，写三元组会让整个 ThingDef 加载失败，
@@ -73,7 +77,7 @@
 
 - 源码仓库：`_dev/Botania-src`；发布载荷：`Mods/[GZ]Botania`（部署用 `deploy.ps1`，不要把工具塞进载荷）。
 - 开发工具与笔记一律放 `_dev/_botania-dev/`。
-- 验证顺序：`dotnet build -c Release` → `validate_mod.py` → `check_comp_fields.py` → `check_xml_fields.py` → `check_component_rules.py` → 部署 → 用户进游戏实测。
+- 验证顺序：`dotnet build -c Release` → `validate_mod.py` → `check_comp_fields.py` → `check_xml_fields.py` → `check_def_refs.py` → `check_component_rules.py` → 部署 → 用户进游戏实测。
 - **无法自行启动游戏**：编译与静态校验只能证明"不会崩"，行为必须由用户回传日志/截图确认。日志：`%USERPROFILE%\AppData\LocalLow\Ludeon Studios\RimWorld by Ludeon Studios\Logs\Player.log`。
 
 ## 8. 版本与推送

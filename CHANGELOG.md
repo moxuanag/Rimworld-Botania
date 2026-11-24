@@ -73,6 +73,19 @@
 
 ## [未发布]
 
+### 修复：重型魔力战斗部 DamageDef 加载失败 + 新增引用检查脚本
+
+- **报错**：`XML error: Could not find parent node named "BombSuper" for node "DamageDef"`
+  - 根因：本引擎的 `ParentName` 只能指向 `Name=` 属性；原版 `BombSuper` 只有 `defName`，没有 `Name=`
+  - 修复：`Botania_HeavyManaBomb` 改为**自包含**定义，把 BombSuper/Bomb 的字段抄全
+    （workerClass / isExplosive / armorCategory / hediff Shredded / hediffSolid Crack /
+    buildingDamageFactor / harmAllLayersUntilOutside 等），伤害仍是 275
+- 新增 `_dev/_botania-dev/check_def_refs.py`：
+  - 校验所有 `ParentName` 是否能在本模组或原版 Data 的 `Name=` 里找到（这条正好抓上面的 bug）
+  - 校验 `turretGunDef` / `defaultProjectile` / `damageDef` / `hediff` / `mote` / 研究前置等引用是否存在
+  - 检查炮塔顶贴图的**水平轴心**（偏了旋转就会左右漂）
+- AGENTS.md：验证顺序加入该脚本，并新增「ParentName 只能指向 Name=」条款
+
 ### 调整：重型防御花研究坐标移回「花」分支（x6,y1）
 
 原先放在 (6,4) 导致「进阶防御花(5,1)」与「盖亚(7,3)」两条长斜线横穿整棵研究树，观感乱。
