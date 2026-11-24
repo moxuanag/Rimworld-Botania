@@ -77,7 +77,12 @@
 
 - 源码仓库：`_dev/Botania-src`；发布载荷：`Mods/[GZ]Botania`（部署用 `deploy.ps1`，不要把工具塞进载荷）。
 - 开发工具与笔记一律放 `_dev/_botania-dev/`。
-- 验证顺序：`dotnet build -c Release` → `validate_mod.py` → `check_comp_fields.py` → `check_xml_fields.py` → `check_def_refs.py` → `check_component_rules.py` → 部署 → 用户进游戏实测。
+- **交付前只需一条命令**：`python scripts/check_all.py`（编译 + 5 个静态检查，全绿才允许部署/提交）。
+  单项检查仍可直接跑 `_dev/_botania-dev/` 下的脚本。
+- **新增物品 / 建筑只需一条命令**：`python _dev/_botania-dev/scaffold_apply.py item|building Botania_XXX --label-zh ...`
+  它会生成 Def + 贴图 + 中文 DefInjected，并自动跑 `check_all.py`；检查不过就照报错改。
+  花 / 设备 / 炮塔这类要写 C# 的，用 `_dev/_botania-dev/new_content.py`（三个模板 + 自检）。
+- 详细流程与字段含义见 `docs/新增内容速查.md`。
 - **无法自行启动游戏**：编译与静态校验只能证明"不会崩"，行为必须由用户回传日志/截图确认。日志：`%USERPROFILE%\AppData\LocalLow\Ludeon Studios\RimWorld by Ludeon Studios\Logs\Player.log`。
 
 ## 8. 版本与推送

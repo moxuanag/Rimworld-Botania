@@ -73,6 +73,23 @@
 
 ## [未发布]
 
+### 工程：一条命令交付检查 + 一条命令加物品/建筑
+
+目标是让「不那么懂这个模组的模型」也能安全加内容，靠脚本护栏而不是记忆。
+
+- **`scripts/check_all.py`：交付闸门（一条命令跑全部）**
+  - `dotnet build` → validate_mod → check_comp_fields → check_xml_fields →
+    check_def_refs → check_component_rules
+  - 任何一项 FAIL 直接以非 0 退出，并明确打印「不许部署/提交」
+- **`_dev/_botania-dev/scaffold_apply.py`：新增物品/建筑一条命令**
+  - `scaffold_apply.py item Botania_XXX --label-zh ...` → Def + 占位贴图 + 中文 DefInjected
+  - `scaffold_apply.py building Botania_XXX --group Botania_Buildings ...` → 额外带分类、造价、研究前置
+  - 生成后**自动跑 check_all**；不通过就按报错改，不用记规矩
+  - 内置护栏：defName 前缀/格式、重名检测、`--cost` 格式、材料名白名单、`--dry-run`
+  - 开发中模板自身被 check_all 抓出过一个非法字段（`ai_combatTargeting`），已修
+- **`docs/新增内容速查.md`**：一页纸流程（物品 / 建筑 / 花设备炮塔 / 交付 / 报错对照表 / 三个易犯错）
+- AGENTS.md §7 改为「交付前只需 `check_all.py`；加物品建筑用 `scaffold_apply.py`」
+
 ### 修复：重型魔力战斗部 DamageDef 加载失败 + 新增引用检查脚本
 
 - **报错**：`XML error: Could not find parent node named "BombSuper" for node "DamageDef"`
