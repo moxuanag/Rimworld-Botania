@@ -73,6 +73,21 @@
 
 ## [未发布]
 
+### 修复：炮塔花缺魔空读秒 + 顶图朝向 90° 偏差；远古陨击花改名与死区
+
+- **缺魔仍读秒**（用户实测）：`TryStartShootSomething` 非 virtual，预热在 `BeginBurst` 之前完成，
+  导致「没魔力也读秒、读完不开火」。修法：`Building_ManaTurretGun.Tick` 覆写，
+  缺魔时把 `burstWarmupTicksLeft` 清零（保留 currentTarget，所以转向照常）。
+  三朵炮塔花共用该类，一次全部修好。
+- **炮塔顶贴图朝向错了 90°**：按 `ArtworkRotation=-90` + Unity 旋转约定推导，
+  顶图必须**朝东**而非朝北。三张顶图已顺时针旋转 90°，生成脚本同步（重生成不会退回）。
+- **远古陨击花**（原「重型迫击炮花」）：
+  - defName `Botania_HeavyMortarFlower` → `Botania_AncientStarfall`
+  - 炮械 `Botania_Gun_AncientStarfall`；贴图 `AncientStarfall_Base/Top.png`
+  - 中文名 **远古陨击花**，研究名「重型防御花」→「远古防御花」
+  - 最小射程 29.9 → **20**（按要求缩减 1/3）
+- `check_def_refs.py` 的轴心检查改为「垂直于炮口的轴必须居中」，适配朝东画的顶图
+
 ### 工程：一条命令交付检查 + 一条命令加物品/建筑
 
 目标是让「不那么懂这个模组的模型」也能安全加内容，靠脚本护栏而不是记忆。

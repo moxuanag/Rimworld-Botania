@@ -147,13 +147,13 @@
 
   <!-- 重型迫击炮花：终局攻城花。全图射程 500 / 死区 29.9 / 攻击间隔 60 秒 / 反物质弹一半。 -->
   <ThingDef ParentName="Botania_BaseTurretFlower">
-    <defName>Botania_HeavyMortarFlower</defName>
+    <defName>Botania_AncientStarfall</defName>
     <designatorDropdown>Botania_DefenseFlowers</designatorDropdown>
     <designationCategory>Botania</designationCategory>
-    <label>heavy mortar flower</label>
-    <description>A siege bloom grown around a fist of compressed mana. It cannot defend itself at close range, but anything within sight of the colony is within its reach - and where its warhead lands, only a crater remains.</description>
+    <label>ancient starfall bloom</label>
+    <description>An ancient siege bloom grown around a fist of compressed mana. It cannot defend itself at close range, but anything within sight of the colony is within its reach - and where its warhead lands, only a crater remains.</description>
     <graphicData>
-      <texPath>Things/Building/Botania/HeavyMortar_Base</texPath>
+      <texPath>Things/Building/Botania/AncientStarfall_Base</texPath>
     </graphicData>
     <statBases>
       <MaxHitPoints>220</MaxHitPoints>
@@ -163,7 +163,7 @@
       <Beauty>-14</Beauty>
     </statBases>
     <building>
-      <turretGunDef>Botania_Gun_HeavyMortarFlower</turretGunDef>
+      <turretGunDef>Botania_Gun_AncientStarfall</turretGunDef>
       <turretBurstWarmupTime>4.0</turretBurstWarmupTime>
       <turretBurstCooldownTime>60.0</turretBurstCooldownTime>
       <combatPower>420</combatPower>

@@ -214,6 +214,32 @@ namespace Botania
             BotaniaOverlays.DrawRadiusRingSafe(Position, range);
         }
 
+        /// <summary>
+        /// 缺魔时**不进入预热读秒**（但仍然转向瞄准）。
+        ///
+        /// 引擎的 <c>TryStartShootSomething</c> 不是 virtual，内部会先把
+        /// <c>burstWarmupTicksLeft</c> 设成预热时间再在结束时调 <c>BeginBurst</c>；
+        /// 我们在 BeginBurst 里拒绝付款，结果就是「没魔力却在读秒、读完也不开火」的假动作。
+        ///
+        /// 这里在基类 Tick 之后把预热清零：
+        ///   · currentTarget 已经在基类里算好 → 顶部照常转向目标（保留瞄准手感）
+        ///   · burstWarmupTicksLeft = 0 → 不显示瞄准饼、不读秒、不会走到 BeginBurst
+        /// 魔力补上后，基类下一个 15 tick 周期会正常起手预热。
+        /// </summary>
+        protected override void Tick()
+        {
+            base.Tick();
+            if (burstWarmupTicksLeft <= 0)
+            {
+                return;
+            }
+            CompManaTurret comp = ManaComp;
+            if (comp != null && !comp.HasEnoughManaForBurst())
+            {
+                burstWarmupTicksLeft = 0;
+            }
+        }
+
         /// <summary>发射瞬间的炮口烟（迫击炮是「轰」一下；速射炮的逐发闪光由 Verb 负责）。</summary>
         private void SpawnLaunchSmoke()
         {

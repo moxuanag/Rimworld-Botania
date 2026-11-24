@@ -99,11 +99,11 @@
   <!-- 重型迫击炮花：全图射程的攻城花。数值 = 原版迫击炮（500 / 29.9 / 偏差 9），
        弹药 = 反物质弹头的一半（275 伤害 / 7.45 半径），由 DamageDefs_Botania_HeavyShell.xml 定义。 -->
   <ThingDef ParentName="BaseWeaponTurret">
-    <defName>Botania_Gun_HeavyMortarFlower</defName>
-    <label>heavy mortar flower barrel</label>
-    <description>The enormous maw of a heavy mortar flower. Its warhead carries half the charge of an antigrain warhead, which is still more than enough to erase a fortification.</description>
+    <defName>Botania_Gun_AncientStarfall</defName>
+    <label>ancient starfall maw</label>
+    <description>The enormous maw of an ancient starfall bloom. Its warhead carries half the charge of an antigrain warhead, which is still more than enough to erase a fortification.</description>
     <graphicData>
-      <texPath>Things/Building/Botania/HeavyMortar_Top</texPath>
+      <texPath>Things/Building/Botania/AncientStarfall_Top</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <uiIconScale>1.25</uiIconScale>
@@ -124,7 +124,7 @@
         <isMortar>true</isMortar>
         <forcedMissRadius>9</forcedMissRadius>
         <warmupTime>4.0</warmupTime>
-        <minRange>29.9</minRange>
+        <minRange>20</minRange>
         <range>500</range>
         <burstShotCount>1</burstShotCount>
         <soundCast>Mortar_LaunchA</soundCast>
