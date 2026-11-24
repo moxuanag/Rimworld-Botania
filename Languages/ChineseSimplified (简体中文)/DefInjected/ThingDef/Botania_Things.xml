@@ -255,8 +255,8 @@
     <Botania_Gun_Blastcalyx.label>爆萼花炮筒</Botania_Gun_Blastcalyx.label>
     <Botania_Gun_Blastcalyx.description>爆萼花的单根粗炮筒。</Botania_Gun_Blastcalyx.description>
     <Botania_AncientStarfall.label>远古陨击花</Botania_AncientStarfall.label>
-    <Botania_AncientStarfall.description>一朵围着压缩魔力长成的远古攻城花。它的花喉朝着天空张开，能把战斗部丢到全图任何角落——落点只剩一个冒烟的弹坑，而它自己近处毫无防备。</Botania_AncientStarfall.description>
+    <Botania_AncientStarfall.description>一朵围着压缩魔力长成的远古攻城花。它会向天空张开喉咙，把一枚燃烧的陨石拽下来砸向目标——落点只剩一个冒烟的弹坑，而它自己近处毫无防备。</Botania_AncientStarfall.description>
     <Botania_Gun_AncientStarfall.label>远古陨击花花喉</Botania_Gun_AncientStarfall.label>
-    <Botania_Gun_AncientStarfall.description>重型迫击炮花的巨口。它的弹头携带反物质弹头一半的装药，仍足以抹平一座工事。</Botania_Gun_AncientStarfall.description>
-    <Botania_Bullet_HeavyManaShell.label>重型魔力战斗部</Botania_Bullet_HeavyManaShell.label>
+    <Botania_Gun_AncientStarfall.description>远古陨击花的花喉。它不发射炮弹，而是把高空的陨石拽向目标；那枚陨石携带的威力是反物质弹头的一半，仍足以抹平一座工事。</Botania_Gun_AncientStarfall.description>
+    <Botania_Bullet_HeavyManaShell.label>召唤陨石</Botania_Bullet_HeavyManaShell.label>
 </LanguageData>

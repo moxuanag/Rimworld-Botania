@@ -101,7 +101,7 @@
   <ThingDef ParentName="BaseWeaponTurret">
     <defName>Botania_Gun_AncientStarfall</defName>
     <label>ancient starfall maw</label>
-    <description>The enormous maw of an ancient starfall bloom. Its warhead carries half the charge of an antigrain warhead, which is still more than enough to erase a fortification.</description>
+    <description>The maw of an ancient starfall bloom. It fires no shell - it tears a burning meteor out of the sky and drops it on the target.</description>
     <graphicData>
       <texPath>Things/Building/Botania/AncientStarfall_Top</texPath>
       <graphicClass>Graphic_Single</graphicClass>
