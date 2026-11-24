@@ -73,6 +73,21 @@
 
 ## [未发布]
 
+### 修复：爆炸视觉半径与伤害半径不一致（植物没了但敌人不掉血）
+
+- 根因一：`explosionEffect GiantExplosion` 是**反物质弹（半径 14.9）**的超大火球，
+  而我们的伤害半径只有 **7.45** —— 玩家看到 ~15 格的火球，实际只有 7.45 格会受伤。
+  另外 DamageDef 缺 `explosionCellFleck` / 颜色 / `soundExplosion`，逐格视觉完全缺失。
+- 修复：
+  - `Botania_HeavyManaBomb` 补齐原版 `Bomb` 的爆炸表现字段
+    （`explosionCellFleck BlastDry`、`explosionColorCenter/Edge`、`explosionHeatEnergyPerCell 5`、
+    `soundExplosion Explosion_Bomb`、`corpseDamageFactor 0.5`、`explosionAffectOutsidePartsOnly false`、
+    `combatLogRules Damage_Bomb`）
+  - 删除 `GiantExplosion`：火球大小改由伤害半径铺出，**看到多大就打多大**
+- 根因二（已修，补记录）：早期 `Botania_HeavyManaBomb` 用 `ParentName="BombSuper"` 导致整条
+  DamageDef 加载失败（该 parent 没有 `Name=`），当时这发炮弹实际没有伤害类型
+- 文档新增 §19.20 记录完整排查过程与验证方法（数格子）
+
 ### 调整：远古陨击花复用原版陨石（Skyfaller）机制
 
 用户提醒「原版本来就有陨石」。确实有，而且比自定义高弧线炮弹更还原，已改成复用：

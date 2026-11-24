@@ -34,6 +34,14 @@
     <harmAllLayersUntilOutside>true</harmAllLayersUntilOutside>
     <hediff>Shredded</hediff>
     <hediffSolid>Crack</hediffSolid>
+    <corpseDamageFactor>0.5</corpseDamageFactor>
+    <explosionAffectOutsidePartsOnly>false</explosionAffectOutsidePartsOnly>
+    <explosionHeatEnergyPerCell>5</explosionHeatEnergyPerCell>
+    <explosionCellFleck>BlastDry</explosionCellFleck>
+    <explosionColorCenter>(1, 0.5, 0.3)</explosionColorCenter>
+    <explosionColorEdge>(0.6, 0.5, 0.4)</explosionColorEdge>
+    <soundExplosion>Explosion_Bomb</soundExplosion>
+    <combatLogRules>Damage_Bomb</combatLogRules>
     <deathMessage>{0} has been erased by a mana warhead.</deathMessage>
   </DamageDef>
 
