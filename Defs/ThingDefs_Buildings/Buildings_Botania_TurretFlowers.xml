@@ -154,7 +154,9 @@
     <description>An ancient siege bloom grown around a fist of compressed mana. It cannot defend itself at close range, but anything within sight of the colony is within its reach - and where its warhead lands, only a crater remains.</description>
     <graphicData>
       <texPath>Things/Building/Botania/AncientStarfall_Base</texPath>
+      <drawSize>(2,2)</drawSize>
     </graphicData>
+    <size>(2,2)</size>
     <statBases>
       <MaxHitPoints>220</MaxHitPoints>
       <WorkToBuild>3200</WorkToBuild>
@@ -164,6 +166,8 @@
     </statBases>
     <building>
       <turretGunDef>Botania_Gun_AncientStarfall</turretGunDef>
+      <turretTopDrawSize>2</turretTopDrawSize>
+      <turretTopOffset>(0,0)</turretTopOffset>
       <turretBurstWarmupTime>4.0</turretBurstWarmupTime>
       <turretBurstCooldownTime>60.0</turretBurstCooldownTime>
       <combatPower>420</combatPower>
@@ -179,7 +183,7 @@
         <noManaRetryTicks>300</noManaRetryTicks>
         <muzzleFlashMote>Botania_Mote_TurretBlastFlash</muzzleFlashMote>
         <muzzleFlashSize>2.4</muzzleFlashSize>
-        <muzzleForwardOffset>0.7</muzzleForwardOffset>
+        <muzzleForwardOffset>1.6</muzzleForwardOffset>
         <launchSmokeMote>Botania_Mote_TurretBlastSmoke</launchSmokeMote>
         <launchSmokeSize>2.6</launchSmokeSize>
         <forcedTargetAllowed>true</forcedTargetAllowed>

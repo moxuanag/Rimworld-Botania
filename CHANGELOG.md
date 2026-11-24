@@ -73,6 +73,17 @@
 
 ## [未发布]
 
+### 调整：远古陨击花改为 2×2 并重制贴图
+
+- `size` (1,1) → **(2,2)**；`graphicData/drawSize` 同步 (2,2)；
+  `turretTopDrawSize` 1 → **2**；`turretTopOffset` 设为 (0,0)（Vector2）；
+  `muzzleForwardOffset` 0.7 → **1.6**（花喉离中心更远，炮口闪光外移）
+- 贴图重制为 **256×256**：
+  - `AncientStarfall_Base`：远古石板底座（八边形石板 + 石纹 + 苔藓 + 厚萼 + 中央花托带符文柱）
+  - `AncientStarfall_Top`：居中盘心 + 三片厚唇 + 钢制喉口 + 魔力核心（朝东，旋转轴居中）
+- 生成脚本 `_dev/_botania-dev/make_ancient_starfall_2x2.py`（含轴心/朝东/留边三条自检）
+- 文档新增 §19.19.2
+
 ### 修复：爆炸视觉半径与伤害半径不一致（植物没了但敌人不掉血）
 
 - 根因一：`explosionEffect GiantExplosion` 是**反物质弹（半径 14.9）**的超大火球，
