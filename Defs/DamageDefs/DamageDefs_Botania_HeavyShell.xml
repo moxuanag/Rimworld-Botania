@@ -38,34 +38,55 @@
   </DamageDef>
 
   <!-- 投射物：高抛、大范围、留燃烧（与反物质弹同款表现，半径减半） -->
+  <!-- 弹体：一出膛就变成「从天上落下的陨石」（复用原版 Skyfaller 机制）。
+       伤害与爆炸范围写在下面的 Botania_MeteorIncoming 的 <skyfaller> 块里，
+       这里的 projectile 只保留命中判定所需的字段。 -->
   <ThingDef ParentName="BaseBullet">
     <defName>Botania_Bullet_HeavyManaShell</defName>
-    <label>heavy mana warhead</label>
+    <label>summoned meteor</label>
     <graphicData>
       <texPath>Things/Projectile/Botania/ManaMeteor</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>TransparentPostLight</shaderType>
     </graphicData>
-    <thingClass>Projectile_Explosive</thingClass>
+    <thingClass>Botania.Projectile_ManaMeteor</thingClass>
     <projectile>
       <damageDef>Botania_HeavyManaBomb</damageDef>
-      <!-- 陨石从高空砸下：比炮弹慢、弧线更高、翻滚、落地震屏；
-           伤害 275 / 半径 7.45 / 火焰 0.22 / 弹坑 全部与原设定一致。 -->
-      <speed>41</speed>
-      <arcHeightFactor>0.8</arcHeightFactor>
-      <spinRate>10</spinRate>
-      <screenShakeFactor>2</screenShakeFactor>
-      <explosionRadius>7.45</explosionRadius>
-      <explosionChanceToStartFire>0.22</explosionChanceToStartFire>
-      <explosionDamageFalloff>true</explosionDamageFalloff>
-      <explosionEffect>GiantExplosion</explosionEffect>
+      <speed>120</speed>
+      <!-- 弹体瞬间转化为陨石，不会自己爆炸；保留最小半径仅为兜底 -->
+      <explosionRadius>0</explosionRadius>
       <flyOverhead>true</flyOverhead>
       <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
-      <soundExplode>Explosion_GiantBomb</soundExplode>
       <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
       <soundAmbient>MortarRound_Ambient</soundAmbient>
-      <preExplosionSpawnSingleThingDef>CraterMedium</preExplosionSpawnSingleThingDef>
     </projectile>
+  </ThingDef>
+
+  <!-- 陨石本体：直接继承原版 SkyfallerBase（陨石事件用的那套），
+       爆炸半径 7.45 / 伤害 Botania_HeavyManaBomb(275) = 反物质弹头的一半。
+       观感（下落弧线、投影、落地扬尘、震屏）全部由原版 Skyfaller 负责。 -->
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>Botania_MeteorIncoming</defName>
+    <label>summoned meteor (incoming)</label>
+    <size>(2, 2)</size>
+    <graphicData>
+      <texPath>Things/Skyfaller/Botania/Meteor</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>Transparent</shaderType>
+      <drawSize>(10, 10)</drawSize>
+    </graphicData>
+    <skyfaller>
+      <shadowSize>(3, 3)</shadowSize>
+      <explosionRadius>7.45</explosionRadius>
+      <explosionDamage>Botania_HeavyManaBomb</explosionDamage>
+      <explosionDamageFactor>1</explosionDamageFactor>
+      <cameraShake>0.5</cameraShake>
+      <rotateGraphicTowardsDirection>true</rotateGraphicTowardsDirection>
+      <speed>1.2</speed>
+      <ticksToImpactRange>100~150</ticksToImpactRange>
+      <impactSound>Explosion_GiantBomb</impactSound>
+      <floatingSound>MortarRound_Ambient</floatingSound>
+    </skyfaller>
   </ThingDef>
 
 </Defs>

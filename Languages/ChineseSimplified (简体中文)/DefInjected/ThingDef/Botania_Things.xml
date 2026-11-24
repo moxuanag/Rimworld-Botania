@@ -259,4 +259,5 @@
     <Botania_Gun_AncientStarfall.label>远古陨击花花喉</Botania_Gun_AncientStarfall.label>
     <Botania_Gun_AncientStarfall.description>远古陨击花的花喉。它不发射炮弹，而是把高空的陨石拽向目标；那枚陨石携带的威力是反物质弹头的一半，仍足以抹平一座工事。</Botania_Gun_AncientStarfall.description>
     <Botania_Bullet_HeavyManaShell.label>召唤陨石</Botania_Bullet_HeavyManaShell.label>
+    <Botania_MeteorIncoming.label>召唤陨石（坠落中）</Botania_MeteorIncoming.label>
 </LanguageData>

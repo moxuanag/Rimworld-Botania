@@ -73,6 +73,19 @@
 
 ## [未发布]
 
+### 调整：远古陨击花复用原版陨石（Skyfaller）机制
+
+用户提醒「原版本来就有陨石」。确实有，而且比自定义高弧线炮弹更还原，已改成复用：
+
+- 新增 `Botania_MeteorIncoming`（`ParentName="SkyfallerBase"`，与原版陨石事件同一套机制）
+  - `<skyfaller>`：爆炸半径 **7.45**、伤害 **Botania_HeavyManaBomb（275）**、
+    `speed 1.2`、`cameraShake 0.5`、`ticksToImpactRange 100~150`、落地音效与投影沿用原版
+- 新增 `Source/Projectile_ManaMeteor.cs`：覆写 `Projectile.Launch`，
+  用引擎算好的落点（**含 forcedMiss 散布**）调 `SkyfallerMaker.SpawnSkyfaller` 后销毁弹体
+- 弹体 `Botania_Bullet_HeavyManaShell`：`thingClass` 改为该自定义类，`explosionRadius 0`（不自己炸）
+- 新增陨石贴图 `Things/Skyfaller/Botania/Meteor`（128×128，四边留透明边距）
+- 数值全部不变：伤害 275 / 半径 7.45 / 冷却 60s / 射程 500 / 死区 20 / 250 魔力
+
 ### 调整：远古陨击花改为「召唤陨石」攻击
 
 - 投射物换成陨石表现：新贴图 `ManaMeteor`（燃烧岩块 + 熔岩裂纹 + 尾焰），
