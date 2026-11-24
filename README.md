@@ -6,7 +6,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/RimWorld-1.7-blue" alt="RimWorld 1.7">
   <img src="https://img.shields.io/badge/license-MIT-green" alt="MIT">
-  <img src="https://img.shields.io/badge/version-0.8.1-informational" alt="0.8.1">
+  <img src="https://img.shields.io/badge/version-0.9.2-informational" alt="0.9.2">
 </p>
 
 ## 这是什么

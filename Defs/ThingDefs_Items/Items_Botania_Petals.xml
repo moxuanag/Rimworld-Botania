@@ -38,6 +38,9 @@
     <defName>Botania_Petal_White</defName>
     <label>white petal</label>
     <description>A single white petal, still holding a trace of magical energy. Botania crafters grind these into mana powder.</description>
+    <statBases>
+      <MarketValue>2.4</MarketValue>
+    </statBases>
     <graphicData>
       <texPath>Things/Item/Resource/Botania/Petal_White</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
@@ -48,6 +51,9 @@
     <defName>Botania_Petal_Orange</defName>
     <label>orange petal</label>
     <description>A single orange petal, still holding a trace of magical energy. Botania crafters grind these into mana powder.</description>
+    <statBases>
+      <MarketValue>6</MarketValue>
+    </statBases>
     <graphicData>
       <texPath>Things/Item/Resource/Botania/Petal_Orange</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
@@ -60,6 +66,9 @@
     <defName>Botania_Petal_Yellow</defName>
     <label>yellow petal</label>
     <description>A single yellow petal, still holding a trace of magical energy. Botania crafters grind these into mana powder.</description>
+    <statBases>
+      <MarketValue>6</MarketValue>
+    </statBases>
     <graphicData>
       <texPath>Things/Item/Resource/Botania/Petal_Yellow</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
@@ -74,6 +83,9 @@
     <defName>Botania_Petal_Cyan</defName>
     <label>cyan petal</label>
     <description>A single cyan petal, still holding a trace of magical energy. Botania crafters grind these into mana powder.</description>
+    <statBases>
+      <MarketValue>6</MarketValue>
+    </statBases>
     <graphicData>
       <texPath>Things/Item/Resource/Botania/Petal_Cyan</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
@@ -84,6 +96,9 @@
     <defName>Botania_Petal_Purple</defName>
     <label>purple petal</label>
     <description>A single purple petal, still holding a trace of magical energy. Botania crafters grind these into mana powder.</description>
+    <statBases>
+      <MarketValue>6</MarketValue>
+    </statBases>
     <graphicData>
       <texPath>Things/Item/Resource/Botania/Petal_Purple</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
@@ -96,6 +111,9 @@
     <defName>Botania_Petal_Green</defName>
     <label>green petal</label>
     <description>A single green petal, still holding a trace of magical energy. Botania crafters grind these into mana powder.</description>
+    <statBases>
+      <MarketValue>6</MarketValue>
+    </statBases>
     <graphicData>
       <texPath>Things/Item/Resource/Botania/Petal_Green</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
@@ -106,6 +124,9 @@
     <defName>Botania_Petal_Red</defName>
     <label>red petal</label>
     <description>A single red petal, still holding a trace of magical energy. Botania crafters grind these into mana powder.</description>
+    <statBases>
+      <MarketValue>6</MarketValue>
+    </statBases>
     <graphicData>
       <texPath>Things/Item/Resource/Botania/Petal_Red</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
@@ -116,6 +137,9 @@
     <defName>Botania_Petal_Black</defName>
     <label>black petal</label>
     <description>A single black petal, still holding a trace of magical energy. Botania crafters grind these into mana powder.</description>
+    <statBases>
+      <MarketValue>6</MarketValue>
+    </statBases>
     <graphicData>
       <texPath>Things/Item/Resource/Botania/Petal_Black</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>

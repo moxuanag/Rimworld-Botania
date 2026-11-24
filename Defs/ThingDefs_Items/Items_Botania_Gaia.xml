@@ -32,6 +32,7 @@
       <Insulation_Cold>84</Insulation_Cold>
       <Insulation_Heat>14</Insulation_Heat>
       <EquipDelay>5</EquipDelay>
+      <MarketValue>4612</MarketValue>
     </statBases>
     <equippedStatOffsets>
       <MoveSpeed>-0.08</MoveSpeed>
@@ -97,6 +98,7 @@
       <Insulation_Cold>6</Insulation_Cold>
       <Insulation_Heat>3</Insulation_Heat>
       <EquipDelay>3</EquipDelay>
+      <MarketValue>2767</MarketValue>
     </statBases>
     <thingCategories>
       <li>ArmorHeadgear</li>

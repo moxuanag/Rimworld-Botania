@@ -69,14 +69,15 @@ def main(argv):
     results = []
 
     if not args.fast:
-        results.append(("编译", run("1/6 编译", ["dotnet", "build", "-c", "Release", "--nologo"], cwd=REPO / "Source")))
+        results.append(("编译", run("1/7 编译", ["dotnet", "build", "-c", "Release", "--nologo"], cwd=REPO / "Source")))
 
     checks = [
-        ("2/6 validate_mod", [py, DEV / "validate_mod.py"]),
-        ("3/6 check_comp_fields", [py, DEV / "check_comp_fields.py"]),
-        ("4/6 check_xml_fields", [py, DEV / "check_xml_fields.py"]),
-        ("5/6 check_def_refs", [py, DEV / "check_def_refs.py"]),
-        ("6/6 check_component_rules", [py, DEV / "check_component_rules.py"]),
+        ("2/7 validate_mod", [py, DEV / "validate_mod.py"]),
+        ("3/7 check_comp_fields", [py, DEV / "check_comp_fields.py"]),
+        ("4/7 check_xml_fields", [py, DEV / "check_xml_fields.py"]),
+        ("5/7 check_def_refs", [py, DEV / "check_def_refs.py"]),
+        ("6/7 check_component_rules", [py, DEV / "check_component_rules.py"]),
+        ("7/7 balance_audit", [py, DEV / "balance_audit.py"]),
     ]
     for label, cmd in checks:
         if not Path(cmd[1]).exists():

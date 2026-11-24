@@ -32,6 +32,7 @@
       <Mass>12</Mass>
       <Flammability>0.25</Flammability>
       <Beauty>2</Beauty>
+      <MarketValue>395</MarketValue>
     </statBases>
     <building>
       <destroySound>BuildingDestroyed_Metal_Small</destroySound>
@@ -96,6 +97,7 @@
       <Mass>12</Mass>
       <Flammability>0.2</Flammability>
       <Beauty>-2</Beauty>
+      <MarketValue>967</MarketValue>
     </statBases>
     <building>
       <destroySound>BuildingDestroyed_Metal_Medium</destroySound>
@@ -163,6 +165,7 @@
       <Mass>15</Mass>
       <Flammability>0.3</Flammability>
       <Beauty>-1</Beauty>
+      <MarketValue>529</MarketValue>
     </statBases>
     <building>
       <destroySound>BuildingDestroyed_Metal_Medium</destroySound>
@@ -223,6 +226,7 @@
       <Mass>14</Mass>
       <Flammability>0</Flammability>
       <Beauty>-1</Beauty>
+      <MarketValue>962</MarketValue>
     </statBases>
     <costList>
       <Botania_ManasteelIngot>10</Botania_ManasteelIngot>
@@ -284,6 +288,7 @@
       <Mass>12</Mass>
       <Flammability>0.4</Flammability>
       <Beauty>1</Beauty>
+      <MarketValue>895</MarketValue>
     </statBases>
     <costList>
       <Botania_ManasteelIngot>10</Botania_ManasteelIngot>

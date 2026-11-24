@@ -30,7 +30,7 @@
       <WorkToMake>6000</WorkToMake>
       <MaxHitPoints>120</MaxHitPoints>
       <Mass>2.5</Mass>
-      <MarketValue>400</MarketValue>
+      <MarketValue>522</MarketValue>
       <AccuracyTouch>0.60</AccuracyTouch>
       <AccuracyShort>0.70</AccuracyShort>
       <AccuracyMedium>0.65</AccuracyMedium>
@@ -192,7 +192,7 @@
       <WorkToMake>6000</WorkToMake>
       <MaxHitPoints>140</MaxHitPoints>
       <Mass>3</Mass>
-      <MarketValue>900</MarketValue>
+      <MarketValue>3573</MarketValue>
       <AccuracyTouch>0.65</AccuracyTouch>
       <AccuracyShort>0.85</AccuracyShort>
       <AccuracyMedium>0.85</AccuracyMedium>
@@ -297,7 +297,7 @@
       <WorkToMake>6000</WorkToMake>
       <MaxHitPoints>140</MaxHitPoints>
       <Mass>3.5</Mass>
-      <MarketValue>850</MarketValue>
+      <MarketValue>3795</MarketValue>
       <RangedWeapon_Cooldown>2.66</RangedWeapon_Cooldown>
     </statBases>
     <!-- 改造配方由 recipeMaker + costList 生成（原版武器都是这条路）。

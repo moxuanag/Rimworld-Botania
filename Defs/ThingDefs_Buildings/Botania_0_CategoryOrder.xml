@@ -48,6 +48,7 @@
       <Mass>30</Mass>
       <Flammability>0.25</Flammability>
       <Beauty>3</Beauty>
+      <MarketValue>1952</MarketValue>
     </statBases>
     <building>
       <destroySound>BuildingDestroyed_Metal_Medium</destroySound>
@@ -114,6 +115,7 @@
       <Mass>3</Mass>
       <Flammability>1.0</Flammability>
       <Beauty>4</Beauty>
+      <MarketValue>32</MarketValue>
     </statBases>
     <costList>
       <Botania_Petal_White>4</Botania_Petal_White>
@@ -192,6 +194,7 @@
       <Mass>8</Mass>
       <Flammability>1.0</Flammability>
       <Beauty>2</Beauty>
+      <MarketValue>693</MarketValue>
     </statBases>
     <building>
       <destroySound>BuildingDestroyed_Metal_Medium</destroySound>
@@ -270,6 +273,7 @@
       <Mass>4</Mass>
       <Flammability>1.0</Flammability>
       <Beauty>-2</Beauty>
+      <MarketValue>372</MarketValue>
     </statBases>
     <building>
       <destroySound>BuildingDestroyed_Soft_Small</destroySound>
@@ -340,6 +344,7 @@
       <Mass>2</Mass>
       <Flammability>1.0</Flammability>
       <Beauty>5</Beauty>
+      <MarketValue>224</MarketValue>
     </statBases>
     <building>
       <destroySound>BuildingDestroyed_Soft_Small</destroySound>

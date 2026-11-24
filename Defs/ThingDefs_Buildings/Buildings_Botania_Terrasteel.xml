@@ -37,6 +37,7 @@
       <Mass>80</Mass>
       <Flammability>0.0</Flammability>
       <Beauty>12</Beauty>
+      <MarketValue>704</MarketValue>
     </statBases>
     <building>
       <destroySound>BuildingDestroyed_Metal_Medium</destroySound>
@@ -101,6 +102,7 @@
       <Mass>20</Mass>
       <Flammability>0.0</Flammability>
       <Beauty>3</Beauty>
+      <MarketValue>98</MarketValue>
     </statBases>
     <building>
       <destroySound>BuildingDestroyed_Metal_Small</destroySound>

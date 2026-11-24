@@ -50,6 +50,9 @@
     <defName>Botania_MysticFlower_White</defName>
     <label>mystic flower (white)</label>
     <description>A small flower whose white petals still hold a faint trace of mana. Harvest it for petals; the plant regrows if you leave the roots alone.</description>
+    <statBases>
+      <MarketValue>3</MarketValue>
+    </statBases>
     <graphicData>
       <texPath>Things/Plant/Botania/MysticFlower_White</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -64,6 +67,9 @@
     <defName>Botania_MysticFlower_Orange</defName>
     <label>mystic flower (orange)</label>
     <description>A small flower whose orange petals still hold a faint trace of mana. Harvest it for petals; the plant regrows if you leave the roots alone.</description>
+    <statBases>
+      <MarketValue>3</MarketValue>
+    </statBases>
     <graphicData>
       <texPath>Things/Plant/Botania/MysticFlower_Orange</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -80,6 +86,9 @@
     <defName>Botania_MysticFlower_Yellow</defName>
     <label>mystic flower (yellow)</label>
     <description>A small flower whose yellow petals still hold a faint trace of mana. Harvest it for petals; the plant regrows if you leave the roots alone.</description>
+    <statBases>
+      <MarketValue>3</MarketValue>
+    </statBases>
     <graphicData>
       <texPath>Things/Plant/Botania/MysticFlower_Yellow</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -98,6 +107,9 @@
     <defName>Botania_MysticFlower_Cyan</defName>
     <label>mystic flower (cyan)</label>
     <description>A small flower whose cyan petals still hold a faint trace of mana. Harvest it for petals; the plant regrows if you leave the roots alone.</description>
+    <statBases>
+      <MarketValue>3</MarketValue>
+    </statBases>
     <graphicData>
       <texPath>Things/Plant/Botania/MysticFlower_Cyan</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -112,6 +124,9 @@
     <defName>Botania_MysticFlower_Purple</defName>
     <label>mystic flower (purple)</label>
     <description>A small flower whose purple petals still hold a faint trace of mana. Harvest it for petals; the plant regrows if you leave the roots alone.</description>
+    <statBases>
+      <MarketValue>3</MarketValue>
+    </statBases>
     <graphicData>
       <texPath>Things/Plant/Botania/MysticFlower_Purple</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -128,6 +143,9 @@
     <defName>Botania_MysticFlower_Green</defName>
     <label>mystic flower (green)</label>
     <description>A small flower whose green petals still hold a faint trace of mana. Harvest it for petals; the plant regrows if you leave the roots alone.</description>
+    <statBases>
+      <MarketValue>3</MarketValue>
+    </statBases>
     <graphicData>
       <texPath>Things/Plant/Botania/MysticFlower_Green</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -142,6 +160,9 @@
     <defName>Botania_MysticFlower_Red</defName>
     <label>mystic flower (red)</label>
     <description>A small flower whose red petals still hold a faint trace of mana. Harvest it for petals; the plant regrows if you leave the roots alone.</description>
+    <statBases>
+      <MarketValue>3</MarketValue>
+    </statBases>
     <graphicData>
       <texPath>Things/Plant/Botania/MysticFlower_Red</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -156,6 +177,9 @@
     <defName>Botania_MysticFlower_Black</defName>
     <label>mystic flower (black)</label>
     <description>A small flower whose black petals still hold a faint trace of mana. Harvest it for petals; the plant regrows if you leave the roots alone.</description>
+    <statBases>
+      <MarketValue>3</MarketValue>
+    </statBases>
     <graphicData>
       <texPath>Things/Plant/Botania/MysticFlower_Black</texPath>
       <graphicClass>Graphic_Single</graphicClass>

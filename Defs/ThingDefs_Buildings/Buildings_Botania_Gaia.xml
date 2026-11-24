@@ -124,6 +124,7 @@
       <Mass>120</Mass>
       <Flammability>0.0</Flammability>
       <Beauty>8</Beauty>
+      <MarketValue>16608</MarketValue>
     </statBases>
     <costList>
       <Botania_GaiaCore>1</Botania_GaiaCore>

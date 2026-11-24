@@ -40,6 +40,7 @@
       <Mass>40</Mass>
       <Flammability>0.1</Flammability>
       <Beauty>6</Beauty>
+      <MarketValue>770</MarketValue>
     </statBases>
     <building>
       <destroySound>BuildingDestroyed_Metal_Medium</destroySound>
@@ -158,6 +159,7 @@
       <Mass>25</Mass>
       <Flammability>0.1</Flammability>
       <Beauty>4</Beauty>
+      <MarketValue>430</MarketValue>
     </statBases>
     <building>
       <destroySound>BuildingDestroyed_Wood_Medium</destroySound>
@@ -208,6 +210,7 @@
       <Mass>25</Mass>
       <Flammability>0.1</Flammability>
       <Beauty>4</Beauty>
+      <MarketValue>430</MarketValue>
     </statBases>
     <building>
       <destroySound>BuildingDestroyed_Wood_Medium</destroySound>

@@ -43,6 +43,7 @@
       <Mass>2</Mass>
       <Flammability>1.0</Flammability>
       <Beauty>4</Beauty>
+      <MarketValue>367</MarketValue>
     </statBases>
     <building>
       <destroySound>BuildingDestroyed_Soft_Small</destroySound>

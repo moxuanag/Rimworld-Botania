@@ -20,7 +20,7 @@
     </graphicData>
     <stackLimit>75</stackLimit>
     <statBases>
-      <MarketValue>25</MarketValue>
+      <MarketValue>50</MarketValue>
       <Mass>0.15</Mass>
     </statBases>
     <thingCategories>

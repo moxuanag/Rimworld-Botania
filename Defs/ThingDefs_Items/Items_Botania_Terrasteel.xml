@@ -18,7 +18,7 @@
       <graphicClass>Graphic_StackCount</graphicClass>
     </graphicData>
     <statBases>
-      <MarketValue>700</MarketValue>
+      <MarketValue>240</MarketValue>
       <MaxHitPoints>200</MaxHitPoints>
       <Mass>0.4</Mass>
       <Flammability>0.0</Flammability>
@@ -44,7 +44,7 @@
     <statBases>
       <WorkToMake>24000</WorkToMake>
       <Mass>2.4</Mass>
-      <MarketValue>2400</MarketValue>
+      <MarketValue>3600</MarketValue>
     </statBases>
     <costList>
       <Botania_TerrasteelIngot>1</Botania_TerrasteelIngot>
@@ -127,6 +127,7 @@
       <Insulation_Cold>80</Insulation_Cold>
       <Insulation_Heat>11</Insulation_Heat>
       <EquipDelay>5</EquipDelay>
+      <MarketValue>3000</MarketValue>
     </statBases>
     <equippedStatOffsets>
       <MoveSpeed>-0.10</MoveSpeed>
@@ -194,6 +195,7 @@
       <Insulation_Cold>6</Insulation_Cold>
       <Insulation_Heat>2</Insulation_Heat>
       <EquipDelay>3</EquipDelay>
+      <MarketValue>1800</MarketValue>
     </statBases>
     <thingCategories>
       <li>ArmorHeadgear</li>

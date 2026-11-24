@@ -67,6 +67,9 @@
     <designationCategory>Botania</designationCategory>
     <label>thornbell</label>
     <description>A flower that grew itself five thorn barrels. It drinks mana from a nearby pool and spits a short, vicious burst of needles at anything hostile that comes close - no colonist has to stand beside it, no ammunition has to be loaded. When the mana runs dry the barrels simply fall silent.</description>
+    <statBases>
+      <MarketValue>618</MarketValue>
+    </statBases>
     <graphicData>
       <texPath>Things/Building/Botania/Thornbell_Base</texPath>
     </graphicData>
@@ -122,6 +125,7 @@
       <Mass>8</Mass>
       <Flammability>0.6</Flammability>
       <Beauty>-10</Beauty>
+      <MarketValue>3166</MarketValue>
     </statBases>
     <building>
       <turretGunDef>Botania_Gun_Blastcalyx</turretGunDef>
@@ -176,6 +180,7 @@
       <Mass>30</Mass>
       <Flammability>0.6</Flammability>
       <Beauty>-14</Beauty>
+      <MarketValue>12010</MarketValue>
     </statBases>
     <building>
       <turretGunDef>Botania_Gun_AncientStarfall</turretGunDef>
