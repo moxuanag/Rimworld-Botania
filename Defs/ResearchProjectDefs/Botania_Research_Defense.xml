@@ -2,20 +2,17 @@
 <Defs>
 
   <!-- ============================================================
-       防御花段（2026-11-25 第十次布局）：7 个节点，分类卡在 x=8。
+       防御花段（2026-11-25 第八次布局）：7 个节点，分类卡在 x=8。
 
-       同档两行花纵向间距 0.6（2.8/3.4 与 5.0/5.6）；基础末行到进阶 0.8（3.4 到 4.2），
-       进阶到终阶 0.8（4.2 到 5.0）；分类卡在它那两行花正中（+0.3）。
-       主线横向间距 1.5（x = 0 / 1.5 / 3 / 4.5 / 6 / 7.5 / 9）；
-       本段花之间固定 1.0 间距（分类卡 x=8，花在 x=9 与 x=10）。
+       同档两行花纵向间距 0.6，档与档之间 0.8；分类卡在它那两行花正中（+0.3）。
 
-         y=3.1  x=x=8     Botania_DefenseFlowers   基础防御花（分类卡）
-         y=2.8  x=x=9  Botania_ThornFlowerStudy 荆棘花
-         y=2.8  x=x=10    Botania_DefenseI         荆棘钟花 thornbell
-         y=4.5  x=x=8     Botania_DefAdvanced      进阶防御花（分类卡）
-         y=4.2  x=x=9  Botania_DefenseII        爆萼花 blastcalyx
-         y=5.3  x=x=8     Botania_DefAncient       远古防御花（分类卡）
-         y=5  x=x=9  Botania_DefenseIII       远古陨击花 ancient starfall bloom
+         y=3.1  x=8   Botania_DefenseFlowers   基础防御花（分类卡）
+         y=2.8  x=9   Botania_ThornFlowerStudy 荆棘花
+         y=2.8  x=10  Botania_DefenseI         荆棘钟花 thornbell
+         y=4.5  x=8   Botania_DefAdvanced      进阶防御花（分类卡）
+         y=4.2  x=9   Botania_DefenseII        爆萼花 blastcalyx
+         y=5.9  x=8   Botania_DefAncient       远古防御花（分类卡）
+         y=5.6  x=9   Botania_DefenseIII       远古陨击花 ancient starfall bloom
 
        前置结构（树上的可见线）：
          DefenseFlowers <- Garden
@@ -96,7 +93,7 @@
     <researchViewY>2.80</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== x=8 y=5.3 远古防御花总览：全图射程的攻城花 ===== -->
+  <!-- ===== x=8 y=5.9 远古防御花总览：全图射程的攻城花 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_DefAncient</defName>
@@ -112,7 +109,7 @@
       <li>Botania_Gaia</li>
     </hiddenPrerequisites>
     <researchViewX>8.00</researchViewX>
-    <researchViewY>5.30</researchViewY>
+    <researchViewY>5.90</researchViewY>
   </ResearchProjectDef>
 
   <!-- ===== 爆萼花：2x2 越墙炮，70 格射程、10 格死区，80 魔力/发（x=9, y=4.2） ===== -->
@@ -131,7 +128,7 @@
     <researchViewY>4.20</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== 远古陨击花：5x5 攻城，500 格全图、20 格死区，275 伤害，400 魔力/发（x=9, y=5） ===== -->
+  <!-- ===== 远古陨击花：5x5 攻城，500 格全图、20 格死区，275 伤害，400 魔力/发（x=9, y=5.6） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_DefenseIII</defName>
@@ -144,7 +141,7 @@
       <li>Botania_DefAncient</li>
     </prerequisites>
     <researchViewX>9.00</researchViewX>
-    <researchViewY>5.00</researchViewY>
+    <researchViewY>5.60</researchViewY>
   </ResearchProjectDef>
 
 </Defs>
