@@ -2,32 +2,33 @@
 <Defs>
 
   <!-- ============================================================
-       功能花块（2026-11-25 第三次布局重定）：6 个节点，占 x=9..11、y=1..3。
+       功能花块（2026-11-25 第四次布局重定）：6 个节点，占 x=9..11、y=1..3，根在 (9,1)。
 
-       x = 横向阶（越往右越靠后），y = 同阶上下排位。
+       x = 横向阶（越往右越靠后），y = 同阶上下排位；支线根在 y=1，线贴顶部走。
        块内同一列上下是同级的不同分支，水平相邻未必是父子：
        判断关系只看连线，不要看相邻。
 
-         x=9   y=2  Botania_FunctionalI          基础功能花
+         x=9   y=1  Botania_FunctionalI          基础功能花
          x=10  y=1  Botania_BlightEaterStudy     噬草花
          x=10  y=2  Botania_ClearMindLotusStudy  明心莲
          x=10  y=3  Botania_FuncAdvanced         进阶功能花
          x=11  y=1  Botania_StormBloomStudy      电暴花
          x=11  y=2  Botania_FuncUltimate         终极功能花
 
-       前置结构（现状：跨支线的泰拉 / 盖亚前置仍留在 prerequisites 里，
-       树上会画出长斜线）：
+       前置结构（树上的可见线）：
          FunctionalI   <- Garden
-         FuncAdvanced  <- FunctionalI + Terrasteel
-         FuncUltimate  <- FuncAdvanced + Gaia
          BlightEaterStudy / ClearMindLotusStudy <- FunctionalI
          StormBloomStudy                        <- FuncAdvanced
+
+       跨支线门槛（hiddenPrerequisites：树上不画线，但必须达标）：
+         FuncAdvanced  <- Terrasteel（隐藏）
+         FuncUltimate  <- Gaia（隐藏）
 
        描述里的数值一律来自 ThingDef 的 comps 字段与 Source/*.cs 的实现，
        完整推导见 docs/玩法指南.md。
        ============================================================ -->
 
-  <!-- ===== x=9 y=2 基础功能花：功能花的分工与共同的「付费 + 联网」前提 ===== -->
+  <!-- ===== x=9 y=1 基础功能花：功能花的分工与共同的「付费 + 联网」前提 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_FunctionalI</defName>
@@ -40,7 +41,7 @@
       <li>Botania_Garden</li>
     </prerequisites>
     <researchViewX>9.00</researchViewX>
-    <researchViewY>2.00</researchViewY>
+    <researchViewY>1.00</researchViewY>
   </ResearchProjectDef>
 
   <!-- ===== x=10 y=3 进阶功能花总览：按秒结算、按破损取目标的高价层 ===== -->
@@ -54,8 +55,10 @@
     <tab>Botania</tab>
     <prerequisites>
       <li>Botania_FunctionalI</li>
-      <li>Botania_Terrasteel</li>
     </prerequisites>
+    <hiddenPrerequisites>
+      <li>Botania_Terrasteel</li>
+    </hiddenPrerequisites>
     <researchViewX>10.00</researchViewX>
     <researchViewY>3.00</researchViewY>
   </ResearchProjectDef>
@@ -103,8 +106,10 @@
     <tab>Botania</tab>
     <prerequisites>
       <li>Botania_FuncAdvanced</li>
-      <li>Botania_Gaia</li>
     </prerequisites>
+    <hiddenPrerequisites>
+      <li>Botania_Gaia</li>
+    </hiddenPrerequisites>
     <researchViewX>11.00</researchViewX>
     <researchViewY>2.00</researchViewY>
   </ResearchProjectDef>

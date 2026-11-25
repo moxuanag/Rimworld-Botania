@@ -2,13 +2,13 @@
 <Defs>
 
   <!-- ============================================================
-       防御花块（2026-11-25 第三次布局重定）：7 个节点，占 x=13..16、y=1..3。
+       防御花块（2026-11-25 第四次布局重定）：7 个节点，占 x=13..16、y=1..3，根在 (13,1)。
 
-       x = 横向阶（越往右越靠后），y = 同阶上下排位。
+       x = 横向阶（越往右越靠后），y = 同阶上下排位；支线根在 y=1，线贴顶部走。
        块内同一列上下是同级的不同分支，水平相邻未必是父子：
        判断关系只看连线，不要看相邻。
 
-         x=13  y=2  Botania_DefenseFlowers   基础防御花
+         x=13  y=1  Botania_DefenseFlowers   基础防御花
          x=14  y=1  Botania_ThornFlowerStudy 荆棘花
          x=14  y=2  Botania_DefenseI         荆棘钟花 thornbell
          x=14  y=3  Botania_DefAdvanced      进阶防御花
@@ -16,20 +16,21 @@
          x=15  y=2  Botania_DefAncient       远古防御花
          x=16  y=1  Botania_DefenseIII       远古陨击花 ancient starfall bloom
 
-       前置结构（现状：跨支线的泰拉 / 盖亚前置仍留在 prerequisites 里，
-       树上会画出长斜线）：
+       前置结构（树上的可见线）：
          DefenseFlowers <- Garden
-         DefAdvanced    <- DefenseFlowers + Terrasteel
-         DefAncient     <- DefAdvanced + Gaia
          ThornFlowerStudy / DefenseI <- DefenseFlowers
          DefenseII                   <- DefAdvanced
          DefenseIII                  <- DefAncient
+
+       跨支线门槛（hiddenPrerequisites：树上不画线，但必须达标）：
+         DefAdvanced   <- Terrasteel（隐藏）
+         DefAncient    <- Gaia（隐藏）
 
        数值全部取自 Buildings_Botania_TurretFlowers.xml、
        Weapons_Botania_TurretFlowers.xml 与 Source/Framework/ManaTurretCore.cs。
        ============================================================ -->
 
-  <!-- ===== x=13 y=2 基础防御花：近距拦截的荆棘钟花 ===== -->
+  <!-- ===== x=13 y=1 基础防御花：近距拦截的荆棘钟花 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_DefenseFlowers</defName>
@@ -42,7 +43,7 @@
       <li>Botania_Garden</li>
     </prerequisites>
     <researchViewX>13.00</researchViewX>
-    <researchViewY>2.00</researchViewY>
+    <researchViewY>1.00</researchViewY>
   </ResearchProjectDef>
 
   <!-- ===== x=14 y=3 进阶防御花总览：把近防线换成射程 ===== -->
@@ -56,8 +57,10 @@
     <tab>Botania</tab>
     <prerequisites>
       <li>Botania_DefenseFlowers</li>
-      <li>Botania_Terrasteel</li>
     </prerequisites>
+    <hiddenPrerequisites>
+      <li>Botania_Terrasteel</li>
+    </hiddenPrerequisites>
     <researchViewX>14.00</researchViewX>
     <researchViewY>3.00</researchViewY>
   </ResearchProjectDef>
@@ -105,8 +108,10 @@
     <tab>Botania</tab>
     <prerequisites>
       <li>Botania_DefAdvanced</li>
-      <li>Botania_Gaia</li>
     </prerequisites>
+    <hiddenPrerequisites>
+      <li>Botania_Gaia</li>
+    </hiddenPrerequisites>
     <researchViewX>15.00</researchViewX>
     <researchViewY>2.00</researchViewY>
   </ResearchProjectDef>

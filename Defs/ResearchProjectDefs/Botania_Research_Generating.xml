@@ -2,40 +2,41 @@
 <Defs>
 
   <!-- ============================================================
-       产能花块（2026-11-25 第三次布局重定）：11 个节点，占 x=2..5、y=1..4。
+       产能花块（2026-11-25 第四次布局重定）：11 个节点，占 x=4..7、y=1..4，根在 (4,1)。
 
-       x = 横向阶（越往右越靠后），y = 同阶上下排位。
+       x = 横向阶（越往右越靠后），y = 同阶上下排位；支线根在 y=1，线贴顶部走。
        块内同一列上下是同级的不同分支，水平相邻未必是父子：
        判断关系只看连线，不要看相邻。
 
-         x=2  y=2  Botania_GenBasic           基础产能花
-         x=3  y=1  Botania_EndoflameStudy     火红莲
-         x=3  y=2  Botania_BitterBloomStudy   苦丽花
-         x=3  y=3  Botania_GeneratingI        被动产能花
-         x=3  y=4  Botania_GenAdvanced        进阶产能花
-         x=4  y=1  Botania_PassiveGenerating  太阳花
-         x=4  y=2  Botania_NightshadeStudy    夜颠茄
-         x=4  y=3  Botania_RosaArcanaStudy    阿卡纳蔷薇
-         x=4  y=4  Botania_GenUltimate        终极产能花
-         x=5  y=3  Botania_GeneratingII       炉心蕙
-         x=5  y=4  Botania_LifeOrchidStudy    启命英
+         x=4  y=1  Botania_GenBasic           基础产能花
+         x=5  y=1  Botania_EndoflameStudy     火红莲
+         x=5  y=2  Botania_BitterBloomStudy   苦丽花
+         x=5  y=3  Botania_GeneratingI        被动产能花
+         x=5  y=4  Botania_GenAdvanced        进阶产能花
+         x=6  y=1  Botania_PassiveGenerating  太阳花
+         x=6  y=2  Botania_NightshadeStudy    夜颠茄
+         x=6  y=3  Botania_RosaArcanaStudy    阿卡纳蔷薇
+         x=6  y=4  Botania_GenUltimate        终极产能花
+         x=7  y=3  Botania_GeneratingII       炉心蕙
+         x=7  y=4  Botania_LifeOrchidStudy    启命英
 
-       前置结构（现状：跨支线的泰拉 / 盖亚前置仍留在 prerequisites 里，
-       所以树上仍会画出那两条长斜线）：
+       前置结构（树上的可见线）：
          GenBasic     <- Garden
          GeneratingI  <- GenBasic（三个被动花的总览层）
-         GenAdvanced  <- GenBasic + Terrasteel
-         GenUltimate  <- GenAdvanced + Gaia
          EndoflameStudy / BitterBloomStudy   <- GenBasic
          PassiveGenerating / NightshadeStudy <- GeneratingI
          RosaArcanaStudy                     <- GenAdvanced
          GeneratingII / LifeOrchidStudy      <- GenUltimate
 
+       跨支线门槛（hiddenPrerequisites：树上不画线，但必须达标）：
+         GenAdvanced  <- Terrasteel（隐藏）
+         GenUltimate  <- Gaia（隐藏）
+
        描述里的数值一律来自 ThingDef 的 comps 字段与 Source/*.cs 的实现，
        完整推导见 docs/玩法指南.md。
        ============================================================ -->
 
-  <!-- ===== x=2 基础产能花：三类产能花的分工与共同的取魔前提 ===== -->
+  <!-- ===== x=4 y=1 基础产能花：三类产能花的分工与共同的取魔前提 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_GenBasic</defName>
@@ -47,11 +48,11 @@
     <prerequisites>
       <li>Botania_Garden</li>
     </prerequisites>
-    <researchViewX>2.00</researchViewX>
-    <researchViewY>2.00</researchViewY>
+    <researchViewX>4.00</researchViewX>
+    <researchViewY>1.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== x=3 被动产能花总览：不烧料、不吃饭，只喝天光 ===== -->
+  <!-- ===== x=5 y=3 被动产能花总览：不烧料、不吃饭，只喝天光 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_GeneratingI</defName>
@@ -63,11 +64,11 @@
     <prerequisites>
       <li>Botania_GenBasic</li>
     </prerequisites>
-    <researchViewX>3.00</researchViewX>
+    <researchViewX>5.00</researchViewX>
     <researchViewY>3.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== x=3 进阶产能花总览：烧料 / 扫场，接泰拉钢 ===== -->
+  <!-- ===== x=5 y=4 进阶产能花总览：烧料 / 扫场，接泰拉钢 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_GenAdvanced</defName>
@@ -78,13 +79,15 @@
     <tab>Botania</tab>
     <prerequisites>
       <li>Botania_GenBasic</li>
-      <li>Botania_Terrasteel</li>
     </prerequisites>
-    <researchViewX>3.00</researchViewX>
+    <hiddenPrerequisites>
+      <li>Botania_Terrasteel</li>
+    </hiddenPrerequisites>
+    <researchViewX>5.00</researchViewX>
     <researchViewY>4.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== 火红莲：烧燃料换稳定 30 魔力/秒，没池子不烧料（x=3, y=1） ===== -->
+  <!-- ===== 火红莲：烧燃料换稳定 30 魔力/秒，没池子不烧料（x=5, y=1） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_EndoflameStudy</defName>
@@ -96,11 +99,11 @@
     <prerequisites>
       <li>Botania_GenBasic</li>
     </prerequisites>
-    <researchViewX>3.00</researchViewX>
+    <researchViewX>5.00</researchViewX>
     <researchViewY>1.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== 苦丽花：8 格内按技能经验 ×10 计费，单次封顶 400（x=3, y=2） ===== -->
+  <!-- ===== 苦丽花：8 格内按技能经验 ×10 计费，单次封顶 400（x=5, y=2） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_BitterBloomStudy</defName>
@@ -112,11 +115,11 @@
     <prerequisites>
       <li>Botania_GenBasic</li>
     </prerequisites>
-    <researchViewX>3.00</researchViewX>
+    <researchViewX>5.00</researchViewX>
     <researchViewY>2.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== x=4 终极产能花总览：热机与生命游戏，接盖亚 ===== -->
+  <!-- ===== x=6 y=4 终极产能花总览：热机与生命游戏，接盖亚 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_GenUltimate</defName>
@@ -127,13 +130,15 @@
     <tab>Botania</tab>
     <prerequisites>
       <li>Botania_GenAdvanced</li>
-      <li>Botania_Gaia</li>
     </prerequisites>
-    <researchViewX>4.00</researchViewX>
+    <hiddenPrerequisites>
+      <li>Botania_Gaia</li>
+    </hiddenPrerequisites>
+    <researchViewX>6.00</researchViewX>
     <researchViewY>4.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== 太阳花：白天零成本被动产魔，15 天枯萎（x=4, y=1） ===== -->
+  <!-- ===== 太阳花：白天零成本被动产魔，15 天枯萎（x=6, y=1） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_PassiveGenerating</defName>
@@ -145,11 +150,11 @@
     <prerequisites>
       <li>Botania_GeneratingI</li>
     </prerequisites>
-    <researchViewX>4.00</researchViewX>
+    <researchViewX>6.00</researchViewX>
     <researchViewY>1.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== 夜颠茄：夜间被动产魔，产量是太阳花的一半（x=4, y=2） ===== -->
+  <!-- ===== 夜颠茄：夜间被动产魔，产量是太阳花的一半（x=6, y=2） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_NightshadeStudy</defName>
@@ -161,11 +166,11 @@
     <prerequisites>
       <li>Botania_GeneratingI</li>
     </prerequisites>
-    <researchViewX>4.00</researchViewX>
+    <researchViewX>6.00</researchViewX>
     <researchViewY>2.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== 阿卡纳蔷薇：8 格内每个还在学习的小人 6 魔力/秒（x=4, y=3） ===== -->
+  <!-- ===== 阿卡纳蔷薇：8 格内每个还在学习的小人 6 魔力/秒（x=6, y=3） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_RosaArcanaStudy</defName>
@@ -177,11 +182,11 @@
     <prerequisites>
       <li>Botania_GenAdvanced</li>
     </prerequisites>
-    <researchViewX>4.00</researchViewX>
+    <researchViewX>6.00</researchViewX>
     <researchViewY>3.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== 炉心蕙：密闭高温房间 + 燃料，0.2 × (T−40) × √A，上限 60（x=5, y=3） ===== -->
+  <!-- ===== 炉心蕙：密闭高温房间 + 燃料，0.2 × (T−40) × √A，上限 60（x=7, y=3） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_GeneratingII</defName>
@@ -193,11 +198,11 @@
     <prerequisites>
       <li>Botania_GenUltimate</li>
     </prerequisites>
-    <researchViewX>5.00</researchViewX>
+    <researchViewX>7.00</researchViewX>
     <researchViewY>3.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== 启命英：11×11 肉床上的生命游戏，按变化格 ×40 计价，单代上限 900（x=5, y=4） ===== -->
+  <!-- ===== 启命英：11×11 肉床上的生命游戏，按变化格 ×40 计价，单代上限 900（x=7, y=4） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_LifeOrchidStudy</defName>
@@ -209,7 +214,7 @@
     <prerequisites>
       <li>Botania_GenUltimate</li>
     </prerequisites>
-    <researchViewX>5.00</researchViewX>
+    <researchViewX>7.00</researchViewX>
     <researchViewY>4.00</researchViewY>
   </ResearchProjectDef>
 

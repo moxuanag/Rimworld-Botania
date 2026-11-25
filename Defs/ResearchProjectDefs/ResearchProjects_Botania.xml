@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <!-- ============================================================
-     植物魔法研究树（2026-11-25 第三次布局重定：5 行 × 横向四块并排）。
+     植物魔法研究树（2026-11-25 第四次布局重定：5 行 × 横向四块并排，支线根统一 y=1）。
 
      坐标：本引擎的研究树坐标就是 ResearchProjectDef 的
      researchViewX / researchViewY（Verse.ResearchProjectDef 的 x/y，
@@ -9,16 +9,21 @@
 
        x = 横向推进。主线沿 y=0 一路向右；四条支线各自成块，
            块内 x 按阶递增（越靠右，研究越靠后）。
-       y = 同阶节点的上下排位（1~4）。同一列上下才是同级；
-           水平相邻的节点未必是父子，判断关系只看连线，不要看相邻。
+       y = 同阶节点的上下排位（0~4）。支线根节点统一在 y=1，线贴着顶部走；
+           同一列上下才是同级，水平相邻的节点未必是父子，判断关系只看连线。
        坐标不得重复、不得为负，同 tab（Botania）内 ConfigErrors 会拒绝。
+
+     跨支线门槛：6 条「泰拉钢 / 盖亚」前置已移入 hiddenPrerequisites。
+       树上不画这些线（MainTabWindow_Research 只遍历 prerequisites），
+       门槛照旧生效（ResearchProjectDef.PrerequisitesCompleted 两者同查），
+       右侧详情面板仍会把它们列出来。所以可见前置边 34 条 + 隐藏 6 条 = 40 条。
 
      布局（盖亚那条是主线，贯穿 y=0）：
        y=0    主线       x=0..6
-       y=1~4  产能花块   x=2..5
-       y=1~4  魔导块     x=7（魔力钢的直接子节点，同阶竖排）
-       y=1~3  功能花块   x=9..11
-       y=1~3  防御花块   x=13..16
+       y=1~4  魔导块     x=3（紧贴魔力钢正下方，同阶竖排）
+       y=1~4  产能花块   x=4..7（根在 y=1）
+       y=1~3  功能花块   x=9..11（根在 y=1）
+       y=1~3  防御花块   x=13..16（根在 y=1）
 
      全树 35 节点分四个文件：
        本文件                           主线 7 项 + 魔导块 4 项
@@ -29,7 +34,7 @@
      本文件的坐标：
        主线 y=0  (0,0) 神秘花卉 (1,0) 花圃工艺 (2,0) 魔力钢
                  (3,0) 魔力栅格 (4,0) 精灵工艺 (5,0) 泰拉钢 (6,0) 盖亚
-       魔导 x=7  (7,1) 魔力应用 (7,2) 法力家具 (7,3) 法力修补 (7,4) 法杖改型
+       魔导 x=3  (3,1) 魔力应用 (3,2) 法力家具 (3,3) 法力修补 (3,4) 法杖改型
      ============================================================ -->
 
 <Defs>
@@ -63,7 +68,7 @@
     <researchViewY>0.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== x=2 魔力线起点：魔力钢（产能花块在 (2,2)，同列不同行） ===== -->
+  <!-- ===== x=2 魔力线起点：魔力钢（产能块根在 (4,1)） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_Manasteel</defName>
@@ -95,7 +100,7 @@
     <researchViewY>0.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== x=7 y=1 魔力应用：把网里的魔力接到固定点、换成别的东西 ===== -->
+  <!-- ===== x=3 y=1 魔力应用：把网里的魔力接到固定点、换成别的东西 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_ManaGrid</defName>
@@ -107,11 +112,11 @@
     <prerequisites>
       <li>Botania_Manasteel</li>
     </prerequisites>
-    <researchViewX>7.00</researchViewX>
+    <researchViewX>3.00</researchViewX>
     <researchViewY>1.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== x=7 y=2 法力家具：法力灯这类「用魔力发光的家具」 ===== -->
+  <!-- ===== x=3 y=2 法力家具：法力灯这类「用魔力发光的家具」 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_ManaLampStudy</defName>
@@ -123,11 +128,11 @@
     <prerequisites>
       <li>Botania_Manasteel</li>
     </prerequisites>
-    <researchViewX>7.00</researchViewX>
+    <researchViewX>3.00</researchViewX>
     <researchViewY>2.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== x=7 y=3 法力修补：建筑恢复器与装备修复器共用的修补机制 ===== -->
+  <!-- ===== x=3 y=3 法力修补：建筑恢复器与装备修复器共用的修补机制 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_Mending</defName>
@@ -139,11 +144,11 @@
     <prerequisites>
       <li>Botania_Manasteel</li>
     </prerequisites>
-    <researchViewX>7.00</researchViewX>
+    <researchViewX>3.00</researchViewX>
     <researchViewY>3.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== x=7 y=4 法杖改型：森林法杖的狙击型 / 爆破型 ===== -->
+  <!-- ===== x=3 y=4 法杖改型：森林法杖的狙击型 / 爆破型 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_WandForms</defName>
@@ -155,7 +160,7 @@
     <prerequisites>
       <li>Botania_Manasteel</li>
     </prerequisites>
-    <researchViewX>7.00</researchViewX>
+    <researchViewX>3.00</researchViewX>
     <researchViewY>4.00</researchViewY>
   </ResearchProjectDef>
 
