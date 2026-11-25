@@ -177,7 +177,7 @@
   <Botania_ElementiumSword.description>元素锭打出来的剑。这种粉色金属挨打会弹回形状，所以它比钢剑更难崩口；代价是纯靠刃口，砸不穿重甲。</Botania_ElementiumSword.description>
 
   <Botania_ElementiumArmor.label>元素甲</Botania_ElementiumArmor.label>
-  <Botania_ElementiumArmor.description>活木骨架上覆满元素锭甲片的全套护甲。受击时先弯后弹，挡切割远好过挡钝击。穿上没有外观变化——披挂图还没做。</Botania_ElementiumArmor.description>
+  <Botania_ElementiumArmor.description>活木骨架上覆满元素锭甲片的全套护甲。受击时先弯后弹，挡切割远好过挡钝击。甲片是那种粉色金属，穿上后从头到脚都包住，走动时发出细碎的响声。</Botania_ElementiumArmor.description>
 
   <Botania_ElementiumHelmet.label>元素头盔</Botania_ElementiumHelmet.label>
   <Botania_ElementiumHelmet.description>带精灵石英面罩的元素锭头盔。比看上去轻，挡下刀刃时不像钢盔那样嗡响。</Botania_ElementiumHelmet.description>
@@ -206,7 +206,7 @@
   <Botania_TerrasteelHelmet.description>覆住整张脸的泰拉钢盔，面甲是一片精灵石英。金属会自己合拢，留出的缝隙刚好够看。</Botania_TerrasteelHelmet.description>
 
   <Botania_GaiaArmor.label>盖亚甲</Botania_GaiaArmor.label>
-  <Botania_GaiaArmor.description>不是锻出来的，是从一颗盖亚之魂里长出来的甲。金属记得挨过的每一击，被打中的地方会自己变厚。凡俗之物砍不穿它，而它比它取代的那套泰拉甲还轻。</Botania_GaiaArmor.description>
+  <Botania_GaiaArmor.description>不是锻出来的，是从一颗盖亚之魂里长出来的甲。金属记得挨过的每一击，被打中的地方会自己变厚。凡俗之物砍不穿它；比起它取代的那套泰拉甲，它更厚，也更沉。</Botania_GaiaArmor.description>
 
   <Botania_GaiaHelmet.label>盖亚头盔</Botania_GaiaHelmet.label>
   <Botania_GaiaHelmet.description>盖亚甲制的头盔，冠部是一圈永不凋谢的活花瓣。危险靠近时它会自己合上遮住整张脸，枪声停了再张开。</Botania_GaiaHelmet.description>

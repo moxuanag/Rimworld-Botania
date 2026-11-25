@@ -14,7 +14,7 @@
   <ThingDef ParentName="ApparelBase">
     <defName>Botania_GaiaArmor</defName>
     <label>gaia armor</label>
-    <description>Plate grown from a gaia spirit instead of forged: the metal remembers every blow it has taken and thickens where it was struck. Nothing made of ordinary matter cuts through it cleanly, and it weighs less than the terrasteel suit it replaces.</description>
+    <description>Plate grown from a gaia spirit instead of forged: the metal remembers every blow it has taken and thickens where it was struck. Nothing made of ordinary matter cuts through it cleanly, and it is thicker and heavier than the terrasteel suit it replaces.</description>
     <techLevel>Ultra</techLevel>
     <graphicData>
       <texPath>Things/Pawn/Humanlike/Apparel/Botania_GaiaArmor/Botania_GaiaArmor</texPath>
