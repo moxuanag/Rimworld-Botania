@@ -6,36 +6,36 @@
          Botania_Research_Generating.xml / _Functional.xml / _Defense.xml -->
 
   <Botania_Flowers.label>神秘花卉</Botania_Flowers.label>
-  <Botania_Flowers.description>研究神秘花的习性，摸清它们喜欢什么样的土壤与光照。学会人工栽培之后，就能稳定收获产量更高的白神秘花，花瓣有了着落，后面的一切才谈得上。</Botania_Flowers.description>
+  <Botania_Flowers.description>认识边陲野生的神秘花，分清哪几种体内藏着魔力，并学会把它们重新种回土里。解锁可播种的高产白神秘花，花瓣第一次有了稳定的来路。\n\n它是整棵树唯一的根，没有前置，也没有替代路径。</Botania_Flowers.description>
 
   <Botania_Garden.label>花圃工艺</Botania_Garden.label>
-  <Botania_Garden.description>把采来的花瓣变成能用的东西：解锁花药台、白雏菊、简易魔力池、研磨魔力尘、各色花瓣染色，以及自带植物法术的森林法杖。</Botania_Garden.description>
+  <Botania_Garden.description>把采来的花瓣变成能用的东西，这是第一层真正意义上的工艺。解锁花药台、简易魔力池、白雏菊与森林法杖，以及研磨魔力尘和染出橙、黄、青、紫、绿、红、黑七色花瓣共八道配方。树上它只要求先掌握神秘花卉。\n\n花瓣在石臼里碎开的那一刻，植物开始替人干活。</Botania_Garden.description>
 
   <Botania_Manasteel.label>魔力钢</Botania_Manasteel.label>
-  <Botania_Manasteel.description>把魔力尘熔进钢铁，得到既轻又韧的魔力钢。它是所有高级魔力结构的骨架——池子、中继塔、通量场与修复器都要用它。</Botania_Manasteel.description>
+  <Botania_Manasteel.description>把魔力尘熔进钢铁，得到既轻又韧的魔力钢。解锁锻造魔力钢这一道配方，之后所有高级魔力结构的骨架都从这块锭上长出来。它要工业时代的研究底子，树上接在花圃工艺之后。\n\n钢还是那块钢，只是如今它记得自己曾是花。</Botania_Manasteel.description>
 
   <Botania_ManaStorage.label>魔力网络</Botania_ManaStorage.label>
-  <Botania_ManaStorage.description>魔力钢池与中继塔：把散落在各处的魔力集中成一整片储备，让这头产出的魔力能被那头取用，一个真正意义上的魔力网络就从这里开始。</Botania_ManaStorage.description>
+  <Botania_ManaStorage.description>把散落在各处的魔力集中成一整片储备，让这头产出的魔力能被那头取用。解锁魔力池与魔力中继塔：池子能存十万魔力，中继塔把供给圈一圈圈向外接力。树上接在魔力钢之后。\n\n一根柱子接一根柱子，安静地把整片谷地连成一口井。</Botania_ManaStorage.description>
 
   <Botania_Infusion.label>精灵</Botania_Infusion.label>
-  <Botania_Infusion.description>精灵门与元素装备。上梁与左右立柱齐全时，门会从附近的魔力池抽魔，把留在门洞里的活木、活石与花瓣换成精灵材料；元素锭则用来打剑、造甲、锻盔。</Botania_Infusion.description>
+  <Botania_Infusion.description>精灵工艺不是锻出来的，是换来的：上梁与左右立柱齐全时，门会从附近的池子抽魔，把留在门洞里的活木、活石与花瓣变成精灵材料。解锁精灵门上梁与左右立柱，以及元素剑、元素甲、元素头盔。它要太空时代的研究底子，树上接在魔力网络之后。\n\n留一瓣花在门洞里，过一夜，它带回来的东西不属于这片土地。</Botania_Infusion.description>
 
   <Botania_Terrasteel.label>泰拉</Botania_Terrasteel.label>
-  <Botania_Terrasteel.description>泰拉钢与泰拉凝聚台：把魔力钢与精灵石英喂给四根基座围成的平台，再从魔力池里抽出大量魔力，换来会生长的泰拉钢。一枚锭就够一把刃、一套甲或一顶盔。</Botania_Terrasteel.description>
+  <Botania_Terrasteel.description>把魔力钢与精灵石英喂给四根基座围成的台子，换来会生长的泰拉钢。解锁泰拉凝聚台与凝聚基座，以及泰拉刃、泰拉甲、泰拉头盔。树上要精灵工艺；三支花线的进阶档在树上看不出这条线，实际都要先掌握泰拉。\n\n一枚锭，只够一把刃、一套甲或一顶盔，它不肯多给。</Botania_Terrasteel.description>
 
   <Botania_Gaia.label>盖亚</Botania_Gaia.label>
-  <Botania_Gaia.description>盖亚传送门与世界之种。它不问殖民地攒了多少研究点，只有从盖亚之魂那里拿到蓝图才肯打开。</Botania_Gaia.description>
+  <Botania_Gaia.description>全树的终点，盖亚之魂教的东西。解锁世界之种苗圃，以及盖亚甲与盖亚头盔。光攒研究点打不开它，还得从盖亚守护者手里拿到一张盖亚之魂蓝图；三支花线的终极档同样要先走通这里。\n\n门开的时候没有声音，只有风从另一侧穿过来。</Botania_Gaia.description>
 
   <Botania_ManaGrid.label>魔力应用</Botania_ManaGrid.label>
-  <Botania_ManaGrid.description>解锁魔力通量场：把一整片区域的魔力收进同一个池子，让远处的设备也能就近取用。</Botania_ManaGrid.description>
+  <Botania_ManaGrid.description>把储备里的魔力接到别处去用。解锁魔力通量场：从附近的池子抽魔力，换成普通电力喂给那些天生不会喝魔力的机器。它只在找得到魔力可抽的时候运转；树上接在魔力钢之后。\n\n魔力不必和电网一争高下，它可以直接就是电网。</Botania_ManaGrid.description>
 
   <Botania_ManaLampStudy.label>魔力家具</Botania_ManaLampStudy.label>
-  <Botania_ManaLampStudy.description>解锁魔力灯：不接电线、只喝魔力的照明。野外、无电前哨、电网不稳的地方都能点亮。</Botania_ManaLampStudy.description>
+  <Botania_ManaLampStudy.description>用魔力发光的家具，而不是工业设备。解锁魔力灯：不接电线、不耗燃料，灯罩里存的魔力自己烧成光。断供就灭、魔力回来再亮；树上接在魔力钢之后。\n\n没有开关也没有灯绳，房间自己知道什么时候该亮。</Botania_ManaLampStudy.description>
 
   <Botania_Mending.label>魔力修复器</Botania_Mending.label>
-  <Botania_Mending.description>解锁两件修补器具：把磨损装备补回原样的装备修复器，和替建筑结构续命的建筑恢复器。两者都只认魔力，不认零件。</Botania_Mending.description>
+  <Botania_Mending.description>一套修补机制，两个装置。解锁建筑恢复器与装备修复器：一个替建筑结构续命，一个把磨损的装备补回原样。两者都只认魔力、不认零件；树上接在魔力钢之后。\n\n坏了的东西在这里不必扔掉，只是变得更贵。</Botania_Mending.description>
 
   <Botania_WandForms.label>法杖</Botania_WandForms.label>
-  <Botania_WandForms.description>解锁森林法杖的两种改型：狙击型牺牲射速，换来一束能打穿护甲的致密长枪；爆破型射出缓慢而不稳定的魔力，落点炸开一个十字，不分敌我。两种形态都不保留法杖原有的植物法术。</Botania_WandForms.description>
+  <Botania_WandForms.description>把森林法杖改铸成两种专用形态。解锁森林法杖·狙击型与森林法杖·爆破型：一个用射速换一束穿甲长枪，一个抛出不稳定的爆裂十字。两种形态都不保留法杖原有的植物法术；树上接在魔力钢之后。\n\n一根树枝分叉之后，就不再是树枝了。</Botania_WandForms.description>
 
 </LanguageData>

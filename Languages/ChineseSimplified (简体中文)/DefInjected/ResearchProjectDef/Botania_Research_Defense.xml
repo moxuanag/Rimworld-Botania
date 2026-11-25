@@ -8,24 +8,24 @@
        ============================================================ -->
 
   <Botania_DefenseFlowers.label>基础防御花</Botania_DefenseFlowers.label>
-  <Botania_DefenseFlowers.description>直接对敌造成伤害的花。不要炮手、不要弹药、不接电线，只要它的格子落在魔力网络里，开火前从共享储备里扣一笔魔力就够。</Botania_DefenseFlowers.description>
+  <Botania_DefenseFlowers.description>防御花替殖民地打架，既不产魔力也不干活。它本身不挂任何配方或建筑，是防御花这条支线的档位门。荆棘花与荆棘钟花排在它下面。\n\n篱笆的第一根桩，永远插在门口。</Botania_DefenseFlowers.description>
 
   <Botania_DefAdvanced.label>进阶防御花</Botania_DefAdvanced.label>
-  <Botania_DefAdvanced.description>火力更强的防御花：射程更远、伤害更高，账单也更贵。它们补上基础防御花够不着的盲区。</Botania_DefAdvanced.description>
+  <Botania_DefAdvanced.description>防御花的第二档，用射程把贴身拦截换掉。它本身不挂任何配方或建筑，只决定这一档能不能开工。爆萼花与远古防御花排在它下面，而暗处还要先掌握泰拉。\n\n一道防线往外挪了几个村子那么远。</Botania_DefAdvanced.description>
 
   <Botania_DefAncient.label>远古防御花</Botania_DefAncient.label>
-  <Botania_DefAncient.description>远古级别的防御花。它的力量来自更古老的源头，开火一次的代价足以让一池魔力见底，但换来的是全图范围的打击。</Botania_DefAncient.description>
+  <Botania_DefAncient.description>远古档，长出来而不是造出来的攻城炮。它本身不挂任何配方或建筑，只决定这一档能不能开工。远古陨击花排在它下面，而暗处要先走通盖亚。\n\n有些东西不是造出来的，是从土里请出来的。</Botania_DefAncient.description>
 
   <Botania_ThornFlowerStudy.label>荆棘花</Botania_ThornFlowerStudy.label>
-  <Botania_ThornFlowerStudy.description>吃魔力，在敌人脚下长出荆棘，把靠近的东西缠住、扎伤。减速不收费，真正扎出血的那一下才扣账。</Botania_ThornFlowerStudy.description>
+  <Botania_ThornFlowerStudy.description>把敌人缠在原地再慢慢扎的防御花。解锁荆棘花：定期在周围长出荆棘，缠住靠近的敌对目标。减速不收费，真正扎出血的那一下才从网络里扣账；树上接基础防御花。\n\n它长得比墙慢，但比墙更不愿意让路。</Botania_ThornFlowerStudy.description>
 
   <Botania_DefenseI.label>荆棘钟花</Botania_DefenseI.label>
-  <Botania_DefenseI.description>连发短程炮塔花：一轮五发针刺打进最近的敌人，打完冷却几秒再打一轮。它本来就该打已经靠近的目标。</Botania_DefenseI.description>
+  <Botania_DefenseI.description>一格大小的连发炮塔花。解锁荆棘钟花：一轮五发针刺泼向视线内的敌人，用魔力代替弹药与炮手。树上接基础防御花，它本来就该打已经贴脸的目标。\n\n钟形花冠朝外，风一吹全是针响。</Botania_DefenseI.description>
 
   <Botania_DefenseII.label>爆萼花</Botania_DefenseII.label>
-  <Botania_DefenseII.description>高爆弹炮塔花：把魔力压成一枚高爆种子抛过墙，不需要视线。它打不到厚岩顶下的目标。</Botania_DefenseII.description>
+  <Botania_DefenseII.description>越墙抛射的高爆炮塔花。解锁爆萼花：把魔力压成一枚高爆种子抛过墙，不需要视线。它打不到厚岩顶下的目标，花上有顶也打不出去；树上接进阶防御花。\n\n它开花的方式，是先在天上划一道弧。</Botania_DefenseII.description>
 
   <Botania_DefenseIII.label>远古陨击花</Botania_DefenseIII.label>
-  <Botania_DefenseIII.description>召唤陨石的攻城花。射程覆盖全图、无视墙体，一发就是一片焦土；冷却很长，每发都要从网络里抽走一大笔魔力。</Botania_DefenseIII.description>
+  <Botania_DefenseIII.description>射程覆盖全图的攻城花。解锁远古陨击花：一发召唤一颗陨石，无视墙体与视线，落点散得很开。它自己必须露天，花上有顶就打不出去；树上接远古防御花。\n\n它抬头的时候，天也跟着沉下来。</Botania_DefenseIII.description>
 
 </LanguageData>

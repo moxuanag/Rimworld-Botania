@@ -78,7 +78,7 @@
     </tools>
   </ThingDef>
 
-  <!-- 元素甲：锐器 90% / 钝器 45%（躯干 + 四肢），不写披挂外观 -->
+  <!-- 元素甲：锐器 104% / 钝器 42% / 热能 49%（躯干 + 四肢），披挂外观由 apparel/wornGraphicPath 提供 -->
   <ThingDef ParentName="ApparelBase">
     <defName>Botania_ElementiumArmor</defName>
     <label>elementium armor</label>

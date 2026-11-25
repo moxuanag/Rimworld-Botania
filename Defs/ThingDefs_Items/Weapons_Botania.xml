@@ -138,7 +138,7 @@
     </comps>
   </ThingDef>
 
-  <!-- 魔力弹：伤害对齐原版狙击枪子弹（25 点 / 穿透 1.5），速度略慢，看起来更像魔法 -->
+  <!-- 魔力弹：damageAmountBase 11、stoppingPower 1.5（阻止力，不是穿甲；本 Def 没有 armorPenetrationBase）、speed 75，弹道偏慢，看起来更像魔法 -->
   <ThingDef ParentName="BaseBullet">
     <defName>Botania_ManaBolt</defName>
     <label>mana bolt</label>
