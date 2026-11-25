@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <!-- ============================================================
-     植物魔法研究树（2026-11-25 第六次布局重定：矩阵版整片左移，5 行）。
+     植物魔法研究树（2026-11-25 第七次布局：主线居中，魔导在其上方，分类卡夹在两行花中间）。
 
      坐标：本引擎的研究树坐标就是 ResearchProjectDef 的
      researchViewX / researchViewY（Verse.ResearchProjectDef 的 x/y，
      MainTabWindow_Research 直接读它画节点），没有 layout 节点。
 
-       同一 y 行 = 同一档次：
-         y=0 主线   y=1 基础层   y=2 进阶层   y=3 终极 / 远古层   y=4 魔导
-       同一 x 段 = 同一支线：
-         产能 0..4   功能 6..8   防御 10..12   魔导在 y=4（x=3..6）
-       产能块整体左移，让基础产能花 (0,1) 正对神秘花卉 (0,0)；
-       魔力应用 (3,4) 正对魔力栅格 (3,0)。
+       主线：y=4，横贯 x=0..6（盖亚那条）。
+       魔导：y=0..3，全部坐在 x=3 这一列，就在主线正上方
+             （引擎禁止负坐标，所以主线整体下移到 y=4，魔导才排得上去）。
+       三个档次各占两条花行，分类卡夹在正中间：
+         基础层   分类卡 y=5.50   花行 y=5 与 y=6
+         进阶层   分类卡 y=7.50   花行 y=7 与 y=8
+         终极层   分类卡 y=9.50   花行 y=9 与 y=10
+       分类卡写成 .50 小数，正好落在它那两行花中间；
+       花行间距 1.0，x 最小间距 1.0（引擎的 GenerateNonOverlappingCoordinates
+       只在 dx 小于 0.5 且 dy 小于 0.25 时才会介入推坐标）。
        坐标不得重复、不得为负，同 tab（Botania）内 ConfigErrors 会拒绝。
 
      跨支线门槛：6 条「泰拉钢 / 盖亚」前置在 hiddenPrerequisites。
@@ -20,15 +24,15 @@
        门槛照旧生效（ResearchProjectDef.PrerequisitesCompleted 两者同查），
        右侧详情面板仍会把它们列出来。可见前置边 33 条 + 隐藏 6 条 = 39 条。
 
-     本文件 = 主线 7 项 + 魔导 4 项（共 11 项）：
-       主线 y=0  (0,0) 神秘花卉 (1,0) 花圃工艺 (2,0) 魔力钢
-                 (3,0) 魔力栅格 (4,0) 精灵工艺 (5,0) 泰拉钢 (6,0) 盖亚
-       魔导 y=4  (3,4) 魔力应用 (4,4) 法力家具 (5,4) 法力修补 (6,4) 法杖改型
+     本文件 = 魔导 4 项 + 主线 7 项（共 11 项）：
+       魔导 x=3  (3,0) 法杖改型 (3,1) 法力修补 (3,2) 法力家具 (3,3) 魔力应用
+       主线 y=4  (0,4) 神秘花卉 (1,4) 花圃工艺 (2,4) 魔力钢 (3,4) 魔力栅格
+                 (4,4) 精灵工艺 (5,4) 泰拉钢 (6,4) 盖亚
 
      其余三段：
-       Botania_Research_Generating.xml  产能 10 项（x=0..4）
-       Botania_Research_Functional.xml  功能  6 项（x=6..8）
-       Botania_Research_Defense.xml     防御  7 项（x=10..12）
+       Botania_Research_Generating.xml  产能 10 项（分类卡 x=0，花 x=1..2）
+       Botania_Research_Functional.xml  功能  6 项（分类卡 x=4，花 x=5..6）
+       Botania_Research_Defense.xml     防御  7 项（分类卡 x=8，花 x=9..10）
      ============================================================ -->
 
 <Defs>
@@ -43,7 +47,7 @@
     <techLevel>Neolithic</techLevel>
     <tab>Botania</tab>
     <researchViewX>0.00</researchViewX>
-    <researchViewY>0.00</researchViewY>
+    <researchViewY>4.00</researchViewY>
   </ResearchProjectDef>
 
   <!-- ===== x=1 花圃工艺（花药台 / 花瓣染色 / 森林法杖） ===== -->
@@ -59,10 +63,10 @@
       <li>Botania_Flowers</li>
     </prerequisites>
     <researchViewX>1.00</researchViewX>
-    <researchViewY>0.00</researchViewY>
+    <researchViewY>4.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== x=2 魔力线起点：魔力钢（产能块根在 (0,1)） ===== -->
+  <!-- ===== x=2 魔力线起点：魔力钢（产能块根在 (2, 4)） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_Manasteel</defName>
@@ -75,7 +79,7 @@
       <li>Botania_Garden</li>
     </prerequisites>
     <researchViewX>2.00</researchViewX>
-    <researchViewY>0.00</researchViewY>
+    <researchViewY>4.00</researchViewY>
   </ResearchProjectDef>
 
   <!-- ===== x=3 魔力栅格：池子与继电塔组成的「一张网」 ===== -->
@@ -91,10 +95,10 @@
       <li>Botania_Manasteel</li>
     </prerequisites>
     <researchViewX>3.00</researchViewX>
-    <researchViewY>0.00</researchViewY>
+    <researchViewY>4.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== x=3 y=4 魔力应用：把网里的魔力接到固定点、换成别的东西 ===== -->
+  <!-- ===== x=3 y=3 魔力应用：把网里的魔力接到固定点、换成别的东西 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_ManaGrid</defName>
@@ -107,10 +111,10 @@
       <li>Botania_Manasteel</li>
     </prerequisites>
     <researchViewX>3.00</researchViewX>
-    <researchViewY>4.00</researchViewY>
+    <researchViewY>3.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== x=4 y=4 法力家具：法力灯这类「用魔力发光的家具」 ===== -->
+  <!-- ===== x=3 y=2 法力家具：法力灯这类「用魔力发光的家具」 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_ManaLampStudy</defName>
@@ -122,11 +126,11 @@
     <prerequisites>
       <li>Botania_Manasteel</li>
     </prerequisites>
-    <researchViewX>4.00</researchViewX>
-    <researchViewY>4.00</researchViewY>
+    <researchViewX>3.00</researchViewX>
+    <researchViewY>2.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== x=5 y=4 法力修补：建筑恢复器与装备修复器共用的修补机制 ===== -->
+  <!-- ===== x=3 y=1 法力修补：建筑恢复器与装备修复器共用的修补机制 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_Mending</defName>
@@ -138,11 +142,11 @@
     <prerequisites>
       <li>Botania_Manasteel</li>
     </prerequisites>
-    <researchViewX>5.00</researchViewX>
-    <researchViewY>4.00</researchViewY>
+    <researchViewX>3.00</researchViewX>
+    <researchViewY>1.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== x=6 y=4 法杖改型：森林法杖的狙击型 / 爆破型 ===== -->
+  <!-- ===== x=3 y=0 法杖改型：森林法杖的狙击型 / 爆破型 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_WandForms</defName>
@@ -154,8 +158,8 @@
     <prerequisites>
       <li>Botania_Manasteel</li>
     </prerequisites>
-    <researchViewX>6.00</researchViewX>
-    <researchViewY>4.00</researchViewY>
+    <researchViewX>3.00</researchViewX>
+    <researchViewY>0.00</researchViewY>
   </ResearchProjectDef>
 
   <!-- ===== x=4 精灵工艺：精灵门换梦木 / 精灵石英 / 精灵之尘 / 元素锭 ===== -->
@@ -171,7 +175,7 @@
       <li>Botania_ManaStorage</li>
     </prerequisites>
     <researchViewX>4.00</researchViewX>
-    <researchViewY>0.00</researchViewY>
+    <researchViewY>4.00</researchViewY>
   </ResearchProjectDef>
 
   <!-- ===== x=5 泰拉钢：魔力线主干终点（也是三支花线进阶段的共同前置） ===== -->
@@ -187,7 +191,7 @@
       <li>Botania_Infusion</li>
     </prerequisites>
     <researchViewX>5.00</researchViewX>
-    <researchViewY>0.00</researchViewY>
+    <researchViewY>4.00</researchViewY>
   </ResearchProjectDef>
 
   <!-- ===== x=6 盖亚：全树终点 ===== -->
@@ -203,7 +207,7 @@
       <li>Botania_Terrasteel</li>
     </prerequisites>
     <researchViewX>6.00</researchViewX>
-    <researchViewY>0.00</researchViewY>
+    <researchViewY>4.00</researchViewY>
     <!-- 需要 1 张「盖亚之魂蓝图」（Botania_GaiaSpirit）。
          引擎的成对校验（ResearchProjectDef.ConfigErrors）：
            techprintCount > 0 但 heldByFactionCategoryTags 为空

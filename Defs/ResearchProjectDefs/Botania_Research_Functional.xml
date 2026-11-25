@@ -2,16 +2,17 @@
 <Defs>
 
   <!-- ============================================================
-       功能花段（2026-11-25 第六次布局重定）：6 个节点，x=6..8。
+       功能花段（2026-11-25 第七次布局）：6 个节点，分类卡在 x=4。
 
-       同一 y 行 = 同一档次，同一 x 段 = 同一支线；支线根在 y=1。
+       分类卡夹在两条花行正中间（y=5.50 / 7.50 / 9.50），
+       花行在 y=5、6 / 7、8 / 9、10；同一 y 行 = 同一档次。
 
-         y=1 基础层   x=6  Botania_FunctionalI          基础功能花
-                      x=7  Botania_BlightEaterStudy     噬草花
-                      x=8  Botania_ClearMindLotusStudy  明心莲
-         y=2 进阶层   x=6  Botania_FuncAdvanced         进阶功能花
-                      x=7  Botania_StormBloomStudy      电暴花
-         y=3 终极层   x=6  Botania_FuncUltimate         终极功能花
+         y=5.50  x=4  Botania_FunctionalI          基础功能花（分类卡）
+         y=5     x=5  Botania_BlightEaterStudy     噬草花
+         y=5     x=6  Botania_ClearMindLotusStudy  明心莲
+         y=7.50  x=4  Botania_FuncAdvanced         进阶功能花（分类卡）
+         y=7     x=5  Botania_StormBloomStudy      电暴花
+         y=9.50  x=4  Botania_FuncUltimate         终极功能花（分类卡）
 
        前置结构（树上的可见线）：
          FunctionalI     <- Garden
@@ -24,7 +25,7 @@
        完整推导见 docs/玩法指南.md。
        ============================================================ -->
 
-  <!-- ===== x=6 y=1 基础功能花：功能花的分工与共同的「付费 + 联网」前提 ===== -->
+  <!-- ===== x=4 y=5.50 基础功能花：功能花的分工与共同的「付费 + 联网」前提 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_FunctionalI</defName>
@@ -36,11 +37,11 @@
     <prerequisites>
       <li>Botania_Garden</li>
     </prerequisites>
-    <researchViewX>6.00</researchViewX>
-    <researchViewY>1.00</researchViewY>
+    <researchViewX>4.00</researchViewX>
+    <researchViewY>5.50</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== x=6 y=2 进阶功能花总览：按秒结算、按破损取目标的高价层 ===== -->
+  <!-- ===== x=4 y=7.50 进阶功能花总览：按秒结算、按破损取目标的高价层 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_FuncAdvanced</defName>
@@ -55,11 +56,11 @@
     <hiddenPrerequisites>
       <li>Botania_Terrasteel</li>
     </hiddenPrerequisites>
-    <researchViewX>6.00</researchViewX>
-    <researchViewY>2.00</researchViewY>
+    <researchViewX>4.00</researchViewX>
+    <researchViewY>7.50</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== 噬草花：6 格内吃枯萎病作物，3 秒一株 1500 魔力（x=7, y=1） ===== -->
+  <!-- ===== 噬草花：6 格内吃枯萎病作物，3 秒一株 1500 魔力（x=5, y=5） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_BlightEaterStudy</defName>
@@ -71,11 +72,11 @@
     <prerequisites>
       <li>Botania_FunctionalI</li>
     </prerequisites>
-    <researchViewX>7.00</researchViewX>
-    <researchViewY>1.00</researchViewY>
+    <researchViewX>5.00</researchViewX>
+    <researchViewY>5.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== 明心莲：半径 8，只挡心灵干扰；按受影响人数每人 20 魔力 / 60 tick（x=8, y=1） ===== -->
+  <!-- ===== 明心莲：半径 8，只挡心灵干扰；按受影响人数每人 20 魔力 / 60 tick（x=6, y=5） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_ClearMindLotusStudy</defName>
@@ -87,11 +88,11 @@
     <prerequisites>
       <li>Botania_FunctionalI</li>
     </prerequisites>
-    <researchViewX>8.00</researchViewX>
-    <researchViewY>1.00</researchViewY>
+    <researchViewX>6.00</researchViewX>
+    <researchViewY>5.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== x=6 y=3 终极功能花总览：接盖亚，按千计结算 ===== -->
+  <!-- ===== x=4 y=9.50 终极功能花总览：接盖亚，按千计结算 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_FuncUltimate</defName>
@@ -106,11 +107,11 @@
     <hiddenPrerequisites>
       <li>Botania_Gaia</li>
     </hiddenPrerequisites>
-    <researchViewX>6.00</researchViewX>
-    <researchViewY>3.00</researchViewY>
+    <researchViewX>4.00</researchViewX>
+    <researchViewY>9.50</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== 电暴花：捡电网短路的漏，15 格吸收、缓存 12 瓦日（x=7, y=2） ===== -->
+  <!-- ===== 电暴花：捡电网短路的漏，15 格吸收、缓存 12 瓦日（x=5, y=7） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_StormBloomStudy</defName>
@@ -122,8 +123,8 @@
     <prerequisites>
       <li>Botania_FuncAdvanced</li>
     </prerequisites>
-    <researchViewX>7.00</researchViewX>
-    <researchViewY>2.00</researchViewY>
+    <researchViewX>5.00</researchViewX>
+    <researchViewY>7.00</researchViewY>
   </ResearchProjectDef>
 
 </Defs>
