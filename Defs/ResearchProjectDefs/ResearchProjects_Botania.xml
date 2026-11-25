@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <!-- ============================================================
-     植物魔法研究树（2026-11-25 第八次布局：主线横向拉开，魔导 2x2 悬在主线之上）。
+     植物魔法研究树（2026-11-25 第九次布局：主线间距收窄到 1.5，魔导 2x2 悬在主线之上）。
 
      坐标：本引擎的研究树坐标就是 ResearchProjectDef 的
      researchViewX / researchViewY（Verse.ResearchProjectDef 的 x/y，
      MainTabWindow_Research 直接读它画节点），没有 layout 节点。
 
        间隔规格：
-         主线横向间距 2.0（x = 0 / 2 / 4 / 6 / 8 / 10 / 12），主线在 y=2.0。
-         同档两行花纵向间距 0.6（例：2.8 与 3.4）。
-         档与档之间 0.8（基础 2.8 与 3.4，进阶 4.2，终极 5.6 与 6.2）。
-         分类卡落在它那两行花的正中（取行的 y 加 0.3）：
-           基础层 3.1   进阶层 4.5   终极 / 远古层 5.9。
-         魔导 2x2 排在主线之上：(4,0) 与 (6,0) 一行，(4,0.6) 与 (6,0.6) 一行，
-           其中魔力家具 (6,0.6) 正对下方魔力网络 (6,2)。
+         主线横向间距 1.5（x = 0 / 1.5 / 3 / 4.5 / 6 / 7.5 / 9），主线在 y=2.0。
+         同档两行花纵向间距 0.6（基础 2.8 与 3.4，终阶 5.0 与 5.6）。
+         相邻档之间的行距：基础末行到进阶 0.8（3.4 到 4.2），进阶到终阶 0.8（4.2 到 5.0）。
+         分类卡落在它那两行花的正中（行的 y 加 0.3，即 +0.3）：
+           基础层 3.1   进阶层 4.5   终极 / 远古层 5.3。
+         魔导 2x2 排在主线之上：(3,0) 与 (4.5,0) 一行，(3,0.6) 与 (4.5,0.6) 一行；
+           魔力家具 (4.5,0.6) 与魔力网络 (4.5,2) 同列，
+           魔力应用 (3,0.6) 与魔力钢 (3,2) 同列。
        坐标不得重复、不得为负，同 tab（Botania）内 ConfigErrors 会拒绝。
 
      跨支线门槛：6 条「泰拉钢 / 盖亚」前置在 hiddenPrerequisites。
@@ -23,14 +24,14 @@
        右侧详情面板仍会把它们列出来。可见前置边 33 条 + 隐藏 6 条 = 39 条。
 
      本文件 = 魔导 4 项 + 主线 7 项（共 11 项）：
-       魔导 (4,0) 法杖改型 (6,0) 法力修补 (4,0.6) 魔力应用 (6,0.6) 法力家具
-       主线 (0,2) 神秘花卉 (2,2) 花圃工艺 (4,2) 魔力钢 (6,2) 魔力栅格
-            (8,2) 精灵工艺 (10,2) 泰拉钢 (12,2) 盖亚
+       魔导 (3,0) 法杖改型 (4.5,0) 法力修补 (3,0.6) 魔力应用 (4.5,0.6) 法力家具
+       主线 (0,2) 神秘花卉 (1.5,2) 花圃工艺 (3,2) 魔力钢 (4.5,2) 魔力栅格
+            (6,2) 精灵工艺 (7.5,2) 泰拉钢 (9,2) 盖亚
 
      其余三段：
        Botania_Research_Generating.xml  产能 10 项（分类卡 x=0）
-       Botania_Research_Functional.xml  功能  6 项（分类卡 x=4）
-       Botania_Research_Defense.xml     防御  7 项（分类卡 x=8）
+       Botania_Research_Functional.xml  功能  6 项（分类卡 x=4.5）
+       Botania_Research_Defense.xml     防御  7 项（分类卡 x=9）
      ============================================================ -->
 
 <Defs>
@@ -60,11 +61,11 @@
     <prerequisites>
       <li>Botania_Flowers</li>
     </prerequisites>
-    <researchViewX>2.00</researchViewX>
+    <researchViewX>1.50</researchViewX>
     <researchViewY>2.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== x=2 魔力线起点：魔力钢（产能块根在 (4, 2)） ===== -->
+  <!-- ===== x=2 魔力线起点：魔力钢（产能块根在 (3, 2)） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_Manasteel</defName>
@@ -76,7 +77,7 @@
     <prerequisites>
       <li>Botania_Garden</li>
     </prerequisites>
-    <researchViewX>4.00</researchViewX>
+    <researchViewX>3.00</researchViewX>
     <researchViewY>2.00</researchViewY>
   </ResearchProjectDef>
 
@@ -92,11 +93,11 @@
     <prerequisites>
       <li>Botania_Manasteel</li>
     </prerequisites>
-    <researchViewX>6.00</researchViewX>
+    <researchViewX>4.50</researchViewX>
     <researchViewY>2.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== x=4 y=0.6 魔力应用：把网里的魔力接到固定点、换成别的东西 ===== -->
+  <!-- ===== x=3 y=0.6 魔力应用：把网里的魔力接到固定点、换成别的东西 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_ManaGrid</defName>
@@ -108,11 +109,11 @@
     <prerequisites>
       <li>Botania_Manasteel</li>
     </prerequisites>
-    <researchViewX>4.00</researchViewX>
+    <researchViewX>3.00</researchViewX>
     <researchViewY>0.60</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== x=6 y=0.6 法力家具：法力灯这类「用魔力发光的家具」 ===== -->
+  <!-- ===== x=4.5 y=0.6 法力家具：法力灯这类「用魔力发光的家具」 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_ManaLampStudy</defName>
@@ -124,11 +125,11 @@
     <prerequisites>
       <li>Botania_Manasteel</li>
     </prerequisites>
-    <researchViewX>6.00</researchViewX>
+    <researchViewX>4.50</researchViewX>
     <researchViewY>0.60</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== x=6 y=0 法力修补：建筑恢复器与装备修复器共用的修补机制 ===== -->
+  <!-- ===== x=4.5 y=0 法力修补：建筑恢复器与装备修复器共用的修补机制 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_Mending</defName>
@@ -140,11 +141,11 @@
     <prerequisites>
       <li>Botania_Manasteel</li>
     </prerequisites>
-    <researchViewX>6.00</researchViewX>
+    <researchViewX>4.50</researchViewX>
     <researchViewY>0.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== x=4 y=0 法杖改型：森林法杖的狙击型 / 爆破型 ===== -->
+  <!-- ===== x=3 y=0 法杖改型：森林法杖的狙击型 / 爆破型 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_WandForms</defName>
@@ -156,7 +157,7 @@
     <prerequisites>
       <li>Botania_Manasteel</li>
     </prerequisites>
-    <researchViewX>4.00</researchViewX>
+    <researchViewX>3.00</researchViewX>
     <researchViewY>0.00</researchViewY>
   </ResearchProjectDef>
 
@@ -172,7 +173,7 @@
     <prerequisites>
       <li>Botania_ManaStorage</li>
     </prerequisites>
-    <researchViewX>8.00</researchViewX>
+    <researchViewX>6.00</researchViewX>
     <researchViewY>2.00</researchViewY>
   </ResearchProjectDef>
 
@@ -188,7 +189,7 @@
     <prerequisites>
       <li>Botania_Infusion</li>
     </prerequisites>
-    <researchViewX>10.00</researchViewX>
+    <researchViewX>7.50</researchViewX>
     <researchViewY>2.00</researchViewY>
   </ResearchProjectDef>
 
@@ -204,7 +205,7 @@
     <prerequisites>
       <li>Botania_Terrasteel</li>
     </prerequisites>
-    <researchViewX>12.00</researchViewX>
+    <researchViewX>9.00</researchViewX>
     <researchViewY>2.00</researchViewY>
     <!-- 需要 1 张「盖亚之魂蓝图」（Botania_GaiaSpirit）。
          引擎的成对校验（ResearchProjectDef.ConfigErrors）：
