@@ -2,27 +2,23 @@
 <Defs>
 
   <!-- ============================================================
-       功能花块（2026-11-25 第四次布局重定）：6 个节点，占 x=9..11、y=1..3，根在 (9,1)。
+       功能花段（2026-11-25 第五次布局重定：矩阵版）：6 个节点，x=9..11。
 
-       x = 横向阶（越往右越靠后），y = 同阶上下排位；支线根在 y=1，线贴顶部走。
-       块内同一列上下是同级的不同分支，水平相邻未必是父子：
-       判断关系只看连线，不要看相邻。
+       同一 y 行 = 同一档次，同一 x 段 = 同一支线；支线根在 y=1。
 
-         x=9   y=1  Botania_FunctionalI          基础功能花
-         x=10  y=1  Botania_BlightEaterStudy     噬草花
-         x=10  y=2  Botania_ClearMindLotusStudy  明心莲
-         x=10  y=3  Botania_FuncAdvanced         进阶功能花
-         x=11  y=1  Botania_StormBloomStudy      电暴花
-         x=11  y=2  Botania_FuncUltimate         终极功能花
+         y=1 基础层   x=9   Botania_FunctionalI          基础功能花
+                      x=10  Botania_BlightEaterStudy     噬草花
+                      x=11  Botania_ClearMindLotusStudy  明心莲
+         y=2 进阶层   x=9   Botania_FuncAdvanced         进阶功能花
+                      x=10  Botania_StormBloomStudy      电暴花
+         y=3 终极层   x=9   Botania_FuncUltimate         终极功能花
 
        前置结构（树上的可见线）：
-         FunctionalI   <- Garden
+         FunctionalI     <- Garden
          BlightEaterStudy / ClearMindLotusStudy <- FunctionalI
-         StormBloomStudy                        <- FuncAdvanced
-
-       跨支线门槛（hiddenPrerequisites：树上不画线，但必须达标）：
-         FuncAdvanced  <- Terrasteel（隐藏）
-         FuncUltimate  <- Gaia（隐藏）
+         FuncAdvanced    <- FunctionalI（隐藏 Terrasteel）
+         StormBloomStudy <- FuncAdvanced
+         FuncUltimate    <- FuncAdvanced（隐藏 Gaia）
 
        描述里的数值一律来自 ThingDef 的 comps 字段与 Source/*.cs 的实现，
        完整推导见 docs/玩法指南.md。
@@ -44,7 +40,7 @@
     <researchViewY>1.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== x=10 y=3 进阶功能花总览：按秒结算、按破损取目标的高价层 ===== -->
+  <!-- ===== x=9 y=2 进阶功能花总览：按秒结算、按破损取目标的高价层 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_FuncAdvanced</defName>
@@ -59,8 +55,8 @@
     <hiddenPrerequisites>
       <li>Botania_Terrasteel</li>
     </hiddenPrerequisites>
-    <researchViewX>10.00</researchViewX>
-    <researchViewY>3.00</researchViewY>
+    <researchViewX>9.00</researchViewX>
+    <researchViewY>2.00</researchViewY>
   </ResearchProjectDef>
 
   <!-- ===== 噬草花：6 格内吃枯萎病作物，3 秒一株 1500 魔力（x=10, y=1） ===== -->
@@ -79,7 +75,7 @@
     <researchViewY>1.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== 明心莲：半径 8，只挡心灵干扰；按受影响人数每人 20 魔力 / 60 tick（x=10, y=2） ===== -->
+  <!-- ===== 明心莲：半径 8，只挡心灵干扰；按受影响人数每人 20 魔力 / 60 tick（x=11, y=1） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_ClearMindLotusStudy</defName>
@@ -91,11 +87,11 @@
     <prerequisites>
       <li>Botania_FunctionalI</li>
     </prerequisites>
-    <researchViewX>10.00</researchViewX>
-    <researchViewY>2.00</researchViewY>
+    <researchViewX>11.00</researchViewX>
+    <researchViewY>1.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== x=11 y=2 终极功能花总览：接盖亚，按千计结算 ===== -->
+  <!-- ===== x=9 y=3 终极功能花总览：接盖亚，按千计结算 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_FuncUltimate</defName>
@@ -110,11 +106,11 @@
     <hiddenPrerequisites>
       <li>Botania_Gaia</li>
     </hiddenPrerequisites>
-    <researchViewX>11.00</researchViewX>
-    <researchViewY>2.00</researchViewY>
+    <researchViewX>9.00</researchViewX>
+    <researchViewY>3.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== 电暴花：捡电网短路的漏，15 格吸收、缓存 12 瓦日（x=11, y=1） ===== -->
+  <!-- ===== 电暴花：捡电网短路的漏，15 格吸收、缓存 12 瓦日（x=10, y=2） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_StormBloomStudy</defName>
@@ -126,8 +122,8 @@
     <prerequisites>
       <li>Botania_FuncAdvanced</li>
     </prerequisites>
-    <researchViewX>11.00</researchViewX>
-    <researchViewY>1.00</researchViewY>
+    <researchViewX>10.00</researchViewX>
+    <researchViewY>2.00</researchViewY>
   </ResearchProjectDef>
 
 </Defs>

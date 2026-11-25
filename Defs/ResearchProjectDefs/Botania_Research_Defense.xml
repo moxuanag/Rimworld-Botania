@@ -2,29 +2,25 @@
 <Defs>
 
   <!-- ============================================================
-       防御花块（2026-11-25 第四次布局重定）：7 个节点，占 x=13..16、y=1..3，根在 (13,1)。
+       防御花段（2026-11-25 第五次布局重定：矩阵版）：7 个节点，x=13..15。
 
-       x = 横向阶（越往右越靠后），y = 同阶上下排位；支线根在 y=1，线贴顶部走。
-       块内同一列上下是同级的不同分支，水平相邻未必是父子：
-       判断关系只看连线，不要看相邻。
+       同一 y 行 = 同一档次，同一 x 段 = 同一支线；支线根在 y=1。
 
-         x=13  y=1  Botania_DefenseFlowers   基础防御花
-         x=14  y=1  Botania_ThornFlowerStudy 荆棘花
-         x=14  y=2  Botania_DefenseI         荆棘钟花 thornbell
-         x=14  y=3  Botania_DefAdvanced      进阶防御花
-         x=15  y=1  Botania_DefenseII        爆萼花 blastcalyx
-         x=15  y=2  Botania_DefAncient       远古防御花
-         x=16  y=1  Botania_DefenseIII       远古陨击花 ancient starfall bloom
+         y=1 基础层   x=13  Botania_DefenseFlowers   基础防御花
+                      x=14  Botania_ThornFlowerStudy 荆棘花
+                      x=15  Botania_DefenseI         荆棘钟花 thornbell
+         y=2 进阶层   x=13  Botania_DefAdvanced      进阶防御花
+                      x=14  Botania_DefenseII        爆萼花 blastcalyx
+         y=3 远古层   x=13  Botania_DefAncient       远古防御花
+                      x=14  Botania_DefenseIII       远古陨击花 ancient starfall bloom
 
        前置结构（树上的可见线）：
          DefenseFlowers <- Garden
          ThornFlowerStudy / DefenseI <- DefenseFlowers
-         DefenseII                   <- DefAdvanced
-         DefenseIII                  <- DefAncient
-
-       跨支线门槛（hiddenPrerequisites：树上不画线，但必须达标）：
-         DefAdvanced   <- Terrasteel（隐藏）
-         DefAncient    <- Gaia（隐藏）
+         DefAdvanced    <- DefenseFlowers（隐藏 Terrasteel）
+         DefenseII      <- DefAdvanced
+         DefAncient     <- DefAdvanced（隐藏 Gaia）
+         DefenseIII     <- DefAncient
 
        数值全部取自 Buildings_Botania_TurretFlowers.xml、
        Weapons_Botania_TurretFlowers.xml 与 Source/Framework/ManaTurretCore.cs。
@@ -46,7 +42,7 @@
     <researchViewY>1.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== x=14 y=3 进阶防御花总览：把近防线换成射程 ===== -->
+  <!-- ===== x=13 y=2 进阶防御花总览：把近防线换成射程 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_DefAdvanced</defName>
@@ -61,8 +57,8 @@
     <hiddenPrerequisites>
       <li>Botania_Terrasteel</li>
     </hiddenPrerequisites>
-    <researchViewX>14.00</researchViewX>
-    <researchViewY>3.00</researchViewY>
+    <researchViewX>13.00</researchViewX>
+    <researchViewY>2.00</researchViewY>
   </ResearchProjectDef>
 
   <!-- ===== 荆棘花：半径 10，90 tick 一次脉冲；减速免费，伤害每目标 1 点 / 2 魔力（x=14, y=1） ===== -->
@@ -81,7 +77,7 @@
     <researchViewY>1.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== 荆棘钟花：1x1 连发，30 格射程，每轮 5 发 ×12 伤害，15 魔力/轮（x=14, y=2） ===== -->
+  <!-- ===== 荆棘钟花：1x1 连发，30 格射程，每轮 5 发 ×12 伤害，15 魔力/轮（x=15, y=1） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_DefenseI</defName>
@@ -93,11 +89,11 @@
     <prerequisites>
       <li>Botania_DefenseFlowers</li>
     </prerequisites>
-    <researchViewX>14.00</researchViewX>
-    <researchViewY>2.00</researchViewY>
+    <researchViewX>15.00</researchViewX>
+    <researchViewY>1.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== x=15 y=2 远古防御花总览：全图射程的攻城花 ===== -->
+  <!-- ===== x=13 y=3 远古防御花总览：全图射程的攻城花 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_DefAncient</defName>
@@ -112,11 +108,11 @@
     <hiddenPrerequisites>
       <li>Botania_Gaia</li>
     </hiddenPrerequisites>
-    <researchViewX>15.00</researchViewX>
-    <researchViewY>2.00</researchViewY>
+    <researchViewX>13.00</researchViewX>
+    <researchViewY>3.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== 爆萼花：2x2 越墙炮，70 格射程、10 格死区，80 魔力/发（x=15, y=1） ===== -->
+  <!-- ===== 爆萼花：2x2 越墙炮，70 格射程、10 格死区，80 魔力/发（x=14, y=2） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_DefenseII</defName>
@@ -128,11 +124,11 @@
     <prerequisites>
       <li>Botania_DefAdvanced</li>
     </prerequisites>
-    <researchViewX>15.00</researchViewX>
-    <researchViewY>1.00</researchViewY>
+    <researchViewX>14.00</researchViewX>
+    <researchViewY>2.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== 远古陨击花：5x5 攻城，500 格全图、20 格死区，275 伤害，400 魔力/发（x=16, y=1） ===== -->
+  <!-- ===== 远古陨击花：5x5 攻城，500 格全图、20 格死区，275 伤害，400 魔力/发（x=14, y=3） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_DefenseIII</defName>
@@ -144,8 +140,8 @@
     <prerequisites>
       <li>Botania_DefAncient</li>
     </prerequisites>
-    <researchViewX>16.00</researchViewX>
-    <researchViewY>1.00</researchViewY>
+    <researchViewX>14.00</researchViewX>
+    <researchViewY>3.00</researchViewY>
   </ResearchProjectDef>
 
 </Defs>

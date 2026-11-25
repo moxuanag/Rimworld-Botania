@@ -4,14 +4,11 @@
   <!-- ============================================================
        产能花支线中文注入。
        与 Defs/ResearchProjectDefs/Botania_Research_Generating.xml 一一对应：
-       四个分类节点（基础 / 被动 / 进阶 / 终极）+ 七朵具体产能花。
+       三个分类节点（基础 / 进阶 / 终极）+ 七朵具体产能花。
        ============================================================ -->
 
   <Botania_GenBasic.label>基础产能花</Botania_GenBasic.label>
   <Botania_GenBasic.description>消耗常见资源换取魔力的花：木材、花瓣、食物，殖民地手边有什么就烧什么。它们是第一笔稳定的魔力来源。</Botania_GenBasic.description>
-
-  <Botania_GeneratingI.label>被动产能花</Botania_GeneratingI.label>
-  <Botania_GeneratingI.description>不耗任何资源、只靠环境持续产魔的花。有日光就产，天黑就停，种下之后不用人照看，时间到了会自行枯萎。</Botania_GeneratingI.description>
 
   <Botania_GenAdvanced.label>进阶产能花</Botania_GenAdvanced.label>
   <Botania_GenAdvanced.description>需要稀有条件的产魔花：特定的温度、封闭的空间，或者某个难得一见的事件。条件凑齐之前，它们一声不响。</Botania_GenAdvanced.description>

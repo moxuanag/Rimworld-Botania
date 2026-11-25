@@ -88,24 +88,29 @@
 
 0.9.2 批次（2026-11-24），按用户反馈分四批完成。
 
-### 科技线 v2（2026-11-25）：35 节点树
+### 科技线 v2（2026-11-25）：34 节点矩阵树
 
 > 本节**取代**下方的「0.9.3 批次 · 科技线重做」（三级核心 + 30 个平级节点）与 2026-11-24 的
-> 「主干 12 + 三支线 21」。研究页以 35 节点分层树为准，完整分层树与全表见开发文档 §4。
+> 「主干 12 + 三支线 21」。研究页以 34 节点矩阵树为准，完整分层树、矩阵排布与全表见开发文档 §4。
 
-- **新增 8 个分层节点**：`Botania_GenBasic` 基础产能花 500、`Botania_GenAdvanced` 进阶产能花 800、
+- **新增 8 个分层节点**：`Botania_GenBasic` 基础产能花 900、`Botania_GenAdvanced` 进阶产能花 800、
   `Botania_GenUltimate` 终极产能花 1200、`Botania_FuncAdvanced` 进阶功能花 800、
   `Botania_FuncUltimate` 终极功能花 1200、`Botania_DefAdvanced` 进阶防御花 1000、
   `Botania_DefAncient` 远古防御花 1500、`Botania_ManaLampStudy` 魔力家具 800。
   它们是**档位门**：本身不挂 Def，只当同类花的前置，把「这一档的花一起亮」变成一次明确的投资决定。
-- **复用 8 个旧节点、改角色**：`Botania_GeneratingI`（产能花总览 → 被动产能花 400）、
-  `Botania_FunctionalI`（功能花总览 → 基础功能花 500）、`Botania_DefenseFlowers`（防御花总览 → 基础防御花 600）、
+- **复用 7 个旧节点、改角色**：`Botania_FunctionalI`（功能花总览 → 基础功能花 500）、
+  `Botania_DefenseFlowers`（防御花总览 → 基础防御花 600）、
   `Botania_ManaStorage`（魔力存储 1500 → 魔力网络 2000）、`Botania_ManaGrid`（魔力网络 1800 → 魔力应用 1200）、
   `Botania_Infusion`（魔力灌注 2400 → 精灵 3000）、`Botania_Mending`（魔力修补 1200 → 魔力修复器 1400）、
   `Botania_WandForms`（法杖改型 → 法杖 2000）。
-- **删除 6 项**：`Botania_BasicMana`（内容并入「花圃工艺」：魔力尘配方 + 简易魔力池 + 白雏菊）、
+- **删除 7 项**：`Botania_BasicMana`（内容并入「花圃工艺」：魔力尘配方 + 简易魔力池 + 白雏菊）、
   `Botania_PureDaisyStudy`、`Botania_Alfheim`、`Botania_Elementium`（精灵之门与元素装备并入「精灵」）、
-  `Botania_StructureRepairerStudy`、`Botania_ItemRepairerStudy`（两项修复器研究并入「魔力修复器」）。
+  `Botania_StructureRepairerStudy`、`Botania_ItemRepairerStudy`（两项修复器研究并入「魔力修复器」），
+  以及 **`Botania_GeneratingI`（被动产能花 400）**：这一层并入「基础产能花」（500 → **900**），
+  太阳花 / 夜颠茄改为直接挂基础产能花、归基础层。
+- **2026-11-25 二次定稿（矩阵式布局）**：研究页从「一条支线一竖列」改成矩阵 ——
+  **y 行 = 档次**（y=0 主干 7 / y=1 基础层 11 / y=2 进阶层 6 / y=3 终极层 6 / y=4 魔导 4），
+  **x 段 = 支线**（产能 x3~7、功能 x9~11、防御 x13~15）；节点数因此从 35 收到 **34**。
 - **三朵花重新分级**：电暴花 → 挂「进阶功能花」、噬草花 → 挂「基础功能花」、
   荆棘花 → 挂「基础防御花」（荆棘花从功能花支线移进防御花支线）。
 - **精灵灯改名**：物品 `Botania_PixieLamp` → `Botania_ManaLamp`，中文名「精灵灯」→「魔力灯」；
@@ -115,9 +120,10 @@
 - **跨支线锁**：进阶三档统一要「泰拉」、终极三档统一要「盖亚」——用魔导线
   （魔力钢 → 魔力网络 → 精灵 → 泰拉 → 盖亚）的进度给花线定价。
 
-> **存档**：6 个被删的 defName 不再存在，老档里这 6 项的进度自动作废（读档不报错、其余节点照常）；
-> 其余 27 个 defName 保号，已解锁的继续有效——但 `Botania_Mending` / `Botania_ManaStorage` /
+> **存档**：7 个被删的 defName 不再存在，老档里这 7 项的进度自动作废（读档不报错、其余节点照常）；
+> 其余 26 个 defName 保号，已解锁的继续有效——但 `Botania_Mending` / `Botania_ManaStorage` /
 > `Botania_ManaGrid` / `Botania_Infusion` 换了含义，老档可能因此提前拿到高级花，属已知取舍。
+> 删掉 `Botania_GeneratingI` 的老档最直观：太阳花 / 夜颠茄要按新前置「花圃工艺 → 基础产能花」重点一遍。
 ### 新增
 
 - **科技线：21 个花 / 器具研究项目** —— 产能花 10、功能花 7、防御花 4；每朵花一个 `ResearchProjectDef`，
