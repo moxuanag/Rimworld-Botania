@@ -2,21 +2,22 @@
 <Defs>
 
   <!-- ============================================================
-       产能花段（2026-11-25 第八次布局）：10 个节点，分类卡在 x=0。
+       产能花段（2026-11-25 第十一次布局）：10 个节点，分类卡在 x=0。
 
-       同档两行花纵向间距 0.6，档与档之间 0.8；分类卡在它那两行花正中（+0.3）。
-       主线横向间距 2.0，支线沿用同一节奏（分类卡在支线最左，花在它右边）。
+       花之间横向 0.9（卡 0，花 0.9 与 1.8）；同档两行花纵向 0.6（2.8/3.4 与 5.6/6.2）；
+       基础末行到进阶 0.8（3.4 到 4.2），进阶到终阶 1.4（4.2 到 5.6）；
+       分类卡在它那两行花正中（+0.3）。
 
-         y=3.1  x=0  Botania_GenBasic           基础产能花（分类卡）
-         y=2.8  x=1  Botania_EndoflameStudy     火红莲
-         y=2.8  x=2  Botania_BitterBloomStudy   苦丽花
-         y=3.4  x=1  Botania_PassiveGenerating  太阳花
-         y=3.4  x=2  Botania_NightshadeStudy    夜颠茄
-         y=4.5  x=0  Botania_GenAdvanced        进阶产能花（分类卡）
-         y=4.2  x=1  Botania_RosaArcanaStudy    阿卡纳蔷薇
-         y=5.9  x=0  Botania_GenUltimate        终极产能花（分类卡）
-         y=5.6  x=1  Botania_GeneratingII       炉心蕙
-         y=6.2  x=1  Botania_LifeOrchidStudy    启命英
+         y=3.1  x=0    Botania_GenBasic           基础产能花（分类卡）
+         y=2.8  x=0.9  Botania_EndoflameStudy     火红莲
+         y=2.8  x=1.8  Botania_BitterBloomStudy   苦丽花
+         y=3.4  x=0.9  Botania_PassiveGenerating  太阳花
+         y=3.4  x=1.8  Botania_NightshadeStudy    夜颠茄
+         y=4.5  x=0    Botania_GenAdvanced        进阶产能花（分类卡）
+         y=4.2  x=0.9  Botania_RosaArcanaStudy    阿卡纳蔷薇
+         y=5.9  x=0    Botania_GenUltimate        终极产能花（分类卡）
+         y=5.6  x=0.9  Botania_GeneratingII       炉心蕙
+         y=6.2  x=0.9  Botania_LifeOrchidStudy    启命英
 
        前置结构（树上的可见线）：
          GenBasic     <- Garden
@@ -66,7 +67,7 @@
     <researchViewY>4.50</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== 火红莲：烧燃料换稳定 30 魔力/秒，没池子不烧料（x=1, y=2.8） ===== -->
+  <!-- ===== 火红莲：烧燃料换稳定 30 魔力/秒，没池子不烧料（x=0.9, y=2.8） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_EndoflameStudy</defName>
@@ -78,11 +79,11 @@
     <prerequisites>
       <li>Botania_GenBasic</li>
     </prerequisites>
-    <researchViewX>1.00</researchViewX>
+    <researchViewX>0.90</researchViewX>
     <researchViewY>2.80</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== 苦丽花：8 格内按技能经验 ×10 计费，单次封顶 400（x=2, y=2.8） ===== -->
+  <!-- ===== 苦丽花：8 格内按技能经验 ×10 计费，单次封顶 400（x=1.8, y=2.8） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_BitterBloomStudy</defName>
@@ -94,7 +95,7 @@
     <prerequisites>
       <li>Botania_GenBasic</li>
     </prerequisites>
-    <researchViewX>2.00</researchViewX>
+    <researchViewX>1.80</researchViewX>
     <researchViewY>2.80</researchViewY>
   </ResearchProjectDef>
 
@@ -117,7 +118,7 @@
     <researchViewY>5.90</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== 太阳花：白天零成本被动产魔，15 天枯萎（x=1, y=3.4） ===== -->
+  <!-- ===== 太阳花：白天零成本被动产魔，15 天枯萎（x=0.9, y=3.4） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_PassiveGenerating</defName>
@@ -129,11 +130,11 @@
     <prerequisites>
       <li>Botania_GenBasic</li>
     </prerequisites>
-    <researchViewX>1.00</researchViewX>
+    <researchViewX>0.90</researchViewX>
     <researchViewY>3.40</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== 夜颠茄：夜间被动产魔，产量是太阳花的一半（x=2, y=3.4） ===== -->
+  <!-- ===== 夜颠茄：夜间被动产魔，产量是太阳花的一半（x=1.8, y=3.4） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_NightshadeStudy</defName>
@@ -145,11 +146,11 @@
     <prerequisites>
       <li>Botania_GenBasic</li>
     </prerequisites>
-    <researchViewX>2.00</researchViewX>
+    <researchViewX>1.80</researchViewX>
     <researchViewY>3.40</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== 阿卡纳蔷薇：8 格内每个还在学习的小人 6 魔力/秒（x=1, y=4.2） ===== -->
+  <!-- ===== 阿卡纳蔷薇：8 格内每个还在学习的小人 6 魔力/秒（x=0.9, y=4.2） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_RosaArcanaStudy</defName>
@@ -161,11 +162,11 @@
     <prerequisites>
       <li>Botania_GenAdvanced</li>
     </prerequisites>
-    <researchViewX>1.00</researchViewX>
+    <researchViewX>0.90</researchViewX>
     <researchViewY>4.20</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== 炉心蕙：密闭高温房间 + 燃料，0.2 × (T−40) × √A，上限 60（x=1, y=5.6） ===== -->
+  <!-- ===== 炉心蕙：密闭高温房间 + 燃料，0.2 × (T−40) × √A，上限 60（x=0.9, y=5.6） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_GeneratingII</defName>
@@ -177,11 +178,11 @@
     <prerequisites>
       <li>Botania_GenUltimate</li>
     </prerequisites>
-    <researchViewX>1.00</researchViewX>
+    <researchViewX>0.90</researchViewX>
     <researchViewY>5.60</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== 启命英：11×11 肉床上的生命游戏，按变化格 ×40 计价，单代上限 900（x=1, y=6.2） ===== -->
+  <!-- ===== 启命英：11×11 肉床上的生命游戏，按变化格 ×40 计价，单代上限 900（x=0.9, y=6.2） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_LifeOrchidStudy</defName>
@@ -193,7 +194,7 @@
     <prerequisites>
       <li>Botania_GenUltimate</li>
     </prerequisites>
-    <researchViewX>1.00</researchViewX>
+    <researchViewX>0.90</researchViewX>
     <researchViewY>6.20</researchViewY>
   </ResearchProjectDef>
 
