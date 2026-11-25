@@ -1,8 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
   <!-- ============================================================
-       元素装备（Botania_Elementium · 3000 点 · 前置「精灵之门」）
+       元素装备（Botania_Infusion 研究解锁）
          · 元素剑 / 元素甲 / 元素头盔
          · 护甲有披挂图：6 体型 × 3 方向 = 18 张/件（缺一张就会刷
            "Failed to find any textures at ..._Male"，见第二部分踩坑第 12 条）
@@ -34,7 +34,7 @@
       <Botania_Livingwood>2</Botania_Livingwood>
     </costList>
     <recipeMaker>
-      <researchPrerequisite>Botania_Elementium</researchPrerequisite>
+      <researchPrerequisite>Botania_Infusion</researchPrerequisite>
       <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
       <workSkill>Crafting</workSkill>
       <soundWorking>Recipe_Machining</soundWorking>
@@ -114,7 +114,7 @@
       <Botania_PixieDust>1</Botania_PixieDust>
     </costList>
     <recipeMaker>
-      <researchPrerequisite>Botania_Elementium</researchPrerequisite>
+      <researchPrerequisite>Botania_Infusion</researchPrerequisite>
       <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
       <workSkill>Crafting</workSkill>
       <soundWorking>Recipe_Machining</soundWorking>
@@ -176,7 +176,7 @@
       <Botania_PixieDust>1</Botania_PixieDust>
     </costList>
     <recipeMaker>
-      <researchPrerequisite>Botania_Elementium</researchPrerequisite>
+      <researchPrerequisite>Botania_Infusion</researchPrerequisite>
       <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
       <workSkill>Crafting</workSkill>
       <soundWorking>Recipe_Machining</soundWorking>

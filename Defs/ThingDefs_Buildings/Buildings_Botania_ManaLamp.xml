@@ -2,14 +2,14 @@
 <Defs>
 
   <!-- 精灵灯：不用电的灯，从魔力网络抽 1 魔力 / 60 秒，断魔即熄灭。
-       实现见 Source/CompManaPixieLamp.cs：不碰 CompGlower 内部，
+       实现见 Source/CompManaLamp.cs：不碰 CompGlower 内部，
        而是代替玩家去拨原版灯的 CompFlickable 开关。 -->
   <ThingDef ParentName="LampBase">
-    <defName>Botania_PixieLamp</defName>
-    <label>pixie lamp</label>
-    <description>A quartz lamp that drinks mana instead of power. Pixies drift inside the glass and light it; when the mana runs out they go still and the lamp goes dark, then wake again when the supply returns.</description>
+    <defName>Botania_ManaLamp</defName>
+    <label>mana lamp</label>
+    <description>A quartz lamp that drinks mana instead of power. A quiet mana glow drifts inside the glass; when the mana runs out the light fades, and it wakes again once the supply returns.</description>
     <graphicData>
-      <texPath>Things/Building/Botania/PixieLamp</texPath>
+      <texPath>Things/Building/Botania/ManaLamp</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <costList>
@@ -25,7 +25,7 @@
     <tickerType>Normal</tickerType>
     <uiOrder>2995</uiOrder>
     <researchPrerequisites>
-      <li>Botania_Elementium</li>
+      <li>Botania_ManaLampStudy</li>
     </researchPrerequisites>
     <comps>
       <li Class="CompProperties_Glower">
@@ -35,7 +35,7 @@
              未研究时按钮会显示为禁用并说明原因（引擎自动处理，无需我们写代码）。 -->
         <colorPickerEnabled>true</colorPickerEnabled>
       </li>
-      <li Class="Botania.CompProperties_ManaPixieLamp">
+      <li Class="Botania.CompProperties_ManaLamp">
         <manaPerWork>1</manaPerWork>
         <workIntervalTicks>3600</workIntervalTicks>
         <retryIntervalTicks>300</retryIntervalTicks>

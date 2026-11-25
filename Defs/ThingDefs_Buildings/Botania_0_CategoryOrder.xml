@@ -158,7 +158,7 @@
       <li>BotaniaBuildings</li>
     </thingCategories>
     <researchPrerequisites>
-      <li>Botania_PureDaisyStudy</li>
+      <li>Botania_Garden</li>
     </researchPrerequisites>
     <constructEffect>ConstructWood</constructEffect>
     <uiOrder>3000</uiOrder>

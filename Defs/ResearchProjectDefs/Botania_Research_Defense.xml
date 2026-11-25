@@ -2,91 +2,145 @@
 <Defs>
 
   <!-- ============================================================
-       防御花支线（0.9.2 科技线重构）。
+       防御花块（2026-11-25 第三次布局重定）：7 个节点，占 x=13..16、y=1..3。
 
-       花药台 Botania_BasicMana 之后分出三条支线，这里是防御花：
-         Botania_DefenseFlowers（总览，2,2）
-           -> Botania_DefenseI  荆棘钟花（3,2）
-           -> Botania_DefenseII 爆萼花（4,2）
-           -> Botania_DefenseIII 远古陨击花（5,2，另需 Botania_Gaia）
+       x = 横向阶（越往右越靠后），y = 同阶上下排位。
+       块内同一列上下是同级的不同分支，水平相邻未必是父子：
+       判断关系只看连线，不要看相邻。
 
-       旧的 Botania_DefenseI/II/III（防御花 / 进阶防御花 / 远古防御花）
-       已从 ResearchProjects_Botania.xml 移出，在本文件里改成每朵花一个项目。
+         x=13  y=2  Botania_DefenseFlowers   基础防御花
+         x=14  y=1  Botania_ThornFlowerStudy 荆棘花
+         x=14  y=2  Botania_DefenseI         荆棘钟花 thornbell
+         x=14  y=3  Botania_DefAdvanced      进阶防御花
+         x=15  y=1  Botania_DefenseII        爆萼花 blastcalyx
+         x=15  y=2  Botania_DefAncient       远古防御花
+         x=16  y=1  Botania_DefenseIII       远古陨击花 ancient starfall bloom
+
+       前置结构（现状：跨支线的泰拉 / 盖亚前置仍留在 prerequisites 里，
+       树上会画出长斜线）：
+         DefenseFlowers <- Garden
+         DefAdvanced    <- DefenseFlowers + Terrasteel
+         DefAncient     <- DefAdvanced + Gaia
+         ThornFlowerStudy / DefenseI <- DefenseFlowers
+         DefenseII                   <- DefAdvanced
+         DefenseIII                  <- DefAncient
+
        数值全部取自 Buildings_Botania_TurretFlowers.xml、
        Weapons_Botania_TurretFlowers.xml 与 Source/Framework/ManaTurretCore.cs。
        ============================================================ -->
 
+  <!-- ===== x=13 y=2 基础防御花：近距拦截的荆棘钟花 ===== -->
+
   <ResearchProjectDef>
     <defName>Botania_DefenseFlowers</defName>
-    <label>defense flowers</label>
-    <description>Three flowers that fight for the colony instead of producing mana, each chosen for a different range. The thornbell is the close screen: a 1x1 repeater with 30-tile range, five 12-damage needles per burst and one burst every 4.8 seconds. The blastcalyx is the wall-crossing reply: a 2x2 cannon with 70-tile range, a 10-tile dead zone and one 50-damage high-explosive seed every 44 seconds. The ancient starfall bloom is the map-wide siege gun: a 5x5 emplacement with 500-tile range, a 20-tile dead zone and one 275-damage meteor every 79 seconds.
+    <label>basic defense flowers</label>
+    <description>Defense flowers fight for the colony instead of producing mana, and the basic tier is the close screen: a one-tile thornbell that has grown itself five thorn barrels, fires at any hostile within 30 tiles it can see, and asks for 15 mana a burst instead of ammunition, a gunner or a power line.\n\nA burst is 0.4 seconds of warmup, five needles 0.1 seconds apart, then a 4-second cooldown - 60 raw damage before accuracy, so it is meant to shoot what is already in the colony's face. Its one hard requirement is the same as every flower's: the tile must stand inside the coverage of a mana pool, or of a relay that extends that pool's network. A dry network never destroys or disables the flower; it only stops the shot, keeps the turret tracking, and retries every 2 seconds.\n\nFull numbers and derivations: gameplay guide.</description>
+    <baseCost>600</baseCost>
+    <techLevel>Medieval</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_Garden</li>
+    </prerequisites>
+    <researchViewX>13.00</researchViewX>
+    <researchViewY>2.00</researchViewY>
+  </ResearchProjectDef>
 
-All three share one requirement: no gunner, no ammunition, no power line, but the flower must stand inside the coverage of a mana pool, or of a relay that extends that pool's network. Each burst is paid from the shared pool before it fires (15, 80 or 400 mana). A dry network never destroys or disables the flower: it only stops the shot, keeps the turret tracking, and retries every 2 seconds for the thornbell or 5 seconds for either mortar. They are a branch of their own because they are picked by range envelope rather than by what a colonist can carry, they fill each other's blind spots in order, and none of them works before the colony can pipe mana to a fixed position. Sustained drain is 15 x 12.5 = 187.5, 80 x 1.36 = about 109, and 400 x 0.76 = about 304 mana per minute.
+  <!-- ===== x=14 y=3 进阶防御花总览：把近防线换成射程 ===== -->
 
-Full numbers and derivations: gameplay guide.</description>
-    <baseCost>1200</baseCost>
+  <ResearchProjectDef>
+    <defName>Botania_DefAdvanced</defName>
+    <label>advanced defense flowers</label>
+    <description>Advanced defense flowers trade the close screen for reach. The blastcalyx is a 2x2 cannon that compresses mana into a single high-explosive seed and lobs it over walls: 70-tile range, a 10-tile dead zone, no line of sight needed, and one 50-damage shell every 44 seconds at 80 mana a shell. It cannot engage anything under a thick mountain roof, and a roof over the flower itself cancels the overhead shot.\n\nThe price of that reach is everything else about it: 4 seconds of warmup, a 40-second cooldown, and a shell that lands within 6 tiles of the aim point. Like the entry tier it still has to stand inside a pool's or a relay's circle, and without mana it holds fire and retries every 5 seconds rather than throwing the shot away.\n\nFull numbers and derivations: gameplay guide.</description>
+    <baseCost>1000</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>
     <prerequisites>
-      <li>Botania_BasicMana</li>
+      <li>Botania_DefenseFlowers</li>
+      <li>Botania_Terrasteel</li>
     </prerequisites>
-    <researchViewX>2.00</researchViewX>
-    <researchViewY>2.00</researchViewY>
+    <researchViewX>14.00</researchViewX>
+    <researchViewY>3.00</researchViewY>
   </ResearchProjectDef>
+
+  <!-- ===== 荆棘花：半径 10，90 tick 一次脉冲；减速免费，伤害每目标 1 点 / 2 魔力（x=14, y=1） ===== -->
+
+  <ResearchProjectDef>
+    <defName>Botania_ThornFlowerStudy</defName>
+    <label>thorn flower</label>
+    <description>A mat of briars with a dark bloom at its heart. Every 90 ticks (1.5 seconds) it looks 10 tiles around and entangles every hostile pawn in reach for 90 ticks, moving at 70% speed; that slow is free and costs no mana at all.\n\nThe thorns themselves are paid per target: up to 12 hostiles per pulse, 1 cut damage and 2 mana each, nearest first. It carries a 150-mana buffer fed by the network, so a full buffer pays for 75 hits, and with no hostile in range it refills by up to 25 mana per pulse, about 17 per second. Bottom line: 12 targets x 2 mana = 24 mana per pulse (12 damage), 16 mana per second sustained; with no mana left the briars still slow but deal nothing.\n\nFull numbers and derivations: gameplay guide.</description>
+    <baseCost>1000</baseCost>
+    <techLevel>Medieval</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_DefenseFlowers</li>
+    </prerequisites>
+    <researchViewX>14.00</researchViewX>
+    <researchViewY>1.00</researchViewY>
+  </ResearchProjectDef>
+
+  <!-- ===== 荆棘钟花：1x1 连发，30 格射程，每轮 5 发 ×12 伤害，15 魔力/轮（x=14, y=2） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_DefenseI</defName>
     <label>thornbell</label>
-    <description>A one-tile flower that grew itself five thorn barrels. It draws mana from the pool network instead of loading ammunition, and fires at any hostile within 30 tiles that it has line of sight to; walls and other solid cover break the line, but there is no minimum range. A burst is 0.4 seconds of warmup, five needles 0.1 seconds apart, then a 4-second cooldown: one burst every 4.8 seconds.
-
-Every needle is a 12-damage mini-turret round, so one burst carries up to 60 raw damage before accuracy is applied. Its accuracy bands run 0.77 at touch range, then 0.70 and 0.45, down to 0.24 at long range, and the flower's own 0.96 turret accuracy falls off with every tile, so it is meant to shoot things that are already close. A burst costs 15 mana: 15 x 12.5 = 187.5 mana per minute of sustained fire. With an empty pool it does not start a warmup or fake a shot; it keeps aiming, stays silent and retries every 2 seconds, and the flower is never consumed or destroyed by the failure.
-
-Full numbers and derivations: gameplay guide.</description>
+    <description>A one-tile flower that grew itself five thorn barrels. It draws mana from the pool network instead of loading ammunition, and fires at any hostile within 30 tiles that it has line of sight to; walls and other solid cover break the line, but there is no minimum range. A burst is 0.4 seconds of warmup, five needles 0.1 seconds apart, then a 4-second cooldown: one burst every 4.8 seconds.\n\nEvery needle is a 12-damage mini-turret round, so one burst carries up to 60 raw damage before accuracy is applied. Its accuracy bands run 0.77 at touch range, then 0.70 and 0.45, down to 0.24 at long range, and the flower's own 0.96 turret accuracy falls off with every tile, so it is meant to shoot things that are already close. A burst costs 15 mana: 15 x 12.5 = 187.5 mana per minute of sustained fire. With an empty pool it does not start a warmup or fake a shot; it keeps aiming, stays silent and retries every 2 seconds, and the flower is never consumed or destroyed by the failure.\n\nFull numbers and derivations: gameplay guide.</description>
     <baseCost>1500</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>
     <prerequisites>
       <li>Botania_DefenseFlowers</li>
     </prerequisites>
-    <researchViewX>3.00</researchViewX>
+    <researchViewX>14.00</researchViewX>
     <researchViewY>2.00</researchViewY>
   </ResearchProjectDef>
+
+  <!-- ===== x=15 y=2 远古防御花总览：全图射程的攻城花 ===== -->
+
+  <ResearchProjectDef>
+    <defName>Botania_DefAncient</defName>
+    <label>ancient defense flowers</label>
+    <description>The ancient tier is siege artillery grown rather than built. The ancient starfall bloom is a 5x5 emplacement with 500-tile range that covers the whole map, a 20-tile dead zone and a meteor per shot: 275 damage over a 9.5-tile blast, scattered up to 9 tiles, 3 to 4 seconds of fall time after a 4-second warmup, then a 75-second cooldown. At 400 mana a meteor that is about 304 mana a minute sustained.\n\nIt ignores walls and line of sight, but not the sky: it cannot hit a target under a thick mountain roof, and it must stand in the open itself, because a roof over the flower cancels the overhead shot. Ancient work is unlocked by terrasteel and by the gaia spirit, and it still needs the mana network underneath - without mana it waits 5 seconds and tries again, and the flower itself is never spent.\n\nFull numbers and derivations: gameplay guide.</description>
+    <baseCost>1500</baseCost>
+    <techLevel>Spacer</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_DefAdvanced</li>
+      <li>Botania_Gaia</li>
+    </prerequisites>
+    <researchViewX>15.00</researchViewX>
+    <researchViewY>2.00</researchViewY>
+  </ResearchProjectDef>
+
+  <!-- ===== 爆萼花：2x2 越墙炮，70 格射程、10 格死区，80 魔力/发（x=15, y=1） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_DefenseII</defName>
     <label>blastcalyx</label>
-    <description>A two-tile flower that hollowed itself into a cannon. It compresses mana into a single high-explosive seed and lobs it over walls: 70-tile range, a 10-tile dead zone and no line of sight needed. It cannot engage anything under a thick mountain roof, and a roof over the flower itself cancels the overhead shot.
-
-The seed is a standard high-explosive round: 50 Bomb damage over a 2.9-tile blast, landing within 6 tiles of the aim point. The cycle is 4 seconds of warmup, one shot, then a 40-second cooldown: 44 seconds per shell, or about 1.36 shells per minute. Each shell costs 80 mana, so sustained fire is 80 x 1.36 = about 109 mana per minute. Without mana it holds fire and retries every 5 seconds; the flower stays in place and keeps tracking targets.
-
-Full numbers and derivations: gameplay guide.</description>
+    <description>A two-tile flower that hollowed itself into a cannon. It compresses mana into a single high-explosive seed and lobs it over walls: 70-tile range, a 10-tile dead zone and no line of sight needed. It cannot engage anything under a thick mountain roof, and a roof over the flower itself cancels the overhead shot.\n\nThe seed is a standard high-explosive round: 50 Bomb damage over a 2.9-tile blast, landing within 6 tiles of the aim point. The cycle is 4 seconds of warmup, one shot, then a 40-second cooldown: 44 seconds per shell, or about 1.36 shells per minute. Each shell costs 80 mana, so sustained fire is 80 x 1.36 = about 109 mana per minute. Without mana it holds fire and retries every 5 seconds; the flower stays in place and keeps tracking targets.\n\nFull numbers and derivations: gameplay guide.</description>
     <baseCost>2500</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>
     <prerequisites>
-      <li>Botania_DefenseI</li>
+      <li>Botania_DefAdvanced</li>
     </prerequisites>
-    <researchViewX>4.00</researchViewX>
-    <researchViewY>2.00</researchViewY>
+    <researchViewX>15.00</researchViewX>
+    <researchViewY>1.00</researchViewY>
   </ResearchProjectDef>
+
+  <!-- ===== 远古陨击花：5x5 攻城，500 格全图、20 格死区，275 伤害，400 魔力/发（x=16, y=1） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_DefenseIII</defName>
     <label>ancient starfall bloom</label>
-    <description>A 5x5 siege bloom grown around a compressed mana warhead. It has no close-range answer: a 20-tile dead zone, 500-tile range that covers the whole map, and it ignores walls and line of sight. It cannot hit targets under a thick mountain roof, and it must stand in the open, because a roof over the flower cancels the overhead shot.
-
-Each shot calls down a meteor: 275 damage over a 9.5-tile blast, scattered up to 9 tiles from the aim point, with 3 to 4 seconds of fall time after the 4-second warmup. Add the 75-second cooldown and the cycle is 79 seconds, about 0.76 meteors per minute, at 400 mana each: 400 x 0.76 = about 304 mana per minute sustained. When the network cannot pay, it waits 5 seconds and tries again, and the flower itself is never spent.
-
-Full numbers and derivations: gameplay guide.</description>
+    <description>A 5x5 siege bloom grown around a compressed mana warhead. It has no close-range answer: a 20-tile dead zone, 500-tile range that covers the whole map, and it ignores walls and line of sight. It cannot hit targets under a thick mountain roof, and it must stand in the open, because a roof over the flower cancels the overhead shot.\n\nEach shot calls down a meteor: 275 damage over a 9.5-tile blast, scattered up to 9 tiles from the aim point, with 3 to 4 seconds of fall time after the 4-second warmup. Add the 75-second cooldown and the cycle is 79 seconds, about 0.76 meteors per minute, at 400 mana each: 400 x 0.76 = about 304 mana per minute sustained. When the network cannot pay, it waits 5 seconds and tries again, and the flower itself is never spent.\n\nFull numbers and derivations: gameplay guide.</description>
     <baseCost>4000</baseCost>
     <techLevel>Ultra</techLevel>
     <tab>Botania</tab>
     <prerequisites>
-      <li>Botania_DefenseII</li>
-      <li>Botania_Gaia</li>
+      <li>Botania_DefAncient</li>
     </prerequisites>
-    <researchViewX>5.00</researchViewX>
-    <researchViewY>2.00</researchViewY>
+    <researchViewX>16.00</researchViewX>
+    <researchViewY>1.00</researchViewY>
   </ResearchProjectDef>
 
 </Defs>

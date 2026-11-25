@@ -18,7 +18,32 @@
   「必须抬到 `AltitudeLayer.MetaOverlays` 才不被地形盖住」两个坑。
 - 文档（`docs/`）与 `CHANGELOG.md` 必须同步更新。
 
-## 2. 框架式设计（强制）
+## 2. AI 协作工作流（硬规则）
+
+> 2026-11-25 定案。本节约束的是**代理之间怎么分工、谁能动手、谁只能验收**；
+> 与第 1 节「先问用户」并列，两者冲突时以更严的那条为准。
+
+- **主代理（lead）只负责设计与验收**：出方案、拆任务、给每个子代理划定写域、验收结果。
+  **主代理不得自己写实现**——C#、XML、贴图、脚本、数据文件都算实现，全部派给子代理去做。
+  主代理亲手写实现，等于既当运动员又当裁判，写域与验收都会失控。
+- **方案必须先经用户确认**，确认之后才允许派子代理开工。
+  用户没点头之前，主代理只能做**只读调研与出方案**，不得边讨论边改文件。
+- **子代理不得 commit / push / 打 tag / 部署**。交付物只有「改好的文件 + 中文报告」，
+  版本库里的事轮不到子代理碰。
+- **验收标准由主代理亲自执行**：`py -3 scripts\check_all.py` 全绿 + 抽查关键数值与字段
+  （`<MarketValue>`、`researchPrerequisites`、配方材料、`harvestYield` 这类）。
+  **不采信子代理的自述**——子代理说「已改好、已校验」只作为线索，不作为结论。
+- **授权边界（2026-11-25 修订）**：**本地 commit 由主代理自行决定**——验收通过即可提交，不必再问用户；
+  **部署到 `Mods/[GZ]Botania` 也可自行做**，那是「交给用户进游戏验证」的常规动作，用户已授权；
+  但**发布性质**的部署（随版本发布一起、要发给别人的那次）不算常规动作，按下面这条走。
+- **push 到 GitHub / 打 tag / 发 Release 必须等用户明确指令**。验收通过后可自行 commit 与部署（供用户测试），
+  但 push / tag / Release 一步都不能自作主张。旧说法「本地提交也必须先问用户」**已作废**（见 §9）。
+- 主代理在等待期间**只允许做只读验收**：跑 `check_all.py` / `balance_audit.py`、抽查文件、看 diff。
+- **有任何不确定、或与用户原话冲突**：先停下来问用户，不要自行发挥，不要「顺手优化」。
+- 用户说「没提到的东西不要改」时，**严格按字面执行写域**：只改被点名的文件与章节，
+  多改一行都是违规，包括顺手改掉的格式与注释。
+
+## 3. 框架式设计（强制）
 
 新增任何内容前先问自己：**这套逻辑是否已有可复用的基类/组件？**
 
@@ -27,7 +52,7 @@
 - 一个功能 = 一个 30~60 行的子类 + 一段 XML；如果又要抄一遍"找魔力源 / 定时结算 / 存档 / inspect"，说明框架没用好
 - **带作用范围的建筑必须画范围**：放置预览环 + 选中常驻环，缺一视为未完成
 
-## 3. DLC 与其它模组兼容（强制）
+## 4. DLC 与其它模组兼容（强制）
 
 - 引用 DLC 内容一律用 `MayRequire="Ludeon.RimWorld.Xxx"` 门住，不许硬依赖。
 - **优先"继承/组合原版类 + 只改 Def"**，不要复制原版逻辑；复制会漏掉 DLC 与原版更新。
@@ -35,13 +60,13 @@
 - 不修改原版 Def（不 Patch 原版），只在需要时用 `PatchOperationAdd` 追加少量内容。
 - 改动前评估：Harmony 补丁冲突、同 defName 冲突、存档字段平铺同名冲突。
 
-## 4. 机制与贴图先参考原版（强制）
+## 5. 机制与贴图先参考原版（强制）
 
 - **机制**：先读 `<游戏目录>/Data/{Core,Royalty,Ideology,Biotech,Anomaly,Odyssey>/Defs/` 与 decomp 源码，找到原版同类实现（例如自动炮塔就参考 `Turret_AutoMortar`），照它的字段与流程做，不要凭原版经验臆造。
 - **API**：写之前先验证（decomp 读源码，或写临时 `_ProbeN.cs` 编译探针，用完即删）。
 - **贴图**：先导出原版同类贴图做参考（`_dev/_botania-dev/texture_dump_request.txt` → 进游戏 → `_dev/_botania-dev/vanilla_textures/`），尺寸、锚点、留白、配色都对齐原版，再做 Botania 风格化。
 
-## 5. 组件生命周期铁律（0.8.4 精灵灯事故后新增）
+## 6. 组件生命周期铁律（0.8.4 精灵灯事故后新增）
 
 1. **不直接写别的组件状态**（尤其 `CompFlickable.SwitchIsOn`、`DoFlick`、`ResetToOn`）。要让灯光响应，实现 `IThingGlower`：
    `CompFlickable` 有 `switchOnInt`（实际，灯光看它）与 `wantSwitchOn`（玩家意图，Gizmo 看它）两套状态，直接写会让按钮与实际相反、小人反复跑去拨灯。
@@ -66,18 +91,21 @@
   `BuildingProperties.turretTopOffset` 是 **Vector2** 而不是 Vector3，写三元组会让整个 ThingDef 加载失败，
   连带子 def 消失、翻译注入报错）。改完跑 `python _dev/_botania-dev/check_xml_fields.py`。
 
-## 6. 存档兼容
+## 7. 存档兼容
 
 - 本引擎存档把组件字段**平铺在 Thing 节点下**（没有 `<comps><li Class>` 分组），因此：
   - 换组件类只要 `defName` 不变、XML comps 指向存在的新类即可，老档不会崩；
-  - **Scribe 键必须带前缀**（如 `botaniaPixieLampHasMana`），否则同一件东西上多个组件会互相覆盖；
+  - **Scribe 键必须带前缀**（如 `botaniaManaLampHasMana`），否则同一件东西上多个组件会互相覆盖；
   - 迁移时沿用旧键可保住玩家可见状态。
 
-## 7. 工程与验证
+## 8. 工程与验证
 
 - 源码仓库：`_dev/Botania-src`；发布载荷：`Mods/[GZ]Botania`（部署用 `deploy.ps1`，不要把工具塞进载荷）。
 - 开发工具与笔记一律放 `_dev/_botania-dev/`。
-- **交付前只需一条命令**：`python scripts/check_all.py`（编译 + 5 个静态检查，全绿才允许部署/提交）。
+- **交付前只需一条命令**：`python scripts/check_all.py`（**编译 + 6 个静态检查，共 7 项**）。
+  六项依次是 `validate_mod` / `check_comp_fields` / `check_xml_fields` / `check_def_refs` /
+  `check_component_rules` / `balance_audit`；全绿只是**验收的前提**。验收通过后主代理可自行 commit
+  并部署到 `Mods/[GZ]Botania` 供用户测试；push / 打 tag / 发 Release 仍等用户指令（见 §2 / §9）。
   单项检查仍可直接跑 `_dev/_botania-dev/` 下的脚本。
 - **新增物品 / 建筑只需一条命令**：`python _dev/_botania-dev/scaffold_apply.py item|building Botania_XXX --label-zh ...`
   它会生成 Def + 贴图 + 中文 DefInjected，并自动跑 `check_all.py`；检查不过就照报错改。
@@ -85,8 +113,11 @@
 - 详细流程与字段含义见 `docs/新增内容速查.md`。
 - **无法自行启动游戏**：编译与静态校验只能证明"不会崩"，行为必须由用户回传日志/截图确认。日志：`%USERPROFILE%\AppData\LocalLow\Ludeon Studios\RimWorld by Ludeon Studios\Logs\Player.log`。
 
-## 8. 版本与推送
+## 9. 版本与推送
 
-- 本地提交可以；**推送/打 tag/发 Release 必须等用户明确指令**。
+- **本地提交由主代理自行决定**（验收通过即可 commit，不必再问用户）；
+  **push 到 GitHub / 打 tag / 发 Release 必须等用户明确指令**。
+  部署到 `Mods/[GZ]Botania` 属于「交给用户进游戏验证」的常规动作，可自行做；
+  **随版本发布一起的那次部署**按 push / tag 的规则等指令。
 - 分支流程：`feat/xxx` → PR → CI 通过 → **用户说"合并"才合并** → 打 tag。
 - 版本号遵循语义化版本，发布前 `scripts/check_version.py` + `scripts/validate_xml.py` 必须通过。

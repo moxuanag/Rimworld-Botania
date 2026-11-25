@@ -4,7 +4,7 @@ using Verse;
 namespace Botania
 {
     /// <summary>
-    /// 精灵灯：不耗电，从魔力网络抽 1 魔力 / 60 秒。
+    /// 魔力灯：不耗电，从魔力网络抽 1 魔力 / 60 秒。
     ///
     /// 断魔语义和精灵门一致——**直接熄灭**，来了魔力再自己亮回来。
     ///
@@ -20,29 +20,30 @@ namespace Botania
     /// （CompPowerTrader / CompRefuelable 就是这么给灯断电的），
     /// 因此我们只要回答「现在有魔力吗」，灯光就由引擎自己切，开关语义完全不受影响。
     /// </summary>
-    public class CompProperties_ManaPixieLamp : CompProperties_ManaDevice
+    public class CompProperties_ManaLamp : CompProperties_ManaDevice
     {
-        public CompProperties_ManaPixieLamp()
+        public CompProperties_ManaLamp()
         {
-            compClass = typeof(CompManaPixieLamp);
+            compClass = typeof(CompManaLamp);
 
-            // 精灵灯语义：每小时 1 点魔力；熄灭后 5 秒重试一次。
+            // 魔力灯语义：每小时 1 点魔力；熄灭后 5 秒重试一次。
             manaPerWork = 1f;
             workIntervalTicks = 3600;
             retryIntervalTicks = 300;
             searchRadius = 8f;
 
-            // 沿用旧存档键，老存档里的状态能直接读回来。
-            saveKeyPrefix = "botaniaPixieLamp";
-            legacyHasManaKey = "botaniaPixieLampHasMana";
-            legacyNextWorkKey = "botaniaPixieLampNextChargeTick";
+            // 存档键统一带 botaniaManaLamp 前缀（AGENTS.md §7：平铺存档必须防撞键）。
+            // 灯已随 defName 一起改名，旧灯键不再迁移。
+            saveKeyPrefix = "botaniaManaLamp";
+            legacyHasManaKey = "botaniaManaLampHasMana";
+            legacyNextWorkKey = "botaniaManaLampNextChargeTick";
 
-            inspectWorkingKey = "Botania.PixieLampOn";
-            inspectNoManaKey = "Botania.PixieLampOff";
+            inspectWorkingKey = "Botania.ManaLampOn";
+            inspectNoManaKey = "Botania.ManaLampOff";
         }
     }
 
-    public class CompManaPixieLamp : CompManaDevice, IThingGlower
+    public class CompManaLamp : CompManaDevice, IThingGlower
     {
         private CompGlower glower;
 

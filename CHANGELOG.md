@@ -88,6 +88,36 @@
 
 0.9.2 批次（2026-11-24），按用户反馈分四批完成。
 
+### 科技线 v2（2026-11-25）：35 节点树
+
+> 本节**取代**下方的「0.9.3 批次 · 科技线重做」（三级核心 + 30 个平级节点）与 2026-11-24 的
+> 「主干 12 + 三支线 21」。研究页以 35 节点分层树为准，完整分层树与全表见开发文档 §4。
+
+- **新增 8 个分层节点**：`Botania_GenBasic` 基础产能花 500、`Botania_GenAdvanced` 进阶产能花 800、
+  `Botania_GenUltimate` 终极产能花 1200、`Botania_FuncAdvanced` 进阶功能花 800、
+  `Botania_FuncUltimate` 终极功能花 1200、`Botania_DefAdvanced` 进阶防御花 1000、
+  `Botania_DefAncient` 远古防御花 1500、`Botania_ManaLampStudy` 魔力家具 800。
+  它们是**档位门**：本身不挂 Def，只当同类花的前置，把「这一档的花一起亮」变成一次明确的投资决定。
+- **复用 8 个旧节点、改角色**：`Botania_GeneratingI`（产能花总览 → 被动产能花 400）、
+  `Botania_FunctionalI`（功能花总览 → 基础功能花 500）、`Botania_DefenseFlowers`（防御花总览 → 基础防御花 600）、
+  `Botania_ManaStorage`（魔力存储 1500 → 魔力网络 2000）、`Botania_ManaGrid`（魔力网络 1800 → 魔力应用 1200）、
+  `Botania_Infusion`（魔力灌注 2400 → 精灵 3000）、`Botania_Mending`（魔力修补 1200 → 魔力修复器 1400）、
+  `Botania_WandForms`（法杖改型 → 法杖 2000）。
+- **删除 6 项**：`Botania_BasicMana`（内容并入「花圃工艺」：魔力尘配方 + 简易魔力池 + 白雏菊）、
+  `Botania_PureDaisyStudy`、`Botania_Alfheim`、`Botania_Elementium`（精灵之门与元素装备并入「精灵」）、
+  `Botania_StructureRepairerStudy`、`Botania_ItemRepairerStudy`（两项修复器研究并入「魔力修复器」）。
+- **三朵花重新分级**：电暴花 → 挂「进阶功能花」、噬草花 → 挂「基础功能花」、
+  荆棘花 → 挂「基础防御花」（荆棘花从功能花支线移进防御花支线）。
+- **精灵灯改名**：物品 `Botania_PixieLamp` → `Botania_ManaLamp`，中文名「精灵灯」→「魔力灯」；
+  研究节点同步改名 `Botania_PixieLampStudy` → `Botania_ManaLampStudy`（中文名仍是「魔力家具」），
+  魔力灯改挂到它下面；组件类 `CompManaLamp`、贴图 `ManaLamp.png`、存档键 `botaniaManaLamp*`、
+  检查键 `Botania.ManaLampOn/Off` 全部同步改名，市值不变。
+- **跨支线锁**：进阶三档统一要「泰拉」、终极三档统一要「盖亚」——用魔导线
+  （魔力钢 → 魔力网络 → 精灵 → 泰拉 → 盖亚）的进度给花线定价。
+
+> **存档**：6 个被删的 defName 不再存在，老档里这 6 项的进度自动作废（读档不报错、其余节点照常）；
+> 其余 27 个 defName 保号，已解锁的继续有效——但 `Botania_Mending` / `Botania_ManaStorage` /
+> `Botania_ManaGrid` / `Botania_Infusion` 换了含义，老档可能因此提前拿到高级花，属已知取舍。
 ### 新增
 
 - **科技线：21 个花 / 器具研究项目** —— 产能花 10、功能花 7、防御花 4；每朵花一个 `ResearchProjectDef`，
@@ -136,6 +166,41 @@
 > **存档**：兼容（只删物品、换数值、加研究）。但**个别旧研究换了含义**
 > （`Botania_GeneratingII` = 炉心蕙、`Botania_DefenseI/II/III` = 三朵防御花、`Botania_Mending` 移进功能花支线），
 > 老档已解锁的旧节点仍然有效，其余花需要**补研究点**才能解锁。
+
+### 0.9.3 批次（2026-11-25）：花药台 + 花瓣经济 + 科技线重做
+
+> 本批的「科技线重做」**取代**本区块 2026-11-24 那条「科技线重构」（主干 12 + 三支线 21 的结构作废），
+> 以本节为准。
+
+#### 花药台
+
+- **新增工作台 `Botania_PetalApothecary`（花药台 / petal apothecary）**：
+  原版**任意 75 石砖**建造（`costStuffCount` 75 + `stuffCategories` Stony，照原版 `TableStonecutter` 写法，
+  无 `costList`），市值 **515**（手定价：石砖市值近 0，交引擎推导只剩十几块）；
+  `1×1`、`Building_WorkTable`、`ITab_Bills`、可连工具柜、可收纳。
+- **承接 10 条配方**：森林法杖 3 把（原始 / 狙击型 / 爆破型）+ **7 条彩瓣染色**
+  （白瓣 ×4 + 原版 Dye ×2 → 对应彩瓣 ×1，600 工作）；
+  这 10 条配方的 `recipeUsers` 现在只有花药台（7 条染色此前挂在手工点 / 裁缝台）。
+- **研究门 = 花圃工艺**（`researchPrerequisites` → `Botania_Garden`），与染色配方同一道门。
+- 取代旧设计稿里的「花瓣祭坛」：一台石制工作台做完整套制花与染色，不再单开祭坛。
+
+#### 花瓣经济
+
+- **野生 8 色神秘花 `harvestYield` 4 → 1**：野外采集从「一次 4 片」降到「一次 1 片」，
+  花瓣从白送变成要经营。
+- **新增可播种「高产白神秘花」`Botania_MysticFlower_WhiteGarden`**：
+  单株产 **5 片白花瓣**，`harvestAfterGrowth=0` —— **收割即销毁、必须重新播种**；
+  研究门 = **神秘花卉**（`sowResearchPrerequisites` → `Botania_Flowers`），`sowTags` = Ground 才是「可播种」。
+- 结果：白瓣靠种，其余 7 色只能靠「白瓣 4 + 原版 Dye 2 → 彩瓣 1」在花药台上染。
+
+#### 科技线重做
+
+- **三级核心**（全树唯一带前置的三项）：神秘花卉 **300** → 花圃工艺 **600** → 魔力 **900**。
+  顺序按「先有花、再有台子、最后才有魔力」重排（花圃工艺 900 → 600，并提到魔力之前）。
+- **其余 30 项研究清空前置**：整块删掉 `<prerequisites>`（不是清空成空 `<li>`），
+  只保留点数、名字、描述与 `researchViewX/Y` 坐标，等后续重排先后关系。
+- 坐标重排为六列：x=0~2 核心三级、x=3 产能花 10、x=4 功能花 7、x=5 魔导装备 6、x=6 防御花 4 + 网络/终局 3。
+- 老档兼容：研究的 defName 一个没删，研究进度按 defName 存在 `ResearchManager` 里，新增结构不会让老档报错。
 
 ### 财富值（0.9.2 批次 ⑤）
 

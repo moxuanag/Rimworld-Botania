@@ -2,29 +2,27 @@
 <LanguageData>
 
   <!-- ============================================================
-       功能花支线（0.9.2 批次）中文注入。
-       节点与英文一一对应，顺序同 Defs/ResearchProjectDefs/Botania_Research_Functional.xml。
+       功能花支线中文注入。
+       与 Defs/ResearchProjectDefs/Botania_Research_Functional.xml 一一对应：
+       三个分类节点（基础 / 进阶 / 终极）+ 三朵具体功能花。
        ============================================================ -->
 
-  <Botania_FunctionalI.label>功能花</Botania_FunctionalI.label>
-  <Botania_FunctionalI.description>功能花是花圃的另一半：它们不产魔力，只把魔力换成劳动。产能花负责往池子里灌魔力；功能花只花池子里已经存着的那部分——转化材料、修补装备、压住一段心念、守住一片地面，一点魔力都不会还回去。\n\n它们共有一份账单和一条缰绳：每一朵都按次标价、按固定节拍结算，而且只有当它所在的那一格落在某张魔力网络里时才干活——覆盖 = 简易魔力池 4 格 / 魔力钢池 7 格 / 中继塔 11 格，而中继塔的圈必须与含池子的网络相交才算数。所有圈都够不着时它无处取魔；圈内的花按自己标明的价钱从这张网络的共享储备里付账，一座装满的魔力钢池有 100,000 魔力可付。付不起就跳过这一次；有没有保底做法，写在每朵花自己的研究项目里。一句话：没有池子就没有活干。\n\n完整数值与推导见《玩法指南》。</Botania_FunctionalI.description>
+  <Botania_FunctionalI.label>基础功能花</Botania_FunctionalI.label>
+  <Botania_FunctionalI.description>不产魔力，只解决具体问题的花：转化材料、修补东西、压住一段心念。它们花的都是池子里已经存着的魔力，一点也不会还回去。</Botania_FunctionalI.description>
 
-  <Botania_PureDaisyStudy.label>白雏菊</Botania_PureDaisyStudy.label>
-  <Botania_PureDaisyStudy.description>一朵教会死物活过来的白雏菊。一根原木变一块活木，一块切好的石块（花岗岩块、石灰岩块这类，不是碎石）变一块活石。它只够得着自己周围那八格，而且只认散放在地上的物品：被禁用的、装在容器里的，一概不动。\n\n旁边有池子付账时（6 格内有魔力池），它每 300 tick（5 秒）转化一件，每件 20 魔力。6 格内没有池子、或池子里的魔力不足 20 时，它照样转化，但每 1,500 tick（25 秒）才转一件，而且不耗魔力。一句话：有池子 20 魔力 ÷ 5 秒 = 每秒 4 魔力；没池子时同样是这一件，25 秒、0 魔力，速度正好是五分之一——所以一朵孤零零的白雏菊能以五分之一的龟速攒出第一批活木。\n\n完整数值与推导见《玩法指南》。</Botania_PureDaisyStudy.description>
+  <Botania_FuncAdvanced.label>进阶功能花</Botania_FuncAdvanced.label>
+  <Botania_FuncAdvanced.description>需要稀有条件才能工作的功能花：更挑剔的环境、更贵的账单，换来的是一般花做不到的事。</Botania_FuncAdvanced.description>
+
+  <Botania_FuncUltimate.label>终极功能花</Botania_FuncUltimate.label>
+  <Botania_FuncUltimate.description>消耗魔力、生产资源的花。目前还没有内容，等后续版本接入。</Botania_FuncUltimate.description>
+
+  <Botania_BlightEaterStudy.label>噬草花</Botania_BlightEaterStudy.label>
+  <Botania_BlightEaterStudy.description>吃掉枯萎作物的花。它只认病株，把腐烂整个吞下去换成魔力，顺带替农场挡住枯萎症的蔓延。</Botania_BlightEaterStudy.description>
 
   <Botania_ClearMindLotusStudy.label>明心莲</Botania_ClearMindLotusStudy.label>
-  <Botania_ClearMindLotusStudy.description>一朵淡色的莲花，把同一个念头从 8 格内所有人的脑子里推出去。它只挡心灵干扰：图上有心灵干扰器建筑时，那条念头被直接压成不生效；没有建筑、只是事件型干扰时，心情惩罚只减半。没有干扰就不收费，其它心情一概不碰。\n\n它按受保护的人头计费，每 60 tick（正常速度 1 秒）结算一次：每个确实被干扰影响的小人 20 魔力，干扰本来就不影响的人不收费。付一次能撑 180 tick（3 秒）。它从不付半份账：网络凑不齐全额时，小人会被交给另一朵明心莲，等最后一个付费窗口过去，干扰立刻回来。一句话：每个受影响小人每秒 20 魔力，5 个人 × 20 = 每秒 100 魔力。\n\n完整数值与推导见《玩法指南》。</Botania_ClearMindLotusStudy.description>
+  <Botania_ClearMindLotusStudy.description>压制精神噪音的莲花。范围内的心灵干扰被它按人头、按秒买断，压成不生效；没有干扰时它一分钱也不收。</Botania_ClearMindLotusStudy.description>
 
-  <Botania_ThornFlowerStudy.label>荆棘花</Botania_ThornFlowerStudy.label>
-  <Botania_ThornFlowerStudy.description>一丛荆棘，中心开着一朵暗色的花。每 90 tick（1.5 秒）它扫一遍周围 10 格，把范围内每个敌对小人缠住 90 tick，移动速度降到 70%；这层减速完全免费，不耗一点魔力。\n\n真正扎人的刺按目标收费：每次脉冲最多 12 个敌人，每个 1 点切割伤害、2 魔力，由近及远。花自带 150 魔力的缓冲，由网络补满，满缓冲够扎 75 次；范围内没有敌人时，每次脉冲最多回充 25 魔力（90 tick 一次，约合每秒 17）。一句话：12 个目标 × 2 魔力 = 每次脉冲 24 魔力（合计 12 点伤害），持续输出约每秒 16 魔力；魔力耗尽后荆棘仍会减速，但再也扎不出伤害。\n\n完整数值与推导见《玩法指南》。</Botania_ThornFlowerStudy.description>
-
-  <Botania_Mending.label>魔力修补</Botania_Mending.label>
-  <Botania_Mending.description>它不是一朵花，而是两件修补器具共用的规则：一座修补建筑结构的塔，和一张修补磨损装备的台子。两者都每 60 tick（1 秒）结算一次，先挑破损最重的合格目标，每补回 1 点耐久付 5 魔力。\n\n账单跟着工作量走：补回 5 点耐久要 25 魔力；一件同时给五个目标各补 5 点耐久的器具，每秒要抽 125 魔力。网络只付得起一部分时，它就只修付得起的那几点；一点都付不起时，这一秒完全不动。一句话：补回的耐久 × 5 魔力 = 这一秒的账单，每 60 tick 结一次；没有免费修补，两件器具都不会替你完工，也不会去补蓝图或框架。\n\n完整数值与推导见《玩法指南》。</Botania_Mending.description>
-
-  <Botania_StructureRepairerStudy.label>建筑恢复器</Botania_StructureRepairerStudy.label>
-  <Botania_StructureRepairerStudy.description>一座活石框架，中间是一堵带魔力纹路的石墙。每 60 tick（1 秒）扫一遍周围 8 格，找出耐久未满的己方建筑，跳过蓝图、框架和尸体，按破损程度取最重的一批，默认最多同时照顾 5 个。\n\n每个目标每周期最多补回 5 点耐久，每点 5 魔力，补满 5 点就是 25 魔力；五个目标全开时每秒抽 125 魔力。网络只付得起一部分时，它就只修付得起的那几点；一点魔力没有就停工。一句话：5 点耐久 × 5 魔力 = 每个目标每秒 25 魔力，范围 8 格，默认五个目标；它不会替你完工，也不会碰其它阵营的墙。\n\n完整数值与推导见《玩法指南》。</Botania_StructureRepairerStudy.description>
-
-  <Botania_ItemRepairerStudy.label>装备修复器</Botania_ItemRepairerStudy.label>
-  <Botania_ItemRepairerStudy.description>一张活木台，配着魔力钢砧和一副魔力织成的夹具。每 60 tick（1 秒）扫一遍周围 6 格，找出有耐久、且耐久未满的物品，跳过小人、植物、尸体、蓝图和框架，按破损程度取最重的一批，默认最多同时处理 5 件。\n\n每件物品每周期最多补回 6 点耐久，每点 5 魔力，补满 6 点就是 30 魔力；五件全开时每秒抽 150 魔力。网络只付得起一部分时，它就只修付得起的那点。一句话：6 点耐久 × 5 魔力 = 每件每秒 30 魔力，范围 6 格，默认五件；装备必须放在地上，已经彻底毁掉的东西救不回来。\n\n完整数值与推导见《玩法指南》。</Botania_ItemRepairerStudy.description>
+  <Botania_StormBloomStudy.label>电暴花</Botania_StormBloomStudy.label>
+  <Botania_StormBloomStudy.description>电池短路时吸收放电的花。短路点附近的电暴花会把倾泻出来的储能尽量喝下，换成魔力，同时替殖民地挡掉一次短路事故。</Botania_StormBloomStudy.description>
 
 </LanguageData>

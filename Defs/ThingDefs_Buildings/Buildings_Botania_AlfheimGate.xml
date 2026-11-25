@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
   <!-- ============================================================
@@ -123,7 +123,7 @@
       <li>BotaniaBuildings</li>
     </thingCategories>
     <researchPrerequisites>
-      <li>Botania_Alfheim</li>
+      <li>Botania_Infusion</li>
     </researchPrerequisites>
     <constructEffect>ConstructMetal</constructEffect>
     <uiOrder>3003</uiOrder>
@@ -175,7 +175,7 @@
       <li>BotaniaBuildings</li>
     </thingCategories>
     <researchPrerequisites>
-      <li>Botania_Alfheim</li>
+      <li>Botania_Infusion</li>
     </researchPrerequisites>
     <constructEffect>ConstructWood</constructEffect>
     <uiOrder>3004</uiOrder>
@@ -226,7 +226,7 @@
       <li>BotaniaBuildings</li>
     </thingCategories>
     <researchPrerequisites>
-      <li>Botania_Alfheim</li>
+      <li>Botania_Infusion</li>
     </researchPrerequisites>
     <constructEffect>ConstructWood</constructEffect>
     <uiOrder>3005</uiOrder>

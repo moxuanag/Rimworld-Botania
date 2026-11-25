@@ -47,9 +47,7 @@
       <workSkill>Crafting</workSkill>
       <soundWorking>Recipe_Machining</soundWorking>
       <recipeUsers>
-        <li>CraftingSpot</li>
-        <li>FueledSmithy</li>
-        <li>ElectricSmithy</li>
+        <li>Botania_PetalApothecary</li>
       </recipeUsers>
       <displayPriority>340</displayPriority>
       <skillRequirements>
@@ -220,9 +218,7 @@
       <workSkill>Crafting</workSkill>
       <soundWorking>Recipe_Machining</soundWorking>
       <recipeUsers>
-        <li>CraftingSpot</li>
-        <li>FueledSmithy</li>
-        <li>ElectricSmithy</li>
+        <li>Botania_PetalApothecary</li>
       </recipeUsers>
       <displayPriority>340</displayPriority>
       <skillRequirements>
@@ -320,9 +316,7 @@
       <workSkill>Crafting</workSkill>
       <soundWorking>Recipe_Machining</soundWorking>
       <recipeUsers>
-        <li>CraftingSpot</li>
-        <li>FueledSmithy</li>
-        <li>ElectricSmithy</li>
+        <li>Botania_PetalApothecary</li>
       </recipeUsers>
       <displayPriority>340</displayPriority>
       <skillRequirements>

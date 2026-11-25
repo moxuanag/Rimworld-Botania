@@ -59,7 +59,7 @@
       <li>BotaniaBuildings</li>
     </thingCategories>
     <researchPrerequisites>
-      <li>Botania_BasicMana</li>
+      <li>Botania_Garden</li>
     </researchPrerequisites>
     <constructEffect>ConstructWood</constructEffect>
     <uiOrder>2902</uiOrder>
@@ -124,7 +124,7 @@
       <li>BotaniaBuildings</li>
     </thingCategories>
     <researchPrerequisites>
-      <li>Botania_Infusion</li>
+      <li>Botania_ManaGrid</li>
     </researchPrerequisites>
     <constructEffect>ConstructMetal</constructEffect>
     <uiOrder>2904</uiOrder>
@@ -190,7 +190,7 @@
       <li>BotaniaBuildings</li>
     </thingCategories>
     <researchPrerequisites>
-      <li>Botania_ManaGrid</li>
+      <li>Botania_ManaStorage</li>
     </researchPrerequisites>
     <constructEffect>ConstructWood</constructEffect>
     <uiOrder>2903</uiOrder>
@@ -253,7 +253,7 @@
     <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
     <designationCategory>Botania</designationCategory>
     <researchPrerequisites>
-      <li>Botania_StructureRepairerStudy</li>
+      <li>Botania_Mending</li>
     </researchPrerequisites>
     <constructEffect>ConstructWood</constructEffect>
     <uiOrder>2905</uiOrder>
@@ -315,7 +315,7 @@
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <designationCategory>Botania</designationCategory>
     <researchPrerequisites>
-      <li>Botania_ItemRepairerStudy</li>
+      <li>Botania_Mending</li>
     </researchPrerequisites>
     <constructEffect>ConstructWood</constructEffect>
     <uiOrder>2906</uiOrder>

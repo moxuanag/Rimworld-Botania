@@ -1,32 +1,44 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <!-- ============================================================
-     植物魔法的研究线（0.9.2 科技线重构后的主干）。
+     植物魔法研究树（2026-11-25 第三次布局重定：5 行 × 横向四块并排）。
 
-     这一版把「花」从主干里拆出去，按用户要求分成三条独立支线：
-       · 产能花 / 功能花 / 防御花 —— 每条支线一个总览节点，然后每朵花
-         一个研究项目（见同目录 Botania_Research_Generating / _Functional / _Defense.xml）。
-     本文件只留「机制 / 装备 / 结构 / 终局」节点。
+     坐标：本引擎的研究树坐标就是 ResearchProjectDef 的
+     researchViewX / researchViewY（Verse.ResearchProjectDef 的 x/y，
+     MainTabWindow_Research 直接读它画节点），没有 layout 节点。
 
-     坐标约定（x = 时代推进，y = 分支行，y 越大越靠上）：
-       y=0  产能花支线（分支文件）
-       y=1  功能花支线（分支文件）
-       y=2  防御花支线（分支文件）
-       y=3  花圃工艺（森林法杖）
-       y=4  魔导装备（魔力钢 → 存储 → 灌注 → 精灵门 → 元素）
-       y=5  网络 / 泰拉 / 盖亚
-     所有支线的根都挂在 (1,0) 的 Botania_BasicMana（花药台）上，
-     所以 x=2 这一列是五条支线的「根」：产能花(2,0) 功能花(2,1) 防御花(2,2)
-     花圃(2,3) 魔力钢(2,4)。
+       x = 横向推进。主线沿 y=0 一路向右；四条支线各自成块，
+           块内 x 按阶递增（越靠右，研究越靠后）。
+       y = 同阶节点的上下排位（1~4）。同一列上下才是同级；
+           水平相邻的节点未必是父子，判断关系只看连线，不要看相邻。
+       坐标不得重复、不得为负，同 tab（Botania）内 ConfigErrors 会拒绝。
+
+     布局（盖亚那条是主线，贯穿 y=0）：
+       y=0    主线       x=0..6
+       y=1~4  产能花块   x=2..5
+       y=1~4  魔导块     x=7（魔力钢的直接子节点，同阶竖排）
+       y=1~3  功能花块   x=9..11
+       y=1~3  防御花块   x=13..16
+
+     全树 35 节点分四个文件：
+       本文件                           主线 7 项 + 魔导块 4 项
+       Botania_Research_Generating.xml  产能花块 11 项
+       Botania_Research_Functional.xml  功能花块  6 项
+       Botania_Research_Defense.xml     防御花块  7 项
+
+     本文件的坐标：
+       主线 y=0  (0,0) 神秘花卉 (1,0) 花圃工艺 (2,0) 魔力钢
+                 (3,0) 魔力栅格 (4,0) 精灵工艺 (5,0) 泰拉钢 (6,0) 盖亚
+       魔导 x=7  (7,1) 魔力应用 (7,2) 法力家具 (7,3) 法力修补 (7,4) 法杖改型
      ============================================================ -->
 
 <Defs>
 
-  <!-- ===== E0 萌芽 ===== -->
+  <!-- ===== x=0 根：神秘花卉 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_Flowers</defName>
-    <label>botania: mystic botany</label>
+    <label>mystic botany</label>
     <description>Wild mystic flowers grow across the rim. Learning which ones hold mana, and how to plant them again, is where every Botania colony starts.</description>
     <baseCost>300</baseCost>
     <techLevel>Neolithic</techLevel>
@@ -35,11 +47,13 @@
     <researchViewY>0.00</researchViewY>
   </ResearchProjectDef>
 
+  <!-- ===== x=1 花圃工艺（花药台 / 花瓣染色 / 森林法杖） ===== -->
+
   <ResearchProjectDef>
-    <defName>Botania_BasicMana</defName>
-    <label>botania: mana</label>
-    <description>Study how certain flowers hold energy in their petals, and build the petal apothecary that turns them into something usable.\n\nThis is the root of the whole line. Once it is done the tree forks three ways: flowers that make mana, flowers that spend it on work, and flowers that fight. Grinding petals also yields mana powder, which can be folded into steel or bound into wood, and stored in a pool of liquid light.</description>
-    <baseCost>900</baseCost>
+    <defName>Botania_Garden</defName>
+    <label>garden craft</label>
+    <description>Bind livingwood and livingrock into a staff that can channel mana. This is where the wand of the forest is built, and where the colony learns to shape living materials instead of only cutting them.</description>
+    <baseCost>600</baseCost>
     <techLevel>Medieval</techLevel>
     <tab>Botania</tab>
     <prerequisites>
@@ -49,143 +63,139 @@
     <researchViewY>0.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== E1 花圃工艺（森林法杖） ===== -->
-
-  <ResearchProjectDef>
-    <defName>Botania_Garden</defName>
-    <label>botania: garden craft</label>
-    <description>Bind livingwood and livingrock into a staff that can channel mana. This is where the wand of the forest is built, and where the colony learns to shape living materials instead of only cutting them.</description>
-    <baseCost>900</baseCost>
-    <techLevel>Medieval</techLevel>
-    <tab>Botania</tab>
-    <prerequisites>
-      <li>Botania_BasicMana</li>
-    </prerequisites>
-    <researchViewX>2.00</researchViewX>
-    <researchViewY>3.00</researchViewY>
-  </ResearchProjectDef>
-
-  <!-- ===== E2 魔导 ===== -->
+  <!-- ===== x=2 魔力线起点：魔力钢（产能花块在 (2,2)，同列不同行） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_Manasteel</defName>
-    <label>botania: manasteel</label>
+    <label>manasteel</label>
     <description>Fold mana powder into steel to make manasteel: light, tough, and the skeleton of every advanced mana structure, from pools and relays to fluxfields and repairers.</description>
     <baseCost>1500</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>
     <prerequisites>
-      <li>Botania_BasicMana</li>
+      <li>Botania_Garden</li>
     </prerequisites>
     <researchViewX>2.00</researchViewX>
-    <researchViewY>4.00</researchViewY>
+    <researchViewY>0.00</researchViewY>
   </ResearchProjectDef>
+
+  <!-- ===== x=3 魔力栅格：池子与继电塔组成的「一张网」 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_ManaStorage</defName>
-    <label>botania: mana storage</label>
-    <description>Manasteel can hold far more mana than livingrock. A proper manasteel-lined pool keeps a colony's whole reserve in one place instead of spilling it across a dozen small bowls.</description>
-    <baseCost>1500</baseCost>
+    <label>mana grid</label>
+    <description>A mana grid is the colony's reserve plus the plumbing that reaches it. A manasteel-lined pool holds 100,000 mana where a simple livingrock pool holds 2,000, and a relay tower stretches a pool's supply circle out to 11 tiles, chaining further as long as each link overlaps a group that already reaches a pool.\n\nEverything else in the tree is priced against that grid. A generating flower has to stand inside a pool's circle (4 tiles simple, 7 manasteel) or a relay's 11, a functional flower has to reach the same reserve to pay its bill, and a turret flower has to be covered before it will fire. One pool with a ring of relays around it is what turns a scattering of flowers into an industry.\n\nFull numbers and derivations: gameplay guide.</description>
+    <baseCost>2000</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>
     <prerequisites>
       <li>Botania_Manasteel</li>
     </prerequisites>
     <researchViewX>3.00</researchViewX>
-    <researchViewY>4.00</researchViewY>
+    <researchViewY>0.00</researchViewY>
   </ResearchProjectDef>
 
-  <ResearchProjectDef>
-    <defName>Botania_Infusion</defName>
-    <label>botania: mana infusion</label>
-    <description>An infusion table that lets a colony craft high-tier goods out of mana instead of electricity.</description>
-    <baseCost>2400</baseCost>
-    <techLevel>Industrial</techLevel>
-    <tab>Botania</tab>
-    <prerequisites>
-      <li>Botania_ManaStorage</li>
-    </prerequisites>
-    <researchViewX>4.00</researchViewX>
-    <researchViewY>4.00</researchViewY>
-  </ResearchProjectDef>
+  <!-- ===== x=7 y=1 魔力应用：把网里的魔力接到固定点、换成别的东西 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_ManaGrid</defName>
-    <label>botania: mana grid</label>
-    <description>Rope the colony's mana into one grid: relays with longer reach and bigger pools, so a dozen scattered flowers can feed a single reserve.</description>
-    <baseCost>1800</baseCost>
+    <label>mana application</label>
+    <description>Mana is only worth what the colony can put it to. This is the branch that takes the reserve and applies it somewhere: a relay tower carries the network outward so devices far from the pool still count as connected, and the converter line turns stored mana into ordinary electric power for machines that were never built to drink anything else.\n\nA relay stores nothing of its own - a tower whose circle touches no pool-backed node is dead weight and says so on inspection - and a converter runs only while it can find mana to draw. Between them they are what lets a mana economy stand in for a power grid instead of running beside it: fixed points keep working with no fuel, no pawn and no conduit.\n\nFull numbers and derivations: gameplay guide.</description>
+    <baseCost>1200</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>
     <prerequisites>
       <li>Botania_Manasteel</li>
     </prerequisites>
-    <researchViewX>3.00</researchViewX>
-    <researchViewY>5.00</researchViewY>
+    <researchViewX>7.00</researchViewX>
+    <researchViewY>1.00</researchViewY>
   </ResearchProjectDef>
+
+  <!-- ===== x=7 y=2 法力家具：法力灯这类「用魔力发光的家具」 ===== -->
+
+  <ResearchProjectDef>
+    <defName>Botania_ManaLampStudy</defName>
+    <label>mana furniture</label>
+    <description>Not every mana device is industrial. A mana lamp is a quartz globe that drinks mana instead of power: light banked in the glass burns there on its own, the lamp draws 1 mana from the network every 60 seconds, and when the supply runs dry the glow dies and the room goes dark until mana returns.\n\nIt is the cheapest way to light a base that has no power line, and the first piece of furniture the colony builds out of mana rather than wood and steel - soft, permanent and quiet, with no fuel to haul and no switch a pawn has to flip.\n\nFull numbers and derivations: gameplay guide.</description>
+    <baseCost>800</baseCost>
+    <techLevel>Industrial</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_Manasteel</li>
+    </prerequisites>
+    <researchViewX>7.00</researchViewX>
+    <researchViewY>2.00</researchViewY>
+  </ResearchProjectDef>
+
+  <!-- ===== x=7 y=3 法力修补：建筑恢复器与装备修复器共用的修补机制 ===== -->
+
+  <ResearchProjectDef>
+    <defName>Botania_Mending</defName>
+    <label>mana repairer</label>
+    <description>A mana repairer is not a flower but the rule behind two repair devices: a tower that mends built structures and a bench that mends worn gear. Both settle once every 60 ticks (one second), take the most damaged valid targets first, and pay 5 mana for every point of hit points they put back.\n\nThe bill scales with the work: 5 hp costs 25 mana, and a device restoring 5 hp per second on each of five targets draws 125 mana per second. If the network covers only part of the bill the device repairs only what it can pay for, and with no mana it does nothing that second. Bottom line: hp restored x 5 mana = the bill, settled every 60 ticks; no free repairs, and neither device can finish construction or mend a blueprint or frame.\n\nFull numbers and derivations: gameplay guide.</description>
+    <baseCost>1400</baseCost>
+    <techLevel>Industrial</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_Manasteel</li>
+    </prerequisites>
+    <researchViewX>7.00</researchViewX>
+    <researchViewY>3.00</researchViewY>
+  </ResearchProjectDef>
+
+  <!-- ===== x=7 y=4 法杖改型：森林法杖的狙击型 / 爆破型 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_WandForms</defName>
-    <label>botania: wand forms</label>
+    <label>wands</label>
     <description>Reforge the wand of the forest into two specialised forms. The sniper form trades rate of fire for one dense lance that punches through armour. The blast form throws slow, unstable bolts that burst into a cross of fire wherever they land, friend or foe. Neither form keeps the wand's plant-magic.</description>
     <baseCost>2000</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>
     <prerequisites>
-      <li>Botania_ManaGrid</li>
+      <li>Botania_Manasteel</li>
     </prerequisites>
-    <researchViewX>4.00</researchViewX>
-    <researchViewY>5.00</researchViewY>
+    <researchViewX>7.00</researchViewX>
+    <researchViewY>4.00</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== E3 精灵 ===== -->
+  <!-- ===== x=4 精灵工艺：精灵门换梦木 / 精灵石英 / 精灵之尘 / 元素锭 ===== -->
 
   <ResearchProjectDef>
-    <defName>Botania_Alfheim</defName>
-    <label>botania: alfheim gate</label>
-    <description>A gate frame that trades mana for elven materials. It only works with a lintel and both pillars standing: leave livingwood, livingrock or petals in the doorway and it draws mana from a nearby pool to turn them into dreamwood, elven quartz, pixie dust and elementium ingot.</description>
-    <baseCost>3500</baseCost>
+    <defName>Botania_Infusion</defName>
+    <label>elven</label>
+    <description>Elven craft is the tier above manasteel, and it is not forged - it is traded. Raise a gate of livingwood and livingrock with its lintel and both pillars standing, leave livingwood, livingrock or petals in the doorway, and it draws mana from a nearby pool to turn them into dreamwood, elven quartz, pixie dust and elementium ingot.\n\nElementium is the pink metal that comes out of it: it bends instead of shattering and keeps an edge that steel loses after a single fight, which is why the gear forged from it - a sword, a full suit of plate and a matching helm - sits between manasteel and terrasteel. Nothing the colony can make on its own reaches this shelf; short of what the gaia spirit teaches, this is the top.\n\nFull numbers and derivations: gameplay guide.</description>
+    <baseCost>3000</baseCost>
+    <techLevel>Spacer</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_ManaStorage</li>
+    </prerequisites>
+    <researchViewX>4.00</researchViewX>
+    <researchViewY>0.00</researchViewY>
+  </ResearchProjectDef>
+
+  <!-- ===== x=5 泰拉钢：魔力线主干终点（也是三支花线进阶段的共同前置） ===== -->
+
+  <ResearchProjectDef>
+    <defName>Botania_Terrasteel</defName>
+    <label>terrasteel</label>
+    <description>Feed manasteel and elven quartz to a ring of four pedestals and draw twenty thousand mana through it. What comes out is terrasteel: metal that grows. Every piece of it buys one blade, one suit of plate or one helm.</description>
+    <baseCost>4000</baseCost>
     <techLevel>Spacer</techLevel>
     <tab>Botania</tab>
     <prerequisites>
       <li>Botania_Infusion</li>
     </prerequisites>
     <researchViewX>5.00</researchViewX>
-    <researchViewY>4.00</researchViewY>
+    <researchViewY>0.00</researchViewY>
   </ResearchProjectDef>
 
-  <ResearchProjectDef>
-    <defName>Botania_Elementium</defName>
-    <label>botania: elementium</label>
-    <description>Elementium is the pink metal the elven gate makes from manasteel and pixie dust: it bends instead of shattering, and it keeps an edge that steel loses after a single fight.\n\nThis project is the kit built from it: a spacer-grade sword, a full suit of plate (1.04 sharp / 0.42 blunt / 0.49 heat) with a matching helm at 60% of the body rating, and the pixie lamp, which burns dust for a soft permanent glow. Elementium sits between manasteel and terrasteel - better than anything the colony can forge itself, short of what the gaia spirit teaches.</description>
-    <baseCost>3000</baseCost>
-    <techLevel>Spacer</techLevel>
-    <tab>Botania</tab>
-    <prerequisites>
-      <li>Botania_Alfheim</li>
-    </prerequisites>
-    <researchViewX>6.00</researchViewX>
-    <researchViewY>4.00</researchViewY>
-  </ResearchProjectDef>
-
-  <ResearchProjectDef>
-    <defName>Botania_Terrasteel</defName>
-    <label>botania: terrasteel</label>
-    <description>Feed manasteel and elven quartz to a ring of four pedestals and draw twenty thousand mana through it. What comes out is terrasteel: metal that grows. Every piece of it buys one blade, one suit of plate or one helm.</description>
-    <baseCost>4000</baseCost>
-    <techLevel>Spacer</techLevel>
-    <tab>Botania</tab>
-    <prerequisites>
-      <li>Botania_Alfheim</li>
-    </prerequisites>
-    <researchViewX>6.00</researchViewX>
-    <researchViewY>5.00</researchViewY>
-  </ResearchProjectDef>
-
-  <!-- ===== E4 盖亚 ===== -->
+  <!-- ===== x=6 盖亚：全树终点 ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_Gaia</defName>
-    <label>botania: gaia</label>
+    <label>gaia</label>
     <description>Placeholder: unlocked by a gaia spirit techprint, not by points alone. Content arrives in a later version.</description>
     <baseCost>5000</baseCost>
     <techLevel>Ultra</techLevel>
@@ -193,8 +203,8 @@
     <prerequisites>
       <li>Botania_Terrasteel</li>
     </prerequisites>
-    <researchViewX>7.00</researchViewX>
-    <researchViewY>5.00</researchViewY>
+    <researchViewX>6.00</researchViewX>
+    <researchViewY>0.00</researchViewY>
     <!-- 需要 1 张「盖亚之魂蓝图」（Botania_GaiaSpirit）。
          引擎的成对校验（ResearchProjectDef.ConfigErrors）：
            techprintCount > 0 但 heldByFactionCategoryTags 为空
@@ -211,13 +221,5 @@
       <li>BotaniaGaiaBoss</li>
     </heldByFactionCategoryTags>
   </ResearchProjectDef>
-
-  <!-- ============================================================
-       防御花线已迁到 Botania_Research_Defense.xml（2026-11-24 三支线拆分）：
-         Botania_DefenseFlowers（总览，新）→ DefenseI 荆棘钟花 → DefenseII 爆萼花
-         → DefenseIII 远古陨击花（额外前置 Botania_Gaia）。
-       产能花线在 Botania_Research_Generating.xml，
-       功能花线（含两件修补器具）在 Botania_Research_Functional.xml。
-       ============================================================ -->
 
 </Defs>
