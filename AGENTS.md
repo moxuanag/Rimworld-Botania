@@ -131,9 +131,7 @@
 - 源码仓库：`_dev/Botania-src`；发布载荷：`Mods/[GZ]Botania`（部署用 `deploy.ps1`，不要把工具塞进载荷）。
 - 开发工具与笔记一律放 `_dev/_botania-dev/`。
 - **交付前只需一条命令**：`python scripts/check_all.py`（**编译 + 6 个静态检查，共 7 项**）。
-  六项依次是 `validate_mod` / `check_comp_fields` / `check_xml_fields` / `check_def_refs` /
-  `check_component_rules` / `balance_audit`；全绿只是**验收的前提**。验收通过后主代理可自行 commit
-  并部署到 `Mods/[GZ]Botania` 供用户测试；push / 打 tag / 发 Release 仍等用户指令（见 §2 / §9）。
+  六项依次是 `validate_mod` / `check_comp_fields` / `check_xml_fields` / `check_def_refs` / `check_component_rules` / `balance_audit`；全绿是验收的前提，验收与提交/部署的授权边界见 §2.5。
   单项检查仍可直接跑 `_dev/_botania-dev/` 下的脚本。
 - **新增物品 / 建筑只需一条命令**：`python _dev/_botania-dev/scaffold_apply.py item|building Botania_XXX --label-zh ...`
   它会生成 Def + 贴图 + 中文 DefInjected，并自动跑 `check_all.py`；检查不过就照报错改。
