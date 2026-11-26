@@ -15,7 +15,7 @@ namespace Botania
     ///
     /// XML（`Defs/ThingDefs_Items/Items_Botania_Terrasteel.xml`）只写一个字段：
     /// <c>&lt;waveManaCost&gt;400&lt;/waveManaCost&gt;</c>；找源半径沿用基类的
-    /// <c>searchRadius</c> 默认值 8 格。
+    /// 取魔改为「持有者所在格的魔力网络」，不再用 <c>searchRadius</c> 的最近池口径。
     /// </summary>
     public class CompProperties_TerraBlade : CompProperties_ManaItem
     {
@@ -65,8 +65,16 @@ namespace Botania
         /// <summary>一道剑气的魔力价码（400）。</summary>
         public float WaveManaCost => Props.waveManaCost;
 
-        /// <summary>找魔力源的半径（格）：基类字段，实际由 <see cref="ManaItemCore.FindSource"/> 读取。</summary>
-        public float SearchRadius => Props.searchRadius;
+        /// <summary>
+        /// 剑气取魔用的魔力源：**持有者所在格的魔力网络**（与其它耗魔设备同一口径）。
+        /// 中继塔把网络延伸出去时，剑气也能用那份共享魔力；
+        /// 不再走 searchRadius 的「最近的池」老口径。
+        /// </summary>
+        private IManaSource WaveSource()
+        {
+            Map map = EquipUtil.GetMap(parent);
+            return map?.GetComponent<MapComponent_ManaNetwork>()?.SourceAt(EquipUtil.GetPosition(parent));
+        }
 
         /// <summary>
         /// 现查（不走缓存）：现在付不付得起一道剑气，<paramref name="available"/> 回填「最近一个够付的源」
@@ -82,11 +90,10 @@ namespace Botania
                 available = 0f;
                 return true;
             }
-            // FindSource 的 needAtLeast 含等于（刚好 400 也算付得起），并会跳过不够付的来源，
-            // 所以拿到的就是「最近的、够付这一剑的」魔力池；没有则为 null。
-            IManaSource payable = Core.FindSource(cost);
-            available = payable != null ? payable.ManaAmount : Core.NearbyMana();
-            return payable != null;
+            // 取所在格的魔力网络源（不是「最近的池」）：中继塔延伸到的池子也算数。
+            IManaSource source = WaveSource();
+            available = source?.ManaAmount ?? 0f;
+            return source != null && available + Props.manaTolerance >= cost;
         }
 
         /// <summary>
@@ -111,7 +118,24 @@ namespace Botania
         /// </summary>
         public bool TryPayWave()
         {
-            return Core.TryPay(WaveManaCost);
+            float cost = WaveManaCost;
+            if (cost <= 0f)
+            {
+                return true;
+            }
+            IManaSource source = WaveSource();
+            if (source == null || source.ManaAmount + Props.manaTolerance < cost)
+            {
+                return false;
+            }
+            float drained = source.DrainMana(cost);
+            if (drained + Props.manaTolerance < cost)
+            {
+                // 抽到的比预期少：退回，不做半支付
+                source.AddMana(drained);
+                return false;
+            }
+            return true;
         }
 
         // 刻意不写 PostExposeData / Core.ExposeData：本组件没有任何需要持久化的自有状态

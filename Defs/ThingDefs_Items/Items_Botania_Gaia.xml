@@ -76,7 +76,7 @@
     </apparel>
   </ThingDef>
 
-  <!-- 盖亚头盔：锐器 84% / 钝器 42% / 热能 50%（甲盔比例 0.6，与另两套一致） -->
+  <!-- 盖亚头盔：锐器 86% / 钝器 36% / 热能 43%（甲盔比例 0.6，与另两套一致） -->
   <ThingDef ParentName="ApparelBase">
     <defName>Botania_GaiaHelmet</defName>
     <label>gaia helmet</label>

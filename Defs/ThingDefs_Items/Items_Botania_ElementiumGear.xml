@@ -144,7 +144,7 @@
     </apparel>
   </ThingDef>
 
-  <!-- 元素头盔：锐器 54% / 钝器 27% -->
+  <!-- 元素头盔：锐器 62% / 钝器 25% / 热能 29% -->
   <ThingDef ParentName="ApparelBase">
     <defName>Botania_ElementiumHelmet</defName>
     <label>elementium helmet</label>

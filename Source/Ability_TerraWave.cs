@@ -13,7 +13,7 @@ namespace Botania
     /// 1. 只对**自己人和自家建筑**免伤，中立/敌对的人、动物、建筑都要吃伤害；
     ///    瞄准时不再显示原版蓝色准星，改画「射程圈 + 剑气扫过的格」（见 `Verb_TerraWave`）。
     /// 2. 旧版是「不耗魔力」，现在改回付费：价码与半径都写在
-    ///    <see cref="CompProperties_TerraBlade"/>（waveManaCost = 400 / searchRadius = 8）里，
+    ///    <see cref="CompProperties_TerraBlade"/>（waveManaCost = 400，取魔走所在格的魔力网络）里，
     ///    取魔与扣款走物品付款框架 <see cref="ManaItemCore"/>（= 就近找魔力池 + 凑够才扣）。
     ///
     /// 技能由 MapComponent_WandState 根据「手里有没有泰拉刃」授予/收回，
