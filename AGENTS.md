@@ -71,6 +71,28 @@
 - **push / 打 tag / 发 Release：必须等用户明确指令**。
 - 发布性质的那次部署按 push / tag 处理。
 
+### 2.6 子代理模型选择（成本纪律）
+
+> 目标：子代理一律用**免费模型**，把付费额度只留给主代理。
+
+- **默认路由**：`our-free-model` / `deepseek-v4.1-flash-free`（配置在 `cordis.patch.yml` 的 `preset-standard → tool-subagent → agentOptions`）。
+- **派单时显式写 provider/model**，不要依赖默认值；**禁止省略**导致继承主代理模型。
+- **降级顺序（严格按序，失败换下一个）**：
+
+| # | provider | model | 说明 |
+|---|---|---|---|
+| 1 | `our-free-model` | `deepseek-v4.1-flash-free` | 默认；1M 上下文，thinking 可调 |
+| 2 | `our-free-model` | `big-pickle` | 支持图像 |
+| 3 | `our-free-model` | `mimo-v2.6-flash-free` | 1M 上下文 |
+| 4 | `our-free-model` | `nemotron-3.5-super-vl-free` | 视觉任务优先 |
+| 5 | `our-free-model` | `iceman-free` | 128K |
+| 6 | `our-free-model` | `beam-free` | 1M |
+| 7 | `kanan` | `[稳定]Deepseek-v4.1-flash` | **仅当前 6 个全部不可用时** |
+
+- **禁止**：用主代理自身的模型跑子代理（太贵）；在免费通道还能用时切到 kanan。
+- 每次派单失败都要**换下一个模型重试**，不要同一个模型连试三次。
+- 报告里写清这次子代理用的是哪个模型（失败过几次、最后落在哪个）。
+
 ## 3. 框架式设计（强制）
 
 新增任何内容前先问自己：**这套逻辑是否已有可复用的基类/组件？**
