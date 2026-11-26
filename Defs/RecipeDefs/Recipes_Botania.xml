@@ -3,7 +3,7 @@
 
   <!-- ============================================================
        配方：花瓣 → 魔力尘 → 魔力钢锭；木头 → 活木
-       全部由 Botania_BasicMana 研究解锁
+       全部由 Botania_Garden 研究解锁
        ============================================================ -->
 
   <RecipeDef>
@@ -33,7 +33,7 @@
       <Botania_ManaPowder>1</Botania_ManaPowder>
     </products>
     <workSkill>Crafting</workSkill>
-    <researchPrerequisite>Botania_BasicMana</researchPrerequisite>
+    <researchPrerequisite>Botania_Garden</researchPrerequisite>
     <recipeUsers>
       <li>CraftingSpot</li>
       <li>FueledSmithy</li>
@@ -120,11 +120,9 @@
       <Botania_Petal_Orange>1</Botania_Petal_Orange>
     </products>
     <workSkill>Crafting</workSkill>
-    <researchPrerequisite>Botania_BasicMana</researchPrerequisite>
+    <researchPrerequisite>Botania_Garden</researchPrerequisite>
     <recipeUsers>
-      <li>CraftingSpot</li>
-      <li>HandTailoringBench</li>
-      <li>ElectricTailoringBench</li>
+      <li>Botania_PetalApothecary</li>
     </recipeUsers>
   </RecipeDef>
 
@@ -158,11 +156,9 @@
       <Botania_Petal_Yellow>1</Botania_Petal_Yellow>
     </products>
     <workSkill>Crafting</workSkill>
-    <researchPrerequisite>Botania_BasicMana</researchPrerequisite>
+    <researchPrerequisite>Botania_Garden</researchPrerequisite>
     <recipeUsers>
-      <li>CraftingSpot</li>
-      <li>HandTailoringBench</li>
-      <li>ElectricTailoringBench</li>
+      <li>Botania_PetalApothecary</li>
     </recipeUsers>
   </RecipeDef>
 
@@ -196,11 +192,9 @@
       <Botania_Petal_Cyan>1</Botania_Petal_Cyan>
     </products>
     <workSkill>Crafting</workSkill>
-    <researchPrerequisite>Botania_BasicMana</researchPrerequisite>
+    <researchPrerequisite>Botania_Garden</researchPrerequisite>
     <recipeUsers>
-      <li>CraftingSpot</li>
-      <li>HandTailoringBench</li>
-      <li>ElectricTailoringBench</li>
+      <li>Botania_PetalApothecary</li>
     </recipeUsers>
   </RecipeDef>
 
@@ -234,11 +228,9 @@
       <Botania_Petal_Purple>1</Botania_Petal_Purple>
     </products>
     <workSkill>Crafting</workSkill>
-    <researchPrerequisite>Botania_BasicMana</researchPrerequisite>
+    <researchPrerequisite>Botania_Garden</researchPrerequisite>
     <recipeUsers>
-      <li>CraftingSpot</li>
-      <li>HandTailoringBench</li>
-      <li>ElectricTailoringBench</li>
+      <li>Botania_PetalApothecary</li>
     </recipeUsers>
   </RecipeDef>
 
@@ -272,11 +264,9 @@
       <Botania_Petal_Green>1</Botania_Petal_Green>
     </products>
     <workSkill>Crafting</workSkill>
-    <researchPrerequisite>Botania_BasicMana</researchPrerequisite>
+    <researchPrerequisite>Botania_Garden</researchPrerequisite>
     <recipeUsers>
-      <li>CraftingSpot</li>
-      <li>HandTailoringBench</li>
-      <li>ElectricTailoringBench</li>
+      <li>Botania_PetalApothecary</li>
     </recipeUsers>
   </RecipeDef>
 
@@ -310,11 +300,9 @@
       <Botania_Petal_Red>1</Botania_Petal_Red>
     </products>
     <workSkill>Crafting</workSkill>
-    <researchPrerequisite>Botania_BasicMana</researchPrerequisite>
+    <researchPrerequisite>Botania_Garden</researchPrerequisite>
     <recipeUsers>
-      <li>CraftingSpot</li>
-      <li>HandTailoringBench</li>
-      <li>ElectricTailoringBench</li>
+      <li>Botania_PetalApothecary</li>
     </recipeUsers>
   </RecipeDef>
 
@@ -348,11 +336,9 @@
       <Botania_Petal_Black>1</Botania_Petal_Black>
     </products>
     <workSkill>Crafting</workSkill>
-    <researchPrerequisite>Botania_BasicMana</researchPrerequisite>
+    <researchPrerequisite>Botania_Garden</researchPrerequisite>
     <recipeUsers>
-      <li>CraftingSpot</li>
-      <li>HandTailoringBench</li>
-      <li>ElectricTailoringBench</li>
+      <li>Botania_PetalApothecary</li>
     </recipeUsers>
   </RecipeDef>
 

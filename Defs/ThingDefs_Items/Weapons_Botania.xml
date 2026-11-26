@@ -3,7 +3,7 @@
 
   <!-- ============================================================
        森林法杖（武器形态）
-         · 远程武器：魔力弹，25 伤害（对齐原版狙击枪），1 秒一发
+         · 远程武器：魔力弹，11 伤害，1.7 秒一发
          · 命中率四档统一 80%，但每发耗魔 100（= 满杖 5 发）
          · 魔力不足时就近向魔力池/中继塔借；借不到就打不出
          · 另有「绽花」「就地转化」两个按钮（CompWand），同样吃杖内魔力
@@ -13,7 +13,9 @@
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>Botania_WandOfTheForest</defName>
     <label>wand of the forest</label>
-    <description>A livingwood rod bound with a manasteel ring, its tip holding a bead of glowing sap. It stores a reserve of mana and spends it to throw searing bolts of light, and its bearer can also coax plants into growing or teach wood and stone to live. When the reserve runs dry the wand can drink from a nearby mana pool.</description>
+    <description>A livingwood rod bound with a manasteel ring, its tip holding a living mote of light. It keeps a reserve of mana and spends it on searing bolts of light, and its bearer can also coax flowers open or teach wood and stone to live. When the reserve runs dry, the wand drinks from a nearby pool.
+
+A drop of glowing sap hangs at the wand's tip, and it sways of its own accord when you cross a meadow.</description>
     <graphicData>
       <texPath>Things/Item/Equipment/WeaponRanged/Botania/WandOfTheForest</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -47,9 +49,7 @@
       <workSkill>Crafting</workSkill>
       <soundWorking>Recipe_Machining</soundWorking>
       <recipeUsers>
-        <li>CraftingSpot</li>
-        <li>FueledSmithy</li>
-        <li>ElectricSmithy</li>
+        <li>Botania_PetalApothecary</li>
       </recipeUsers>
       <displayPriority>340</displayPriority>
       <skillRequirements>
@@ -140,11 +140,13 @@
     </comps>
   </ThingDef>
 
-  <!-- 魔力弹：伤害对齐原版狙击枪子弹（25 点 / 穿透 1.5），速度略慢，看起来更像魔法 -->
+  <!-- 魔力弹：damageAmountBase 11、stoppingPower 1.5（阻止力，不是穿甲；本 Def 没有 armorPenetrationBase）、speed 75，弹道偏慢，看起来更像魔法 -->
   <ThingDef ParentName="BaseBullet">
     <defName>Botania_ManaBolt</defName>
     <label>mana bolt</label>
-    <description>A strand of condensed mana, fired from the wand of the forest.</description>
+    <description>Mana bolt is the strand of light a wand of the forest throws: tightly wrung, trailing a thin glitter as it goes. It is not a thing anyone can pick up - it exists only along its own flight, and never reaches a stockpile.
+
+A strand of light wrung tight, still trailing crumbs of itself as it goes.</description>
     <graphicData>
       <texPath>Things/Projectile/Botania/ManaBolt</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -176,7 +178,9 @@
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>Botania_WandSniper</defName>
     <label>wand of the forest, sniper form</label>
-    <description>A livingwood rod reforged around a violet core. The same mana that once threw simple bolts is now squeezed into a single dense lance, and the whole wand has grown a long crystalline tip to focus it. Slow to aim, ruinous at range, and it no longer answers to the plants it used to command.</description>
+    <description>The sniper form of the wand of the forest squeezes the loose mana it once threw into a single dense needle, and the rod has grown a long crystalline tip to focus it. Slow to aim, ruinous at range - and it no longer answers to the plants it used to command.
+
+The mana that used to scatter has been pressed into a needle; aiming has slowed, and things far off have begun to worry.</description>
     <graphicData>
       <texPath>Things/Item/Equipment/WeaponRanged/Botania/WandSniper</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -220,9 +224,7 @@
       <workSkill>Crafting</workSkill>
       <soundWorking>Recipe_Machining</soundWorking>
       <recipeUsers>
-        <li>CraftingSpot</li>
-        <li>FueledSmithy</li>
-        <li>ElectricSmithy</li>
+        <li>Botania_PetalApothecary</li>
       </recipeUsers>
       <displayPriority>340</displayPriority>
       <skillRequirements>
@@ -280,7 +282,9 @@
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>Botania_WandBlast</defName>
     <label>wand of the forest, blast form</label>
-    <description>A livingwood rod rebuilt with a cracked ember core and a crown of loose shards. Every bolt it throws bursts where it lands, scouring the ground and everything standing on it in a rough cross. The blast does not care whose side you are on.</description>
+    <description>The blast form of the wand of the forest is rebuilt around a cracked ember core, with a crown of loose shards at its head. Every bolt it throws bursts where it lands, scouring the ground and everything standing on it. The blast does not care whose side you are on.
+
+The ring of shards at the wand's head is always trembling, as if it cannot wait to burst.</description>
     <graphicData>
       <texPath>Things/Item/Equipment/WeaponRanged/Botania/WandBlast</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -320,9 +324,7 @@
       <workSkill>Crafting</workSkill>
       <soundWorking>Recipe_Machining</soundWorking>
       <recipeUsers>
-        <li>CraftingSpot</li>
-        <li>FueledSmithy</li>
-        <li>ElectricSmithy</li>
+        <li>Botania_PetalApothecary</li>
       </recipeUsers>
       <displayPriority>340</displayPriority>
       <skillRequirements>
@@ -384,7 +386,9 @@
   <ThingDef ParentName="BaseBullet">
     <defName>Botania_ManaLance</defName>
     <label>mana lance</label>
-    <description>A needle of compressed mana, fired from a sniper-form wand.</description>
+    <description>Mana lance is the needle a sniper-form wand throws: mana pressed to its limit, quick through armour and almost invisible in the air. It is nothing anyone can pick up - it exists only along its own flight.
+
+Like a needle pressed to its limit: you hardly see it in the air, only where it has been.</description>
     <graphicData>
       <texPath>Things/Projectile/Botania/ManaLance</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -401,15 +405,17 @@
     </projectile>
   </ThingDef>
 
-  <!-- 爆破型的弹丸：本体 40，命中后由 Projectile_WandBlast 再炸一个十字。
+  <!-- 爆破型的弹丸：本体 50，命中后由 Projectile_WandBlast 再炸一个十字。
        本体伤害类型用 Bullet 而不是 Bomb：
        Bomb 对不可通行建筑有 4 倍倍率（buildingDamageFactorImpassable），
-       拿它当直击伤害会让「40 点子弹」打墙时变成 160，跟面板对不上。
+       拿它当直击伤害会让「50 点子弹」打墙时变成 200，跟面板对不上。
        原版子弹也一律用 Bullet。十字爆炸本身仍然是 Bomb，那是原版爆炸行为。 -->
   <ThingDef ParentName="BaseBullet">
     <defName>Botania_ManaBlast</defName>
     <label>mana blast</label>
-    <description>A lump of unstable mana that bursts into a cross of fire where it lands.</description>
+    <description>The projectile a blast-form wand lobs: slow, bursting only when it lands, opening a cross of fire. It cannot be picked up, and it does not care whose side you are on.
+
+A lump of light that will not be held down, brighter the further it flies, ploughing a cross into the ground where it lands.</description>
     <thingClass>Projectile_Explosive</thingClass>
     <graphicData>
       <texPath>Things/Projectile/Botania/ManaBlast</texPath>

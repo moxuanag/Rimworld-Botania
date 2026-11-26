@@ -2,49 +2,39 @@
 <LanguageData>
 
   <!-- ============================================================
-       产能花支线（0.9.2 拆分，2026-11-24）简体中文注入。
-       与 Defs/ResearchProjectDefs/Botania_Research_Generating.xml 一一对应，
-       十条 label + description，数字与英文版同源（ThingDef comps / Source 实现）。
+       产能花支线中文注入。
+       与 Defs/ResearchProjectDefs/Botania_Research_Generating.xml 一一对应：
+       三个分类节点（基础 / 进阶 / 终极）+ 七朵具体产能花。
        ============================================================ -->
 
-  <!-- 1 支线总览（x=2.00, y=0.00）：三类产能花的分工 + 共同前提 -->
-  <Botania_GeneratingI.label>产能花</Botania_GeneratingI.label>
-  <Botania_GeneratingI.description>产能花是殖民地里唯一能造出魔力的东西，按吃进嘴里的东西分三种活计。烧料型把木材、化合燃料或活木按固定比例换成稳定的魔力（1 份燃料 = 3000 魔力；最基础的那种每秒喝 0.01 份燃料，也就是 30 魔力/秒）。白捡型不花任何资源，只吃日光或夜色：白天 8 魔力/秒、夜里 4 魔力/秒，种下 15 天后自行枯萎。拾荒型则把殖民地本来要丢掉的东西——一次电网短路、一株枯萎病作物、一个小人的劳动、一片活细胞图案——榨成一笔笔爆发式的魔力。\n\n几乎所有产能花共用一条规矩：自己的格子必须落在魔力池的供给圈里（简易池 4 格、魔力钢池 7 格），或者落在与池子相连的中继塔圈里（11 格），这就是魔力网络。站在圈外，多数花当场停工、一点燃料都不烧；拾荒型照吃照拿，魔力则直接白丢。它们自己存不住多少魔，池子不是可选项。\n\n完整数值与推导见《玩法指南》。</Botania_GeneratingI.description>
+  <Botania_GenBasic.label>基础产能花</Botania_GenBasic.label>
+  <Botania_GenBasic.description>产能花是殖民地的魔力来源。它本身不挂物品，只开启火红莲、苦丽花、太阳花与夜颠茄的卡片。</Botania_GenBasic.description>
 
-  <!-- 2 太阳花（x=3.00, y=0.00）：白天零成本产魔，15 天枯萎 -->
+  <Botania_GenAdvanced.label>进阶产能花</Botania_GenAdvanced.label>
+  <Botania_GenAdvanced.description>产能花的进阶档位。它本身不挂物品，只开启阿卡纳蔷薇与终极产能花的卡片。</Botania_GenAdvanced.description>
+
+  <Botania_GenUltimate.label>终极产能花</Botania_GenUltimate.label>
+  <Botania_GenUltimate.description>产能花的最后一档。它本身不挂物品，只开启炉心蕙与启命英的卡片。</Botania_GenUltimate.description>
+
   <Botania_PassiveGenerating.label>太阳花</Botania_PassiveGenerating.label>
-  <Botania_PassiveGenerating.description>只要日光、别的什么都不要的花。当它头顶的天空亮度高于 0.5（正午为 1）时，它每秒把 8 点魔力送进覆盖它的魔力网络：不烧燃料、不用小人照看、没有维护成本。前期想让一口小池子一直有存货，这是最便宜的办法——以这个速度，250 秒的日照就能灌满一口简易魔力池（2000 魔力）。\n\n必须摆在魔力池的供给圈里（简易池 4 格、魔力钢池 7 格），或者中继塔的圈里（11 格）。亮不亮决定一切：入夜、日食、火山灰遮天时它都会停；种下 15 天（900000 tick）后枯萎消失，什么也不留。结论公式：8 魔力/秒 × 1 秒 = 每次结算 8 魔力，每秒结算一次。\n\n完整数值与推导见《玩法指南》。</Botania_PassiveGenerating.description>
+  <Botania_PassiveGenerating.description>只要日光就能产魔的被动花。解锁太阳花，不烧燃料也不占人手，天黑、日食或落灰就停。</Botania_PassiveGenerating.description>
 
-  <!-- 3 夜颠茄（x=4.00, y=0.00）：夜间产魔，产量为太阳花一半 -->
   <Botania_NightshadeStudy.label>夜颠茄</Botania_NightshadeStudy.label>
-  <Botania_NightshadeStudy.description>夜颠茄是太阳花的镜像：每秒 4 点魔力，而且只在头顶的天空黑下来时（天空亮度不高于 0.5）才付。产量只有太阳花的一半，同样不烧任何东西，所以它是那种在殖民地睡觉时继续往池子里灌的花——也是日食或火山冬天里少数还在工作的花。\n\n规矩和其它被动花一样：必须站在魔力池的供给圈（简易池 4 格、魔力钢池 7 格）或中继塔的圈（11 格）里，种下 15 天（900000 tick）后枯萎。按这个速度，灌满一口简易魔力池（2000 魔力）需要 500 秒的黑夜。结论公式：4 魔力/秒 × 1 秒 = 每次结算 4 魔力，每秒结算一次。\n\n完整数值与推导见《玩法指南》。</Botania_NightshadeStudy.description>
+  <Botania_NightshadeStudy.description>太阳花的夜间对应花。解锁夜颠茄，只在黑暗里产魔，产量不如太阳花。</Botania_NightshadeStudy.description>
 
-  <!-- 4 火红莲（x=5.00, y=0.00）：烧燃料，1 份 3000 魔力，稳定 30 魔力/秒 -->
   <Botania_EndoflameStudy.label>火红莲</Botania_EndoflameStudy.label>
-  <Botania_EndoflameStudy.description>火红莲吃的是火，不是光。喂它木材、化合燃料或活木，它每秒烧掉 0.01 份燃料，每份换 3000 魔力，也就是 30 魔力/秒；料仓能装 50 份，等于 150000 魔力、5000 秒的稳定输出。它是第一种能给出稳定供给、而不只是滴灌的产能花。\n\n要喂就喂在有池子接得住的时候：它只按池子实际接收的魔力扣燃料，池子满了就一点料也不浪费。一旦自己的格子不在任何池子的圈里（简易池 4 格、魔力钢池 7 格，或中继塔 11 格），它会直接停工，而且完全不烧料。结论公式：魔力/秒 = 每秒燃料 × 每份燃料魔力 = 0.01 × 3000 = 30 魔力/秒。\n\n完整数值与推导见《玩法指南》。</Botania_EndoflameStudy.description>
+  <Botania_EndoflameStudy.description>吃燃料而不是吃光的产能花。解锁火红莲，木材、活木与化合燃料都能喂，不在网络里就停手不烧料。</Botania_EndoflameStudy.description>
 
-  <!-- 5 电暴花（x=6.00, y=0.00）：短路捡漏，15 格吸收、缓存 12 瓦日 -->
-  <Botania_StormBloomStudy.label>电暴花</Botania_StormBloomStudy.label>
-  <Botania_StormBloomStudy.description>一朵存心把肚子做得很小的花。电网短路、电池把储能一次性倾泻出来的时候，短路点 15 格内每一朵电暴花都会尽量喝下一口，再按 200 魔力/瓦日送进网络。它自己的缓存只有 2400 魔力，也就是 12 瓦日，所以一朵花最多只能捡走一次放电的前 12 瓦日；花按由近到远分配，剩下的直接损失。\n\n它自己没有产能手段：不短路，就没有魔力。而且它只吃真正的放电，这需要电网里有储能超过 20 瓦日的电池；更小的故障只会冒个火花。它还得能把缓存推进池子（4 格或 7 格的池圈，或 11 格的中继圈）；没地方送的缓存会一直满着，之后的短路一滴也吃不下。结论公式：魔力 = 捡到的瓦日 × 200，单次放电最多 2400；缓存每秒清空一次，也就是最多 2400 魔力/秒。\n\n完整数值与推导见《玩法指南》。</Botania_StormBloomStudy.description>
-
-  <!-- 6 苦丽花（x=7.00, y=0.00）：8 格内按技能经验 ×10 结账，单次封顶 400 -->
   <Botania_BitterBloomStudy.label>苦丽花</Botania_BitterBloomStudy.label>
-  <Botania_BitterBloomStudy.description>苦丽花靠别人的劳动活着。8 格内每个小人涨的技能经验都会被记账，每秒结算一次，按 10 魔力/点兑现，单个小人最多 400 魔力/秒。它是唯一一朵产量随殖民地忙碌程度变化的产能花，也是唯一一朵把账单寄给干活者的花：每笔结算都会加 0.25 点劳累（上限 1，移动速度 −10% 到 −30%，每天自愈 0.5）和一个 −2 心情的念头（最多叠 3 层）。\n\n零碎小活不值钱：一笔不足 5 点经验的结算算作小动作，同一个小人 60 秒内只付一次。闲人一分不给；如果没有任何池子覆盖这朵花，魔力白丢，而劳累和坏心情照发不误。结论公式：单个小人魔力/秒 = min(400, 经验 × 10)。\n\n完整数值与推导见《玩法指南》。</Botania_BitterBloomStudy.description>
+  <Botania_BitterBloomStudy.description>靠旁人的劳累结账的产能花。解锁苦丽花，附近有人干活才产魔，代价由干活的人付。</Botania_BitterBloomStudy.description>
 
-  <!-- 7 噬草花（x=8.00, y=0.00）：6 格内吃枯萎病作物，3 秒一株 1500 魔力 -->
-  <Botania_BlightEaterStudy.label>噬草花</Botania_BlightEaterStudy.label>
-  <Botania_BlightEaterStudy.description>专吃病害的拾荒花。每 3 秒它会在 6 格内找一株枯萎病作物，把最近的那株整个吞掉，从腐烂里榨出 1500 魔力。它从不碰健康作物，所以它不是农场，而是一台顺带付钱的清田机。连吃 10 株就要停下来消化 30 秒。\n\n按一个循环算：10 株 × 3 秒 = 30 秒进食，产出 15000 魔力，然后休息 30 秒，所以只要病株管够，长期是 250 魔力/秒，而吞下的那一下是 500 魔力/秒。半径内没有病株就完全不产魔。如果自己的格子没有池子覆盖，它照样把病株吃掉，魔力白白损失。结论公式：1500 × 10 株 ÷（10 × 3 秒 + 30 秒）= 250 魔力/秒。\n\n完整数值与推导见《玩法指南》。</Botania_BlightEaterStudy.description>
-
-  <!-- 8 阿卡纳蔷薇（x=9.00, y=0.00）：8 格内每个仍在学习的小人 6 魔力/秒 -->
   <Botania_RosaArcanaStudy.label>阿卡纳蔷薇</Botania_RosaArcanaStudy.label>
-  <Botania_RosaArcanaStudy.description>一朵收割「还没学完的那部分」的蔷薇。8 格内任何小人，只要还有技能没到 20 级、并且在这一秒真的学到了东西（技能经验涨了，或者正在做研究），就会每秒喂它 6 点魔力。五个研究员就是 30 魔力/秒；一群闲人则是零。\n\n代价由小人付：被抽期间挂上「灵思被引」，全局学习系数减半，离开范围后还会带着一个 −2 心情的念头。所有技能都满 20 级的小人榨不出任何东西。它同样需要池子覆盖自己的格子，否则抽取照旧发生，魔力白丢。结论公式：魔力/秒 = 6 × 仍在学习的小人数。\n\n完整数值与推导见《玩法指南》。</Botania_RosaArcanaStudy.description>
+  <Botania_RosaArcanaStudy.description>抽走「还在学」这件事来产魔。解锁阿卡纳蔷薇，范围内还在学习的人越多，产魔越多。</Botania_RosaArcanaStudy.description>
 
-  <!-- 9 炉心蕙（x=10.00, y=0.00）：密闭高温房间 + 燃料，0.2 × (T−40) × √A，上限 60 -->
   <Botania_GeneratingII.label>炉心蕙</Botania_GeneratingII.label>
-  <Botania_GeneratingII.description>炉心蕙把热量变成魔力，但不再白送：它要一间密闭、有屋顶的房间，要 40°C 以上的室温，还要燃料。产量 = 0.2 ×（T − 40）× 它分到的有效面积的平方根；有效面积是房间面积（最多算 150 格）除以房间里炉心蕙的数量，每朵分不到 11 格以上就不工作。100 格的房间、70°C、只种一朵，就已经顶到 60 魔力/秒的硬上限。\n\n燃料按实际送进池子的魔力扣：1 份 = 2000 魔力，料仓 50 份。两朵贴在一起（八邻接）都会罢工，记得留一格。超过 150°C 后它按每高 1°C 每秒掉 0.04 HP，到 195°C 还有每秒 1% 的概率自燃。露天、室温不到 40°C、没有燃料时它一点魔力也不产；自己的格子没有池子覆盖时，魔力产出来也是白丢，而房间够热的话，掉血和自燃照旧。结论公式：魔力/秒 = min(60, 0.2 ×（T − 40）× √A)，A = 房间面积 ÷ 炉心蕙数量。\n\n完整数值与推导见《玩法指南》。</Botania_GeneratingII.description>
+  <Botania_GeneratingII.description>把密闭房间的热量换成魔力。解锁炉心蕙，在有顶、够热的封闭房间里烧燃料，热过了头它会自损。</Botania_GeneratingII.description>
 
-  <!-- 10 启命英（x=11.00, y=0.00）：11×11 肉床生命游戏，变化格 ×40，单代上限 900 -->
   <Botania_LifeOrchidStudy.label>启命英</Botania_LifeOrchidStudy.label>
-  <Botania_LifeOrchidStudy.description>最后一朵产能花其实不是产能设备，而是一个游戏。启命英周围 11×11 的肉床（至少 25 格）是一片细胞殖民地：把血肉之种铺上去，种子就按康威生命游戏的普通规则出生、繁殖、死亡，每个 250 tick（TickRare，约 4 秒）推进一代。它只为「变化」付钱：每个新生的格子 40 魔力，每个死亡的格子也是 40 魔力，自然老死的格子不给钱，单代上限 900 魔力（最好情况 216 魔力/秒）——23 个格子变化就已经顶到上限。\n\n静止的图案一分钱都不给，所以你真正想要的是振荡子或滑翔机。连续存活 30 代的细胞会自行凋亡，必须周期性扰动它。11×11 范围内站着小人或实体建筑都会让整台机器暂停；没开异象 DLC 时这朵花什么也不做。6 格内的魔力池会收下产出；没有池子，代数照常推进，魔力白丢。结论公式：每代魔力 = min(900, 40 ×（新生 + 死亡 − 老死）)。\n\n完整数值与推导见《玩法指南》。</Botania_LifeOrchidStudy.description>
+  <Botania_LifeOrchidStudy.description>把生命游戏当成计分板。解锁启命英，在血肉床上养着会生灭的细胞，只为变化付账。</Botania_LifeOrchidStudy.description>
 
 </LanguageData>

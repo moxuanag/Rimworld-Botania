@@ -2,121 +2,130 @@
 <Defs>
 
   <!-- ============================================================
-       功能花支线（0.9.2 批次）。
+       功能花段（2026-11-25 第十一次布局）：6 个节点，分类卡在 x=3.7。
 
-       y=1 是「花」行，一条直线从 x=2 走到 x=8：
-         功能花 → 白雏菊 → 明心莲 → 荆棘花 → 魔力修补
-         → 建筑恢复器 → 装备修复器。
-       Botania_Mending 原先挂在魔力钢下面，本批移进本支线，
-       作为建筑恢复器与装备修复器的总前提；它不是花，写的是修补机制。
+       花之间横向 0.9（卡 3.7，花 4.6 与 5.5）；同档两行花纵向 0.6（2.8/3.4 与 5.6/6.2）；
+       基础末行到进阶 0.8（3.4 到 4.2），进阶到终阶 1.4（4.2 到 5.6）；
+       分类卡在它那两行花正中（+0.3）。
+
+         y=3.1  x=x=3.7    Botania_FunctionalI          基础功能花（分类卡）
+         y=2.8  x=x=4.6  Botania_BlightEaterStudy     噬草花
+         y=2.8  x=x=5.5  Botania_ClearMindLotusStudy  明心莲
+         y=4.5  x=x=3.7    Botania_FuncAdvanced         进阶功能花（分类卡）
+         y=4.2  x=x=4.6  Botania_StormBloomStudy      电暴花
+         y=5.9  x=x=3.7    Botania_FuncUltimate         终极功能花（分类卡）
+
+       前置结构（树上的可见线）：
+         FunctionalI     <- Garden
+         BlightEaterStudy / ClearMindLotusStudy <- FunctionalI
+         FuncAdvanced    <- FunctionalI（隐藏 Terrasteel）
+         StormBloomStudy <- FuncAdvanced
+         FuncUltimate    <- FuncAdvanced（隐藏 Gaia）
 
        描述里的数值一律来自 ThingDef 的 comps 字段与 Source/*.cs 的实现，
        完整推导见 docs/玩法指南.md。
        ============================================================ -->
 
-  <!-- 支线总览：功能花与产魔花的分工，以及共同的取魔前提 -->
+  <!-- ===== x=3.7 y=3.1 基础功能花：功能花的分工与共同的「付费 + 联网」前提 ===== -->
+
   <ResearchProjectDef>
     <defName>Botania_FunctionalI</defName>
-    <label>functional flowers</label>
-    <description>Functional flowers are the other half of the garden: they turn mana into labour instead of making it. A generating flower feeds the pool; a functional flower only spends what the pool already holds, converting material, mending gear, quieting a mind or holding ground, and never puts a single point of mana back.\n\nWhat they share is a bill and a leash. Each one prices its work in mana and settles on a fixed timer, and each only works while its own tile sits inside a mana network: coverage = 4 tiles from a simple pool, 7 from a manasteel pool, 11 from a relay, and a relay only counts when its circle overlaps a pool-backed group. Outside every circle there is nothing to draw on; inside one the flower pays its printed price out of the group's shared reserve, and a full manasteel pool holds 100,000 mana to pay with. A flower that cannot pay skips that action; whether it has a fallback is stated on its own project. Bottom line: no pool, no work.\n\nFull numbers and derivations: gameplay guide.</description>
-    <baseCost>900</baseCost>
+    <label>basic functional flowers</label>
+    <description>Functional flowers spend mana on labour instead of making it. This card attaches no defs itself; it opens the blight eater and clear-mind lotus cards.</description>
+    <baseCost>500</baseCost>
     <techLevel>Medieval</techLevel>
     <tab>Botania</tab>
     <prerequisites>
-      <li>Botania_BasicMana</li>
+      <li>Botania_Garden</li>
     </prerequisites>
-    <researchViewX>2.00</researchViewX>
-    <researchViewY>1.00</researchViewY>
+    <researchViewX>3.70</researchViewX>
+    <researchViewY>3.10</researchViewY>
   </ResearchProjectDef>
 
-  <!-- 白雏菊：相邻格转化，有池子 300 tick 扣 20 魔力，没池子 1500 tick 免费 -->
+  <!-- ===== x=3.7 y=4.5 进阶功能花总览：按秒结算、按破损取目标的高价层 ===== -->
+
   <ResearchProjectDef>
-    <defName>Botania_PureDaisyStudy</defName>
-    <label>pure daisy</label>
-    <description>A white daisy that teaches dead material to live. One log becomes one livingwood, and one cut stone block (granite, limestone and the like, not raw chunks) becomes one livingrock. It reaches only the eight tiles around itself, and only items lying loose on the ground: anything forbidden or packed inside a container is left alone.\n\nOn a paying pool (a mana pool within 6 tiles) it converts one item every 300 ticks, 5 seconds, for 20 mana. With no pool in reach, or a pool holding less than 20 mana, it still converts, but once every 1,500 ticks, 25 seconds, and for free. Bottom line: 20 mana ÷ 5 s = 4 mana per second with a pool; the same item takes 25 s and 0 mana without one, so a lone daisy bootstraps livingwood at a fifth of the speed.\n\nFull numbers and derivations: gameplay guide.</description>
-    <baseCost>500</baseCost>
+    <defName>Botania_FuncAdvanced</defName>
+    <label>advanced functional flowers</label>
+    <description>The advanced tier of functional flowers. This card attaches no defs itself; it opens the storm bloom and the ultimate functional flowers cards.</description>
+    <baseCost>800</baseCost>
+    <techLevel>Industrial</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_FunctionalI</li>
+    </prerequisites>
+    <hiddenPrerequisites>
+      <li>Botania_Terrasteel</li>
+    </hiddenPrerequisites>
+    <researchViewX>3.70</researchViewX>
+    <researchViewY>4.50</researchViewY>
+  </ResearchProjectDef>
+
+  <!-- ===== 噬草花：6 格内吃枯萎病作物，3 秒一株 1500 魔力（x=4.6, y=2.8） ===== -->
+
+  <ResearchProjectDef>
+    <defName>Botania_BlightEaterStudy</defName>
+    <label>blight eater</label>
+    <description>A flower that eats blight instead of making it. Unlocks the blight eater, which swallows blighted crops nearby and turns them into mana.</description>
+    <baseCost>1000</baseCost>
+    <techLevel>Industrial</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_FunctionalI</li>
+    </prerequisites>
+    <researchViewX>4.60</researchViewX>
+    <researchViewY>2.80</researchViewY>
+  </ResearchProjectDef>
+
+  <!-- ===== 明心莲：半径 8，只挡心灵干扰；按受影响人数每人 20 魔力 / 60 tick（x=5.5, y=2.8） ===== -->
+
+  <ResearchProjectDef>
+    <defName>Botania_ClearMindLotusStudy</defName>
+    <label>clear-mind lotus</label>
+    <description>A lotus that pushes a psychic drone out of every head in range. Unlocks the clear-mind lotus, which charges nothing when there is no drone.</description>
+    <baseCost>900</baseCost>
     <techLevel>Medieval</techLevel>
     <tab>Botania</tab>
     <prerequisites>
       <li>Botania_FunctionalI</li>
     </prerequisites>
-    <researchViewX>3.00</researchViewX>
-    <researchViewY>1.00</researchViewY>
+    <researchViewX>5.50</researchViewX>
+    <researchViewY>2.80</researchViewY>
   </ResearchProjectDef>
 
-  <!-- 明心莲：半径 8，只挡心灵干扰；按受影响人数每人 20 魔力 / 60 tick，付费撑 180 tick -->
-  <ResearchProjectDef>
-    <defName>Botania_ClearMindLotusStudy</defName>
-    <label>clear-mind lotus</label>
-    <description>A pale lotus that pushes one thought out of every head within 8 tiles. It only cancels the psychic drone: with a psychic droner building on the map the drone thought is switched off outright, and for an event drone with no building the mood penalty is only halved. No drone, no bill, and no other mood is touched.\n\nIt charges per protected head every 60 ticks (one second): 20 mana for each pawn the drone is actually affecting, nothing for pawns the drone ignores. One payment holds for 180 ticks (3 seconds). It never pays half a bill: if the network cannot cover the whole cost the pawns are handed to another lotus, and the drone returns once the last paid window lapses. Bottom line: 20 mana per affected pawn per second, so 5 pawns × 20 = 100 mana per second.\n\nFull numbers and derivations: gameplay guide.</description>
-    <baseCost>900</baseCost>
-    <techLevel>Medieval</techLevel>
-    <tab>Botania</tab>
-    <prerequisites>
-      <li>Botania_PureDaisyStudy</li>
-    </prerequisites>
-    <researchViewX>4.00</researchViewX>
-    <researchViewY>1.00</researchViewY>
-  </ResearchProjectDef>
+  <!-- ===== x=3.7 y=5.9 终极功能花总览：接盖亚，按千计结算 ===== -->
 
-  <!-- 荆棘花：半径 10，90 tick 一次脉冲；减速免费，伤害每目标 1 点 / 2 魔力，最多 12 目标 -->
   <ResearchProjectDef>
-    <defName>Botania_ThornFlowerStudy</defName>
-    <label>thorn flower</label>
-    <description>A mat of briars with a dark bloom at its heart. Every 90 ticks (1.5 seconds) it looks 10 tiles around and entangles every hostile pawn in reach for 90 ticks, moving at 70% speed; that slow is free and costs no mana at all.\n\nThe thorns themselves are paid per target: up to 12 hostiles per pulse, 1 cut damage and 2 mana each, nearest first. It carries a 150-mana buffer fed by the network, so a full buffer pays for 75 hits, and with no hostile in range it refills by up to 25 mana per pulse, about 17 per second. Bottom line: 12 targets × 2 mana = 24 mana per pulse (12 damage), 16 mana per second sustained; with no mana left the briars still slow but deal nothing.\n\nFull numbers and derivations: gameplay guide.</description>
-    <baseCost>1000</baseCost>
-    <techLevel>Medieval</techLevel>
-    <tab>Botania</tab>
-    <prerequisites>
-      <li>Botania_ClearMindLotusStudy</li>
-    </prerequisites>
-    <researchViewX>5.00</researchViewX>
-    <researchViewY>1.00</researchViewY>
-  </ResearchProjectDef>
-
-  <!-- 魔力修补：两件修补器具共用的机制，不是花 -->
-  <ResearchProjectDef>
-    <defName>Botania_Mending</defName>
-    <label>mana mending</label>
-    <description>Not a flower but the rule behind two repair devices: a tower that mends built structures and a bench that mends worn gear. Both settle once every 60 ticks (one second), take the most damaged valid targets first, and pay 5 mana for every point of hit points they put back.\n\nThe bill scales with the work: 5 hp costs 25 mana, and a device restoring 5 hp per second on each of five targets draws 125 mana per second. If the network covers only part of the bill the device repairs only what it can pay for, and with no mana it does nothing that second. Bottom line: hp restored × 5 mana = the bill, settled every 60 ticks; no free repairs, and neither device can finish construction or mend a blueprint or frame.\n\nFull numbers and derivations: gameplay guide.</description>
+    <defName>Botania_FuncUltimate</defName>
+    <label>ultimate functional flowers</label>
+    <description>The end tier of functional flowers. This card attaches no defs itself; nothing hangs under it yet and it is kept as a mount point.</description>
     <baseCost>1200</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>
     <prerequisites>
-      <li>Botania_ThornFlowerStudy</li>
+      <li>Botania_FuncAdvanced</li>
     </prerequisites>
-    <researchViewX>6.00</researchViewX>
-    <researchViewY>1.00</researchViewY>
+    <hiddenPrerequisites>
+      <li>Botania_Gaia</li>
+    </hiddenPrerequisites>
+    <researchViewX>3.70</researchViewX>
+    <researchViewY>5.90</researchViewY>
   </ResearchProjectDef>
 
-  <!-- 建筑恢复器：半径 8，每 60 tick 每目标最多 5 耐久，每点耐久 5 魔力 -->
+  <!-- ===== 电暴花：捡电网短路的漏，15 格吸收、缓存 12 瓦日（x=4.6, y=4.2） ===== -->
+
   <ResearchProjectDef>
-    <defName>Botania_StructureRepairerStudy</defName>
-    <label>structure repairer</label>
-    <description>A livingrock frame with a wall of mana-veined stone. Every 60 ticks (one second) it scans 8 tiles for your own structures below full hit points, skips blueprints, frames and corpses, and takes the five most damaged by default.\n\nEach target gets up to 5 hp back per cycle at 5 mana per hp, so a full patch costs 25 mana; five targets at full stretch draw 125 mana per second. It only repairs what the network can pay for, and with no mana it stops. Bottom line: 5 hp × 5 mana = 25 mana per target per second, 8-tile reach, five targets by default. It will not finish construction and will not touch another faction's walls.\n\nFull numbers and derivations: gameplay guide.</description>
-    <baseCost>1400</baseCost>
+    <defName>Botania_StormBloomStudy</defName>
+    <label>storm bloom</label>
+    <description>A flower that salvages shorted-out power. Unlocks the storm bloom, which catches a conduit discharge as mana; its own buffer is small.</description>
+    <baseCost>900</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>
     <prerequisites>
-      <li>Botania_Mending</li>
+      <li>Botania_FuncAdvanced</li>
     </prerequisites>
-    <researchViewX>7.00</researchViewX>
-    <researchViewY>1.00</researchViewY>
-  </ResearchProjectDef>
-
-  <!-- 装备修复器：半径 6，每 60 tick 每目标最多 6 耐久，每点耐久 5 魔力 -->
-  <ResearchProjectDef>
-    <defName>Botania_ItemRepairerStudy</defName>
-    <label>item repairer</label>
-    <description>A livingwood bench with a manasteel anvil and a clamp of woven mana. Every 60 ticks (one second) it scans 6 tiles for items with hit points that are below full condition, ignores pawns, plants, corpses, blueprints and frames, and takes the five most damaged by default.\n\nEach item gets up to 6 hp back per cycle at 5 mana per hp, so a full patch costs 30 mana; five items at full stretch draw 150 mana per second. It only repairs what the network can pay for. Bottom line: 6 hp × 5 mana = 30 mana per target per second, 6-tile reach, five targets by default. Gear has to lie on the ground, and something already destroyed cannot be restored.\n\nFull numbers and derivations: gameplay guide.</description>
-    <baseCost>1400</baseCost>
-    <techLevel>Industrial</techLevel>
-    <tab>Botania</tab>
-    <prerequisites>
-      <li>Botania_StructureRepairerStudy</li>
-    </prerequisites>
-    <researchViewX>8.00</researchViewX>
-    <researchViewY>1.00</researchViewY>
+    <researchViewX>4.60</researchViewX>
+    <researchViewY>4.20</researchViewY>
   </ResearchProjectDef>
 
 </Defs>

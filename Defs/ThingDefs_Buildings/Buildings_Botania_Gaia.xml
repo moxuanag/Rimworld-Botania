@@ -13,7 +13,9 @@
   <ThingDef ParentName="BuildingBase">
     <defName>Botania_GaiaShard</defName>
     <label>gaia shard</label>
-    <description>A slab of living crystal that fell out of the sky and buried itself in the ground. It hums, and the hum has a rhythm. Something on the other side is waiting for the shell to crack.\n\nDestroy it and the way opens.</description>
+    <description>A slab of living crystal that fell out of the sky and buried itself in the ground - an event, not something to build or claim. It hums low; break it, and the gaia portal opens where it lay.
+
+A living crystal buried in the earth, shuddering at a low frequency, its rhythm like a heartbeat.</description>
     <thingClass>Building</thingClass>
     <graphicData>
       <texPath>Things/Building/Botania/GaiaShard</texPath>
@@ -45,7 +47,9 @@
   <ThingDef ParentName="BuildingBase">
     <defName>Botania_GaiaPortal</defName>
     <label>gaia portal</label>
-    <description>A ring of torn space with green light crawling around its rim. Things come through it in waves, and they keep coming until the other side has spent what it meant to spend.\n\nIt cannot be harmed. The only way to close the ritual is to give up on it.</description>
+    <description>A ring of torn space with green light crawling around its rim. Things come through it in waves, and they keep coming until the other side has spent what it meant to spend. It cannot be harmed; the only way to close the ritual is to give up on it.
+
+Green light crawls around the rim, patiently, as if counting how much more there is to send through.</description>
     <thingClass>Building</thingClass>
     <graphicData>
       <texPath>Things/Building/Botania/GaiaPortal</texPath>
@@ -94,7 +98,9 @@
   <ThingDef ParentName="BuildingBase">
     <defName>Botania_WorldSeedNursery</defName>
     <label>world-seed nursery</label>
-    <description>A pod of living seed matter set in a ring of stone. Terrasteel left inside it comes out changed: the same shape, but grown through.\n\nPut terrasteel armour or a terrasteel helmet in its field and it will be reborn as Gaia gear. Colonists standing in the field have their worn gear converted first.</description>
+    <description>A pod of living seed matter set in a ring of stone. Terrasteel left in its field comes out changed: the same shape, but grown through. Put terrasteel armour or a terrasteel helmet in the field and it is reborn as Gaia gear. Colonists standing in the field have their worn gear converted first.
+
+The thing inside the pod stirs gently, as if remembering on someone's behalf how to grow.</description>
     <thingClass>Building</thingClass>
     <graphicData>
       <texPath>Things/Building/Botania/GaiaNursery</texPath>

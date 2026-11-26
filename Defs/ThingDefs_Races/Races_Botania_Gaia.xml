@@ -18,9 +18,9 @@
   <ThingDef ParentName="AnimalThingBase">
     <defName>Botania_GaiaWorldSoul</defName>
     <label>gaia world-soul</label>
-    <description>A mass of root, stone and green light that learned to wear a shape. It moves the way weather moves: slowly, and then all at once.
+    <description>The gaia world-soul is a mass of root, stone and green light that learned to wear a shape. Its shell drinks a blow before you feel it land, and when the shell goes it lies still for a while - that is the only time it can be hurt.
 
-Its shell drinks a blow before you feel it land, and when the shell goes it lies still for a while - that is the only time it can be hurt.</description>
+It moves the way weather moves: very slowly, and then all at once.</description>
     <thingClass>Botania.Pawn_GaiaBoss</thingClass>
 
     <!-- 近战只有 1 点钝伤的「轻触」；威胁全部来自技能 -->

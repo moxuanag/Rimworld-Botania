@@ -178,6 +178,10 @@ namespace Botania
         /// <summary>
         /// 尝试支付 amount 点魔力。**凑够才扣**——魔力不足时一点不抽，
         /// 避免把池子抽干却干不成活（旧版 Fluxfield 踩过这个坑）。
+        ///
+        /// 取「设备所在格的魔力网络」，与产魔侧（ManaProducerCore）同口径：
+        /// 中继塔延伸出去的网络同样算数。props.SearchRadius 仅为存档兼容保留，
+        /// 不再参与取魔。
         /// </summary>
         public bool TryPay(float amount)
         {
@@ -192,8 +196,7 @@ namespace Botania
                 HasMana = true;
                 return true;
             }
-            IManaSource source = ManaSourceUtil.FindNearest(
-                parent.Position, parent.Map, props.SearchRadius, amount, parent);
+            IManaSource source = FindSource(amount);
             bool paid = false;
             if (source != null && source.ManaAmount + props.ManaTolerance >= amount)
             {
@@ -233,6 +236,10 @@ namespace Botania
         /// <summary>
         /// 按「有多少抽多少」支付：最多抽 amount，返回实际抽到的量。
         /// 修复器这类「按修理量计费」的设备用它；与 <see cref="TryPay"/> 不同，允许部分支付。
+        ///
+        /// 取「设备所在格的魔力网络」，与产魔侧（ManaProducerCore）同口径：
+        /// 中继塔延伸出去的网络同样算数。props.SearchRadius 仅为存档兼容保留，
+        /// 不再参与取魔。
         /// </summary>
         public float TryPayUpTo(float amount)
         {
@@ -247,8 +254,7 @@ namespace Botania
                 HasMana = true;
                 return 0f;
             }
-            IManaSource source = ManaSourceUtil.FindNearest(
-                parent.Position, parent.Map, props.SearchRadius, 0f, parent);
+            IManaSource source = FindSource(0f);
             if (source == null)
             {
                 HasMana = false;

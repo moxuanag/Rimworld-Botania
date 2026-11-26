@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- ============================================================
+       花药台（Petal Apothecary）—— Botania_PetalApothecary
+
+       机制范本（原版同类）：Data/Core/Defs/ThingDefs_Buildings/Buildings_Production.xml
+         · TableStonecutter —— 石制工作台、costStuffCount + stuffCategories(Stony)、
+           非电力、ITab_Bills、AffectedByFacilities(ToolCabinet)
+         · 所以这里**不写 costList**（造价全部由所选石砖折算）。
+
+       父模板 BenchBase（原版工作台公共模板）已经给到的、不要再抄一遍：
+         minifiedDef=MinifiedThing、thingCategories=BuildingsProduction、
+         terrainAffordanceNeeded=Medium、interactionCellIcon、
+         CompProperties_ReportWorkSpeed、PlaceWorker_ReportWorkSpeedPenalties、
+         building.buildingTags=Production、building.workTableRoomRole=Workshop
+
+       MarketValue 515 是主代理按「成本法 + 工艺溢价」定的显式值：
+       石砖本身市值接近 0，交给引擎推导只会得出十几块，必须用显式值覆盖。
+
+       rotatable 故意不写：原版工作台都不写，靠默认朝南，别加旋转。
+
+       【踩过的坑，2026-11-25 实机启动报错后修正，别再加回来】
+         · 不写 constructEffect：本台是 madeFromStuff（costStuffCount + stuffCategories），
+           引擎会报 "madeFromStuff but has a defined constructEffect"，建造动画由材质决定。
+         · 不写 thingCategories：父模板 BenchBase 已经给了 BuildingsProduction，
+           子节点再写一遍会报 "has duplicate thingCategory BuildingsProduction"。
+           Frame_Botania_PetalApothecary（蓝图）继承同一 def，上面两条会一起报，改这里即可。
+       ============================================================ -->
+  <ThingDef ParentName="BenchBase">
+    <defName>Botania_PetalApothecary</defName>
+    <label>petal apothecary</label>
+    <description>A squat stone bench with a shallow mortar bowl cut into its top. Petals are ground and steeped in the bowl to brew flower essences; the wand of the forest and every petal recipe start here.</description>
+    <thingClass>Building_WorkTable</thingClass>
+    <graphicData>
+      <texPath>Things/Building/Botania/PetalApothecary</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <shadowData>
+        <volume>(0.9,0.3,0.9)</volume>
+        <offset>(0,0,-0.04)</offset>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <fillPercent>0.5</fillPercent>
+    <useHitPoints>True</useHitPoints>
+    <size>(1,1)</size>
+
+    <!-- 造价：原版任意石砖 75（照 TableStonecutter 的写法，无 costList） -->
+    <costStuffCount>75</costStuffCount>
+    <stuffCategories>
+      <li>Stony</li>
+    </stuffCategories>
+
+    <statBases>
+      <MaxHitPoints>180</MaxHitPoints>
+      <WorkToBuild>4000</WorkToBuild>
+      <Mass>20</Mass>
+      <MarketValue>515</MarketValue>
+    </statBases>
+
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <hasInteractionCell>True</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <surfaceType>Item</surfaceType>
+
+    <inspectorTabs>
+      <li>ITab_Bills</li>
+    </inspectorTabs>
+
+    <!-- comps 只追加，不动父模板的 CompProperties_ReportWorkSpeed（Inherit 保持默认） -->
+    <comps>
+      <li Class="CompProperties_AffectedByFacilities">
+        <linkableFacilities>
+          <li>ToolCabinet</li>
+        </linkableFacilities>
+      </li>
+    </comps>
+
+    <designationCategory>Botania</designationCategory>
+    <researchPrerequisites>
+      <li>Botania_Garden</li>
+    </researchPrerequisites>
+    <uiOrder>3007</uiOrder>
+  </ThingDef>
+
+</Defs>

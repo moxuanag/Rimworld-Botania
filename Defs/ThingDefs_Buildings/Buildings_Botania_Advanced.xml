@@ -15,7 +15,9 @@
     <defName>Botania_FurnaceOrchid</defName>
     <designatorDropdown>Botania_ManaFlowers</designatorDropdown>
     <label>furnace orchid</label>
-    <description>A flower that burns fuel to court heat itself. It only works inside an enclosed, roofed room, only above 40C, and only while it has fuel: output grows with temperature and with the square root of the floor space it commands, and every point of mana costs fuel (1 wood = 2000 mana). A nearby steam vent cannot feed it by itself - it only saves you the cost of keeping the room hot. Build a square room, keep it warm, and leave a gap between orchids - packed together they stop working, and one fire takes the whole row.</description>
+    <description>A flower that burns fuel to court heat, and takes its mana out of that heat. It works only inside an enclosed, roofed room: the hotter and the roomier, the more it yields, and every point of mana is paid for in fuel. It hates company - packed together the orchids stop working, and one fire takes the whole row.
+
+It bakes the whole room and sits comfortably in the middle of the heat.</description>
     <thingClass>Building</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <graphicData>
@@ -104,7 +106,9 @@
     <defName>Botania_StormBloom</defName>
     <designatorDropdown>Botania_ManaFlowers</designatorDropdown>
     <label>storm bloom</label>
-    <description>A small flower with a deliberately tiny reservoir. When a power conduit short-circuits and a battery dumps its charge, this bloom drinks whatever it can hold of that burst and feeds it into a nearby pool. It is salvage, not a power source.</description>
+    <description>A small flower with a deliberately tiny reservoir. When a power conduit short-circuits and a battery dumps its whole charge at once, this bloom drinks as much of that burst as it can hold and feeds it into a nearby pool. It is salvage, not a power source.
+
+It is always waiting for a bang; most of the time it looks like a little bladder of water.</description>
     <thingClass>Building</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <graphicData>
@@ -169,7 +173,9 @@
     <defName>Botania_RosaArcana</defName>
     <designatorDropdown>Botania_ManaFlowers</designatorDropdown>
     <label>rosa arcana</label>
-    <description>An insistent rose. Anyone working near it finds their thoughts drifting: they learn more slowly, and they resent it. In exchange the rose harvests what they are not quite managing to learn. Pawns who have nothing left to learn give it nothing.</description>
+    <description>An insistent rose. Anyone working near it finds their thoughts drifting: they learn more slowly, and they resent it. In exchange the rose harvests what they are not quite managing to learn. Pawns with nothing left to learn give it nothing.
+
+It blooms with great persistence, as though listening for the half-sentence someone never finished.</description>
     <thingClass>Building</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <graphicData>

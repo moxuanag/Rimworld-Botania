@@ -71,12 +71,12 @@
   </AbilityDef>
 
   <!-- 泰拉刃的剑气：装备泰拉刃时由 MapComponent_WandState 授予。
-       一条 12 格直线，伤害 30 递减到 10，冷却 8 秒（cooldownTicksRange 480）。
-       不耗魔力，只吃 8 秒冷却（2026-10-24 玩家改定）。 -->
+       一条 48 格直线（range 48），伤害 30 递减到 10，冷却 8 秒（cooldownTicksRange 480）。
+       每道剑气抽 400 魔力（8 格内最近的、余量 ≥400 的魔力池），付不起则按钮置灰、不出剑。 -->
   <AbilityDef>
     <defName>Botania_TerraWave</defName>
     <label>terrasteel wave</label>
-    <description>Swing the blade and let the metal remember the arc. A line of force runs forty-eight cells in front of you, three cells wide, cutting for 30 at the first step and fading to 10 at the far end. Cooldown 8 seconds, no mana cost.</description>
+    <description>Swing the blade and let the metal remember the arc. A line of force runs forty-eight cells in front of you, three cells wide, cutting for 30 at the first step and fading to 10 at the far end. Cooldown 8 seconds; each wave spends 400 mana, drawn from the mana network it stands in.</description>
     <iconPath>UI/Icons/Botania/TerraWave</iconPath>
     <abilityClass>Botania.Ability_TerraWave</abilityClass>
     <cooldownTicksRange>480</cooldownTicksRange>

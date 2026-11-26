@@ -4,17 +4,19 @@
   <!-- ============================================================
        盖亚装备（终局，Boss 奖励档）
        定位：科技树终点「盖亚」的产物，比泰拉钢再高一档。
-       泰拉钢现在是 125%/62%（头盔 75%/37%），盖亚拉出 15 个百分点的差，
-       保持「Boss 奖励明显强于量产装备」的原定意图（原计划 130/65 是在
-       泰拉只有 110/55 时定的，泰拉提档后必须同步上移）。
+       泰拉钢现在是 109%/44%/51%（头盔 65%/26%/31%），盖亚在三项上分别高出
+       35 / 16 / 21 个百分点，保持「Boss 奖励明显强于量产装备」的原定意图
+       （原计划 130/65 是在泰拉只有 110/55 时定的，泰拉提档后必须同步上移）。
        用料仍然极省：1 泰拉钢锭 + 精灵石英，Boss 装备不该要求海量材料。
        ============================================================ -->
 
-  <!-- 盖亚甲：锐器 140% / 钝器 70% / 热能 60% -->
+  <!-- 盖亚甲：锐器 144% / 钝器 60% / 热能 72% -->
   <ThingDef ParentName="ApparelBase">
     <defName>Botania_GaiaArmor</defName>
     <label>gaia armor</label>
-    <description>Plate grown from a gaia spirit instead of forged: the metal remembers every blow it has taken and thickens where it was struck. Nothing made of ordinary matter cuts through it cleanly, and it weighs less than the terrasteel suit it replaces.</description>
+    <description>Gaia armour is grown from a gaia spirit rather than forged, covering the whole body, and thicker and heavier than terrasteel. Nothing made of ordinary matter cuts through it, and there is no recipe: only the nursery can grow a terrasteel suit into one.
+
+This armour remembers every blow it has taken, and the places it was struck thicken by themselves.</description>
     <techLevel>Ultra</techLevel>
     <graphicData>
       <texPath>Things/Pawn/Humanlike/Apparel/Botania_GaiaArmor/Botania_GaiaArmor</texPath>
@@ -76,11 +78,13 @@
     </apparel>
   </ThingDef>
 
-  <!-- 盖亚头盔：锐器 84% / 钝器 42% / 热能 50%（甲盔比例 0.6，与另两套一致） -->
+  <!-- 盖亚头盔：锐器 86% / 钝器 36% / 热能 43%（甲盔比例 0.6，与另两套一致） -->
   <ThingDef ParentName="ApparelBase">
     <defName>Botania_GaiaHelmet</defName>
     <label>gaia helmet</label>
-    <description>A helm of gaia plate with a crown of living petals that never wilt. It closes over the face the moment a threat is near and opens again when the shooting stops.</description>
+    <description>A helm of gaia plate crowned with living petals that never wilt. It takes a great deal of punishment for the face; it has no recipe either, and comes only from the nursery.
+
+It shuts by itself when danger comes near, and opens again once the shooting stops, like breathing.</description>
     <techLevel>Ultra</techLevel>
     <graphicData>
       <texPath>Things/Pawn/Humanlike/Apparel/Botania_GaiaHelmet/Botania_GaiaHelmet</texPath>
@@ -138,9 +142,9 @@
   <ThingDef ParentName="ResourceBase">
     <defName>Botania_GaiaCore</defName>
     <label>gaia core</label>
-    <description>The heart of the world-soul, cooled into something you can carry. Roots still twitch inside it.
+    <description>A part that serves one bench and no other: no recipe besides the nursery asks for it. It is also the one thing without which no grove can be planted.
 
-It is the only thing that can be planted to grow a grove.</description>
+What the heart of the world left behind when it cooled, and now it can be carried away - roots still twitching inside.</description>
     <graphicData>
       <texPath>Things/Item/Resource/Botania/GaiaCore/GaiaCore</texPath>
       <graphicClass>Graphic_Single</graphicClass>

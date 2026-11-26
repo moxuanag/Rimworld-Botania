@@ -3,9 +3,10 @@
 
   <!-- ============================================================
        神秘花（Mystic Flower）：花瓣的唯一来源。
-       野生生成在各生物群系（见 Patches\Botania_WildPlants.xml），
-       也可在研究「神秘花卉」后播种。
-       收获后植株保留并重新生长（harvestAfterGrowth），是可持续的花田作物。
+       野生 8 色生成在各生物群系（见 Patches\Botania_WildPlants.xml），
+       不可人工播种；收获后植株保留并重新生长（harvestAfterGrowth=0.35）。
+       唯一可播种的是末尾的人工栽培品种 Botania_MysticFlower_WhiteGarden
+       （研究「神秘花卉」后可播种，收割即销毁）。
        ============================================================ -->
 
   <ThingDef ParentName="PlantBase" Name="Botania_MysticFlowerBase" Abstract="True">
@@ -26,19 +27,13 @@
       <growDays>2.5</growDays>
       <fertilitySensitivity>0.7</fertilitySensitivity>
       <harvestTag>Standard</harvestTag>
-      <harvestYield>4</harvestYield>
+      <harvestYield>1</harvestYield>
       <harvestWork>200</harvestWork>
       <harvestMinGrowth>0.6</harvestMinGrowth>
       <harvestAfterGrowth>0.35</harvestAfterGrowth>
       <harvestFailable>false</harvestFailable>
       <sowWork>170</sowWork>
       <sowMinSkill>2</sowMinSkill>
-      <sowResearchPrerequisites>
-        <li>Botania_Flowers</li>
-      </sowResearchPrerequisites>
-      <sowTags>
-        <li>Ground</li>
-      </sowTags>
       <topWindExposure>0.1</topWindExposure>
       <visualSizeRange>0.5~1.05</visualSizeRange>
       <wildOrder>1</wildOrder>
@@ -49,7 +44,9 @@
   <ThingDef ParentName="Botania_MysticFlowerBase">
     <defName>Botania_MysticFlower_White</defName>
     <label>mystic flower (white)</label>
-    <description>A small flower whose white petals still hold a faint trace of mana. Harvest it for petals; the plant regrows if you leave the roots alone.</description>
+    <description>The mystic flower (white) grows wild, and is the only natural source of white petals. Picking the petals leaves the plant standing, and it comes back for another harvest later. It cannot be sown - you can only wait for it to appear in the wild.
+
+A small cluster of white in a place nobody tends, and the whole patch nods when the wind passes.</description>
     <statBases>
       <MarketValue>3</MarketValue>
     </statBases>
@@ -66,7 +63,9 @@
   <ThingDef ParentName="Botania_MysticFlowerBase">
     <defName>Botania_MysticFlower_Orange</defName>
     <label>mystic flower (orange)</label>
-    <description>A small flower whose orange petals still hold a faint trace of mana. Harvest it for petals; the plant regrows if you leave the roots alone.</description>
+    <description>The mystic flower (orange) grows wild, and is a natural source of orange petals. Picking the petals leaves the plant standing, and it can be harvested again later. It cannot be sown - its petals only come off flowers like this one.
+
+Its colour was mixed rather than grown, so it looks more like a sample card than a real flower.</description>
     <statBases>
       <MarketValue>3</MarketValue>
     </statBases>
@@ -85,7 +84,9 @@
   <ThingDef ParentName="Botania_MysticFlowerBase">
     <defName>Botania_MysticFlower_Yellow</defName>
     <label>mystic flower (yellow)</label>
-    <description>A small flower whose yellow petals still hold a faint trace of mana. Harvest it for petals; the plant regrows if you leave the roots alone.</description>
+    <description>The mystic flower (yellow) grows wild, and is a natural source of yellow petals. Picking the petals leaves the plant standing, and it can be harvested again later. It cannot be sown - its petals only come off flowers like this one.
+
+A clean, decisive yellow, as if someone had cut a thin shape out of the sunlight.</description>
     <statBases>
       <MarketValue>3</MarketValue>
     </statBases>
@@ -106,7 +107,9 @@
   <ThingDef ParentName="Botania_MysticFlowerBase">
     <defName>Botania_MysticFlower_Cyan</defName>
     <label>mystic flower (cyan)</label>
-    <description>A small flower whose cyan petals still hold a faint trace of mana. Harvest it for petals; the plant regrows if you leave the roots alone.</description>
+    <description>The mystic flower (cyan) grows wild, and is a natural source of cyan petals. Picking the petals leaves the plant standing, and it can be harvested again later. It cannot be sown - its petals only come off flowers like this one.
+
+Cool to look at, like the bit of sky still hanging on the leaves after the rain stops.</description>
     <statBases>
       <MarketValue>3</MarketValue>
     </statBases>
@@ -123,7 +126,9 @@
   <ThingDef ParentName="Botania_MysticFlowerBase">
     <defName>Botania_MysticFlower_Purple</defName>
     <label>mystic flower (purple)</label>
-    <description>A small flower whose purple petals still hold a faint trace of mana. Harvest it for petals; the plant regrows if you leave the roots alone.</description>
+    <description>The mystic flower (purple) grows wild, and is a natural source of purple petals. Picking the petals leaves the plant standing, and it can be harvested again later. It cannot be sown - its petals only come off flowers like this one.
+
+Too deep for its own good, as if a scrap of night had been sewn into the flower.</description>
     <statBases>
       <MarketValue>3</MarketValue>
     </statBases>
@@ -142,7 +147,9 @@
   <ThingDef ParentName="Botania_MysticFlowerBase">
     <defName>Botania_MysticFlower_Green</defName>
     <label>mystic flower (green)</label>
-    <description>A small flower whose green petals still hold a faint trace of mana. Harvest it for petals; the plant regrows if you leave the roots alone.</description>
+    <description>The mystic flower (green) grows wild, and is a natural source of green petals. Picking the petals leaves the plant standing, and it can be harvested again later. It cannot be sown - its petals only come off flowers like this one.
+
+A little wild, and now at last it is really growing in the soil.</description>
     <statBases>
       <MarketValue>3</MarketValue>
     </statBases>
@@ -159,7 +166,9 @@
   <ThingDef ParentName="Botania_MysticFlowerBase">
     <defName>Botania_MysticFlower_Red</defName>
     <label>mystic flower (red)</label>
-    <description>A small flower whose red petals still hold a faint trace of mana. Harvest it for petals; the plant regrows if you leave the roots alone.</description>
+    <description>The mystic flower (red) grows wild, and is a natural source of red petals. Picking the petals leaves the plant standing, and it can be harvested again later. It cannot be sown - its petals only come off flowers like this one.
+
+Red like a sentence left unfinished, caught on the edge of the petal.</description>
     <statBases>
       <MarketValue>3</MarketValue>
     </statBases>
@@ -176,7 +185,9 @@
   <ThingDef ParentName="Botania_MysticFlowerBase">
     <defName>Botania_MysticFlower_Black</defName>
     <label>mystic flower (black)</label>
-    <description>A small flower whose black petals still hold a faint trace of mana. Harvest it for petals; the plant regrows if you leave the roots alone.</description>
+    <description>The mystic flower (black) grows wild, and is a natural source of black petals. Picking the petals leaves the plant standing, and it can be harvested again later. It cannot be sown - its petals only come off flowers like this one.
+
+So black that its edges shine; look long enough and you will think it is slowly closing.</description>
     <statBases>
       <MarketValue>3</MarketValue>
     </statBases>
@@ -187,6 +198,41 @@
     </graphicData>
     <plant>
       <harvestedThingDef>Botania_Petal_Black</harvestedThingDef>
+    </plant>
+  </ThingDef>
+
+  <!-- ============================================================
+       高产白神秘花（人工栽培品种）：研究「神秘花卉」后可播种，
+       单株收获 5 片白花瓣；harvestAfterGrowth=0 表示收割即销毁、需重新播种，
+       不像野生神秘花那样收割后复生。野生生成表（Patches\Botania_WildPlants.xml）
+       只挂了 Botania_MysticFlower_White，且本 def 没有 wildBiomes，
+       所以本 def 不会野生生成；wildOrder 沿用基类的 1。
+       ============================================================ -->
+  <ThingDef ParentName="Botania_MysticFlowerBase">
+    <defName>Botania_MysticFlower_WhiteGarden</defName>
+    <label>cultivated white mystic flower</label>
+    <description>A cultivated white mystic flower. Tended and replanted by hand, a single plant gives up five white petals at harvest instead of the lone petal a wild flower offers.</description>
+    <statBases>
+      <MarketValue>3</MarketValue>
+    </statBases>
+    <graphicData>
+      <texPath>Things/Plant/Botania/MysticFlower_White</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutPlant</shaderType>
+    </graphicData>
+    <plant>
+      <harvestedThingDef>Botania_Petal_White</harvestedThingDef>
+      <harvestYield>5</harvestYield>
+      <harvestAfterGrowth>0</harvestAfterGrowth>
+      <growDays>2.5</growDays>
+      <sowWork>170</sowWork>
+      <sowMinSkill>2</sowMinSkill>
+      <sowTags>
+        <li>Ground</li>
+      </sowTags>
+      <sowResearchPrerequisites>
+        <li>Botania_Flowers</li>
+      </sowResearchPrerequisites>
     </plant>
   </ThingDef>
 

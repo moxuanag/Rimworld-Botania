@@ -6,10 +6,8 @@
   <Botania.FlowerWorkingNoPool>Burning fuel (mana is lost)</Botania.FlowerWorkingNoPool>
   <Botania.FlowerNoFuel>Out of fuel</Botania.FlowerNoFuel>
   <Botania.FlowerNoPool>No mana pool in range</Botania.FlowerNoPool>
-  <Botania.FluxfieldWorking>Drawing mana nearby</Botania.FluxfieldWorking>
-  <Botania.FluxfieldNoMana>No mana available nearby</Botania.FluxfieldNoMana>
-  <Botania.RelayStored>Relay buffer: {0} / {1} (loss per hop: {2}%)</Botania.RelayStored>
-  <Botania.RelayEmpty>Relay buffer is empty</Botania.RelayEmpty>
+  <Botania.FluxfieldWorking>Drawing mana from the network</Botania.FluxfieldWorking>
+  <Botania.FluxfieldNoMana>No mana in the network</Botania.FluxfieldNoMana>
   <Botania.TransmuterWorking>Transforming nearby material</Botania.TransmuterWorking>
   <Botania.TransmuterSlow>No mana network nearby - converting at 1/{0} speed</Botania.TransmuterSlow>
   <Botania.TransmuterNoInput>No logs or stone blocks nearby to transform</Botania.TransmuterNoInput>
@@ -90,8 +88,8 @@
   <Botania.ClearMindLotusActive>Blocking psychic drone ({0} mana/s per pawn)</Botania.ClearMindLotusActive>
   <Botania.ClearMindLotusWeaken>Weakening an event psychic drone (mood penalty halved, {0} mana/s per pawn)</Botania.ClearMindLotusWeaken>
   <Botania.ClearMindLotusIdle>Idle — no psychic drone, or no mana</Botania.ClearMindLotusIdle>
-  <Botania.PixieLampOn>Pixie lamp: drinking mana (1 per 60 s)</Botania.PixieLampOn>
-  <Botania.PixieLampOff>Pixie lamp: no mana in range, dark</Botania.PixieLampOff>
+  <Botania.ManaLampOn>Mana lamp: drinking mana (1 per 60 s)</Botania.ManaLampOn>
+  <Botania.ManaLampOff>Mana lamp: no mana in range, dark</Botania.ManaLampOff>
   <Botania.LifeOrchidNoAnomaly>Dormant — requires the Anomaly expansion</Botania.LifeOrchidNoAnomaly>
   <Botania.LifeOrchidStatus>Generation {0} · {1} generation(s) of fuel left · cells die after {2} generations</Botania.LifeOrchidStatus>
   <Botania.LifeOrchidNeedBed>Needs at least {0} flesh-bed tiles inside its {1}×{1} field</Botania.LifeOrchidNeedBed>

@@ -1,44 +1,41 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
 
-  <!-- 主干节点（机制 / 装备 / 结构 / 终局）。
+  <!-- 主干节点（花卉 / 工艺 / 装备 / 结构 / 终局）。
        三条花支线的中文注入在各自分支文件里：
          Botania_Research_Generating.xml / _Functional.xml / _Defense.xml -->
 
   <Botania_Flowers.label>神秘花卉</Botania_Flowers.label>
-  <Botania_Flowers.description>边缘世界的荒野里生长着神秘花。学会分辨哪些花带着魔力、以及如何把它们种回来，是每一座植物魔法殖民地的起点。</Botania_Flowers.description>
-
-  <Botania_BasicMana.label>魔力</Botania_BasicMana.label>
-  <Botania_BasicMana.description>研究某些花朵如何把能量储存在花瓣之中，并造出把这些花瓣变成可用材料的花药台。\n\n这是整条科技线的根。点完它，树会分成三股：产魔力的花、花魔力干活的「功能花」、以及会打架的「防御花」。研磨花瓣还能得到魔力尘：它能熔进钢铁、缚入木材，也能储存在一池流动的光里。</Botania_BasicMana.description>
+  <Botania_Flowers.description>认识野生的神秘花，并学会把它们重新种回土里。解锁高产白神秘花。</Botania_Flowers.description>
 
   <Botania_Garden.label>花圃工艺</Botania_Garden.label>
-  <Botania_Garden.description>把活木与活石拼成一支能引导魔力的手杖。森林法杖由此建成，殖民地也从「只会砍木头」变成「能塑造活的材料」。</Botania_Garden.description>
+  <Botania_Garden.description>建立花卉工艺的基础。解锁花药台、简易魔力池、白雏菊与森林法杖，以及研磨魔力尘和染出各色花瓣的配方。</Botania_Garden.description>
 
   <Botania_Manasteel.label>魔力钢</Botania_Manasteel.label>
-  <Botania_Manasteel.description>把魔力尘熔进钢铁，得到既轻又韧的魔力钢。它是所有高级魔力结构的骨架——池子、中继塔、通量场与修复器都要用它。</Botania_Manasteel.description>
+  <Botania_Manasteel.description>把魔力尘熔进钢铁。解锁锻造魔力钢的配方，高级魔力结构都以它为骨架。</Botania_Manasteel.description>
 
-  <Botania_ManaStorage.label>魔力存储</Botania_ManaStorage.label>
-  <Botania_ManaStorage.description>魔力钢比活石能装下多得多的魔力。一座正经的魔力钢池可以把整座殖民地的储备集中在一处，而不是散落在十几个小碗里。</Botania_ManaStorage.description>
+  <Botania_ManaStorage.label>魔力网络</Botania_ManaStorage.label>
+  <Botania_ManaStorage.description>把散落的魔力收成储备。解锁魔力池与魔力中继塔，中继塔把池子的供给范围接力延伸出去。</Botania_ManaStorage.description>
 
-  <Botania_Infusion.label>魔力灌注</Botania_Infusion.label>
-  <Botania_Infusion.description>用魔力替代电力制造高阶物品的灌注台。</Botania_Infusion.description>
+  <Botania_Infusion.label>精灵</Botania_Infusion.label>
+  <Botania_Infusion.description>用精灵之门换取更高档的材料。解锁精灵门的门楣与左右立柱，以及元素剑、元素甲与元素头盔。</Botania_Infusion.description>
 
-  <Botania_ManaGrid.label>魔力网络</Botania_ManaGrid.label>
-  <Botania_ManaGrid.description>把整座殖民地的魔力织成一张网：更远的中继塔、更大的池子，让十几朵散落的花共同供养一处储备。</Botania_ManaGrid.description>
-
-  <Botania_WandForms.label>法杖改型</Botania_WandForms.label>
-  <Botania_WandForms.description>把森林法杖改造成两种专用形态。狙击型牺牲射速，换来一束能打穿护甲的致密长枪；爆破型射出缓慢而不稳定的魔力，落点炸开一个十字，不分敌我。两种形态都不会保留法杖原有的植物法术。</Botania_WandForms.description>
-
-  <Botania_Alfheim.label>精灵之门</Botania_Alfheim.label>
-  <Botania_Alfheim.description>用魔力换取精灵材料的门。上梁与左右立柱齐全时才会工作：把活木、活石或花瓣留在门洞里，它会从附近的魔力池抽取魔力，把它们变成梦木、精灵石英、精灵之尘和元素锭。</Botania_Alfheim.description>
-
-  <Botania_Elementium.label>元素装备</Botania_Elementium.label>
-  <Botania_Elementium.description>元素就是精灵之门用魔力钢与精灵之尘炼出的粉色金属：它不碎，只会弯，刃口比钢更耐。\n\n这一项是拿它做的一整套东西：一把太空时代的剑、一身板甲（锐器 1.04 / 钝器 0.42 / 热能 0.49），配套头盔按身甲的 60% 取值，还有一盏烧精灵之尘、常亮不灭的精灵灯。元素装备卡在魔力钢与泰拉钢之间——比殖民地自己锻得出的都好，只差盖亚之魂教的那一层。</Botania_Elementium.description>
-
-  <Botania_Terrasteel.label>泰拉钢</Botania_Terrasteel.label>
-  <Botania_Terrasteel.description>把魔力钢与精灵石英喂给四根基座围成的平台，再从魔力池里抽两万魔力过去。出来的就是泰拉钢——会生长的金属。一枚锭换一把刃、一套甲，或者一顶盔。</Botania_Terrasteel.description>
+  <Botania_Terrasteel.label>泰拉</Botania_Terrasteel.label>
+  <Botania_Terrasteel.description>在基座环绕的台上凝聚会生长的金属。解锁泰拉凝聚台与凝聚基座，以及泰拉刃、泰拉甲与泰拉头盔。</Botania_Terrasteel.description>
 
   <Botania_Gaia.label>盖亚</Botania_Gaia.label>
-  <Botania_Gaia.description>占位：只能靠盖亚之魂的科技蓝图解锁，光堆研究点不行。内容将在后续版本接入。</Botania_Gaia.description>
+  <Botania_Gaia.description>盖亚之魂教的东西，光靠研究点打不开，还得拿到蓝图。解锁世界之种苗圃、盖亚甲与盖亚头盔。</Botania_Gaia.description>
+
+  <Botania_ManaGrid.label>魔力应用</Botania_ManaGrid.label>
+  <Botania_ManaGrid.description>让魔力去驱动普通电力设备。解锁魔力通量场，它从覆盖自身的魔力网络抽魔，换成电力。</Botania_ManaGrid.description>
+
+  <Botania_ManaLampStudy.label>魔力家具</Botania_ManaLampStudy.label>
+  <Botania_ManaLampStudy.description>用魔力发光的家具，不需要电线与燃料。解锁魔力灯，断供即灭，魔力回来再亮。</Botania_ManaLampStudy.description>
+
+  <Botania_Mending.label>魔力修复器</Botania_Mending.label>
+  <Botania_Mending.description>用魔力代替零件修补东西。解锁建筑恢复器与装备修复器，分别修补建筑结构与磨损的装备。</Botania_Mending.description>
+
+  <Botania_WandForms.label>法杖</Botania_WandForms.label>
+  <Botania_WandForms.description>把森林法杖改铸成专用形态。解锁森林法杖的狙击型与爆破型，两者都不保留法杖原有的植物法术。</Botania_WandForms.description>
 
 </LanguageData>
