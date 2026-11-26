@@ -119,6 +119,11 @@
 
 > 存档：兼容。未新增任何 Scribe 字段；换 `thingClass` 的两个魔力池沿用原 `CompManaStorage` 键。
 
+<!-- release-notes-end -->
+<!-- 上面这行是给 .github/workflows/release.yml 用的：Release 正文只取
+     `## [版本号]` 到本标记之间的内容（摘要 + 新增/更改/修复），后面的历史明细不进 Release。
+     以后每版都要在自己那节的末尾放一个同样的标记。 -->
+
 ### 魔力网络：消费侧统一 + 池子魔力条 + 通量场重绘（2026-11-26）
 
 - **消费侧取魔统一走网络**（行为变更）：`ManaDeviceCore.TryPay` / `TryPayUpTo` 改用

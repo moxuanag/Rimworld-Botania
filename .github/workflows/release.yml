@@ -57,10 +57,31 @@ jobs:
           path: dist/*.zip
           if-no-files-found: error
 
+      - name: 从 CHANGELOG 抽本版说明
+        run: |
+          set -euo pipefail
+          V="${{ steps.ver.outputs.version }}"
+          python3 - "$V" <<'PY'
+          import pathlib
+          import re
+          import sys
+
+          version = sys.argv[1]
+          text = pathlib.Path("CHANGELOG.md").read_text(encoding="utf-8")
+          pattern = rf"^## \[{re.escape(version)}\][^\n]*\n(.*?)(?=^## \[|^<!-- release-notes-end -->|\Z)"
+          match = re.search(pattern, text, re.S | re.M)
+          body = match.group(1).strip() if match else ""
+          if not body:
+              body = f"本版变更见 CHANGELOG.md（未找到 `## [{version}]` 小节）。"
+          pathlib.Path("dist/RELEASE_NOTES.md").write_text(body + "\n", encoding="utf-8")
+          print(f"Release 正文：{len(body)} 字符")
+          PY
+
       - name: 发布 Release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
           name: v${{ steps.ver.outputs.version }}
+          body_path: dist/RELEASE_NOTES.md
           files: dist/*.zip
-          generate_release_notes: true
+          fail_on_unmatched_files: true
