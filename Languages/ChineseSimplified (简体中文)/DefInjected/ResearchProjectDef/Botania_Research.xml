@@ -27,7 +27,7 @@
   <Botania_Gaia.description>全树的终点，盖亚之魂教的东西。解锁世界之种苗圃，以及盖亚甲与盖亚头盔。光攒研究点打不开它，还得从盖亚守护者手里拿到一张盖亚之魂蓝图；三支花线的终极档同样要先走通这里。\n\n门开的时候没有声音，只有风从另一侧穿过来。</Botania_Gaia.description>
 
   <Botania_ManaGrid.label>魔力应用</Botania_ManaGrid.label>
-  <Botania_ManaGrid.description>把储备里的魔力接到别处去用。解锁魔力通量场：从附近的池子抽魔力，换成普通电力喂给那些天生不会喝魔力的机器。它只在找得到魔力可抽的时候运转；树上接在魔力钢之后。\n\n魔力不必和电网一争高下，它可以直接就是电网。</Botania_ManaGrid.description>
+  <Botania_ManaGrid.description>把储备里的魔力接到别处去用。解锁魔力通量场：从它所在格的魔力网络抽魔力（中继塔延伸到的池子也算），以每秒 1.5 点魔力的代价换成 1000W 普通电力，喂给那些天生不会喝魔力的机器。网络里没有魔力可抽时它完全停转；树上接在魔力钢之后。\n\n魔力不必和电网一争高下，它可以直接就是电网。</Botania_ManaGrid.description>
 
   <Botania_ManaLampStudy.label>魔力家具</Botania_ManaLampStudy.label>
   <Botania_ManaLampStudy.description>用魔力发光的家具，而不是工业设备。解锁魔力灯：不接电线、不耗燃料，灯罩里存的魔力自己烧成光。断供就灭、魔力回来再亮；树上接在魔力钢之后。\n\n没有开关也没有灯绳，房间自己知道什么时候该亮。</Botania_ManaLampStudy.description>

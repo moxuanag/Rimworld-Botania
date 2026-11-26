@@ -49,7 +49,7 @@
   <Botania_Livingrock.description>活石是石质建材，只能盖房、不能当燃料。用它建造时生命 ×2、工时 ×1.2、不燃、美观 +8；作护甲材料是锐 95% / 钝 90% / 热 55%。白雏菊能把切好的石砖（花岗岩砖这类）转成活石，精灵门则用 4 块活石换 1 块精灵石英；1 块市值 7。\n\n石头上长了一层薄薄的活气，比花岗岩更暖，也更像还在呼吸。</Botania_Livingrock.description>
 
   <Botania_ManaFluxfield.label>魔力通量场</Botania_ManaFluxfield.label>
-  <Botania_ManaFluxfield.description>魔力通量场是 1×1 的魔力转电力设备，用 10 块魔力钢锭、40 份钢与 2 个零件建成。它以每秒 1.5 点魔力的代价向电网输出 1000W，可以像普通电器一样开关；附近没有可抽取的魔力时它完全停转。生命 150、市值 967、美观 -2。\n\n线圈里那点被封住的光一直在转，转到有人来收电为止。</Botania_ManaFluxfield.description>
+  <Botania_ManaFluxfield.description>魔力通量场是 1×1 的魔力转电力设备，用 10 块魔力钢锭、40 份钢与 2 个零件建成。它以每秒 1.5 点魔力的代价向电网输出 1000W，可以像普通电器一样开关；它从所在格的魔力网络取魔，中继塔延伸到的池子也算，网络里没有可抽取的魔力时它完全停转。生命 150、市值 967、美观 -2。\n\n线圈里那点被封住的光一直在转，转到有人来收电为止。</Botania_ManaFluxfield.description>
 
   <Botania_ManaRelay.label>魔力中继塔</Botania_ManaRelay.label>
   <Botania_ManaRelay.description>魔力中继塔是延伸魔力网络范围的 1×1 设备，自己不存任何魔力。它把供给半径推到 11 格，让范围内的池子与设备像隔壁一样互通；如果它的圆圈碰不到任何接了池子的节点，就只是个废塔，检视栏会直接说明。造价 5 块魔力钢锭、10 块活木与 1 个工业零件，生命 120、市值 529。\n\n细塔顶端悬着一团不肯落下的光，像替远处的东西守着一条线。</Botania_ManaRelay.description>

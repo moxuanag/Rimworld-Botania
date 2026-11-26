@@ -5,7 +5,7 @@
     <defName>Botania_ManaPoolSimple</defName>
     <label>simple mana pool</label>
     <description>A small bowl of livingrock and livingwood holding a shallow pool of mana. It stores far less than a proper manasteel pool, but it is the first vessel most gardeners ever build.</description>
-    <thingClass>Building</thingClass>
+    <thingClass>Botania.Building_ManaPool</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <graphicData>
       <texPath>Things/Building/Botania/ManaPoolSimple</texPath>
@@ -70,7 +70,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>Botania_ManaFluxfield</defName>
     <label>mana fluxfield</label>
-    <description>A lattice of manasteel coils around a mote of bottled light. It pulls mana out of a nearby pool and turns it into ordinary electric power. It runs only while it can find mana to draw.</description>
+    <description>A lattice of manasteel coils around a mote of bottled light. It draws mana from the mana network of the cell it stands on — a pool reached by a relay tower counts — and turns it into ordinary electric power. It runs only while that network can supply mana to draw.</description>
     <thingClass>Building</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <graphicData>

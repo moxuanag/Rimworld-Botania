@@ -21,7 +21,7 @@
     <defName>Botania_ManaPool</defName>
     <label>mana pool</label>
     <description>A shallow basin of livingwood lined with manasteel, filled with liquid light. It stores mana produced by nearby flowers and shares it with adjacent pools.</description>
-    <thingClass>Building</thingClass>
+    <thingClass>Botania.Building_ManaPool</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <graphicData>
       <texPath>Things/Building/Botania/ManaPool</texPath>

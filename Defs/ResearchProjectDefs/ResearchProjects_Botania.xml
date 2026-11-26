@@ -105,7 +105,7 @@
   <ResearchProjectDef>
     <defName>Botania_ManaGrid</defName>
     <label>mana application</label>
-    <description>Mana is only worth what the colony can put it to. This is the branch that takes the reserve and applies it somewhere: a relay tower carries the network outward so devices far from the pool still count as connected, and the converter line turns stored mana into ordinary electric power for machines that were never built to drink anything else.\n\nA relay stores nothing of its own - a tower whose circle touches no pool-backed node is dead weight and says so on inspection - and a converter runs only while it can find mana to draw. Between them they are what lets a mana economy stand in for a power grid instead of running beside it: fixed points keep working with no fuel, no pawn and no conduit.\n\nFull numbers and derivations: gameplay guide.</description>
+    <description>Mana is only worth what the colony can put it to. This branch does exactly one thing: it unlocks the mana fluxfield, which draws on the mana network covering its own tile - a pool reached by a relay tower counts - and turns it into ordinary electric power at 1.5 mana per second for 1000 W, enough to feed the machines that were never built to drink anything else.\n\nThe fluxfield holds nothing of its own: it runs only while the network can supply the draw, and a tile outside every pool's and relay's circle gives it nothing to convert. That is what lets a mana economy stand in for a power grid instead of running beside it - fixed points keep working with no fuel, no pawn and no conduit.\n\nFull numbers and derivations: gameplay guide.</description>
     <baseCost>1200</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>

@@ -6,8 +6,8 @@ using Verse;
 namespace Botania
 {
     /// <summary>
-    /// 魔力通量场：把附近魔力池中的魔力转化为电力（对应 Botania 的 Mana Fluxfield）。
-    /// 每 60 tick 结算一次：池里有足够魔力就满功率输出，没有就完全停机。
+    /// 魔力通量场：把设备所在格「魔力网络」中的魔力转化为电力（对应 Botania 的 Mana Fluxfield）。
+    /// 每 60 tick 结算一次：网络里魔力够就满功率输出，不够就完全停机。
     ///
     /// 框架迁移（0.8.4 S2 · 组合式示范）：
     /// 本设备的父类必须是 <see cref="CompPowerTrader"/>（要接电网），无法继承 CompManaDevice，
@@ -19,7 +19,7 @@ namespace Botania
         /// <summary>满功率运行时每秒消耗的魔力。</summary>
         public float manaPerSecond = 5f;
 
-        /// <summary>搜索魔力池的半径（格）。</summary>
+        /// <summary>旧版「搜索半径」字段：仅为存档 / XML 兼容保留，不再参与取魔（取魔走所在格的魔力网络）。</summary>
         public float searchRadius = 6f;
 
         public CompProperties_ManaFluxfield()
