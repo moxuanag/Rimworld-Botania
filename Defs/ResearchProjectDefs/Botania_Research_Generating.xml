@@ -37,7 +37,7 @@
   <ResearchProjectDef>
     <defName>Botania_GenBasic</defName>
     <label>basic generating flowers</label>
-    <description>Generating flowers are the only place a colony's mana can come from, and they divide into three jobs. Burners eat wood, chemfuel or livingwood and pay out a steady stream of mana for every unit of fuel (a unit is worth 3,000 mana; the basic burner drinks 0.01 fuel per second, which is 30 mana/s). Passive blooms drink daylight or darkness for nothing, give 8 mana/s by day and 4 by night, and wither after 15 days. Scavengers pay in bursts for something the colony would otherwise throw away: a short circuit, a blighted crop, a pawn's labour, or a pattern of living cells.\n\nNearly all of them share one rule: the flower must stand inside the supply circle of a mana pool (4 tiles for a simple pool, 7 for a manasteel pool), or of a relay (11 tiles) that is chained to one - that is the colony's mana network. Outside it, most flowers stop dead and burn nothing; scavengers still take their meal and the mana is simply wasted. None of them holds much of a reserve, so a full pool is as good as no pool.\n\nFull numbers and derivations: gameplay guide.</description>
+    <description>Generating flowers are where a colony's mana comes from. This card attaches no defs itself; it opens the endoflame, bitter bloom, daybloom and nightshade cards.</description>
     <baseCost>900</baseCost>
     <techLevel>Medieval</techLevel>
     <tab>Botania</tab>
@@ -53,7 +53,7 @@
   <ResearchProjectDef>
     <defName>Botania_GenAdvanced</defName>
     <label>advanced generating flowers</label>
-    <description>The advanced tier is where generating flowers stop trickling and start working for a living. A burner converts a hopper of fuel at a fixed rate, a scavenger turns other people's waste into a burst of mana, and both are sized to feed a real pool instead of topping one up: these are the flowers a colony builds once terrasteel is in hand and the network can carry the output.\n\nWhat they have in common is a bill paid somewhere else. Burners spend wood, chemfuel or livingwood, scavengers spend a short circuit or a pawn's fatigue, and all of them still need the mana pool or its relay chain covering their tile - outside the network the mana is made and then simply lost, which is the one mistake this tier punishes hardest.\n\nFull numbers and derivations: gameplay guide.</description>
+    <description>The advanced tier of generating flowers. This card attaches no defs itself; it opens the rosa arcana and the ultimate generating flowers cards.</description>
     <baseCost>800</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>
@@ -72,7 +72,7 @@
   <ResearchProjectDef>
     <defName>Botania_EndoflameStudy</defName>
     <label>endoflame</label>
-    <description>An endoflame eats fire instead of light. Feed it wood, chemfuel or livingwood and it burns 0.01 of a fuel unit per second, turning each unit into 3,000 mana: 30 mana/s, with 50 units of fuel in its hopper - 150,000 mana, 5,000 seconds of running. It is the first generating flower that gives a real, predictable supply instead of a trickle.\n\nFeed it only when a pool can take the mana: the flower is paid for what the pool actually accepts and burns fuel only for that, so a full pool means no fuel is wasted. With no pool covering its tile (a pool's 4 or 7 tile circle, or a relay's 11) it stops and burns nothing at all. Formula: mana/s = fuel per second x mana per fuel = 0.01 x 3,000 = 30 mana/s.\n\nFull numbers and derivations: gameplay guide.</description>
+    <description>A generating flower that eats fuel instead of light. Unlocks the endoflame, which burns wood, livingwood or chemfuel, and stops without a mana network.</description>
     <baseCost>700</baseCost>
     <techLevel>Medieval</techLevel>
     <tab>Botania</tab>
@@ -88,7 +88,7 @@
   <ResearchProjectDef>
     <defName>Botania_BitterBloomStudy</defName>
     <label>bitter bloom</label>
-    <description>Bitter bloom lives off other people's work. Every point of skill experience a pawn earns within 8 tiles is banked, and once a second the bloom cashes it in at 10 mana per point, up to 400 mana/s per pawn. It is the one generating flower that scales with how busy the colony is, and the only one that sends the bill to the workers: each payout adds 0.25 severity of work fatigue (max 1, movement -10% to -30%, fading 0.5 per day) and a -2 mood memory that stacks up to 3 times.\n\nFiddling is not worth much: a payout under 5 experience counts as small work and only pays once per pawn every 60 seconds. Idlers earn nothing, and if no pool covers the flower the mana is lost while the fatigue and the bad mood are still handed out. Formula: mana/s per pawn = min(400, experience x 10).\n\nFull numbers and derivations: gameplay guide.</description>
+    <description>A generating flower billed to other people's labour. Unlocks the bitter bloom, which makes mana while pawns nearby work, and charges those pawns for it.</description>
     <baseCost>850</baseCost>
     <techLevel>Medieval</techLevel>
     <tab>Botania</tab>
@@ -104,7 +104,7 @@
   <ResearchProjectDef>
     <defName>Botania_GenUltimate</defName>
     <label>ultimate generating flowers</label>
-    <description>The last tier of generating flowers is built around a heat engine and a game of life. A furnace orchid turns a sealed room's temperature into up to 60 mana a second and burns fuel per point of mana actually delivered; a life orchid runs an 11x11 colony of cells and pays only for the cells that are born or die, up to 900 mana per generation. Neither is a flower to plant and forget, and together they are the highest sustained output the colony can reach.\n\nBoth punish neglect in their own way: the orchid takes damage above 150C and can catch fire at 195C, needs more than 11 tiles of room to itself, and the life orchid pays nothing at all while its pattern is still or while a pawn stands inside the grid. A pool within reach is still mandatory - without it the output is simply lost.\n\nFull numbers and derivations: gameplay guide.</description>
+    <description>The last tier of generating flowers. This card attaches no defs itself; it opens the furnace orchid and the life orchid cards.</description>
     <baseCost>1200</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>
@@ -123,7 +123,7 @@
   <ResearchProjectDef>
     <defName>Botania_PassiveGenerating</defName>
     <label>daybloom</label>
-    <description>A flower that asks for nothing but daylight. While the sky over its tile is brighter than the 0.5 threshold (noon is 1), it trickles 8 mana every second into the network that covers it: no fuel, no pawns, no upkeep. It is the cheapest way to keep a small pool topped up, and 250 seconds of daylight is enough to fill a simple pool (2,000 mana) at that rate.\n\nIt must sit inside a pool's supply circle (4 tiles for a simple pool, 7 for a manasteel pool) or a relay's circle (11 tiles). Light decides everything: at night, under an eclipse or under volcanic ash it stops, and 15 days (900,000 ticks) after planting it withers and vanishes, leaving nothing behind. Formula: 8 mana/s x 1 s = 8 mana per payout, one payout per second.\n\nFull numbers and derivations: gameplay guide.</description>
+    <description>A passive flower that asks only for daylight. Unlocks the daybloom, which needs no fuel or pawn and stops at night, under an eclipse or under ash.</description>
     <baseCost>400</baseCost>
     <techLevel>Medieval</techLevel>
     <tab>Botania</tab>
@@ -139,7 +139,7 @@
   <ResearchProjectDef>
     <defName>Botania_NightshadeStudy</defName>
     <label>nightshade</label>
-    <description>Nightshade is the daybloom's mirror image: 4 mana per second, paid only while the sky over it is dark (sky glow at or below 0.5). It costs half what a daybloom produces and burns nothing, which makes it the flower that keeps a pool filling through the night - and the one that keeps working under an eclipse or a volcanic winter while everything else goes quiet.\n\nThe rules are the same as any passive bloom: it must stand inside a pool's supply circle (4 tiles for a simple pool, 7 for a manasteel pool) or a relay's circle (11 tiles), and it withers 15 days (900,000 ticks) after planting. Under darkness it takes 500 seconds to fill a simple pool (2,000 mana). Formula: 4 mana/s x 1 s = 4 mana per payout, one payout per second.\n\nFull numbers and derivations: gameplay guide.</description>
+    <description>The night-time counterpart of the daybloom. Unlocks the nightshade, which makes mana only in darkness, and less of it than a daybloom.</description>
     <baseCost>400</baseCost>
     <techLevel>Medieval</techLevel>
     <tab>Botania</tab>
@@ -155,7 +155,7 @@
   <ResearchProjectDef>
     <defName>Botania_RosaArcanaStudy</defName>
     <label>rosa arcana</label>
-    <description>A rose that harvests what a mind has not finished learning. Anyone within 8 tiles who still has a skill below level 20, and who actually learns something during the second (skill experience went up, or they are doing research), feeds it 6 mana per second. Five researchers are 30 mana/s; a crowd of idlers is zero.\n\nThe pawn pays for it: a thought-siphoned hediff halves their global learning factor while they are in range, and a -2 mood memory follows them out. Pawns with every skill at 20 give it nothing. It needs a pool covering its tile; without one the siphoning still happens and the mana is lost. Formula: mana/s = 6 x number of pawns still learning.\n\nFull numbers and derivations: gameplay guide.</description>
+    <description>Harvest what a mind has not finished learning. Unlocks the rosa arcana, which makes more mana the more pawns nearby are still learning.</description>
     <baseCost>1100</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>
@@ -171,7 +171,7 @@
   <ResearchProjectDef>
     <defName>Botania_GeneratingII</defName>
     <label>furnace orchid</label>
-    <description>The furnace orchid turns heat into mana, but not for free: it wants a sealed, roofed room, a temperature above 40C and fuel. Its output is 0.2 x (T - 40) x the square root of the floor space it commands, where that space is the room's area (capped at 150) divided by the number of furnace orchids in it, and each orchid needs more than 11 tiles to work at all. A 100-tile room at 70C with one orchid already hits the 60 mana/s hard cap.\n\nFuel is spent per point of mana actually delivered: 2,000 mana per unit, 50 units to a hopper. Orchids packed shoulder to shoulder stop working, so leave a tile between them. Past 150C the flower takes 0.04 HP per degree per second, and at 195C it can catch fire at 1% per second. In open air, below 40C or without fuel it produces nothing at all; with no pool covering its tile the mana is lost instead of stored, and a hot room keeps damaging it while it tries. Formula: mana/s = min(60, 0.2 x (T - 40) x sqrt(A)), A = room area / orchids.\n\nFull numbers and derivations: gameplay guide.</description>
+    <description>Turn the heat of a sealed room into mana. Unlocks the furnace orchid, which burns fuel in a roofed, hot room and damages itself when it overheats.</description>
     <baseCost>1500</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>
@@ -187,7 +187,7 @@
   <ResearchProjectDef>
     <defName>Botania_LifeOrchidStudy</defName>
     <label>life orchid</label>
-    <description>The last generating flower is not a source at all - it is a game. Around the orchid, an 11x11 patch of flesh bed (at least 25 cells of it) is a colony of cells: flesh seeds on that bed live, breed and die by the ordinary rules of Conway's life, one generation every 250 ticks (TickRare, about 4 seconds). It pays only for change: 40 mana per cell born, 40 per cell that dies, minus the cells lost to old age, capped at 900 mana per generation - 216 mana/s at best. 23 changed cells already reach that cap.\n\nA still pattern pays nothing, ever, so an oscillator or a glider is what you actually want. Cells that stay alive 30 generations in a row wither on their own and have to be disturbed. A pawn or an edifice standing inside the 11x11 pauses everything, and without the Anomaly DLC the flower does nothing at all. A mana pool within 6 tiles collects the payout; with none, generations keep running and the mana is lost. Formula: mana per generation = min(900, 40 x (born + died - aged)).\n\nFull numbers and derivations: gameplay guide.</description>
+    <description>A generating flower that is really a game. Unlocks the life orchid, which runs a colony of cells on a flesh bed and pays only for change.</description>
     <baseCost>2500</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>

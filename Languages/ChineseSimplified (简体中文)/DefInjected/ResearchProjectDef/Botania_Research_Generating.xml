@@ -8,33 +8,33 @@
        ============================================================ -->
 
   <Botania_GenBasic.label>基础产能花</Botania_GenBasic.label>
-  <Botania_GenBasic.description>产能花是殖民地里唯一的魔力来源，这一档讲清它们的三种分工。它本身不挂任何配方或建筑，只把「魔力从哪来」这件事串起来。火红莲、苦丽花、太阳花、夜颠茄都排在它下面。\n\n花园的第一条规矩：花不会自己开，得先有人学会浇水。</Botania_GenBasic.description>
+  <Botania_GenBasic.description>产能花是殖民地的魔力来源。它本身不挂物品，只开启火红莲、苦丽花、太阳花与夜颠茄的卡片。</Botania_GenBasic.description>
 
   <Botania_GenAdvanced.label>进阶产能花</Botania_GenAdvanced.label>
-  <Botania_GenAdvanced.description>产能花的第二档，不再滴灌，而是正经供给。它本身不挂任何配方或建筑，只决定这一档能不能开工。阿卡纳蔷薇与终极产能花排在它下面，而暗处还要先掌握泰拉。\n\n等到金属会自己生长，花才开始认真干活。</Botania_GenAdvanced.description>
+  <Botania_GenAdvanced.description>产能花的进阶档位。它本身不挂物品，只开启阿卡纳蔷薇与终极产能花的卡片。</Botania_GenAdvanced.description>
 
   <Botania_GenUltimate.label>终极产能花</Botania_GenUltimate.label>
-  <Botania_GenUltimate.description>产能花的最后一档，靠一台热机与一场生命游戏撑起来。它本身不挂任何配方或建筑，只决定这一档能不能开工。炉心蕙与启命英排在它下面，而暗处还要先走通盖亚。\n\n到这里，产魔已经不是园艺，是工程。</Botania_GenUltimate.description>
+  <Botania_GenUltimate.description>产能花的最后一档。它本身不挂物品，只开启炉心蕙与启命英的卡片。</Botania_GenUltimate.description>
 
   <Botania_PassiveGenerating.label>太阳花</Botania_PassiveGenerating.label>
-  <Botania_PassiveGenerating.description>只要日光就能产魔的被动花。解锁太阳花：头顶亮着就往网络里送魔力，不烧燃料、不占人手。树上接基础产能花，天黑、日食或落灰之后就停。\n\n一块不需要照看的田，太阳落山它就睡。</Botania_PassiveGenerating.description>
+  <Botania_PassiveGenerating.description>只要日光就能产魔的被动花。解锁太阳花，不烧燃料也不占人手，天黑、日食或落灰就停。</Botania_PassiveGenerating.description>
 
   <Botania_NightshadeStudy.label>夜颠茄</Botania_NightshadeStudy.label>
-  <Botania_NightshadeStudy.description>太阳花的另一半，天黑才开工。解锁夜颠茄：夜里往网络里送魔力，产量是太阳花的一半。树上同样接基础产能花，日食与火山冬天里它照旧工作。\n\n别人熄灯的时候，它才把花瓣张开。</Botania_NightshadeStudy.description>
+  <Botania_NightshadeStudy.description>太阳花的夜间对应花。解锁夜颠茄，只在黑暗里产魔，产量不如太阳花。</Botania_NightshadeStudy.description>
 
   <Botania_EndoflameStudy.label>火红莲</Botania_EndoflameStudy.label>
-  <Botania_EndoflameStudy.description>吃火不吃光的产能花。解锁火红莲：木材、活木或化合燃料喂进去，按固定比例换成魔力。树上排在基础产能花之下；格子不在魔力网络里，它停手不烧料。\n\n它开花的时候，旁边的柴堆会自己矮下去。</Botania_EndoflameStudy.description>
+  <Botania_EndoflameStudy.description>吃燃料而不是吃光的产能花。解锁火红莲，木材、活木与化合燃料都能喂，不在网络里就停手不烧料。</Botania_EndoflameStudy.description>
 
   <Botania_BitterBloomStudy.label>苦丽花</Botania_BitterBloomStudy.label>
-  <Botania_BitterBloomStudy.description>靠别人的劳动结账的产能花。解锁苦丽花：附近有人干活，它就把那份劳累换成魔力。代价由干活的人付，累加在身上、心情也一起变差；树上接基础产能花。\n\n花开得很艳，闻久了却让人想起没干完的活。</Botania_BitterBloomStudy.description>
+  <Botania_BitterBloomStudy.description>靠旁人的劳累结账的产能花。解锁苦丽花，附近有人干活才产魔，代价由干活的人付。</Botania_BitterBloomStudy.description>
 
   <Botania_RosaArcanaStudy.label>阿卡纳蔷薇</Botania_RosaArcanaStudy.label>
-  <Botania_RosaArcanaStudy.description>抽走「还在学」这件事来产魔的花。解锁阿卡纳蔷薇：范围内还没学满的人越多，它送进网络的魔力越多。代价由被抽的人付，学得更慢、心情也变差；树上接进阶产能花。\n\n知识在这里，是一种可以摘下来的东西。</Botania_RosaArcanaStudy.description>
+  <Botania_RosaArcanaStudy.description>抽走「还在学」这件事来产魔。解锁阿卡纳蔷薇，范围内还在学习的人越多，产魔越多。</Botania_RosaArcanaStudy.description>
 
   <Botania_GeneratingII.label>炉心蕙</Botania_GeneratingII.label>
-  <Botania_GeneratingII.description>把密闭房间的温度换成魔力的花。解锁炉心蕙：封闭、有顶、够热的房间里烧燃料，温度越高、分到的面积越大，产量越高。热过了头它自己掉血、甚至自燃；树上接终极产能花。\n\n花圃里最像锅炉房的一朵。</Botania_GeneratingII.description>
+  <Botania_GeneratingII.description>把密闭房间的热量换成魔力。解锁炉心蕙，在有顶、够热的封闭房间里烧燃料，热过了头它会自损。</Botania_GeneratingII.description>
 
   <Botania_LifeOrchidStudy.label>启命英</Botania_LifeOrchidStudy.label>
-  <Botania_LifeOrchidStudy.description>严格说它不是产地，而是一场游戏的计分板。解锁启命英：在血肉床上布下会出生、繁殖、死亡的细胞群，它只为每一次变化付钱。静止的图案一分不给；树上接终极产能花。\n\n它数的是生死，不是时间。</Botania_LifeOrchidStudy.description>
+  <Botania_LifeOrchidStudy.description>把生命游戏当成计分板。解锁启命英，在血肉床上养着会生灭的细胞，只为变化付账。</Botania_LifeOrchidStudy.description>
 
 </LanguageData>

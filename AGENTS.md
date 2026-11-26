@@ -34,6 +34,13 @@
 - **风味段是用户专门写的，逐字节保留**（含标点），仍用空行与功能段隔开：
   - 中文 `DefInjected` 里写**字面** `\n\n`（`Verse.DefInjectionPackage.cs:106` 会反转义）；
   - 内联 `Defs` 的 `<description>` 里写**真换行**（引擎不做反转义，写 `\n` 会原样显示）。
+- **研究卡是例外（2026-11-26 用户定）**：研究卡描述**单段、没有风味段**，上面
+  「风味段逐字节保留」不适用于它。研究卡也不写 `\n\n`、不写尾句
+  `Full numbers and derivations: gameplay guide.`；风格对齐原版
+  （`Batteries` = *"Build batteries for storing electricity."*）。
+- **每个 Def 的描述文本只能出现在「与它 Def 同名的那个 DefInjected 文件」里**。
+  同一 `defName` 在两个 DefInjected 文件里各写一次 = 重复定义，后加载的会盖掉先加载的
+  （2026-11-26 踩过：23 条研究卡被同时写进主文件和分支文件）。
 
 
 ## 2. AI 协作工作流（硬规则）

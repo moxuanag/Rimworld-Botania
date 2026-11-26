@@ -31,7 +31,7 @@
   <ResearchProjectDef>
     <defName>Botania_FunctionalI</defName>
     <label>basic functional flowers</label>
-    <description>Functional flowers are the other half of the garden: they turn mana into labour instead of making it. A generating flower feeds the pool; a functional flower only spends what the pool already holds, converting material, mending gear, quieting a mind or holding ground, and never puts a single point of mana back. This tier is the entry to that half - the flowers a colony builds as soon as it can plant anything at all, priced in tens of mana rather than hundreds.\n\nWhat they share is a bill and a leash. Each one prices its work in mana and settles on a fixed timer, and each only works while its own tile sits inside a mana network: coverage = 4 tiles from a simple pool, 7 from a manasteel pool, 11 from a relay, and a relay only counts when its circle overlaps a pool-backed group. Outside every circle there is nothing to draw on; inside one the flower pays its printed price out of the group's shared reserve, and a full manasteel pool holds 100,000 mana to pay with. A flower that cannot pay skips that action. Bottom line: no pool, no work.\n\nFull numbers and derivations: gameplay guide.</description>
+    <description>Functional flowers spend mana on labour instead of making it. This card attaches no defs itself; it opens the blight eater and clear-mind lotus cards.</description>
     <baseCost>500</baseCost>
     <techLevel>Medieval</techLevel>
     <tab>Botania</tab>
@@ -47,7 +47,7 @@
   <ResearchProjectDef>
     <defName>Botania_FuncAdvanced</defName>
     <label>advanced functional flowers</label>
-    <description>The advanced functional flowers pay a real price for real work: they settle every second or so, take the most damaged or the most exposed target first, and draw hundreds of mana rather than tens. This is the tier that lets mana replace both a workbench and a guard post - gear mended where it lies, hostiles slowed and cut before they close - which is also why it is built on a terrasteel network rather than a single pool.\n\nEverything in it obeys the same rule as the entry tier: the flower's own tile must sit inside a mana network (4 tiles from a simple pool, 7 from a manasteel pool, 11 from a relay chained to one), and a flower that cannot pay the whole bill does nothing that second rather than working for free. Coverage is the design problem, not the flower.\n\nFull numbers and derivations: gameplay guide.</description>
+    <description>The advanced tier of functional flowers. This card attaches no defs itself; it opens the storm bloom and the ultimate functional flowers cards.</description>
     <baseCost>800</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>
@@ -66,7 +66,7 @@
   <ResearchProjectDef>
     <defName>Botania_BlightEaterStudy</defName>
     <label>blight eater</label>
-    <description>A scavenger that eats sickness. Every 3 seconds it looks for a blighted crop within 6 tiles, swallows the nearest one whole and wrings 1,500 mana out of the rot. It never touches a healthy plant, so it is not a farm - it is a field cleaner that happens to pay. Ten plants in a row fill it, after which it sits and digests for 30 seconds.\n\nRead it as a cycle: 10 plants at 3 seconds each is 30 seconds of eating for 15,000 mana, then 30 seconds of rest, so 250 mana/s sustained as long as the blight lasts, and 500 mana/s in the moment it swallows. No blighted crops in range means no output at all. If no pool covers its tile it still eats and the mana is simply lost. Formula: 1,500 x 10 plants per (10 x 3 s + 30 s) = 250 mana/s.\n\nFull numbers and derivations: gameplay guide.</description>
+    <description>A flower that eats blight instead of making it. Unlocks the blight eater, which swallows blighted crops nearby and turns them into mana.</description>
     <baseCost>1000</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>
@@ -82,7 +82,7 @@
   <ResearchProjectDef>
     <defName>Botania_ClearMindLotusStudy</defName>
     <label>clear-mind lotus</label>
-    <description>A pale lotus that pushes one thought out of every head within 8 tiles. It only cancels the psychic drone: with a psychic droner building on the map the drone thought is switched off outright, and for an event drone with no building the mood penalty is only halved. No drone, no bill, and no other mood is touched.\n\nIt charges per protected head every 60 ticks (one second): 20 mana for each pawn the drone is actually affecting, nothing for pawns the drone ignores. One payment holds for 180 ticks (3 seconds). It never pays half a bill: if the network cannot cover the whole cost the pawns are handed to another lotus, and the drone returns once the last paid window lapses. Bottom line: 20 mana per affected pawn per second, so 5 pawns x 20 = 100 mana per second.\n\nFull numbers and derivations: gameplay guide.</description>
+    <description>A lotus that pushes a psychic drone out of every head in range. Unlocks the clear-mind lotus, which charges nothing when there is no drone.</description>
     <baseCost>900</baseCost>
     <techLevel>Medieval</techLevel>
     <tab>Botania</tab>
@@ -98,7 +98,7 @@
   <ResearchProjectDef>
     <defName>Botania_FuncUltimate</defName>
     <label>ultimate functional flowers</label>
-    <description>The endgame of the functional half: flowers whose effect reaches across a map, or answers a threat nothing else in the colony can, and which are priced accordingly - each settlement draws on a reserve measured in thousands rather than tens.\n\nThey sit behind the gaia spirit, so a colony that has not walked through terrasteel and the gaia spirit will never see them, and they assume a manasteel grid is already standing. The shared rule does not change: the tile must be inside the network, the bill is paid in full or the action is skipped, and a dry pool means a silent flower rather than a cheaper one.\n\nFull numbers and derivations: gameplay guide.</description>
+    <description>The end tier of functional flowers. This card attaches no defs itself; nothing hangs under it yet and it is kept as a mount point.</description>
     <baseCost>1200</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>
@@ -117,7 +117,7 @@
   <ResearchProjectDef>
     <defName>Botania_StormBloomStudy</defName>
     <label>storm bloom</label>
-    <description>A tiny flower with a deliberately small reservoir. When a power conduit short-circuits and the grid dumps its stored charge, every storm bloom within 15 tiles of the faulty conduit drinks what it can of that burst and passes it into the network at 200 mana per watt-day. Its own reservoir holds 2,400 mana - 12 watt-days - so a single bloom can only salvage the first 12 watt-days of a discharge; blooms are served nearest-first and the rest of the burst is lost.\n\nIt produces nothing on its own: no short circuit, no mana. It also only catches a real discharge, which takes a battery holding more than 20 watt-days; smaller faults just spark. And it must be able to push its reservoir into a pool (a pool's 4 or 7 tile circle, or a relay's 11) - a bloom with nowhere to send mana stays full and eats nothing further. Formula: mana = watt-days salvaged x 200, hard-capped at 2,400 per discharge; emptied into the pool once a second, that is at most 2,400 mana/s.\n\nFull numbers and derivations: gameplay guide.</description>
+    <description>A flower that salvages shorted-out power. Unlocks the storm bloom, which catches a conduit discharge as mana; its own buffer is small.</description>
     <baseCost>900</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>

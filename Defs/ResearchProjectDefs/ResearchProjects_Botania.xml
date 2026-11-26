@@ -44,7 +44,7 @@
   <ResearchProjectDef>
     <defName>Botania_Flowers</defName>
     <label>mystic botany</label>
-    <description>Wild mystic flowers grow across the rim. Learning which ones hold mana, and how to plant them again, is where every Botania colony starts.</description>
+    <description>Learn the wild mystic flowers and how to plant them again. Unlocks the cultivated white mystic flower.</description>
     <baseCost>300</baseCost>
     <techLevel>Neolithic</techLevel>
     <tab>Botania</tab>
@@ -57,7 +57,7 @@
   <ResearchProjectDef>
     <defName>Botania_Garden</defName>
     <label>garden craft</label>
-    <description>Bind livingwood and livingrock into a staff that can channel mana. This is where the wand of the forest is built, and where the colony learns to shape living materials instead of only cutting them.</description>
+    <description>Establish the basis of flower craft. Unlocks the petal apothecary, the simple mana pool, the pure daisy and the wand of the forest, plus recipes for grinding mana powder and dyeing petals.</description>
     <baseCost>600</baseCost>
     <techLevel>Medieval</techLevel>
     <tab>Botania</tab>
@@ -73,7 +73,7 @@
   <ResearchProjectDef>
     <defName>Botania_Manasteel</defName>
     <label>manasteel</label>
-    <description>Fold mana powder into steel to make manasteel: light, tough, and the skeleton of every advanced mana structure, from pools and relays to fluxfields and repairers.</description>
+    <description>Fold mana dust into steel. Unlocks the recipe for forging manasteel, the frame of every advanced mana structure.</description>
     <baseCost>1500</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>
@@ -89,7 +89,7 @@
   <ResearchProjectDef>
     <defName>Botania_ManaStorage</defName>
     <label>mana grid</label>
-    <description>A mana grid is the colony's reserve plus the plumbing that reaches it. A manasteel-lined pool holds 100,000 mana where a simple livingrock pool holds 2,000, and a relay tower stretches a pool's supply circle out to 11 tiles, chaining further as long as each link overlaps a group that already reaches a pool.\n\nEverything else in the tree is priced against that grid. A generating flower has to stand inside a pool's circle (4 tiles simple, 7 manasteel) or a relay's 11, a functional flower has to reach the same reserve to pay its bill, and a turret flower has to be covered before it will fire. One pool with a ring of relays around it is what turns a scattering of flowers into an industry.\n\nFull numbers and derivations: gameplay guide.</description>
+    <description>Gather scattered mana into a reserve. Unlocks the mana pool and the mana relay tower, which chains a pool's supply range outward.</description>
     <baseCost>2000</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>
@@ -105,7 +105,7 @@
   <ResearchProjectDef>
     <defName>Botania_ManaGrid</defName>
     <label>mana application</label>
-    <description>Mana is only worth what the colony can put it to. This branch does exactly one thing: it unlocks the mana fluxfield, which draws on the mana network covering its own tile - a pool reached by a relay tower counts - and turns it into ordinary electric power at 1.5 mana per second for 1000 W, enough to feed the machines that were never built to drink anything else.\n\nThe fluxfield holds nothing of its own: it runs only while the network can supply the draw, and a tile outside every pool's and relay's circle gives it nothing to convert. That is what lets a mana economy stand in for a power grid instead of running beside it - fixed points keep working with no fuel, no pawn and no conduit.\n\nFull numbers and derivations: gameplay guide.</description>
+    <description>Put mana to work on ordinary powered machines. Unlocks the mana fluxfield, which draws on the mana network covering its own tile and turns it into electric power.</description>
     <baseCost>1200</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>
@@ -121,7 +121,7 @@
   <ResearchProjectDef>
     <defName>Botania_ManaLampStudy</defName>
     <label>mana furniture</label>
-    <description>Not every mana device is industrial. A mana lamp is a quartz globe that drinks mana instead of power: light banked in the glass burns there on its own, the lamp draws 1 mana from the network every 60 seconds, and when the supply runs dry the glow dies and the room goes dark until mana returns.\n\nIt is the cheapest way to light a base that has no power line, and the first piece of furniture the colony builds out of mana rather than wood and steel - soft, permanent and quiet, with no fuel to haul and no switch a pawn has to flip.\n\nFull numbers and derivations: gameplay guide.</description>
+    <description>Furniture that lights with mana instead of power. Unlocks the mana lamp, which needs no conduit or fuel, goes dark when the supply runs dry and relights when mana returns.</description>
     <baseCost>800</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>
@@ -137,7 +137,7 @@
   <ResearchProjectDef>
     <defName>Botania_Mending</defName>
     <label>mana repairer</label>
-    <description>A mana repairer is not a flower but the rule behind two repair devices: a tower that mends built structures and a bench that mends worn gear. Both settle once every 60 ticks (one second), take the most damaged valid targets first, and pay 5 mana for every point of hit points they put back.\n\nThe bill scales with the work: 5 hp costs 25 mana, and a device restoring 5 hp per second on each of five targets draws 125 mana per second. If the network covers only part of the bill the device repairs only what it can pay for, and with no mana it does nothing that second. Bottom line: hp restored x 5 mana = the bill, settled every 60 ticks; no free repairs, and neither device can finish construction or mend a blueprint or frame.\n\nFull numbers and derivations: gameplay guide.</description>
+    <description>Mend with mana instead of parts. Unlocks the structure repairer and the item repairer, which restore built structures and worn gear.</description>
     <baseCost>1400</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>
@@ -153,7 +153,7 @@
   <ResearchProjectDef>
     <defName>Botania_WandForms</defName>
     <label>wands</label>
-    <description>Reforge the wand of the forest into two specialised forms. The sniper form trades rate of fire for one dense lance that punches through armour. The blast form throws slow, unstable bolts that burst into a cross of fire wherever they land, friend or foe. Neither form keeps the wand's plant-magic.</description>
+    <description>Reforge the wand of the forest into specialised forms. Unlocks the sniper and blast wands; neither keeps the wand's plant magic.</description>
     <baseCost>2000</baseCost>
     <techLevel>Industrial</techLevel>
     <tab>Botania</tab>
@@ -169,7 +169,7 @@
   <ResearchProjectDef>
     <defName>Botania_Infusion</defName>
     <label>elven</label>
-    <description>Elven craft is the tier above manasteel, and it is not forged - it is traded. Raise a gate of livingwood and livingrock with its lintel and both pillars standing, leave livingwood, livingrock or petals in the doorway, and it draws mana from a nearby pool to turn them into dreamwood, elven quartz, pixie dust and elementium ingot.\n\nElementium is the pink metal that comes out of it: it bends instead of shattering and keeps an edge that steel loses after a single fight, which is why the gear forged from it - a sword, a full suit of plate and a matching helm - sits between manasteel and terrasteel. Nothing the colony can make on its own reaches this shelf; short of what the gaia spirit teaches, this is the top.\n\nFull numbers and derivations: gameplay guide.</description>
+    <description>Trade through an elven gate for the tier above manasteel. Unlocks the gate lintel and both pillars, plus the elementium sword, armour and helmet.</description>
     <baseCost>3000</baseCost>
     <techLevel>Spacer</techLevel>
     <tab>Botania</tab>
@@ -185,7 +185,7 @@
   <ResearchProjectDef>
     <defName>Botania_Terrasteel</defName>
     <label>terrasteel</label>
-    <description>Feed manasteel and elven quartz to a ring of four pedestals and draw twenty thousand mana through it. What comes out is terrasteel: metal that grows. Every piece of it buys one blade, one suit of plate or one helm.</description>
+    <description>Draw growing metal through a ring of pedestals. Unlocks the terrasteel altar and the pedestals, plus the terra blade, terrasteel armour and helmet.</description>
     <baseCost>4000</baseCost>
     <techLevel>Spacer</techLevel>
     <tab>Botania</tab>
@@ -201,7 +201,7 @@
   <ResearchProjectDef>
     <defName>Botania_Gaia</defName>
     <label>gaia</label>
-    <description>Placeholder: unlocked by a gaia spirit techprint, not by points alone. Content arrives in a later version.</description>
+    <description>What the gaia spirit teaches. It takes a techprint as well as research points. Unlocks the world seed nursery, gaia armour and the gaia helmet.</description>
     <baseCost>5000</baseCost>
     <techLevel>Ultra</techLevel>
     <tab>Botania</tab>

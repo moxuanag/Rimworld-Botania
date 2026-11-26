@@ -8,21 +8,21 @@
        ============================================================ -->
 
   <Botania_FunctionalI.label>基础功能花</Botania_FunctionalI.label>
-  <Botania_FunctionalI.description>功能花是花园的另一半：它们把魔力换成劳动，而不是造魔力。它本身不挂任何配方或建筑，是功能花这条支线的档位门。噬草花与明心莲排在它下面。\n\n一朵花只花钱，另一朵只挣钱，中间隔着一整个殖民地。</Botania_FunctionalI.description>
+  <Botania_FunctionalI.description>功能花把魔力换成劳动，而不是造魔力。它本身不挂物品，只开启噬草花与明心莲的卡片。</Botania_FunctionalI.description>
 
   <Botania_FuncAdvanced.label>进阶功能花</Botania_FuncAdvanced.label>
-  <Botania_FuncAdvanced.description>功能花的高价档：按秒结算，先挑最破损、最暴露的目标动手。它本身不挂任何配方或建筑，只决定这一档能不能开工。电暴花与终极功能花排在它下面，而暗处还要先掌握泰拉。\n\n便宜的花修东西，贵的花修局面。</Botania_FuncAdvanced.description>
+  <Botania_FuncAdvanced.description>功能花的高价档位。它本身不挂物品，只开启电暴花与终极功能花的卡片。</Botania_FuncAdvanced.description>
 
   <Botania_FuncUltimate.label>终极功能花</Botania_FuncUltimate.label>
-  <Botania_FuncUltimate.description>功能花的终点档，一次结算就以千计。它本身不挂任何配方或建筑，眼下是明确留着、还没挂上花的挂点。这条线在树上看不出门槛，实际要先走通盖亚。\n\n空着的架子，也已经按终局的价格定了位。</Botania_FuncUltimate.description>
+  <Botania_FuncUltimate.description>功能花的终点档位。它本身不挂物品，眼下没有花挂在这张卡下面，是留好的挂点。</Botania_FuncUltimate.description>
 
   <Botania_BlightEaterStudy.label>噬草花</Botania_BlightEaterStudy.label>
-  <Botania_BlightEaterStudy.description>专吃枯萎病作物的清扫花。解锁噬草花：把附近染病的作物整株吞下去，从腐烂里榨出魔力。它只认病株，从不碰健康作物；树上接基础功能花。\n\n农场主看到它开花，比看到药方还安心。</Botania_BlightEaterStudy.description>
+  <Botania_BlightEaterStudy.description>专吃枯萎病作物的清扫花。解锁噬草花，把附近染病的作物整株吞下，换成魔力。</Botania_BlightEaterStudy.description>
 
   <Botania_ClearMindLotusStudy.label>明心莲</Botania_ClearMindLotusStudy.label>
-  <Botania_ClearMindLotusStudy.description>压住精神噪音的莲花。解锁明心莲：把范围内的心灵干扰按人头、按秒买断，压成不生效。没有干扰时它一分钱也不收；树上接基础功能花。\n\n它的白，是那种让人想不起刚才在烦什么的白色。</Botania_ClearMindLotusStudy.description>
+  <Botania_ClearMindLotusStudy.description>压住精神噪音的莲花。解锁明心莲，把范围内的心灵干扰按人头买断，没有干扰时不收费。</Botania_ClearMindLotusStudy.description>
 
   <Botania_StormBloomStudy.label>电暴花</Botania_StormBloomStudy.label>
-  <Botania_StormBloomStudy.description>捡电网短路的漏来产魔的功能花。解锁电暴花：导线短路、电网倾泻储能时，它把那股冲击尽量喝下去，换成魔力交给网络。它自己的缓存很小，只捞得回放电的头一段；树上接进阶功能花。\n\n雷落在院子里，只有它懂得把雷收好。</Botania_StormBloomStudy.description>
+  <Botania_StormBloomStudy.description>捡电网短路漏出来的电。解锁电暴花，导线短路时把放电换成魔力，缓存很小只能捞回前段。</Botania_StormBloomStudy.description>
 
 </LanguageData>
