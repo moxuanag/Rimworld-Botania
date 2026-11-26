@@ -8,8 +8,6 @@
   <Botania.FlowerNoPool>范围内没有可用的魔力池</Botania.FlowerNoPool>
   <Botania.FluxfieldWorking>正在从所在魔力网络取魔</Botania.FluxfieldWorking>
   <Botania.FluxfieldNoMana>所在魔力网络没有可用的魔力</Botania.FluxfieldNoMana>
-  <Botania.RelayStored>中继缓冲：{0} / {1}（每跳损耗 {2}%）</Botania.RelayStored>
-  <Botania.RelayEmpty>中继缓冲为空</Botania.RelayEmpty>
   <Botania.TransmuterWorking>正在转化相邻的材料</Botania.TransmuterWorking>
   <Botania.TransmuterSlow>附近没有可用魔力网络，转化速度降至 1/{0}</Botania.TransmuterSlow>
   <Botania.TransmuterNoInput>相邻没有可转化的木头或石砖</Botania.TransmuterNoInput>

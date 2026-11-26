@@ -44,7 +44,11 @@ namespace Botania
     /// </summary>
     public class CompProperties_ManaItem : CompProperties
     {
-        /// <summary>寻找魔力源（魔力池 / 中继塔）的半径（格）。</summary>
+        /// <summary>
+        /// 旧口径「就近找魔力池」的半径（格）。消费侧已统一改走**物品所在格的魔力网络**
+        /// （见 <see cref="ManaItemCore.FindSource"/>），本字段**不再参与找源**；
+        /// 保留只为 XML / 存档兼容（法杖 6、泰拉刃 8），删掉会让现有 XML 报「字段不存在」。
+        /// </summary>
         public float searchRadius = 8f;
 
         /// <summary>
@@ -118,7 +122,7 @@ namespace Botania
     }
 
     /// <summary>
-    /// 物品付款核心：找最近的魔力源（魔力池 / 中继塔）→ 凑够才扣 → 冷却节流 → 存档。
+    /// 物品付款核心：找魔力源（**所在格的魔力网络 → 物品自身储量 → 没有**）→ 凑够才扣 → 冷却节流 → 存档。
     /// 刻意不是 ThingComp，方便组合进任何父类（武器、工具、装备都可以）。
     ///
     /// 铁律（AGENTS.md §5）：
@@ -254,23 +258,104 @@ namespace Botania
         }
 
         /// <summary>
-        /// 找最近的可支付魔力源（**不扣款**）。给需要自己控制付款节奏的物品用
+        /// 找可支付的魔力源（**不扣款**）。给需要自己控制付款节奏的物品用
         /// （例如先看有多少、再按实际用量扣、多抽的还要退）。
+        ///
+        /// 三级回退（消费口径与设备一致）：
+        ///   1. **魔力网络** —— 物品（持有者）所在格的网络分量，中继塔延伸到的池子也算数；
+        ///   2. **物品自身储量** —— 只有自带储能的物品才有（目前只有法杖 <see cref="CompManaWeapon"/>），
+        ///      在「没有网络 / 网络里的魔力不够这笔」时才兜底；
+        ///   3. 两者都没有 → null（真的付不出）。
+        ///
         /// <paramref name="needAtLeast"/> 含等于：刚好够用也算可用。
         /// </summary>
         public IManaSource FindSource(float needAtLeast = 0f)
+        {
+            IManaSource network = FindNetworkSource(needAtLeast);
+            if (network != null)
+            {
+                return network;
+            }
+            return FindOwnStorageSource(needAtLeast);
+        }
+
+        /// <summary>
+        /// 只找**魔力网络**里的源（第一级，不看物品自身储量）。
+        /// 不在网络内、或网络里的魔力不够 <paramref name="needAtLeast"/> 时返回 null。
+        /// </summary>
+        private IManaSource FindNetworkSource(float needAtLeast)
         {
             Map map = ItemMap;
             if (map == null)
             {
                 return null;
             }
-            return ManaSourceUtil.FindNearest(ItemPosition, map, props.searchRadius, needAtLeast, Parent);
+            IManaSource source = map.GetComponent<MapComponent_ManaNetwork>()?.SourceAt(ItemPosition);
+            if (source == null)
+            {
+                return null;
+            }
+            return source.ManaAmount + props.manaTolerance >= needAtLeast ? source : null;
         }
 
         /// <summary>
-        /// 最近一个非空魔力源的余量（提示文案里的「可用」用）。
-        /// 没有源、或附近全是空池时返回 0。
+        /// 找**物品自身储量**的源（第二级）。没有自带储能的物品（泰拉刃、设备）永远返回 null；
+        /// 自带储能不够 <paramref name="needAtLeast"/> 时也返回 null（凑够才扣）。
+        /// </summary>
+        private IManaSource FindOwnStorageSource(float needAtLeast)
+        {
+            CompManaWeapon weapon = Parent?.TryGetComp<CompManaWeapon>();
+            if (weapon == null)
+            {
+                return null;
+            }
+            return weapon.Mana + props.manaTolerance >= needAtLeast ? new OwnStorageManaSource(weapon) : null;
+        }
+
+        /// <summary>
+        /// 这个源是不是「物品自身储量」的适配器。
+        /// 付款方用它避开「自抽自充」：先扣过储能、又让找源回退到同一份储能 = 同一笔魔力算两遍。
+        /// </summary>
+        public bool IsOwnStorageSource(IManaSource source)
+        {
+            return source is OwnStorageManaSource;
+        }
+
+        /// <summary>
+        /// 「物品自身储量」的轻量适配器：把 <see cref="CompManaWeapon"/> 的杖内余额包装成
+        /// <see cref="IManaSource"/>，让 TryPay / PullFromSource 不用为「网络」和「杖内」写两套代码。
+        /// 不缓存余额，每次查询现读（余额随时在变，闸门只有 CompManaWeapon 一处）。
+        /// </summary>
+        private sealed class OwnStorageManaSource : IManaSource
+        {
+            private readonly CompManaWeapon weapon;
+
+            public OwnStorageManaSource(CompManaWeapon weapon)
+            {
+                this.weapon = weapon;
+            }
+
+            public float ManaAmount => weapon.Mana;
+
+            public float FreeSpace => weapon.MaxMana - weapon.Mana;
+
+            public float AddMana(float amount)
+            {
+                // CompManaWeapon.AddMana 是 void 且自带 maxMana 上限，所以用余额差算「实际接收量」。
+                float before = weapon.Mana;
+                weapon.AddMana(amount);
+                return weapon.Mana - before;
+            }
+
+            public float DrainMana(float amount)
+            {
+                return weapon.DrainMana(amount);
+            }
+        }
+
+        /// <summary>
+        /// 可支付的魔力余量（提示文案里的「可用」用）：网络优先，其次物品自身储量。
+        /// 两处都没有魔力时返回 0。
         /// </summary>
         public float NearbyMana()
         {

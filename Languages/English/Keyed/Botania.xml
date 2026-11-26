@@ -8,8 +8,6 @@
   <Botania.FlowerNoPool>No mana pool in range</Botania.FlowerNoPool>
   <Botania.FluxfieldWorking>Drawing mana from the network</Botania.FluxfieldWorking>
   <Botania.FluxfieldNoMana>No mana in the network</Botania.FluxfieldNoMana>
-  <Botania.RelayStored>Relay buffer: {0} / {1} (loss per hop: {2}%)</Botania.RelayStored>
-  <Botania.RelayEmpty>Relay buffer is empty</Botania.RelayEmpty>
   <Botania.TransmuterWorking>Transforming nearby material</Botania.TransmuterWorking>
   <Botania.TransmuterSlow>No mana network nearby - converting at 1/{0} speed</Botania.TransmuterSlow>
   <Botania.TransmuterNoInput>No logs or stone blocks nearby to transform</Botania.TransmuterNoInput>

@@ -69,7 +69,7 @@ namespace Botania
 
     /// <summary>
     /// 魔力武器的储能：杖内自带 maxMana 点魔力，射击扣 manaPerUse。
-    /// 魔力不足时会就近向魔力池/中继塔借；借不到才算空弹。
+    /// 魔力不足时先向**持有者所在格的魔力网络**借；连不上网络（或网络里不够）才用杖内储量兜底。
     /// 装备状态下的 Thing.Map 是空的，所以位置一律走 <see cref="EquipUtil"/>
     /// （<see cref="ManaItemCore"/> 内部已处理，本类不再自己绕 ParentHolder）。
     ///
@@ -148,7 +148,9 @@ namespace Botania
             PullFromSource(Props.rechargePerSecond * 0.5f);
         }
 
-        /// <summary>从最近的魔力源抽一点，返回实际抽到的量。</summary>
+        /// <summary>
+        /// 从**持有者所在格的魔力网络**抽一点，返回实际抽到的量；网络不可用时不动（见下面的自抽保护）。
+        /// </summary>
         public float PullFromSource(float want)
         {
             if (want <= 0f)
@@ -161,10 +163,13 @@ namespace Botania
                 return 0f;
             }
             // 找源交给核心（装备态会自动顺着 ParentHolder 找持有者位置）。
-            // 门槛 1f 保持旧行为：不足 1 点的源视为空源不去吸，也不会挡住更远的池子。
+            // 门槛 1f 保持旧行为：不足 1 点的源视为空源不去吸。
+            // 注意：核心的 FindSource 是「网络优先 → 杖内储量兜底」，而这里的目的就是把魔力
+            // **补进杖里**，所以命中杖自身储量时必须跳过，否则等于自抽自充（白抽、还多跑一遍循环）。
             IManaSource source = Core.FindSource(1f);
-            if (source == null)
+            if (source == null || Core.IsOwnStorageSource(source))
             {
+                // 没有网络（或网络里不足 1 点）时不充能：杖内储量不能给自己充电。
                 return 0f;
             }
             float got = source.DrainMana(Mathf.Min(want, room));
@@ -173,7 +178,8 @@ namespace Botania
         }
 
         /// <summary>
-        /// 扣魔力：先看杖内，不够就现场向附近的魔力网借。
+        /// 扣魔力：付钱顺序 = **魔力网络优先，杖内储量兜底**。
+        /// 网络付不起、或没有网络时才动杖内余额。
         /// 返回 false 表示确实打不出来这一发。
         /// </summary>
         public bool TrySpend(float amount)
@@ -183,19 +189,20 @@ namespace Botania
                 return true;
             }
 
-            // 杖内余额 + 附近魔力源「共同付款」：
-            // 以前是先把魔力补进杖里再扣，受 maxMana 限制，超过容量的法术永远打不出来
-            // （比如 600 魔力的转化，基础杖只能装 500）。
-            float fromWand = Mathf.Min(mana, amount);
-            float needFromSource = amount - fromWand;
+            // 1) 先问魔力网络要全款。TryPay 本身就是「凑够才扣、不够一点不抽」，失败时
+            //    不会动任何源（网络付不起就一点不抽，杖内也还没动）。
+            if (Core.TryPay(amount))
+            {
+                return true;
+            }
 
-            // 找源 + 凑够才扣 + 抽不满退回，全部交给物品付款核心；
-            // 拿着杖开火时它内部会顺着 EquipUtil 找到持有者位置，照样能借到附近池子的魔力。
-            if (needFromSource > ManaEpsilon && !Core.TryPay(needFromSource))
+            // 2) 网络不够 / 没连上网络 → **杖内储量兜底**，仍然「凑够才扣」：
+            //    杖内不够这一发时一点不扣，返回 false。
+            if (mana + ManaEpsilon < amount)
             {
                 return false;
             }
-            mana -= fromWand;
+            DrainMana(amount);
             return true;
         }
 
@@ -206,6 +213,27 @@ namespace Botania
                 return;
             }
             mana = Mathf.Min(Props.maxMana, mana + amount);
+        }
+
+        /// <summary>
+        /// 从杖内余额扣 <paramref name="amount"/>，返回**实际扣到**的量（不超过当前 <see cref="Mana"/>）。
+        /// 给 <see cref="ManaItemCore"/> 的「自身储量适配器」用：没有网络时，
+        /// 杖内储量要能被当作一个普通 IManaSource 被 TryPay / PullFromSource 使用。
+        /// 唯一写 mana 的扣减口就这一处（TrySpend 的杖内兜底也走它），不另开第二条账。
+        /// </summary>
+        public float DrainMana(float amount)
+        {
+            if (amount <= 0f)
+            {
+                return 0f;
+            }
+            float take = Mathf.Min(Mana, amount);
+            if (take <= 0f)
+            {
+                return 0f;
+            }
+            mana -= take;
+            return take;
         }
 
         public override string CompInspectStringExtra()
@@ -239,7 +267,7 @@ namespace Botania
             };
         }
 
-        /// <summary>从半径内最近的魔力池/中继塔抽满，返回实际抽到的量。</summary>
+        /// <summary>从**所在格的魔力网络**抽满，返回实际抽到的量（没连上网络就是 0）。</summary>
         public void Charge()
         {
             if (mana >= Props.maxMana - ManaEpsilon)
