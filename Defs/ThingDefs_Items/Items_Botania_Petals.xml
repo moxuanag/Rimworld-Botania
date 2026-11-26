@@ -37,7 +37,9 @@
   <ThingDef ParentName="Botania_PetalBase">
     <defName>Botania_Petal_White</defName>
     <label>white petal</label>
-    <description>A single white petal, still holding a trace of magical energy. Botania crafters grind these into mana powder.</description>
+    <description>The white petal is the humblest material in botany, and the starting point of every other colour. It can be ground into mana powder, dyed into a different colour, or condensed into pixie dust at an elven gate. It is not a building material, and it cannot be worn or sown.
+
+Plucked, it still holds a little of the warmth the sun left in it - and then that is gone from between your fingers.</description>
     <statBases>
       <MarketValue>2.4</MarketValue>
     </statBases>
@@ -50,7 +52,9 @@
   <ThingDef ParentName="Botania_PetalBase">
     <defName>Botania_Petal_Orange</defName>
     <label>orange petal</label>
-    <description>A single orange petal, still holding a trace of magical energy. Botania crafters grind these into mana powder.</description>
+    <description>An orange petal is stock for colouring and grinding, and rarely goes into growing a flower. It is dyed from white petals, and can be ground into mana powder or condensed into pixie dust at an elven gate. It is not a building material.
+
+A layer of colour pressed flat under the evening sun, its edges still letting light through.</description>
     <statBases>
       <MarketValue>6</MarketValue>
     </statBases>
@@ -65,7 +69,9 @@
   <ThingDef ParentName="Botania_PetalBase">
     <defName>Botania_Petal_Yellow</defName>
     <label>yellow petal</label>
-    <description>A single yellow petal, still holding a trace of magical energy. Botania crafters grind these into mana powder.</description>
+    <description>Yellow petals are spent on raising flowers rather than building with them - the daybloom is grown on them. They can also be ground into mana powder, or condensed into pixie dust at an elven gate. They are not a building material.
+
+A yellow loud enough to be rude; set it in the dark and it is the first thing your eye is called to.</description>
     <statBases>
       <MarketValue>6</MarketValue>
     </statBases>
@@ -82,7 +88,9 @@
   <ThingDef ParentName="Botania_PetalBase">
     <defName>Botania_Petal_Cyan</defName>
     <label>cyan petal</label>
-    <description>A single cyan petal, still holding a trace of magical energy. Botania crafters grind these into mana powder.</description>
+    <description>Cyan petals are mostly spent on defensive flowers - the storm bloom is grown on them. They can also be ground into mana powder, or condensed into pixie dust at an elven gate. They are not a building material.
+
+The colour of the sky a moment before the storm, cold enough to make you walk faster.</description>
     <statBases>
       <MarketValue>6</MarketValue>
     </statBases>
@@ -95,7 +103,9 @@
   <ThingDef ParentName="Botania_PetalBase">
     <defName>Botania_Petal_Purple</defName>
     <label>purple petal</label>
-    <description>A single purple petal, still holding a trace of magical energy. Botania crafters grind these into mana powder.</description>
+    <description>Purple petals are spent on the flowers that feed on people: the rosa arcana and the life orchid are both grown on them. They can also be ground into mana powder, or condensed into pixie dust at an elven gate. They are not a building material.
+
+Purple so heavy it looks as though the night had been squeezed into the grain of the petal.</description>
     <statBases>
       <MarketValue>6</MarketValue>
     </statBases>
@@ -110,7 +120,9 @@
   <ThingDef ParentName="Botania_PetalBase">
     <defName>Botania_Petal_Green</defName>
     <label>green petal</label>
-    <description>A single green petal, still holding a trace of magical energy. Botania crafters grind these into mana powder.</description>
+    <description>Green petals are the main petal stock of the turret flowers: the blight eater, the thornbell, the blastcalyx and the ancient starfall bloom all want them. They can also be ground into mana powder, or condensed into pixie dust at an elven gate. They are not a building material.
+
+It feels in the hand like a small piece of spring that never got round to hardening.</description>
     <statBases>
       <MarketValue>6</MarketValue>
     </statBases>
@@ -123,7 +135,9 @@
   <ThingDef ParentName="Botania_PetalBase">
     <defName>Botania_Petal_Red</defName>
     <label>red petal</label>
-    <description>A single red petal, still holding a trace of magical energy. Botania crafters grind these into mana powder.</description>
+    <description>Red petals go into the aggressive flowers - the bitter bloom and the thorn flower are both grown on them. They can also be ground into mana powder, or condensed into pixie dust at an elven gate. They are not a building material.
+
+Red enough to feel hot in the hand, and up close there is a smell like rust.</description>
     <statBases>
       <MarketValue>6</MarketValue>
     </statBases>
@@ -136,7 +150,9 @@
   <ThingDef ParentName="Botania_PetalBase">
     <defName>Botania_Petal_Black</defName>
     <label>black petal</label>
-    <description>A single black petal, still holding a trace of magical energy. Botania crafters grind these into mana powder.</description>
+    <description>Black petals are spent on the flowers that work at night - the nightshade is grown on them. They can also be ground into mana powder, or condensed into pixie dust at an elven gate. They are not a building material.
+
+Black enough to drink the light; only at the right angle does a thread of grain show.</description>
     <statBases>
       <MarketValue>6</MarketValue>
     </statBases>

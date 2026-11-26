@@ -13,7 +13,9 @@
   <ThingDef ParentName="BuildingBase">
     <defName>Botania_TerrasteelAltar</defName>
     <label>terrestrial agglomeration platform</label>
-    <description>A broad livingrock platform ringed with four quartz-topped pedestals. Leave manasteel and elven quartz on the slab, draw deep on a mana pool, and the platform begins to grow terrasteel in the centre of the ring.\n\nIt will not work with a pedestal missing, and it will not work without a deep enough mana pool nearby.</description>
+    <description>A broad livingrock platform ringed with quartz-topped pedestals. Leave manasteel and elven quartz on the slab, draw deep on a mana pool, and the platform begins to grow terrasteel at the centre of the ring. With a pedestal missing, or a pool too shallow, it does nothing.
+
+Four stone pillars hold the mana in the middle; the light circles inside the ring until it hardens into metal.</description>
     <thingClass>Building</thingClass>
     <graphicData>
       <texPath>Things/Building/Botania/TerrasteelCore</texPath>
@@ -79,7 +81,9 @@
   <ThingDef ParentName="BuildingBase">
     <defName>Botania_TerrasteelPedestal</defName>
     <label>agglomeration pedestal</label>
-    <description>A short pedestal of livingrock topped with a single elven quartz. Four of them, one at each corner of the platform, are what keep the mana from spilling out while terrasteel forms.</description>
+    <description>A short pedestal of livingrock topped with a single elven quartz. They stand around the edge of the platform, and between them they keep the mana from spilling out while terrasteel forms. Take any away and the platform stops.
+
+The pillar is short, but the quartz on top always points up, as if waiting for something to fall.</description>
     <thingClass>Building</thingClass>
     <graphicData>
       <texPath>Things/Building/Botania/TerrasteelPedestal</texPath>

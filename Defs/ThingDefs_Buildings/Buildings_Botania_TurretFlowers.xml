@@ -66,7 +66,9 @@
     <designatorDropdown>Botania_DefenseFlowers</designatorDropdown>
     <designationCategory>Botania</designationCategory>
     <label>thornbell</label>
-    <description>A flower that grew itself five thorn barrels. It drinks mana from a nearby pool and spits a short, vicious burst of needles at anything hostile that comes close - no colonist has to stand beside it, no ammunition has to be loaded. When the mana runs dry the barrels simply fall silent.</description>
+    <description>A flower that grew itself thorn barrels. It drinks mana from a nearby pool and spits a short, vicious burst of needles at anything hostile that comes close - no colonist has to stand beside it, no ammunition has to be loaded. When the mana runs dry the barrels simply fall silent.
+
+It grew its petals into barrels, and the whole flower rocks back a little when it fires.</description>
     <statBases>
       <MarketValue>618</MarketValue>
     </statBases>
@@ -113,7 +115,9 @@
     <designatorDropdown>Botania_DefenseFlowers</designatorDropdown>
     <designationCategory>Botania</designationCategory>
     <label>blastcalyx</label>
-    <description>A flower that hollowed itself into a cannon. It gathers mana, compresses it in its calyx until the petals shiver, then throws the whole charge high over the wall as a seed that blooms into fire. Devastating against fortifications, hopeless against anything that stands close.</description>
+    <description>A flower that hollowed itself into a cannon for shooting over walls. It cannot touch anything that stands close, so someone always has to watch over it.
+
+It presses mana in its calyx until the petals shake, then throws the whole lump over the wall.</description>
     <graphicData>
       <texPath>Things/Building/Botania/Blastcalyx_Base</texPath>
       <drawSize>(2,2)</drawSize>
@@ -168,7 +172,9 @@
     <designatorDropdown>Botania_DefenseFlowers</designatorDropdown>
     <designationCategory>Botania</designationCategory>
     <label>ancient starfall bloom</label>
-    <description>An ancient siege bloom grown around a fist of compressed mana. It cannot defend itself at close range, but anything within sight of the colony is within its reach - and where its warhead lands, only a crater remains.</description>
+    <description>An ancient siege bloom grown around a fist of compressed mana. It cannot defend itself at close range, but anything within sight of the colony is within its reach - and where its warhead lands, only a crater remains.
+
+It opens its throat to the sky and waits for a meteor to fall into the frame by itself.</description>
     <graphicData>
       <texPath>Things/Building/Botania/AncientStarfall_Base</texPath>
       <drawSize>(5,5)</drawSize>

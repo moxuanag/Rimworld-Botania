@@ -16,7 +16,9 @@
     <defName>Botania_LifeOrchid</defName>
     <designatorDropdown>Botania_ManaFlowers</designatorDropdown>
     <label>life orchid</label>
-    <description>A flower that plays with life itself. Lay a bed of twisted flesh around it and feed it flesh seeds, and it will run a colony of cells on that bed - cells that are born, that die, and that slowly wear out.\n\nIt pays only for change: a pattern that sits still feeds it nothing. Oscillators and gliders are worth keeping; a frozen block is worth nothing at all.</description>
+    <description>A flower that plays with life itself. Lay a bed of twisted flesh around it and feed it flesh seeds, and it will run a colony of cells on that bed - cells that are born, that die, and that slowly wear out. It pays only for change: a pattern that sits still feeds it nothing.
+
+It grows no plants, only a small patch of cells that are born and that die.</description>
     <thingClass>Building</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <graphicData>

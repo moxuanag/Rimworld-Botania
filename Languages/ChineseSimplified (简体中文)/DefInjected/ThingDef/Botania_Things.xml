@@ -2,43 +2,43 @@
 <LanguageData>
 
   <Botania_Petal_White.label>白色花瓣</Botania_Petal_White.label>
-  <Botania_Petal_White.description>白色花瓣是植物魔法最基础的花瓣类材料。3 片任意颜色花瓣可研磨成 1 份魔力尘，4 片白花瓣加 2 份染料能在花药台染成其余六色之一，精灵门则用 2 片花瓣凝出 1 份精灵之尘。单片市值 2.4，可堆叠 75 片；它不能当建材，也不能装备或播种。\n\n摘下时还留着一点被日光晒透的暖意，很快就在指缝里散尽了。</Botania_Petal_White.description>
+  <Botania_Petal_White.description>白色花瓣是植物魔法最基础的材料，也是所有颜色的起点。它可以磨成魔力尘，也能被染料染成别的颜色，精灵门还会拿它凝出精灵之尘。它不能当建材，也不能装备或播种。\n\n摘下时还留着一点被日光晒透的暖意，很快就在指缝里散尽了。</Botania_Petal_White.description>
 
   <Botania_Petal_Orange.label>橙色花瓣</Botania_Petal_Orange.label>
-  <Botania_Petal_Orange.description>橙色花瓣是一种花瓣类材料，只作为调色与磨粉的原料。3 片任意花瓣可研磨成 1 份魔力尘，2 片任意花瓣可在精灵门凝成精灵之尘；它本身由 4 片白花瓣加 2 份染料染出。单片市值 6，可堆叠 75 片，不能当建材。\n\n像被夕阳压在纸上的一层颜色，边缘还透着光。</Botania_Petal_Orange.description>
+  <Botania_Petal_Orange.description>橙色花瓣是一种用于调色和磨粉的材料，很少被拿去种花。它本身由白色花瓣染成，也能磨成魔力尘或在精灵门凝成精灵之尘。它不能当建材。\n\n像被夕阳压在纸上的一层颜色，边缘还透着光。</Botania_Petal_Orange.description>
 
   <Botania_Petal_Yellow.label>黄色花瓣</Botania_Petal_Yellow.label>
-  <Botania_Petal_Yellow.description>黄色花瓣是一种花瓣类材料，最常被拿去养花而非盖房。它是太阳花的造价材料（4 片），也能 3 片一起研磨成魔力尘、或 2 片在精灵门凝成精灵之尘。单片市值 6，可堆叠 75 片，不能当建材。\n\n明黄得有些吵，插在暗处反倒最先把眼睛叫过去。</Botania_Petal_Yellow.description>
+  <Botania_Petal_Yellow.description>黄色花瓣多被拿去养花而不是盖房，太阳花就靠它养成。它也能磨成魔力尘，或在精灵门凝成精灵之尘。它不能当建材。\n\n明黄得有些吵，插在暗处反倒最先把眼睛叫过去。</Botania_Petal_Yellow.description>
 
   <Botania_Petal_Cyan.label>青色花瓣</Botania_Petal_Cyan.label>
-  <Botania_Petal_Cyan.description>青色花瓣是一种花瓣类材料，主要供防御性设备使用。它是电暴花的造价材料（4 片），也能研磨成魔力尘或在精灵门凝成精灵之尘。单片市值 6，可堆叠 75 片，不能当建材。\n\n颜色像暴雨前一刻的天，凉得让人想快走两步。</Botania_Petal_Cyan.description>
+  <Botania_Petal_Cyan.description>青色花瓣多用在防御性的花上，电暴花就靠它养成。它也能磨成魔力尘，或在精灵门凝成精灵之尘。它不能当建材。\n\n颜色像暴雨前一刻的天，凉得让人想快走两步。</Botania_Petal_Cyan.description>
 
   <Botania_Petal_Purple.label>紫色花瓣</Botania_Petal_Purple.label>
-  <Botania_Petal_Purple.description>紫色花瓣是一种花瓣类材料，多用于以人心为燃料的花。它是阿卡纳蔷薇与启命英的造价材料（各 6 片），也能研磨成魔力尘或在精灵门凝成精灵之尘。单片市值 6，可堆叠 75 片，不能当建材。\n\n紫得很沉，像把夜色挤进了花瓣的纹理里。</Botania_Petal_Purple.description>
+  <Botania_Petal_Purple.description>紫色花瓣多用来养那些以人心为食的花，阿卡纳蔷薇与启命英都靠它养成。它也能磨成魔力尘，或在精灵门凝成精灵之尘。它不能当建材。\n\n紫得很沉，像把夜色挤进了花瓣的纹理里。</Botania_Petal_Purple.description>
 
   <Botania_Petal_Green.label>绿色花瓣</Botania_Petal_Green.label>
-  <Botania_Petal_Green.description>绿色花瓣是一种花瓣类材料，是炮塔型功能花的主要花瓣料。它要进噬草花（4 片）、荆棘钟花（8 片）、爆萼花（15 片）与远古陨击花（50 片）的造价，也能研磨成魔力尘或在精灵门凝成精灵之尘。单片市值 6，可堆叠 75 片，不能当建材。\n\n捏在手里像一小片没来得及变硬的春天。</Botania_Petal_Green.description>
+  <Botania_Petal_Green.description>绿色花瓣是炮塔型功能花的主要花瓣料，噬草花、荆棘钟花、爆萼花与远古陨击花都要用它。它也能磨成魔力尘，或在精灵门凝成精灵之尘。它不能当建材。\n\n捏在手里像一小片没来得及变硬的春天。</Botania_Petal_Green.description>
 
   <Botania_Petal_Red.label>红色花瓣</Botania_Petal_Red.label>
-  <Botania_Petal_Red.description>红色花瓣是一种花瓣类材料，多用于带攻击性的花。它是苦丽花（4 片）与荆棘花（2 片）的造价材料，也能研磨成魔力尘或在精灵门凝成精灵之尘。单片市值 6，可堆叠 75 片，不能当建材。\n\n红得有点烫手，凑近能闻到铁锈似的味道。</Botania_Petal_Red.description>
+  <Botania_Petal_Red.description>红色花瓣多用在带攻击性的花上，苦丽花与荆棘花都靠它养成。它也能磨成魔力尘，或在精灵门凝成精灵之尘。它不能当建材。\n\n红得有点烫手，凑近能闻到铁锈似的味道。</Botania_Petal_Red.description>
 
   <Botania_Petal_Black.label>黑色花瓣</Botania_Petal_Black.label>
-  <Botania_Petal_Black.description>黑色花瓣是一种花瓣类材料，主要供给夜间工作的花。它是夜颠茄的造价材料（4 片），也能研磨成魔力尘或在精灵门凝成精灵之尘。单片市值 6，可堆叠 75 片，不能当建材。\n\n黑得几乎吸光，只在对的角度才看得见一丝丝纹路。</Botania_Petal_Black.description>
+  <Botania_Petal_Black.description>黑色花瓣主要供给在夜里干活的花，夜颠茄就靠它养成。它也能磨成魔力尘，或在精灵门凝成精灵之尘。它不能当建材。\n\n黑得几乎吸光，只在对的角度才看得见一丝丝纹路。</Botania_Petal_Black.description>
 
   <Botania_ManaPowder.label>魔力尘</Botania_ManaPowder.label>
-  <Botania_ManaPowder.description>魔力尘是由花瓣研磨出的中间材料。3 片花瓣换 1 份，1 份魔力尘加 2 份钢能锻成 1 块魔力钢锭，多座功能花与炮塔型功能花的造价也要用它（用量最大的是远古陨击花，75 份）。市值 12、可燃 0.5，不能当建材。\n\n细粉在掌心发着极淡的光，像把一段黄昏磨碎了收起来。</Botania_ManaPowder.description>
+  <Botania_ManaPowder.description>魔力尘是花瓣磨成的细粉，魔力在里头存得很稳，也能被压进金属。它既是魔力钢锭的原料，也进许多功能花与炮塔花的造价。它不能当建材。\n\n细粉在掌心发着极淡的光，像把一段黄昏磨碎了收起来。</Botania_ManaPowder.description>
 
   <Botania_ManasteelIngot.label>魔力钢锭</Botania_ManasteelIngot.label>
-  <Botania_ManasteelIngot.description>魔力钢锭是金属类建材，可以直接当选材盖房，且做出来的建筑是气密的。用它建造时生命 ×3.33、工时 ×1.3、美观 +1、不燃；当护甲材料是锐 105% / 钝 55% / 热 70%、保暖 3，当武器材料是锐 ×1.05、钝 ×1.0。它是魔力池（25）、中继塔（5）、通量场（10）、两台修复器（各 10）、精灵门（8/4/4）、泰拉凝聚台（6）、炉心蕙（6）、电暴花（4）、荆棘花（4）、火红莲（8）、荆棘钟花（4）与法杖改型（20）的造价；1 块市值 34。\n\n敲它一下会有一声极轻的嗡鸣，像金属里面藏着没唱完的音。</Botania_ManasteelIngot.description>
+  <Botania_ManasteelIngot.description>魔力钢锭是掺了魔力尘的钢，比普通钢更轻也更结实，摸上去会轻轻嗡鸣。它能当选材盖房，盖出来的建筑还是气密的；用它打的甲和刃同样胜过普通钢。许多花与设备都要用它。\n\n敲它一下会有一声极轻的嗡鸣，像金属里面藏着没唱完的音。</Botania_ManasteelIngot.description>
 
   <Botania_Livingwood.label>活木</Botania_Livingwood.label>
-  <Botania_Livingwood.description>活木是木质建材，既能盖房也能当燃料。用它建造时生命 ×1.33、工时 ×0.7、美观 +8，成品可燃（0.6），作护甲材料是锐 60% / 钝 60% / 热 45%、保暖 9/5。火红莲与炉心蕙的燃料过滤器接受活木，白雏菊与森林法杖的「就地转化」能把原木变成活木；1 块市值 6。\n\n仍记得自己曾是树木的木材——它不等着被锯开，只是慢慢长成你要的形状。</Botania_Livingwood.description>
+  <Botania_Livingwood.description>活木是还能继续生长的木材，摸着温，烧得慢。它既能盖房也能当燃料，火红莲与炉心蕙都吃得下它；盖出来的东西比普通木头结实得多。\n\n仍记得自己曾是树木的木材——它不等着被锯开，只是慢慢长成你要的形状。</Botania_Livingwood.description>
 
   <Botania_ManaPool.label>魔力池</Botania_ManaPool.label>
-  <Botania_ManaPool.description>魔力池是 3×3 的魔力储存设备，由 25 块魔力钢锭与 20 块活木建成。它最多存 100000 点魔力，并与相邻的魔力池实时均分；供给半径 7 格，范围内的功能花与耗魔设备都从这里取魔。生命 200、市值 1952、美观 3，建造工时 2000，选中时另显示半径 6 的连接环。\n\n池里盛的不是水，是一汪会自己挪动的光，风过时它先动。</Botania_ManaPool.description>
+  <Botania_ManaPool.description>魔力池是浅口的活木盆，镶着魔力钢，盛着一池流动的光。它收下附近的花送来的魔力，并与相邻的魔力池实时均分。功能花与耗魔设备都从它的供给范围里取魔。\n\n池里盛的不是水，是一汪会自己挪动的光，风过时它先动。</Botania_ManaPool.description>
 
   <Botania_Endoflame.label>火红莲</Botania_Endoflame.label>
-  <Botania_Endoflame.description>火红莲是烧燃料的产魔花。它接受木头、活木与化合燃料（容量 50 单位），把每单位燃料换成 3000 点魔力、按每秒 0.01 单位的速度缓慢转化；附近没有能接魔的池子时它不烧燃料。造价 8 块魔力钢锭加 12 块活木，生命 100、市值 693。\n\n花心里那点火不烫手，只是安静地烧着，像有人在里面守着炉子。</Botania_Endoflame.description>
+  <Botania_Endoflame.description>火红莲是一朵吃火的花。喂它木头、活木或化合燃料，它就慢慢把燃料换成魔力，送往附近的魔力池；附近没有池子能接，它就干脆不烧燃料。\n\n花心里那点火不烫手，只是安静地烧着，像有人在里面守着炉子。</Botania_Endoflame.description>
 
   <!-- 建材形容词：原版「材质 + 建筑名」的拼接靠这个字段，不翻就会出现 livingwood 墙 -->
   <Botania_Livingwood.stuffProps.stuffAdjective>活木</Botania_Livingwood.stuffProps.stuffAdjective>
@@ -46,64 +46,64 @@
   <Botania_Livingrock.stuffProps.stuffAdjective>活石</Botania_Livingrock.stuffProps.stuffAdjective>
 
   <Botania_Livingrock.label>活石</Botania_Livingrock.label>
-  <Botania_Livingrock.description>活石是石质建材，只能盖房、不能当燃料。用它建造时生命 ×2、工时 ×1.2、不燃、美观 +8；作护甲材料是锐 95% / 钝 90% / 热 55%。白雏菊能把切好的石砖（花岗岩砖这类）转成活石，精灵门则用 4 块活石换 1 块精灵石英；1 块市值 7。\n\n石头上长了一层薄薄的活气，比花岗岩更暖，也更像还在呼吸。</Botania_Livingrock.description>
+  <Botania_Livingrock.description>活石是一种石质建材，比普通石砖结实得多，而且不能当燃料烧。白雏菊能把切好的石砖教成它，精灵门则拿它去换精灵石英。\n\n石头上长了一层薄薄的活气，比花岗岩更暖，也更像还在呼吸。</Botania_Livingrock.description>
 
   <Botania_ManaFluxfield.label>魔力通量场</Botania_ManaFluxfield.label>
-  <Botania_ManaFluxfield.description>魔力通量场是 1×1 的魔力转电力设备，用 10 块魔力钢锭、40 份钢与 2 个零件建成。它以每秒 1.5 点魔力的代价向电网输出 1000W，可以像普通电器一样开关；它从所在格的魔力网络取魔，中继塔延伸到的池子也算，网络里没有可抽取的魔力时它完全停转。生命 150、市值 967、美观 -2。\n\n线圈里那点被封住的光一直在转，转到有人来收电为止。</Botania_ManaFluxfield.description>
+  <Botania_ManaFluxfield.description>魔力通量场是一圈魔力钢线圈裹着一粒被封住的光。它从脚下的魔力网络取魔，中继塔延伸到的池子也算，再把魔力换成普通电力。网络里没有可抽的魔力时，它完全停转。\n\n线圈里那点被封住的光一直在转，转到有人来收电为止。</Botania_ManaFluxfield.description>
 
   <Botania_ManaRelay.label>魔力中继塔</Botania_ManaRelay.label>
-  <Botania_ManaRelay.description>魔力中继塔是延伸魔力网络范围的 1×1 设备，自己不存任何魔力。它把供给半径推到 11 格，让范围内的池子与设备像隔壁一样互通；如果它的圆圈碰不到任何接了池子的节点，就只是个废塔，检视栏会直接说明。造价 5 块魔力钢锭、10 块活木与 1 个工业零件，生命 120、市值 529。\n\n细塔顶端悬着一团不肯落下的光，像替远处的东西守着一条线。</Botania_ManaRelay.description>
+  <Botania_ManaRelay.description>魔力中继塔是一座缠着魔力钢线圈的细长活木塔，自己不存魔力，只把魔力网络伸得更远，让远处的池子与设备像隔壁一样互通。圆圈碰不到接了池子的节点时，就只是废塔。\n\n细塔顶端悬着一团不肯落下的光，像替远处的东西守着一条线。</Botania_ManaRelay.description>
 
   <Botania_PureDaisy.label>白雏菊</Botania_PureDaisy.label>
-  <Botania_PureDaisy.description>白雏菊是 1×1 的转化花，把原材料变成活材料。它把相邻的原木变成活木、把切好的石砖变成活石，每份 300 tick、20 点魔力；附近没有魔力网络时它照样干活，但慢 5 倍且不耗魔。转化区只有半径 1.5（自身周围 8 格），吸魔半径 6；生命 80、市值 32、美观 4。\n\n花瓣外绕着淡淡一圈光，凑近才发现那圈光在慢慢转。</Botania_PureDaisy.description>
+  <Botania_PureDaisy.description>白雏菊是一朵把死材料教活的转化花。放在原木或切好的石砖旁边，它就把原木变成活木、把石砖变成活石。附近有魔力池或中继塔时它花魔力干活，没有也照样干，只是慢得多。\n\n花瓣外绕着淡淡一圈光，凑近才发现那圈光在慢慢转。</Botania_PureDaisy.description>
 
   <Botania_WandOfTheForest.label>森林法杖</Botania_WandOfTheForest.label>
-  <Botania_WandOfTheForest.description>森林法杖是远程武器，也是植物魔法的第一件工具，工艺 4 起、在花药台制作。它射出魔力弹（11 点子弹伤害、阻止力 1.5），射程 30.9、预热 1 秒、冷却 1.7 秒，每发消耗杖内 100 点魔力（容量 500，每秒回充 25），储备不足时会向附近魔力池借。它还带两个法术：绽花（半径 4，每株 20 魔力）与就地转化（半径 1.5，每批 10 份、每份 20 魔力、一次最多 9 批，把原木变活木、石砖变活石）；造价 12 活木加 12 活石，市值 522。\n\n杖头悬着一滴发光的树汁，走过草地时会自己轻轻摇。</Botania_WandOfTheForest.description>
+  <Botania_WandOfTheForest.description>森林法杖是一根缠着魔力钢环的活木杖，杖头凝着一团活的光。它存着魔力，用来射出灼目的光弹；持杖者还能催花开放，或教木石活过来。储备见底时它向魔力池讨魔。\n\n杖头悬着一滴发光的树汁，走过草地时会自己轻轻摇。</Botania_WandOfTheForest.description>
 
   <Botania_ManaBolt.label>魔力弹</Botania_ManaBolt.label>
-  <Botania_ManaBolt.description>魔力弹是森林法杖射出的弹丸，不能作为物品拾取。单发造成 11 点子弹伤害、阻止力 1.5、飞行速度 75。它只会出现在弹道里，不会进入仓库。\n\n一束被拧紧的光，飞出去时还带着细碎的拖尾。</Botania_ManaBolt.description>
+  <Botania_ManaBolt.description>魔力弹是森林法杖射出的那一束光，被拧得很紧，飞出去时还拖着细碎的尾迹。它不是能捡起来的东西，只活在弹道里，不会进仓库。\n\n一束被拧紧的光，飞出去时还带着细碎的拖尾。</Botania_ManaBolt.description>
 
   <Botania_StructureRepairer.label>建筑恢复器</Botania_StructureRepairer.label>
-  <Botania_StructureRepairer.description>建筑恢复器是 1×1 的自动维修设备，只修建筑、不修物品。它每 60 tick（1 秒）结算一次，半径 8 格内最多照顾 4 个目标、越破越优先，每个目标每轮最多回 5 点生命，每点生命折 5 点魔力。造价 10 块魔力钢锭、15 块活石与 1 个零件，生命 180、市值 962。\n\n裂缝里的魔力一点一点渗进去，砖石就自己合拢了。</Botania_StructureRepairer.description>
+  <Botania_StructureRepairer.description>建筑恢复器是活石框裹着一堵带魔力纹的石墙。放在魔力池旁，它把魔力渗进裂开的砖石，慢慢把墙面重新织合。它只补已经盖好的东西，不会替你完工，也不去碰别人的墙。\n\n裂缝里的魔力一点一点渗进去，砖石就自己合拢了。</Botania_StructureRepairer.description>
 
   <Botania_ItemRepairer.label>装备修复器</Botania_ItemRepairer.label>
-  <Botania_ItemRepairer.description>装备修复器是 1×1 的自动维修设备，专门修地上的武器、工具与服装。它每 60 tick 结算一次，半径 6 格内最多 4 个目标，每目标每轮最多回 6 点生命，每点生命折 5 点魔力。造价 10 块魔力钢锭、12 块活木与 1 个零件，生命 150、市值 895。\n\n磨损的东西躺在旁边，第二天早上裂纹就淡了。</Botania_ItemRepairer.description>
+  <Botania_ItemRepairer.description>装备修复器是一张活木工作台，上面架着魔力钢砧和一把织着魔力的钳子。磨坏了的武器、工具和衣物留在上面，会被魔力浸透，直到裂纹合拢。它修不了已经彻底毁掉的东西。\n\n磨损的东西躺在旁边，第二天早上裂纹就淡了。</Botania_ItemRepairer.description>
 
   <Botania_MysticFlower_White.label>神秘花（白）</Botania_MysticFlower_White.label>
-  <Botania_MysticFlower_White.description>神秘花（白）是野生植物，也是白色花瓣唯一的自然来源。成熟度到 60% 即可采集，一次得 1 片白花瓣，采后植株保留、长回 35% 后能再采，采集不会失败；生长 2.5 天，美观 6（室外 8）。它没有播种标签，玩家无法播种，只能等野外生成（温带/寒带/热带森林、两种沼泽、灌木荒原、沙漠、冷沼、苔原，权重 0.01）。\n\n一小簇白，长在没人打理的地方，风一过就整片点头。</Botania_MysticFlower_White.description>
+  <Botania_MysticFlower_White.description>神秘花（白）是野生的花，也是白色花瓣唯一的自然来源。采下花瓣后植株还在，过些日子又能再采。它不能被播种，只能等野外自己长出来。\n\n一小簇白，长在没人打理的地方，风一过就整片点头。</Botania_MysticFlower_White.description>
 
   <Botania_MysticFlower_Orange.label>神秘花（橙）</Botania_MysticFlower_Orange.label>
-  <Botania_MysticFlower_Orange.description>神秘花（橙）是野生植物，橙色花瓣的自然来源之一。它只在地图上自然生成，玩家无法播种；成熟后采集可得 1 片花瓣，采后植株保留、可再次采集。\n\n颜色是被调出来的，所以它更像一张样卡，而不是一株真花。</Botania_MysticFlower_Orange.description>
+  <Botania_MysticFlower_Orange.description>神秘花（橙）是野生的花，橙色花瓣的自然来源。采下花瓣后植株还在，之后还能再采。它不能被播种，花瓣只能从这样的花上采到。\n\n颜色是被调出来的，所以它更像一张样卡，而不是一株真花。</Botania_MysticFlower_Orange.description>
 
   <Botania_MysticFlower_Yellow.label>神秘花（黄）</Botania_MysticFlower_Yellow.label>
-  <Botania_MysticFlower_Yellow.description>神秘花（黄）是野生植物，黄色花瓣的自然来源之一。它只在地图上自然生成，玩家无法播种；成熟后采集可得 1 片花瓣，采后植株保留、可再次采集。\n\n黄得干净利落，像有人把阳光剪成了一片薄薄的形状。</Botania_MysticFlower_Yellow.description>
+  <Botania_MysticFlower_Yellow.description>神秘花（黄）是野生的花，黄色花瓣的自然来源。采下花瓣后植株还在，之后还能再采。它不能被播种，花瓣只能从这样的花上采到。\n\n黄得干净利落，像有人把阳光剪成了一片薄薄的形状。</Botania_MysticFlower_Yellow.description>
 
   <Botania_MysticFlower_Cyan.label>神秘花（青）</Botania_MysticFlower_Cyan.label>
-  <Botania_MysticFlower_Cyan.description>神秘花（青）是野生植物，青色花瓣的自然来源之一。它只在地图上自然生成，玩家无法播种；成熟后采集可得 1 片花瓣，采后植株保留、可再次采集。\n\n青得发凉，像雨停之后还挂在叶子上的那一点天色。</Botania_MysticFlower_Cyan.description>
+  <Botania_MysticFlower_Cyan.description>神秘花（青）是野生的花，青色花瓣的自然来源。采下花瓣后植株还在，之后还能再采。它不能被播种，花瓣只能从这样的花上采到。\n\n青得发凉，像雨停之后还挂在叶子上的那一点天色。</Botania_MysticFlower_Cyan.description>
 
   <Botania_MysticFlower_Purple.label>神秘花（紫）</Botania_MysticFlower_Purple.label>
-  <Botania_MysticFlower_Purple.description>神秘花（紫）是野生植物，紫色花瓣的自然来源之一。它只在地图上自然生成，玩家无法播种；成熟后采集可得 1 片花瓣，采后植株保留、可再次采集。\n\n紫得太沉，像是把一小块夜色缝进了花里。</Botania_MysticFlower_Purple.description>
+  <Botania_MysticFlower_Purple.description>神秘花（紫）是野生的花，紫色花瓣的自然来源。采下花瓣后植株还在，之后还能再采。它不能被播种，花瓣只能从这样的花上采到。\n\n紫得太沉，像是把一小块夜色缝进了花里。</Botania_MysticFlower_Purple.description>
 
   <Botania_MysticFlower_Green.label>神秘花（绿）</Botania_MysticFlower_Green.label>
-  <Botania_MysticFlower_Green.description>神秘花（绿）是野生植物，绿色花瓣的自然来源之一。它只在地图上自然生成，玩家无法播种；成熟后采集可得 1 片花瓣，采后植株保留、可再次采集。\n\n绿得有点野，如今总算真的长在土里了。</Botania_MysticFlower_Green.description>
+  <Botania_MysticFlower_Green.description>神秘花（绿）是野生的花，绿色花瓣的自然来源。采下花瓣后植株还在，之后还能再采。它不能被播种，花瓣只能从这样的花上采到。\n\n绿得有点野，如今总算真的长在土里了。</Botania_MysticFlower_Green.description>
 
   <Botania_MysticFlower_Red.label>神秘花（红）</Botania_MysticFlower_Red.label>
-  <Botania_MysticFlower_Red.description>神秘花（红）是野生植物，红色花瓣的自然来源之一。它只在地图上自然生成，玩家无法播种；成熟后采集可得 1 片花瓣，采后植株保留、可再次采集。\n\n红得像一句没说完的话，卡在花瓣边上。</Botania_MysticFlower_Red.description>
+  <Botania_MysticFlower_Red.description>神秘花（红）是野生的花，红色花瓣的自然来源。采下花瓣后植株还在，之后还能再采。它不能被播种，花瓣只能从这样的花上采到。\n\n红得像一句没说完的话，卡在花瓣边上。</Botania_MysticFlower_Red.description>
 
   <Botania_MysticFlower_Black.label>神秘花（黑）</Botania_MysticFlower_Black.label>
-  <Botania_MysticFlower_Black.description>神秘花（黑）是野生植物，黑色花瓣的自然来源之一。它只在地图上自然生成，玩家无法播种；成熟后采集可得 1 片花瓣，采后植株保留、可再次采集。\n\n黑到边缘发亮，看久了会以为它在慢慢收拢。</Botania_MysticFlower_Black.description>
+  <Botania_MysticFlower_Black.description>神秘花（黑）是野生的花，黑色花瓣的自然来源。采下花瓣后植株还在，之后还能再采。它不能被播种，花瓣只能从这样的花上采到。\n\n黑到边缘发亮，看久了会以为它在慢慢收拢。</Botania_MysticFlower_Black.description>
 
 
   <!-- 被动产能花（太阳花 / 夜颠茄）：不烧燃料，按时辰产魔，一季枯萎 -->
   <Botania_Daybloom.label>太阳花</Botania_Daybloom.label>
-  <Botania_Daybloom.description>太阳花是零输入的产魔花，只在白天工作。它每秒向半径 6 格内的魔力池送 8 点魔力，不吃燃料也不用照看，但 15 天后会自己枯萎消失。造价 4 片黄花瓣加 2 份魔力尘，生命 60、市值 98、美观 4。\n\n它整天朝着一个方向，像在把光一点点收进花心里。</Botania_Daybloom.description>
+  <Botania_Daybloom.description>太阳花是一朵爱光的花，它从日光里慢慢抽出魔力，送进附近的池子。它不要燃料，也不用照看，但活不过一个季节就会自己枯萎。\n\n它整天朝着一个方向，像在把光一点点收进花心里。</Botania_Daybloom.description>
 
   <Botania_Nightshade.label>夜颠茄</Botania_Nightshade.label>
-  <Botania_Nightshade.description>夜颠茄是零输入的产魔花，只在夜里工作。它每秒向半径 6 格内的魔力池送 4 点魔力，产量是太阳花的一半，但正好在殖民地睡觉时产魔；同样 15 天后枯萎。造价 4 片黑花瓣加 2 份魔力尘，生命 60、市值 98、美观 4。\n\n花心黑得看不见底，夜深时那点黑反而更像在发光。</Botania_Nightshade.description>
+  <Botania_Nightshade.description>夜颠茄是一朵喝黑暗的花。它的产量不如太阳花，而且只在夜里干活，但殖民地睡着的时候它照旧在产魔。它同样活不过一个季节。\n\n花心黑得看不见底，夜深时那点黑反而更像在发光。</Botania_Nightshade.description>
 
   <!-- 功能花（荆棘花）：防御建筑，攻击逻辑见 CHANGELOG 与设计稿 -->
   <Botania_ThornFlower.label>荆棘花</Botania_ThornFlower.label>
-  <Botania_ThornFlower.description>荆棘花是范围减速兼伤害的防御花，自己不瞄准、只看范围。它每 90 tick 结算一次，半径 10 格内最多 12 个敌人各受 1 点伤害并附加减速，每个目标扣 2 点魔力；花内自带 150 点魔力缓冲、每秒回充 25。造价 4 块魔力钢锭、6 块活木与 2 片红花瓣，生命 150、市值 372、美观 -2。\n\n一整片带刺的藤蔓，中央那朵暗紫的花几乎不摇，刺却一直在长。</Botania_ThornFlower.description>
+  <Botania_ThornFlower.description>荆棘花是一张低伏的荆棘垫，中间开着一朵暗色的花。没人管它时只钩人衣服；喂了魔力，它就把新刺顶到闯进范围的敌人脚下，来得越多抽得越快。\n\n一整片带刺的藤蔓，中央那朵暗紫的花几乎不摇，刺却一直在长。</Botania_ThornFlower.description>
 
   <!-- 特效（不显示在界面上，仅为满足本地化覆盖检查） -->
   <Botania_Mote_Thorn.label>荆棘尖刺</Botania_Mote_Thorn.label>
@@ -111,43 +111,43 @@
 
   <!-- ===== 简易魔力池 ===== -->
   <Botania_ManaPoolSimple.label>简易魔力池</Botania_ManaPoolSimple.label>
-  <Botania_ManaPoolSimple.description>简易魔力池是 1×1 的小型储魔设备，用 15 块活石与 15 块活木拼成。它只能存 2000 点魔力，是正式魔力池的五十分之一，供给半径 4 格，同样与相邻池均分。生命 120、市值 395、美观 2，是第一个能搬着走的储魔容器。\n\n一只浅浅的石碗，装不下多少，但足够让第一朵花有地方交差。</Botania_ManaPoolSimple.description>
+  <Botania_ManaPoolSimple.description>简易魔力池是一只活石与活木拼成的小碗，盛着浅浅一汪魔力。它存的量远不如正式的魔力池，但多数园丁的第一件储魔容器就是它。它同样与相邻的池子均分。\n\n一只浅浅的石碗，装不下多少，但足够让第一朵花有地方交差。</Botania_ManaPoolSimple.description>
 
   <Botania_WandSniper.label>森林法杖·狙击型</Botania_WandSniper.label>
-  <Botania_WandSniper.description>森林法杖·狙击型是由基础法杖改造的远程武器，工艺 6 起、研究「法杖改型」后开工。它发射魔力长枪：30 点伤害、穿透 2.4，射程 32.9、预热 1.7 秒、冷却 2.7 秒，杖内 800 点魔力、每发 60 点、每秒回充 25。改造账单是一根基础法杖加 25 活木、15 活石、20 块魔力钢锭与 2 个工业零件，熔炼只回 5 块魔力钢锭；市值 3573。\n\n原本散开的魔力被压成一根针，瞄准变慢了，远处的东西却开始发慌。</Botania_WandSniper.description>
+  <Botania_WandSniper.description>森林法杖的狙击型把原本散开的魔力压成一根针，杖身为此长出一截长长的晶体尖。它瞄得慢，打远处却极为凶狠；同时它也不再听那些植物的使唤了。\n\n原本散开的魔力被压成一根针，瞄准变慢了，远处的东西却开始发慌。</Botania_WandSniper.description>
 
   <Botania_WandBlast.label>森林法杖·爆破型</Botania_WandBlast.label>
-  <Botania_WandBlast.description>森林法杖·爆破型是由基础法杖改造的远程武器，工艺 6 起、研究「法杖改型」后开工。它发射魔力爆弹：命中 50 点爆炸伤害、爆炸半径 1.9、穿透 0.5，射程只有 12.9、预热 1.5 秒、冷却 2.66 秒，杖内 700 点魔力、每发 60 点。改造账单是一根基础法杖加 15 活木、25 活石、20 块魔力钢锭与 4 个工业零件，熔炼只回 5 块魔力钢锭；市值 3795。\n\n杖头那圈碎晶总在轻轻抖，像忍不住要炸开。</Botania_WandBlast.description>
+  <Botania_WandBlast.description>森林法杖的爆破型换了一枚裂开的余烬核心，杖头箍着一圈松散的碎晶。它抛出的每一发光弹落地就炸，把地面和站在上面的一切都刮开；炸开时不认敌我。\n\n杖头那圈碎晶总在轻轻抖，像忍不住要炸开。</Botania_WandBlast.description>
 
   <Botania_ManaLance.label>魔力长枪</Botania_ManaLance.label>
-  <Botania_ManaLance.description>魔力长枪是狙击型法杖射出的弹丸，不能作为物品拾取。单发 30 点子弹伤害、护甲穿透 2.4、停阻 2.0、飞行速度 95。\n\n像一根被压到极限的针，空中几乎看不见它，只看得见它去过的地方。</Botania_ManaLance.description>
+  <Botania_ManaLance.description>魔力长枪是狙击型法杖射出的那根针，被压到极限，穿甲极强，在空中几乎看不见。它不是能捡的东西，只活在弹道里。\n\n像一根被压到极限的针，空中几乎看不见它，只看得见它去过的地方。</Botania_ManaLance.description>
 
   <Botania_ManaBlast.label>魔力爆弹</Botania_ManaBlast.label>
-  <Botania_ManaBlast.description>魔力爆弹是爆破型法杖的抛射弹丸，落地才炸，不能作为物品拾取。直击 50 点爆炸伤害、穿透 0.5、爆炸半径 1.9，飞行速度 12、抛物线高度 2。爆炸不区分敌我。\n\n一团压不住的光，越飞越亮，落地时把地面犁出一个十字。</Botania_ManaBlast.description>
+  <Botania_ManaBlast.description>魔力爆弹是爆破型法杖抛出的弹丸，飞得慢，落地才炸，炸出一个十字。它不是能捡的东西，炸开时也不认敌我。\n\n一团压不住的光，越飞越亮，落地时把地面犁出一个十字。</Botania_ManaBlast.description>
 
   <Botania_FurnaceOrchid.label>炉心蕙</Botania_FurnaceOrchid.label>
-  <Botania_FurnaceOrchid.description>炉心蕙是靠烧燃料维持高温来产魔的花，必须建在封闭有屋顶、室温高于 40°C 的房间里。它每单位燃料换 2000 点魔力，产量随温度与有效面积的平方根增长、上限 60 魔力/秒，每朵至少要占 11 格面积、房间最大算 150 格。室温超过 150°C 它会按每度 0.04 受伤，到 195°C 每秒有 1% 概率起火；造价 6 块魔力钢锭与 10 块活石，生命 100、市值 553。\n\n它把整间屋子烤得发烫，自己在中间开得很安稳。</Botania_FurnaceOrchid.description>
+  <Botania_FurnaceOrchid.description>炉心蕙靠烧燃料把屋子烤热，再从热里取魔。它只在有屋顶的封闭房间里工作，屋子越热越宽敞，产量越高，魔力全靠燃料换。挨得太近的同类会让它停工，一场火还能烧掉一整排。\n\n它把整间屋子烤得发烫，自己在中间开得很安稳。</Botania_FurnaceOrchid.description>
 
   <Botania_StormBloom.label>电暴花</Botania_StormBloom.label>
-  <Botania_StormBloom.description>电暴花是捡电网短路漏的产魔花，不是稳定电源。电网发生 Zzztt、电池把储能一次放出来时，半径 15 格内的电暴花按每瓦日 200 魔力的比例吸收，存进自己 2400 点的小缓冲，再送往半径 6 格内的魔力池。造价 4 片青花瓣与 4 块魔力钢锭，生命 80、市值 322、美观 3。\n\n它总在等一声爆响，平时看起来只是个装着水的小囊。</Botania_StormBloom.description>
+  <Botania_StormBloom.description>电暴花是一只刻意做得很小的蓄水囊。电网短路、电池把储能一次放出来的时候，这朵花能喝下多少就喝下多少，再把它们喂进附近的魔力池。它是捡漏的，不是电源。\n\n它总在等一声爆响，平时看起来只是个装着水的小囊。</Botania_StormBloom.description>
 
   <Botania_RosaArcana.label>阿卡纳蔷薇</Botania_RosaArcana.label>
-  <Botania_RosaArcana.description>阿卡纳蔷薇抽取附近小人的学习潜力来产魔。它半径 8 格内每有一个正在学习的小人，就每秒收 6 点魔力，同时让对方学得更慢、心情更差；没有可学东西的人喂不了它。造价 6 片紫花瓣与 4 份魔力尘，生命 70、市值 171、美观 4。\n\n它开得很执着，像一直在听别人脑子里没说完的那半句。</Botania_RosaArcana.description>
+  <Botania_RosaArcana.description>阿卡纳蔷薇是一朵很执着的玫瑰。在它旁边做事的人会发现思绪开始飘：学得更慢，而且心里发烦。作为交换，它收走他们没能学进去的那部分。已经没什么可学的人，喂不了它。\n\n它开得很执着，像一直在听别人脑子里没说完的那半句。</Botania_RosaArcana.description>
 
   <Botania_Dreamwood.label>梦木</Botania_Dreamwood.label>
-  <Botania_Dreamwood.description>梦木是活木的高阶木质建材，也是精灵门的产物。建造时生命 ×1.6、工时 ×0.8、美观 +10，成品可燃（0.45）；作护甲材料是锐 68% / 钝 66% / 热 50%、保暖 11/6。它只能由精灵门用 4 块活木加 200 魔力（600 tick，10 秒）转化得到，没有任何建筑把它写进造价；1 块市值 10。\n\n木纹深得发紫，摸上去像摸到一段还没醒的梦。</Botania_Dreamwood.description>
+  <Botania_Dreamwood.description>梦木是被魔力浸到发暗的活木，颜色沉成深紫。它比看上去轻，会顺着自己的纹理继续长，所以木匠说它「记得」你要的形状。它只能由精灵门转化而来，能当选材。\n\n木纹深得发紫，摸上去像摸到一段还没醒的梦。</Botania_Dreamwood.description>
 
   <Botania_ElvenQuartz.label>精灵石英</Botania_ElvenQuartz.label>
-  <Botania_ElvenQuartz.description>精灵石英是一种晶体材料，长出来而不是挖出来的，本身不能当建材。精灵门用 4 块活石加 200 魔力换得 1 块；泰拉凝聚台每炼成 1 块泰拉钢锭要吃掉 1 块，此外泰拉凝聚台（4）、凝聚基座（1）、魔力灯（2）与盖亚甲（1）也用它。市值 20，不燃、不腐坏。\n\n光被关在里面慢慢走，像一道迟迟不肯落下的电流。</Botania_ElvenQuartz.description>
+  <Botania_ElvenQuartz.description>精灵石英是一种长出来的晶体材料，脆得不能当建材。精灵门靠它聚焦，精细的魔力设备少了它就做不成，连泰拉钢的成形也要它在旁边。\n\n光被关在里面慢慢走，像一道迟迟不肯落下的电流。</Botania_ElvenQuartz.description>
 
   <Botania_PixieDust.label>精灵之尘</Botania_PixieDust.label>
-  <Botania_PixieDust.description>精灵之尘是元素锭的必需成分，属粉末材料。精灵门用 2 片任意花瓣加 100 魔力凝出 1 份；2 块魔力钢锭加 1 份精灵之尘才能炼出 1 块元素锭。它还要进元素三件、泰拉三件、盖亚两件、魔力灯与世界之种苗圃（30 份）的造价；市值 16、可燃 0.6。\n\n粉色的粉尘沾上什么就赖着不走，怎么扫都还剩一点。</Botania_PixieDust.description>
+  <Botania_PixieDust.description>精灵之尘是元素锭少不了的成分，也是那炉合金里唯一换不掉的东西。它由精灵门从花瓣里凝出，给元素锭染上那种粉色。\n\n粉色的粉尘沾上什么就赖着不走，怎么扫都还剩一点。</Botania_PixieDust.description>
 
   <Botania_ElementiumIngot.label>元素锭</Botania_ElementiumIngot.label>
-  <Botania_ElementiumIngot.description>元素锭是金属类建材，也是元素装备的唯一主料。建造时生命 ×4.0、工时 ×1.35、不燃且气密；作护甲材料锐 115% / 钝 62% / 热 78%、保暖 4/2，作武器材料锐 ×1.15、钝 ×1.05。它由精灵门以 2 块魔力钢锭加 1 份精灵之尘、300 魔力、1800 tick 炼成，之后进元素剑（3）、元素甲（4）、元素盔（3）的造价；1 块市值 60。\n\n钢在它旁边显得死板：这块金属会弹回来，像压紧又松开的弹簧。</Botania_ElementiumIngot.description>
+  <Botania_ElementiumIngot.description>元素锭是把精灵之尘折进魔力钢里锻成的粉红金属。它压紧了会弹回来，因此做护甲极好、做刃也不差，还能直接当建材。\n\n钢在它旁边显得死板：这块金属会弹回来，像压紧又松开的弹簧。</Botania_ElementiumIngot.description>
 
   <Botania_GaiaSpirit.label>盖亚之魂蓝图</Botania_GaiaSpirit.label>
-  <Botania_GaiaSpirit.description>盖亚之魂蓝图是一张科技蓝图，属消耗品。它带有技术蓝图组件（项目 Botania_Gaia），拿到研究台就能推进「盖亚」研究，同时还有一条不依赖皇权 DLC 的即时解读入口。市值 3000、不可交易、不可堆叠（上限 1），本身不燃也不腐坏。\n\n纸上的图样不像活人的手画出来的：一圈四芒，还有一半没画完。</Botania_GaiaSpirit.description>
+  <Botania_GaiaSpirit.description>盖亚之魂蓝图是一张没有活人的手能画得出来的图，画的是一个没画完的仪式。拿到研究台前研究，就能弄清旧日林地里的守卫是用什么做成的。\n\n纸上的图样不像活人的手画出来的：一圈四芒，还有一半没画完。</Botania_GaiaSpirit.description>
 
   <!-- 建材前缀：凡是 stuffProps.stuffAdjective 都要在这里给中文，
        否则用这种材料盖出来的东西会显示成「dreamwood 墙」这种中英混排。
@@ -157,97 +157,97 @@
 
 
   <Botania_AlfheimGateLintel.label>精灵门上梁</Botania_AlfheimGateLintel.label>
-  <Botania_AlfheimGateLintel.description>精灵门上梁是 3×1 的转化设备，必须左右两根立柱都立好才生效。把活木、活石或花瓣留在门洞里，它会从附近魔力池抽魔，按四条规则把材料换成这个世界没有的东西：4 块活木换梦木、4 块活石换精灵石英、2 片花瓣换精灵之尘、2 块魔力钢锭加 1 份精灵之尘换元素锭。造价 8 块魔力钢锭、6 块活石与 2 个零件，生命 300、市值 770。\n\n门洞里的空气是凉的，像另一端有风一直吹过来。</Botania_AlfheimGateLintel.description>
+  <Botania_AlfheimGateLintel.description>精灵门上梁是一道横梁，两端都立起立柱，门才打开。把活木、活石或花瓣留在门洞里，它就从附近的魔力池抽魔，换成这个世界没有的东西。没有魔力或缺柱子，它就不干活。\n\n门洞里的空气是凉的，像另一端有风一直吹过来。</Botania_AlfheimGateLintel.description>
 
   <Botania_AlfheimGatePillarLeft.label>精灵门立柱（左）</Botania_AlfheimGatePillarLeft.label>
-  <Botania_AlfheimGatePillarLeft.description>精灵门立柱（左）是精灵门的 1×3 结构件，朝门洞一侧镶着一条精灵石英。左右各一根再架上上梁才成门；两根柱子的贴图与 def 不同，不能混用。造价 4 块魔力钢锭、10 块活木与 2 块活石，生命 200、市值 430、美观 4。\n\n木纹顺着柱身往上涨，那道石英像被压在里面的水线。</Botania_AlfheimGatePillarLeft.description>
+  <Botania_AlfheimGatePillarLeft.description>精灵门立柱（左）是一根箍着魔力钢带的活木柱，朝门洞的一侧嵌着一条精灵石英。两根柱子加一道上梁才成门，左右不能混用。\n\n木纹顺着柱身往上涨，那道石英像被压在里面的水线。</Botania_AlfheimGatePillarLeft.description>
 
   <Botania_AlfheimGatePillarRight.label>精灵门立柱（右）</Botania_AlfheimGatePillarRight.label>
-  <Botania_AlfheimGatePillarRight.description>精灵门立柱（右）是精灵门的 1×3 结构件，与左柱镜像相对。它同样是活木柱箍魔力钢带、朝门洞一侧镶精灵石英，两根加一上梁才成门，且不能与左柱互换。造价 4 块魔力钢锭、10 块活木与 2 块活石，生命 200、市值 430、美观 4。\n\n两根柱子对着站久了，中间空出来的地方就自己成了路。</Botania_AlfheimGatePillarRight.description>
+  <Botania_AlfheimGatePillarRight.description>精灵门立柱（右）是左柱的镜像，同样是箍魔力钢带的活木柱，朝门洞一侧嵌着精灵石英。两根加一道上梁才成门，左右不能互换。\n\n两根柱子对着站久了，中间空出来的地方就自己成了路。</Botania_AlfheimGatePillarRight.description>
 
   <Botania_BlightEater.label>噬草花</Botania_BlightEater.label>
-  <Botania_BlightEater.description>噬草花是吃枯萎病作物的产魔花。它在半径 6 格内寻找染了枯萎病的植株，整株吞下换 1500 点魔力，一批最多吃 10 株，然后休息 1800 tick；健康的植株它不碰。造价 4 片绿花瓣与 4 份魔力尘，生命 80、市值 147。\n\n它只对病株感兴趣，田里干净的时候就像一株普通的草。</Botania_BlightEater.description>
+  <Botania_BlightEater.description>噬草花是一朵以病为食的花。它会在附近找出染了枯萎病的作物，整株吞下，从腐坏里榨出魔力。健康的植株它不碰，所以它是个顺手替你把田清干净的食腐者。\n\n它只对病株感兴趣，田里干净的时候就像一株普通的草。</Botania_BlightEater.description>
 
   <Botania_BitterBloom.label>苦丽花</Botania_BitterBloom.label>
-  <Botania_BitterBloom.description>苦丽花靠别人的劳动产魔。它半径 8 格内每有人干完一件正经工作，就按经验值折算魔力（每点经验 10 魔力，单次上限 400），同时给干活的人挂上 0.25 强度的疲劳与坏心情；经验低于 5 的琐碎工作不算。造价 4 片红花瓣与 6 份魔力尘，生命 70、市值 195、美观 2。\n\n花开得不算难看，可在它旁边干活的人总会莫名其妙地叹气。</Botania_BitterBloom.description>
+  <Botania_BitterBloom.description>苦丽花靠别人的劳动过活。有人在附近干完一件正经活儿，它就分走那人一点力气，回敬的是酸痛与坏心情。闲人喂不饱它。\n\n花开得不算难看，可在它旁边干活的人总会莫名其妙地叹气。</Botania_BitterBloom.description>
 
   <Botania_ClearMindLotus.label>明心莲</Botania_ClearMindLotus.label>
-  <Botania_ClearMindLotus.description>明心莲是抵抗心灵干扰的功能花，靠魔力维持效果。它半径 8 格内的小人不受心灵干扰影响，每人每秒抽 20 点魔力、每次付费维持 180 tick；魔力一断，干扰立刻回来。造价 6 片白花瓣与 8 份魔力尘，生命 70、市值 224、美观 5。\n\n它哼的调子听不见，但站在旁边的人会突然忘记自己刚才在怕什么。</Botania_ClearMindLotus.description>
+  <Botania_ClearMindLotus.description>明心莲是一朵哼着反调的白莲。只要喂着魔力，范围内的人就听不见那阵心灵噪音：那个念头被推出他们的脑袋，别的什么都不变。它很费魔力，一断供，噪音立刻回来。\n\n它哼的调子听不见，但站在旁边的人会突然忘记自己刚才在怕什么。</Botania_ClearMindLotus.description>
 
   <Botania_ElementiumSword.label>元素剑</Botania_ElementiumSword.label>
-  <Botania_ElementiumSword.description>元素剑是太空时代的近战武器，工艺 6 起做。刃击 26 点切割、35% 护甲穿透、2.0 秒冷却，刺击 22 点（30% 穿透），柄击 9 点钝；造价 3 块元素锭加 2 块活木，市值 3000。它没有任何附带技能，全靠刃口本身。\n\n粉色的刃举起来很轻，落下时却不像那么轻。</Botania_ElementiumSword.description>
+  <Botania_ElementiumSword.description>元素剑是元素锭打成的近战武器，刃口锋利而且不容易钝。它没有任何附带技能，全靠这把刃本身。\n\n粉色的刃举起来很轻，落下时却不像那么轻。</Botania_ElementiumSword.description>
 
   <Botania_ElementiumArmor.label>元素甲</Botania_ElementiumArmor.label>
-  <Botania_ElementiumArmor.description>元素甲是覆盖躯干与四肢的全身护甲，工艺 6 起做。防护为锐器 104% / 钝器 42% / 热能 49%，保暖 77、隔热 11，穿脱 4 秒，穿上移速 -0.10；生命 260、市值 2272。造价 4 块元素锭加 2 块活木、1 份精灵之尘，甲片装在活木骨架上。\n\n挨打时先弯下去，再慢慢弹回原来的形状，像什么都没发生。</Botania_ElementiumArmor.description>
+  <Botania_ElementiumArmor.description>元素甲是一整套元素锭甲片，蒙在活木骨架上，盖住躯干与四肢。它挡切割远胜于挡钝器，穿上也会拖慢一点脚步。\n\n挨打时先弯下去，再慢慢弹回原来的形状，像什么都没发生。</Botania_ElementiumArmor.description>
 
   <Botania_ElementiumHelmet.label>元素头盔</Botania_ElementiumHelmet.label>
-  <Botania_ElementiumHelmet.description>元素头盔是覆盖整个头部的护甲，工艺 6 起做。防护为锐器 62% / 钝器 25% / 热能 29%，保暖 5、隔热 2，穿脱 2 秒；生命 180、市值 1363。造价 3 块元素锭加 1 份精灵之尘，面罩是一片石英。\n\n刀刃划过时不像钢盔那样嗡响，只有一声闷闷的钝音。</Botania_ElementiumHelmet.description>
+  <Botania_ElementiumHelmet.description>元素头盔是一顶覆住整个头部的元素锭盔，面罩是一片石英。它比看上去轻，戴上也不怎么妨碍视线。\n\n刀刃划过时不像钢盔那样嗡响，只有一声闷闷的钝音。</Botania_ElementiumHelmet.description>
 
   <Botania_ManaLamp.label>魔力灯</Botania_ManaLamp.label>
-  <Botania_ManaLamp.description>魔力灯是 6 格照明半径的灯具，喝魔力而不是电。它每 3600 tick（1 分钟）抽 1 点魔力维持发亮，魔力断供就熄，来魔后自己重新亮起；研究彩色照明后还能改灯光颜色。造价 2 块精灵石英、1 份精灵之尘与 2 块魔力钢锭，市值 253。\n\n玻璃罩里的光浮着不动，像一小片被收起来的傍晚。</Botania_ManaLamp.description>
+  <Botania_ManaLamp.description>魔力灯是一盏喝魔力而不是电的灯，玻璃罩里浮着一团安静的光。魔力断供，它就暗下去；魔力回来，它自己又亮起来。研究过彩色照明后，还能改灯光颜色。\n\n玻璃罩里的光浮着不动，像一小片被收起来的傍晚。</Botania_ManaLamp.description>
 
   <Botania_LifeOrchid.label>启命英</Botania_LifeOrchid.label>
-  <Botania_LifeOrchid.description>启命英是在肉床上跑生命游戏的产魔花，只在装了异象 DLC 时能用。它管着 11×11 的肉床，每代按「新生 + 死亡的格数」结算，每格 40 点魔力、单代上限 900；静止不动的图案产不出魔力，每格细胞连续存活 30 代后自然凋亡。运行需要血肉之种作燃料，造价 12 份魔力尘与 6 片紫花瓣，生命 90、市值 367。\n\n它不种植被，只养一小片会出生也会死掉的细胞。</Botania_LifeOrchid.description>
+  <Botania_LifeOrchid.description>启命英是一朵玩弄生命的花。铺开扭曲的血肉再喂它血肉之种，它就在那片床上养一窝细胞：会出生，会死亡，也会耗尽。它只为变化付账，静止的图案喂不了它。\n\n它不种植被，只养一小片会出生也会死掉的细胞。</Botania_LifeOrchid.description>
 
   <Botania_FleshSeed.label>血肉之种</Botania_FleshSeed.label>
-  <Botania_FleshSeed.description>血肉之种是给启命英用的燃料，属消耗品。每枚种子能让 11×11 肉床上的细胞群维持一段时间的世代，用完之后细胞群就干枯；它也能在装了异象 DLC 的屠宰台上由 15 份扭曲肉压成 1 枚（烹饪 10）。市值 50、质量 0.15，可堆叠 75，选中时还会显示它作为活细胞的年龄与代数。\n\n捏在手里会自己抽动一下，像在提醒你它还活着。</Botania_FleshSeed.description>
+  <Botania_FleshSeed.description>血肉之种是给启命英用的燃料。每枚种子能买下肉床上一段世代，用完之后那一片细胞就干枯了。\n\n捏在手里会自己抽动一下，像在提醒你它还活着。</Botania_FleshSeed.description>
   <!-- 泰拉钢（v0.7） -->
   <Botania_TerrasteelIngot.label>泰拉钢锭</Botania_TerrasteelIngot.label>
-  <Botania_TerrasteelIngot.description>泰拉钢锭是植物魔法终局主料，属锭类材料，本身没有建材属性。它由泰拉凝聚台以 20000 魔力加 2400 tick（40 秒）炼成，每次 1 块，四角基座缺一即停。泰拉刃、泰拉甲、泰拉盔、盖亚甲、盖亚盔各吃 1 块，爆萼花 5 块、远古陨击花 20 块、世界之种苗圃 20 块；市值 240。\n\n这块金属开始长根，绿金色，摸着是温的，比看上去重。</Botania_TerrasteelIngot.description>
+  <Botania_TerrasteelIngot.description>泰拉钢锭是植物魔法终局的主料，由魔力钢在凝聚台里被精灵石英喂成。它本身不能当建材，终局的装备与那几座大花都等着它。\n\n这块金属开始长根，绿金色，摸着是温的，比看上去重。</Botania_TerrasteelIngot.description>
 
   <Botania_TerraBlade.label>泰拉刃</Botania_TerraBlade.label>
-  <Botania_TerraBlade.description>泰拉刃是终局近战武器，工艺 8 起、在燃油或电力铁匠台制作。刃击 30 点切割、45% 护甲穿透、2.0 秒冷却，另有 26 点刺击（35% 穿透）与 10 点柄击（钝）；造价 1 块泰拉钢锭加 2 块活木、2 份精灵之尘，市值 3600。装备后获得「泰拉剑气」：48 格直线、首段 30 点递减到末端 10 点、冷却 8 秒，每道剑气耗 400 魔力。\n\n刃口本身很普通，稀奇的是金属记住了挥动的弧度。</Botania_TerraBlade.description>
+  <Botania_TerraBlade.description>泰拉刃是终局的近战武器，活木柄上装着泰拉钢的刃。挥动时能让身前的空气跟着走，代价是要从附近的魔力源抽取魔力。\n\n刃口本身很普通，稀奇的是金属记住了挥动的弧度。</Botania_TerraBlade.description>
 
   <Botania_TerrasteelArmor.label>泰拉甲</Botania_TerrasteelArmor.label>
-  <Botania_TerrasteelArmor.description>泰拉甲是泰拉钢制的全身板甲，工艺 8 起做、覆盖七个部位。防护为锐器 109% / 钝器 44% / 热能 51%，保暖 80、隔热 11，穿脱 5 秒，穿上移速 -0.10；生命 400、市值 3000。造价 1 块泰拉钢锭加 2 块活木、2 份精灵之尘。\n\n划痕会自己长回去，久了就分不清哪一处挨过刀。</Botania_TerrasteelArmor.description>
+  <Botania_TerrasteelArmor.description>泰拉甲是一套泰拉钢板甲，覆盖全身。它几乎能把刀刃完全挡住，锤子却还是找得到路进来，穿着也会拖慢脚步。\n\n划痕会自己长回去，久了就分不清哪一处挨过刀。</Botania_TerrasteelArmor.description>
 
   <Botania_TerrasteelHelmet.label>泰拉头盔</Botania_TerrasteelHelmet.label>
-  <Botania_TerrasteelHelmet.description>泰拉头盔是覆住整张脸的泰拉钢盔，工艺 8 起做。防护为锐器 65% / 钝器 26% / 热能 31%，保暖 6、隔热 2，穿脱 3 秒；生命 280、市值 1800。造价 1 块泰拉钢锭加 1 份精灵之尘，面甲是一片精灵石英。\n\n金属会自己合拢，留出的那道缝刚好够看清世界。</Botania_TerrasteelHelmet.description>
+  <Botania_TerrasteelHelmet.description>泰拉头盔是一顶覆住整张脸的泰拉钢盔，面甲是一片精灵石英。它挡刀极稳，戴着却不会闷住视线。\n\n金属会自己合拢，留出的那道缝刚好够看清世界。</Botania_TerrasteelHelmet.description>
 
   <Botania_GaiaArmor.label>盖亚甲</Botania_GaiaArmor.label>
-  <Botania_GaiaArmor.description>盖亚甲是终局全身护甲，覆盖躯干、颈、肩、臂、手、腿、脚七个部位。防护为锐器 144% / 钝器 60% / 热能 72%，保暖 84、隔热 14，穿脱 5 秒，穿上移速 -0.08；生命 460、质量 18、市值 4612。它没有制作配方，只能由世界之种苗圃把一件泰拉甲转化而来（造价记为 1 泰拉钢锭 + 1 精灵石英 + 1 精灵之尘）。\n\n这身甲会记住挨过的每一击，被打中的地方自己变厚一层。</Botania_GaiaArmor.description>
+  <Botania_GaiaArmor.description>盖亚甲是从盖亚之魂里长出来的全身甲，比泰拉甲更厚更重。寻常材料的刃切不开它，而且它没有配方，只能用苗圃把泰拉甲转化过来。\n\n这身甲会记住挨过的每一击，被打中的地方自己变厚一层。</Botania_GaiaArmor.description>
 
   <Botania_GaiaHelmet.label>盖亚头盔</Botania_GaiaHelmet.label>
-  <Botania_GaiaHelmet.description>盖亚头盔是终局头部护甲，只能由世界之种苗圃把一顶泰拉盔转化得到，没有工作台配方。防护为锐器 86% / 钝器 36% / 热能 43%，保暖 6、隔热 3，穿脱 3 秒；生命 320、市值 2767。冠部是一圈永不凋谢的活花瓣，造价记为 1 泰拉钢锭加 1 份精灵之尘。\n\n危险靠近时它自己合上，枪声停了再张开，像在呼吸。</Botania_GaiaHelmet.description>
+  <Botania_GaiaHelmet.description>盖亚头盔是一顶冠着永不凋谢活花瓣的盖亚甲盔。它能替脸挡下很多东西；它同样没有配方，只能由苗圃转化泰拉盔得来。\n\n危险靠近时它自己合上，枪声停了再张开，像在呼吸。</Botania_GaiaHelmet.description>
 
   <Botania_TerrasteelAltar.label>泰拉凝聚台</Botania_TerrasteelAltar.label>
-  <Botania_TerrasteelAltar.description>泰拉凝聚台是 3×3 的专用制作设备，靠 20000 点魔力把材料炼成泰拉钢。把 1 块魔力钢锭与 1 块精灵石英留在台面上，等 2400 tick（40 秒），环心就会长出 1 块泰拉钢锭；四角少一根凝聚基座，它就不工作。造价 6 块魔力钢锭、8 块活石与 4 块精灵石英，生命 600、美观 12。\n\n四根石柱把魔力拢在中间，光在环里打转，转到凝成一块金属。</Botania_TerrasteelAltar.description>
+  <Botania_TerrasteelAltar.description>泰拉凝聚台是一方宽阔的活石台面，台面边上各立一根顶着石英的基座。把魔力钢与精灵石英留在台上，向魔力池深深取魔，台心就长出泰拉钢。缺基座或魔力不够深，它都不干活。\n\n四根石柱把魔力拢在中间，光在环里打转，转到凝成一块金属。</Botania_TerrasteelAltar.description>
 
   <Botania_TerrasteelPedestal.label>凝聚基座</Botania_TerrasteelPedestal.label>
-  <Botania_TerrasteelPedestal.description>凝聚基座是泰拉凝聚台的四角结构件，每台平台需要四根。它由 4 块活石与 1 块精灵石英做成，作用是把魔力拢在台面上、不让它在成形时漏出去；缺任何一根，凝聚台就停摆。生命 180、市值 98、美观 3。\n\n柱子不高，顶端那枚石英却一直朝上，像在等什么落下来。</Botania_TerrasteelPedestal.description>
+  <Botania_TerrasteelPedestal.description>凝聚基座是一根矮矮的活石柱，顶上嵌着一枚精灵石英。平台边上各站一根，作用是在泰拉钢成形时把魔力拢在台面上、不让它漏出去；缺了任何一根，凝聚台就停摆。\n\n柱子不高，顶端那枚石英却一直朝上，像在等什么落下来。</Botania_TerrasteelPedestal.description>
 
 
   <!-- 盖亚事件 -->
   <Botania_GaiaShard.label>盖亚碎块</Botania_GaiaShard.label>
-  <Botania_GaiaShard.description>盖亚碎块是 3×3 的事件建筑，不能被建造或认领。它从天而降扎进地里，生命 800、质量 400，只能被摧毁；摧毁它，盖亚传送门就会在原地打开。它不属于任何玩家的生产序列，也不会出现在建造菜单。\n\n一块埋进土里的活晶体，低频地震着，节奏像心跳。</Botania_GaiaShard.description>
+  <Botania_GaiaShard.description>盖亚碎块是从天上掉下来、扎进地里的一块事件物，既不能建造也不能认领。它会低声震着，把它打碎，盖亚传送门就在原地打开。\n\n一块埋进土里的活晶体，低频地震着，节奏像心跳。</Botania_GaiaShard.description>
   <Botania_GaiaPortal.label>盖亚传送门</Botania_GaiaPortal.label>
-  <Botania_GaiaPortal.description>盖亚传送门是 3×3 的事件建筑，无法建造，也无法被摧毁。它按 6、8、10 只的规模放出三波盖亚造物，波与波之间停 90 秒，第一波在开门 10 秒后来；范围内 8 格是刷新区。玩家只能选择「停止仪式」投降来结束它（冷却 60000 tick）。\n\n边缘有绿光在爬，爬得很有耐心，像在数还有多少东西可以送过来。</Botania_GaiaPortal.description>
+  <Botania_GaiaPortal.description>盖亚传送门是一圈被撕开的空间，边缘有绿光在爬。东西从里面一波一波地出来，直到另一侧把打算花掉的都花完为止。伤不到它，唯一能结束仪式的办法就是认输。\n\n边缘有绿光在爬，爬得很有耐心，像在数还有多少东西可以送过来。</Botania_GaiaPortal.description>
 
   <Botania_GaiaWorldSoul.label>盖亚·世界之魂</Botania_GaiaWorldSoul.label>
-  <Botania_GaiaWorldSoul.description>盖亚·世界之魂是终局 Boss 生物，不能驯服也不会游荡。它体型 4、生命倍率 52，防御锐 60% / 钝 45% / 热 50%、移速 2.0，近战只有 1 点钝击，威胁全在技能；不吃不睡、不流血，被杀即死而不会痛晕。战斗效能 900。\n\n它移动的方式像天气：先是很慢，然后突然全部涌上来。</Botania_GaiaWorldSoul.description>
+  <Botania_GaiaWorldSoul.description>盖亚·世界之魂是一团根、石与绿光，学会了穿上一副形状。外壳先替它吃下打击，壳碎了它才躺下不动，那时才打得疼它。\n\n它移动的方式像天气：先是很慢，然后突然全部涌上来。</Botania_GaiaWorldSoul.description>
   <Botania_GaiaCore.label>盖亚核心</Botania_GaiaCore.label>
-  <Botania_GaiaCore.description>盖亚核心是一件建造零件，只能用在一个地方。它是世界之种苗圃的造价之一，1 枚核心配 20 块泰拉钢锭与 30 份精灵之尘；除苗圃外没有任何配方或造价引用它。市值 3000，不可交易、不可堆叠（上限 1），不燃也不腐坏。\n\n世界之心冷却以后留下的东西，如今能被搬走，里面还有根在一抽一抽。</Botania_GaiaCore.description>
+  <Botania_GaiaCore.description>盖亚核心是一件只肯用在苗圃上的零件，别的配方都不要它。它也是种出一片林地唯一缺不得的东西。\n\n世界之心冷却以后留下的东西，如今能被搬走，里面还有根在一抽一抽。</Botania_GaiaCore.description>
 
   <Botania_Mote_GaiaRoots.label>根须缠绕特效</Botania_Mote_GaiaRoots.label>
   <Botania_Mote_GaiaCrack.label>大地之怒裂纹</Botania_Mote_GaiaCrack.label>
   <Botania_Mote_GaiaSpark.label>魔力射线光斑</Botania_Mote_GaiaSpark.label>
   <Botania_Mote_GaiaSwing.label>盖亚挥击</Botania_Mote_GaiaSwing.label>
   <Botania_WorldSeedNursery.label>世界之种苗圃</Botania_WorldSeedNursery.label>
-  <Botania_WorldSeedNursery.description>世界之种苗圃是 3×3 的转化设备，把泰拉钢装备变成盖亚装备。它半径 8 格、每 300 tick 结算一次：范围内的泰拉甲变盖亚甲、泰拉盔变盖亚盔，站在范围内的殖民者身上穿着的会优先转化。造价 1 枚盖亚核心、20 块泰拉钢锭与 30 份精灵之尘，生命 800、市值 16608、美观 8。\n\n种荚里那东西一直轻轻地动，像替谁记得怎么长大。</Botania_WorldSeedNursery.description>
+  <Botania_WorldSeedNursery.description>世界之种苗圃是一枚嵌在石环里的活种荚，把泰拉钢装备以同样的形状重新长一遍：泰拉甲长成盖亚甲，泰拉盔长成盖亚盔。站在范围内的殖民者，身上穿着的会先被转化。\n\n种荚里那东西一直轻轻地动，像替谁记得怎么长大。</Botania_WorldSeedNursery.description>
   <Botania_GaiaSpawnling.label>盖亚造物</Botania_GaiaSpawnling.label>
-  <Botania_GaiaSpawnling.description>盖亚造物是盖亚传送门召出的小型生物，只会冲上来近战。它体型 0.5、生命倍率 0.9、移速 4.2，防御只有锐 15% / 钝 10%，一口咬 7 点、1.6 秒一口；不吃不睡也不会自己游荡。战斗效能 40。\n\n长得跟狗差不多大的根与种子，被催生得太急，所以脾气很坏。</Botania_GaiaSpawnling.description>
+  <Botania_GaiaSpawnling.description>盖亚造物是盖亚传送门召出来的小型生物。它不吃不睡，也不会自己走开，只会一路冲上来近战。\n\n长得跟狗差不多大的根与种子，被催生得太急，所以脾气很坏。</Botania_GaiaSpawnling.description>
     <Botania_Thornbell.label>荆棘钟花</Botania_Thornbell.label>
-    <Botania_Thornbell.description>荆棘钟花是无需人值守的炮塔型功能花，靠魔力开火。它五连射、射程 30、预热 0.4 秒、每轮冷却 4 秒，每轮连射扣 15 点魔力；没有魔力时炮管只是沉默，不会损坏。造价 8 片绿花瓣、10 份魔力尘与 4 块魔力钢锭，生命 140、市值 618、美观 -8，战斗效能 120。\n\n它把花瓣长成了炮管，开火时整朵花都在轻轻后坐。</Botania_Thornbell.description>
+    <Botania_Thornbell.description>荆棘钟花是一朵把自己长成炮管的花，从附近的池子喝魔力，见什么敌意的东西靠近就吐出一串短促的毒刺。不用人守在旁边，也不用装弹；魔力干了，炮管就沉默下来。\n\n它把花瓣长成了炮管，开火时整朵花都在轻轻后坐。</Botania_Thornbell.description>
     <Botania_Gun_Thornbell.label>荆棘钟花炮管</Botania_Gun_Thornbell.label>
-    <Botania_Gun_Thornbell.description>荆棘钟花炮管是荆棘钟花的炮塔部件，不能作为物品获得。它规定这朵花的射击手感：射程 30、五连发、每两发间隔 6 tick、冷却 4 秒，四档精度分别是 0.77 / 0.70 / 0.45 / 0.24，投射物用原版迷你炮塔子弹。它只存在花的定义里，不会掉在地上。\n\n五根荆棘管子朝一个方向伸着，谁握它都不需要手。</Botania_Gun_Thornbell.description>
+    <Botania_Gun_Thornbell.description>荆棘钟花炮管是这朵花的射击定义，不是能拿在手上的武器：它规定了这朵花能打多远、连发的节奏，以及各档距离上的准头。它只存在于花的定义里，不会掉在地上。\n\n五根荆棘管子朝一个方向伸着，谁握它都不需要手。</Botania_Gun_Thornbell.description>
     <Botania_Blastcalyx.label>爆萼花</Botania_Blastcalyx.label>
-    <Botania_Blastcalyx.description>爆萼花是 2×2 的高抛迫击炮型功能花，越墙打击。它射程 70、死区 10、偏差 6、预热 4 秒、每发冷却 40 秒，每发扣 80 点魔力；贴到近处的东西它打不到。造价 15 片绿花瓣、24 份魔力尘与 5 块泰拉钢锭，生命 180、市值 3166、美观 -10，战斗效能 260。\n\n它把魔力在花萼里压到花瓣发抖，然后整团丢过墙去。</Botania_Blastcalyx.description>
+    <Botania_Blastcalyx.description>爆萼花是一朵把自己掏空成炮的花，专门越墙轰击工事。它够不到贴到近前的东西，所以总要有人在旁边替它看着。\n\n它把魔力在花萼里压到花瓣发抖，然后整团丢过墙去。</Botania_Blastcalyx.description>
     <Botania_Gun_Blastcalyx.label>爆萼花炮筒</Botania_Gun_Blastcalyx.label>
-    <Botania_Gun_Blastcalyx.description>爆萼花炮筒是爆萼花的炮塔部件，不能作为物品获得。它定义这朵花的抛射：射程 70、死区 10、偏差 6 格、预热 4 秒，越过墙体攻击指定地点，投射物直接用原版高爆弹；四档精度 0.60 / 0.55 / 0.40 / 0.20。\n\n一根粗筒朝着天，里面塞着一团压缩好的光。</Botania_Gun_Blastcalyx.description>
+    <Botania_Gun_Blastcalyx.description>爆萼花炮筒是这朵花的抛射定义，不是能拿在手上的武器：它规定了越过墙体抛射的射程、落点偏差与各档准头。它只存在于花的定义里，不会掉在地上。\n\n一根粗筒朝着天，里面塞着一团压缩好的光。</Botania_Gun_Blastcalyx.description>
     <Botania_AncientStarfall.label>远古陨击花</Botania_AncientStarfall.label>
-    <Botania_AncientStarfall.description>远古陨击花是 5×5 的终局攻城花，射程覆盖整张地图。它射程 500、死区 20、偏差 9、预热 4 秒、每发冷却 75 秒，每发扣 400 点魔力；弹着点造成 275 点爆炸伤害、半径 9.5，能抹平工事，但近处毫无防备。造价 50 片绿花瓣、75 份魔力尘与 20 块泰拉钢锭，生命 330、市值 12010、美观 -14。\n\n它朝天空张开喉咙，等一枚陨石自己落进取景框里。</Botania_AncientStarfall.description>
+    <Botania_AncientStarfall.description>远古陨击花是一朵围着压缩魔力长起来的古老攻城花。它护不住自己身边，但殖民地里看得见的地方都在它的射程之内；它的弹头落在哪里，那里就只剩一个坑。\n\n它朝天空张开喉咙，等一枚陨石自己落进取景框里。</Botania_AncientStarfall.description>
     <Botania_Gun_AncientStarfall.label>远古陨击花花喉</Botania_Gun_AncientStarfall.label>
-    <Botania_Gun_AncientStarfall.description>远古陨击花花喉是远古陨击花的炮塔部件，不能作为物品获得。它定义这门重炮：射程 500、死区 20、偏差 9 格、预热 4 秒，越墙把召唤陨石投向目标，弹着 275 点伤害、半径 9.5；四档精度 0.55 / 0.50 / 0.35 / 0.18。\n\n它不发射炮弹，只是把天上的东西叫下来。</Botania_Gun_AncientStarfall.description>
+    <Botania_Gun_AncientStarfall.description>远古陨击花花喉是这门重炮的部件，拿不到手里。它把召唤来的陨石越过墙投向目标，落点偏差不算小。\n\n它不发射炮弹，只是把天上的东西叫下来。</Botania_Gun_AncientStarfall.description>
     <Botania_Bullet_HeavyManaShell.label>召唤陨石</Botania_Bullet_HeavyManaShell.label>
     <Botania_MeteorIncoming.label>召唤陨石（坠落中）</Botania_MeteorIncoming.label>
 </LanguageData>

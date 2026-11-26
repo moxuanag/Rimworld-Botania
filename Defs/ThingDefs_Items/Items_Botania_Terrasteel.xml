@@ -12,7 +12,9 @@
   <ThingDef ParentName="Botania_MaterialBase">
     <defName>Botania_TerrasteelIngot</defName>
     <label>terrasteel ingot</label>
-    <description>The metal that grows. Manasteel fed with elven quartz inside the agglomeration platform stops being metal in the ordinary sense and starts putting out roots. Green-gold, warm to the touch, and heavier than it looks.</description>
+    <description>The main material of the late game: manasteel fed elven quartz inside the agglomeration platform until it becomes terrasteel. It is no building material, and the late gear and the great flowers are all waiting on it.
+
+This metal has begun to put out roots: green-gold, warm to the touch, heavier than it looks.</description>
     <graphicData>
       <texPath>Things/Item/Resource/Botania/TerrasteelIngot</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
@@ -30,7 +32,9 @@
   <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
     <defName>Botania_TerraBlade</defName>
     <label>terrasteel blade</label>
-    <description>A terrasteel blade on a livingwood grip. The edge is ordinary enough; what is not ordinary is that the metal remembers the swing. Hold it and the air in front of you can be made to move with it.</description>
+    <description>A close-quarters blade for the late game: a terrasteel edge on a livingwood grip. Swung, it makes the air in front of you move with it - at the price of mana drawn from a source nearby.
+
+The edge itself is ordinary; the strange part is that the metal remembers the arc of the swing.</description>
     <possessionCount>1</possessionCount>
     <graphicData>
       <texPath>Things/Item/Equipment/WeaponMelee/Botania/TerrasteelSword</texPath>
@@ -112,7 +116,9 @@
   <ThingDef ParentName="ApparelBase">
     <defName>Botania_TerrasteelArmor</defName>
     <label>terrasteel armor</label>
-    <description>A suit of terrasteel plate that keeps growing into its own scratches. It stops a blade almost completely; a hammer still finds a way through.</description>
+    <description>A suit of terrasteel plate covering the whole body. It stops a blade almost completely, a hammer still finds a way through, and it weighs on the wearer's step.
+
+The scratches grow back on their own, until after a while you cannot tell which place took the blade.</description>
     <techLevel>Ultra</techLevel>
     <graphicData>
       <texPath>Things/Pawn/Humanlike/Apparel/Botania_TerrasteelArmor/Botania_TerrasteelArmor</texPath>
@@ -180,7 +186,9 @@
   <ThingDef ParentName="ApparelBase">
     <defName>Botania_TerrasteelHelmet</defName>
     <label>terrasteel helmet</label>
-    <description>A full helm of terrasteel with a visor of elven quartz. The metal closes over the face on its own; the opening is exactly wide enough to see through.</description>
+    <description>A full helm of terrasteel with a visor of elven quartz. It turns a blade very well, and it does not shut the wearer's view away.
+
+The metal closes over the face by itself, leaving a gap just wide enough to see the world through.</description>
     <techLevel>Ultra</techLevel>
     <graphicData>
       <texPath>Things/Pawn/Humanlike/Apparel/Botania_TerrasteelHelmet/Botania_TerrasteelHelmet</texPath>

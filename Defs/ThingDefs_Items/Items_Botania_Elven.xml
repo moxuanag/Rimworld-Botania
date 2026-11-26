@@ -11,7 +11,9 @@
   <ThingDef ParentName="Botania_MaterialBase">
     <defName>Botania_Dreamwood</defName>
     <label>dreamwood</label>
-    <description>Livingwood steeped in mana until it darkened to a deep violet. It is lighter than it looks and keeps growing along its own grain, so carpenters say it "remembers" the shape you want. Can be used as a building material.</description>
+    <description>Livingwood steeped in mana until it darkened to a deep violet. It is lighter than it looks and keeps growing along its own grain, so carpenters say it remembers the shape you want. Only an elven gate can make it, and it can be used as a building material.
+
+The grain runs so dark it turns violet; touching it is like touching a dream that has not woken yet.</description>
     <graphicData>
       <texPath>Things/Item/Resource/Botania/Dreamwood</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
@@ -60,7 +62,9 @@
   <ThingDef ParentName="Botania_MaterialBase">
     <defName>Botania_ElvenQuartz</defName>
     <label>elven quartz</label>
-    <description>Clear crystal grown rather than mined, with light caught inside it like a slow current. Elven gates focus their lenses through it, and finer mana devices will not work without a piece. Too brittle to build with.</description>
+    <description>Crystal that is grown rather than mined, too brittle to build with. Elven gates focus their lenses through it, finer mana devices will not work without a piece, and even terrasteel will not form without it near.
+
+Light is shut inside and walks slowly, like a current that will not quite fall.</description>
     <graphicData>
       <texPath>Things/Item/Resource/Botania/ElvenQuartz</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
@@ -78,7 +82,9 @@
   <ThingDef ParentName="Botania_MaterialBase">
     <defName>Botania_PixieDust</defName>
     <label>pixie dust</label>
-    <description>A glittering pink dust that clings to everything it touches and refuses to settle. It is what gives elementium its colour, and the only part of the alloy that cannot be replaced by steel.</description>
+    <description>The one part of elementium that cannot be replaced by steel. The elven gate condenses it out of petals, and it is what gives the alloy its pink.
+
+The pink dust clings to whatever it touches and will not leave; however you sweep, a little is always left.</description>
     <graphicData>
       <texPath>Things/Item/Resource/Botania/PixieDust</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
@@ -96,7 +102,9 @@
   <ThingDef ParentName="Botania_MaterialBase">
     <defName>Botania_ElementiumIngot</defName>
     <label>elementium ingot</label>
-    <description>Manasteel folded with pixie dust until the whole bar flushes pink. It is springy where steel is rigid, which makes it excellent armour and a fair blade. Can be used as a building material.</description>
+    <description>Manasteel folded with pixie dust until the whole bar flushes pink. It springs back when pressed, which makes it excellent armour and a fair blade, and it can be built with directly.
+
+Steel looks dead beside it: this metal springs back, like a spring pressed shut and let go.</description>
     <graphicData>
       <texPath>Things/Item/Resource/Botania/ElementiumIngot</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
@@ -148,7 +156,9 @@
   <ThingDef>
     <defName>Botania_GaiaSpirit</defName>
     <label>gaia spirit blueprint</label>
-    <description>A sheet of parchment covered in a diagram that no living hand drew: four rays around a ring, half of it still unfinished. Study it at a research bench to work out what the guardians of the old groves were made of.</description>
+    <description>A sheet of parchment covered in a diagram no living hand drew: an unfinished rite, and the shape of something that was never completed. Study it at a research bench to work out what the guardians of the old groves were made of.
+
+The pattern on the page does not look like any living hand drew it: a ring of four rays, and part of it still unfinished.</description>
     <thingClass>ThingWithComps</thingClass>
     <category>Item</category>
     <drawerType>MapMeshOnly</drawerType>

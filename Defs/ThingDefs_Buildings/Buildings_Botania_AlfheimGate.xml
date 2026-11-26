@@ -12,7 +12,9 @@
   <ThingDef ParentName="BuildingBase">
     <defName>Botania_AlfheimGateLintel</defName>
     <label>elf gate lintel</label>
-    <description>The top beam of an elven gate. Once both pillars are standing under its ends, the gate opens: leave livingwood, livingrock or petals in the doorway and it will draw mana from a nearby pool, and turn them into things that do not exist on this world.\n\nIt will not work without mana, and it will not work with a pillar missing.</description>
+    <description>The top beam of an elven gate. Only when a pillar stands under each end does the gate open: leave livingwood, livingrock or petals in the doorway and it will draw mana from a nearby pool and turn them into things that do not exist on this world. Without mana, or with a pillar missing, it does nothing.
+
+The air in the doorway is cool, as if a wind from the other side were always blowing through.</description>
     <thingClass>Building</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <graphicData>
@@ -133,7 +135,9 @@
   <ThingDef ParentName="BuildingBase">
     <defName>Botania_AlfheimGatePillarLeft</defName>
     <label>elf gate pillar (left)</label>
-    <description>A livingwood pillar banded in manasteel, with a strip of elven quartz running down the side that faces the doorway. Two of these and a lintel across the top make a gate.</description>
+    <description>A livingwood pillar banded in manasteel, with a strip of elven quartz set into the side that faces the doorway. Two of these and a lintel across the top make a gate, and left and right will not stand in for each other.
+
+The grain climbs up the pillar, and the quartz looks like a water line pressed inside it.</description>
     <thingClass>Building</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <graphicData>
@@ -184,7 +188,9 @@
   <ThingDef ParentName="BuildingBase">
     <defName>Botania_AlfheimGatePillarRight</defName>
     <label>elf gate pillar (right)</label>
-    <description>A livingwood pillar banded in manasteel, with a strip of elven quartz running down the side that faces the doorway. Two of these and a lintel across the top make a gate.</description>
+    <description>The mirror of the left pillar: livingwood banded in manasteel, elven quartz set into the side that faces the doorway. Two pillars and a lintel make a gate, and left and right cannot be swapped.
+
+Stand facing each other long enough, and the gap between them becomes a road of its own.</description>
     <thingClass>Building</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <graphicData>

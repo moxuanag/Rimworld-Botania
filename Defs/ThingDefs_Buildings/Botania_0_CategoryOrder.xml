@@ -20,7 +20,9 @@
 <ThingDef ParentName="BuildingBase">
     <defName>Botania_ManaPool</defName>
     <label>mana pool</label>
-    <description>A shallow basin of livingwood lined with manasteel, filled with liquid light. It stores mana produced by nearby flowers and shares it with adjacent pools.</description>
+    <description>A shallow livingwood basin lined with manasteel, holding a pool of light that moves on its own. It gathers what the flowers near it make and shares it out with the pools beside it; flowers and devices draw from the range it feeds.
+
+What the pool holds is not water but a light that moves itself; when the wind passes, it moves first.</description>
     <thingClass>Botania.Building_ManaPool</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <graphicData>
@@ -88,7 +90,9 @@
 <ThingDef ParentName="BuildingBase">
     <defName>Botania_PureDaisy</defName>
     <label>pure daisy</label>
-    <description>A white daisy with a faint ring of light around its petals.\n\nPlace it next to a pile of logs or a pile of stone blocks - the cut stone bricks such as granite blocks or limestone blocks, not raw chunks - and it slowly teaches the material to be alive: logs become livingwood, stone blocks become livingrock.\n\nEach transformation costs a little mana from a mana pool or relay within 6 tiles. Without one it still works, but takes five times as long and costs nothing.</description>
+    <description>A white daisy that teaches dead material to live. Set beside a pile of logs or of cut stone bricks, it turns the logs into livingwood and the bricks into livingrock. With a mana pool or relay nearby it spends mana on the work; without one it still works, only far more slowly.
+
+A pale ring of light turns around its petals, and only up close do you see that it is turning.</description>
     <thingClass>Building</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <graphicData>
@@ -167,7 +171,9 @@
     <defName>Botania_Endoflame</defName>
     <designatorDropdown>Botania_ManaFlowers</designatorDropdown>
     <label>endoflame</label>
-    <description>A flower that eats fire. Fed with wood, livingwood or chemfuel, it slowly converts the fuel into mana and sends it drifting into a nearby mana pool. It will not burn fuel if no pool can take the mana.</description>
+    <description>A flower that eats fire. Fed with wood, livingwood or chemfuel, it slowly turns the fuel into mana and sends it drifting into a nearby pool. If no pool can take the mana, it will not burn the fuel at all.
+
+The little fire at its heart does not burn the hand; it only burns quietly, as though someone inside were keeping a stove.</description>
     <thingClass>Building</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <graphicData>
@@ -246,7 +252,9 @@
     <defName>Botania_ThornFlower</defName>
     <designatorDropdown>Botania_DefenseFlowers</designatorDropdown>
     <label>thorn flower</label>
-    <description>A low mat of briars with a dark bloom at its heart. Left alone it only snags clothes; fed with mana it throws fresh thorns up under anything hostile that wanders into range, and the more of them there are, the faster it drains the pool.</description>
+    <description>A low mat of briars with a dark bloom at its heart. Left alone it only snags clothes; fed with mana it throws fresh thorns up out of the ground under anything hostile that wanders into reach - and the more of them come, the faster it drains the pool.
+
+A whole mat of thorned vine; the dark purple bloom at its centre barely sways, while the thorns keep growing.</description>
     <thingClass>Building</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <graphicData>
@@ -317,7 +325,9 @@
 <ThingDef ParentName="BuildingBase">
     <defName>Botania_ClearMindLotus</defName>
     <label>clear-mind lotus</label>
-    <description>A pale lotus that hums a counter-note. While it is fed, everyone within range simply does not hear a psychic drone: that one thought is pushed out of their head, and nothing else about their mood changes. It drinks mana heavily, and without mana the drone comes straight back.</description>
+    <description>A pale lotus that hums a counter-note. While it is fed, everyone within range simply does not hear a psychic drone: that one thought is pushed out of their head, and nothing else about their mood changes. It drinks heavily, and without mana the drone comes straight back.
+
+The tune it hums cannot be heard, but whoever stands nearby suddenly forgets what they were afraid of.</description>
     <thingClass>Building</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <graphicData>

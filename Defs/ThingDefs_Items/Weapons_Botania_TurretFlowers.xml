@@ -21,7 +21,9 @@
   <ThingDef ParentName="BaseWeaponTurret">
     <defName>Botania_Gun_Thornbell</defName>
     <label>thornbell barrels</label>
-    <description>The five thorn barrels of a thornbell flower. Not a weapon anyone can carry - it only exists so the flower knows what to shoot.</description>
+    <description>The thorn barrels of a thornbell flower. Not a weapon to hold in the hand - it exists only so the flower knows what to shoot, and it sets that flower's reach, the rhythm of its burst, and how well it groups at each range.
+
+Five thorn tubes stretch one way, and whoever holds them needs no hands.</description>
     <graphicData>
       <texPath>Things/Building/Botania/Thornbell_Top</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -56,7 +58,9 @@
   <ThingDef ParentName="BaseWeaponTurret">
     <defName>Botania_Gun_Blastcalyx</defName>
     <label>blastcalyx barrel</label>
-    <description>The single wide barrel of a blastcalyx flower. Lobs captured mana up and over walls as a high-explosive bloom.</description>
+    <description>The single wide barrel of a blastcalyx flower. Not a weapon to hold in the hand - it exists only so the flower knows how to lob captured mana up and over walls as a high-explosive bloom, and how far it can reach and how far it may stray.
+
+One thick barrel pointed at the sky, with a compressed lump of light stuffed inside.</description>
     <graphicData>
       <texPath>Things/Building/Botania/Blastcalyx_Top</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -102,7 +106,9 @@
   <ThingDef ParentName="BaseWeaponTurret">
     <defName>Botania_Gun_AncientStarfall</defName>
     <label>ancient starfall maw</label>
-    <description>The maw of an ancient starfall bloom. It fires no shell - it tears a burning meteor out of the sky and drops it on the target.</description>
+    <description>The maw of the ancient starfall bloom, not a thing anyone can carry. It drops a summoned meteor across a wall onto the target, and its aim strays.
+
+It fires no shell; it only calls down what is already up there.</description>
     <graphicData>
       <texPath>Things/Building/Botania/AncientStarfall_Top</texPath>
       <graphicClass>Graphic_Single</graphicClass>

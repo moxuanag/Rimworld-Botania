@@ -13,7 +13,9 @@
   <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
     <defName>Botania_ElementiumSword</defName>
     <label>elementium sword</label>
-    <description>A blade of elementium, the pink metal that springs back instead of shattering. Light for its length, and it keeps an edge that steel loses after a single fight.</description>
+    <description>A close-quarters blade of elementium, keen and slow to lose its edge. It carries no trick of its own; the edge is the whole of it.
+
+The pink blade lifts very light, and comes down heavier than it looks.</description>
     <possessionCount>1</possessionCount>
     <graphicData>
       <texPath>Things/Item/Equipment/WeaponMelee/Botania/ElementiumSword</texPath>
@@ -82,7 +84,9 @@
   <ThingDef ParentName="ApparelBase">
     <defName>Botania_ElementiumArmor</defName>
     <label>elementium armor</label>
-    <description>A full suit of elementium plate over a livingwood frame. It bends under a blow and springs back, so it shrugs off cuts far better than it does a hammer.</description>
+    <description>A full suit of elementium plate over a livingwood frame, covering the torso and limbs. It shrugs off cuts far better than it does a hammer, and it costs the wearer a little speed.
+
+It bends first when struck, then slowly springs back to its shape, as though nothing had happened.</description>
     <techLevel>Spacer</techLevel>
     <graphicData>
       <texPath>Things/Pawn/Humanlike/Apparel/Botania_ElementiumArmor/Botania_ElementiumArmor</texPath>
@@ -148,7 +152,9 @@
   <ThingDef ParentName="ApparelBase">
     <defName>Botania_ElementiumHelmet</defName>
     <label>elementium helmet</label>
-    <description>A helm of elementium with a quartz visor. Lighter than it looks, and it turns a blade without ringing like steel does.</description>
+    <description>A helm of elementium covering the whole head, with a visor of quartz. It is lighter than it looks, and it barely gets in the way of seeing.
+
+A blade across it does not ring the way a steel helm does - only a muffled, dull note.</description>
     <techLevel>Spacer</techLevel>
     <graphicData>
       <texPath>Things/Pawn/Humanlike/Apparel/Botania_ElementiumHelmet/Botania_ElementiumHelmet</texPath>

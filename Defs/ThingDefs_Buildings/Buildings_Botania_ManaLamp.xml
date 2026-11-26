@@ -7,7 +7,9 @@
   <ThingDef ParentName="LampBase">
     <defName>Botania_ManaLamp</defName>
     <label>mana lamp</label>
-    <description>A quartz lamp that drinks mana instead of power. A quiet mana glow drifts inside the glass; when the mana runs out the light fades, and it wakes again once the supply returns.</description>
+    <description>A quartz lamp that drinks mana instead of power. A quiet glow drifts inside the glass; when the mana runs out the light fades, and once the supply returns it wakes again. Study coloured lighting and the colour can be changed.
+
+The light floats unmoving inside the glass, like a small evening put away for later.</description>
     <graphicData>
       <texPath>Things/Building/Botania/ManaLamp</texPath>
       <graphicClass>Graphic_Single</graphicClass>

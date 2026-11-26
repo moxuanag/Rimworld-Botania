@@ -11,7 +11,9 @@
     <defName>Botania_Daybloom</defName>
     <designatorDropdown>Botania_ManaFlowers</designatorDropdown>
     <label>daybloom</label>
-    <description>A sun-loving flower that slowly draws mana out of daylight and sends it into a nearby pool. It needs no fuel, but it only lasts a season before withering.</description>
+    <description>A sun-loving flower that slowly draws mana out of daylight and sends it drifting into a nearby pool. It wants no fuel and no tending, but it does not last a season before withering on its own.
+
+It faces one direction all day, as though gathering the light into its heart a little at a time.</description>
     <thingClass>Building</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <graphicData>
@@ -77,7 +79,9 @@
     <defName>Botania_Nightshade</defName>
     <designatorDropdown>Botania_ManaFlowers</designatorDropdown>
     <label>nightshade</label>
-    <description>A flower that drinks the dark. It produces half as much mana as a daybloom, and only at night, but it keeps working while the colony sleeps. It also withers after a season.</description>
+    <description>A flower that drinks the dark. It yields less than a daybloom and only works at night, but it keeps producing while the colony sleeps. It, too, lasts no longer than a season.
+
+The heart of the flower is black past seeing, and deep in the night that black looks more like a glow.</description>
     <thingClass>Building</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <graphicData>

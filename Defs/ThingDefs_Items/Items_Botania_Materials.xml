@@ -34,7 +34,9 @@
   <ThingDef ParentName="Botania_MaterialBase">
     <defName>Botania_ManaPowder</defName>
     <label>mana powder</label>
-    <description>Petals ground into a fine, faintly glowing dust. It holds mana in a stable form and can be infused into metal.</description>
+    <description>Mana powder is petals ground into a fine dust that holds mana in a stable form and can be pressed into metal. It is the stuff of manasteel, and it goes into the cost of many functional and turret flowers. It is not a building material.
+
+The fine dust glows very faintly in your palm, like a piece of dusk ground up and put away.</description>
     <graphicData>
       <texPath>Things/Item/Resource/Botania/ManaPowder</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
@@ -52,7 +54,9 @@
   <ThingDef ParentName="Botania_MaterialBase">
     <defName>Botania_ManasteelIngot</defName>
     <label>manasteel ingot</label>
-    <description>Steel infused with mana powder. Lighter and stronger than plain steel, and it hums faintly when touched. Can be used as a building material.</description>
+    <description>Manasteel is steel infused with mana powder: lighter and stronger than plain steel, and it hums faintly under the hand. It can be used as a building material, and what it builds is airtight. Armour and blades made from it beat plain steel as well, and most flowers and devices want it.
+
+Tap it and there is a faint hum, as if the metal held a note it never finished singing.</description>
     <graphicData>
       <texPath>Things/Item/Resource/Botania/ManasteelIngot</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
@@ -99,7 +103,9 @@
   <ThingDef ParentName="Botania_MaterialBase">
     <defName>Botania_Livingwood</defName>
     <label>livingwood</label>
-    <description>Wood that still remembers being a tree. Warm to the touch and slow to burn, it grows into shape rather than being cut. Can be used as a building material or as fuel.</description>
+    <description>Livingwood is timber that is still growing, warm to the touch and slow to burn. It serves as both building material and fuel, and the endoflame and the furnace orchid will both eat it; what is built from it stands up far better than plain wood.
+
+Wood that still remembers being a tree - it does not wait to be sawn, it simply grows into the shape you want.</description>
     <graphicData>
       <texPath>Things/Item/Resource/Botania/Livingwood</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
@@ -148,7 +154,9 @@
   <ThingDef ParentName="Botania_MaterialBase">
     <defName>Botania_Livingrock</defName>
     <label>livingrock</label>
-    <description>Stone that grew a thin skin of life over itself. It is warmer than granite to the touch. Can be used as a building material.</description>
+    <description>Stone for building and nothing else - it will not burn. What is raised from it lasts far longer than plain blocks, and a pure daisy can teach cut stone to become it; the elven gate trades it for elven quartz.
+
+A thin skin of life has grown over the stone: warmer than granite, and more like something still breathing.</description>
     <graphicData>
       <texPath>Things/Item/Resource/Botania/Livingrock</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>

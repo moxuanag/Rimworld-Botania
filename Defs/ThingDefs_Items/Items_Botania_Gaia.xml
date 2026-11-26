@@ -14,7 +14,9 @@
   <ThingDef ParentName="ApparelBase">
     <defName>Botania_GaiaArmor</defName>
     <label>gaia armor</label>
-    <description>Plate grown from a gaia spirit instead of forged: the metal remembers every blow it has taken and thickens where it was struck. Nothing made of ordinary matter cuts through it cleanly, and it is thicker and heavier than the terrasteel suit it replaces.</description>
+    <description>Gaia armour is grown from a gaia spirit rather than forged, covering the whole body, and thicker and heavier than terrasteel. Nothing made of ordinary matter cuts through it, and there is no recipe: only the nursery can grow a terrasteel suit into one.
+
+This armour remembers every blow it has taken, and the places it was struck thicken by themselves.</description>
     <techLevel>Ultra</techLevel>
     <graphicData>
       <texPath>Things/Pawn/Humanlike/Apparel/Botania_GaiaArmor/Botania_GaiaArmor</texPath>
@@ -80,7 +82,9 @@
   <ThingDef ParentName="ApparelBase">
     <defName>Botania_GaiaHelmet</defName>
     <label>gaia helmet</label>
-    <description>A helm of gaia plate with a crown of living petals that never wilt. It closes over the face the moment a threat is near and opens again when the shooting stops.</description>
+    <description>A helm of gaia plate crowned with living petals that never wilt. It takes a great deal of punishment for the face; it has no recipe either, and comes only from the nursery.
+
+It shuts by itself when danger comes near, and opens again once the shooting stops, like breathing.</description>
     <techLevel>Ultra</techLevel>
     <graphicData>
       <texPath>Things/Pawn/Humanlike/Apparel/Botania_GaiaHelmet/Botania_GaiaHelmet</texPath>
@@ -138,9 +142,9 @@
   <ThingDef ParentName="ResourceBase">
     <defName>Botania_GaiaCore</defName>
     <label>gaia core</label>
-    <description>The heart of the world-soul, cooled into something you can carry. Roots still twitch inside it.
+    <description>A part that serves one bench and no other: no recipe besides the nursery asks for it. It is also the one thing without which no grove can be planted.
 
-It is the only thing that can be planted to grow a grove.</description>
+What the heart of the world left behind when it cooled, and now it can be carried away - roots still twitching inside.</description>
     <graphicData>
       <texPath>Things/Item/Resource/Botania/GaiaCore/GaiaCore</texPath>
       <graphicClass>Graphic_Single</graphicClass>

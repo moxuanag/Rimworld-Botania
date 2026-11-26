@@ -10,7 +10,9 @@
   <ThingDef ParentName="AnimalThingBase">
     <defName>Botania_GaiaSpawnling</defName>
     <label>gaia spawnling</label>
-    <description>A knot of root and seed the size of a dog, grown in a hurry and angry about it. It has no purpose beyond closing the distance.</description>
+    <description>A small creature the gaia portal calls up. It neither eats nor sleeps nor wanders off on its own; it knows only how to close the distance and bite.
+
+Root and seed the size of a dog, grown in too much of a hurry, and so very bad-tempered.</description>
     <tools>
       <li>
         <label>bite</label>

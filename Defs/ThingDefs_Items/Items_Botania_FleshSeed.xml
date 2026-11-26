@@ -12,7 +12,9 @@
   <ThingDef ParentName="ResourceBase">
     <defName>Botania_FleshSeed</defName>
     <label>flesh seed</label>
-    <description>A knot of living tissue that twitches when held. The life orchid uses it as fuel: each seed buys a stretch of generations before the colony of cells dries up.</description>
+    <description>Fuel for the life orchid. Each seed buys a stretch of generations on the bed of flesh; when it is spent, the colony of cells dries up.
+
+Hold it and it twitches once, as if to remind you that it is still alive.</description>
     <graphicData>
       <texPath>Things/Item/Botania/FleshSeed</texPath>
       <graphicClass>Graphic_Single</graphicClass>
