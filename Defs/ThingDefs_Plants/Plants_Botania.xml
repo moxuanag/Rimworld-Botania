@@ -44,7 +44,7 @@
   <ThingDef ParentName="Botania_MysticFlowerBase">
     <defName>Botania_MysticFlower_White</defName>
     <label>mystic flower (white)</label>
-    <description>The mystic flower (white) grows wild, and is the only natural source of white petals. Picking the petals leaves the plant standing, and it comes back for another harvest later. It cannot be sown - you can only wait for it to appear in the wild.
+    <description>She is the first one anyone named. A wild flower, and white petals can only be taken from her; she cannot be sown and only grows where she chooses.
 
 A small cluster of white in a place nobody tends, and the whole patch nods when the wind passes.</description>
     <statBases>
@@ -63,7 +63,7 @@ A small cluster of white in a place nobody tends, and the whole patch nods when 
   <ThingDef ParentName="Botania_MysticFlowerBase">
     <defName>Botania_MysticFlower_Orange</defName>
     <label>mystic flower (orange)</label>
-    <description>The mystic flower (orange) grows wild, and is a natural source of orange petals. Picking the petals leaves the plant standing, and it can be harvested again later. It cannot be sown - its petals only come off flowers like this one.
+    <description>She does not much care where she comes up. A wild flower, and orange petals can only be taken from her; she cannot be sown and only grows where she chooses.
 
 Its colour was mixed rather than grown, so it looks more like a sample card than a real flower.</description>
     <statBases>
@@ -84,7 +84,7 @@ Its colour was mixed rather than grown, so it looks more like a sample card than
   <ThingDef ParentName="Botania_MysticFlowerBase">
     <defName>Botania_MysticFlower_Yellow</defName>
     <label>mystic flower (yellow)</label>
-    <description>The mystic flower (yellow) grows wild, and is a natural source of yellow petals. Picking the petals leaves the plant standing, and it can be harvested again later. It cannot be sown - its petals only come off flowers like this one.
+    <description>She opens first and closes last. A wild flower, and yellow petals can only be taken from her; she cannot be sown and only grows where she chooses.
 
 A clean, decisive yellow, as if someone had cut a thin shape out of the sunlight.</description>
     <statBases>
@@ -107,7 +107,7 @@ A clean, decisive yellow, as if someone had cut a thin shape out of the sunlight
   <ThingDef ParentName="Botania_MysticFlowerBase">
     <defName>Botania_MysticFlower_Cyan</defName>
     <label>mystic flower (cyan)</label>
-    <description>The mystic flower (cyan) grows wild, and is a natural source of cyan petals. Picking the petals leaves the plant standing, and it can be harvested again later. It cannot be sown - its petals only come off flowers like this one.
+    <description>She grows on the shaded side and perks up on grey days. A wild flower, and cyan petals can only be taken from her; she cannot be sown and only grows where she chooses.
 
 Cool to look at, like the bit of sky still hanging on the leaves after the rain stops.</description>
     <statBases>
@@ -126,7 +126,7 @@ Cool to look at, like the bit of sky still hanging on the leaves after the rain 
   <ThingDef ParentName="Botania_MysticFlowerBase">
     <defName>Botania_MysticFlower_Purple</defName>
     <label>mystic flower (purple)</label>
-    <description>The mystic flower (purple) grows wild, and is a natural source of purple petals. Picking the petals leaves the plant standing, and it can be harvested again later. It cannot be sown - its petals only come off flowers like this one.
+    <description>She opens slowly, slowly enough that she looks broken. A wild flower, and purple petals can only be taken from her; she cannot be sown and only grows where she chooses.
 
 Too deep for its own good, as if a scrap of night had been sewn into the flower.</description>
     <statBases>
@@ -147,7 +147,7 @@ Too deep for its own good, as if a scrap of night had been sewn into the flower.
   <ThingDef ParentName="Botania_MysticFlowerBase">
     <defName>Botania_MysticFlower_Green</defName>
     <label>mystic flower (green)</label>
-    <description>The mystic flower (green) grows wild, and is a natural source of green petals. Picking the petals leaves the plant standing, and it can be harvested again later. It cannot be sown - its petals only come off flowers like this one.
+    <description>She is the one seen most often by the roadside. A wild flower, and green petals can only be taken from her; she cannot be sown and only grows where she chooses.
 
 A little wild, and now at last it is really growing in the soil.</description>
     <statBases>
@@ -166,7 +166,7 @@ A little wild, and now at last it is really growing in the soil.</description>
   <ThingDef ParentName="Botania_MysticFlowerBase">
     <defName>Botania_MysticFlower_Red</defName>
     <label>mystic flower (red)</label>
-    <description>The mystic flower (red) grows wild, and is a natural source of red petals. Picking the petals leaves the plant standing, and it can be harvested again later. It cannot be sown - its petals only come off flowers like this one.
+    <description>She is the loudest thing in bloom, visible from far off. A wild flower, and red petals can only be taken from her; she cannot be sown and only grows where she chooses.
 
 Red like a sentence left unfinished, caught on the edge of the petal.</description>
     <statBases>
@@ -185,7 +185,7 @@ Red like a sentence left unfinished, caught on the edge of the petal.</descripti
   <ThingDef ParentName="Botania_MysticFlowerBase">
     <defName>Botania_MysticFlower_Black</defName>
     <label>mystic flower (black)</label>
-    <description>The mystic flower (black) grows wild, and is a natural source of black petals. Picking the petals leaves the plant standing, and it can be harvested again later. It cannot be sown - its petals only come off flowers like this one.
+    <description>She keeps out of the light, deep in the woods. A wild flower, and black petals can only be taken from her; she cannot be sown and only grows where she chooses.
 
 So black that its edges shine; look long enough and you will think it is slowly closing.</description>
     <statBases>
@@ -211,7 +211,9 @@ So black that its edges shine; look long enough and you will think it is slowly 
   <ThingDef ParentName="Botania_MysticFlowerBase">
     <defName>Botania_MysticFlower_WhiteGarden</defName>
     <label>cultivated white mystic flower</label>
-    <description>A cultivated white mystic flower. Tended and replanted by hand, a single plant gives up five white petals at harvest instead of the lone petal a wild flower offers.</description>
+    <description>She is the one brought in from the wild. Plant her seed in soil and she comes up with the season, no longer waiting for someone to wander past.
+
+A flower used to being waited on, she opens more evenly than the ones in the wild - and she is greedier.</description>
     <statBases>
       <MarketValue>3</MarketValue>
     </statBases>

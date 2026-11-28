@@ -66,7 +66,7 @@
     <designatorDropdown>Botania_DefenseFlowers</designatorDropdown>
     <designationCategory>Botania</designationCategory>
     <label>thornbell</label>
-    <description>A flower that grew itself thorn barrels. It drinks mana from a nearby pool and spits a short, vicious burst of needles at anything hostile that comes close - no colonist has to stand beside it, no ammunition has to be loaded. When the mana runs dry the barrels simply fall silent.
+    <description>She was not made to bloom, but to fire. When something hostile comes close she spits a short string of venom at it. No one has to stand beside her and nothing has to be loaded; when the mana runs dry she falls silent, asleep rather than broken.
 
 It grew its petals into barrels, and the whole flower rocks back a little when it fires.</description>
     <statBases>
@@ -115,7 +115,7 @@ It grew its petals into barrels, and the whole flower rocks back a little when i
     <designatorDropdown>Botania_DefenseFlowers</designatorDropdown>
     <designationCategory>Botania</designationCategory>
     <label>blastcalyx</label>
-    <description>A flower that hollowed itself into a cannon for shooting over walls. It cannot touch anything that stands close, so someone always has to watch over it.
+    <description>She cannot reach anything that comes right up to her, so someone always has to watch over her. The works far away are hers: she gathers herself and sends it over.
 
 It presses mana in its calyx until the petals shake, then throws the whole lump over the wall.</description>
     <graphicData>
@@ -172,7 +172,7 @@ It presses mana in its calyx until the petals shake, then throws the whole lump 
     <designatorDropdown>Botania_DefenseFlowers</designatorDropdown>
     <designationCategory>Botania</designationCategory>
     <label>ancient starfall bloom</label>
-    <description>An ancient siege bloom grown around a fist of compressed mana. It cannot defend itself at close range, but anything within sight of the colony is within its reach - and where its warhead lands, only a crater remains.
+    <description>She is an old siege flower, grown around compressed mana. She cannot guard what stands beside her, but everything the colony can see is inside her reach. Not much is left where her shell lands.
 
 It opens its throat to the sky and waits for a meteor to fall into the frame by itself.</description>
     <graphicData>

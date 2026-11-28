@@ -2,25 +2,27 @@
 <Defs>
 
   <!-- ============================================================
-       功能花段（2026-11-25 第十一次布局）：6 个节点，分类卡在 x=3.7。
+       功能花段（0.9.3 第十二次布局）：7 个节点，分类卡在 x=3.7。
 
-       花之间横向 0.9（卡 3.7，花 4.6 与 5.5）；同档两行花纵向 0.6（2.8/3.4 与 5.6/6.2）；
+       花之间横向 0.9（卡 3.7，花 4.6；最右列不再有节点，明心莲已移到 4.6）；
+       同档两行花纵向 0.6（2.8/3.4 与 4.2/4.8）；
        基础末行到进阶 0.8（3.4 到 4.2），进阶到终阶 1.4（4.2 到 5.6）；
-       分类卡在它那两行花正中（+0.3）。
+       分类卡在它那几行花正中（+0.3）。
 
          y=3.1  x=x=3.7    Botania_FunctionalI          基础功能花（分类卡）
          y=2.8  x=x=4.6  Botania_BlightEaterStudy     噬草花
-         y=2.8  x=x=5.5  Botania_ClearMindLotusStudy  明心莲
+         y=3.4  x=x=4.6  Botania_FertilityFlowerStudy 丰饶花（0.9.3 新增）
          y=4.5  x=x=3.7    Botania_FuncAdvanced         进阶功能花（分类卡）
          y=4.2  x=x=4.6  Botania_StormBloomStudy      电暴花
+         y=4.8  x=x=4.6  Botania_ClearMindLotusStudy  明心莲（0.9.3 从 5.5/2.8 移来）
          y=5.9  x=x=3.7    Botania_FuncUltimate         终极功能花（分类卡）
 
        前置结构（树上的可见线）：
-         FunctionalI     <- Garden
-         BlightEaterStudy / ClearMindLotusStudy <- FunctionalI
-         FuncAdvanced    <- FunctionalI（隐藏 Terrasteel）
-         StormBloomStudy <- FuncAdvanced
-         FuncUltimate    <- FuncAdvanced（隐藏 Gaia）
+         FunctionalI        <- Garden
+         BlightEaterStudy / FertilityFlowerStudy <- FunctionalI
+         FuncAdvanced       <- FunctionalI（隐藏 Terrasteel）
+         StormBloomStudy / ClearMindLotusStudy   <- FuncAdvanced
+         FuncUltimate       <- FuncAdvanced（隐藏 Gaia）
 
        描述里的数值一律来自 ThingDef 的 comps 字段与 Source/*.cs 的实现，
        完整推导见 docs/玩法指南.md。
@@ -31,8 +33,8 @@
   <ResearchProjectDef>
     <defName>Botania_FunctionalI</defName>
     <label>basic functional flowers</label>
-    <description>Functional flowers spend mana on labour instead of making it. This card attaches no defs itself; it opens the blight eater and clear-mind lotus cards.</description>
-    <baseCost>500</baseCost>
+    <description>Functional flowers spend mana on labour instead of making it. This card attaches no defs itself; it opens the blight eater and fertility flower cards.</description>
+    <baseCost>200</baseCost>
     <techLevel>Medieval</techLevel>
     <tab>Botania</tab>
     <prerequisites>
@@ -77,20 +79,36 @@
     <researchViewY>2.80</researchViewY>
   </ResearchProjectDef>
 
-  <!-- ===== 明心莲：半径 8，只挡心灵干扰；按受影响人数每人 20 魔力 / 60 tick（x=5.5, y=2.8） ===== -->
+  <!-- ===== 丰饶花：半径 4，自选作物播种 / 收割 / 加速成熟，绿花瓣当种子（x=4.6, y=3.4） ===== -->
+
+  <ResearchProjectDef>
+    <defName>Botania_FertilityFlowerStudy</defName>
+    <label>fertility flower</label>
+    <description>Let a flower do the planting. Unlocks the fertility flower, which sows the crop you choose into the bare tiles around it and harvests what ripens, leaving the yield at its feet.</description>
+    <baseCost>1000</baseCost>
+    <techLevel>Industrial</techLevel>
+    <tab>Botania</tab>
+    <prerequisites>
+      <li>Botania_FunctionalI</li>
+    </prerequisites>
+    <researchViewX>4.60</researchViewX>
+    <researchViewY>3.40</researchViewY>
+  </ResearchProjectDef>
+
+  <!-- ===== 明心莲：半径 8，只挡心灵干扰；按受影响人数每人 20 魔力 / 60 tick（x=4.6, y=4.8） ===== -->
 
   <ResearchProjectDef>
     <defName>Botania_ClearMindLotusStudy</defName>
     <label>clear-mind lotus</label>
     <description>A lotus that pushes a psychic drone out of every head in range. Unlocks the clear-mind lotus, which charges nothing when there is no drone.</description>
-    <baseCost>900</baseCost>
+    <baseCost>1200</baseCost>
     <techLevel>Medieval</techLevel>
     <tab>Botania</tab>
     <prerequisites>
-      <li>Botania_FunctionalI</li>
+      <li>Botania_FuncAdvanced</li>
     </prerequisites>
-    <researchViewX>5.50</researchViewX>
-    <researchViewY>2.80</researchViewY>
+    <researchViewX>4.60</researchViewX>
+    <researchViewY>4.80</researchViewY>
   </ResearchProjectDef>
 
   <!-- ===== x=3.7 y=5.9 终极功能花总览：接盖亚，按千计结算 ===== -->

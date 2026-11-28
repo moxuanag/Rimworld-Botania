@@ -1,4 +1,111 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
+  <!-- ============================================================
+       功能花（0.9.3 花线扩展）。
+
+         丰饶花 FertilityFlower —— 替人播种 / 收割 / 加速成熟的功能花。
+           归「功能花」下拉（Botania_ManaFlowers），研究卡 Botania_FertilityFlowerStudy。
+           作用范围由 Source/CompFertilityFlower.cs 的 CompProperties_FertilityFlower
+           与 CompProperties_RadiusRing 共同决定（两处 radius 必须一致 5，
+           否则放置预览环与选中常驻环会和实际工作范围脱节）。
+           绿花瓣既是造价也是燃料：<fuelFilter> 只收 Botania_Petal_Green，
+           播种按 sowsPerPetal 消耗，采下来直接掉在花脚下。
+       ============================================================ -->
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>Botania_FertilityFlower</defName>
+    <designatorDropdown>Botania_ManaFlowers</designatorDropdown>
+    <label>fertility flower</label>
+    <description>A flower that tends the ground instead of eating it. Long ago she was an ordinary green mystic flower in the wild; she liked watching faces soften at a good harvest, so she taught herself to sow and to reap, just to keep seeing it. She turns petals into seed; and as the magic runs deeper she remembers more - pulling logs down from the treetops at night, or bringing a whole field to ripeness at once. Perhaps, as the magic deepens, she will grow stronger still.
+
+She always keeps a pinch of seed back in her heart, as if she had a share ready for anyone.</description>
+    <thingClass>Building</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Things/Building/Botania/FertilityFlower</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <shadowData>
+        <volume>(0.6,0.3,0.6)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.15</fillPercent>
+    <rotatable>false</rotatable>
+    <blockWind>false</blockWind>
+    <castEdgeShadows>false</castEdgeShadows>
+    <tickerType>Normal</tickerType>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <size>(1,1)</size>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <WorkToBuild>600</WorkToBuild>
+      <Mass>2</Mass>
+      <Flammability>1.0</Flammability>
+      <Beauty>1</Beauty>
+      <MarketValue>244</MarketValue>
+    </statBases>
+    <building>
+      <destroySound>BuildingDestroyed_Soft_Small</destroySound>
+    </building>
+    <costList>
+      <Botania_Petal_Green>8</Botania_Petal_Green>
+      <Botania_ManaPowder>6</Botania_ManaPowder>
+    </costList>
+    <comps>
+      <li Class="Botania.CompProperties_FertilityFlower">
+        <radius>5</radius>
+        <workIntervalTicks>60</workIntervalTicks>
+        <radiusAdvancedBonus>1</radiusAdvancedBonus>
+        <radiusUltimateBonus>1</radiusUltimateBonus>
+        <secondsPerPlantBase>15</secondsPerPlantBase>
+        <secondsPerPlantAdvanced>8</secondsPerPlantAdvanced>
+        <secondsPerPlantUltimate>1</secondsPerPlantUltimate>
+        <workPerPlant>200</workPerPlant>
+        <wipeWork>0</wipeWork>
+        <manaPerSow>12</manaPerSow>
+        <manaPerHarvest>6</manaPerHarvest>
+        <sowsPerPetal>7</sowsPerPetal>
+        <manaPerRipen>1000</manaPerRipen>
+        <ripenGrowth>0.30</ripenGrowth>
+        <ripenCooldownTicks>180</ripenCooldownTicks>
+        <woodPerTree>3</woodPerTree>
+        <woodMaxTrees>30</woodMaxTrees>
+        <woodHour>0</woodHour>
+        <advancedResearch>Botania_FuncAdvanced</advancedResearch>
+        <ultimateResearch>Botania_FuncUltimate</ultimateResearch>
+      </li>
+      <li Class="Botania.CompProperties_RadiusRing">
+        <radius>5</radius>
+      </li>
+      <li Class="CompProperties_Refuelable">
+        <fuelCapacity>75</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>Botania_Petal_Green</li>
+          </thingDefs>
+        </fuelFilter>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <initialFuelPercent>0</initialFuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <autoRefuelPercent>0.5</autoRefuelPercent>
+      </li>
+    </comps>
+    <placeWorkers>
+      <li>Botania.PlaceWorker_RadiusFromComp</li>
+    </placeWorkers>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>Botania</designationCategory>
+    <thingCategories>
+      <li>BotaniaBuildings</li>
+    </thingCategories>
+    <researchPrerequisites>
+      <li>Botania_FertilityFlowerStudy</li>
+    </researchPrerequisites>
+    <uiOrder>3209</uiOrder>
+  </ThingDef>
+
 </Defs>

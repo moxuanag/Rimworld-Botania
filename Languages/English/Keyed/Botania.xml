@@ -337,4 +337,35 @@
     <Botania.ManaReadoutShots>{0} shots left</Botania.ManaReadoutShots>
     <Botania.DaisyToggle.Label>Conversion toggle</Botania.DaisyToggle.Label>
     <Botania.DaisyToggle.Desc>When off, the pure daisy stops and consumes neither mana nor materials.</Botania.DaisyToggle.Desc>
+    <Botania.GiftLetter.Label>A gift from the wild</Botania.GiftLetter.Label>
+    <Botania.GiftLetter.Text>Something turned over under the soil, the way a sleeper turns in the night.\n\nBy the time you look, a {0} is already growing there. Your mana stirred the wild - this is its gift to you.</Botania.GiftLetter.Text>
+
+  <Botania.Fertility.SelectCrop>Select crop: {0}</Botania.Fertility.SelectCrop>
+  <Botania.Fertility.SelectCropDesc>Pick a crop; it will grow that one and nothing else.</Botania.Fertility.SelectCropDesc>
+  <Botania.Fertility.Pause>Pause tending</Botania.Fertility.Pause>
+  <Botania.Fertility.Resume>Resume tending</Botania.Fertility.Resume>
+  <Botania.Fertility.ToggleDesc>While paused it neither sows nor harvests, and spends no mana or petals.</Botania.Fertility.ToggleDesc>
+  <Botania.Fertility.Ripen>Ripen ({0} mana)</Botania.Fertility.Ripen>
+  <Botania.Fertility.RipenDesc>Push every crop in range further along; ripe ones are gathered on the spot.</Botania.Fertility.RipenDesc>
+  <Botania.Fertility.RipenCooldown>Already ripened; wait {0} seconds.</Botania.Fertility.RipenCooldown>
+  <Botania.Fertility.RipenNoPlants>Nothing in range is still growing.</Botania.Fertility.RipenNoPlants>
+  <Botania.Fertility.RipenNoMana>Not enough mana; ripening needs {0}.</Botania.Fertility.RipenNoMana>
+  <Botania.Fertility.NoCrop>no crop selected</Botania.Fertility.NoCrop>
+  <Botania.Fertility.InspectCrop>Tending: {0}</Botania.Fertility.InspectCrop>
+  <Botania.Fertility.InspectPetals>Petal store: {0} / {1}</Botania.Fertility.InspectPetals>
+  <Botania.Fertility.InspectWood>Nightly wood: about {0}</Botania.Fertility.InspectWood>
+  <Botania.Fertility.Tier1>Tier 1</Botania.Fertility.Tier1>
+  <Botania.Fertility.Tier2>Tier 2</Botania.Fertility.Tier2>
+  <Botania.Fertility.Tier3>Tier 3</Botania.Fertility.Tier3>
+  <Botania.Fertility.InspectTier>Tier: {0} · {1} s per plant · yield ×{2}</Botania.Fertility.InspectTier>
+  <Botania.Fertility.StatTier>tier</Botania.Fertility.StatTier>
+  <Botania.Fertility.StatSeconds>seconds per plant</Botania.Fertility.StatSeconds>
+  <Botania.Fertility.StatYield>yield multiplier</Botania.Fertility.StatYield>
+  <Botania.GiftLetter.Fallback>The wild sent a {0} to your colony.</Botania.GiftLetter.Fallback>
+  <Botania.Fertility.ZoneCreate>Create growing zone</Botania.Fertility.ZoneCreate>
+  <Botania.Fertility.ZoneCreateDesc>Creates a growing zone over the current range, using this flower's chosen crop.</Botania.Fertility.ZoneCreateDesc>
+  <Botania.Fertility.ZoneCreated>Growing zone created ({0} cells)</Botania.Fertility.ZoneCreated>
+  <Botania.Fertility.ZoneExtended>Growing zone extended ({0} new cells)</Botania.Fertility.ZoneExtended>
+  <Botania.Fertility.ZoneSkipped>{0} cells were left out because another zone already covers them.</Botania.Fertility.ZoneSkipped>
+  <Botania.Fertility.ZoneNoCells>No plantable cells in range for a growing zone.</Botania.Fertility.ZoneNoCells>
 </LanguageData>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- ============================================================
+       研究赠花信件（0.9.3）。
+       只注册「一封绿色的好消息」，标题与正文走 Keyed：
+         Botania.GiftLetter.Label / Botania.GiftLetter.Text
+       引用方：Defs/ResearchGifts_Botania.xml 里每条
+       <Botania.BotaniaResearchGiftDef> 的 <letter>。
+       ============================================================ -->
+
+  <LetterDef>
+    <defName>Botania_GiftLetter</defName>
+    <color>(122, 194, 106)</color>
+    <flashColor>(146, 214, 128)</flashColor>
+    <flashInterval>90</flashInterval>
+    <arriveSound>LetterArrive_Good</arriveSound>
+  </LetterDef>
+
+</Defs>

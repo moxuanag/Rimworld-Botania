@@ -38,7 +38,7 @@
   <Botania_ManaPool.description>魔力池是浅口的活木盆，镶着魔力钢，盛着一池流动的光。它收下附近的花送来的魔力，并与相邻的魔力池实时均分。功能花与耗魔设备都从它的供给范围里取魔。\n\n池里盛的不是水，是一汪会自己挪动的光，风过时它先动。</Botania_ManaPool.description>
 
   <Botania_Endoflame.label>火红莲</Botania_Endoflame.label>
-  <Botania_Endoflame.description>火红莲是一朵吃火的花。喂它木头、活木或化合燃料，它就慢慢把燃料换成魔力，送往附近的魔力池；附近没有池子能接，它就干脆不烧燃料。\n\n花心里那点火不烫手，只是安静地烧着，像有人在里面守着炉子。</Botania_Endoflame.description>
+  <Botania_Endoflame.description>一朵开在灰烬上的花。很久以前她就爱看东西被火吞掉的样子：木头进去，灰出来。有人把木头、活木或燃料喂给她，她就慢慢把它们化作魔力，送进附近的池子；要是没有池子愿意接，她宁可让燃料干放着，也不肯白费。\n\n花心里那点火不烫手，只是安静地烧着，像有人在里面守着炉子。</Botania_Endoflame.description>
 
   <!-- 建材形容词：原版「材质 + 建筑名」的拼接靠这个字段，不翻就会出现 livingwood 墙 -->
   <Botania_Livingwood.stuffProps.stuffAdjective>活木</Botania_Livingwood.stuffProps.stuffAdjective>
@@ -55,7 +55,7 @@
   <Botania_ManaRelay.description>魔力中继塔是一座缠着魔力钢线圈的细长活木塔，自己不存魔力，只把魔力网络伸得更远，让远处的池子与设备像隔壁一样互通。圆圈碰不到接了池子的节点时，就只是废塔。\n\n细塔顶端悬着一团不肯落下的光，像替远处的东西守着一条线。</Botania_ManaRelay.description>
 
   <Botania_PureDaisy.label>白雏菊</Botania_PureDaisy.label>
-  <Botania_PureDaisy.description>白雏菊是一朵把死材料教活的转化花。放在原木或切好的石砖旁边，它就把原木变成活木、把石砖变成活石。附近有魔力池或中继塔时它花魔力干活，没有也照样干，只是慢得多。\n\n花瓣外绕着淡淡一圈光，凑近才发现那圈光在慢慢转。</Botania_PureDaisy.description>
+  <Botania_PureDaisy.description>她把死掉的材料教活。放在原木或切好的石砖旁边，她就把原木变成活木，把石砖变成活石。附近有魔力池或中继塔时她干得快些；没有，她也照样干。\n\n花瓣外绕着淡淡一圈光，凑近才发现那圈光在慢慢转。</Botania_PureDaisy.description>
 
   <Botania_WandOfTheForest.label>森林法杖</Botania_WandOfTheForest.label>
   <Botania_WandOfTheForest.description>森林法杖是一根缠着魔力钢环的活木杖，杖头凝着一团活的光。它存着魔力，用来射出灼目的光弹；持杖者还能催花开放，或教木石活过来。储备见底时它向魔力池讨魔。\n\n杖头悬着一滴发光的树汁，走过草地时会自己轻轻摇。</Botania_WandOfTheForest.description>
@@ -70,40 +70,40 @@
   <Botania_ItemRepairer.description>装备修复器是一张活木工作台，上面架着魔力钢砧和一把织着魔力的钳子。磨坏了的武器、工具和衣物留在上面，会被魔力浸透，直到裂纹合拢。它修不了已经彻底毁掉的东西。\n\n磨损的东西躺在旁边，第二天早上裂纹就淡了。</Botania_ItemRepairer.description>
 
   <Botania_MysticFlower_White.label>神秘花（白）</Botania_MysticFlower_White.label>
-  <Botania_MysticFlower_White.description>神秘花（白）是野生的花，也是白色花瓣唯一的自然来源。采下花瓣后植株还在，过些日子又能再采。它不能被播种，只能等野外自己长出来。\n\n一小簇白，长在没人打理的地方，风一过就整片点头。</Botania_MysticFlower_White.description>
+  <Botania_MysticFlower_White.description>她是最早被叫出名字的那一朵。野生的花，白色花瓣只能从她身上采；她不能播种，只肯自己长出来。\n\n一小簇白，长在没人打理的地方，风一过就整片点头。</Botania_MysticFlower_White.description>
 
   <Botania_MysticFlower_Orange.label>神秘花（橙）</Botania_MysticFlower_Orange.label>
-  <Botania_MysticFlower_Orange.description>神秘花（橙）是野生的花，橙色花瓣的自然来源。采下花瓣后植株还在，之后还能再采。它不能被播种，花瓣只能从这样的花上采到。\n\n颜色是被调出来的，所以它更像一张样卡，而不是一株真花。</Botania_MysticFlower_Orange.description>
+  <Botania_MysticFlower_Orange.description>她不怎么在乎自己开在哪儿。野生的花，橙色花瓣只能从她身上采；她不能播种，只肯自己长出来。\n\n颜色是被调出来的，所以它更像一张样卡，而不是一株真花。</Botania_MysticFlower_Orange.description>
 
   <Botania_MysticFlower_Yellow.label>神秘花（黄）</Botania_MysticFlower_Yellow.label>
-  <Botania_MysticFlower_Yellow.description>神秘花（黄）是野生的花，黄色花瓣的自然来源。采下花瓣后植株还在，之后还能再采。它不能被播种，花瓣只能从这样的花上采到。\n\n黄得干净利落，像有人把阳光剪成了一片薄薄的形状。</Botania_MysticFlower_Yellow.description>
+  <Botania_MysticFlower_Yellow.description>她总是开得最早，收得最晚。野生的花，黄色花瓣只能从她身上采；她不能播种，只肯自己长出来。\n\n黄得干净利落，像有人把阳光剪成了一片薄薄的形状。</Botania_MysticFlower_Yellow.description>
 
   <Botania_MysticFlower_Cyan.label>神秘花（青）</Botania_MysticFlower_Cyan.label>
-  <Botania_MysticFlower_Cyan.description>神秘花（青）是野生的花，青色花瓣的自然来源。采下花瓣后植株还在，之后还能再采。它不能被播种，花瓣只能从这样的花上采到。\n\n青得发凉，像雨停之后还挂在叶子上的那一点天色。</Botania_MysticFlower_Cyan.description>
+  <Botania_MysticFlower_Cyan.description>她开在背阴的那一侧，越是阴天越精神。野生的花，青色花瓣只能从她身上采；她不能播种，只肯自己长出来。\n\n青得发凉，像雨停之后还挂在叶子上的那一点天色。</Botania_MysticFlower_Cyan.description>
 
   <Botania_MysticFlower_Purple.label>神秘花（紫）</Botania_MysticFlower_Purple.label>
-  <Botania_MysticFlower_Purple.description>神秘花（紫）是野生的花，紫色花瓣的自然来源。采下花瓣后植株还在，之后还能再采。它不能被播种，花瓣只能从这样的花上采到。\n\n紫得太沉，像是把一小块夜色缝进了花里。</Botania_MysticFlower_Purple.description>
+  <Botania_MysticFlower_Purple.description>她开得很慢，慢得让人以为她坏了。野生的花，紫色花瓣只能从她身上采；她不能播种，只肯自己长出来。\n\n紫得太沉，像是把一小块夜色缝进了花里。</Botania_MysticFlower_Purple.description>
 
   <Botania_MysticFlower_Green.label>神秘花（绿）</Botania_MysticFlower_Green.label>
-  <Botania_MysticFlower_Green.description>神秘花（绿）是野生的花，绿色花瓣的自然来源。采下花瓣后植株还在，之后还能再采。它不能被播种，花瓣只能从这样的花上采到。\n\n绿得有点野，如今总算真的长在土里了。</Botania_MysticFlower_Green.description>
+  <Botania_MysticFlower_Green.description>她是路边最常见的一朵。野生的花，绿色花瓣只能从她身上采；她不能播种，只肯自己长出来。\n\n绿得有点野，如今总算真的长在土里了。</Botania_MysticFlower_Green.description>
 
   <Botania_MysticFlower_Red.label>神秘花（红）</Botania_MysticFlower_Red.label>
-  <Botania_MysticFlower_Red.description>神秘花（红）是野生的花，红色花瓣的自然来源。采下花瓣后植株还在，之后还能再采。它不能被播种，花瓣只能从这样的花上采到。\n\n红得像一句没说完的话，卡在花瓣边上。</Botania_MysticFlower_Red.description>
+  <Botania_MysticFlower_Red.description>她开的时候最扎眼，隔着老远就能看见。野生的花，红色花瓣只能从她身上采；她不能播种，只肯自己长出来。\n\n红得像一句没说完的话，卡在花瓣边上。</Botania_MysticFlower_Red.description>
 
   <Botania_MysticFlower_Black.label>神秘花（黑）</Botania_MysticFlower_Black.label>
-  <Botania_MysticFlower_Black.description>神秘花（黑）是野生的花，黑色花瓣的自然来源。采下花瓣后植株还在，之后还能再采。它不能被播种，花瓣只能从这样的花上采到。\n\n黑到边缘发亮，看久了会以为它在慢慢收拢。</Botania_MysticFlower_Black.description>
+  <Botania_MysticFlower_Black.description>她最不爱见光，总挑林子的深处。野生的花，黑色花瓣只能从她身上采；她不能播种，只肯自己长出来。\n\n黑到边缘发亮，看久了会以为它在慢慢收拢。</Botania_MysticFlower_Black.description>
 
 
   <!-- 被动产能花（太阳花 / 夜颠茄）：不烧燃料，按时辰产魔，一季枯萎 -->
   <Botania_Daybloom.label>太阳花</Botania_Daybloom.label>
-  <Botania_Daybloom.description>太阳花是一朵爱光的花，它从日光里慢慢抽出魔力，送进附近的池子。它不要燃料，也不用照看，但活不过一个季节就会自己枯萎。\n\n它整天朝着一个方向，像在把光一点点收进花心里。</Botania_Daybloom.description>
+  <Botania_Daybloom.description>她一生只看着太阳。天一亮就张开花瓣，把光慢慢攒成魔力送出去；天黑了就合起来睡。她活不过一个季节，大概是因为她只肯活这么久。\n\n它整天朝着一个方向，像在把光一点点收进花心里。</Botania_Daybloom.description>
 
   <Botania_Nightshade.label>夜颠茄</Botania_Nightshade.label>
-  <Botania_Nightshade.description>夜颠茄是一朵喝黑暗的花。它的产量不如太阳花，而且只在夜里干活，但殖民地睡着的时候它照旧在产魔。它同样活不过一个季节。\n\n花心黑得看不见底，夜深时那点黑反而更像在发光。</Botania_Nightshade.description>
+  <Botania_Nightshade.description>日光让她难受，所以白天她都在睡。等太阳落下去她才醒，产量不如太阳花，可殖民者睡着的时候，她还在往下送魔力。她也活不过一个季节。\n\n花心黑得看不见底，夜深时那点黑反而更像在发光。</Botania_Nightshade.description>
 
   <!-- 功能花（荆棘花）：防御建筑，攻击逻辑见 CHANGELOG 与设计稿 -->
   <Botania_ThornFlower.label>荆棘花</Botania_ThornFlower.label>
-  <Botania_ThornFlower.description>荆棘花是一张低伏的荆棘垫，中间开着一朵暗色的花。没人管它时只钩人衣服；喂了魔力，它就把新刺顶到闯进范围的敌人脚下，来得越多抽得越快。\n\n一整片带刺的藤蔓，中央那朵暗紫的花几乎不摇，刺却一直在长。</Botania_ThornFlower.description>
+  <Botania_ThornFlower.description>她伏在地上等人踩过来。没人管她的时候，她只钩住衣服；喂了魔力，闯进范围的人脚下就会冒出尖东西，来得越多，冒得越快。\n\n一整片带刺的藤蔓，中央那朵暗紫的花几乎不摇，刺却一直在长。</Botania_ThornFlower.description>
 
   <!-- 特效（不显示在界面上，仅为满足本地化覆盖检查） -->
   <Botania_Mote_Thorn.label>荆棘尖刺</Botania_Mote_Thorn.label>
@@ -126,13 +126,13 @@
   <Botania_ManaBlast.description>魔力爆弹是爆破型法杖抛出的弹丸，飞得慢，落地才炸，炸出一个十字。它不是能捡的东西，炸开时也不认敌我。\n\n一团压不住的光，越飞越亮，落地时把地面犁出一个十字。</Botania_ManaBlast.description>
 
   <Botania_FurnaceOrchid.label>炉心蕙</Botania_FurnaceOrchid.label>
-  <Botania_FurnaceOrchid.description>炉心蕙靠烧燃料把屋子烤热，再从热里取魔。它只在有屋顶的封闭房间里工作，屋子越热越宽敞，产量越高，魔力全靠燃料换。挨得太近的同类会让它停工，一场火还能烧掉一整排。\n\n它把整间屋子烤得发烫，自己在中间开得很安稳。</Botania_FurnaceOrchid.description>
+  <Botania_FurnaceOrchid.description>她怕风，只肯待在封起来的屋子里。地方越宽敞，她长得越好；魔力全靠烧燃料换。同类挨得太近会互相挤得停工，一场火还能烧掉一整排。\n\n它把整间屋子烤得发烫，自己在中间开得很安稳。</Botania_FurnaceOrchid.description>
 
   <Botania_StormBloom.label>电暴花</Botania_StormBloom.label>
-  <Botania_StormBloom.description>电暴花是一只刻意做得很小的蓄水囊。电网短路、电池把储能一次放出来的时候，这朵花能喝下多少就喝下多少，再把它们喂进附近的魔力池。它是捡漏的，不是电源。\n\n它总在等一声爆响，平时看起来只是个装着水的小囊。</Botania_StormBloom.description>
+  <Botania_StormBloom.description>她故意长得很小，小到没人会多看一眼。电网短路、电池把储能一次放出来的时候，她喝得下多少算多少，再喂进附近的池子。她是捡漏的，不是电源。\n\n它总在等一声爆响，平时看起来只是个装着水的小囊。</Botania_StormBloom.description>
 
   <Botania_RosaArcana.label>阿卡纳蔷薇</Botania_RosaArcana.label>
-  <Botania_RosaArcana.description>阿卡纳蔷薇是一朵很执着的玫瑰。在它旁边做事的人会发现思绪开始飘：学得更慢，而且心里发烦。作为交换，它收走他们没能学进去的那部分。已经没什么可学的人，喂不了它。\n\n它开得很执着，像一直在听别人脑子里没说完的那半句。</Botania_RosaArcana.description>
+  <Botania_RosaArcana.description>她是玫瑰里最不肯放手的一朵。在她旁边做事的人，思绪会慢慢飘走，学东西也变慢；那部分没能学进去的东西，被她收了下来。已经没什么可学的人，喂不饱她。\n\n它开得很执着，像一直在听别人脑子里没说完的那半句。</Botania_RosaArcana.description>
 
   <Botania_Dreamwood.label>梦木</Botania_Dreamwood.label>
   <Botania_Dreamwood.description>梦木是被魔力浸到发暗的活木，颜色沉成深紫。它比看上去轻，会顺着自己的纹理继续长，所以木匠说它「记得」你要的形状。它只能由精灵门转化而来，能当选材。\n\n木纹深得发紫，摸上去像摸到一段还没醒的梦。</Botania_Dreamwood.description>
@@ -166,13 +166,13 @@
   <Botania_AlfheimGatePillarRight.description>精灵门立柱（右）是左柱的镜像，同样是箍魔力钢带的活木柱，朝门洞一侧嵌着精灵石英。两根加一道上梁才成门，左右不能互换。\n\n两根柱子对着站久了，中间空出来的地方就自己成了路。</Botania_AlfheimGatePillarRight.description>
 
   <Botania_BlightEater.label>噬草花</Botania_BlightEater.label>
-  <Botania_BlightEater.description>噬草花是一朵以病为食的花。它会在附近找出染了枯萎病的作物，整株吞下，从腐坏里榨出魔力。健康的植株它不碰，所以它是个顺手替你把田清干净的食腐者。\n\n它只对病株感兴趣，田里干净的时候就像一株普通的草。</Botania_BlightEater.description>
+  <Botania_BlightEater.description>她以病为食。闻到腐坏的味道就找过去，把染了枯萎病的作物整株吞下，从烂掉的部分里榨出魔力。健康的植株她一概不碰。\n\n它只对病株感兴趣，田里干净的时候就像一株普通的草。</Botania_BlightEater.description>
 
   <Botania_BitterBloom.label>苦丽花</Botania_BitterBloom.label>
-  <Botania_BitterBloom.description>苦丽花靠别人的劳动过活。有人在附近干完一件正经活儿，它就分走那人一点力气，回敬的是酸痛与坏心情。闲人喂不饱它。\n\n花开得不算难看，可在它旁边干活的人总会莫名其妙地叹气。</Botania_BitterBloom.description>
+  <Botania_BitterBloom.description>她靠别人的辛苦过活。有人在附近干活，她就从那人的手艺里分走一点，回敬的是酸痛和烦躁。闲着的人喂不饱她。\n\n花开得不算难看，可在它旁边干活的人总会莫名其妙地叹气。</Botania_BitterBloom.description>
 
   <Botania_ClearMindLotus.label>明心莲</Botania_ClearMindLotus.label>
-  <Botania_ClearMindLotus.description>明心莲是一朵哼着反调的白莲。只要喂着魔力，范围内的人就听不见那阵心灵噪音：那个念头被推出他们的脑袋，别的什么都不变。它很费魔力，一断供，噪音立刻回来。\n\n它哼的调子听不见，但站在旁边的人会突然忘记自己刚才在怕什么。</Botania_ClearMindLotus.description>
+  <Botania_ClearMindLotus.description>她把一支反调压在花瓣底下。只要喂着魔力，范围内的人心里就会安静下来，那些念头被轻轻推出去，别的什么都不变。魔力一断，它们立刻回来。\n\n它哼的调子听不见，但站在旁边的人会突然忘记自己刚才在怕什么。</Botania_ClearMindLotus.description>
 
   <Botania_ElementiumSword.label>元素剑</Botania_ElementiumSword.label>
   <Botania_ElementiumSword.description>元素剑是元素锭打成的近战武器，刃口锋利而且不容易钝。它没有任何附带技能，全靠这把刃本身。\n\n粉色的刃举起来很轻，落下时却不像那么轻。</Botania_ElementiumSword.description>
@@ -183,11 +183,14 @@
   <Botania_ElementiumHelmet.label>元素头盔</Botania_ElementiumHelmet.label>
   <Botania_ElementiumHelmet.description>元素头盔是一顶覆住整个头部的元素锭盔，面罩是一片石英。它比看上去轻，戴上也不怎么妨碍视线。\n\n刀刃划过时不像钢盔那样嗡响，只有一声闷闷的钝音。</Botania_ElementiumHelmet.description>
 
+  <Botania_FertilityFlower.label>丰饶花</Botania_FertilityFlower.label>
+  <Botania_FertilityFlower.description>一朵照料土地、而不是吞食土地的花。很久以前，她只是林间一朵普通的绿色神秘花；她喜欢看人因为收成而露出满足的表情，于是自己学会了播种与收获，只为能一直看下去。她将花瓣化作种子；魔法推得更深之后，她会记起更多事——夜里从树梢取来原木，或者让整片作物在同一刻熟透。也许随着对魔法的不断深入，她还会越来越强。\n\n花心里总留着一小撮种子，像是给谁都备了一份。</Botania_FertilityFlower.description>
+
   <Botania_ManaLamp.label>魔力灯</Botania_ManaLamp.label>
   <Botania_ManaLamp.description>魔力灯是一盏喝魔力而不是电的灯，玻璃罩里浮着一团安静的光。魔力断供，它就暗下去；魔力回来，它自己又亮起来。研究过彩色照明后，还能改灯光颜色。\n\n玻璃罩里的光浮着不动，像一小片被收起来的傍晚。</Botania_ManaLamp.description>
 
   <Botania_LifeOrchid.label>启命英</Botania_LifeOrchid.label>
-  <Botania_LifeOrchid.description>启命英是一朵玩弄生命的花。铺开扭曲的血肉再喂它血肉之种，它就在那片床上养一窝细胞：会出生，会死亡，也会耗尽。它只为变化付账，静止的图案喂不了它。\n\n它不种植被，只养一小片会出生也会死掉的细胞。</Botania_LifeOrchid.description>
+  <Botania_LifeOrchid.description>她喜欢玩弄生命。铺开一片血肉，再埋下种子，那片床就会自己活起来：有的冒出来，有的塌下去。静止的东西她不感兴趣，她只为变化付账。\n\n它不种植被，只养一小片会出生也会死掉的细胞。</Botania_LifeOrchid.description>
 
   <Botania_FleshSeed.label>血肉之种</Botania_FleshSeed.label>
   <Botania_FleshSeed.description>血肉之种是给启命英用的燃料。每枚种子能买下肉床上一段世代，用完之后那一片细胞就干枯了。\n\n捏在手里会自己抽动一下，像在提醒你它还活着。</Botania_FleshSeed.description>
@@ -237,15 +240,15 @@
   <Botania_GaiaSpawnling.label>盖亚造物</Botania_GaiaSpawnling.label>
   <Botania_GaiaSpawnling.description>盖亚造物是盖亚传送门召出来的小型生物。它不吃不睡，也不会自己走开，只会一路冲上来近战。\n\n长得跟狗差不多大的根与种子，被催生得太急，所以脾气很坏。</Botania_GaiaSpawnling.description>
     <Botania_Thornbell.label>荆棘钟花</Botania_Thornbell.label>
-    <Botania_Thornbell.description>荆棘钟花是一朵把自己长成炮管的花，从附近的池子喝魔力，见什么敌意的东西靠近就吐出一串短促的毒刺。不用人守在旁边，也不用装弹；魔力干了，炮管就沉默下来。\n\n它把花瓣长成了炮管，开火时整朵花都在轻轻后坐。</Botania_Thornbell.description>
+    <Botania_Thornbell.description>她生来不是为了开花，是为了发射。有敌意的东西靠近，她就吐出一串短促的毒刺；不用人守着，也不用装弹。魔力一干，她就沉默下来，只是睡着了，不是坏了。\n\n它把花瓣长成了炮管，开火时整朵花都在轻轻后坐。</Botania_Thornbell.description>
     <Botania_Gun_Thornbell.label>荆棘钟花炮管</Botania_Gun_Thornbell.label>
     <Botania_Gun_Thornbell.description>荆棘钟花炮管是这朵花的射击定义，不是能拿在手上的武器：它规定了这朵花能打多远、连发的节奏，以及各档距离上的准头。它只存在于花的定义里，不会掉在地上。\n\n五根荆棘管子朝一个方向伸着，谁握它都不需要手。</Botania_Gun_Thornbell.description>
     <Botania_Blastcalyx.label>爆萼花</Botania_Blastcalyx.label>
-    <Botania_Blastcalyx.description>爆萼花是一朵把自己掏空成炮的花，专门越墙轰击工事。它够不到贴到近前的东西，所以总要有人在旁边替它看着。\n\n它把魔力在花萼里压到花瓣发抖，然后整团丢过墙去。</Botania_Blastcalyx.description>
+    <Botania_Blastcalyx.description>她够不到贴到近前的东西，所以总得有人在旁边替她看着。远处的工事交给她，她会把力道攒足，再远远送过去。\n\n它把魔力在花萼里压到花瓣发抖，然后整团丢过墙去。</Botania_Blastcalyx.description>
     <Botania_Gun_Blastcalyx.label>爆萼花炮筒</Botania_Gun_Blastcalyx.label>
     <Botania_Gun_Blastcalyx.description>爆萼花炮筒是这朵花的抛射定义，不是能拿在手上的武器：它规定了越过墙体抛射的射程、落点偏差与各档准头。它只存在于花的定义里，不会掉在地上。\n\n一根粗筒朝着天，里面塞着一团压缩好的光。</Botania_Gun_Blastcalyx.description>
     <Botania_AncientStarfall.label>远古陨击花</Botania_AncientStarfall.label>
-    <Botania_AncientStarfall.description>远古陨击花是一朵围着压缩魔力长起来的古老攻城花。它护不住自己身边，但殖民地里看得见的地方都在它的射程之内；它的弹头落在哪里，那里就只剩一个坑。\n\n它朝天空张开喉咙，等一枚陨石自己落进取景框里。</Botania_AncientStarfall.description>
+    <Botania_AncientStarfall.description>她是一朵古老的攻城花，围着压缩的魔力长起来。身边她护不住，但殖民地里看得见的地方，都在她的射程之内。落点附近不会留下什么。\n\n它朝天空张开喉咙，等一枚陨石自己落进取景框里。</Botania_AncientStarfall.description>
     <Botania_Gun_AncientStarfall.label>远古陨击花花喉</Botania_Gun_AncientStarfall.label>
     <Botania_Gun_AncientStarfall.description>远古陨击花花喉是这门重炮的部件，拿不到手里。它把召唤来的陨石越过墙投向目标，落点偏差不算小。\n\n它不发射炮弹，只是把天上的东西叫下来。</Botania_Gun_AncientStarfall.description>
     <Botania_Bullet_HeavyManaShell.label>召唤陨石</Botania_Bullet_HeavyManaShell.label>

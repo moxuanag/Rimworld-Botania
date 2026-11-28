@@ -11,7 +11,7 @@
     <defName>Botania_Daybloom</defName>
     <designatorDropdown>Botania_ManaFlowers</designatorDropdown>
     <label>daybloom</label>
-    <description>A sun-loving flower that slowly draws mana out of daylight and sends it drifting into a nearby pool. It wants no fuel and no tending, but it does not last a season before withering on its own.
+    <description>She looks at the sun her whole life. At daybreak she opens and gathers the light into mana; at dusk she closes and sleeps. She does not outlive a season, probably because that is as long as she cares to live.
 
 It faces one direction all day, as though gathering the light into its heart a little at a time.</description>
     <thingClass>Building</thingClass>
@@ -79,7 +79,7 @@ It faces one direction all day, as though gathering the light into its heart a l
     <defName>Botania_Nightshade</defName>
     <designatorDropdown>Botania_ManaFlowers</designatorDropdown>
     <label>nightshade</label>
-    <description>A flower that drinks the dark. It yields less than a daybloom and only works at night, but it keeps producing while the colony sleeps. It, too, lasts no longer than a season.
+    <description>Sunlight hurts her, so she sleeps through the day. She wakes when the sun goes down; she gives less than the daybloom, but while the colony sleeps she is still working. She also does not outlive a season.
 
 The heart of the flower is black past seeing, and deep in the night that black looks more like a glow.</description>
     <thingClass>Building</thingClass>

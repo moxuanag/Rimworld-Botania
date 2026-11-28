@@ -15,7 +15,7 @@
     <defName>Botania_FurnaceOrchid</defName>
     <designatorDropdown>Botania_ManaFlowers</designatorDropdown>
     <label>furnace orchid</label>
-    <description>A flower that burns fuel to court heat, and takes its mana out of that heat. It works only inside an enclosed, roofed room: the hotter and the roomier, the more it yields, and every point of mana is paid for in fuel. It hates company - packed together the orchids stop working, and one fire takes the whole row.
+    <description>She hates wind and will only open in a sealed room. The roomier it is, the better she grows - but her mana is all bought with fuel. Too many of her kind close together crowd each other to a stop, and one fire can take out a whole row.
 
 It bakes the whole room and sits comfortably in the middle of the heat.</description>
     <thingClass>Building</thingClass>
@@ -106,7 +106,7 @@ It bakes the whole room and sits comfortably in the middle of the heat.</descrip
     <defName>Botania_StormBloom</defName>
     <designatorDropdown>Botania_ManaFlowers</designatorDropdown>
     <label>storm bloom</label>
-    <description>A small flower with a deliberately tiny reservoir. When a power conduit short-circuits and a battery dumps its whole charge at once, this bloom drinks as much of that burst as it can hold and feeds it into a nearby pool. It is salvage, not a power source.
+    <description>She is deliberately small, small enough that nobody notices her. When a grid shorts and a battery dumps its charge at once, she drinks what she can and feeds it into the pools nearby. She is a scavenger, not a power source.
 
 It is always waiting for a bang; most of the time it looks like a little bladder of water.</description>
     <thingClass>Building</thingClass>
@@ -173,7 +173,7 @@ It is always waiting for a bang; most of the time it looks like a little bladder
     <defName>Botania_RosaArcana</defName>
     <designatorDropdown>Botania_ManaFlowers</designatorDropdown>
     <label>rosa arcana</label>
-    <description>An insistent rose. Anyone working near it finds their thoughts drifting: they learn more slowly, and they resent it. In exchange the rose harvests what they are not quite managing to learn. Pawns with nothing left to learn give it nothing.
+    <description>She is the rose that will not let go. People working near her feel their thoughts drift and their learning slow; the part they fail to take in, she keeps. Anyone with nothing left to learn cannot feed her.
 
 It blooms with great persistence, as though listening for the half-sentence someone never finished.</description>
     <thingClass>Building</thingClass>
