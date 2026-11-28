@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- ============================================================
+       研究赠花注册表（0.9.3）：数据驱动的「研究完成 → 野外长出一朵花 → 弹信」。
+
+       一条 <Botania.BotaniaResearchGiftDef> = 一次赠礼：
+         <research> 完成这张研究卡时触发（Def 里必须真存在这张卡）；
+         <gift>     长出来的 ThingDef（必须是可放置的建筑，落点在殖民地附近空地）；
+         <letter>   用的 LetterDef（Botania_GiftLetter，见 Defs/LetterDefs/）。
+       新增一次赠礼 = 这里加一段 XML，C# 不用动。
+       注意：Def 元素名要写完整类型名（Botania.BotaniaResearchGiftDef），
+       自定义命名空间的 Def 只写短名引擎找不到。
+       ============================================================ -->
+
+  <Botania.BotaniaResearchGiftDef>
+    <defName>BotaniaGift_GenBasic</defName>
+    <research>Botania_GenBasic</research>
+    <gift>Botania_Endoflame</gift>
+    <letter>Botania_GiftLetter</letter>
+  </Botania.BotaniaResearchGiftDef>
+
+  <Botania.BotaniaResearchGiftDef>
+    <defName>BotaniaGift_FunctionalI</defName>
+    <research>Botania_FunctionalI</research>
+    <gift>Botania_FertilityFlower</gift>
+    <letter>Botania_GiftLetter</letter>
+  </Botania.BotaniaResearchGiftDef>
+
+  <Botania.BotaniaResearchGiftDef>
+    <defName>BotaniaGift_DefenseFlowers</defName>
+    <research>Botania_DefenseFlowers</research>
+    <gift>Botania_ThornFlower</gift>
+    <letter>Botania_GiftLetter</letter>
+  </Botania.BotaniaResearchGiftDef>
+
+</Defs>

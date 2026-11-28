@@ -155,35 +155,15 @@ namespace Botania
             }
         }
 
-        /// <summary>照抄原版自动收获工作类型的前置判定；树木与「禁止修剪」的植物一律跳过。</summary>
+        /// <summary>
+        /// 照抄原版自动收获工作类型的前置判定；树木与「禁止修剪」的植物一律跳过。
+        ///
+        /// 判定本身已抽到 <see cref="PlantMagicUtil.CanMagicallyHarvest"/>（丰饶之花等同款逻辑共用），
+        /// 这里只做转发，行为与抽取前逐字一致。
+        /// </summary>
         private static bool CanMagicallyHarvest(Plant plant)
         {
-            if (plant == null || plant.Destroyed)
-            {
-                return false;
-            }
-            if (plant.def.plant.IsTree)
-            {
-                return false;
-            }
-            if (!plant.def.plant.autoHarvestable)
-            {
-                return false;
-            }
-            if (plant.LifeStage != PlantLifeStage.Mature)
-            {
-                return false;
-            }
-            if (!plant.HarvestableNow || !plant.CanYieldNow())
-            {
-                return false;
-            }
-            CompPlantPreventCutting preventCutting = plant.TryGetComp<CompPlantPreventCutting>();
-            if (preventCutting != null && preventCutting.PreventCutting)
-            {
-                return false;
-            }
-            return true;
+            return PlantMagicUtil.CanMagicallyHarvest(plant);
         }
     }
 }

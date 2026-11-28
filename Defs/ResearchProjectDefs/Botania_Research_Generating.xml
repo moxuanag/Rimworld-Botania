@@ -38,7 +38,7 @@
     <defName>Botania_GenBasic</defName>
     <label>basic generating flowers</label>
     <description>Generating flowers are where a colony's mana comes from. This card attaches no defs itself; it opens the endoflame, bitter bloom, daybloom and nightshade cards.</description>
-    <baseCost>900</baseCost>
+    <baseCost>200</baseCost>
     <techLevel>Medieval</techLevel>
     <tab>Botania</tab>
     <prerequisites>

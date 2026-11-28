@@ -12,7 +12,7 @@
     <defName>Botania_BlightEater</defName>
     <designatorDropdown>Botania_ManaFlowers</designatorDropdown>
     <label>blight eater</label>
-    <description>A flower that feeds on sickness. It seeks out blighted crops within a few tiles, swallows one whole, and wrings what mana it can out of the rot. It will not touch a healthy plant - so it is a scavenger that happens to clean your fields.
+    <description>She feeds on sickness. She follows the smell of rot, swallows a blighted crop whole and wrings mana out of the rotten part. Healthy plants she never touches.
 
 It only cares for sick plants; when the field is clean it is just another tuft of grass.</description>
     <thingClass>Building</thingClass>
@@ -81,7 +81,7 @@ It only cares for sick plants; when the field is clean it is just another tuft o
     <defName>Botania_BitterBloom</defName>
     <designatorDropdown>Botania_ManaFlowers</designatorDropdown>
     <label>bitter bloom</label>
-    <description>A flower that lives off other people's labour. Whenever someone nearby finishes a real piece of work, the bloom takes a little of their energy and pays them back with aching fatigue and a sour mood. Idlers feed it nothing.
+    <description>She lives off other people's labour. When someone works nearby, she takes a little of their craft and gives back soreness and irritation. Idlers cannot feed her.
 
 It is not an ugly flower, but anyone working beside it will sigh for no reason at all.</description>
     <thingClass>Building</thingClass>

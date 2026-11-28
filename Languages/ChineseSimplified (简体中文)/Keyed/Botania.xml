@@ -337,4 +337,35 @@
     <Botania.ManaReadoutShots>还可发射 {0} 发</Botania.ManaReadoutShots>
     <Botania.DaisyToggle.Label>转化开关</Botania.DaisyToggle.Label>
     <Botania.DaisyToggle.Desc>关闭后白雏菊会停下，不再消耗魔力与材料。</Botania.DaisyToggle.Desc>
+    <Botania.GiftLetter.Label>大自然的回礼</Botania.GiftLetter.Label>
+    <Botania.GiftLetter.Text>土里有一声很轻的响动，像是谁翻了个身。\n\n等你走过去看时，{0}已经长在那里了 —— 你的魔力扰动了大自然，这是祂送给你的礼物。</Botania.GiftLetter.Text>
+
+  <Botania.Fertility.SelectCrop>选择作物：{0}</Botania.Fertility.SelectCrop>
+  <Botania.Fertility.SelectCropDesc>挑一种作物，它只种这一种。</Botania.Fertility.SelectCropDesc>
+  <Botania.Fertility.Pause>暂停照料</Botania.Fertility.Pause>
+  <Botania.Fertility.Resume>继续照料</Botania.Fertility.Resume>
+  <Botania.Fertility.ToggleDesc>关掉后既不播种也不收获，也不消耗魔力与花瓣。</Botania.Fertility.ToggleDesc>
+  <Botania.Fertility.Ripen>催熟（{0} 魔力）</Botania.Fertility.Ripen>
+  <Botania.Fertility.RipenDesc>让范围内所有作物往前赶一程；已经熟透的直接收走。</Botania.Fertility.RipenDesc>
+  <Botania.Fertility.RipenCooldown>刚催过一轮，还要等 {0} 秒。</Botania.Fertility.RipenCooldown>
+  <Botania.Fertility.RipenNoPlants>范围内没有还没熟透的作物。</Botania.Fertility.RipenNoPlants>
+  <Botania.Fertility.RipenNoMana>魔力不够，催熟需要 {0} 魔力。</Botania.Fertility.RipenNoMana>
+  <Botania.Fertility.NoCrop>未选作物</Botania.Fertility.NoCrop>
+  <Botania.Fertility.InspectCrop>正在照料：{0}</Botania.Fertility.InspectCrop>
+  <Botania.Fertility.InspectPetals>花瓣储备：{0} / {1}</Botania.Fertility.InspectPetals>
+  <Botania.Fertility.InspectWood>每夜可收原木约 {0}</Botania.Fertility.InspectWood>
+  <Botania.Fertility.Tier1>一档</Botania.Fertility.Tier1>
+  <Botania.Fertility.Tier2>二档</Botania.Fertility.Tier2>
+  <Botania.Fertility.Tier3>三档</Botania.Fertility.Tier3>
+  <Botania.Fertility.InspectTier>等级：{0} · 每株 {1} 秒 · 产收 ×{2}</Botania.Fertility.InspectTier>
+  <Botania.Fertility.StatTier>等级</Botania.Fertility.StatTier>
+  <Botania.Fertility.StatSeconds>每株耗时</Botania.Fertility.StatSeconds>
+  <Botania.Fertility.StatYield>收成系数</Botania.Fertility.StatYield>
+  <Botania.GiftLetter.Fallback>大自然把一朵{0}送到了你的基地。</Botania.GiftLetter.Fallback>
+  <Botania.Fertility.ZoneCreate>生成种植区</Botania.Fertility.ZoneCreate>
+  <Botania.Fertility.ZoneCreateDesc>按当前范围生成一个种植区，作物跟随本花的选择。</Botania.Fertility.ZoneCreateDesc>
+  <Botania.Fertility.ZoneCreated>已生成种植区（{0} 格）</Botania.Fertility.ZoneCreated>
+  <Botania.Fertility.ZoneExtended>已补齐种植区（新增 {0} 格）</Botania.Fertility.ZoneExtended>
+  <Botania.Fertility.ZoneSkipped>另有 {0} 格已被其它区域占用，未纳入。</Botania.Fertility.ZoneSkipped>
+  <Botania.Fertility.ZoneNoCells>范围内没有可生成种植区的格子。</Botania.Fertility.ZoneNoCells>
 </LanguageData>

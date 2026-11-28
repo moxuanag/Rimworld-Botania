@@ -15,15 +15,40 @@ namespace Botania
     }
 
     /// <summary>
-    /// 作用范围的「数据挂件」：只存半径，不自己画。
+    /// 作用范围的「数据挂件」：只提供半径，不自己画。
     /// 实际绘制在 MapComponent_Rings 里，因为建筑的 Draw 不一定调到 Comp.PostDraw，
     /// 挂在 Comp 上会出现"有时有圈有时没圈"。
+    ///
+    /// 半径可以是动态的：如果同一件东西上还有别的 Comp 实现了
+    /// <see cref="IDynamicRingRadius"/>（例如丰饶之花随研究档位 5/6/7 格），
+    /// 就优先用它算出来的值，否则回落到 Def 里写死的 <see cref="CompProperties_RadiusRing.radius"/>。
     /// </summary>
     public class CompRadiusRing : ThingComp
     {
         public CompProperties_RadiusRing Props => (CompProperties_RadiusRing)props;
 
-        public float Radius => Props.radius;
+        /// <summary>
+        /// 当前该画的半径。动态实现优先（同一 Thing 上任意一个 <see cref="IDynamicRingRadius"/>），
+        /// 没有就返回 Def 配置值。调用方仍需自行判 &gt; 0 才画。
+        /// </summary>
+        public float Radius
+        {
+            get
+            {
+                ThingWithComps owner = parent;
+                if (owner != null && owner.AllComps != null)
+                {
+                    for (int i = 0; i < owner.AllComps.Count; i++)
+                    {
+                        if (owner.AllComps[i] is IDynamicRingRadius dynamicRadius)
+                        {
+                            return dynamicRadius.CurrentRingRadius;
+                        }
+                    }
+                }
+                return Props.radius;
+            }
+        }
     }
 
     /// <summary>

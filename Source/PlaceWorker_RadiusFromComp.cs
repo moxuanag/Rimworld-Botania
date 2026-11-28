@@ -34,12 +34,26 @@ namespace Botania
             }
         }
 
-        /// <summary>从 Def 的 comps 里找 RadiusRing 的半径；没有就返回 0。</summary>
+        /// <summary>
+        /// 从 Def 的 comps 里找半径；没有就返回 0。
+        ///
+        /// 优先级：任何实现了 <see cref="IDynamicPlaceRadius"/> 的 CompProperties 先答
+        /// （例如丰饶之花按当前研究档位给 5/6/7 格），否则回落到
+        /// <see cref="CompProperties_RadiusRing.radius"/> 这个写死的值。
+        /// </summary>
         public static float RadiusOf(ThingDef def)
         {
             if (def == null || def.comps == null)
             {
                 return 0f;
+            }
+            // 动态半径先扫一遍：它可能挂在别的 CompProperties 上（不在 RadiusRing 那个 comp 里）
+            for (int i = 0; i < def.comps.Count; i++)
+            {
+                if (def.comps[i] is IDynamicPlaceRadius dynamicRadius)
+                {
+                    return dynamicRadius.CurrentPlaceRadius;
+                }
             }
             for (int i = 0; i < def.comps.Count; i++)
             {

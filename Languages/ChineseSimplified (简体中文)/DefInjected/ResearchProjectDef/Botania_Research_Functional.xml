@@ -8,7 +8,7 @@
        ============================================================ -->
 
   <Botania_FunctionalI.label>基础功能花</Botania_FunctionalI.label>
-  <Botania_FunctionalI.description>功能花把魔力换成劳动，而不是造魔力。它本身不挂物品，只开启噬草花与明心莲的卡片。</Botania_FunctionalI.description>
+  <Botania_FunctionalI.description>功能花把魔力换成劳动，而不是造魔力。它本身不挂物品，只开启噬草花与丰饶花的卡片。</Botania_FunctionalI.description>
 
   <Botania_FuncAdvanced.label>进阶功能花</Botania_FuncAdvanced.label>
   <Botania_FuncAdvanced.description>功能花的高价档位。它本身不挂物品，只开启电暴花与终极功能花的卡片。</Botania_FuncAdvanced.description>
@@ -18,6 +18,9 @@
 
   <Botania_BlightEaterStudy.label>噬草花</Botania_BlightEaterStudy.label>
   <Botania_BlightEaterStudy.description>专吃枯萎病作物的清扫花。解锁噬草花，把附近染病的作物整株吞下，换成魔力。</Botania_BlightEaterStudy.description>
+
+  <Botania_FertilityFlowerStudy.label>丰饶花</Botania_FertilityFlowerStudy.label>
+  <Botania_FertilityFlowerStudy.description>让一朵花替你种地。解锁丰饶花：它会在范围内自动播种你选择的作物并自动收获，把收成留在脚下</Botania_FertilityFlowerStudy.description>
 
   <Botania_ClearMindLotusStudy.label>明心莲</Botania_ClearMindLotusStudy.label>
   <Botania_ClearMindLotusStudy.description>压住精神噪音的莲花。解锁明心莲，把范围内的心灵干扰按人头买断，没有干扰时不收费。</Botania_ClearMindLotusStudy.description>

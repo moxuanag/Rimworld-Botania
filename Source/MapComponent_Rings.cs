@@ -10,7 +10,8 @@ namespace Botania
     /// 1. 选中带 CompProperties_RadiusRing 的建筑 → 画它的作用半径（外圈，黄）；
     /// 2. 选中带 CompProperties_SecondaryRing 的建筑 → 再画一圈贴身的小范围（内圈，绿）；
     ///    白雏菊就是这种：外圈 6 格吸魔，内圈 1.5 格是它实际转化的那 8 格；
-    /// 3. 选中魔力中继塔 → 画它所在的**整张网络**（和自己的蓝图预览一致）。
+    /// 3. 选中魔力中继塔 → 画它所在的**整张网络**（和自己的蓝图预览一致）；
+    /// 4. 不受选中影响的即时反馈也在这里画：播种成功的格子短暂高亮（<see cref="TransientCellHighlight"/>）。
     ///
     /// 法杖技能的范围不在这里画：那个由 Botania.Verb_WandCast 在施法选点时
     /// 跟着鼠标走，平时（没在选点）小人身上不该有任何圈。
@@ -31,6 +32,9 @@ namespace Botania
         public override void MapComponentDraw()
         {
             DrawBuildingRings();
+            // 播种成功后的短暂绿色格子高亮（约 1.5 秒）：与选中无关，每帧都要过一遍。
+            // 内部自带 try/catch + 过期清理，列表为空时立刻返回，不分配。
+            TransientCellHighlight.DrawFor(map);
         }
 
         private void DrawBuildingRings()
@@ -57,10 +61,16 @@ namespace Botania
                 // 这里不再画每个节点各自的圆（避免线段交叉重叠）。
 
                 // 外圈：作用范围（吸魔、修复、攻击……）
+                // 半径读 ring.Radius 而不是 ring.Props.radius：前者会优先采用同一 Thing 上
+                // IDynamicRingRadius 给出的实时值（丰饶之花随研究档位 5/6/7 格）。
                 CompRadiusRing ring = thing.TryGetComp<CompRadiusRing>();
-                if (ring != null && ring.Props.radius > 0f)
+                if (ring != null)
                 {
-                    GenDraw.DrawRadiusRing(pos, ring.Props.radius, BuildingRing);
+                    float radius = ring.Radius;
+                    if (radius > 0f)
+                    {
+                        GenDraw.DrawRadiusRing(pos, radius, BuildingRing);
+                    }
                 }
 
                 // 凝台蓝图：还没盖起来，四个角一律按「缺」画

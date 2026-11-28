@@ -3,11 +3,9 @@
   <Botania_GaiaWorldSoul.label>gaia world-soul</Botania_GaiaWorldSoul.label>
   <Botania_GaiaCore.label>gaia core</Botania_GaiaCore.label>
     <Botania_Thornbell.label>thornbell</Botania_Thornbell.label>
-    <Botania_Thornbell.description>A flower that grew itself five thorn barrels...</Botania_Thornbell.description>
     <Botania_Gun_Thornbell.label>thornbell barrels</Botania_Gun_Thornbell.label>
     <Botania_Gun_Thornbell.description>The five thorn barrels of a thornbell flower.</Botania_Gun_Thornbell.description>
     <Botania_Blastcalyx.label>blastcalyx</Botania_Blastcalyx.label>
-    <Botania_Blastcalyx.description>A flower that hollowed itself into a cannon...</Botania_Blastcalyx.description>
     <Botania_Gun_Blastcalyx.label>blastcalyx barrel</Botania_Gun_Blastcalyx.label>
     <Botania_Gun_Blastcalyx.description>The single wide barrel of a blastcalyx flower.</Botania_Gun_Blastcalyx.description>
 </LanguageData>
